@@ -12,8 +12,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'haml-rails'
 gem 'devise'
 gem 'devise_invitable'
+gem 'bootstrap_form'
 
 source 'https://rails-assets.org' do
+   gem 'rails-assets-bootstrap'
 end
 
 group :development, :test do
