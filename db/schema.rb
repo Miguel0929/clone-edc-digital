@@ -27,10 +27,9 @@ ActiveRecord::Schema.define(version: 20160715205729) do
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "phone_number"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.string   "invitation_token"
@@ -43,7 +42,6 @@ ActiveRecord::Schema.define(version: 20160715205729) do
     t.integer  "invitations_count",      default: 0
   end
 
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
   add_index "users", ["invitations_count"], name: "index_users_on_invitations_count", using: :btree
