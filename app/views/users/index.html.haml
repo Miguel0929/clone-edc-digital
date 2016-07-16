@@ -1,0 +1,31 @@
+.container
+  .row
+    .col-md-12
+      %table.table.table-border.datatable.responsive
+        %thead
+          %tr
+            %th
+              Nombre
+            %th
+              Correo electrónico
+            %th
+              Teléfono
+            %th
+              Estado
+            %th
+              Rol
+        %tbody
+          - @users.each do |user|
+            %tr
+              %td
+                = user.name
+              %td
+                = user.email
+              %td
+                = user.phone_number
+              %td
+                = user.status
+              %td
+                = user.huminize_role
+
+      = link_to 'Invitar Usuario', new_user_invitation_path, class: 'btn btn-default'
