@@ -1,0 +1,7 @@
+production:
+  mailer_host: ''
+  mailer_from: ''
+  mailer_addess: ''
+  mailer_port: ''
+  mailer_username: ''
+  mailer_password: ''

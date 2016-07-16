@@ -16,6 +16,7 @@ gem 'devise_invitable'
 gem 'bootstrap_form'
 gem 'jquery-turbolinks'
 gem 'jquery-datatables-rails', '~> 3.3.0'
+gem 'figaro'
 
 source 'https://rails-assets.org' do
    gem 'rails-assets-bootstrap'

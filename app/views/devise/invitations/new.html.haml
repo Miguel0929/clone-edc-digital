@@ -4,5 +4,5 @@
   = bootstrap_form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f|
     - resource.class.invite_key_fields.each do |field|
       = f.text_field field
-    = f.select :role, [["Estudiante", 'student'], ["Mentor", 'mentor']], { label: "Choose your favorite fruit:" }
+    = f.select :role, [["Estudiante", 'student'], ["Mentor", 'mentor']], { label: "Rol" }
     %p= f.submit t("devise.invitations.new.submit_button")
