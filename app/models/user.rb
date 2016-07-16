@@ -15,6 +15,6 @@ class User < ActiveRecord::Base
   end
 
   def status
-    invitation_accepted_at? ? 'Inactivo' : 'Activo'
+    invitation_accepted_at.nil? ? 'Inactivo' : 'Activo'
   end
 end
