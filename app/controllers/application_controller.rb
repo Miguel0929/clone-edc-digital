@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   protected
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:accept_invitation).concat [:first_name, :last_name, :phone_number]
+    devise_parameter_sanitizer.for(:invite).concat [:role]
   end
 
   def after_sign_in_path_for(resource)

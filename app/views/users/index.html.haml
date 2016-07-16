@@ -11,7 +11,9 @@
             %th
               Teléfono
             %th
-              Invitado en
+              Estado
+            %th
+              Rol
         %tbody
           - @users.each do |user|
             %tr
@@ -22,6 +24,8 @@
               %td
                 = user.phone_number
               %td
-                = user.invitation_created_at
+                = user.status
+              %td
+                = user.huminize_role
 
       = link_to 'Invitar Usuario', new_user_invitation_path, class: 'btn btn-default'

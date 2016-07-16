@@ -1,7 +1,8 @@
-$(function(){
+$(document).on('turbolinks:load', function(){
   $('.datatable').DataTable({
     responsive: true,
     autoWidth: false,
+    aaSorting: [],
     language: {
       "sProcessing":     "Procesando...",
       "sLengthMenu":     "Mostrar _MENU_ registros",
