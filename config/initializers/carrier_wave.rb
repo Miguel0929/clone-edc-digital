@@ -9,6 +9,6 @@ CarrierWave.configure do |config|
     }
 
     config.fog_directory = ENV['rackspace_fog_directory']
-    config.fog_true = false
+    config.fog_public = true
   end
 end
