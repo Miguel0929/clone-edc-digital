@@ -1,0 +1,7 @@
+.well
+  = bootstrap_form_for([@stage, @lesson]) do |f|
+    = f.text_field :identifier, label: 'Identificador'
+    = f.cktext_area :content, ckeditor: { language: 'es'}
+    %br
+    = link_to 'Cancelar', @stage.chapter.program, class: 'btn btn-danger'
+    = f.submit 'Aceptar'

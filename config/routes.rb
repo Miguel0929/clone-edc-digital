@@ -9,6 +9,10 @@ Rails.application.routes.draw do
     resources :stages, except: [:index, :show]
   end
 
+  resources :stages, only: [] do
+    resources :lessons, except: [:index]
+  end
+
   get '/users', to: 'users#index'
 
   root 'home#index'

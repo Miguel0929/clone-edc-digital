@@ -18,4 +18,5 @@
 //= require dataTables/extras/dataTables.responsive
 //= require turbolinks
 //= require bootstrap
+//= require ckeditor/init
 //= require_tree .

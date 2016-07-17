@@ -29,16 +29,23 @@
                       %h3.panel-title
                         = stage.name
 
-                        = link_to chapter_stage_path(chapter, stage), method: :delete, data: {confirm: '¿Estás seguro?'}, class: 'pull-right', 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Elimiar modulo' do
+                        = link_to chapter_stage_path(chapter, stage), method: :delete, data: {confirm: '¿Estás seguro?'}, class: 'pull-right', 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Elimiar etapa' do
                           %span.glyphicon.glyphicon-remove
 
-                        = link_to edit_chapter_stage_path(chapter, stage), class: 'pull-right', 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Editar modulo' do
+                        = link_to edit_chapter_stage_path(chapter, stage), class: 'pull-right', 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Editar etapa' do
                           %span.glyphicon.glyphicon-edit
-                          .panel-body
 
-                .well
-                  .text-center
-                    = link_to 'Agregar etapa', new_chapter_stage_path(chapter), class: 'btn btn-default'
-          .well
-            .text-center
-              = link_to 'Agregar modulo', new_program_chapter_path(@program), class: 'btn btn-primary'
+                    .panel-body
+                      - stage.stage_contents.each do |content|
+                        - if content.coursable_type == 'Lesson'
+                          %a{href: stage_lesson_path(stage, content.model)}
+                            .well
+                              = content.model.identifier
+
+                      .text-center
+                        = link_to 'Agregar contenido', new_stage_lesson_path(stage), class: 'btn btn-success'
+
+                .text-center
+                  = link_to 'Agregar etapa', new_chapter_stage_path(chapter), class: 'btn btn-default'
+          .text-center
+            = link_to 'Agregar modulo', new_program_chapter_path(@program), class: 'btn btn-primary'
