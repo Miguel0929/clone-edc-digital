@@ -23,6 +23,8 @@
             - if user_signed_in?
               %li
                 = link_to 'Usuarios', users_path
+              %li
+                = link_to 'Programas', programs_path
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
                 %span.glyphicon.glyphicon-user
