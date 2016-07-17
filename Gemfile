@@ -17,6 +17,9 @@ gem 'bootstrap_form'
 gem 'jquery-turbolinks'
 gem 'jquery-datatables-rails', '~> 3.3.0'
 gem 'figaro'
+gem 'ckeditor'
+gem 'carrierwave'
+gem 'mini_magick'
 
 source 'https://rails-assets.org' do
    gem 'rails-assets-bootstrap'
