@@ -5,6 +5,10 @@ Rails.application.routes.draw do
     resources :chapters, except: [:index, :show]
   end
 
+  resources :chapters, only: [] do
+    resources :stages, except: [:index, :show]
+  end
+
   get '/users', to: 'users#index'
 
   root 'home#index'

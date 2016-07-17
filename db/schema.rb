@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160717015709) do
+ActiveRecord::Schema.define(version: 20160717024116) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,15 @@ ActiveRecord::Schema.define(version: 20160717015709) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "stages", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "chapter_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "stages", ["chapter_id"], name: "index_stages_on_chapter_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
