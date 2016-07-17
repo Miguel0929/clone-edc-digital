@@ -1,0 +1,5 @@
+.well
+  = bootstrap_form_for([@chapter, @stage]) do |f|
+    = f.text_field :name, label: 'Nombre de la etapa'
+    = link_to 'Cancelar', @chapter.program, class: 'btn btn-danger'
+    = f.submit 'Aceptar'

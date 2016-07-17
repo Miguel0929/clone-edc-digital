@@ -5,3 +5,7 @@ production:
   mailer_port: ''
   mailer_username: ''
   mailer_password: ''
+  rackspace_fog_directory: ''
+  rackspace_username: ''
+  rackspace_api_key: ''
+  rackspace_temp_url_key: ''
