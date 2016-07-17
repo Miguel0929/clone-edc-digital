@@ -36,10 +36,13 @@
                           %span.glyphicon.glyphicon-edit
 
                     .panel-body
-                      - stage.stage_contents.each do |content|
-                        - if content.coursable_type == 'Lesson'
-                          %a{href: stage_lesson_path(stage, content.model)}
-                            .well
+                      .sortable{'data-update-url'=> sort_stage_lessons_url(stage) }
+                        - stage.stage_contents.each do |content|
+                          - if content.coursable_type == 'Lesson'
+                            -#%a{href: stage_lesson_path(stage, content.model)}
+                            .well{id: "lesson_#{content.model.id}"}
+                              %span.handle-sort
+                                [mover]
                               = content.model.identifier
 
                       .text-center

@@ -20,6 +20,8 @@ gem 'figaro'
 gem 'ckeditor'
 gem 'carrierwave'
 gem 'mini_magick'
+gem 'acts_as_list'
+gem 'jquery-ui-rails'
 
 source 'https://rails-assets.org' do
    gem 'rails-assets-bootstrap'
