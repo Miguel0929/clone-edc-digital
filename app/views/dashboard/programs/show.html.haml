@@ -1,0 +1,48 @@
+.container
+  .row
+    .col-md-12
+      %h2.text-center
+        = @program.name
+      %div
+        - @program.chapters.each do |chapter|
+          %h3
+            = chapter.name
+
+          - chapter.stages.each do |stage|
+            .panel.panel-default
+              .panel-heading
+                %h3.panel-title
+                  = stage.name
+              .panel-body
+                %table.table.table-striped
+                  %thead
+                    %tr
+                      %th
+                        Título
+                      %th
+                      %th
+                      %th
+                  - stage.stage_contents.each do |content|
+                    %tbody
+                      %tr
+                        %td
+                          - if content.coursable_type == 'Lesson'
+                            %span.glyphicon.glyphicon-info-sign
+                            = content.model.identifier
+                          - elsif content.coursable_type == 'Question'
+                            %span.glyphicon.glyphicon-question-sign
+                            = content.model.question_text
+                        %td
+                          %span.label.label-success
+                            estatus
+                        %td
+                          Comentarios
+                          %span.badge
+                            = (0..10).to_a.sample
+                        %td
+                          = link_to dashboard_stage_content_path(content), class: 'btn btn-default' do
+                            %span.glyphicon.glyphicon-play-circle
+              .panel-footer
+                .text-right
+                  %button.btn.btn-success.btn-lg
+                    Comenzar

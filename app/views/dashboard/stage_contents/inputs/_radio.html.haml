@@ -1,0 +1,9 @@
+- question.answer_options.split("\n").each do |answer|
+  .radio
+    %label
+      %input(type="radio")
+        = answer
+.form-group
+  .text-right
+    %a.btn.btn-default
+      Guardar
