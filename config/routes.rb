@@ -15,6 +15,8 @@ Rails.application.routes.draw do
         post :sort
       end
     end
+
+    resources :questions, except: [:index]
   end
 
   get '/users', to: 'users#index'
