@@ -20,6 +20,11 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :dashboard do
+    resources :programs, only: [:index, :show]
+    resources :stage_contents, path: 'course', only: [:show]
+  end
+
   get '/users', to: 'users#index'
 
   root 'home#index'
