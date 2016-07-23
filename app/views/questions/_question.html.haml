@@ -1,0 +1,6 @@
+%span.handle-sort
+  [mover]
+= question.question_text
+
+.question-wrapper
+  = render partial: "questions/inputs/#{question.question_type}", locals: { question: question }
