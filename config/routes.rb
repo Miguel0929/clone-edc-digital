@@ -10,10 +10,13 @@ Rails.application.routes.draw do
   end
 
   resources :stages, only: [] do
-    resources :lessons, except: [:index] do
-      collection do
-        post :sort
-      end
+    resources :lessons, except: [:index]
+    resources :questions, except: [:index, :show]
+  end
+
+  resources :stage_contents, only: [] do
+    collection do
+      post :sort
     end
   end
 

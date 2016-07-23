@@ -36,17 +36,21 @@
                           %span.glyphicon.glyphicon-edit
 
                     .panel-body
-                      .sortable{'data-update-url'=> sort_stage_lessons_url(stage) }
+                      .sortable{'data-update-url'=> sort_stage_contents_url }
                         - stage.stage_contents.each do |content|
                           - if content.coursable_type == 'Lesson'
-                            -#%a{href: stage_lesson_path(stage, content.model)}
-                            .well{id: "lesson_#{content.model.id}"}
+                            .well{id: "stage_content_#{content.id}"}
                               %span.handle-sort
                                 [mover]
-                              = content.model.identifier
+                              %a{href: stage_lesson_path(stage, content.model)}
+                                = content.model.identifier
+                          - elsif content.coursable_type == 'Question'
+                            .well{id: "stage_content_#{content.id}"}
+                              = render partial: 'questions/question', locals: { question: content.model, stage: stage}
 
                       .text-center
                         = link_to 'Agregar contenido', new_stage_lesson_path(stage), class: 'btn btn-success'
+                        = link_to 'Agregar pregunta', new_stage_question_path(stage), class: 'btn btn-primary'
 
                 .text-center
                   = link_to 'Agregar etapa', new_chapter_stage_path(chapter), class: 'btn btn-default'
