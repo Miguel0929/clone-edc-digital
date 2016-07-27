@@ -1,0 +1,8 @@
+.container
+  .row
+    .col-md-12
+      %h2.text-center
+        = @question.question_text
+      %div
+        .well
+          = render partial: "/dashboard/answers/inputs/#{@question.question_type}"

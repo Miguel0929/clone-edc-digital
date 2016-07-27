@@ -1,0 +1,14 @@
+= bootstrap_form_for([:dashboard, @stage_content, @answer]) do |f|
+  = f.hidden_field :user_id
+  = f.hidden_field :question_id
+
+  - answer_to_array(@question).each do |answer|
+    .checkbox
+      %label
+        = check_box_tag 'answer[answer_text][]', answer, answer_is_selected?(@answer, answer)
+        = answer
+
+
+
+  .text-right
+    = f.submit 'Guardar'

@@ -4,6 +4,8 @@ class Question < ActiveRecord::Base
     ['Checkbox', 'checkbox'], ['Radio button', 'radio'], ['Select', 'dropdown']
   ]
 
+  has_many :answers
+
   enum question_type: [:short, :long, :checkbox, :radio, :dropdown]
 
   validates_presence_of :question_text

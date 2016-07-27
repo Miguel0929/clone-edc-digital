@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   enum role: [ :student, :mentor, :admin ]
 
+  has_many :answers
+
   devise :database_authenticatable, :recoverable, :invitable, :validatable
 
   validates_presence_of :first_name, :last_name, :phone_number

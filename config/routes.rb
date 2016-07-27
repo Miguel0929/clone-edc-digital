@@ -22,7 +22,9 @@ Rails.application.routes.draw do
 
   namespace :dashboard do
     resources :programs, only: [:index, :show]
-    resources :stage_contents, path: 'course', only: [:show]
+    resources :stage_contents, path: 'course', only: [:show] do
+      resources :answers, only: [:new, :create, :update]
+    end
   end
 
   get '/users', to: 'users#index'
