@@ -25,9 +25,19 @@ Rails.application.routes.draw do
     resources :stage_contents, path: 'course', only: [:show] do
       resources :answers, only: [:new, :create, :update]
     end
+
+    resources :answers, only: [] do
+      resources :comments, only: [:create]
+    end
   end
 
   get '/users', to: 'users#index'
+
+  resources :users, only: [] do
+    resources :answers, only: [:index]
+  end
+
+  resources :answers
 
   root 'home#index'
 

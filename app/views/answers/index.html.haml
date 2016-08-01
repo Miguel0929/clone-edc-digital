@@ -1,0 +1,20 @@
+.container
+  .row
+    .col-md-12
+      %table.table.table-striped
+        %thead
+          %tr
+            %th
+              Pregunta
+            %th
+              Respuesta
+            %th
+        %tbody
+          - @answers.each do |answer|
+            %tr
+              %td
+                = answer.question.question_text
+              %td
+                = answer.answer_text
+              %td
+                = link_to 'Comentar', new_dashboard_stage_content_answer_path(StageContent.find_by(coursable_type: 'Question', coursable_id: answer.question.id))

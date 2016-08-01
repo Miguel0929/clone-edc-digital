@@ -14,6 +14,7 @@
               Estado
             %th
               Rol
+            %th
         %tbody
           - @users.each do |user|
             %tr
@@ -27,5 +28,7 @@
                 = user.status
               %td
                 = user.huminize_role
+              %td
+                = link_to 'Ver información', user_answers_path(user)
 
       = link_to 'Invitar Usuario', new_user_invitation_path, class: 'btn btn-default'

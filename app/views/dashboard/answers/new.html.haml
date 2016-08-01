@@ -6,3 +6,18 @@
       %div
         .well
           = render partial: "/dashboard/answers/inputs/#{@question.question_type}"
+        - unless @answer.new_record?
+
+          %h3.text-center
+            Comentarios
+
+          - @answer.comments.each do |comment|
+            .well
+              %h5
+                = current_user.name
+
+              = comment.content
+
+          = bootstrap_form_for([:dashboard, @answer, Comment.new]) do |f|
+            = f.text_area :content, hide_label: true, rows: 3, placeholder: 'Escribe un comentario'
+            = f.submit 'Comentar'
