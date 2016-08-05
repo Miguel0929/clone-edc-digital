@@ -5,6 +5,9 @@ class QuestionsController < ApplicationController
 
   def new
     @question = @chapter.questions.new
+    ['Deficiente', 'Regular', 'Bueno', 'Excelente'].each do |criteria|
+      @question.rubrics.new({criteria: criteria})
+    end
   end
 
   def create
@@ -40,7 +43,9 @@ class QuestionsController < ApplicationController
 
   private
   def question_params
-    params.require(:question).permit(:question_type, :question_text, :position, :answer_options)
+    params.require(:question)
+      .permit(:question_type, :question_text, :position, :answer_options,
+              :support_text, :points, rubrics_attributes: [:id, :criteria, :base])
   end
 
   def set_chapter

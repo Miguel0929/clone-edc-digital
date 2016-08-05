@@ -5,8 +5,11 @@ class Question < ActiveRecord::Base
   ]
 
   has_many :answers
+  has_many :rubrics
 
   enum question_type: [:short, :long, :checkbox, :radio, :dropdown]
 
-  validates_presence_of :question_text
+  accepts_nested_attributes_for :rubrics
+
+  validates_presence_of :question_text, :points
 end
