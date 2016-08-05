@@ -22,37 +22,22 @@
                     %span.glyphicon.glyphicon-edit
 
               .panel-body
-
-                - chapter.stages.each do |stage|
-                  .panel.panel-default
-                    .panel-heading
-                      %h3.panel-title
-                        = stage.name
-
-                        = link_to chapter_stage_path(chapter, stage), method: :delete, data: {confirm: '¿Estás seguro?'}, class: 'pull-right', 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Elimiar etapa' do
-                          %span.glyphicon.glyphicon-remove
-
-                        = link_to edit_chapter_stage_path(chapter, stage), class: 'pull-right', 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Editar etapa' do
-                          %span.glyphicon.glyphicon-edit
-
-                    .panel-body
-                      .sortable{'data-update-url'=> sort_stage_contents_url }
-                        - stage.stage_contents.each do |content|
-                          - if content.coursable_type == 'Lesson'
-                            .well{id: "stage_content_#{content.id}"}
-                              %span.handle-sort
-                                [mover]
-                              %a{href: stage_lesson_path(stage, content.model)}
-                                = content.model.identifier
-                          - elsif content.coursable_type == 'Question'
-                            .well{id: "stage_content_#{content.id}"}
-                              = render partial: 'questions/question', locals: { question: content.model, stage: stage}
-
-                      .text-center
-                        = link_to 'Agregar contenido', new_stage_lesson_path(stage), class: 'btn btn-success'
-                        = link_to 'Agregar pregunta', new_stage_question_path(stage), class: 'btn btn-primary'
+                .panel-body
+                  .sortable{'data-update-url'=> sort_chapter_contents_url }
+                    - chapter.chapter_contents.each do |content|
+                      - if content.coursable_type == 'Lesson'
+                        .well{id: "chapter_content_#{content.id}"}
+                          %span.handle-sort
+                            [mover]
+                          %a{href: chapter_lesson_path(chapter, content.model)}
+                            = content.model.identifier
+                      - elsif content.coursable_type == 'Question'
+                        .well{id: "chapter_content_#{content.id}"}
+                          = render partial: 'questions/question', locals: { question: content.model, chapter: chapter}
 
                 .text-center
-                  = link_to 'Agregar etapa', new_chapter_stage_path(chapter), class: 'btn btn-default'
+                  = link_to 'Agregar contenido', new_chapter_lesson_path(chapter), class: 'btn btn-success'
+                  = link_to 'Agregar pregunta', new_chapter_question_path(chapter), class: 'btn btn-primary'
+
           .text-center
             = link_to 'Agregar modulo', new_program_chapter_path(@program), class: 'btn btn-primary'

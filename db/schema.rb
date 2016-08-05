@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160801032344) do
+ActiveRecord::Schema.define(version: 20160805152717) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,13 @@ ActiveRecord::Schema.define(version: 20160801032344) do
   add_index "answers", ["answer_text"], name: "index_answers_on_answer_text", using: :btree
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
   add_index "answers", ["user_id"], name: "index_answers_on_user_id", using: :btree
+
+  create_table "chapter_contents", force: :cascade do |t|
+    t.integer "chapter_id"
+    t.integer "coursable_id"
+    t.string  "coursable_type"
+    t.integer "position"
+  end
 
   create_table "chapters", force: :cascade do |t|
     t.string   "name"
@@ -80,22 +87,6 @@ ActiveRecord::Schema.define(version: 20160801032344) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "stage_contents", force: :cascade do |t|
-    t.integer "stage_id"
-    t.integer "coursable_id"
-    t.string  "coursable_type"
-    t.integer "position"
-  end
-
-  create_table "stages", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "chapter_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "stages", ["chapter_id"], name: "index_stages_on_chapter_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

@@ -1,7 +1,7 @@
 .well
-  = bootstrap_form_for([@stage, @question]) do |f|
+  = bootstrap_form_for([@chapter, @question]) do |f|
     = f.text_field :question_text, label: 'Pregunta'
     = f.select :question_type, Question::TYPES, { label: "Tipo de pregunta" }
     = f.text_area :answer_options, label: 'Respuestas', rows: 8
-    = link_to 'Cancelar', @stage.chapter.program, class: 'btn btn-danger'
+    = link_to 'Cancelar', @chapter.program, class: 'btn btn-danger'
     = f.submit 'Aceptar'

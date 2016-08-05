@@ -6,15 +6,12 @@ Rails.application.routes.draw do
   end
 
   resources :chapters, only: [] do
-    resources :stages, except: [:index, :show]
-  end
-
-  resources :stages, only: [] do
     resources :lessons, except: [:index]
     resources :questions, except: [:index, :show]
   end
 
-  resources :stage_contents, only: [] do
+
+  resources :chapter_contents, only: [] do
     collection do
       post :sort
     end
@@ -22,7 +19,7 @@ Rails.application.routes.draw do
 
   namespace :dashboard do
     resources :programs, only: [:index, :show]
-    resources :stage_contents, path: 'course', only: [:show] do
+    resources :chapter_contents, path: 'course', only: [:show] do
       resources :answers, only: [:new, :create, :update]
     end
 
@@ -38,6 +35,7 @@ Rails.application.routes.draw do
   end
 
   resources :answers
+
 
   root 'home#index'
 
