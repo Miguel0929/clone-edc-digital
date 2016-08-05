@@ -1,6 +1,6 @@
 class Dashboard::AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_stage_content
+  before_action :set_chapter_content
   before_action :validate_coursable_type
   before_action :build_question
   def new
@@ -15,7 +15,7 @@ class Dashboard::AnswersController < ApplicationController
     @answer.answer_text = sanitize_answer if @question.checkbox?
 
     if @answer.save
-      redirect_to dashboard_program_path(@stage_content.stage.chapter.program)
+      redirect_to dashboard_program_path(@chapter_content.chapter.program)
     else
       render :new
     end
@@ -29,7 +29,7 @@ class Dashboard::AnswersController < ApplicationController
     @answer.assign_attributes(answer_params)
 
     if @answer.save
-      redirect_to dashboard_program_path(@stage_content.stage.chapter.program)
+      redirect_to dashboard_program_path(@chapter_content.chapter.program)
 
     else
       render :new
@@ -37,16 +37,16 @@ class Dashboard::AnswersController < ApplicationController
   end
 
   private
-  def set_stage_content
-    @stage_content = StageContent.find(params[:stage_content_id])
+  def set_chapter_content
+    @chapter_content = ChapterContent.find(params[:chapter_content_id])
   end
 
   def validate_coursable_type
-    redirect_to root_url unless @stage_content.coursable_type == 'Question'
+    redirect_to root_url unless @chapter_content.coursable_type == 'Question'
   end
 
   def build_question
-    @question = @stage_content.model
+    @question = @chapter_content.model
   end
 
   def build_answer

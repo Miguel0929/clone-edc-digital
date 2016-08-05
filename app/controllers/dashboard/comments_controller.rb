@@ -4,6 +4,6 @@ class Dashboard::CommentsController < ApplicationController
     comment = Comment.new(user: current_user, answer: answer, content: params[:comment][:content])
     comment.save
 
-    redirect_to new_dashboard_stage_content_answer_path(StageContent.find_by(coursable_type: 'Question', coursable_id: answer.question.id))
+    redirect_to new_dashboard_chapter_content_answer_path(ChapterContent.find_by(coursable_type: 'Question', coursable_id: answer.question.id))
   end
 end

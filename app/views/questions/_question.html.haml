@@ -3,10 +3,10 @@
 = question.question_text
 
 %span.option
-  = link_to 'Editar', edit_stage_question_path(stage, question)
+  = link_to 'Editar', edit_chapter_question_path(chapter, question)
 |
 %span.option
-  = link_to 'Eliminar', stage_question_path(stage, question), method: :delete, data: {confirm: '¿Estás seguro?'}
+  = link_to 'Eliminar', chapter_question_path(chapter, question), method: :delete, data: {confirm: '¿Estás seguro?'}
 
 .question-wrapper
   = render partial: "questions/inputs/#{question.question_type}", locals: { question: question }

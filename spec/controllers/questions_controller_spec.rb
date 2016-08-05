@@ -2,11 +2,11 @@ require 'rails_helper'
 
 describe QuestionsController, 'GET#new' do
   let(:user) { FactoryGirl.create(:user) }
-  let(:stage) { FactoryGirl.create(:stage) }
+  let(:chapter) { FactoryGirl.create(:chapter) }
 
   before do
     sign_in user
-    get :new, stage_id: stage.id
+    get :new, chapter_id: chapter.id
   end
 
   it 'creates a new Question instance' do
@@ -22,12 +22,11 @@ describe QuestionsController, 'POST#create' do
   let(:user) { FactoryGirl.create(:user)}
   let(:program) { FactoryGirl.create(:program) }
   let(:chapter) { FactoryGirl.create(:chapter, program: program) }
-  let(:stage) { FactoryGirl.create(:stage, chapter: chapter) }
 
   before { sign_in user }
 
   context 'when has valid params' do
-    before { post :create, stage_id: stage.id, question: FactoryGirl.attributes_for(:question) }
+    before { post :create, chapter_id: chapter.id, question: FactoryGirl.attributes_for(:question) }
 
     it 'redirect to program' do
       expect(response).to redirect_to(program)
@@ -35,7 +34,7 @@ describe QuestionsController, 'POST#create' do
   end
 
   context 'when has not valid params' do
-    before { post :create, stage_id: stage.id, question: FactoryGirl.attributes_for(:question, question_text: nil) }
+    before { post :create, chapter_id: chapter.id, question: FactoryGirl.attributes_for(:question, question_text: nil) }
 
     it 'renders new template' do
       expect(response).to render_template(:new)
@@ -47,12 +46,11 @@ describe QuestionsController, 'GET#edit' do
   let(:user) { FactoryGirl.create(:user)}
   let(:program) { FactoryGirl.create(:program) }
   let(:chapter) { FactoryGirl.create(:chapter, program: program) }
-  let(:stage) { FactoryGirl.create(:stage, chapter: chapter) }
   let(:question) { FactoryGirl.create(:question) }
 
   before do
     sign_in user
-    get :edit, stage_id: stage.id, id: question.id
+    get :edit, chapter_id: chapter.id, id: question.id
   end
 
   it 'finds the questions' do
@@ -68,13 +66,12 @@ describe QuestionsController, 'PUT#update' do
   let(:user) { FactoryGirl.create(:user)}
   let(:program) { FactoryGirl.create(:program) }
   let(:chapter) { FactoryGirl.create(:chapter, program: program) }
-  let(:stage) { FactoryGirl.create(:stage, chapter: chapter) }
   let(:question) { FactoryGirl.create(:question) }
 
   before { sign_in user }
 
   context 'when has valid params' do
-    before { put :update, stage_id: stage.id, id: question.id, question: FactoryGirl.attributes_for(:question) }
+    before { put :update, chapter_id: chapter.id, id: question.id, question: FactoryGirl.attributes_for(:question) }
 
     it 'redirect to program' do
       expect(response).to redirect_to(program)
@@ -82,7 +79,7 @@ describe QuestionsController, 'PUT#update' do
   end
 
   context 'when has not valid params' do
-    before { put :update, stage_id: stage.id, id: question.id, question: FactoryGirl.attributes_for(:question, question_text: nil) }
+    before { put :update, chapter_id: chapter.id, id: question.id, question: FactoryGirl.attributes_for(:question, question_text: nil) }
 
     it 'renders edit template' do
       expect(response).to render_template(:edit)
@@ -94,7 +91,6 @@ describe QuestionsController, 'DELETE#destroy' do
   let(:user) { FactoryGirl.create(:user)}
   let(:program) { FactoryGirl.create(:program) }
   let(:chapter) { FactoryGirl.create(:chapter, program: program) }
-  let(:stage) { FactoryGirl.create(:stage, chapter: chapter) }
   let(:question) { FactoryGirl.create(:question) }
 
   before { sign_in user }
@@ -103,12 +99,12 @@ describe QuestionsController, 'DELETE#destroy' do
     question #create factory
 
     expect{
-      delete :destroy, stage_id: stage.id, id: question.id
+      delete :destroy, chapter_id: chapter.id, id: question.id
     }.to change(Question, :count).by(-1)
   end
 
   it 'redirects to programs path' do
-    delete :destroy, stage_id: stage.id, id: question.id
+    delete :destroy, chapter_id: chapter.id, id: question.id
 
     expect(response).to redirect_to(program)
   end

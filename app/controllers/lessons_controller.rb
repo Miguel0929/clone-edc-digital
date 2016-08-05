@@ -1,21 +1,21 @@
 class LessonsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_stage
+  before_action :set_chapter
   before_action :set_lesson, only: [:show, :edit, :update, :destroy]
 
   def new
-    @lesson = @stage.lessons.new
+    @lesson = @chapter.lessons.new
   end
 
   def show
   end
 
   def create
-    @lesson = @stage.lessons.build(lesson_params)
+    @lesson = @chapter.lessons.build(lesson_params)
 
     if @lesson.save
-      @stage.lessons << @lesson
-      redirect_to @stage.chapter.program
+      @chapter.lessons << @lesson
+      redirect_to @chapter.program
     else
       render :new
     end
@@ -26,7 +26,7 @@ class LessonsController < ApplicationController
 
   def update
     if @lesson.update_attributes(lesson_params)
-      redirect_to @stage.chapter.program
+      redirect_to @chapter.program
     else
       render :edit
     end
@@ -34,11 +34,11 @@ class LessonsController < ApplicationController
 
   def destroy
     ActiveRecord::Base.transaction do
-      StageContent.where({coursable_type: 'Lesson', coursable_id: @lesson.id}).delete_all
+      ChapterContent.where({coursable_type: 'Lesson', coursable_id: @lesson.id}).delete_all
       @lesson.destroy
     end
 
-    redirect_to @stage.chapter.program
+    redirect_to @chapter.program
   end
 
   private
@@ -46,8 +46,8 @@ class LessonsController < ApplicationController
     params.require(:lesson).permit(:content, :identifier)
   end
 
-  def set_stage
-    @stage = Stage.find(params[:stage_id])
+  def set_chapter
+    @chapter = Chapter.find(params[:chapter_id])
   end
 
   def set_lesson
