@@ -3,6 +3,7 @@ class Dashboard::AnswersController < ApplicationController
   before_action :set_chapter_content
   before_action :validate_coursable_type
   before_action :build_question
+
   def new
     @answer = build_answer
   end

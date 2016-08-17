@@ -25,14 +25,10 @@
                     %span.label.label-success
                       estatus
                   %td
-                    Comentarios
-                    %span.badge
-                      = (0..10).to_a.sample
+                    - if content.coursable_type == 'Question'
+                      Comentarios
+                      %span.badge
+                        = content.model.comments_for(current_user)
                   %td
                     = link_to dashboard_chapter_content_path(content), class: 'btn btn-default' do
                       %span.glyphicon.glyphicon-play-circle
-
-          .panel-footer
-            .text-right
-              %button.btn.btn-success.btn-lg
-                Comenzar

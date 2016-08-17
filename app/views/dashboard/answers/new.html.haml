@@ -14,7 +14,7 @@
           - @answer.comments.each do |comment|
             .well
               %h5
-                = current_user.name
+                = comment.user.name
 
               = comment.content
 
