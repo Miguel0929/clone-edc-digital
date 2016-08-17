@@ -1,0 +1,30 @@
+.container
+  .row
+    .col-md-12
+      %h2.text-center
+        = @question.question_text
+      %div
+        .well
+          = bootstrap_form_for([:dashboard, @chapter_content, @answer]) do |f|
+            = f.hidden_field :user_id
+            = f.hidden_field :question_id
+
+            = render partial: "/dashboard/answers/inputs/#{@question.question_type}", locals: { disabled: true, f: f}
+
+            .text-right
+              = link_to 'Editar respuesta', edit_dashboard_chapter_content_answer_path(@chapter_content, @answer), class: 'btn btn-default'
+
+
+        %h3.text-center
+          Comentarios
+
+        - @answer.comments.each do |comment|
+          .well
+            %h5
+              = comment.user.name
+
+            = comment.content
+
+        = bootstrap_form_for([:dashboard, @answer, Comment.new]) do |f|
+          = f.text_area :content, hide_label: true, rows: 3, placeholder: 'Escribe un comentario'
+          = f.submit 'Comentar'
