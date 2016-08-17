@@ -14,6 +14,11 @@
             .text-right
               = link_to 'Editar respuesta', edit_dashboard_chapter_content_answer_path(@chapter_content, @answer), class: 'btn btn-default'
 
+        .chapter-content-navigation
+          - if @chapter_content.higher_item
+            = link_to 'Anterior', dashboard_chapter_content_path(@chapter_content.higher_item), class: 'btn btn-default'
+          - if @chapter_content.lower_item
+            = link_to 'Siguinte', dashboard_chapter_content_path(@chapter_content.lower_item), class: 'btn btn-default pull-right'
 
         %h3.text-center
           Comentarios

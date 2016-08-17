@@ -3,3 +3,9 @@
 
 %div
   = raw model.content
+
+  .chapter-content-navigation
+    - if @chapter_content.higher_item
+      = link_to 'Anterior', dashboard_chapter_content_path(@chapter_content.higher_item), class: 'btn btn-default'
+    - if @chapter_content.lower_item
+      = link_to 'Siguinte', dashboard_chapter_content_path(@chapter_content.lower_item), class: 'btn btn-default pull-right'
