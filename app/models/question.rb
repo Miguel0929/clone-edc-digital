@@ -17,4 +17,8 @@ class Question < ActiveRecord::Base
     user_answer = answers.find_by(user: user)
     user_answer.nil? ? 0 : user_answer.comments.count
   end
+
+  def chapter_content
+    ChapterContent.find_by(coursable_id: self.id, coursable_type: 'Question')
+  end
 end

@@ -19,4 +19,9 @@ class User < ActiveRecord::Base
   def status
     invitation_accepted_at.nil? ? 'Inactivo' : 'Activo'
   end
+
+  def answers_for(chapter)
+    questions = chapter.questions
+    answers.select { |answer| questions.include?(answer.question) }
+  end
 end
