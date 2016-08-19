@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable
 
+  scope :students, -> { where(role: 'student') }
+
   validates_presence_of :first_name, :last_name, :phone_number
 
   def name

@@ -40,11 +40,8 @@ Rails.application.routes.draw do
   get '/users', to: 'users#index'
 
   resources :users, only: [] do
-    resources :answers, only: [:index]
+    resources :answers, only: [:index, :edit, :update]
   end
-
-  resources :answers
-
 
   root 'home#index'
 

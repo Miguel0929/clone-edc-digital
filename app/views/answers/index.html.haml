@@ -9,6 +9,10 @@
             %th
               Respuesta
             %th
+              Evaluación
+            %th
+              Detalles de evaluación
+            %th
         %tbody
           - @answers.each do |answer|
             %tr
@@ -17,4 +21,11 @@
               %td
                 = answer.answer_text
               %td
-                = link_to 'Comentar', new_dashboard_chapter_content_answer_path(ChapterContent.find_by(coursable_type: 'Question', coursable_id: answer.question.id))
+                - unless answer.rubric.nil?
+                  = answer.rubric.criteria
+              %td
+                - unless answer.rubric.nil?
+                  = answer.rubric.base
+              %td
+                = link_to 'Evaluar', edit_user_answer_path(@user, answer)
+                = link_to 'Comentar', new_dashboard_chapter_content_answer_path(answer.question.chapter_content)
