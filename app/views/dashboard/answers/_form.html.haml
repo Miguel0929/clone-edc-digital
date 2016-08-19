@@ -1,0 +1,8 @@
+= bootstrap_form_for([:dashboard, @chapter_content, @answer]) do |f|
+  = f.hidden_field :user_id
+  = f.hidden_field :question_id
+
+  = render partial: "/dashboard/answers/inputs/#{@question.question_type}", locals: { disabled: false, f: f}
+
+  .text-right
+    = f.submit 'Guardar'

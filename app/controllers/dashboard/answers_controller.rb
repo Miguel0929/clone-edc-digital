@@ -3,6 +3,21 @@ class Dashboard::AnswersController < ApplicationController
   before_action :set_chapter_content
   before_action :validate_coursable_type
   before_action :build_question
+
+  def router
+    answer = build_answer
+
+    if answer.new_record?
+      redirect_to new_dashboard_chapter_content_answer_path(@chapter_content)
+    else
+      redirect_to dashboard_chapter_content_answer_path(@chapter_content, answer)
+    end
+  end
+
+  def show
+    @answer = Answer.find(params[:id])
+  end
+
   def new
     @answer = build_answer
   end
@@ -15,10 +30,14 @@ class Dashboard::AnswersController < ApplicationController
     @answer.answer_text = sanitize_answer if @question.checkbox?
 
     if @answer.save
-      redirect_to dashboard_program_path(@chapter_content.chapter.program)
+      redirect_to dashboard_chapter_content_answer_path(@chapter_content, @answer)
     else
       render :new
     end
+  end
+
+  def edit
+    @answer = Answer.find(params[:id])
   end
 
   def update
@@ -29,7 +48,7 @@ class Dashboard::AnswersController < ApplicationController
     @answer.assign_attributes(answer_params)
 
     if @answer.save
-      redirect_to dashboard_program_path(@chapter_content.chapter.program)
+      redirect_to dashboard_chapter_content_answer_path(@chapter_content, @answer)
 
     else
       render :new

@@ -17,4 +17,4 @@
               %td
                 = answer.answer_text
               %td
-                = link_to 'Comentar', new_dashboard_stage_content_answer_path(StageContent.find_by(coursable_type: 'Question', coursable_id: answer.question.id))
+                = link_to 'Comentar', new_dashboard_chapter_content_answer_path(ChapterContent.find_by(coursable_type: 'Question', coursable_id: answer.question.id))

@@ -18,9 +18,18 @@ Rails.application.routes.draw do
   end
 
   namespace :dashboard do
-    resources :programs, only: [:index, :show]
+    resources :programs, only: [:index, :show] do
+      member do
+        get :resume
+      end
+    end
+
     resources :chapter_contents, path: 'course', only: [:show] do
-      resources :answers, only: [:new, :create, :update]
+      resources :answers, only: [:show, :new, :create, :update, :edit] do
+        collection do
+          get :router
+        end
+      end
     end
 
     resources :answers, only: [] do
