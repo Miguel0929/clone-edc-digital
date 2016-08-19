@@ -28,4 +28,4 @@
                   = answer.rubric.base
               %td
                 = link_to 'Evaluar', edit_user_answer_path(@user, answer)
-                = link_to 'Comentar', new_dashboard_chapter_content_answer_path(answer.question.chapter_content)
+                = link_to 'Comentar', dashboard_chapter_content_answer_path(answer.question.chapter_content, answer)
