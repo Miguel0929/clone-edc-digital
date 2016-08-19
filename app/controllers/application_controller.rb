@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    users_path
+    if resource.admin? || resource.mentor?
+      users_path
+    elsif resource.student?
+      dashboard_programs_path
+    end
   end
 end
