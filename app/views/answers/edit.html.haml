@@ -1,0 +1,22 @@
+.container
+  .row
+    .col-md-12
+      %h2.text-center
+        Evaluar respuesta
+      %table.table.table-striped
+        %thead
+          %tr
+            %th
+              Pregunta
+            %th
+              Respuesta
+          %thead
+        %tbody
+          %tr
+            %td
+              = @answer.question.question_text
+            %td
+              = @answer.answer_text
+
+      .answer-content
+      = render 'form'

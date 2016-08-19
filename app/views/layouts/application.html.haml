@@ -22,10 +22,10 @@
           %ul.nav.navbar-nav.navbar-right
             - if user_signed_in? && current_user.admin?
               %li
-                = link_to 'Usuarios', users_path
-              %li
                 = link_to 'Diseño de programas', programs_path
-            -#- if user_signed_in? && (current_user.mentor? || current_user.admin?)
+            - if user_signed_in? && (current_user.mentor? || current_user.admin?)
+              %li
+                = link_to 'Usuarios', users_path
             - if user_signed_in? && (current_user.student? || current_user.mentor? || current_user.admin?)
               %li
                 = link_to 'Programas', dashboard_programs_path

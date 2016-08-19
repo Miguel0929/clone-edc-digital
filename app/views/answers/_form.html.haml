@@ -1,0 +1,5 @@
+= bootstrap_form_for([@user, @answer]) do |f|
+  = f.collection_radio_buttons(:rubric_id, @answer.question.rubrics, :id, :criteria_extended, hide_label: true)
+
+  = link_to 'Cancelar', user_answers_path(@user), class: 'btn btn-danger'
+  = f.submit 'Guardar'

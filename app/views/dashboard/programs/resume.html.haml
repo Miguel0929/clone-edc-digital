@@ -18,6 +18,8 @@
                   %th
                     Respuesta
                   %th
+                    Evaluación
+                  %th
                     Detalle de evaluación
                   %th
               %tbody
@@ -28,6 +30,11 @@
                     %td
                       = answer.answer_text
                     %td
+                      - unless answer.rubric.nil?
+                        = answer.rubric.criteria
+                    %td
+                      - unless answer.rubric.nil?
+                        = answer.rubric.base
                     %td
                       = link_to 'Editar', edit_dashboard_chapter_content_answer_path(answer.question.chapter_content, answer)
                       |
