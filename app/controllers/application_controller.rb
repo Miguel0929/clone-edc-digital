@@ -15,4 +15,8 @@ class ApplicationController < ActionController::Base
       dashboard_programs_path
     end
   end
+
+  def require_admin
+    redirect_to root_url unless current_user.admin?
+  end
 end

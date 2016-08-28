@@ -1,11 +1,14 @@
 class User < ActiveRecord::Base
+  acts_as_paranoid
+
   enum role: [ :student, :mentor, :admin ]
 
   has_many :answers
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable
 
-  scope :students, -> { where(role: 'student') }
+  scope :students, -> { where(role: 0) }
+  scope :mentors, -> { where(role: 1) }
 
   validates_presence_of :first_name, :last_name, :phone_number
 
