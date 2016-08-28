@@ -1,0 +1,11 @@
+.container
+  .row
+    .col-md-12
+      %h2.text-center
+        = @group.name
+      %h4
+        Progamas habilitados
+      %ul
+        - @group.programs.each do |program|
+          %li
+            = program.name

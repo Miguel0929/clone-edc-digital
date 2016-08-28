@@ -2,4 +2,6 @@
   = f.text_field :name, label: 'Nombre del grupo'
   = f.text_field :key, label: 'Clave'
 
+  = f.collection_check_boxes(:program_ids, Program.all, :id, :name, label: 'Lista de programas')
+
   = f.submit 'Aceptar'

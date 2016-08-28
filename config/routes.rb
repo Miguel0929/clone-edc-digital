@@ -47,7 +47,7 @@ Rails.application.routes.draw do
     resources :answers, only: [:index, :edit, :update]
   end
 
-  resources :groups, except: [:show]
+  resources :groups
 
   root 'home#index'
 

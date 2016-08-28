@@ -1,5 +1,7 @@
 class Program < ActiveRecord::Base
-  validates_presence_of :name
-
   has_many :chapters
+  has_many :group_programs
+  has_many :groups, through: :group_programs
+
+  validates_presence_of :name
 end
