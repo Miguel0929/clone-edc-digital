@@ -19,4 +19,8 @@ class ApplicationController < ActionController::Base
   def require_admin
     redirect_to root_url unless current_user.admin?
   end
+
+  def require_mentor
+    redirect_to root_url if current_user.student?
+  end
 end
