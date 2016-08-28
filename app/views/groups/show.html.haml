@@ -9,3 +9,10 @@
         - @group.programs.each do |program|
           %li
             = program.name
+
+      %h4
+        Mentores habilitados
+      %ul
+        - @group.users.each do |user|
+          %li
+            = user.name

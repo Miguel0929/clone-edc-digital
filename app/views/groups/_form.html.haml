@@ -3,5 +3,6 @@
   = f.text_field :key, label: 'Clave'
 
   = f.collection_check_boxes(:program_ids, Program.all, :id, :name, label: 'Lista de programas')
+  = f.collection_check_boxes(:user_ids, User.mentors, :id, :name, label: 'Lista de mentores')
 
   = f.submit 'Aceptar'
