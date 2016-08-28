@@ -1,0 +1,31 @@
+.container
+  .row
+    .col-md-12
+      %h2.text-center
+        Lista de grupos
+
+      %table.table.table-stripped.datatablj
+        %thead
+          %tr
+            %th Nombre
+            %th Clave
+            %th
+
+        %tbody
+          - @groups.each do |group|
+            %tr
+              %td= group.name
+              %td= group.key
+              %td
+                .btn-group
+                  %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+                    %span.glyphicon.glyphicon-pencil
+                    %span.caret
+                  %ul.dropdown-menu
+                    %li
+                      = link_to 'Editar', edit_group_path(group)
+                    %li.divider
+                    %li
+                      = link_to 'Eliminar', group, :method => :delete, :data => { :confirm => '¿Estás seguro?' }
+
+      = link_to 'Crear grupo', new_group_path, class: 'btn btn-default'
