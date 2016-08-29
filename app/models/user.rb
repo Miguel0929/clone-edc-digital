@@ -9,8 +9,13 @@ class User < ActiveRecord::Base
 
   scope :students, -> { where(role: 0) }
   scope :mentors, -> { where(role: 1) }
+  scope :invitation_accepted, -> { where.not('invitation_accepted_at' => nil) }
 
   validates_presence_of :first_name, :last_name, :phone_number
+
+  belongs_to :group
+
+  after_create :assign_group
 
   def name
     "#{first_name} #{last_name}"
@@ -28,5 +33,12 @@ class User < ActiveRecord::Base
   def answers_for(chapter)
     questions = chapter.questions
     answers.select { |answer| questions.include?(answer.question) }
+  end
+
+  private
+  def assign_group
+    if mentor?
+      group.users << self
+    end
   end
 end

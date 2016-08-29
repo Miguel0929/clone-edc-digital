@@ -4,7 +4,7 @@ class Group < ActiveRecord::Base
   has_many :group_programs
   has_many :group_users
   has_many :programs, through: :group_programs
-  has_many :users, through: :group_users
+  has_many :users, through: :group_users, validate: false
 
   validates_presence_of :name, :key
   validates_uniqueness_of :key
