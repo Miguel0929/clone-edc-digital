@@ -1,41 +1,42 @@
-.container
-  .row
-    .col-md-12
-      %h2.text-center
-        Resumen del proyecto
-      - @program.chapters.each do |chapter|
-        .panel.panel-default
-          .panel-heading
-            %h3.panel-title
-              = chapter.name
-          .panel-body
+.container-fluid.container-fixed-lg
+  %h2
+    Resumen del proyecto
+  - @program.chapters.each do |chapter|
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          = chapter.name
+      .panel-body
 
-            %table.table.table-striped
-              %thead
-                %tr
-                  %th
-                    Pregunta
-                  %th
-                    Respuesta
-                  %th
-                    Evaluación
-                  %th
-                    Detalle de evaluación
-                  %th
-              %tbody
-                - current_user.answers_for(chapter).each do |answer|
-                  %tr
-                    %td
-                      = answer.question.question_text
-                    %td
-                      = answer.answer_text
-                    %td
-                      - unless answer.rubric.nil?
-                        = answer.rubric.criteria
-                    %td
-                      - unless answer.rubric.nil?
-                        = answer.rubric.base
-                    %td
-                      = link_to 'Editar', edit_dashboard_chapter_content_answer_path(answer.question.chapter_content, answer)
-                      |
-                      = link_to 'Ver', dashboard_chapter_content_answer_path(answer.question.chapter_content, answer)
+        %table.table.table-striped
+          %thead
+            %tr
+              %th
+                Pregunta
+              %th
+                Respuesta
+              %th
+                Evaluación
+              %th
+                Detalle de evaluación
+              %th
+          %tbody
+            - current_user.answers_for(chapter).each do |answer|
+              %tr
+                %td
+                  = answer.question.question_text
+                %td
+                  = answer.humanize_answer
+                %td
+                  - unless answer.rubric.nil?
+                    = answer.rubric.criteria
+                %td
+                  - unless answer.rubric.nil?
+                    = answer.rubric.base
+                %td
+                  = link_to edit_dashboard_chapter_content_answer_path(answer.question.chapter_content, answer), class: 'btn btn-default' do
+                    %span.glyphicon.glyphicon-edit
+
+                  = link_to dashboard_chapter_content_answer_path(answer.question.chapter_content, answer), class: 'btn btn-default' do
+                    %i.fa.fa-eye
+

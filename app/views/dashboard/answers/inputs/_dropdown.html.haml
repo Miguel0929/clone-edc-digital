@@ -1,8 +1,1 @@
-= bootstrap_form_for([:dashboard, @chapter_content, @answer]) do |f|
-  = f.hidden_field :user_id
-  = f.hidden_field :question_id
-
-  = f.select :answer_text, answer_to_array(@question)
-
-  .text-right
-    = f.submit 'Guardar'
+= f.select :answer_text, answer_to_array(@question), { hide_label: true }, disabled: disabled

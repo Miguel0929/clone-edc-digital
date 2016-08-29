@@ -5,4 +5,6 @@
   = render partial: "/dashboard/answers/inputs/#{@question.question_type}", locals: { disabled: false, f: f}
 
   .text-right
-    = f.submit 'Guardar'
+    %button.btn.btn-sm.btn-success.btn-cons.m-b-10{:type => "submit"}
+      %i.fa.fa-save
+      %span.bold Guardar respuesta

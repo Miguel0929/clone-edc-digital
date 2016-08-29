@@ -1,10 +1,7 @@
-= bootstrap_form_for([:dashboard, @chapter_content, @answer]) do |f|
-  = f.hidden_field :user_id
-  = f.hidden_field :question_id
-
-  = f.form_group :answer_text do
-    - answer_to_array(@question).each do |answer|
-      = f.radio_button :answer_text, answer, label: answer
-
-  .text-right
-    = f.submit 'Guardar'
+.radio.radio-success
+  - answer_to_array(@question).each_with_index do |answer, index|
+    .row
+      .col-md-4
+        %input{:name => "answer[answer_text]", :type => "radio", :value => answer, id: "radio_#{index}", disabled: disabled, checked: answer_is_selected?(@answer, answer)}
+        %label{:for => "radio_#{index}"}
+          = answer

@@ -1,3 +1,1 @@
-.container
-  .col-md-12
-    = render partial: "dashboard/chapter_contents/#{@chapter_content.coursable_type.downcase}", locals: { model: @chapter_content.model }
+= render partial: "dashboard/chapter_contents/#{@chapter_content.coursable_type.downcase}", locals: { model: @chapter_content.model }
