@@ -1,11 +1,12 @@
 .container
   %h2.text-center
-    = t 'devise.invitations.edit.header'
+    Completa tu registro
+
   = bootstrap_form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f|
     = f.hidden_field :invitation_token
-    = f.text_field :first_name
-    = f.text_field :last_name
-    = f.text_field :phone_number
-    = f.password_field :password
-    = f.password_field :password_confirmation
-    = f.submit t("devise.invitations.edit.submit_button")
+    = f.text_field :first_name, label: 'Nombre(s)'
+    = f.text_field :last_name, label: 'Apellido(s)'
+    = f.text_field :phone_number, label: 'Número de teléfono'
+    = f.password_field :password, label: 'Contraseña'
+    = f.password_field :password_confirmation, label:'Confirmar contraseña'
+    = f.submit 'Registrar'

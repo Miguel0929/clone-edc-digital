@@ -1,6 +1,8 @@
 class Dashboard::ProgramsController < ApplicationController
+  before_action :authenticate_user!
+
   def index
-    @programs = Program.all
+    @programs = current_user.group.programs
   end
 
   def show

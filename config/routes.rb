@@ -37,11 +37,17 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/users', to: 'users#index'
 
-  resources :users, only: [] do
+  resources :users, only: [:index, :show, :edit, :update, :destroy] do
+    collection do
+      get :mentors
+      get :students
+    end
+
     resources :answers, only: [:index, :edit, :update]
   end
+
+  resources :groups
 
   root 'home#index'
 

@@ -1,0 +1,30 @@
+.container
+  .row
+    .col-md-12
+      %h2.text-center
+        Detalles del #{@user.huminize_role}: #{@user.name}
+
+      %table.table.table-striped
+        %tbody
+          %tr
+            %th
+              Nombre
+            %td
+              = @user.name
+          %tr
+            %th
+              Correo electrónico
+            %td
+              = @user.email
+          %tr
+            %th
+              Teléfono
+            %td
+              = @user.phone_number
+          %tr
+            %th
+              Ciudad de origen
+            %td
+              Monterrey, Nuevo León
+
+      = link_to 'Editar información', edit_user_path(@user), class: 'btn btn-default'

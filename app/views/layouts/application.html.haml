@@ -9,7 +9,6 @@
   %body
     %nav.navbar.navbar-default{:role => "navigation"}
       .container
-        / Brand and toggle get grouped for better mobile display
         .navbar-header
           %button.navbar-toggle{"data-target" => ".navbar-ex1-collapse", "data-toggle" => "collapse", :type => "button"}
             %span.sr-only Toggle navigation
@@ -17,18 +16,14 @@
             %span.icon-bar
             %span.icon-bar
           %a.navbar-brand{:href => root_url } EDC Digital
-          / Collect the nav links, forms, and other content for toggling
         .collapse.navbar-collapse.navbar-ex1-collapse
           %ul.nav.navbar-nav.navbar-right
-            - if user_signed_in? && current_user.admin?
-              %li
-                = link_to 'Diseño de programas', programs_path
-            - if user_signed_in? && (current_user.mentor? || current_user.admin?)
-              %li
-                = link_to 'Usuarios', users_path
-            - if user_signed_in? && (current_user.student? || current_user.mentor? || current_user.admin?)
-              %li
-                = link_to 'Programas', dashboard_programs_path
+            - if user_signed_in?
+              = display_navbar_link('Grupos', groups_path, [:admin])
+              = display_navbar_link('Mentores', mentors_users_path, [:admin])
+              = display_navbar_link('Estudiantes', students_users_path, [:admin, :mentor])
+              = display_navbar_link('Diseño de programas', programs_path, [:admin])
+              = display_navbar_link('Programas', programs_path, [:student])
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
                 %span.glyphicon.glyphicon-user
@@ -36,10 +31,10 @@
               %ul.dropdown-menu
                 - if user_signed_in?
                   %li
-                    = link_to 'Sign out', destroy_user_session_path, method: :delete
+                    = link_to 'Salir', destroy_user_session_path, method: :delete
                 - else
                   %li
-                    = link_to 'Sign in', new_user_session_path
+                    = link_to 'Iniciar sesión', new_user_session_path
     %p.notice
       = notice
     %p.alert

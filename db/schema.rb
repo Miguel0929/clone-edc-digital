@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160819162914) do
+ActiveRecord::Schema.define(version: 20160829001557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,32 @@ ActiveRecord::Schema.define(version: 20160819162914) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "group_programs", force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "program_id"
+  end
+
+  add_index "group_programs", ["group_id"], name: "index_group_programs_on_group_id", using: :btree
+  add_index "group_programs", ["program_id"], name: "index_group_programs_on_program_id", using: :btree
+
+  create_table "group_users", force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "user_id"
+  end
+
+  add_index "group_users", ["group_id"], name: "index_group_users_on_group_id", using: :btree
+  add_index "group_users", ["user_id"], name: "index_group_users_on_user_id", using: :btree
+
+  create_table "groups", force: :cascade do |t|
+    t.string   "name"
+    t.string   "key"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "groups", ["deleted_at"], name: "index_groups_on_deleted_at", using: :btree
 
   create_table "lessons", force: :cascade do |t|
     t.string   "identifier"
@@ -124,8 +150,11 @@ ActiveRecord::Schema.define(version: 20160819162914) do
     t.string   "invited_by_type"
     t.integer  "invitations_count",      default: 0
     t.integer  "role",                   default: 0
+    t.datetime "deleted_at"
+    t.integer  "group_id"
   end
 
+  add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
   add_index "users", ["invitations_count"], name: "index_users_on_invitations_count", using: :btree

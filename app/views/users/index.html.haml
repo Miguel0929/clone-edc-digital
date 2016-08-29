@@ -29,6 +29,16 @@
               %td
                 = user.huminize_role
               %td
-                = link_to 'Ver información', user_answers_path(user)
+                .btn-group
+                  %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+                    %span.glyphicon.glyphicon-pencil
+                    %span.caret
+                  %ul.dropdown-menu
+                    %li
+                      = link_to 'Ver información', user_path(user)
+                    %li.divider
+                    %li
+                      = link_to 'Eliminar usuario', user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' }
 
-      = link_to 'Invitar Usuario', new_user_invitation_path, class: 'btn btn-default'
+      = link_to 'Invitar usuario', new_user_invitation_path, class: 'btn btn-default'
+
