@@ -6,37 +6,51 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
-  %body
-    %nav.navbar.navbar-default{:role => "navigation"}
-      .container
-        .navbar-header
-          %button.navbar-toggle{"data-target" => ".navbar-ex1-collapse", "data-toggle" => "collapse", :type => "button"}
-            %span.sr-only Toggle navigation
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
-          %a.navbar-brand{:href => root_url } EDC Digital
-        .collapse.navbar-collapse.navbar-ex1-collapse
-          %ul.nav.navbar-nav.navbar-right
-            - if user_signed_in?
-              = display_navbar_link('Grupos', groups_path, [:admin])
-              = display_navbar_link('Mentores', mentors_users_path, [:admin])
-              = display_navbar_link('Estudiantes', students_users_path, [:admin, :mentor])
-              = display_navbar_link('Diseño de programas', programs_path, [:admin])
-              = display_navbar_link('Programas', programs_path, [:student])
-            %li.dropdown
-              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                %span.glyphicon.glyphicon-user
-                %b.caret
-              %ul.dropdown-menu
+
+  %body.fixed-header.horizontal-menu
+    .page-container
+      .header
+        .container-fluid.relative
+          .pull-left.full-height.visible-sm.visible-xs
+            .header-inner
+              %a.btn-link.toggle-sidebar.visible-sm-inline-block.visible-xs-inline-block.padding-5{"data-toggle" => "sidebar", :href => "#"}
+                %span.icon-set.menu-hambuger
+          .pull-center.hidden-md.hidden-lg
+            .header-inner
+              .brand.inline.brand-clean
+                = image_tag('logo-edc-color-horizontal', height: 22, width: 78)
+          .pull-right.full-height.visible-sm.visible-xs
+            .header-inner
+              %a.btn-link.visible-sm-inline-block.visible-xs-inline-block{"data-toggle" => "quickview", "data-toggle-element" => "#quickview", :href => "#"}
+                %span.icon-set.menu-hambuger-plus
+        .pull-left.sm-table.hidden-xs.hidden-sm
+          .header-inner
+            .brand.inline.brand-clean
+              = image_tag('logo-edc-color-horizontal', height: 50)
+
+      .page-content-wrapper
+        .content
+          .bar.bar-gray
+            .pull-right
+              %a.text-black.padding-10.visible-xs-inline.visible-sm-inline.pull-right.m-t-10.m-b-10.m-r-10.on{"data-pages" => "horizontal-menu-toggle", :href => "#"}
+                %i.pg-close_line
+            .bar-inner.bar-inner-clean-2
+              %ul
                 - if user_signed_in?
-                  %li
-                    = link_to 'Salir', destroy_user_session_path, method: :delete
-                - else
-                  %li
-                    = link_to 'Iniciar sesión', new_user_session_path
-    %p.notice
-      = notice
-    %p.alert
-      = alert
-    = yield
+                  = display_navbar_link('Grupos', groups_path, [:admin])
+                  = display_navbar_link('Mentores', mentors_users_path, [:admin])
+                  = display_navbar_link('Estudiantes', students_users_path, [:admin, :mentor])
+                  = display_navbar_link('Diseño de programas', programs_path, [:admin])
+                  = display_navbar_link('Programas de Aprendizaje', dashboard_programs_path, [:student])
+                %li.classic
+                  %a{:href => "javascript:;"}
+                    %span.glyphicon.glyphicon-user
+                    %span.arrow
+                  %ul.classic.classic-3
+                    - if user_signed_in?
+                      %li
+                        = link_to 'Salir', destroy_user_session_path, method: :delete
+                    - else
+                      %li
+                        = link_to 'Iniciar sesión', new_user_session_path
+          = yield

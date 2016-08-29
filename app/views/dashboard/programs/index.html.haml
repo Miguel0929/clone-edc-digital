@@ -1,14 +1,25 @@
-.container
+.container-fluid.container-fixed-lg
   .row
     .col-md-12
       - @programs.in_groups_of(3, false) do |group_programs|
-        .row
-          - group_programs.each do |program|
-            .col-md-4
-              .panel.panel-default
-                .panel-heading
-                  %h3.panel-title.text-center
-                    = program.name
-                .panel-body
-                  .text-center
-                    = link_to 'Iniciar', dashboard_program_path(program), class: 'btn btn-default'
+        - group_programs.each do |program|
+          .card.share.share-other{"data-social" => "item"}
+            .card-content
+              %a{:href => dashboard_program_path(program)}
+                = image_tag("person-1-square.jpg")
+              .card-header.clearfix
+                %h5
+                  = program.name
+              .card-footer.clearfix
+                .reactions.pull-left
+                  %li
+                    %span
+                      4 comentarios
+                      %i.fa.fa-comment-o
+                .reactions
+                  %li
+                    %span
+                      24% de avance
+                      %i.fa.fa-line-chart
+            .progress
+              .progress-bar.progress-bar-success{:style => "width:24%"}

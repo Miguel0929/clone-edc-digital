@@ -1,11 +1,21 @@
-%h2.text-center
-  = model.identifier
-
-%div
-  = raw model.content
-
-  .chapter-content-navigation
-    - if @chapter_content.higher_item
-      = link_to 'Anterior', dashboard_chapter_content_path(@chapter_content.higher_item), class: 'btn btn-default'
-    - if @chapter_content.lower_item
-      = link_to 'Siguinte', dashboard_chapter_content_path(@chapter_content.lower_item), class: 'btn btn-default pull-right'
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      .row
+        .col-md-10.col-md-offset-1
+          .padding-30.m-t-50.p-b-100
+            %h2.text-center
+              = model.identifier
+            = raw model.content
+      .row
+        .col-sm-12
+          - if @chapter_content.higher_item
+            .pull-left
+              %a.btn.btn-sm.btn-info.btn-cons.m-b-10{href: dashboard_chapter_content_path(@chapter_content.higher_item)}
+                %i.fa.fa-backward
+                %span.bold Anterior
+          - if @chapter_content.lower_item
+            .pull-right
+              %a.btn.btn-sm.btn-info.btn-cons.m-b-10{href: dashboard_chapter_content_path(@chapter_content.lower_item)}
+                %span.bold Siguiente
+                %i.fa.fa-forward
