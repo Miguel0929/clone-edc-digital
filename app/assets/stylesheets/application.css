@@ -15,5 +15,6 @@
  *= require font-awesome
  *= require_tree .
  *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+ *= require dataTables/extras/dataTables.fixedColumns
  *= require_self
  */

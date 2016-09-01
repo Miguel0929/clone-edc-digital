@@ -5,6 +5,7 @@ class Group < ActiveRecord::Base
   has_many :group_users
   has_many :programs, through: :group_programs
   has_many :users, through: :group_users, validate: false
+  has_many :students, -> { students }, class_name: 'User', foreign_key: 'group_id'
 
   validates_presence_of :name, :key
   validates_uniqueness_of :key

@@ -8,4 +8,17 @@ module ApplicationHelper
 
     answers.answer_text.split('\n').include?(answer)
   end
+
+  def image_for_rubric(criteria)
+    case criteria
+    when 'Deficiente'
+      image_tag('rubensito-01.png', width: 50)
+    when 'Regular'
+      image_tag('rubensito-02.png', width: 50)
+    when 'Bueno'
+      image_tag('rubensito-04.png', width: 50)
+    when 'Excelente'
+      image_tag('rubensito-05.png', width: 50)
+    end
+  end
 end

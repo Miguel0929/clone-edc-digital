@@ -1,7 +1,12 @@
-.container
-  .row
-    .col-md-12
-      %table.table.table-striped
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+      .pull-right
+        .col-xs-12
+          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+      .clearfix
+    .panel-body
+      %table.table.table-hover.datatable
         %thead
           %tr
             %th
@@ -19,7 +24,7 @@
               %td
                 = answer.question.question_text
               %td
-                = answer.answer_text
+                = answer.humanize_answer
               %td
                 - unless answer.rubric.nil?
                   = answer.rubric.criteria
@@ -27,5 +32,5 @@
                 - unless answer.rubric.nil?
                   = answer.rubric.base
               %td
-                = link_to 'Evaluar', edit_user_answer_path(@user, answer)
-                = link_to 'Comentar', dashboard_chapter_content_answer_path(answer.question.chapter_content, answer)
+                = link_to 'Evaluar', edit_user_program_answer_path(@user, @program, answer), class: 'btn btn-default'
+                = link_to 'Comentar', dashboard_chapter_content_answer_path(answer.question.chapter_content, answer), class: 'btn btn-default'

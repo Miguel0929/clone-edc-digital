@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  devise_scope :user do
+    root :to => 'devise/sessions#new'
+  end
+
   resources :programs do
     resources :chapters, except: [:index, :show]
   end
@@ -44,12 +48,12 @@ Rails.application.routes.draw do
       get :students
     end
 
-    resources :answers, only: [:index, :edit, :update]
+    resources :programs, only: [] do
+      resources :answers, only: [:index, :edit, :update]
+    end
   end
 
   resources :groups
-
-  root 'home#index'
 
   mount Ckeditor::Engine => '/ckeditor'
 end
