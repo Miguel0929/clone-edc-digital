@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin, except: [:students]
+  before_action :require_admin, except: [:students, :index, :show]
   before_action :require_mentor, only: [:students]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
@@ -15,7 +15,12 @@ class UsersController < ApplicationController
   end
 
   def students
-    @users = User.students
+    @users = case current_user.role
+     when 'admin'
+      User.students
+     when 'mentor'
+       current_user.groups.map(&:students).flatten
+    end
 
     render :index
   end

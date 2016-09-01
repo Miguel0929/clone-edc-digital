@@ -1,22 +1,22 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_user
+  before_action :set_program
 
   def index
-    @user = User.find(params[:user_id])
-    @answers =  @user.answers
+    answers =  @user.answers
+    @answers = answers.select { |answer| answer.question.chapter_content.chapter.program == @program }
   end
 
   def edit
-    @user = User.find(params[:user_id])
     @answer = @user.answers.find(params[:id])
   end
 
   def update
-    @user = User.find(params[:user_id])
     @answer = @user.answers.find(params[:id])
 
     if @answer.update(answer_params)
-      redirect_to user_answers_path(@user)
+      redirect_to user_program_answers_path(@user, @program)
     else
       render :edit
     end
@@ -25,5 +25,13 @@ class AnswersController < ApplicationController
   private
   def answer_params
     params.require(:answer).permit(:rubric_id)
+  end
+
+  def set_user
+    @user = User.find(params[:user_id])
+  end
+
+  def set_program
+    @program = Program.find(params[:program_id])
   end
 end

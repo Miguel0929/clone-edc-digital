@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   enum role: [ :student, :mentor, :admin ]
 
   has_many :answers
+  has_many :group_users
+  has_many :groups, through: :group_users
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable
 
@@ -33,6 +35,10 @@ class User < ActiveRecord::Base
   def answers_for(chapter)
     questions = chapter.questions
     answers.select { |answer| questions.include?(answer.question) }
+  end
+
+  def programs
+    answers.map{ |asnwer| asnwer.question.chapter_content.chapter.program}.uniq
   end
 
   private

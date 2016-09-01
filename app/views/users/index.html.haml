@@ -1,7 +1,12 @@
-.container
-  .row
-    .col-md-12
-      %table.table.table-border.datatable.responsive
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+      .pull-right
+        .col-xs-12
+          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+      .clearfix
+    .panel-body
+      %table.table.table-hover.datatable
         %thead
           %tr
             %th
@@ -12,8 +17,11 @@
               Teléfono
             %th
               Estado
+            - if current_user.admin?
+              %th
+                Rol
             %th
-              Rol
+              Grupo
             %th
         %tbody
           - @users.each do |user|
@@ -26,8 +34,13 @@
                 = user.phone_number
               %td
                 = user.status
+              - if current_user.admin?
+                %td
+                  = user.huminize_role
+
               %td
-                = user.huminize_role
+                - if user.student? && user.group.nil? == false
+                  = user.group.name
               %td
                 .btn-group
                   %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
@@ -41,4 +54,3 @@
                       = link_to 'Eliminar usuario', user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' }
 
       = link_to 'Invitar usuario', new_user_invitation_path, class: 'btn btn-default'
-

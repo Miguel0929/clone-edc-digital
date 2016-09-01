@@ -1,10 +1,12 @@
-.container
-  .row
-    .col-md-12
-      %h2.text-center
-        Lista de grupos
-
-      %table.table.table-stripped.datatable
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+      .pull-right
+        .col-xs-12
+          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+      .clearfix
+    .panel-body
+      %table.table.table-hover.datatable
         %thead
           %tr
             %th Nombre

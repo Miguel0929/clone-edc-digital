@@ -20,6 +20,6 @@
         = check_box_tag 'group[user_ids][]', user.id, @group.users.include?(user), id: "check_users_#{index}"
         %label{:for => "check_users_#{index}" }
           = user.name
-    %input(type="hidden" name='group[program_ids][]' value="")
+    %input(type="hidden" name='group[user_ids][]' value="")
 
   = f.submit 'Aceptar'
