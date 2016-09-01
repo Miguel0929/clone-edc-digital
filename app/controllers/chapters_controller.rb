@@ -36,7 +36,7 @@ class ChaptersController < ApplicationController
 
   private
   def chapter_params
-    params.require(:chapter).permit(:name)
+    params.require(:chapter).permit(:name, :points)
   end
 
   def set_program
