@@ -1,5 +1,6 @@
 .well
   = bootstrap_form_for([@program, @chapter]) do |f|
     = f.text_field :name, label: 'Nombre del modulo'
+    = f.text_field :points, label: 'Valor del modulo'
     = link_to 'Cancelar', @program, class: 'btn btn-danger'
     = f.submit 'Aceptar'

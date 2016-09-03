@@ -10,4 +10,18 @@ class Answer < ActiveRecord::Base
     return answer_text unless question.question_type == 'checkbox'
     answer_text.split('\n').join(' - ')
   end
+
+  def result
+    return 0 if rubric.nil?
+    case rubric.criteria
+    when 'Deficiente'
+      question.points / 4
+    when 'Regular'
+      question.points / 3
+    when 'Bueno'
+      question.points / 2
+    when 'Excelente'
+      question.points / 1
+    end
+  end
 end

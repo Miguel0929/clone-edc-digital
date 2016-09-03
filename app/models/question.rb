@@ -12,6 +12,7 @@ class Question < ActiveRecord::Base
   accepts_nested_attributes_for :rubrics
 
   validates_presence_of :question_text, :points
+  validates_numericality_of :points
 
   def comments_for(user)
     user_answer = answers.find_by(user: user)
