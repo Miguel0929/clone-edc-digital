@@ -1,0 +1,25 @@
+= bootstrap_form_for @group do |f|
+  = f.text_field :name, label: 'Nombre del grupo'
+  = f.text_field :key, label: 'Clave'
+
+  .form-group
+    %label
+      Lista de pogramas
+    - Program.all.each_with_index do |program, index|
+      .checkbox.check-success
+        = check_box_tag 'group[program_ids][]', program.id, @group.programs.include?(program), id: "check_programs_#{index}"
+        %label{:for => "check_programs_#{index}" }
+          = program.name
+    %input(type="hidden" name='group[program_ids][]' value="")
+
+  .form-group
+    %label
+      Lista de mentores
+    - User.mentors.invitation_accepted.each_with_index do |user, index|
+      .checkbox.check-success
+        = check_box_tag 'group[user_ids][]', user.id, @group.users.include?(user), id: "check_users_#{index}"
+        %label{:for => "check_users_#{index}" }
+          = user.name
+    %input(type="hidden" name='group[user_ids][]' value="")
+
+  = f.submit 'Aceptar'

@@ -1,0 +1,43 @@
+.container
+  .row
+    .col-md-12
+      %h2.text-center
+        Diseño del programa
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title
+            = @program.name
+        .panel-body
+
+          - @program.chapters.each do |chapter|
+            .panel.panel-default
+              .panel-heading
+                %h3.panel-title
+                  = chapter.name
+
+                = link_to program_chapter_path(@program, chapter), method: :delete, data: {confirm: '¿Estás seguro?'}, class: 'pull-right', 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Elimiar modulo' do
+                  %span.glyphicon.glyphicon-remove
+
+                = link_to edit_program_chapter_path(@program, chapter), class: 'pull-right', 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Editar modulo' do
+                  %span.glyphicon.glyphicon-edit
+
+              .panel-body
+                .panel-body
+                  .sortable{'data-update-url'=> sort_chapter_contents_url }
+                    - chapter.chapter_contents.each do |content|
+                      - if content.coursable_type == 'Lesson'
+                        .well{id: "chapter_content_#{content.id}"}
+                          %span.handle-sort
+                            [mover]
+                          %a{href: chapter_lesson_path(chapter, content.model)}
+                            = content.model.identifier
+                      - elsif content.coursable_type == 'Question'
+                        .well{id: "chapter_content_#{content.id}"}
+                          = render partial: 'questions/question', locals: { question: content.model, chapter: chapter}
+
+                .text-center
+                  = link_to 'Agregar contenido', new_chapter_lesson_path(chapter), class: 'btn btn-success'
+                  = link_to 'Agregar pregunta', new_chapter_question_path(chapter), class: 'btn btn-primary'
+
+          .text-center
+            = link_to 'Agregar modulo', new_program_chapter_path(@program), class: 'btn btn-primary'

@@ -1,0 +1,11 @@
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-body
+      %h2.text-center
+        Enviar invitación
+      = bootstrap_form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f|
+        = f.text_field :email, label: 'Correo electrónico'
+        = f.select :role, [["Estudiante", 'student'], ["Mentor", 'mentor']], { label: "Selecione el rol"}
+        = f.collection_select(:group_id, Group.all, :id, :name, label: 'Grupo')
+
+        = f.submit 'Enviar invitación'

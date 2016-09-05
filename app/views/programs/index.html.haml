@@ -1,0 +1,25 @@
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+      .pull-right
+        .col-xs-12
+          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+      .clearfix
+    .panel-body
+      %table.table.table-hover.datatable
+        %thead
+          %tr
+            %th
+              Programa
+            %th
+        %tbody
+          - @programs.each do |program|
+            %tr
+              %td
+                = program.name
+              %td
+                = link_to 'Ver', program_path(program), class: 'btn btn-default'
+                = link_to 'Editar', edit_program_path(program), class: 'btn btn-default'
+                = link_to 'Eliminar', program_path(program), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
+
+      = link_to 'Crear programa', new_program_path, class: 'btn btn-default'

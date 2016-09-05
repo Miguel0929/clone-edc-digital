@@ -1,0 +1,83 @@
+-#.container
+  -#.row
+    -#.col-md-12
+      -#%h2.text-center
+        -#Detalles del #{@user.huminize_role}: #{@user.name}
+
+      -#%table.table.table-striped
+        -#%tbody
+          -#%tr
+            -#%th
+              -#Nombre
+            -#%td
+              -#= @user.name
+          -#%tr
+            -#%th
+              -#Correo electrónico
+            -#%td
+              -#= @user.email
+          -#%tr
+            -#%th
+              -#Teléfono
+            -#%td
+              -#= @user.phone_number
+          -#%tr
+            -#%th
+              -#Ciudad de origen
+            -#%td
+              -#Monterrey, Nuevo León
+
+      -#= link_to 'Editar información', edit_user_path(@user), class: 'btn btn-default'
+.container-fluid.container-fixed-lg
+  %h3 Detalles del Alumno: #{@user.name}
+  .panel.panel-default
+    .panel-body
+      .row
+        .col-md-2
+          .share.share-other.m-t-5
+            .card-content
+              = image_tag('person-1-square.jpg', class: 'img-responsive')
+              .card-header.clearfix
+                %h6
+                  = @user.name
+                %p.small.hint-text.m-t-5 Monterrey, Nuevo León, México
+                %p.small.hint-text.m-t-5
+                  %span
+                    24% de avance
+                    %i.fa.fa-line-chart
+        .col-md-10
+          %table.table.resumen-table.table-striped.table-top-border.perfil-table
+            %tbody
+              %tr.odd.gradeX
+                %td{:width => "25%"} Nombre
+                %td
+                  = @user.name
+              %tr.odd.gradeX
+                %td Correo electrónico
+                %td
+                  = @user.email
+              %tr.odd.gradeX
+                %td Teléfono
+                %td
+                  = @user.phone_number
+              %tr.odd.gradeX
+                %td Ciudad de Origen
+                %td Monterrey, Nuevo León, México
+              %tr.odd.gradeX
+                %td Fecha de inicio del programa
+                %td 24 de Marzo de 2016
+              %tr.odd.gradeX
+                %td Cursos inscritos
+                %td
+                  - @user.programs.each do |program|
+                    \-
+                    = link_to program.name, user_program_answers_path(@user, program)
+                    %br
+            %button.btn.btn-sm.btn-primary.btn-cons.m-b-10{:type => "button"}
+              %i.fa.fa-envelope
+              %span.bold Enviar correo electrónico
+            %button.btn.btn-sm.btn-info.btn-cons.m-b-10{:type => "button"}
+              %i.fa.fa-tasks
+              %span.bold Ir a rúbrica de evaluación
+    / final de PANEL tabla
+    / END PLACE PAGE CONTENT HERE

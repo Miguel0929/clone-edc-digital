@@ -1,0 +1,88 @@
+-#.container
+  -#.row
+    -#.col-md-12
+      -#%h2.text-center
+        -#= @question.question_text
+      -#%div
+        -#.well
+          -#= bootstrap_form_for([:dashboard, @chapter_content, @answer]) do |f|
+            -#= f.hidden_field :user_id
+            -#= f.hidden_field :question_id
+
+            -#= render partial: "/dashboard/answers/inputs/#{@question.question_type}", locals: { disabled: true, f: f}
+
+            -#.text-right
+              -#= link_to 'Editar respuesta', edit_dashboard_chapter_content_answer_path(@chapter_content, @answer), class: 'btn btn-default'
+
+        -#.chapter-content-navigation
+          -#- if @chapter_content.higher_item
+            -#= link_to 'Anterior', dashboard_chapter_content_path(@chapter_content.higher_item), class: 'btn btn-default'
+          -#- if @chapter_content.lower_item
+            -#= link_to 'Siguinte', dashboard_chapter_content_path(@chapter_content.lower_item), class: 'btn btn-default pull-right'
+
+        -#%h3.text-center
+          -#Comentarios
+
+        -#- @answer.comments.each do |comment|
+          -#.well
+            -#%h5
+              -#= comment.user.name
+
+            -#= comment.content
+
+        -#= bootstrap_form_for([:dashboard, @answer, Comment.new]) do |f|
+          -#= f.text_area :content, hide_label: true, rows: 3, placeholder: 'Escribe un comentario'
+          -#= f.submit 'Comentar'
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .panel-title.pull-right
+        %a.btn.btn-sm.btn-success.btn-cons.m-b-10{href: edit_dashboard_chapter_content_answer_path(@chapter_content, @answer)}
+          %i.fa.fa-edit
+          %span.bold Editar respuesta
+      .clearfix
+    .panel-body
+      .row
+        .col-md-10.col-md-offset-1
+          .padding-30.m-t-50.p-b-100
+            %i.fa.fa-tasks.fa-2x.hint-text
+            %h2
+              = @question.question_text
+            = bootstrap_form_for([:dashboard, @chapter_content, @answer]) do |f|
+              = f.hidden_field :user_id
+              = f.hidden_field :question_id
+
+              = render partial: "/dashboard/answers/inputs/#{@question.question_type}", locals: { disabled: true, f: f}
+
+            %p.small.hint-text.m-t-15
+              = @question.support_text
+      .row
+        .col-sm-12
+          - if @chapter_content.higher_item
+            .pull-left
+              %a.btn.btn-sm.btn-info.btn-cons.m-b-10{href: dashboard_chapter_content_path(@chapter_content.higher_item)}
+                %i.fa.fa-backward
+                %span.bold Anterior
+          - if @chapter_content.lower_item
+            .pull-right
+              %a.btn.btn-sm.btn-info.btn-cons.m-b-10{href: dashboard_chapter_content_path(@chapter_content.lower_item)}
+                %span.bold Siguiente
+                %i.fa.fa-forward
+
+  %section.timeline
+    - @answer.comments.each do |comment|
+      .timeline-block
+        .timeline-content
+          .card.share.full-width
+            .card-header.clearfix
+              %h5
+                = comment.user.name
+            .card-description
+              %p
+                = comment.content
+    .row.text-center
+      .col-md-12
+        = bootstrap_form_for([:dashboard, @answer, Comment.new]) do |f|
+          = f.text_area :content, hide_label: true, rows: 3, placeholder: 'Escribe un comentario', rows: 10
+          = f.submit 'Agregar nuevo comentario', class: 'btn btn-primary btn-lg'

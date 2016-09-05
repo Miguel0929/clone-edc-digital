@@ -1,0 +1,22 @@
+.well
+  = bootstrap_form_for([@chapter, @question]) do |f|
+    = f.text_field :question_text, label: 'Pregunta'
+    = f.text_field :support_text, label: 'Información de apoyo'
+    = f.select :question_type, Question::TYPES, { label: "Tipo de pregunta" }
+    = f.text_area :answer_options, label: 'Respuestas', rows: 8
+    = f.text_field :points, label: 'Valor de esta pregunta'
+
+    %h3
+      Criterios de evaluación
+    %hr
+
+    = f.fields_for :rubrics do |ff|
+      .row
+        .col-md-4
+          = ff.text_field :criteria, label: 'Criterio', disabled: true
+          = ff.hidden_field :criteria
+        .col-md-8
+          = ff.text_area :base, label: 'Base de evaluación'
+
+    = link_to 'Cancelar', @chapter.program, class: 'btn btn-danger'
+    = f.submit 'Aceptar'

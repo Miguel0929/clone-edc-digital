@@ -1,56 +1,59 @@
 Rails.application.routes.draw do
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  devise_for :users
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  devise_scope :user do
+    root :to => 'devise/sessions#new'
+  end
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  resources :programs do
+    resources :chapters, except: [:index, :show]
+  end
 
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  resources :chapters, only: [] do
+    resources :lessons, except: [:index]
+    resources :questions, except: [:index, :show]
+  end
 
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
 
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
+  resources :chapter_contents, only: [] do
+    collection do
+      post :sort
+    end
+  end
 
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
+  namespace :dashboard do
+    resources :programs, only: [:index, :show] do
+      member do
+        get :resume
+      end
+    end
 
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
+    resources :chapter_contents, path: 'course', only: [:show] do
+      resources :answers, only: [:show, :new, :create, :update, :edit] do
+        collection do
+          get :router
+        end
+      end
+    end
 
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
+    resources :answers, only: [] do
+      resources :comments, only: [:create]
+    end
+  end
 
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+
+  resources :users, only: [:index, :show, :edit, :update, :destroy] do
+    collection do
+      get :mentors
+      get :students
+    end
+
+    resources :programs, only: [] do
+      resources :answers, only: [:index, :edit, :update]
+    end
+  end
+
+  resources :groups
+
+  mount Ckeditor::Engine => '/ckeditor'
 end

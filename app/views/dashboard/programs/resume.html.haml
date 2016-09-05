@@ -1,0 +1,83 @@
+.container-fluid.container-fixed-lg
+  %h2
+    Rúbrica de evaluación
+  .panel.panel-default
+    .panel-body
+      %table.table.resumen-table.table-striped.rubrica-table
+        %thead
+          %tr
+            %th
+            - @program.chapters.each do |chapter|
+              %th
+                = chapter.name
+            %th
+              Total
+        %tbody
+          %tr.odd.gradeX
+            %td
+              Puntos
+            - @program.chapters.each do |chapter|
+              %td
+                #{current_user.answers_for(chapter).map(&:result).inject(0, :+)} / 100
+            %td
+          %tr.odd.gradeX
+            %td
+              Ponderado
+            - @program.chapters.each do |chapter|
+              %td.result
+                #{(current_user.answers_for(chapter).map(&:result).inject(0, :+) * chapter.points) / 100}
+            %td.total
+
+  %h2
+    Resumen del proyecto
+  - @program.chapters.each do |chapter|
+    .panel.panel-default
+      .panel-heading
+        %h3.panel-title
+          = chapter.name
+      .panel-body
+
+        %table.table.table-striped
+          %thead
+            %tr
+              %th
+                Pregunta
+              %th
+                Respuesta
+              %th
+                Evaluación
+              %th
+                Detalle de evaluación
+              %th
+          %tbody
+            - current_user.answers_for(chapter).each do |answer|
+              %tr
+                %td
+                  = answer.question.question_text
+                %td
+                  = answer.humanize_answer
+                %td
+                  - unless answer.rubric.nil?
+                    = image_for_rubric(answer.rubric.criteria)
+                    = answer.rubric.criteria
+                %td
+                  - unless answer.rubric.nil?
+                    = answer.rubric.base
+                %td
+                  = link_to edit_dashboard_chapter_content_answer_path(answer.question.chapter_content, answer), class: 'btn btn-default' do
+                    %span.glyphicon.glyphicon-edit
+
+                  = link_to dashboard_chapter_content_answer_path(answer.question.chapter_content, answer), class: 'btn btn-default' do
+                    %i.fa.fa-eye
+:javascript
+  $(document).on('turbolinks:load', function(){
+    var EDC_DIGITAL =  EDC_DIGITAL || {};
+    EDC_DIGITAL.total = 0;
+
+    $('td.result').each(function(){
+     EDC_DIGITAL.total += +$(this).text();
+    });
+
+    $('td.total').text(EDC_DIGITAL.total);
+  });
+

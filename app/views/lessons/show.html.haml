@@ -1,0 +1,11 @@
+.container
+  .row
+    .col-md-12
+      = link_to 'Atras', program_path(@chapter.program), class: 'btn btn-default'
+      = link_to 'Editar', edit_chapter_lesson_path(@chapter, @lesson), class: 'btn btn-default'
+      = link_to 'Eliminar', chapter_lesson_path(@chapter, @lesson), method: :delete, data: { confirm: '¿Estás seguro?'}, class: 'btn btn-default'
+
+      %h2.text-center
+        = @lesson.identifier
+
+      = raw @lesson.content

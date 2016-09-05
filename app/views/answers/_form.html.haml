@@ -1,0 +1,19 @@
+= bootstrap_form_for([@user, @program, @answer]) do |f|
+  .radio.radio-success.radio-rubrica
+    - @answer.question.rubrics.each_with_index do |rubric, index|
+      .row
+        %input{name: 'answer[rubric_id]', checked: @answer.rubric == rubric, id: "radio_#{index}", type: 'radio', value: rubric.id}
+        %label{for: "radio_#{index}"}
+          %div
+            .profile-img-wrapper.lessbig.m-t-5.inline
+              = image_for_rubric(rubric.criteria)
+              .chat-status.available
+            .rubrica-value-description
+              %h6.small.m-b-0
+                = rubric.criteria
+              %p.small.hint-text.m-t-0
+                = rubric.base
+
+    = link_to 'Cancelar', user_program_answers_path(@user, @program), class: 'btn btn-danger'
+    = f.submit 'Guardar'
+

@@ -1,0 +1,5 @@
+.well
+  = bootstrap_form_for(@program) do |f|
+    = f.text_field :name, label: 'Nombr del programa'
+    = link_to 'Cancelar', programs_path, class: 'btn btn-danger'
+    = f.submit 'Aceptar'
