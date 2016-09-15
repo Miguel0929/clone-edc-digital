@@ -1,7 +1,7 @@
 .well
   = bootstrap_form_for([@chapter, @question]) do |f|
     = f.text_field :question_text, label: 'Pregunta'
-    = f.text_field :support_text, label: 'Información de apoyo'
+    = f.text_area :support_text, label: 'Información de apoyo'
     = f.select :question_type, Question::TYPES, { label: "Tipo de pregunta" }
     = f.text_area :answer_options, label: 'Respuestas', rows: 8
     = f.text_field :points, label: 'Valor de esta pregunta'
