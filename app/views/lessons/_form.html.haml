@@ -2,6 +2,7 @@
   = bootstrap_form_for([@chapter, @lesson]) do |f|
     = f.text_field :identifier, label: 'Identificador'
     = f.cktext_area :content, ckeditor: { language: 'es'}
+    = f.text_field :video_url, label: 'URL del video'
     %br
     = link_to 'Cancelar', @chapter.program, class: 'btn btn-danger'
     = f.submit 'Aceptar'

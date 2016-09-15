@@ -43,7 +43,7 @@ class LessonsController < ApplicationController
 
   private
   def lesson_params
-    params.require(:lesson).permit(:content, :identifier)
+    params.require(:lesson).permit(:content, :identifier, :video_url)
   end
 
   def set_chapter
