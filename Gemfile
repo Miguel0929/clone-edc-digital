@@ -25,9 +25,10 @@ gem 'acts_as_list'
 gem 'jquery-ui-rails'
 gem "paranoia", "~> 2.0"
 gem "font-awesome-rails"
+gem 'modernizr-rails'
 
 source 'https://rails-assets.org' do
-   gem 'rails-assets-bootstrap'
+  gem 'rails-assets-bootstrap'
 end
 
 group :development, :test do
