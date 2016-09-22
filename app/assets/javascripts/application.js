@@ -22,4 +22,6 @@
 //= require turbolinks
 //= require bootstrap
 //= require ckeditor/init
-//= require_tree .
+//= require datatables
+//= require sortable
+//= require tooltip
