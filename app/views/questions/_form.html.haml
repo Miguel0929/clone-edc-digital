@@ -3,7 +3,21 @@
     = f.text_field :question_text, label: 'Pregunta'
     = f.text_area :support_text, label: 'Información de apoyo'
     = f.select :question_type, Question::TYPES, { label: "Tipo de pregunta" }
-    = f.text_area :answer_options, label: 'Respuestas', rows: 8
+    = f.text_area :answer_options, hide_label: true, rows: 8, class: 'hide'
+    #question-answers
+      %br
+      .row
+        .col-md-4
+          .input-group
+            %input#answer-option.form-control{:placeholder => "Respuesta", :type => "text"}/
+            %span.input-group-btn
+              %button#addAnswer.btn.btn-default{:type => "button"}
+                Agregar
+      .row
+        %h6
+          Respuestas
+        %ul#answers-list
+    %br
     = f.text_field :points, label: 'Valor de esta pregunta'
 
     %h3
@@ -20,3 +34,69 @@
 
     = link_to 'Cancelar', @chapter.program, class: 'btn btn-danger'
     = f.submit 'Aceptar'
+
+:javascript
+  $(document).on('turbolinks:load', function(){
+    setAnswersOptions();
+    var questionType = $('#question_question_type').val();
+    setVisibility(questionType);
+
+    $('#addAnswer').click(function(){
+      var option = $('#answer-option').val();
+      if(!option || /^\s*$/.test(option)){
+        return true;
+      }
+
+      $('#answers-list').append(getOptionElement(option));
+      $('#answer-option').val('');
+      formatTextArea();
+    });
+
+    $('#question_question_type').on('change', function(){
+      setVisibility($(this).val());
+    });
+
+    function setVisibility(questionType){
+      if(questionType == 'checkbox' || questionType == 'radio' || questionType == 'dropdown') {
+        $('#question-answers').show();
+      }
+      else {
+        $('#question-answers').hide();
+      }
+    }
+
+    function setAnswersOptions(){
+      var answers = $('#question_answer_options').val().split('\n');
+      $('#answers-list').html('');
+      $.each(answers, function(key, answer){
+        if(!(!answer || /^\s*$/.test(answer))){
+          $('#answers-list').append(getOptionElement(answer));
+        }
+      });
+    }
+
+    function getOptionElement(answer){
+      return $('<li>')
+            .append(answer)
+            .attr('class', 'asnwer-option')
+            .append(
+              $('<a>')
+              .attr('href', 'javascript:void(0)').append(
+                $('<span>').attr('class', 'glyphicon glyphicon-remove')
+              )
+              .click(function(){
+                $(this).parent().remove();
+                formatTextArea();
+              })
+            )
+    }
+
+    function formatTextArea(){
+      var answers = [];
+      $.each($('.asnwer-option'), function(key, element){
+        answers.push(element.textContent)
+      });
+
+      $('#question_answer_options').val(answers.join('\n'));
+    }
+  });
