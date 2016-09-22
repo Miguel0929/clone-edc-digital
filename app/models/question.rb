@@ -12,6 +12,7 @@ class Question < ActiveRecord::Base
   accepts_nested_attributes_for :rubrics
 
   validates_presence_of :question_text, :points
+  validates_presence_of :answer_options, if: :options_question?
   validates_numericality_of :points
 
   def comments_for(user)
@@ -21,5 +22,9 @@ class Question < ActiveRecord::Base
 
   def chapter_content
     ChapterContent.find_by(coursable_id: self.id, coursable_type: 'Question')
+  end
+
+  def options_question?
+    checkbox? || dropdown? || radio?
   end
 end

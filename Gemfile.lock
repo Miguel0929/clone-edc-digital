@@ -254,6 +254,7 @@ GEM
     mini_magick (4.5.1)
     mini_portile2 (2.1.0)
     minitest (5.9.0)
+    modernizr-rails (2.7.1)
     multi_json (1.12.1)
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
@@ -399,6 +400,7 @@ DEPENDENCIES
   jquery-turbolinks
   jquery-ui-rails
   mini_magick
+  modernizr-rails
   paranoia (~> 2.0)
   pg (~> 0.15)
   pry-rails
