@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160927164323) do
+ActiveRecord::Schema.define(version: 20160927201609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,6 +128,16 @@ ActiveRecord::Schema.define(version: 20160927164323) do
   end
 
   add_index "rubrics", ["question_id"], name: "index_rubrics_on_question_id", using: :btree
+
+  create_table "trackers", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "chapter_content_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "trackers", ["chapter_content_id"], name: "index_trackers_on_chapter_content_id", using: :btree
+  add_index "trackers", ["user_id"], name: "index_trackers_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
