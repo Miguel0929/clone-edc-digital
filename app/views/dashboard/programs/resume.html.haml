@@ -58,7 +58,7 @@
                   = answer.humanize_answer
                 %td
                   - unless answer.rubric.nil?
-                    = image_for_rubric(answer.rubric.criteria)
+                    = image_tag(image_for_rubric(answer.rubric.criteria), width: 50)
                     = answer.rubric.criteria
                 %td
                   - unless answer.rubric.nil?

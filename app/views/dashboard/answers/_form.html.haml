@@ -1,10 +1,39 @@
-= bootstrap_form_for([:dashboard, @chapter_content, @answer]) do |f|
-  = f.hidden_field :user_id
-  = f.hidden_field :question_id
+.container-fluid.container-fixed-lg
+  = bootstrap_form_for([:dashboard, @chapter_content, @answer]) do |f|
+    .panel.panel-default
+      .panel-heading
+        .panel-title.question-title
+          = @chapter_content.chapter.name
+        .panel-title.pull-right
+          - unless @answer.rubric.nil?
+            = image_tag(image_for_rubric(@answer.rubric.criteria), :class=> 'rating-image',"data-original-title" => "Esta pregunta ha sido evaluada como #{@answer.rubric.criteria.downcase}", "data-toggle" => "tooltip")
+          %button.btn.btn-sm.btn-success.btn-cons.m-b-10{:type => "submit"}
+            %i.fa.fa-save
+            Guardar respuesta
+        .clearfix
+      .panel-body
+        .row
+          .col-md-10.col-md-offset-1
+            .padding-30.m-t-50.p-b-100
+              %i.fa.fa-tasks.fa-2x.hint-text
+              %h2
+                = @question.question_text
+              = f.hidden_field :user_id
+              = f.hidden_field :question_id
 
-  = render partial: "/dashboard/answers/inputs/#{@question.question_type}", locals: { disabled: false, f: f}
+              = render partial: "/dashboard/answers/inputs/#{@question.question_type}", locals: { disabled: disabled, f: f}
 
-  .text-right
-    %button.btn.btn-sm.btn-success.btn-cons.m-b-10{:type => "submit"}
-      %i.fa.fa-save
-      %span.bold Guardar respuesta
+              %p.small.hint-text.m-t-15
+                = @question.support_text
+        .row
+          .col-sm-12
+            - if @chapter_content.higher_item
+              .pull-left
+                %a.btn.btn-sm.btn-info.btn-cons.m-b-10{href: dashboard_chapter_content_path(@chapter_content.higher_item)}
+                  %i.fa.fa-backward
+                  %span.bold Anterior
+            - if @chapter_content.lower_item
+              .pull-right
+                %a.btn.btn-sm.btn-info.btn-cons.m-b-10{href: dashboard_chapter_content_path(@chapter_content.lower_item)}
+                  %span.bold Siguiente
+                  %i.fa.fa-forward

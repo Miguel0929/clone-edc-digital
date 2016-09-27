@@ -4,6 +4,9 @@ class Dashboard::AnswersController < ApplicationController
   before_action :validate_coursable_type
   before_action :build_question
 
+  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "programas", :dashboard_programs_path
+
   def router
     answer = build_answer
 
@@ -16,10 +19,16 @@ class Dashboard::AnswersController < ApplicationController
 
   def show
     @answer = Answer.find(params[:id])
+
+    add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
+    add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@question.question_text}</a>".html_safe
   end
 
   def new
     @answer = build_answer
+
+    add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
+    add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@question.question_text}</a>".html_safe
   end
 
   def create
@@ -32,12 +41,18 @@ class Dashboard::AnswersController < ApplicationController
     if @answer.save
       redirect_to dashboard_chapter_content_answer_path(@chapter_content, @answer)
     else
+      add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
+      add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@question.question_text}</a>".html_safe
+
       render :new
     end
   end
 
   def edit
     @answer = Answer.find(params[:id])
+
+    add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
+    add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@question.question_text}</a>".html_safe
   end
 
   def update
@@ -51,8 +66,12 @@ class Dashboard::AnswersController < ApplicationController
       redirect_to dashboard_chapter_content_answer_path(@chapter_content, @answer)
 
     else
+      add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
+      add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@question.question_text}</a>".html_safe
+
       render :new
     end
+
   end
 
   private
