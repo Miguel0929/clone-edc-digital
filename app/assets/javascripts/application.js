@@ -23,4 +23,5 @@
 //= require bootstrap
 //= require ckeditor/init
 //= require modernizr
+//= require jquery.scrollbar
 //= require_tree .
