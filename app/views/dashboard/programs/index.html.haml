@@ -14,10 +14,10 @@
               .card.share.share-other{"data-social" => "item"}
                 .card-content
                   %a{:href => dashboard_program_path(program)}
-                    = image_tag("person-1-square.jpg")
+                    = image_tag(program.cover.url)
                   %a{:href => dashboard_program_path(program)}
                     .card-header.clearfix
                       %h5
                         = program.name
                       %h6
-                        Breve descripción
+                        = program.description
