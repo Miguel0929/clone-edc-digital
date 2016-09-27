@@ -2,12 +2,63 @@
 %html
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %title EDC Digital
+    %title
+      = content_for?(:title) ? yield(:title) : "EDCdigital"
+    %meta{:name => "viewport", :content=>"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no"}/
+    %meta{:content => "Primer plataforma diseñada para construir y validar tu idea de negocio, en lo comercial, técnico y financiero.", :name => "description"}/
+    %meta{:content => "emprendedor, emprendedores, emprendimiento, financiamiento, jóvenes, finanzas, capacitación, curso, inversión, capital, privado", :name => "keywords"}/
+    %meta{:content => "Distrito Emprendedor", :name => "author"}/
+    %meta{:content => "summary_large_image", :name => "twitter:card"}/
+    %meta{:content => "@DistritoEmprend", :name => "twitter:site"}/
+    %meta{:content => "Construye y valida tu idea de negocio, desde cero.", :name => "twitter:title"}/
+    %meta{:content => "Primer plataforma diseñada para construir y validar tu idea de negocio, en lo comercial, técnico y financiero.", :name => "twitter:description"}/
+    %meta{:content => "#{image_url('landing-emprendiendo-desde-cero.jpg')}", :name => "twitter:image:src"}/
+    %meta{:content => "Construye y valida tu idea de negocio, desde cero.", :property => "og:title"}/
+    %meta{:content => "website", :property => "og:type"}/
+    %meta{:content => "#{image_url('landing-emprendiendo-desde-cero.jpg')}", :property => "og:image"}/
+    %meta{:content => "http://edcdigital.mx", :property => "og:url"}/
+    %meta{:content => "Primer plataforma diseñada para construir y validar tu idea de negocio, en lo comercial, técnico y financiero.", :property => "og:description"}/
+
+    = favicon_link_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
 
-  %body.fixed-header.horizontal-menu
+  %body.fixed-header.menu-behind
+    %nav.page-sidebar{"data-pages" => "sidebar"}
+      .sidebar-header
+        = image_tag('logo-edc-color-horizontal.png', height: 40)
+      .sidebar-menu
+        %ul.menu-items
+          %li.m-t-30
+            %a.detailed{:href => "index.html"}
+              %span.title Inicio
+              %span.details Bienvenido a EDCdigital
+            %span.icon-thumbnail
+              %i.fa.fa-home
+          %li
+            %a.detailed{:href => "builder.html"}
+              %span.title Programas
+              %span.details Cursos en EDCdigital
+            %span.bg-success.icon-thumbnail
+              %i.pg-layouts
+          %li
+            %a{:href => "javascript:;"}
+              %span.title Configuración
+              %span.arrow
+            %span.icon-thumbnail
+              %i.pg-settings
+            %ul.sub-menu
+              %li
+                %a{:href => "default_layout.html"} Perfil
+                %span.icon-thumbnail Pf
+              %li
+                %a{:href => "default_layout.html"} Ayuda
+                %span.icon-thumbnail Ay
+              %li
+                %a{:href => "secondary_layout.html"} Cerrar sesión
+                %span.icon-thumbnail Cs
+        .clearfix
     .page-container
       .header
         .container-fluid.relative
@@ -17,40 +68,63 @@
                 %span.icon-set.menu-hambuger
           .pull-center.hidden-md.hidden-lg
             .header-inner
-              .brand.inline.brand-clean
-                = image_tag('logo-edc-color-horizontal.png', height: 22, width: 78)
-          .pull-right.full-height.visible-sm.visible-xs
-            .header-inner
-              %a.btn-link.visible-sm-inline-block.visible-xs-inline-block{"data-toggle" => "quickview", "data-toggle-element" => "#quickview", :href => "#"}
-                %span.icon-set.menu-hambuger-plus
+              .brand.inline
+                = image_tag('logo-edc-color-horizontal.png', height: 40)
         .pull-left.sm-table.hidden-xs.hidden-sm
           .header-inner
-            .brand.inline.brand-clean
-              = image_tag('logo-edc-color-horizontal.png', height: 50)
+            .brand.inline
+              = image_tag('logo-edc-color-horizontal.png', height: 40)
+            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-l.b-r.no-style.p-l-30.p-r-20
+              %li.p-r-15.inline
+                .dropdown
+                  %a#notification-center.icon-set.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
+                    %span.bubble
+        .pull-right
+          .visible-lg.visible-md.m-t-10
+            .pull-left.p-r-10.p-t-10.fs-16.font-heading
+              %span.semi-bold David
+              %span.text-master Nest
+            .dropdown.pull-right
+              %button.profile-dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+                %span.thumbnail-wrapper.d32.circular.inline.m-t-5
+                  = image_tag('rubensito-01.png', height: 32)
+              %ul.dropdown-menu.profile-dropdown{:role => "menu"}
+                %li
+                  %a{:href => "#"}
+                    %i.pg-settings_small
+                    Configuraciones
+                %li
+                  %a{:href => "mailto:soporte@edcdigital.mx"}
+                    %i.pg-signals
+                    Ayuda
+                %li.bg-master-lighter
+                  %a.clearfix{:href => "#"}
+                    %span.pull-left Cerrar sesión
+                    %span.pull-right
+                      %i.pg-power
 
       .page-content-wrapper
         .content
-          .bar.bar-gray
-            .pull-right
-              %a.text-black.padding-10.visible-xs-inline.visible-sm-inline.pull-right.m-t-10.m-b-10.m-r-10.on{"data-pages" => "horizontal-menu-toggle", :href => "#"}
-                %i.pg-close_line
-            .bar-inner.bar-inner-clean-2
-              %ul
-                - if user_signed_in?
-                  = display_navbar_link('Grupos', groups_path, [:admin])
-                  = display_navbar_link('Mentores', mentors_users_path, [:admin])
-                  = display_navbar_link('Estudiantes', students_users_path, [:admin, :mentor])
-                  = display_navbar_link('Diseño de programas', programs_path, [:admin])
-                  = display_navbar_link('Programas de Aprendizaje', dashboard_programs_path, [:student])
-                %li.classic
-                  %a{:href => "javascript:;"}
-                    %span.glyphicon.glyphicon-user
-                    %span.arrow
-                  %ul.classic.classic-3
-                    - if user_signed_in?
-                      %li
-                        = link_to 'Salir', destroy_user_session_path, method: :delete
-                    - else
-                      %li
-                        = link_to 'Iniciar sesión', new_user_session_path
+          .jumbotron.bg-white{"data-pages" => "parallax"}
+            .container-fluid.container-fixed-lg
+              .inner
+                %ul.breadcrumb
+                  = render_breadcrumbs :tag => :li, separator: ''
+                  -#%li
+                    -#%a{:href => "#"} EDCdigital
+                  -#%li
+                    -#%a.active{:href => "#"} Programas
           = yield
+
+        .container-fluid.container-fixed-lg.footer
+          .copyright.sm-text-center
+            %p.small.no-margin.pull-left.sm-pull-reset
+              %span.hint-text Copyright © 2016
+              = succeed "." do
+                %span.font-montserrat Distrito Emprendedor
+              %span.hint-text Todos los derechos reservados.
+              %span.sm-block
+                %a.m-l-10.m-r-10{:href => "#"} Términos de uso
+                |
+                %a.m-l-10{:href => "#"} Política de Privacidad
+            .clearfix
