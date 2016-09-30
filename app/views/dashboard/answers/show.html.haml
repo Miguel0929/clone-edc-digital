@@ -18,6 +18,7 @@
             .pull-right
               - unless @question.support_image.nil?
                 = image_tag(@question.support_image.url, class: 'img-responsive')
+            .clearfix
             %h2
               = @question.question_text
             = bootstrap_form_for([:dashboard, @chapter_content, @answer]) do |f|
