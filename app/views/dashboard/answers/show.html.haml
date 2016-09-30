@@ -15,6 +15,9 @@
         .col-md-10.col-md-offset-1
           .padding-30.m-t-50.p-b-100
             %i.fa.fa-tasks.fa-2x.hint-text
+            .pull-right
+              - unless @question.support_image.nil?
+                = image_tag(@question.support_image.url, class: 'img-responsive')
             %h2
               = @question.question_text
             = bootstrap_form_for([:dashboard, @chapter_content, @answer]) do |f|
@@ -54,7 +57,7 @@
                 %h5
                   = comment.user.name
                 %h6
-                  = comment.created_at.strftime('%d %B %Y, %H:%M %p')
+                  = l comment.created_at, format: :special
               .card-description
                 %p
                   = comment.content

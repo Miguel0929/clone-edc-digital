@@ -56,8 +56,9 @@
                 %a{:href => "default_layout.html"} Ayuda
                 %span.icon-thumbnail Ay
               %li
-                %a{:href => "secondary_layout.html"} Cerrar sesión
-                %span.icon-thumbnail Cs
+                = link_to destroy_user_session_path, method: :delete do
+                  Cerrar sesión
+                  %span.icon-thumbnail Cs
         .clearfix
     .page-container
       .header
@@ -98,7 +99,7 @@
                     %i.pg-signals
                     Ayuda
                 %li.bg-master-lighter
-                  %a.clearfix{:href => "#"}
+                  = link_to destroy_user_session_path, method: :delete, class: 'clearfix' do
                     %span.pull-left Cerrar sesión
                     %span.pull-right
                       %i.pg-power
