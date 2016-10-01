@@ -30,35 +30,66 @@
         = image_tag('logo-edc-blanco-horizontal.png', height: 40)
       .sidebar-menu
         %ul.menu-items
-          %li.m-t-30
-            %a.detailed{:href => root_path}
-              %span.title Inicio
-              %span.details Bienvenido a EDCdigital
-            %span.icon-thumbnail
-              %i.fa.fa-home
-          %li
-            %a.detailed{:href => dashboard_programs_path}
-              %span.title Programas
-              %span.details Cursos en EDCdigital
-            %span.bg-success.icon-thumbnail
-              %i.pg-layouts
-          %li
-            %a{:href => "javascript:;"}
-              %span.title Configuración
-              %span.arrow
-            %span.icon-thumbnail
-              %i.pg-settings
-            %ul.sub-menu
-              %li
-                %a{:href => "default_layout.html"} Perfil
-                %span.icon-thumbnail Pf
-              %li
-                %a{:href => "mailto:soporte@edcdigital.mx"} Ayuda
-                %span.icon-thumbnail Ay
-              %li
-                = link_to destroy_user_session_path, method: :delete do
-                  Cerrar sesión
-                  %span.icon-thumbnail Cs
+          - if current_user.admin?
+            %li.m-t-30
+              %a.detailed{:href => groups_path}
+                %span.title Grupos
+                %span.details Grupos de la plataforma
+              %span.icon-thumbnail
+                %i.fa.fa-users
+
+            %li.m-t-30
+              %a.detailed{:href => mentors_users_path}
+                %span.title Mentores
+                %span.details Mentores de la plataforma
+              %span.icon-thumbnail
+                %i.fa.fa-briefcase
+
+            %li.m-t-30
+              %a.detailed{:href => programs_path}
+                %span.title Programas
+                %span.details Diseño de programas
+              %span.icon-thumbnail
+                %i.fa.fa-list-alt
+
+          - if current_user.admin? || current_user.mentor?
+            %li.m-t-30
+              %a.detailed{:href => students_users_path}
+                %span.title Estudiantes
+                %span.details Estudiantes de la plataforma
+              %span.icon-thumbnail
+                %i.fa.fa-book
+
+          - if current_user.student?
+            %li.m-t-30
+              %a.detailed{:href => root_path}
+                %span.title Inicio
+                %span.details Bienvenido a EDCdigital
+              %span.icon-thumbnail
+                %i.fa.fa-home
+            %li
+              %a.detailed{:href => dashboard_programs_path}
+                %span.title Programas
+                %span.details Cursos en EDCdigital
+              %span.icon-thumbnail
+                %i.pg-layouts
+            %li
+              %a{:href => "javascript:;"}
+                %span.title Configuración
+                %span.arrow
+              %span.icon-thumbnail
+                %i.pg-settings
+              %ul.sub-menu
+                %li
+                  %a{:href => "default_layout.html"} Perfil
+                  %span.icon-thumbnail Pf
+                %li
+                  %a{:href => "mailto:soporte@edcdigital.mx"} Ayuda
+                  %span.icon-thumbnail Ay
+                %li
+                  = link_to destroy_user_session_path, method: :delete do
+                    Cerrar sesión
+                    %span.icon-thumbnail Cs
         .clearfix
     .page-container
       .header
@@ -83,8 +114,10 @@
         .pull-right
           .visible-lg.visible-md.m-t-10
             .pull-left.p-r-10.p-t-10.fs-16.font-heading
-              %span.semi-bold David
-              %span.text-master Nest
+              %span.semi-bold
+                = current_user.first_name
+              %span.text-master
+                = current_user.last_name
             .dropdown.pull-right
               %button.profile-dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
                 %span.thumbnail-wrapper.d32.circular.inline.m-t-5

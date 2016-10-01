@@ -45,6 +45,10 @@ class User < ActiveRecord::Base
     answers.map{ |asnwer| asnwer.question.chapter_content.chapter.program}.uniq
   end
 
+  def has_answer_question?(model)
+    !answers.where(question: model).empty?
+  end
+
   private
   def assign_group
     if mentor?

@@ -56,7 +56,13 @@
                                 - elsif content.coursable_type == 'Question'
                                   = content.model.question_text
                               %td
-                                %span.label.label-success Completado
+                                - if content.coursable_type == 'Lesson'
+                                  %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? '' : 'label-success'}"}
+                                    = current_user.trackers.find_by(chapter_content: content).nil? ? 'Nuevo' : 'Completado'
+                                - elsif content.coursable_type == 'Question'
+                                  %span.label{class: "#{current_user.has_answer_question?(content.model) ? 'label-success' : ''}"}
+                                    = current_user.has_answer_question?(content.model) ? 'Completado' : 'Nuevo'
+
                               %td
                                 - if content.coursable_type == 'Question'
                                   Comentarios
