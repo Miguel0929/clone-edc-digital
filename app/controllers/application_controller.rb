@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
     elsif resource.mentor?
       students_users_path
     elsif resource.student?
-      dashboard_programs_path
+      welcome_path
     end
   end
 

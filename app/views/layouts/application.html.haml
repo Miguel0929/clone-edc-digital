@@ -31,13 +31,13 @@
       .sidebar-menu
         %ul.menu-items
           %li.m-t-30
-            %a.detailed{:href => "index.html"}
+            %a.detailed{:href => root_path}
               %span.title Inicio
               %span.details Bienvenido a EDCdigital
             %span.icon-thumbnail
               %i.fa.fa-home
           %li
-            %a.detailed{:href => "builder.html"}
+            %a.detailed{:href => dashboard_programs_path}
               %span.title Programas
               %span.details Cursos en EDCdigital
             %span.bg-success.icon-thumbnail
@@ -53,7 +53,7 @@
                 %a{:href => "default_layout.html"} Perfil
                 %span.icon-thumbnail Pf
               %li
-                %a{:href => "default_layout.html"} Ayuda
+                %a{:href => "mailto:soporte@edcdigital.mx"} Ayuda
                 %span.icon-thumbnail Ay
               %li
                 = link_to destroy_user_session_path, method: :delete do
