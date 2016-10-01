@@ -1,21 +1,57 @@
-%h2 Sign up
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = devise_error_messages!
-  .field
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true
-  .field
-    = f.label :password
-    - if @minimum_password_length
-      %em
-        (#{@minimum_password_length} characters minimum)
-    %br/
-    = f.password_field :password, autocomplete: "off"
-  .field
-    = f.label :password_confirmation
-    %br/
-    = f.password_field :password_confirmation, autocomplete: "off"
-  .actions
-    = f.submit "Sign up"
-= render "devise/shared/links"
+.register-container.full-height.sm-p-t-30
+  .container-sm-height.full-height
+    .row.row-sm-height
+      .col-sm-12.col-sm-height.col-middle
+        = image_tag('logo-edc-color-horizontal.png', width: "200")
+        %h3 Acompañando emprendedores sin importar la distancia
+        %p
+          Crea tu cuenta de EDCdigital en segundos.
+        = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+          .row
+            .col-sm-6
+              .form-group.form-group-default{class: "#{class_for(resource, :first_name)}"}
+                = f.label :first_name, 'Nombre(s)'
+                = f.text_field :first_name, class: 'form-control', placeholder: 'Ej. Juan'
+              = error_for(resource, :first_name)
+            .col-sm-6
+              .form-group.form-group-default{class: "#{class_for(resource, :last_name)}"}
+                = f.label :last_name, 'Apellido(s)'
+                = f.text_field :last_name, class: 'form-control', placeholder: 'Ej. Pérez Jacobo'
+              = error_for(resource, :last_name)
+          .row
+            .col-sm-12
+              .form-group.form-group-default{class: "#{class_for(resource, :phone_number)}"}
+                = f.label :phone_number, 'Número de teléfono'
+                = f.text_field :phone_number, class: 'form-control', placeholder: '(xx)xxxx-xxxx'
+              = error_for(resource, :phone_number)
+          .row
+            .col-sm-12
+              .form-group.form-group-default{class: "#{class_for(resource, :email)}"}
+                = f.label :email, 'Correo electrónico'
+                = f.email_field :email, class: 'form-control', placeholder: 'correo@dominio.com'
+              = error_for(resource, :email)
+          .row
+            .col-sm-12
+              .form-group.form-group-default{class: "#{class_for(resource, :password)}"}
+                = f.label :password, 'Contraseña'
+                = f.password_field :password, class: 'form-control', placeholder: 'Introduce tu contraseña'
+              = error_for(resource, :password)
+          .row
+            .col-sm-12
+              .form-group.form-group-default{class: "#{class_for(resource, :password_confirmation)}"}
+                = f.label :password_confirmation, 'Confirmar contraseña'
+                = f.password_field :password_confirmation, class: 'form-control', placeholder: 'Confirma tu contraseña'
+              = error_for(resource, :password_confirmation)
+          .row.m-t-10
+            .col-md-12
+              .checkbox
+                %input{:type => "hidden", :value => "0", name: 'user[agreement]'}/
+                %input#agreement{:type => "checkbox", :value => "1", name: 'user[agreement]'}/
+                %label{:for => "agreement"} Estoy de acuerdo con los Términos de la página y las Políticas de privacidad.
+              = error_for(resource, :agreement)
+
+          %button.btn.btn-primary.btn-cons.m-t-10{:type => "submit"} Crear cuenta
+
+          .row.m-t-10
+            .col-md-12.text-right
+              %a.text-info.small{:href => "mailto:soporte@edcdigital.mx"} ¿Necesitas ayuda? Contáctanos
