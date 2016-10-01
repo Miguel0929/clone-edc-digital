@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   acts_as_paranoid
 
   enum role: [ :student, :mentor, :admin ]
+  enum gender: [ :male, :female ]
 
   has_many :answers
   has_many :group_users
