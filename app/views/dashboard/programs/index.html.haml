@@ -1,25 +1,23 @@
+- content_for :title  do
+  Programas - EDCdigital
+
 .container-fluid.container-fixed-lg
   .row
     .col-md-12
-      - @programs.in_groups_of(3, false) do |group_programs|
-        - group_programs.each do |program|
-          .card.share.share-other{"data-social" => "item"}
-            .card-content
-              %a{:href => dashboard_program_path(program)}
-                = image_tag("person-1-square.jpg")
-              .card-header.clearfix
-                %h5
-                  = program.name
-              .card-footer.clearfix
-                .reactions.pull-left
-                  %li
-                    %span
-                      4 comentarios
-                      %i.fa.fa-comment-o
-                .reactions
-                  %li
-                    %span
-                      24% de avance
-                      %i.fa.fa-line-chart
-            .progress
-              .progress-bar.progress-bar-success{:style => "width:24%"}
+      .panel.panel-transparent
+        .panel-heading
+          .panel-title
+            Programas de Aprendizaje
+        .panel-body
+          - @programs.in_groups_of(3, false) do |group_programs|
+            - group_programs.each do |program|
+              .card.share.share-other{"data-social" => "item"}
+                .card-content
+                  %a{:href => dashboard_program_path(program)}
+                    = image_tag(program.cover.url)
+                  %a{:href => dashboard_program_path(program)}
+                    .card-header.clearfix
+                      %h5
+                        = program.name
+                      %h6
+                        = program.description

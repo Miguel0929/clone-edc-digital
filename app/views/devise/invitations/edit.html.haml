@@ -2,45 +2,51 @@
   .container-sm-height.full-height
     .row.row-sm-height
       .col-sm-12.col-sm-height.col-middle
+        = image_tag('logo-edc-color-horizontal.png', width: "200")
+        %h3 Acompañando emprendedores sin importar la distancia
+        %p
+          Activa tu cuenta de EDCdigital en segundos.
         = form_for resource, label_errors: false, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f|
           = f.hidden_field :invitation_token
           .row
             .col-sm-6
               .form-group.form-group-default{class: "#{class_for(resource, :first_name)}"}
                 = f.label :first_name, 'Nombre(s)'
-                = f.text_field :first_name, class: 'form-control'
+                = f.text_field :first_name, class: 'form-control', placeholder: 'Ej. Juan'
               = error_for(resource, :first_name)
             .col-sm-6
               .form-group.form-group-default{class: "#{class_for(resource, :last_name)}"}
                 = f.label :last_name, 'Apellido(s)'
-                = f.text_field :last_name, class: 'form-control'
+                = f.text_field :last_name, class: 'form-control', placeholder: 'Ej. Pérez Jacobo'
               = error_for(resource, :last_name)
           .row
             .col-sm-12
               .form-group.form-group-default{class: "#{class_for(resource, :phone_number)}"}
                 = f.label :phone_number, 'Número de teléfono'
-                = f.text_field :phone_number, class: 'form-control'
+                = f.text_field :phone_number, class: 'form-control', placeholder: '(xx)xxxx-xxxx'
               = error_for(resource, :phone_number)
           .row
             .col-sm-12
               .form-group.form-group-default{class: "#{class_for(resource, :password)}"}
                 = f.label :password, 'Contraseña'
-                = f.password_field :password, class: 'form-control'
+                = f.password_field :password, class: 'form-control', placeholder: 'Introduce tu contraseña'
               = error_for(resource, :password)
           .row
             .col-sm-12
               .form-group.form-group-default{class: "#{class_for(resource, :password_confirmation)}"}
                 = f.label :password_confirmation, 'Confirmar contraseña'
-                = f.password_field :password_confirmation, class: 'form-control'
+                = f.password_field :password_confirmation, class: 'form-control', placeholder: 'Confirma tu contraseña'
               = error_for(resource, :password_confirmation)
           .row.m-t-10
-            .col-md-6
-              %p
-                I agree to the
-                %a.text-info.small{:href => "#"} Pages Terms
-                and
-                = succeed "." do
-                  %a.text-info.small{:href => "#"} Privacy
-            .col-md-6.text-right
-              %a.text-info.small{:href => "#"} Help? Contact Support
-          %button.btn.btn-primary.btn-cons.m-t-10{:type => "submit"} Create a new account
+            .col-md-12
+              .checkbox
+                %input{:type => "hidden", :value => "0", name: 'user[agreement]'}/
+                %input#agreement{:type => "checkbox", :value => "1", name: 'user[agreement]'}/
+                %label{:for => "agreement"} Estoy de acuerdo con los Términos de la página y las Políticas de privacidad.
+              = error_for(resource, :agreement)
+
+          %button.btn.btn-primary.btn-cons.m-t-10{:type => "submit"} Crear cuenta
+
+          .row.m-t-10
+            .col-md-12.text-right
+              %a.text-info.small{:href => "mailto:soporte@edcdigital.mx"} ¿Necesitas ayuda? Contáctanos

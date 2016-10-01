@@ -42,7 +42,7 @@ class ProgramsController < ApplicationController
 
   private
   def program_params
-    params.require(:program).permit(:name)
+    params.require(:program).permit(:name, :description, :cover)
   end
 
   def set_program

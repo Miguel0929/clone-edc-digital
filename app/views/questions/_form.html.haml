@@ -3,6 +3,11 @@
     = f.text_field :question_text, label: 'Pregunta'
     = f.text_area :support_text, label: 'Información de apoyo'
     = f.select :question_type, Question::TYPES, { label: "Tipo de pregunta" }
+    = f.file_field :support_image, label: 'Imagen de apoyo'
+
+    - unless @question.support_image.url.nil?
+      = image_tag(@question.support_image.url)
+
     = f.text_area :answer_options, hide_label: true, rows: 8, class: 'hide'
     #question-answers
       %br

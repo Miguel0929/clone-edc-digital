@@ -1,6 +1,10 @@
+- content_for :title  do
+  EDCdigital - Construye y valida tu idea de negocio, desde cero.
+
 .login-wrapper
   .bg-pic
-    = image_tag('landing-emprendiendo-desde-cero.jpg', class: 'lazy')
+    = image_tag('landing-emprendiendo-desde-cero.jpg', class: 'lazy visible-xs visible-sm visible-md')
+    = image_tag('landing-emprendiendo-desde-cero-big.jpg', class: 'lazy lazy visible-lg')
     .bg-caption.pull-bottom.sm-pull-bottom.text-white.p-l-20.m-b-20
       %h2.semi-bold.text-white
         Valida tu idea de negocio, desde cero con Distrito Emprendedor.
@@ -10,15 +14,16 @@
   .login-container.bg-white
     .p-l-50.m-l-20.p-r-50.m-r-20.p-t-50.m-t-30.sm-p-l-15.sm-p-r-15.sm-p-t-40
       = image_tag('logo-edc-color-horizontal.png', width: 270)
-      %p.p-t-35 Sign into your pages account
+      %p.p-t-35 Inicia sesión en tu cuenta EDCdigital
       = bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-        = f.email_field :email, autofocus: true, wrapper: { class: 'form-group-default' }
-        = f.password_field :password, autocomplete: "off", wrapper: { class: 'form-group-default' }
+        = f.email_field :email, label: 'CORREO ELECTRÓNICO', placeholder: 'micorreo@dominio.com',wrapper: { class: 'form-group-default' }
+        = f.password_field :password, label: 'CONTRASEÑA', placeholder: 'Introduce tu contraseña', autocomplete: "off", wrapper: { class: 'form-group-default' }
         .row
           .col-md-6.no-padding
             .checkbox
               %input#checkbox1{:type => "checkbox", :value => "1"}/
-              %label{:for => "checkbox1"} Keep Me Signed in
-          .col-md-6.text-right
-            %a.text-info.small{:href => "#"} Help? Contact Support
-        %button.btn.btn-primary.btn-cons.m-t-10{:type => "submit"} Sign in
+              %label{:for => "checkbox1"} Mantenener mi sesión abierta
+        %button.btn.btn-primary.btn-cons.m-t-10{:type => "submit"} Iniciar Sesión
+        .row
+          .col-md-12.text-right.m-t-15
+            %a.text-info.small{:href => "mailto:soporte@edcdigital.mx"} ¿Necesitas ayuda? Contáctanos

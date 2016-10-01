@@ -45,7 +45,7 @@ class QuestionsController < ApplicationController
   def question_params
     params.require(:question)
       .permit(:question_type, :question_text, :position, :answer_options,
-              :support_text, :points, rubrics_attributes: [:id, :criteria, :base])
+              :support_text, :support_image, :points, rubrics_attributes: [:id, :criteria, :base])
   end
 
   def set_chapter

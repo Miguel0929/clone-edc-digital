@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
-@import url(https://fonts.googleapis.com/css?family=Ubuntu:400,300,300italic,400italic,500,500italic,700,700italic);
+@import url(https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i);
+
 html {
   height: 100%;
 }
@@ -88,7 +89,7 @@ body.rtl [class*="col-"] {
   -webkit-animation: none;
   animation: none;
   top: 45px;
-  background: url('../img/progress/progress-circle-success.svg') no-repeat top left;
+  background: image-url('progress/progress-circle-success.svg') no-repeat top left;
   background-size: 100% auto;
   margin: 0 auto;
   border-width: 0;
@@ -927,7 +928,7 @@ body.rtl [class*="col-"] {
 }
 .quickview-wrapper .nav-tabs ~ .tab-content .quickview-notes .note {
   /* Quickview Note */
-  background-image: url('../img/notes_lines.png');
+  background-image: image-url('notes_lines.png');
   background-repeat: repeat-y;
   background-position: 27px top;
 }
@@ -1198,7 +1199,7 @@ body.rtl [class*="col-"] {
 ------------------------------------
 */
 .icon-set {
-  background: url('../img/icons/top_tray.png') no-repeat;
+  background: image-url('icons/top_tray.png') no-repeat;
   position: relative;
   display: block;
 }
@@ -1426,14 +1427,14 @@ body.rtl [class*="col-"] {
   vertical-align: middle;
 }
 .horizontal-menu .bar-inner-clean > ul > li {
-  font-family: "Ubuntu", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Muli", "Helvetica Neue", Helvetica, Arial, sans-serif;
   display: inline-block;
   padding: 5px 15px;
   vertical-align: middle;
 }
 
 .horizontal-menu .bar-inner-clean-2 > ul > li {
-  font-family: "Ubuntu", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Muli", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .horizontal-menu .bar-inner > ul > li.classic {
@@ -2110,10 +2111,10 @@ border-top: none;
   opacity: 0.1;
 }
 .portlet-icon-refresh-lg-master {
-  background-image: url('../img/progress/progress-circle-lg-master-static.svg');
+  background-image: image-url('progress/progress-circle-lg-master-static.svg');
 }
 .portlet-icon-refresh-lg-white {
-  background-image: url('../img/progress/progress-circle-lg-white-static.svg');
+  background-image: image-url('progress/progress-circle-lg-white-static.svg');
 }
 .portlet-icon-refresh-lg-master-animated,
 .portlet-icon-refresh-lg-white-animated {
@@ -2130,10 +2131,10 @@ border-top: none;
   opacity: 1;
 }
 .portlet-icon-refresh-lg-master-animated {
-  background-image: url('../img/progress/progress-circle-lg-master.svg');
+  background-image: image-url('progress/progress-circle-lg-master.svg');
 }
 .portlet-icon-refresh-lg-white-animated {
-  background-image: url('../img/progress/progress-circle-lg-white.svg');
+  background-image: image-url('progress/progress-circle-lg-white.svg');
 }
 /* For demo purpose only */
 .panel-scroll {
@@ -2192,7 +2193,7 @@ html {
 }
 body {
   color: #626262;
-  font-family: "Ubuntu", Arial, sans-serif;
+  font-family: "Muli", Arial, sans-serif;
   font-size: 14px;
   font-weight: normal;
   letter-spacing: 0.01em;
@@ -2746,7 +2747,7 @@ hr.dotted {
   font-family: Georgia !important;
 }
 .font-heading {
-  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Muli", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 /* Wells
 ------------------------------------
@@ -2794,8 +2795,8 @@ hr.dotted {
 @media (max-width: 1400px) {
   body,
   p {
-    font-size: 13px;
-    line-height: 20px;
+    font-size: 14px;
+    line-height: 22px;
   }
   h1 {
     font-size: 33px;
@@ -2820,7 +2821,7 @@ hr.dotted {
   }
   small,
   .small {
-    font-size: 89%;
+    font-size: 80%;
     line-height: 17px;
   }
 }
@@ -3728,7 +3729,7 @@ Misc buttons
   top: 8px;
 }
 .alert .close {
-  background: url("../img/icons/noti-cross.png") no-repeat scroll 0 0 transparent;
+  background: image-url("icons/noti-cross.png") no-repeat scroll 0 0 transparent;
   background-position: -9px -10px;
   width: 10px;
   height: 9px;
@@ -4444,37 +4445,37 @@ body > .pgn-wrapper {
 ------------------------------------
 */
 .progress-bar-indeterminate {
-  background: url('../img/progress/progress-bar-master.svg') no-repeat top left;
+  background: image-url('progress/progress-bar-master.svg') no-repeat top left;
   width: 100%;
   height: 100%;
   background-size: cover;
 }
 .progress-bar-indeterminate.progress-bar-primary {
-  background-image: url('../img/progress/progress-bar-primary.svg');
+  background-image: image-url('progress/progress-bar-primary.svg');
   background-color: transparent;
 }
 .progress-bar-indeterminate.progress-bar-complete {
-  background-image: url('../img/progress/progress-bar-complete.svg');
+  background-image: image-url('progress/progress-bar-complete.svg');
   background-color: transparent;
 }
 .progress-bar-indeterminate.progress-bar-success {
-  background-image: url('../img/progress/progress-bar-success.svg');
+  background-image: image-url('progress/progress-bar-success.svg');
   background-color: transparent;
 }
 .progress-bar-indeterminate.progress-bar-info {
-  background-image: url('../img/progress/progress-bar-info.svg');
+  background-image: image-url('progress/progress-bar-info.svg');
   background-color: transparent;
 }
 .progress-bar-indeterminate.progress-bar-warning {
-  background-image: url('../img/progress/progress-bar-warning.svg');
+  background-image: image-url('progress/progress-bar-warning.svg');
   background-color: transparent;
 }
 .progress-bar-indeterminate.progress-bar-danger {
-  background-image: url('../img/progress/progress-bar-danger.svg');
+  background-image: image-url('progress/progress-bar-danger.svg');
   background-color: transparent;
 }
 .progress-bar-indeterminate.progress-bar-master {
-  background-image: url('../img/progress/progress-bar-master.svg');
+  background-image: image-url('progress/progress-bar-master.svg');
   background-color: transparent;
 }
 /* Progress Bar
@@ -4560,29 +4561,29 @@ body > .pgn-wrapper {
 ------------------------------------
 */
 .progress-circle-indeterminate {
-  background: url('../img/progress/progress-circle-master.svg') no-repeat top left;
+  background: image-url('../img/progress/progress-circle-master.svg') no-repeat top left;
   width: 50px;
   height: 50px;
   background-size: 100% auto;
   margin: 0 auto;
 }
 .progress-circle-indeterminate.progress-circle-warning {
-  background-image: url('../img/progress/progress-circle-warning.svg');
+  background-image: image-url('progress/progress-circle-warning.svg');
 }
 .progress-circle-indeterminate.progress-circle-danger {
-  background-image: url('../img/progress/progress-circle-danger.svg');
+  background-image: image-url('progress/progress-circle-danger.svg');
 }
 .progress-circle-indeterminate.progress-circle-info {
-  background-image: url('../img/progress/progress-circle-info.svg');
+  background-image: image-url('progress/progress-circle-info.svg');
 }
 .progress-circle-indeterminate.progress-circle-primary {
-  background-image: url('../img/progress/progress-circle-primary.svg');
+  background-image: image-url('progress/progress-circle-primary.svg');
 }
 .progress-circle-indeterminate.progress-circle-success {
-  background-image: url('../img/progress/progress-circle-success.svg');
+  background-image: image-url('progress/progress-circle-success.svg');
 }
 .progress-circle-indeterminate.progress-circle-complete {
-  background-image: url('../img/progress/progress-circle-complete.svg');
+  background-image: image-url('progress/progress-circle-complete.svg');
 }
 /* Circular Progress 
 ------------------------------------
@@ -5864,14 +5865,14 @@ form legend {
   background-color: #fff;
   background-image: none;
   border: 1px solid rgba(0, 0, 0, 0.07);
-  font-family: Arial, sans-serif;
+  font-family: "Muli", Arial, sans-serif;
   -webkit-appearance: none;
   color: #2c2c2c;
   outline: 0;
   height: 35px;
   padding: 9px 12px;
   line-height: normal;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: normal;
   vertical-align: middle;
   min-height: 35px;
@@ -7207,7 +7208,7 @@ https://github.com/Waxolunist/bootstrap3-wysihtml5-bower
   font-weight: 600;
 }
 .editor-icon {
-  background-image: url("../img/editor_tray.png");
+  background-image: image-url("editor_tray.png");
   display: inline-block;
   height: 40px;
   margin-top: 5px;
@@ -7955,19 +7956,19 @@ div.cs-skin-slide .cs-options ul li.cs-selected span {
   display: block !important;
 }
 table.dataTable thead .sorting_asc:after {
-  background-image: url("../img/icons/sort_asc.png");
+  background-image: image-url("icons/sort_asc.png");
 }
 table.dataTable thead .sorting_desc:after {
-  background-image: url("../img/icons/sort_desc.png");
+  background-image: image-url("icons/sort_desc.png");
 }
 table.dataTable thead .sorting:after {
-  background-image: url("../img/icons/sort_both.png");
+  background-image: image-url("icons/sort_both.png");
 }
 table.dataTable thead .sorting_asc_disabled:after {
-  background-image: url("../img/icons/sort_asc_disabled.png");
+  background-image: image-url("icons/sort_asc_disabled.png");
 }
 table.dataTable thead .sorting_desc_disabled:after {
-  background-image: url("../img/icons/sort_desc_disabled.png");
+  background-image: image-url("icons/sort_desc_disabled.png");
 }
 table.dataTable thead .sorting:after,
 table.dataTable thead .sorting_asc:after,
@@ -8565,7 +8566,7 @@ input.list-view-search {
   overflow-x: hidden;
 }
 .social-wrapper .social .cover-photo:before {
-  background-image: url("../img/linear_gradient.png");
+  background-image: image-url("linear_gradient.png");
   background-repeat: repeat-x;
   bottom: 0;
   content: " ";
@@ -12857,7 +12858,7 @@ Main components
     z-index: 799;
   }
   body.menu-behind .header .brand {
-    width: 200px;
+    width: 230px;
     text-align: left;
     padding-left: 20px;
   }
@@ -13767,16 +13768,16 @@ Main components
 /*** Retina Display Images **/
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 200/100), only screen and (min-device-pixel-ratio: 2) {
   .icon-set {
-    background: url('../img/icons/top_tray_2x.png');
+    background: image-url('icons/top_tray_2x.png');
     position: relative;
     background-size: 95px 19px;
   }
   .editor-icon {
-    background-image: url("../img/editor_tray_2x.png");
+    background-image: image-url("editor_tray_2x.png");
     background-size: 480px 40px;
   }
   .alert .close {
-    background: url("../img/icons/noti-cross-2x.png") no-repeat scroll 0 0 transparent;
+    background: image-url("icons/noti-cross-2x.png") no-repeat scroll 0 0 transparent;
     background-position: -9px -10px;
     width: 10px;
     height: 9px;
@@ -13828,7 +13829,7 @@ p.super-lead {
 }
 
 .tooltip {
-  font-family: "Ubuntu", Arial, sans-serif;
+  font-family: "Muli", Arial, sans-serif;
   text-transform: none;
 }
 

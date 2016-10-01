@@ -1,16 +1,1 @@
-.container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-heading
-      .panel-title.pull-right
-      .clearfix
-    .panel-body
-      .row
-        .col-md-10.col-md-offset-1
-          .padding-30.m-t-50.p-b-100
-            %i.fa.fa-tasks.fa-2x.hint-text
-            %h2
-              = @question.question_text
-            = render 'form'
-
-            %p.small.hint-text.m-t-15
-              = @question.support_text
+= render partial: '/dashboard/answers/form', locals: { disabled: false}

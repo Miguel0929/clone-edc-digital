@@ -1,5 +1,7 @@
 .well
   = bootstrap_form_for(@program) do |f|
-    = f.text_field :name, label: 'Nombr del programa'
+    = f.text_field :name, label: 'Nombre del programa'
+    = f.text_area :description, label: 'Breve descripción del programa'
+    = f.file_field :cover, label: 'Portada del programa'
     = link_to 'Cancelar', programs_path, class: 'btn btn-danger'
     = f.submit 'Aceptar'

@@ -5,6 +5,10 @@ Rails.application.routes.draw do
     root :to => 'devise/sessions#new'
   end
 
+  get '/dashboard', to: 'dashboard/welcome#index', as: :welcome
+  get "/404", :to => "errors#not_found"
+  get "/500", :to => "errors#internal_error"
+
   resources :programs do
     resources :chapters, except: [:index, :show]
   end
@@ -54,6 +58,7 @@ Rails.application.routes.draw do
   end
 
   resources :groups
+
 
   mount Ckeditor::Engine => '/ckeditor'
 end

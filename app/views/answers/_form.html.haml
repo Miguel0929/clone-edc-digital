@@ -6,7 +6,7 @@
         %label{for: "radio_#{index}"}
           %div
             .profile-img-wrapper.lessbig.m-t-5.inline
-              = image_for_rubric(rubric.criteria)
+              = image_tag(image_for_rubric(rubric.criteria), width: 50)
               .chat-status.available
             .rubrica-value-description
               %h6.small.m-b-0

@@ -5,8 +5,10 @@ class ApplicationController < ActionController::Base
 
   protected
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:accept_invitation).concat [:first_name, :last_name, :phone_number]
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :phone_number, :email, :password, :password_confirmation, :agreement])
+    devise_parameter_sanitizer.for(:accept_invitation).concat [:first_name, :last_name, :phone_number, :agreement]
     devise_parameter_sanitizer.for(:invite).concat [:role, :group_id]
+    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :phone_number, :email, :password, :password_confirmation, :gender, :bio, :state, :city, :profile_picture])
   end
 
   def after_sign_in_path_for(resource)
@@ -15,7 +17,7 @@ class ApplicationController < ActionController::Base
     elsif resource.mentor?
       students_users_path
     elsif resource.student?
-      dashboard_programs_path
+      welcome_path
     end
   end
 
@@ -28,7 +30,7 @@ class ApplicationController < ActionController::Base
   end
 
   def layout_by_resource
-    if devise_controller? && resource_name == :user && ((sessions_controller?) || (invitations_controller?))
+    if devise_controller? && resource_name == :user && ((sessions_controller?) || (invitations_controller?) || (registrations_controller?))
       "login"
     else
       "application"
@@ -42,5 +44,9 @@ class ApplicationController < ActionController::Base
 
   def invitations_controller?
     (action_name == 'edit' || action_name == 'update') && controller_name == 'invitations'
+  end
+
+  def registrations_controller?
+    (action_name == 'new' || action_name == 'create') && controller_name == 'registrations'
   end
 end

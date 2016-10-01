@@ -1,31 +1,83 @@
-%h2
-  Edit #{resource_name.to_s.humanize}
-= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-  = devise_error_messages!
-  .field
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true
-  - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-    %div
-      Currently waiting confirmation for: #{resource.unconfirmed_email}
-  .field
-    = f.label :password
-    %i (leave blank if you don't want to change it)
-    %br/
-    = f.password_field :password, autocomplete: "off"
-  .field
-    = f.label :password_confirmation
-    %br/
-    = f.password_field :password_confirmation, autocomplete: "off"
-  .field
-    = f.label :current_password
-    %i (we need your current password to confirm your changes)
-    %br/
-    = f.password_field :current_password, autocomplete: "off"
-  .actions
-    = f.submit "Update"
-%h3 Cancel my account
-%p
-  Unhappy? #{button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete}
-= link_to "Back", :back
+.container-fluid.container-fixed-lg
+  .panel.panel-transparent
+    .panel-heading
+      .panel-title
+        Edita tu perfil
+    .panel-body
+      .row
+        .col-sm-10
+          %h3
+          %br/
+          .row-xs-height
+            .social-user-profile.col-xs-height.text-center.col-top
+              .thumbnail-wrapper.d48.circular.bordered.b-white
+                = image_tag('rubensito-05.png', height: 55)
+              %br/
+              %button.btn.btn-default.btn-cons Subir foto
+            .col-xs-height.p-l-20
+              %h3.no-margin
+                = current_user.name
+              %p
+              %p.hint-text.m-t-5.small
+                #{resource.city} | #{resource.bio}
+          = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, id: 'form-work', class: 'form-horizontal'}) do |f|
+            .form-group
+              %label.col-sm-3.control-label{:for => "nombre"} Nombre(s)
+              .col-sm-9
+                = f.text_field :first_name, class: 'form-control', placeholder: 'Juan'
+                = error_for(resource, :first_name)
+            .form-group
+              %label.col-sm-3.control-label{:for => "apellido"} Apellido(s)
+              .col-sm-9
+                = f.text_field :last_name, class: 'form-control', placeholder: 'Pérez Jacobo'
+                = error_for(resource, :last_name)
+            .form-group
+              %label.col-sm-3.control-label{:for => "name"} Estado
+              .col-sm-9
+                = f.text_field :state, class: 'form-control', placeholder: 'Jalisco'
+            .form-group
+              %label.col-sm-3.control-label{:for => "name"} Ciudad
+              .col-sm-9
+                = f.text_field :city, class: 'form-control', placeholder: 'Guadalajara'
+            .form-group
+              %label.col-sm-3.control-label Género
+              .col-sm-9
+                .radio.radio-success
+                  %input#male{:name => "user[gender]", :type => "radio", :value => "male", checked: resource.gender == 'male'}/
+                  %label{:for => "male"} Hombre
+                  %input#female{:name => "user[gender]", :type => "radio", :value => "female", checked: resource.gender == 'female'}/
+                  %label{:for => "female"} Mujer
+            .form-group
+              %label.col-sm-3.control-label{:for => "telefono"} Número de teléfono
+              .col-sm-9
+                = f.text_field :phone_number, class: 'form-control', placeholder: '(xx)xxxx-xxxx'
+                = error_for(resource, :phone_number)
+            .form-group
+              %label.col-sm-3.control-label.correo{:for => "correo"} Correo electrónico
+              .col-sm-9
+                = f.text_field :email, class: 'form-control', placeholder: 'correo@dominio.com', disabled: true
+                = error_for(resource, :email)
+            .form-group
+              %label.col-sm-3.control-label{:for => "name"} Biografía
+              .col-sm-9
+                = f.text_area :bio, class: 'form-control', placeholder: 'Comparte una pequeña descripción de ti y tus habilidades.'
+            .form-group
+              %label.col-sm-3.control-label{:for => "correo"} Contraseña
+              .col-sm-9
+                = f.password_field :current_password, class: 'form-control', placeholder: 'Introduce tu contraseña'
+                = error_for(resource, :current_password)
+            .form-group
+              %label.col-sm-3.control-label{:for => "correo"} Nueva contraseña (dejar en blanco si no requieres cambiarlh)
+              .col-sm-9
+                = f.password_field :password, class: 'form-control', placeholder: 'Introduce tu contraseña'
+                = error_for(resource, :password)
+              %br/
+              %br/
+              %label.col-sm-3.control-label{:for => "correo"} Confirmación de neva contraseña
+              .col-sm-9
+                = f.text_field :password_confirmation, class: 'form-control', placeholder: 'Confirma tu contraseña'
+                = error_for(resource, :password_confirmation)
+            %br/
+            .row
+              .col-sm-9
+                %button.btn.btn-success{:type => "submit"} Enviar

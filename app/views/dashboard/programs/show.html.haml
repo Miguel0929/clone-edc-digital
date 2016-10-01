@@ -10,7 +10,9 @@
           .col-sm-7.col-md-8.no-padding.xs-p-l-15.xs-p-r-15.text-white
             .p-t-20.p-l-35.md-p-l-5.md-p-t-15
               %p
-                %button.btn.btn-sm.btn-primary.btn-cons.m-b-10{:type => "button"}
+                = @program.description
+              %p
+                = link_to @program.next_content_for(current_user), class: 'btn btn-sm btn-primary btn-cons m-b-10' do
                   %i.fa.fa-play
                   %span.bold Iniciar / Reanudar curso
 
@@ -21,45 +23,48 @@
 .container-fluid.container-fixed-lg
   .row
     .col-sm-12
-      .modulo-contenido-detallado
-        %h2 Detalles del contenido
-        - @program.chapters.each do |chapter|
-          .sm-m-l-5.sm-m-r-5
-            #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
-              .panel.panel-default
-                .panel-heading{:role => "tab", :id=>"heading_#{chapter.id}"}
-                  %h4.panel-title
-                    %a{"aria-controls" => "collapse_#{chapter.id}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse_#{chapter.id}"}
-                      = chapter.name
+      .panel.panel-transparent
+        .panel-heading
+          .panel-title
+            Detalles del contenido
+        .panel-body
+          - @program.chapters.each do |chapter|
+            .sm-m-l-5.sm-m-r-5
+              #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+                .panel.panel-default
+                  .panel-heading{:role => "tab", :id=>"heading_#{chapter.id}"}
+                    %h4.panel-title
+                      %a{"aria-controls" => "collapse_#{chapter.id}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse_#{chapter.id}"}
+                        = chapter.name
 
-                .panel-collapse.collapse.in{:id=>"collapse_#{chapter.id}", "aria-labelledby" => "heading_#{chapter.id}", :role => "tabpanel"}
-                  .panel-body
-                    %table.table.table-striped.table-top-border
-                      %tbody
-                        - chapter.chapter_contents.each do |content|
-                          %tr.odd.gradeX
-                            %td
-                              %button.btn.btn-default.btn-rounded{:type => "button"}
+                  .panel-collapse.collapse.in{:id=>"collapse_#{chapter.id}", "aria-labelledby" => "heading_#{chapter.id}", :role => "tabpanel"}
+                    .panel-body
+                      %table.table.table-striped.table-top-border
+                        %tbody
+                          - chapter.chapter_contents.each do |content|
+                            %tr.odd.gradeX
+                              %td
+                                = link_to dashboard_chapter_content_path(content), class: "btn #{current_user.trackers.find_by(chapter_content: content).nil? ? 'btn-default' : 'btn-success'} btn-rounded" do
+                                  - if content.coursable_type == 'Lesson'
+                                    %i.fa.fa-youtube-play
+                                  - elsif content.coursable_type == 'Question'
+                                    %i.fa.fa-tasks
+
+                              %td
                                 - if content.coursable_type == 'Lesson'
-                                  %i.fa.fa-youtube-play
+                                  = content.model.identifier
                                 - elsif content.coursable_type == 'Question'
-                                  %i.fa.fa-tasks
+                                  = content.model.question_text
+                              %td
+                                - if content.coursable_type == 'Lesson'
+                                  %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? '' : 'label-success'}"}
+                                    = current_user.trackers.find_by(chapter_content: content).nil? ? 'Nuevo' : 'Completado'
+                                - elsif content.coursable_type == 'Question'
+                                  %span.label{class: "#{current_user.has_answer_question?(content.model) ? 'label-success' : ''}"}
+                                    = current_user.has_answer_question?(content.model) ? 'Completado' : 'Nuevo'
 
-                            %td
-                              - if content.coursable_type == 'Lesson'
-                                = content.model.identifier
-                              - elsif content.coursable_type == 'Question'
-                                = content.model.question_text
-                            %td
-                              %span.label.label-success Completado
-                            %td
-                              - if content.coursable_type == 'Question'
-                                Comentarios
-                                %span.badge
-                                  = content.model.comments_for(current_user)
-
-                            %td.table-actions
-                              .btn-toolbar{:role => "toolbar"}
-                                .btn-group.sm-m-t-10
-                                  = link_to dashboard_chapter_content_path(content), class: 'btn btn-default' do
-                                    %span.glyphicon.glyphicon-play-circle
+                              %td
+                                - if content.coursable_type == 'Question'
+                                  Comentarios
+                                  %span.badge
+                                    = content.model.comments_for(current_user)
