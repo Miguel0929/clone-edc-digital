@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160915160807) do
+ActiveRecord::Schema.define(version: 20161001053312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,6 +106,8 @@ ActiveRecord::Schema.define(version: 20160915160807) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "description"
+    t.string   "cover"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -117,6 +119,7 @@ ActiveRecord::Schema.define(version: 20160915160807) do
     t.datetime "updated_at"
     t.text     "support_text"
     t.integer  "points"
+    t.string   "support_image"
   end
 
   create_table "rubrics", force: :cascade do |t|
@@ -126,6 +129,16 @@ ActiveRecord::Schema.define(version: 20160915160807) do
   end
 
   add_index "rubrics", ["question_id"], name: "index_rubrics_on_question_id", using: :btree
+
+  create_table "trackers", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "chapter_content_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "trackers", ["chapter_content_id"], name: "index_trackers_on_chapter_content_id", using: :btree
+  add_index "trackers", ["user_id"], name: "index_trackers_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -154,6 +167,11 @@ ActiveRecord::Schema.define(version: 20160915160807) do
     t.integer  "role",                   default: 0
     t.datetime "deleted_at"
     t.integer  "group_id"
+    t.text     "bio"
+    t.integer  "gender"
+    t.string   "state"
+    t.string   "city"
+    t.string   "profile_picture"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree

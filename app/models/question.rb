@@ -4,6 +4,8 @@ class Question < ActiveRecord::Base
     ['Checkbox', 'checkbox'], ['Radio button', 'radio'], ['Select', 'dropdown']
   ]
 
+  mount_uploader :support_image, SupportImageUploader
+
   has_many :answers
   has_many :rubrics
 
@@ -14,6 +16,7 @@ class Question < ActiveRecord::Base
   validates_presence_of :question_text, :points
   validates_presence_of :answer_options, if: :options_question?
   validates_numericality_of :points
+
 
   def comments_for(user)
     user_answer = answers.find_by(user: user)

@@ -9,16 +9,16 @@ module ApplicationHelper
     answers.answer_text.split('\n').include?(answer)
   end
 
-  def image_for_rubric(criteria)
+  def image_for_rubric(criteria, style='')
     case criteria
     when 'Deficiente'
-      image_tag('rubensito-01.png', width: 50)
+      'rubensito-01.png'
     when 'Regular'
-      image_tag('rubensito-02.png', width: 50)
+      'rubensito-02.png'
     when 'Bueno'
-      image_tag('rubensito-04.png', width: 50)
+      'rubensito-04.png'
     when 'Excelente'
-      image_tag('rubensito-05.png', width: 50)
+      'rubensito-05.png'
     end
   end
 end
