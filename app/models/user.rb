@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  attr_accessor :agreement
   acts_as_paranoid
 
   enum role: [ :student, :mentor, :admin ]
@@ -15,10 +16,12 @@ class User < ActiveRecord::Base
   scope :invitation_accepted, -> { where.not('invitation_accepted_at' => nil) }
 
   validates_presence_of :first_name, :last_name, :phone_number
+  validates_acceptance_of :agreement
 
   belongs_to :group
 
   after_create :assign_group
+
 
   def name
     "#{first_name} #{last_name}"
