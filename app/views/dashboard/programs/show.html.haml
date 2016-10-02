@@ -43,14 +43,14 @@
                         %tbody
                           - chapter.chapter_contents.each do |content|
                             %tr.odd.gradeX
-                              %td
+                              %td{style: "width: 5%;"}
                                 = link_to dashboard_chapter_content_path(content), class: "btn #{current_user.trackers.find_by(chapter_content: content).nil? ? 'btn-default' : 'btn-success'} btn-rounded" do
                                   - if content.coursable_type == 'Lesson'
                                     %i.fa.fa-youtube-play
                                   - elsif content.coursable_type == 'Question'
                                     %i.fa.fa-tasks
 
-                              %td
+                              %td{style: "width: 60%;"}
                                 - if content.coursable_type == 'Lesson'
                                   = content.model.identifier
                                 - elsif content.coursable_type == 'Question'

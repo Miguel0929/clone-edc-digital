@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   attr_accessor :agreement
   acts_as_paranoid
+  mount_uploader :profile_picture, ProfilePictureUploader
 
   enum role: [ :student, :mentor, :admin ]
   enum gender: [ :male, :female ]
@@ -21,6 +22,7 @@ class User < ActiveRecord::Base
 
   belongs_to :group
 
+  before_create :set_origin
   after_create :assign_group
 
 
@@ -51,6 +53,12 @@ class User < ActiveRecord::Base
   end
 
   private
+
+  def set_origin
+    self.state = 'Ciudad de México'
+    self.city = 'Distrito Federal'
+  end
+
   def assign_group
     if mentor?
       group.users << self

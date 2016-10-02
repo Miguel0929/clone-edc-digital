@@ -1,10 +1,13 @@
 .container-fluid.container-fixed-lg
   .panel.panel-default
+    .panel-heading
+      .panel-title.question-title
+        = @chapter_content.chapter.name
     .panel-body
       .row
         .col-md-12
-          .padding-30.m-t-50.p-b-100
-            %h2.text-center
+          .padding-20.p-l-30.p-r-30
+            %h2
               = model.identifier
             %div
               - if model.video_url.nil? || model.video_url.empty?

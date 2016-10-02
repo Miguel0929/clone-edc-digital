@@ -5,6 +5,10 @@ class Dashboard::ChapterContentsController < ApplicationController
   def show
     if @chapter_content.coursable_type == 'Question'
       redirect_to router_dashboard_chapter_content_answers_path(@chapter_content)
+    else
+      add_breadcrumb "EDCDIGITAL", :root_path
+      add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
+      add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@chapter_content.model.identifier}</a>".html_safe
     end
   end
 
