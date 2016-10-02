@@ -11,9 +11,8 @@
           .row-xs-height
             .social-user-profile.col-xs-height.text-center.col-top
               .thumbnail-wrapper.d48.circular.bordered.b-white
-                = image_tag('rubensito-05.png', height: 55)
-              %br/
-              %button.btn.btn-default.btn-cons Subir foto
+                = current_user.profile_picture.url.nil? ? image_tag('rubensito-05.png', height: 55, id: 'profile_img') : image_tag(current_user.profile_picture.url, height: 55, id: 'profile_img')
+              %button.btn.btn-default.btn-cons#upload_profile_picture Subir foto
             .col-xs-height.p-l-20
               %h3.no-margin
                 = current_user.name
@@ -21,6 +20,7 @@
               %p.hint-text.m-t-5.small
                 #{resource.city} | #{resource.bio}
           = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, id: 'form-work', class: 'form-horizontal'}) do |f|
+            = f.file_field :profile_picture, class: 'hide'
             .form-group
               %label.col-sm-3.control-label{:for => "nombre"} Nombre(s)
               .col-sm-9
