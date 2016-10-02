@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_filter :configure_permitted_parameters, if: :devise_controller?
+  before_filter :set_breadcrumb, if: :devise_controller?
   layout :layout_by_resource
 
   protected
@@ -48,5 +49,12 @@ class ApplicationController < ActionController::Base
 
   def registrations_controller?
     (action_name == 'new' || action_name == 'create') && controller_name == 'registrations'
+  end
+
+  def set_breadcrumb
+    if (action_name == 'edit' || action_name == 'update') && controller_name == 'registrations'
+      add_breadcrumb "EDCDIGITAL", :root_path
+      add_breadcrumb "<a class='active' href='#{edit_user_registration_path}'>Edita tu perfil</a>".html_safe
+    end
   end
 end

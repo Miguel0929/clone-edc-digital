@@ -89,7 +89,7 @@
                 %li
                   = link_to destroy_user_session_path, method: :delete do
                     Cerrar sesión
-                    %span.icon-thumbnail Cs
+                  %span.icon-thumbnail Cs
         .clearfix
     .page-container
       .header
@@ -121,10 +121,10 @@
             .dropdown.pull-right
               %button.profile-dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
                 %span.thumbnail-wrapper.d32.circular.inline.m-t-5
-                  = image_tag('rubensito-01.png', height: 32)
+                  = current_user.profile_picture.url.nil? ? image_tag('rubensito-05.png', height: 55) : image_tag(current_user.profile_picture.url, height: 55)
               %ul.dropdown-menu.profile-dropdown{:role => "menu"}
                 %li
-                  %a{:href => "#"}
+                  %a{:href => edit_user_registration_path}
                     %i.pg-settings_small
                     Configuraciones
                 %li
