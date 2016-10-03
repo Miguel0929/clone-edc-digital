@@ -18,7 +18,8 @@
                 = current_user.name
               %p
               %p.hint-text.m-t-5.small
-                #{resource.city} | #{resource.bio}
+                - if(resource.city.nil? == false && resource.city.empty? == false) && (resource.bio.nil? == false && resource.bio.empty? == false)
+                  #{resource.city} | #{resource.bio}
           = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, id: 'form-work', class: 'form-horizontal'}) do |f|
             = f.file_field :profile_picture, class: 'hide'
             .form-group
@@ -34,7 +35,40 @@
             .form-group
               %label.col-sm-3.control-label{:for => "name"} Estado
               .col-sm-9
-                = f.text_field :state, class: 'form-control', placeholder: 'Jalisco'
+                %select.full-width.form-control.minimal{name: 'user[state]'}
+                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Elige tu Estado
+                  %option{:value => "Aguascalientes", selected: resource.state == 'Aguascalientes'} Aguascalientes
+                  %option{:value => "Baja California", selected: resource.state == 'Baja California'} Baja California
+                  %option{:value => "Baja California Sur", selected: resource.state == 'Baja California Sur'} Baja California Sur
+                  %option{:value => "Campeche", selected: resource.state == 'Campeche'} Campeche
+                  %option{:value => "Chiapas", selected: resource.state == 'Chiapas'} Chiapas
+                  %option{:value => "Chihuahua", selected: resource.state == 'Chihuahua'} Chihuahua
+                  %option{:value => "Coahuila", selected: resource.state == 'Coahuila'} Coahuila
+                  %option{:value => "Colima", selected: resource.state == 'Colima'} Colima
+                  %option{:value => "Distrito Federal", selected: resource.state == 'Distrito Federal'} Distrito Federal
+                  %option{:value => "Durango", selected: resource.state == 'Durango'} Durango
+                  %option{:value => "Estado de México", selected: resource.state == 'Estado de México'} Estado de México
+                  %option{:value => "Guanajuato", selected: resource.state == 'Guanajuato'} Guanajuato
+                  %option{:value => "Guerrero", selected: resource.state == 'Guerrero'} Guerrero
+                  %option{:value => "Hidalgo", selected: resource.state == 'Hidalgo'} Hidalgo
+                  %option{:value => "Jalisco", selected: resource.state == 'Jalisco'} Jalisco
+                  %option{:value => "Michoacán", selected: resource.state == 'Michoacán'} Michoacán
+                  %option{:value => "Morelos", selected: resource.state == 'Morelos'} Morelos
+                  %option{:value => "Nayarit", selected: resource.state == 'Nayarit'} Nayarit
+                  %option{:value => "Nuevo León", selected: resource.state == 'Nuevo León'} Nuevo León
+                  %option{:value => "Oaxaca", selected: resource.state == 'Oaxaca'} Oaxaca
+                  %option{:value => "Puebla", selected: resource.state == 'Puebla'} Puebla
+                  %option{:value => "Querétaro", selected: resource.state == 'Querétaro'} Querétaro
+                  %option{:value => "Quintana Roo", selected: resource.state == 'Quintana Roo'} Quintana Roo
+                  %option{:value => "San Luis Potosí", selected: resource.state == 'San Luis Potosí'} San Luis Potosí
+                  %option{:value => "Sinaloa", selected: resource.state == 'Sinaloa'} Sinaloa
+                  %option{:value => "Sonora", selected: resource.state == 'Sonora'} Sonora
+                  %option{:value => "Tabasco", selected: resource.state == 'Tabasco'} Tabasco
+                  %option{:value => "Tamaulipas", selected: resource.state == 'Tamaulipas'} Tamaulipas
+                  %option{:value => "Tlaxcala", selected: resource.state == 'Tlaxcala'} Tlaxcala
+                  %option{:value => "Veracruz", selected: resource.state == 'Veracruz'} Veracruz
+                  %option{:value => "Yucatán", selected: resource.state == 'Yucatán'} Yucatán
+                  %option{:value => "Zacatecas", selected: resource.state == 'Zacatecas'} Zacatecas
             .form-group
               %label.col-sm-3.control-label{:for => "name"} Ciudad
               .col-sm-9
@@ -62,11 +96,6 @@
               .col-sm-9
                 = f.text_area :bio, class: 'form-control', placeholder: 'Comparte una pequeña descripción de ti y tus habilidades.'
             .form-group
-              %label.col-sm-3.control-label{:for => "correo"} Contraseña
-              .col-sm-9
-                = f.password_field :current_password, class: 'form-control', placeholder: 'Introduce tu contraseña'
-                = error_for(resource, :current_password)
-            .form-group
               %label.col-sm-3.control-label{:for => "correo"} Nueva contraseña (dejar en blanco si no requieres cambiarlh)
               .col-sm-9
                 = f.password_field :password, class: 'form-control', placeholder: 'Introduce tu contraseña'
@@ -77,6 +106,16 @@
               .col-sm-9
                 = f.text_field :password_confirmation, class: 'form-control', placeholder: 'Confirma tu contraseña'
                 = error_for(resource, :password_confirmation)
+                .field.m-t-15
+            .form-group
+              %label
+                %strong Contraseña actual
+              %i (Necesitamos tu password actual para realizar los cambios)
+              %br/
+              .m-b-15{:style => "max-width:50%"}
+                = f.password_field :current_password, class: 'form-control', placeholder: 'Introduce tu contraseña'
+                = error_for(resource, :current_password)
+            .clearfix
             %br/
             .row
               .col-sm-9
