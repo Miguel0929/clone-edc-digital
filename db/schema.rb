@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161001053312) do
+ActiveRecord::Schema.define(version: 20161004161951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,14 @@ ActiveRecord::Schema.define(version: 20161001053312) do
   add_index "ckeditor_assets", ["assetable_type", "assetable_id"], name: "idx_ckeditor_assetable", using: :btree
   add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], name: "idx_ckeditor_assetable_type", using: :btree
 
+  create_table "comment_notifications", force: :cascade do |t|
+    t.integer "comment_id"
+    t.integer "user_id"
+  end
+
+  add_index "comment_notifications", ["comment_id"], name: "index_comment_notifications_on_comment_id", using: :btree
+  add_index "comment_notifications", ["user_id"], name: "index_comment_notifications_on_user_id", using: :btree
+
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "answer_id"
@@ -101,6 +109,17 @@ ActiveRecord::Schema.define(version: 20161001053312) do
     t.datetime "updated_at"
     t.string   "video_url"
   end
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "notificable_id"
+    t.string   "notificable_type"
+    t.boolean  "read",             default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
 
   create_table "programs", force: :cascade do |t|
     t.string   "name"

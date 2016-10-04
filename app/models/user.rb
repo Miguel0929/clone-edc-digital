@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   has_many :group_users
   has_many :groups, through: :group_users
   has_many :trackers
+  has_many :notifications
+  has_many :comment_notifications, :through => :notifications, :source => :notificable, :source_type => 'CommentNotification'
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable
 
