@@ -106,8 +106,7 @@
               .col-sm-9
                 = f.text_field :password_confirmation, class: 'form-control', placeholder: 'Confirma tu contraseña'
                 = error_for(resource, :password_confirmation)
-                .field.m-t-15
-            .form-group
+            .field.m-t-15
               %label
                 %strong Contraseña actual
               %i (Necesitamos tu password actual para realizar los cambios)
