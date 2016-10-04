@@ -27,7 +27,8 @@
   %body.fixed-header.menu-behind
     %nav.page-sidebar{"data-pages" => "sidebar"}
       .sidebar-header
-        = image_tag('logo-edc-blanco-horizontal.png', height: 40)
+        %a{href: root_path}
+          = image_tag('logo-edc-blanco-horizontal.png', height: 40)
       .sidebar-menu
         %ul.menu-items
           - if current_user.admin?
@@ -101,11 +102,13 @@
           .pull-center.hidden-md.hidden-lg
             .header-inner
               .brand.inline
-                = image_tag('logo-edc-color-horizontal.png', height: 40)
+                %a{href: root_path}
+                  = image_tag('logo-edc-color-horizontal.png', height: 40)
         .pull-left.sm-table.hidden-xs.hidden-sm
           .header-inner
             .brand.inline
-              = image_tag('logo-edc-color-horizontal.png', height: 40)
+              %a{href: root_path}
+                = image_tag('logo-edc-color-horizontal.png', height: 40)
             %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-l.b-r.no-style.p-l-30.p-r-20
               %li.p-r-15.inline
                 .dropdown
@@ -139,7 +142,7 @@
 
       .page-content-wrapper
         .content
-          .jumbotron.bg-white{"data-pages" => "parallax"}
+          .jumbotron.bg-white.m-b-0{"data-pages" => "parallax"}
             .container-fluid.container-fixed-lg
               .inner
                 %ul.breadcrumb

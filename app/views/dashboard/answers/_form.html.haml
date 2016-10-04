@@ -33,11 +33,31 @@
           .col-sm-12
             - if @chapter_content.higher_item
               .pull-left
-                %a.btn.btn-sm.btn-info.btn-cons.m-b-10{href: dashboard_chapter_content_path(@chapter_content.higher_item)}
+                %a.btn.btn-sm.btn-info.btn-cons.m-b-10#previous_content{href: dashboard_chapter_content_path(@chapter_content.higher_item)}
                   %i.fa.fa-backward
                   %span.bold Anterior
             - if @chapter_content.lower_item
               .pull-right
-                %a.btn.btn-sm.btn-info.btn-cons.m-b-10{href: dashboard_chapter_content_path(@chapter_content.lower_item)}
+                %a.btn.btn-sm.btn-info.btn-cons.m-b-10#next_content{href: dashboard_chapter_content_path(@chapter_content.lower_item)}
                   %span.bold Siguiente
                   %i.fa.fa-forward
+
+#warning-modal.modal.fade.slide-up.disable-scroll{"aria-hidden" => "true", :role => "dialog", :style => "display: none;", :tabindex => "-1"}
+  .modal-dialog.modal-lg
+    .modal-content-wrapper
+      .modal-content
+        .modal-header.clearfix.text-left
+          %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
+            %i.pg-close.fs-14
+          %h5.text-center
+            ¿Estás seguro de continuar sin guardar cambios?
+        .modal-body
+          .row.m-b-20
+            .col-sm-12
+          .row
+            .col-sm-12.text-right
+              %button.btn.btn-success#continue_content
+                Continuar
+              %button.btn.btn-default{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
+                %i.pg-close
+                Cancelar

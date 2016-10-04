@@ -75,7 +75,8 @@
           %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
             %i.pg-close.fs-14
           %h5 Agregar nuevo comentario
-          %p.p-b-10 Introduce aquí tu comentario
+          %p.p-b-0.m-b-0
+            Introduce aquí tu comentario
         .modal-body
           = bootstrap_form_for([:dashboard, @answer, Comment.new], html: {id: "form-work", class: 'form-horizontal'}) do |f|
             .row.m-b-20
