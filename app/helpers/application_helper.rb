@@ -21,4 +21,10 @@ module ApplicationHelper
       'rubensito-05.png'
     end
   end
+
+  def parse_lesson_content(lesson)
+    return lesson.content.gsub('{{video}}', '') if lesson.video_url.nil? || lesson.video_url.empty?
+
+    lesson.content.gsub('{{video}}', content_tag(:div, lesson.video_url.html_safe, class: 'embed-responsive embed-responsive-16by9'))
+  end
 end
