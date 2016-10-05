@@ -10,6 +10,9 @@ class User < ActiveRecord::Base
   has_many :group_users
   has_many :groups, through: :group_users
   has_many :trackers
+  has_many :notifications
+  has_many :comment_notifications, :through => :notifications, :source => :notificable, :source_type => 'CommentNotification'
+  has_many :program_notifications, :through => :notifications, :source => :notificable, :source_type => 'ProgramNotification'
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable
 
@@ -50,6 +53,19 @@ class User < ActiveRecord::Base
 
   def has_answer_question?(model)
     !answers.where(question: model).empty?
+  end
+
+  def answer_for(question)
+    answer = answers.find_by(question: question)
+    answer.nil? ? nil : answer
+  end
+
+  def limited_notifications
+    notifications.limit(3).order(created_at: :desc)
+  end
+
+  def has_notifications?
+    notifications.where(read: false).count > 0
   end
 
   private

@@ -1,0 +1,22 @@
+- case notification.model.notification_type
+- when 'rubric'
+  %i.fa.fa-calendar-check-o.m-r-10
+  %span.fs-12.m-l-10
+    Tu rúbrica de evaluación en el programa
+    %strong
+      "#{notification.model.program.name}"
+    ha sido actualizada recientemente.
+- when 'new_content'
+  %i.fa.fa-refresh.m-r-10
+  %span.fs-12.m-l-10
+    El contenido del programa
+    %strong
+      "#{notification.model.program.name}"
+    ha sido actualizado.
+- when 'new_program'
+  %i.fa.fa-plus-square.m-r-10
+  %span.fs-12.m-l-10
+    Un nuevo programa de aprendizaje 
+    %strong
+      "#{notification.model.program.name}"
+    ha sido añadido para ti.

@@ -15,6 +15,7 @@ class QuestionsController < ApplicationController
 
     if @question.save
       @chapter.questions << @question
+      NewContentNotificationJob.perform_later(@chapter.program)
       redirect_to @chapter.program
     else
       render :new

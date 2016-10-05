@@ -28,7 +28,9 @@ class GroupsController < ApplicationController
   end
 
   def update
+    before_update_ids = @group.programs.pluck(:id)
     if @group.update(group_params)
+      NewProgramNotificationJob.perform_later(before_update_ids, @group.programs.pluck(:id))
       redirect_to groups_path, notice: 'Group was successfully updated.'
     else
       render :edit

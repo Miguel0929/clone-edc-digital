@@ -3837,6 +3837,9 @@ Misc buttons
 /* Notification popup
 --------------------------------------------------
 */
+/* Notification popup
+--------------------------------------------------
+*/
 .popover {
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 9px rgba(191, 191, 191, 0.36);
@@ -3879,7 +3882,7 @@ Misc buttons
   color: #6dc0f9;
 }
 .notification-panel .notification-body .notification-item .heading {
-  line-height: 43px;
+  line-height: 20px;
   margin-right: 5px;
   background: #fff;
   border-bottom: 1px solid #e6e6e6;
@@ -3888,6 +3891,10 @@ Misc buttons
   width: 100%;
   font-size: 14px;
   opacity: 0.7;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+
 }
 .notification-panel .notification-body .notification-item .heading:after {
   content: '';
@@ -13976,3 +13983,38 @@ select:-moz-focusring {
   margin-top: -3px;
 }
 
+.panel-title-alone {
+  font-family: 'Montserrat';
+  text-transform: uppercase;
+  display: inline-block;
+  letter-spacing: 0.02em;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-text-stroke: 0px;
+  filter: alpha(opacity=40);
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+}
+
+.font-subtitle-table {
+  font-family: "Muli", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #2c2c2c;
+  text-transform: none;
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+.rating-image {
+  max-width: 40px;
+  margin-bottom: 10px;
+  margin-right: 5px;
+}
+
+.notification-panel-2 {
+  width: 100%;
+}
