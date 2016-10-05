@@ -3837,6 +3837,9 @@ Misc buttons
 /* Notification popup
 --------------------------------------------------
 */
+/* Notification popup
+--------------------------------------------------
+*/
 .popover {
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 9px rgba(191, 191, 191, 0.36);
@@ -3879,7 +3882,7 @@ Misc buttons
   color: #6dc0f9;
 }
 .notification-panel .notification-body .notification-item .heading {
-  line-height: 43px;
+  line-height: 20px;
   margin-right: 5px;
   background: #fff;
   border-bottom: 1px solid #e6e6e6;
@@ -3888,6 +3891,10 @@ Misc buttons
   width: 100%;
   font-size: 14px;
   opacity: 0.7;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+
 }
 .notification-panel .notification-body .notification-item .heading:after {
   content: '';

@@ -1,0 +1,10 @@
+%i.fa.fa-comment.m-r-10
+%span.fs-12.m-l-10
+  - if current_user.mentor?
+    #{notification.model.comment.user.name} realizó un comentario en la pregunta
+    %strong
+      = notification.model.comment.answer.question.question_text
+  - else
+    #{notification.model.comment.user.name} realizó un comentario en tu pregunta
+    %strong
+      = notification.model.comment.answer.question.question_text

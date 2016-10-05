@@ -59,6 +59,14 @@ class User < ActiveRecord::Base
     answer.nil? ? nil : answer
   end
 
+  def limited_notifications
+    notifications.limit(3).order(created_at: :desc)
+  end
+
+  def has_notifications?
+    notifications.where(read: false).count > 0
+  end
+
   private
 
   def set_origin

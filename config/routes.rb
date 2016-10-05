@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   end
 
   namespace :dashboard do
+    resources :notifications, only: [:show]
+
     resources :programs, only: [:index, :show] do
       member do
         get :resume

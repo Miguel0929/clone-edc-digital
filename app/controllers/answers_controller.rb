@@ -16,6 +16,7 @@ class AnswersController < ApplicationController
     @answer = @user.answers.find(params[:id])
 
     if @answer.update(answer_params)
+      binding.pry
       redirect_to user_program_answers_path(@user, @program)
     else
       render :edit

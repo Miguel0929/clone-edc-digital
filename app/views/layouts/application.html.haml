@@ -113,7 +113,31 @@
               %li.p-r-15.inline
                 .dropdown
                   %a#notification-center.icon-set.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
-                    %span.bubble
+                    - if current_user.has_notifications?
+                      %span.bubble
+
+
+                  .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
+                    .notification-panel
+                      .scroll-wrapper.notification-body.scrollable{:style => "position: relative;"}
+                        .notification-body.scrollable.scroll-content{:style => "height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 0px;"}
+                          = render partial: "notifications/notification", collection: current_user.limited_notifications
+
+                        .scroll-element.scroll-x
+                          .scroll-element_outer
+                            .scroll-element_size
+                            .scroll-element_track
+                            .scroll-bar
+                        .scroll-element.scroll-y
+                          .scroll-element_outer
+                            .scroll-element_size
+                            .scroll-element_track
+                            .scroll-bar
+                      .notification-footer.text-center
+                        %a{:href => "#"} Leer todas las notificaciones
+                        %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
+                          %i.pg-refresh_new
+
         .pull-right
           .visible-lg.visible-md.m-t-10
             .pull-left.p-r-10.p-t-10.fs-16.font-heading
