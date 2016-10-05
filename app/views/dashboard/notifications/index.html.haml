@@ -1,0 +1,8 @@
+.container-fluid.container-fixed-lg
+  .panel-title-alone Notificaciones
+  %h3 Tus notificaciones
+  .row
+    .col-md-12
+      .notification-panel.notification-panel-2
+        .notification-body.scrollable
+          = render partial: 'notifications/notification', collection: @notifications
