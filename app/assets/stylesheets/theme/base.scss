@@ -13976,3 +13976,34 @@ select:-moz-focusring {
   margin-top: -3px;
 }
 
+.panel-title-alone {
+  font-family: 'Montserrat';
+  text-transform: uppercase;
+  display: inline-block;
+  letter-spacing: 0.02em;
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-text-stroke: 0px;
+  filter: alpha(opacity=40);
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+}
+
+.font-subtitle-table {
+  font-family: "Muli", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #2c2c2c;
+  text-transform: none;
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+.rating-image {
+  max-width: 40px;
+  margin-bottom: 10px;
+  margin-right: 5px;
+}

@@ -54,6 +54,11 @@ class User < ActiveRecord::Base
     !answers.where(question: model).empty?
   end
 
+  def answer_for(question)
+    answer = answers.find_by(question: question)
+    answer.nil? ? nil : answer
+  end
+
   private
 
   def set_origin

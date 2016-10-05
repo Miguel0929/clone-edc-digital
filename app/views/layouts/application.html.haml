@@ -142,7 +142,7 @@
 
       .page-content-wrapper
         .content
-          .jumbotron.bg-white.m-b-0{"data-pages" => "parallax"}
+          .jumbotron.bg-white{"data-pages" => "parallax", class: "#{include_margin?(controller_name, action_name) ? 'm-b-0' : ''}"}
             .container-fluid.container-fixed-lg
               .inner
                 %ul.breadcrumb

@@ -27,4 +27,8 @@ module ApplicationHelper
 
     lesson.content.gsub('{{video}}', content_tag(:div, lesson.video_url.html_safe, class: 'embed-responsive embed-responsive-16by9'))
   end
+
+  def include_margin?(controller_name, action_name)
+    controller_name == 'programs' && action_name == 'show'
+  end
 end
