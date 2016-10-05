@@ -1,0 +1,8 @@
+.notification-item.clearfix{class: "#{notification.read ? '':'unread'}"}
+  .heading
+    %a.pull-left{:href => dashboard_notification_path(notification)}
+      = render partial: "notifications/#{notification.notificable_type.underscore}", locals: { notification: notification }
+    %span.pull-right.time
+      = distance_of_time_in_words(notification.created_at.to_i, Time.now.to_i)
+  .option
+    %a.mark{:href => "#"}

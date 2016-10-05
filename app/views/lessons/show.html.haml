@@ -9,8 +9,8 @@
         = @lesson.identifier
 
       %div
-        - if @lesson.video_url.nil? || @lesson.video_url.empty?
-          = raw @lesson.content
-        - else
+        - if @lesson.content.nil? || @lesson.content.empty?
           .embed-responsive.embed-responsive-16by9
             = raw @lesson.video_url
+        - else
+          = raw parse_lesson_content(@lesson)

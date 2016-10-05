@@ -1,6 +1,7 @@
 .container-fluid.container-fixed-lg
+  .panel-title-alone Compilación de resultados
   %h2
-    Rúbrica de evaluación
+    Resultados generales de evaluación
   .panel.panel-default
     .panel-body
       %table.table.resumen-table.table-striped.rubrica-table
@@ -10,6 +11,9 @@
             - @program.chapters.each do |chapter|
               %th
                 = chapter.name
+                %br
+                %span.font-subtitle-table
+                  (#{chapter.points} puntos)
             %th
               Total
         %tbody
@@ -40,35 +44,44 @@
         %table.table.table-striped
           %thead
             %tr
-              %th
+              %th{style: "width:20%"}
                 Pregunta
-              %th
+              %th{style: "width:30%"}
                 Respuesta
-              %th
+              %th{style: "width:15%"}
                 Evaluación
-              %th
+              %th{style: "width:30%"}
                 Detalle de evaluación
-              %th
+              %th{style: "width:5%"}
+                ACCIONES
           %tbody
-            - current_user.answers_for(chapter).each do |answer|
+            - chapter.questions.each do |question|
               %tr
                 %td
-                  = answer.question.question_text
+                  = question.question_text
                 %td
-                  = answer.humanize_answer
+                  - unless current_user.answer_for(question).nil?
+                    = current_user.answer_for(question).humanize_answer
+                %td.text-center
+                  - if current_user.answer_for(question).nil? == false && current_user.answer_for(question).rubric.nil? == false
+                    = image_tag(image_for_rubric(current_user.answer_for(question).rubric.criteria), width: 50, class: 'rating-image', 'data-original-title'=> "Esta pregunta ha sido evaluada como #{current_user.answer_for(question).rubric.criteria.downcase}", 'data-toggle'=>"tooltip")
+                    %br
+                    = current_user.answer_for(question).rubric.criteria
                 %td
-                  - unless answer.rubric.nil?
-                    = image_tag(image_for_rubric(answer.rubric.criteria), width: 50)
-                    = answer.rubric.criteria
-                %td
-                  - unless answer.rubric.nil?
-                    = answer.rubric.base
-                %td
-                  = link_to edit_dashboard_chapter_content_answer_path(answer.question.chapter_content, answer), class: 'btn btn-default' do
-                    %span.glyphicon.glyphicon-edit
+                  - if current_user.answer_for(question).nil? == false && current_user.answer_for(question).rubric.nil? == false
+                    = current_user.answer_for(question).rubric.base
+                %td.table-actions.text-center
+                  .btn-toolbar{role: 'toolbar'}
+                    .btn-group.sm-m-t-10
+                      - if current_user.answer_for(question).nil?
+                        = link_to router_dashboard_chapter_content_answers_path(question.chapter_content), class: 'btn btn-default' do
+                          Responder
+                      - else
+                        = link_to edit_dashboard_chapter_content_answer_path(question.chapter_content, current_user.answer_for(question)), class: 'btn btn-default' do
+                          %span.glyphicon.glyphicon-edit
 
-                  = link_to dashboard_chapter_content_answer_path(answer.question.chapter_content, answer), class: 'btn btn-default' do
-                    %i.fa.fa-eye
+                        = link_to dashboard_chapter_content_answer_path(question.chapter_content, current_user.answer_for(question)), class: 'btn btn-default btn-sm' do
+                          %i.fa.fa-eye
 :javascript
   $(document).on('turbolinks:load', function(){
     var EDC_DIGITAL =  EDC_DIGITAL || {};
