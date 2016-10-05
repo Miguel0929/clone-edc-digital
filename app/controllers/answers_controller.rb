@@ -2,6 +2,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user
   before_action :set_program
+  before_action :answer_is_not_present, only: [:update]
 
   def index
     answers =  @user.answers
@@ -13,10 +14,8 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer = @user.answers.find(params[:id])
-
     if @answer.update(answer_params)
-      binding.pry
+      create_notification
       redirect_to user_program_answers_path(@user, @program)
     else
       render :edit
@@ -34,5 +33,14 @@ class AnswersController < ApplicationController
 
   def set_program
     @program = Program.find(params[:program_id])
+  end
+
+  def answer_is_not_present
+    @answer = @user.answers.find(params[:id])
+    redirect_to edit_user_program_answer_path(@user, @program, @answer) unless params[:answer].present?
+  end
+
+  def create_notification
+    @user.program_notifications.create(program: @program, notification_type: 'rubric')
   end
 end

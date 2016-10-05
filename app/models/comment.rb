@@ -8,18 +8,11 @@ class Comment < ActiveRecord::Base
   private
   def create_notification
     if user.mentor?
-      ActiveRecord::Base.transaction do
-        student = answer.user
-        comment_notification = student.comment_notifications.build(comment: self, user: user)
-        comment_notification.save
-        student.comment_notifications << comment_notification
-      end
+      answer.user.comment_notifications.create(comment: self, user: user)
     else
       ActiveRecord::Base.transaction do
         user.group.users.each do |mentor|
-          comment_notification = mentor.comment_notifications.build(comment: self, user: user)
-          comment_notification.save
-          mentor.comment_notifications << comment_notification
+          mentor.comment_notifications.create(comment: self, user: user)
         end
       end
     end

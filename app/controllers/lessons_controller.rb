@@ -15,6 +15,7 @@ class LessonsController < ApplicationController
 
     if @lesson.save
       @chapter.lessons << @lesson
+      NewContentNotificationJob.perform_later(@chapter.program)
       redirect_to @chapter.program
     else
       render :new
