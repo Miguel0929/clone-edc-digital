@@ -119,9 +119,8 @@
 
                   .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
                     .notification-panel
-                      .notification-body.scrollable{:style => "position: relative;"}
-                        .notification-body.scrollable.scroll-content{:style => "height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 0px;"}
-                          = render partial: "notifications/notification", collection: current_user.limited_notifications
+                      .notification-body.scrollable
+                        = render partial: "notifications/notification", collection: current_user.limited_notifications
                       .notification-footer.text-center
                         %a{:href => dashboard_notifications_path} Leer todas las notificaciones
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
