@@ -4,7 +4,7 @@ class Dashboard::ChapterContentsController < ApplicationController
 
   def show
     if @chapter_content.coursable_type == 'Question'
-      redirect_to router_dashboard_chapter_content_answers_path(@chapter_content)
+      redirect_to router_dashboard_chapter_content_answers_path(@chapter_content), status: 301
     else
       add_breadcrumb "EDCDIGITAL", :root_path
       add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
