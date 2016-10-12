@@ -6,10 +6,14 @@ $(document).on('turbolinks:load', function(){
   });
 
   function warnUnsavedAnswer(e){
+    e.preventDefault();
+
     if($('#new_answer').length){
-      e.preventDefault();
       $('#continue_content').attr('next-content', $(this).attr('href'));
       $('#warning-modal').modal('show');
+    }
+    else{
+      window.location = $(this).attr('href');
     }
   }
 });
