@@ -27,7 +27,7 @@
   %body.fixed-header.menu-behind
     %nav.page-sidebar{"data-pages" => "sidebar"}
       .sidebar-header
-        %a{href: root_path}
+        %a.redirector{href: root_path}
           = image_tag('logo-edc-blanco-horizontal.png', height: 40)
       .sidebar-menu
         %ul.menu-items
@@ -63,7 +63,7 @@
 
           - if current_user.student?
             %li.m-t-30
-              %a.detailed{:href => root_path}
+              %a.detailed.redirector{:href => root_path}
                 %span.title Inicio
                 %span.details Bienvenido a EDCdigital
               %span.icon-thumbnail
@@ -102,12 +102,12 @@
           .pull-center.hidden-md.hidden-lg
             .header-inner
               .brand.inline
-                %a{href: root_path}
+                %a.redirector{href: root_path}
                   = image_tag('logo-edc-color-horizontal.png', height: 40)
         .pull-left.sm-table.hidden-xs.hidden-sm
           .header-inner
             .brand.inline
-              %a{href: root_path}
+              %a.redirector{href: root_path}
                 = image_tag('logo-edc-color-horizontal.png', height: 40)
             %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-l.b-r.no-style.p-l-30.p-r-20
               %li.p-r-15.inline
