@@ -31,4 +31,8 @@ module ApplicationHelper
   def include_margin?(controller_name, action_name)
     controller_name == 'programs' && action_name == 'show'
   end
+
+  def url_prod_helper(url)
+    Rails.env.production? ? url.gsub('http', 'https') : url
+  end
 end

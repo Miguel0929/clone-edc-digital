@@ -23,7 +23,7 @@
 
               .panel-body
                 .panel-body
-                  .sortable{'data-update-url'=> sort_chapter_contents_url }
+                  .sortable{'data-update-url'=> url_prod_helper(sort_chapter_contents_url) }
                     - chapter.chapter_contents.each do |content|
                       - if content.coursable_type == 'Lesson'
                         .well{id: "chapter_content_#{content.id}"}
