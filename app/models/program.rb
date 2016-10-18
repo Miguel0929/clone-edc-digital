@@ -14,4 +14,8 @@ class Program < ActiveRecord::Base
 
     next_content.nil? ? [:dashboard, self] : [:dashboard, next_content]
   end
+
+  def next_chapter(chapter)
+    chapters.where("id > ?", chapter.id).first
+  end
 end
