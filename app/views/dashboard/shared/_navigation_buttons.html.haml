@@ -1,0 +1,24 @@
+.row
+  .col-sm-12
+    - if chapter_content.higher_item
+      .pull-left
+        %button.btn.btn-sm.btn-info.btn-cons.m-b-10#previous_content{href: dashboard_chapter_content_path(chapter_content.higher_item)}
+          %i.fa.fa-backward
+          %span.bold Anterior
+
+    - if chapter_content.lower_item
+      .pull-right
+        %button.btn.btn-sm.btn-info.btn-cons.m-b-10#next_content{href: dashboard_chapter_content_path(chapter_content.lower_item)}
+          %span.bold Siguiente
+          %i.fa.fa-forward
+
+    - elsif chapter_content.chapter.program.next_chapter(chapter_content.chapter) && chapter_content.chapter.program.next_chapter(chapter_content.chapter).chapter_contents.first
+      .pull-right
+        %button.btn.btn-sm.btn-info.btn-cons.m-b-10#next_content{href: dashboard_chapter_content_path(chapter_content.chapter.program.next_chapter(chapter_content.chapter).chapter_contents.first)}
+          %span.bold Siguiente modulo
+          %i.fa.fa-forward
+    - else
+      .pull-right
+        %button.btn.btn-sm.btn-info.btn-cons.m-b-10#next_content{href: dashboard_program_path(chapter_content.chapter.program)}
+          %span.bold Volver al contenido del programa
+          %i.fa.fa-forward
