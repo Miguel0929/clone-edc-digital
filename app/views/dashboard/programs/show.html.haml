@@ -34,10 +34,10 @@
                 .panel.panel-default
                   .panel-heading{:role => "tab", :id=>"heading_#{chapter.id}"}
                     %h4.panel-title
-                      %a{"aria-controls" => "collapse_#{chapter.id}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse_#{chapter.id}"}
-                        = chapter.name
+                      %a{"aria-controls" => "collapse_#{chapter.id}", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse_#{chapter.id}"}
+                        = "#{chapter.name} (#{chapter.points} puntos)"
 
-                  .panel-collapse.collapse.in{:id=>"collapse_#{chapter.id}", "aria-labelledby" => "heading_#{chapter.id}", :role => "tabpanel"}
+                  .panel-collapse.collapse{:id=>"collapse_#{chapter.id}", "aria-labelledby" => "heading_#{chapter.id}", :role => "tabpanel"}
                     .panel-body
                       %table.table.table-striped.table-top-border
                         %tbody
