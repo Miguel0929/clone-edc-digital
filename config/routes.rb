@@ -26,6 +26,11 @@ Rails.application.routes.draw do
   end
 
   namespace :dashboard do
+    get 'terminos-y-condiciones', to: 'welcome#terms', as: :terms
+    get 'politica-de-privacidad', to: 'welcome#privacy', as: :privacy
+    get 'ayuda',                  to: 'welcome#support', as: :support
+    post 'send_support_email',    to: 'welcome#send_support_email'
+
     resources :notifications, only: [:index, :show] do
       collection do
         post :mark_as_read
