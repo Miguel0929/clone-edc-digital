@@ -13931,8 +13931,8 @@ select.minimal {
 	
 select.minimal:focus {
   background-image:
-    linear-gradient(45deg, green 50%, transparent 50%),
-    linear-gradient(135deg, transparent 50%, green 50%),
+    linear-gradient(45deg, black 50%, transparent 50%),
+    linear-gradient(135deg, transparent 50%, black 50%),
     linear-gradient(to right, #ccc, #ccc);
   background-position:
     calc(100% - 15px) 1em,
@@ -14018,3 +14018,32 @@ select:-moz-focusring {
 .notification-panel-2 {
   width: 100%;
 }
+
+.breadcrumb {
+  font-family: 'Montserrat';
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  box-shadow: none;
+  background-color: transparent;
+  padding: 5px 0;
+  margin: 0;
+  border: none;
+  text-transform: uppercase;
+  display: block;
+}
+
+.breadcrumb a {
+  margin-left: 5px;
+  margin-right: 5px;
+  font-family: 'Montserrat';
+  font-size: 10px !important;
+  font-weight: 400;
+  color: #7b7d82;
+}
+
+.form-control[disabled],.form-control[readonly], fieldset[disabled] .form-control {
+  background: #fff;
+  color: rgba(98, 98, 98, 1);
+}
+
