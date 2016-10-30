@@ -18,6 +18,10 @@
             .alert.alert-success
               %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
               = notice
+          - if alert
+            .alert.alert-danger
+              %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
+              = alert
 
           = form_tag(dashboard_send_support_email_path, class: 'form-horizontal') do
             .form-group
