@@ -15,7 +15,7 @@
     - elsif chapter_content.chapter.program.next_chapter(chapter_content.chapter) && chapter_content.chapter.program.next_chapter(chapter_content.chapter).chapter_contents.first
       .pull-right
         %button.btn.btn-sm.btn-info.btn-cons.m-b-10#next_content{href: dashboard_chapter_content_path(chapter_content.chapter.program.next_chapter(chapter_content.chapter).chapter_contents.first)}
-          %span.bold Siguiente modulo
+          %span.bold Siguiente módulo
           %i.fa.fa-forward
     - else
       .pull-right

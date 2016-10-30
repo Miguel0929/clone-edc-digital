@@ -2,7 +2,15 @@
   .panel-title-alone Notificaciones
   %h3 Tus notificaciones
   .row
-    .col-md-12
-      .notification-panel.notification-panel-2
-        .notification-body.scrollable
-          = render partial: 'notifications/notification', collection: @notifications
+    .col-sm-12
+      .panel.panel-transparent
+        .panel-heading.text-right
+          .panel-title
+            = form_tag(mark_as_read_dashboard_notifications_path)do
+              %button.btn.btn-primary.m-b-10.btn-xs{:type => "submit"}
+                %i.pg-refresh_new
+                Marcar todas las notificaciones como leídas
+        .panel-body
+          .notification-panel.notification-panel-2
+            .notification-body.notification-body-3
+              = render partial: 'notifications/notification', collection: @notifications

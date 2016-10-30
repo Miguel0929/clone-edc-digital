@@ -85,7 +85,7 @@
                   %a{:href => edit_user_registration_path} Perfil
                   %span.icon-thumbnail Pf
                 %li
-                  %a{:href => "mailto:soporte@edcdigital.mx"} Ayuda
+                  %a{:href => dashboard_support_path} Ayuda
                   %span.icon-thumbnail Ay
                 %li
                   = link_to destroy_user_session_path, method: :delete do
@@ -122,7 +122,7 @@
                       .notification-body.scrollable
                         = render partial: "notifications/notification", collection: current_user.limited_notifications
                       .notification-footer.text-center
-                        %a{:href => dashboard_notifications_path} Leer todas las notificaciones
+                        %a{:href => dashboard_notifications_path} Ver todas las notificaciones
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
                           %i.pg-refresh_new
 
@@ -143,7 +143,7 @@
                     %i.pg-settings_small
                     Configuraciones
                 %li
-                  %a{:href => "mailto:soporte@edcdigital.mx"}
+                  %a{:href => dashboard_support_path }
                     %i.pg-signals
                     Ayuda
                 %li.bg-master-lighter
@@ -169,7 +169,7 @@
                 %span.font-montserrat Distrito Emprendedor
               %span.hint-text Todos los derechos reservados.
               %span.sm-block
-                %a.m-l-10.m-r-10{:href => "#"} Términos de uso
+                %a.m-l-10.m-r-10{:href => dashboard_terms_path} Términos de uso
                 |
-                %a.m-l-10{:href => "#"} Política de Privacidad
+                %a.m-l-10{:href => dashboard_privacy_path } Política de Privacidad
             .clearfix
