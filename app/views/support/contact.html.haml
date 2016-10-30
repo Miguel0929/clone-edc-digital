@@ -1,0 +1,10 @@
+- unless @urgency == 'none'
+  %p
+    %strong
+      Nivel de urgencia
+    = @urgency
+%p
+  #{@user.name} / #{@user.email}:
+
+%p
+  = @message

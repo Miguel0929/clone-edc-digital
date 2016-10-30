@@ -29,4 +29,10 @@ class Dashboard::NotificationsController < ApplicationController
 
     redirect_to path
   end
+
+  def mark_as_read
+    current_user.notifications.update_all(read: true)
+
+    redirect_to dashboard_notifications_path
+  end
 end

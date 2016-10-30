@@ -1,0 +1,49 @@
+- content_for :title do
+  Ayuda - EDCdigital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-transparent
+    .panel-body
+      .row
+        .col-sm-10
+          %h3
+          %br/
+          .row-xs-height
+            .col-xs-height
+              %h3.no-margin Contáctanos
+              %p.hint-text.m-t-5
+                Ya sea que solo necesites algo de ayuda o saludar al equipo detrás de EDCdigital.mx, ¡estaremos encantados de escuchar de ti! Envíanos un mensaje y contestaremos tan rápido como nos sea posible.
+
+          - if alert
+            .alert.alert-danger
+              %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
+              = alert
+
+          - if notice
+            .alert.alert-success
+              %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
+              = notice
+
+          = form_tag(dashboard_send_support_email_path, class: 'form-horizontal') do
+            .form-group
+              %label.col-sm-3.control-label{:for => "subject"} Asunto
+              .col-sm-9
+                %input#correo.form-control{:name => "subject", :placeholder => "Aquí va tu asunto", :required => "", :type => "text"}/
+            .form-group
+              %label.col-sm-3.control-label{:for => "urgency"} Nivel de urgencia
+              .col-sm-9
+                %select.full-width.form-control.minimal{name: 'urgency'}
+                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Por favor selecciona que tan urgente es tu mensaje
+                  %option{:value => "Esto es solo un mensaje"} Esto es solo un mensaje
+                  %option{:value => "Estaré bien, pero por favor arreglen esto"} Estaré bien, pero por favor arreglen esto
+                  %option{:value => "Estoy atorado, nada de lo que hago funciona"} Estoy atorado, nada de lo que hago funciona
+                  %option{:value => "Me está matando esto"} Me está matando esto
+                  %option{:value => "Emergencia: Esto es crítico"} Emergencia: Esto es crítico
+            .form-group
+              %label.col-sm-3.control-label{:for => "message"} Mensaje / Problema
+              .col-sm-9
+                %textarea.form-control{:placeholder => "Describe aquí el problema o lo que estás enfrentando", name: 'message'}
+            .clearfix
+            .row.m-t-15
+              .col-sm-9
+                %button.btn.btn-success{:type => "submit"} Enviar
