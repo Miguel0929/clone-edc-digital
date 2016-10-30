@@ -26,7 +26,11 @@ Rails.application.routes.draw do
   end
 
   namespace :dashboard do
-    resources :notifications, only: [:index, :show]
+    resources :notifications, only: [:index, :show] do
+      collection do
+        post :mark_as_read
+      end
+    end
 
     resources :programs, only: [:index, :show] do
       member do

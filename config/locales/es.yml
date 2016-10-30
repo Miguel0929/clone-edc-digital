@@ -61,39 +61,39 @@ es:
   datetime:
     distance_in_words:
       about_x_hours:
-        one: alrededor de 1 hora
-        other: alrededor de %{count} horas
+        one: Hace 1 hora
+        other: Hace %{count} horas
       about_x_months:
-        one: alrededor de 1 mes
-        other: alrededor de %{count} meses
+        one: Hace 1 mes
+        other: Hace %{count} meses
       about_x_years:
-        one: alrededor de 1 año
-        other: alrededor de %{count} años
+        one: Hace 1 año
+        other: Hace %{count} años
       almost_x_years:
-        one: casi 1 año
-        other: casi %{count} años
-      half_a_minute: medio minuto
+        one: Hace 1 año
+        other: Hace %{count} años
+      half_a_minute: Hace medio minuto
       less_than_x_minutes:
-        one: menos de 1 minuto
-        other: menos de %{count} minutos
+        one: Hace 1 minuto
+        other: Hace %{count} minutos
       less_than_x_seconds:
-        one: menos de 1 segundo
-        other: menos de %{count} segundos
+        one: Hace 1 segundo
+        other: Hace %{count} segundos
       over_x_years:
-        one: más de 1 año
-        other: más de %{count} años
+        one: Hace 1 año
+        other: Hace %{count} años
       x_days:
-        one: 1 día
-        other: "%{count} días"
+        one: Hace 1 día
+        other: "Hace %{count} días"
       x_minutes:
-        one: 1 minuto
-        other: "%{count} minutos"
+        one: Hace 1 minuto
+        other: "Hace %{count} minutos"
       x_months:
-        one: 1 mes
-        other: "%{count} meses"
+        one: Hace 1 mes
+        other: "Hace %{count} meses"
       x_seconds:
-        one: 1 segundo
-        other: "%{count} segundos"
+        one: Hace 1 segundo
+        other: "Hace %{count} segundos"
     prompts:
       day: Día
       hour: Hora

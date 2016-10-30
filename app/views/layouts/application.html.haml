@@ -122,7 +122,7 @@
                       .notification-body.scrollable
                         = render partial: "notifications/notification", collection: current_user.limited_notifications
                       .notification-footer.text-center
-                        %a{:href => dashboard_notifications_path} Leer todas las notificaciones
+                        %a{:href => dashboard_notifications_path} Ver todas las notificaciones
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
                           %i.pg-refresh_new
 
