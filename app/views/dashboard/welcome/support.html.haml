@@ -14,11 +14,6 @@
               %p.hint-text.m-t-5
                 Ya sea que solo necesites algo de ayuda o saludar al equipo detrás de EDCdigital.mx, ¡estaremos encantados de escuchar de ti! Envíanos un mensaje y contestaremos tan rápido como nos sea posible.
 
-          - if alert
-            .alert.alert-danger
-              %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
-              = alert
-
           - if notice
             .alert.alert-success
               %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
