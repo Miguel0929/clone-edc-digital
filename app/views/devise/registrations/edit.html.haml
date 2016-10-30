@@ -96,7 +96,7 @@
               .col-sm-9
                 = f.text_area :bio, class: 'form-control', placeholder: 'Comparte una pequeña descripción de ti y tus habilidades.'
             .form-group
-              %label.col-sm-3.control-label{:for => "correo"} Nueva contraseña (dejar en blanco si no requieres cambiarlh)
+              %label.col-sm-3.control-label{:for => "correo"} Nueva contraseña (dejar en blanco si no requieres cambiarlo)
               .col-sm-9
                 = f.password_field :password, class: 'form-control', placeholder: 'Introduce tu contraseña'
                 = error_for(resource, :password)
