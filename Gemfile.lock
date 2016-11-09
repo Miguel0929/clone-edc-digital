@@ -83,6 +83,9 @@ GEM
     diff-lcs (1.2.5)
     docile (1.1.5)
     erubis (2.7.0)
+    exception_notification (4.2.1)
+      actionmailer (>= 4.0, < 6)
+      activesupport (>= 4.0, < 6)
     excon (0.51.0)
     execjs (2.7.0)
     factory_girl (4.7.0)
@@ -395,6 +398,7 @@ DEPENDENCIES
   database_cleaner
   devise
   devise_invitable
+  exception_notification
   factory_girl_rails
   faker
   figaro
@@ -429,4 +433,4 @@ RUBY VERSION
    ruby 2.2.1p85
 
 BUNDLED WITH
-   1.13.1
+   1.13.6
