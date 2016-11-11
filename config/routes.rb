@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, :controllers => { :invitations => 'users/invitations' }
 
   devise_scope :user do
     root :to => 'devise/sessions#new'
