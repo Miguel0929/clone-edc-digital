@@ -9,8 +9,8 @@ class Users::InvitationsController < Devise::InvitationsController
     if Rails.env.production?
       Mailjet::Send.create(
         from_email: "hola@emprendiendodesdecero.com",
-        from_name: "Melissa de Distrito Emprendedor",
-        subject: "¡Bienvenido a Emprendiendo desde Cero Digital!",
+        from_name: "Equipo EDCdigital",
+        subject: "Tu cuenta en EDCdigital ha sido creada",
         "Mj-TemplateID": "67867",
         "Mj-TemplateLanguage": "true",
         recipients: [{ 'Email'=> user.email }],
