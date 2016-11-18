@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   before_action :require_admin, except: [:students, :index, :show]
   before_action :require_mentor, only: [:students]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :validate_student, only: [:edit, :update]
 
   def index
     redirect_to mentors_users_path
@@ -52,5 +53,9 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :phone_number)
+  end
+
+  def validate_student
+    redirect_to users_path unless @user.student?
   end
 end

@@ -49,6 +49,9 @@
                   %ul.dropdown-menu
                     %li
                       = link_to 'Ver información', user_path(user)
+                    - if user.student?
+                      %li
+                        = link_to 'Editar información', edit_user_path(user)
                     %li.divider
                     %li
                       = link_to 'Eliminar usuario', user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' }
