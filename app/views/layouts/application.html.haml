@@ -53,6 +53,13 @@
               %span.icon-thumbnail
                 %i.fa.fa-list-alt
 
+            %li.m-t-30
+              %a.detailed{:href => visits_path}
+                %span.title Visitas
+                %span.details Panel de visitas
+              %span.icon-thumbnail
+                %i.fa.fa-list-alt
+
           - if current_user.admin? || current_user.mentor?
             %li.m-t-30
               %a.detailed{:href => students_users_path}
