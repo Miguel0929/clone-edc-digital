@@ -1,0 +1,34 @@
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+      .pull-right
+        .col-xs-12
+          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+      .clearfix
+    .panel-body
+      %table.table.table-hover.datatable
+        %thead
+          %tr
+            %th
+              Usuario
+            %th
+              Navegador
+            %th
+              Dispositivo
+            %th
+              Sistema operativo
+            %th
+              Inició de sesión
+        %tbody
+          - @visits.each do |visit|
+            %tr
+              %td
+                = visit.user.email
+              %td
+                = visit.browser
+              %td
+                = visit.device_type
+              %td
+                = visit.os
+              %td
+                = l visit.started_at, format: :special
