@@ -23,7 +23,8 @@
           - @visits.each do |visit|
             %tr
               %td
-                = visit.user.email
+                - unless visit.user
+                  = visit.user.email
               %td
                 = visit.browser
               %td
