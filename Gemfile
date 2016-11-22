@@ -31,6 +31,7 @@ gem 'rails-i18n'
 gem 'non-stupid-digest-assets'
 gem 'exception_notification'
 gem 'mailjet'
+gem 'ahoy_matey'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
