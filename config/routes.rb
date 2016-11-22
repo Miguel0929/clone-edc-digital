@@ -69,6 +69,7 @@ Rails.application.routes.draw do
   end
 
   resources :groups
+  resources :visits, only: [:index]
 
 
   mount Ckeditor::Engine => '/ckeditor'
