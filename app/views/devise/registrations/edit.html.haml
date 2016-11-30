@@ -102,9 +102,9 @@
                 = error_for(resource, :password)
               %br/
               %br/
-              %label.col-sm-3.control-label{:for => "correo"} Confirmación de neva contraseña
+              %label.col-sm-3.control-label{:for => "correo"} Confirmación de nueva contraseña
               .col-sm-9
-                = f.text_field :password_confirmation, class: 'form-control', placeholder: 'Confirma tu contraseña'
+                = f.password_field :password_confirmation, class: 'form-control', placeholder: 'Confirma tu contraseña'
                 = error_for(resource, :password_confirmation)
             .field.m-t-15
               %label
