@@ -1,7 +1,22 @@
-.container
-  %h2.text-center
-    Forgot your password?
-  = bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-    = f.email_field :email, autofocus: true
-    = f.submit "Send me reset password instructions"
-  = render "devise/shared/links"
+.register-container.full-height.sm-p-t-30
+  .container-sm-height.full-height
+    .row.row-sm-height
+      .col-sm-12.col-sm-height.col-middle
+        = image_tag('logo-edc-color-horizontal.png', width: 200)
+        %h3 Acompañando emprendedores sin importar la distancia
+        %p
+          Para recuperar tu contraseña, introduce el correo elecrónico con el cuál te registraste.
+
+        = bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+          .row
+            .col-sm-12
+              = f.email_field :email, label: 'CORREO ELECTRÓNICO', placeholder: 'correo@dominio.com',wrapper: { class: 'form-group-default' }
+          .row.text-right
+            = f.submit "Enviar correo electrónico de recuperación", class: 'btn btn-primary btn-cons m-t-10'
+          .row.m-t-10
+            .col-md-12.text-right
+              %a.text-info.small{:href => "mailto:soporte@edcdigital.mx"} ¿Necesitas ayuda? Contáctanos
+.full-width
+  .register-container.m-b-10.clearfix
+    .col-md-10.m-t-15
+      %p.hinted-text.small.inline Todos los derechos reservados © 2016 Distrito Emprendedor.

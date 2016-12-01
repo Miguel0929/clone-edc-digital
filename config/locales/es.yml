@@ -6,6 +6,11 @@ es:
         restrict_dependent_destroy:
           has_one: No se puede eliminar el registro porque existe un %{record} dependiente
           has_many: No se puede eliminar el registro porque existen %{record} dependientes
+      models:
+        user:
+          attributes:
+            email:
+              not_found: 'No se encontró el correo eletrónico'
   date:
     abbr_day_names:
     - dom

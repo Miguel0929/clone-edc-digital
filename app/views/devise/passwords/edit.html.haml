@@ -1,9 +1,24 @@
-.container
-  %h2.text-center
-    Change your password
-  = bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-    = f.hidden_field :reset_password_token
-    = f.password_field :password, autofocus: true, autocomplete: "off"
-    = f.password_field :password_confirmation, autocomplete: "off"
-    = f.submit "Change my password"
-  = render "devise/shared/links"
+.register-container.full-height.sm-p-t-30
+  .container-sm-height.full-height
+    .row.row-sm-height
+      .col-sm-12.col-sm-height.col-middle
+        = image_tag('logo-edc-color-horizontal.png', width: 200)
+        %h3 Acompañando emprendedores sin importar la distancia
+
+        = bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+          = f.hidden_field :reset_password_token
+          .row
+            .col-sm-12
+              = f.password_field :password, label: 'Nueva contraseña', wrapper: { class: 'form-group-default' }
+            .col-sm-12
+              = f.password_field :password_confirmation, label: 'Confirmar contraseña', wrapper: { class: 'form-group-default' }
+
+          .row.text-right
+            = f.submit "Cambiar contraseña", class: 'btn btn-primary btn-cons m-t-10'
+          .row.m-t-10
+            .col-md-12.text-right
+              %a.text-info.small{:href => "mailto:soporte@edcdigital.mx"} ¿Necesitas ayuda? Contáctanos
+.full-width
+  .register-container.m-b-10.clearfix
+    .col-md-10.m-t-15
+      %p.hinted-text.small.inline Todos los derechos reservados © 2016 Distrito Emprendedor.
