@@ -34,6 +34,8 @@ class ApplicationController < ActionController::Base
   def layout_by_resource
     if devise_controller? && resource_name == :user && ((sessions_controller?) || (invitations_controller?) || (registrations_controller?))
       "login"
+    elsif devise_controller? && resource_name == :user && controller_name == "passwords"
+      'recover_password'
     else
       "application"
     end
