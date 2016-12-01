@@ -8,7 +8,7 @@ class CustomMailer < Devise::Mailer
       subject: "Recupera tu contraseña en EDCdigital",
       "Mj-TemplateID": "75219",
       "Mj-TemplateLanguage": "true",
-      recipients: [{ 'Email'=> 'passenger@mailjet.com'}],
+      recipients: [{ 'Email'=> record.email }],
       vars: {
         "confirmation_link" => edit_password_url(record, reset_password_token: token)
       }
