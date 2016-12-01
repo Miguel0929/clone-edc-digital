@@ -19,6 +19,10 @@ class Dashboard::WelcomeController < ApplicationController
     add_breadcrumb "<a class='active' href='#{dashboard_support_path}'>Ayuda</a>".html_safe
   end
 
+  def service
+    add_breadcrumb "<a class='active' href='#{dashboard_support_path}'>TÉRMINOS DE SERVICIO</a>".html_safe
+  end
+
   def send_support_email
     if params[:subject].present? == false || params[:message].present? == false
       flash_message = { alert: 'Porfavor introduzca asunto y mensaje.'}
