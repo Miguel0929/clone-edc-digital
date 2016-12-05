@@ -19,6 +19,8 @@
     %meta{:content => "http://edcdigital.mx", :property => "og:url"}/
     %meta{:content => "Primer plataforma diseñada para construir y validar tu idea de negocio, en lo comercial, técnico y financiero.", :property => "og:description"}/
 
+    = render 'shared/google_analytics' if Rails.env.production?
+
     = favicon_link_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
