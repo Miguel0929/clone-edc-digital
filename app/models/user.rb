@@ -68,6 +68,28 @@ class User < ActiveRecord::Base
     notifications.where(read: false).count > 0
   end
 
+  def content_visted_for(program)
+    trackers.includes(:chapter_content).where("chapter_contents.coursable_type": 'Lesson').count
+  end
+
+  def questions_answered_for(program)
+    program.chapters.includes(questions: [:answers]).where('answers.user_id': self.id).count
+  end
+
+  def total_comments_for(program)
+    program.chapters.includes(questions: [answers: [:comments]]).where('comments.user_id': self.id).count
+  end
+
+  def percentage_content_visited_for(program)
+    total = program.chapters.joins(:lessons).select('lessons.*').count
+    (content_visted_for(program) * 100) / total
+  end
+
+  def percentage_questions_answered_for(program)
+    total = program.chapters.joins(:questions).select('questions.*').count
+    (questions_answered_for(program) * 100) / total
+  end
+
   private
 
   def set_origin

@@ -43,9 +43,8 @@
                     \-
                     = link_to program.name, user_program_answers_path(@user, program)
                     %br
-            %button.btn.btn-sm.btn-primary.btn-cons.m-b-10{:type => "button"}
-              %i.fa.fa-envelope
-              %span.bold Enviar correo electrónico
+            %a.btn.btn-sm.btn-primary.btn-cons.m-b-10{href: analytics_program_user_path(@user) }
+              %span.bold Programas inscritos
             %button.btn.btn-sm.btn-info.btn-cons.m-b-10{:type => "button"}
               %i.fa.fa-tasks
               %span.bold Ir a rúbrica de evaluación
