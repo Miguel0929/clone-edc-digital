@@ -58,7 +58,11 @@ Rails.application.routes.draw do
   end
 
 
-  resources :users, only: [:index, :show, :edit, :update, :destroy] do
+  resources :users, except: [:create] do
+    member do
+      get :analytics_program
+    end
+
     collection do
       get :mentors
       get :students

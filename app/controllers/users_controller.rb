@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin, except: [:students, :index, :show]
   before_action :require_mentor, only: [:students]
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program]
   before_action :validate_student, only: [:edit, :update]
 
   def index
@@ -44,6 +44,9 @@ class UsersController < ApplicationController
     @user.destroy
 
     redirect_to users_path
+  end
+
+  def analytics_program
   end
 
   private
