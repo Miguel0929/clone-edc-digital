@@ -60,7 +60,7 @@ class UsersController < ApplicationController
 
   def analytics_program
     @program = Program.find(params[:program_id])
-    @chapter_contents = ChapterContent.joins(chapter: [:program]).where('programs.id = ?', @program.id)
+    @chapter_contents = ChapterContent.joins(chapter: [:program]).where('programs.id = ?', @program.id).order(position: :asc)
   end
 
   private

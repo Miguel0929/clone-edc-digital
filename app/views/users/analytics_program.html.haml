@@ -34,6 +34,7 @@
                 - else
                   = chapter_content.model.question_text
               %td
+                = @user.total_views_of_content(chapter_content)
               %td
                 - if chapter_content.coursable_type == 'Lesson'
                   NA
@@ -44,6 +45,7 @@
                 - if chapter_content.coursable_type == 'Lesson'
                   NA
                 - else
+                  = @user.total_of_editions(chapter_content)
               %td
                 - if chapter_content.coursable_type == 'Lesson'
                   NA

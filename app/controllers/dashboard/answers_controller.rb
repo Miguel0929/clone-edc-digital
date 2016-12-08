@@ -19,6 +19,7 @@ class Dashboard::AnswersController < ApplicationController
 
   def show
     @answer = Answer.find(params[:id])
+    ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
 
     add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
     add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@question.question_text}</a>".html_safe
@@ -26,6 +27,7 @@ class Dashboard::AnswersController < ApplicationController
 
   def new
     @answer = build_answer
+    ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
 
     add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
     add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@question.question_text}</a>".html_safe
@@ -63,8 +65,9 @@ class Dashboard::AnswersController < ApplicationController
     @answer.assign_attributes(answer_params)
 
     if @answer.save
-      redirect_to dashboard_chapter_content_answer_path(@chapter_content, @answer)
+      ahoy.track "Answer updated", answer_id: @answer.id
 
+      redirect_to dashboard_chapter_content_answer_path(@chapter_content, @answer)
     else
       add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
       add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@question.question_text}</a>".html_safe
