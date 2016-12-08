@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   has_many :notifications
   has_many :comment_notifications, :through => :notifications, :source => :notificable, :source_type => 'CommentNotification'
   has_many :program_notifications, :through => :notifications, :source => :notificable, :source_type => 'ProgramNotification'
+  has_many :visits
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable
 
@@ -69,7 +70,7 @@ class User < ActiveRecord::Base
   end
 
   def content_visted_for(program)
-    trackers.includes(:chapter_content).where("chapter_contents.coursable_type": 'Lesson').count
+    trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id = ?", program.id).count
   end
 
   def questions_answered_for(program)
@@ -88,6 +89,20 @@ class User < ActiveRecord::Base
   def percentage_questions_answered_for(program)
     total = program.chapters.joins(:questions).select('questions.*').count
     (questions_answered_for(program) * 100) / total
+  end
+
+  def answered_questions_percentage
+    total_of_answers = group.programs.includes(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
+    total_of_questions = group.programs.joins(chapters: [:questions]).select('questions.*').count
+
+    (total_of_answers * 100) / total_of_questions
+  end
+
+  def content_visited_percentage
+    total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id in (?)", group.programs.pluck(:id)).count
+    total_of_contents = group.programs.joins(chapters: [:chapter_contents]).where("chapter_contents.coursable_type = 'Lesson'").count
+
+    (total_of_visited_contents * 100) / total_of_contents
   end
 
   private
