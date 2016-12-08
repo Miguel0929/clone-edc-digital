@@ -23,6 +23,18 @@ class UsersController < ApplicationController
        current_user.groups.map(&:students).flatten
     end
 
+    if params[:state].present?
+      case params[:state]
+        when 'active'
+          @users = @users.where.not(invitation_accepted_at: nil)
+
+        when 'inactive'
+          @users = @users.where(invitation_accepted_at: nil)
+      end
+    end
+
+    @users = @users.where(group: params[:group]) if params[:group].present?
+
     render :index
   end
 

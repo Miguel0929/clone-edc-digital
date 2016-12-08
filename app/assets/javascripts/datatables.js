@@ -10,6 +10,7 @@ $(document).on('turbolinks:load', function(){
       var table = $(this);
 
       var settings = {
+          pageLength: 30,
           "sDom": "<'table-responsive't><'row'<p i>>",
           "destroy": true,
           "scrollCollapse": true,

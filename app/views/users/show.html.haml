@@ -6,14 +6,21 @@
         .col-md-2
           .share.share-other.m-t-5
             .card-content
-              = image_tag('person-1-square.jpg', class: 'img-responsive')
+              - if current_user.profile_picture.url.nil?
+                = image_tag('person-1-square.jpg', class: 'img-responsive')
+              - else
+                = image_tag(current_user.profile_picture.url, class: 'img-responsive')
               .card-header.clearfix
                 %h6
                   = @user.name
-                %p.small.hint-text.m-t-5 Monterrey, Nuevo León, México
+                %p.small.hint-text.m-t-5 #{@user.state}, #{@user.city}
                 %p.small.hint-text.m-t-5
                   %span
-                    24% de avance
+                    Porcentaje contestado #{@user.answered_questions_percentage} %
+                    %i.fa.fa-line-chart
+                  %br
+                  %span
+                    Porcentaje de avance #{@user.content_visited_percentage} %
                     %i.fa.fa-line-chart
         .col-md-10
           %table.table.resumen-table.table-striped.table-top-border.perfil-table
@@ -31,20 +38,85 @@
                 %td
                   = @user.phone_number
               %tr.odd.gradeX
-                %td Ciudad de Origen
-                %td Monterrey, Nuevo León, México
+                %td Ubicación
+                %td #{@user.state}, #{@user.city}
               %tr.odd.gradeX
-                %td Fecha de inicio del programa
-                %td 24 de Marzo de 2016
+                %td Fecha de creación de cuenta
+                %td #{l @user.created_at, format: :special}
+              %tr.odd.gradeX
+                %td Fecha de activación de cuenta
+                %td #{l @user.invitation_accepted_at, format: :special unless @user.invitation_accepted_at.nil?}
               %tr.odd.gradeX
                 %td Cursos inscritos
                 %td
-                  - @user.programs.each do |program|
+                  - @user.group.programs.each do |program|
                     \-
                     = link_to program.name, user_program_answers_path(@user, program)
                     %br
-            %a.btn.btn-sm.btn-primary.btn-cons.m-b-10{href: analytics_program_user_path(@user) }
-              %span.bold Programas inscritos
-            %button.btn.btn-sm.btn-info.btn-cons.m-b-10{:type => "button"}
-              %i.fa.fa-tasks
-              %span.bold Ir a rúbrica de evaluación
+  %h3
+    Estadísticas generales de programas inscritos
+
+  .panel.panel-default
+    .panel-body
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+              Curso inscrito
+            %th
+              Contenidos vistos
+            %th
+              Respuestas contestadas
+            %th
+              Comentarios totales
+            %th
+              Porcentaje de contenido visto
+            %th
+              Porcentaje de preguntas contestadas
+        %tbody
+          - @user.group.programs.each do |program|
+            %tr
+              %td
+                = program.name
+              %td
+                = @user.content_visted_for(program)
+              %td
+                = @user.questions_answered_for(program)
+              %td
+                = @user.total_comments_for(program)
+              %td
+                #{@user.percentage_content_visited_for(program)}%
+              %td
+                #{@user.percentage_questions_answered_for(program)}%
+
+  %h3
+    Historial de sesiónes
+
+  .panel.panel-default
+    .panel-body
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+              Navegador
+            %th
+              Dispositivo
+            %th
+              Sistema operativo
+            %th
+              Inicio de sesión
+            %th
+              Cierre de sesión
+        %tbody
+          - @user.visits.each do |visit|
+            %tr
+              %td
+                = visit.browser
+              %td
+                = visit.device_type
+              %td
+                = visit.os
+              %td
+                = l visit.started_at, format: :special
+              %td
+                = l visit.finished_at, format: :special unless visit.finished_at.nil?
