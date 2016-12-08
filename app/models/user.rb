@@ -74,11 +74,11 @@ class User < ActiveRecord::Base
   end
 
   def questions_answered_for(program)
-    program.chapters.includes(questions: [:answers]).where('answers.user_id': self.id).count
+    program.chapters.joins(questions: [:answers]).where('answers.user_id': self.id).count
   end
 
   def total_comments_for(program)
-    program.chapters.includes(questions: [answers: [:comments]]).where('comments.user_id': self.id).count
+    program.chapters.joins(questions: [answers: [:comments]]).where('comments.user_id': self.id).count
   end
 
   def percentage_content_visited_for(program)
@@ -92,7 +92,7 @@ class User < ActiveRecord::Base
   end
 
   def answered_questions_percentage
-    total_of_answers = group.programs.includes(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
+    total_of_answers = group.programs.joins(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
     total_of_questions = group.programs.joins(chapters: [:questions]).select('questions.*').count
 
     (total_of_answers * 100) / total_of_questions
