@@ -1,0 +1,61 @@
+.container-fluid.container-fixed-lg
+  %h3
+    Detalles del programa: #{@program.name}
+  .panel.panel-default
+    .panel-body
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+              Tipo de contenido
+            %th
+              Contenido
+            %th
+              Visita
+            %th
+              Contestado
+            %th
+              Ediciones
+            %th
+              Comentarios
+            %th
+              Evaluación
+        %tbody
+          - @chapter_contents.each do |chapter_content|
+            %tr
+              %td
+                - if chapter_content.coursable_type == 'Lesson'
+                  Contenido
+                - else
+                  Pregunta
+              %td
+                - if chapter_content.coursable_type == 'Lesson'
+                  = chapter_content.model.identifier
+                - else
+                  = chapter_content.model.question_text
+              %td
+              %td
+                - if chapter_content.coursable_type == 'Lesson'
+                  NA
+                - else
+                  = @user.answer_for(chapter_content.model).nil? ? 'No' : 'Si'
+
+              %td
+                - if chapter_content.coursable_type == 'Lesson'
+                  NA
+                - else
+              %td
+                - if chapter_content.coursable_type == 'Lesson'
+                  NA
+                - else
+                  = chapter_content.model.comments_for(@user)
+              %td
+                - if chapter_content.coursable_type == 'Lesson'
+                  NA
+                - else
+                  - if @user.answer_for(chapter_content.model).nil?
+                    Sin contestar
+                  - elsif @user.answer_for(chapter_content.model).rubric.nil?
+                    Sin evaluar
+                  - else
+                    = @user.answer_for(chapter_content.model).rubric.criteria

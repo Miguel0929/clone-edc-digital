@@ -62,7 +62,6 @@ Rails.application.routes.draw do
     member do
       get :analytics_program
     end
-
     collection do
       get :mentors
       get :students
