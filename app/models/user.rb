@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   has_many :comment_notifications, :through => :notifications, :source => :notificable, :source_type => 'CommentNotification'
   has_many :program_notifications, :through => :notifications, :source => :notificable, :source_type => 'ProgramNotification'
   has_many :visits
+  has_many :events, class_name: 'Ahoy::Event'
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable
 
@@ -103,6 +104,16 @@ class User < ActiveRecord::Base
     total_of_contents = group.programs.joins(chapters: [:chapter_contents]).where("chapter_contents.coursable_type = 'Lesson'").count
 
     (total_of_visited_contents * 100) / total_of_contents
+  end
+
+  def total_views_of_content(chapter_content)
+    events.where(name: 'Viewed content').where_properties(chapter_content_id: chapter_content.id).count
+  end
+
+  def total_of_editions(chapter_content)
+    answer = answer_for(chapter_content.model)
+
+    answer.nil? ? 0 : events.where(name: 'Answer updated').where_properties(answer_id: answer.id).count
   end
 
   private
