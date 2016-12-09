@@ -32,6 +32,7 @@ gem 'non-stupid-digest-assets'
 gem 'exception_notification'
 gem 'mailjet'
 gem 'ahoy_matey'
+gem 'time_difference'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'

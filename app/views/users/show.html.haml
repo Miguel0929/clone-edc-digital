@@ -1,5 +1,8 @@
 .container-fluid.container-fixed-lg
-  %h3 Detalles del Alumno: #{@user.name}
+  %h3
+    Detalles del Alumno: #{@user.name}
+    = link_to edit_user_path(@user) do
+      %span.glyphicon.glyphicon-edit
   .panel.panel-default
     .panel-body
       .row
@@ -41,6 +44,10 @@
                 %td Ubicación
                 %td #{@user.state}, #{@user.city}
               %tr.odd.gradeX
+                %td Grupo
+                %td
+                  = @user.group.name unless @user.group.nil?
+              %tr.odd.gradeX
                 %td Fecha de creación de cuenta
                 %td #{l @user.created_at, format: :special}
               %tr.odd.gradeX
@@ -73,6 +80,7 @@
               Porcentaje de contenido visto
             %th
               Porcentaje de preguntas contestadas
+            %th
         %tbody
           - @user.group.programs.each do |program|
             %tr
@@ -88,9 +96,11 @@
                 #{@user.percentage_content_visited_for(program)}%
               %td
                 #{@user.percentage_questions_answered_for(program)}%
+              %td
+                = link_to 'Ver detalle', analytics_program_user_path(@user, program_id: program)
 
   %h3
-    Historial de sesiónes
+    Historial de sesiones
 
   .panel.panel-default
     .panel-body
@@ -107,6 +117,8 @@
               Inicio de sesión
             %th
               Cierre de sesión
+            %th
+              Duración de la sesión
         %tbody
           - @user.visits.each do |visit|
             %tr
@@ -120,3 +132,5 @@
                 = l visit.started_at, format: :special
               %td
                 = l visit.finished_at, format: :special unless visit.finished_at.nil?
+              %td
+                = visit.session_time
