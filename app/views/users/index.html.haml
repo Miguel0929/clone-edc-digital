@@ -65,4 +65,5 @@
                     %li
                       = link_to 'Eliminar usuario', user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' }
 
-      = link_to 'Invitar usuario', new_user_invitation_path, class: 'btn btn-default'
+      - if current_user.admin?
+        = link_to 'Invitar usuario', new_user_invitation_path, class: 'btn btn-default'
