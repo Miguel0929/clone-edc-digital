@@ -1,4 +1,6 @@
 class Users::InvitationsController < Devise::InvitationsController
+  before_action :require_admin, only: [:new]
+
   private
 
   def invite_resource
