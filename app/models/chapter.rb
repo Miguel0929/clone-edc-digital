@@ -6,4 +6,6 @@ class Chapter < ActiveRecord::Base
   has_many :lessons, :through => :chapter_contents, :source => :coursable, :source_type => 'Lesson'
   has_many :questions, :through => :chapter_contents, :source => :coursable, :source_type => 'Question'
   belongs_to :program
+
+  acts_as_list scope: :program
 end

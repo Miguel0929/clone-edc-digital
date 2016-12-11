@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161208181600) do
+ActiveRecord::Schema.define(version: 20161211220638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "access_grants", force: :cascade do |t|
+    t.string   "code"
+    t.string   "access_token"
+    t.string   "refresh_token"
+    t.datetime "access_token_expires_at"
+    t.integer  "user_id"
+    t.integer  "client_id"
+    t.string   "state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "ahoy_events", force: :cascade do |t|
     t.integer  "visit_id"
@@ -52,6 +64,7 @@ ActiveRecord::Schema.define(version: 20161208181600) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "points"
+    t.integer  "position"
   end
 
   add_index "chapters", ["program_id"], name: "index_chapters_on_program_id", using: :btree
@@ -71,6 +84,14 @@ ActiveRecord::Schema.define(version: 20161208181600) do
 
   add_index "ckeditor_assets", ["assetable_type", "assetable_id"], name: "idx_ckeditor_assetable", using: :btree
   add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], name: "idx_ckeditor_assetable_type", using: :btree
+
+  create_table "clients", force: :cascade do |t|
+    t.string   "name"
+    t.string   "app_id"
+    t.string   "app_secret"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "comment_notifications", force: :cascade do |t|
     t.integer "comment_id"
@@ -210,6 +231,8 @@ ActiveRecord::Schema.define(version: 20161208181600) do
     t.string   "state"
     t.string   "city"
     t.string   "profile_picture"
+    t.string   "provider"
+    t.string   "uid"
   end
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree

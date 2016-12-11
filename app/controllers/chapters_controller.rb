@@ -34,6 +34,14 @@ class ChaptersController < ApplicationController
      redirect_to @program
   end
 
+  def sort
+    params[:chapter].each_with_index do |id, index|
+      Chapter.find(id).update_attributes({position: index + 1})
+    end
+
+    render nothing: true
+  end
+
   private
   def chapter_params
     params.require(:chapter).permit(:name, :points)
