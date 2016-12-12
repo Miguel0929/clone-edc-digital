@@ -33,6 +33,7 @@ gem 'exception_notification'
 gem 'mailjet'
 gem 'ahoy_matey'
 gem 'time_difference'
+gem 'deep_cloneable', '~> 2.2.2'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'

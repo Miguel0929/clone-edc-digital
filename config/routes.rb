@@ -15,6 +15,10 @@ Rails.application.routes.draw do
         post :sort
       end
     end
+
+    member do
+      post :clone
+    end
   end
 
   resources :chapters, only: [] do
