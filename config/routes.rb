@@ -10,12 +10,21 @@ Rails.application.routes.draw do
   get "/500", :to => "errors#internal_error"
 
   resources :programs do
-    resources :chapters, except: [:index, :show]
+    resources :chapters, except: [:index, :show] do
+      collection do
+        post :sort
+      end
+    end
+
+    member do
+      post :clone
+    end
   end
 
   resources :chapters, only: [] do
     resources :lessons, except: [:index]
     resources :questions, except: [:index, :show]
+
   end
 
 

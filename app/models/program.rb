@@ -1,7 +1,7 @@
 class Program < ActiveRecord::Base
   mount_uploader :cover, CoverUploader
 
-  has_many :chapters, -> { order(created_at: :asc) }
+  has_many :chapters, -> { order(position: :asc) }, dependent: :destroy
   has_many :group_programs
   has_many :groups, through: :group_programs
 

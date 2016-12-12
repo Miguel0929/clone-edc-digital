@@ -20,6 +20,7 @@
               %td
                 = link_to 'Ver', program_path(program), class: 'btn btn-default'
                 = link_to 'Editar', edit_program_path(program), class: 'btn btn-default'
+                = link_to 'Clonar', clone_program_path(program), method: :post, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
                 = link_to 'Eliminar', program_path(program), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
 
       = link_to 'Crear programa', new_program_path, class: 'btn btn-default'
