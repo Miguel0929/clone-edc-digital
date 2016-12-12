@@ -4,7 +4,6 @@ $(document).on('turbolinks:load', function(){
     placeholder: "sortable-placeholder",
     handle: '.handle-sort',
     update: function(){
-      debugger
       $.post($(this).data('update-url'), $(this).sortable('serialize'));
     }
   });
