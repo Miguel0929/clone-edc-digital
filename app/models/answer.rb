@@ -5,6 +5,7 @@ class Answer < ActiveRecord::Base
   has_many :comments
 
   validates_presence_of :answer_text
+  validates_uniqueness_of :user_id, scope: :question_id
 
   def humanize_answer
     return answer_text unless question.question_type == 'checkbox'
