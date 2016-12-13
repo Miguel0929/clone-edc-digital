@@ -39,7 +39,11 @@
                               .well{id: "chapter_content_#{content.id}"}
                                 %span.handle-sort
                                   [mover]
+                                = link_to clone_chapter_lesson_path(chapter, content.model), method: :post, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Clonar lección' do
+                                  %span.glyphicon.glyphicon-list
+                                %br
                                 %a{href: chapter_lesson_path(chapter, content.model)}
+
                                   = content.model.identifier
                             - elsif content.coursable_type == 'Question'
                               .well{id: "chapter_content_#{content.id}"}

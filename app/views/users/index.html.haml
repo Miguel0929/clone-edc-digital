@@ -19,6 +19,8 @@
         %thead
           %tr
             %th
+              Id
+            %th
               Nombre
             %th
               Correo electrónico
@@ -31,10 +33,19 @@
                 Rol
             %th
               Grupo
+            - if action_name == 'students'
+              %th
+                Porcentaje contestado
+              %th
+                Porcentaje de avance
+              %th
+                Total de comentarios
             %th
         %tbody
           - @users.each do |user|
             %tr
+              %td
+                = user.id
               %td
                 = user.name
               %td
@@ -46,10 +57,16 @@
               - if current_user.admin?
                 %td
                   = user.huminize_role
-
               %td
                 - if user.student? && user.group.nil? == false
                   = user.group.name
+              - if user.student?
+                %td
+                  #{user.answered_questions_percentage} %
+                %td
+                  #{user.content_visited_percentage} %
+                %td
+                  = user.comments.count
               %td
                 .btn-group
                   %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}

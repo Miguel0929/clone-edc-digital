@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   has_many :program_notifications, :through => :notifications, :source => :notificable, :source_type => 'ProgramNotification'
   has_many :visits
   has_many :events, class_name: 'Ahoy::Event'
+  has_many :comments
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable
 
