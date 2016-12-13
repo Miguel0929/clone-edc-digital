@@ -44,6 +44,7 @@ class ProgramsController < ApplicationController
     #TODO create a cloner service
 
     program = @program.deep_clone do |original, kopy|
+       kopy.name = "#{original.name} copia"
        kopy.cover = original.cover
     end
 
