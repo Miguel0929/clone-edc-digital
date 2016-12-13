@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_chapter
-  before_action :set_question, only: [:edit, :update, :destroy]
+  before_action :set_question, only: [:edit, :update, :destroy, :clone]
 
   def new
     @question = @chapter.questions.new
@@ -38,6 +38,17 @@ class QuestionsController < ApplicationController
       ChapterContent.where({coursable_type: 'Question', coursable_id: @question.id}).delete_all
       @question.destroy
     end
+
+    redirect_to @chapter.program
+  end
+
+  def clone
+    question_clone =  @question.deep_clone do |original, kopy|
+      kopy.support_image = original.support_image
+      kopy.rubrics = original.rubrics.map(&:deep_clone)
+    end
+
+    @chapter.questions << question_clone
 
     redirect_to @chapter.program
   end
