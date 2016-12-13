@@ -14,6 +14,10 @@ Rails.application.routes.draw do
       collection do
         post :sort
       end
+
+      member do
+        post :clone
+      end
     end
 
     member do
@@ -22,9 +26,17 @@ Rails.application.routes.draw do
   end
 
   resources :chapters, only: [] do
-    resources :lessons, except: [:index]
-    resources :questions, except: [:index, :show]
+    resources :lessons, except: [:index] do
+      member do
+        post :clone
+      end
+    end
 
+    resources :questions, except: [:index, :show] do
+      member do
+        post :clone
+      end
+    end
   end
 
 

@@ -20,6 +20,11 @@
 
                     = link_to edit_program_chapter_path(@program, chapter), 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Editar modulo' do
                       %span.glyphicon.glyphicon-edit
+
+                    = link_to clone_program_chapter_path(@program, chapter), method: :post, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Clonar modulo' do
+                      %span.glyphicon.glyphicon-list
+
+
                     %h3.panel-title
                       %a{"aria-controls" => "collapse_#{chapter.id}", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse_#{chapter.id}"}
                         = chapter.name

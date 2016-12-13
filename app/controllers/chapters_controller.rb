@@ -1,7 +1,7 @@
 class ChaptersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_program
-  before_action :set_chapter, only: [:edit, :update, :destroy]
+  before_action :set_chapter, only: [:edit, :update, :destroy, :clone]
 
   def new
     @chapter = @program.chapters.new
@@ -40,6 +40,26 @@ class ChaptersController < ApplicationController
     end
 
     render nothing: true
+  end
+
+  def clone
+    clone_chapter = @chapter.deep_clone
+
+    @chapter.chapter_contents.each do |chapter_content|
+      model = chapter_content.model
+      if model.is_a?(Lesson)
+        clone_chapter.lessons << model.deep_clone
+      elsif model.is_a?(Question)
+        clone_chapter.questions << model.deep_clone do |original, kopy|
+          kopy.support_image = original.support_image
+          kopy.rubrics = original.rubrics.map(&:deep_clone)
+        end
+      end
+    end
+
+    clone_chapter.save
+
+    redirect_to @program
   end
 
   private
