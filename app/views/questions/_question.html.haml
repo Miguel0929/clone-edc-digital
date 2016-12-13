@@ -6,6 +6,9 @@
   = link_to 'Editar', edit_chapter_question_path(chapter, question)
 |
 %span.option
+  = link_to 'Clonar', clone_chapter_question_path(chapter, question), method: :post, data: {confirm: '¿Estás seguro?'}
+|
+%span.option
   = link_to 'Eliminar', chapter_question_path(chapter, question), method: :delete, data: {confirm: '¿Estás seguro?'}
 
 .question-wrapper
