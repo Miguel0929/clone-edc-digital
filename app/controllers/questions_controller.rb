@@ -44,6 +44,7 @@ class QuestionsController < ApplicationController
 
   def clone
     question_clone =  @question.deep_clone do |original, kopy|
+      kopy.question_text = "#{original.question_text} copia"
       kopy.support_image = original.support_image
       kopy.rubrics = original.rubrics.map(&:deep_clone)
     end

@@ -20,7 +20,7 @@ class UsersController < ApplicationController
      when 'admin'
       User.students
      when 'mentor'
-       current_user.groups.map(&:students).flatten
+       User.where('id in (?)', current_user.groups.map(&:students).flatten.map(&:id))
     end
 
     if params[:state].present?

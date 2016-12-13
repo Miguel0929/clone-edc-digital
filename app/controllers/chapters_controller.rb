@@ -43,7 +43,10 @@ class ChaptersController < ApplicationController
   end
 
   def clone
-    clone_chapter = @chapter.deep_clone
+    clone_chapter = @chapter.deep_clone do |original, kopy|
+      kopy.name = "#{original.name} copia"
+    end
+
 
     @chapter.chapter_contents.each do |chapter_content|
       model = chapter_content.model
