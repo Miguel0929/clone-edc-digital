@@ -1,7 +1,7 @@
 class LessonsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_chapter
-  before_action :set_lesson, only: [:show, :edit, :update, :destroy]
+  before_action :set_lesson, only: [:show, :edit, :update, :destroy, :clone]
 
   def new
     @lesson = @chapter.lessons.new
@@ -38,6 +38,14 @@ class LessonsController < ApplicationController
       ChapterContent.where({coursable_type: 'Lesson', coursable_id: @lesson.id}).delete_all
       @lesson.destroy
     end
+
+    redirect_to @chapter.program
+  end
+
+  def clone
+    lesson_clone = @lesson.deep_clone
+
+    @chapter.lessons << lesson_clone
 
     redirect_to @chapter.program
   end
