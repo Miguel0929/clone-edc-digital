@@ -6,14 +6,15 @@
           %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       .clearfix
     .panel-body
-      = bootstrap_form_tag(url: students_users_path, method: :get) do |f|
-        .row
-          .col-md-4
-            = f.select :state, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:state]), {include_blank: true, label: 'Estado' }
-          .col-md-4
-            = f.select :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: true, label: 'Grupo' }
+      - if current_user.admin?
+        = bootstrap_form_tag(url: students_users_path, method: :get) do |f|
+          .row
+            .col-md-4
+              = f.select :state, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:state]), {include_blank: true, label: 'Estado' }
+            .col-md-4
+              = f.select :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: true, label: 'Grupo' }
 
-        = f.submit 'Filtrar'
+          = f.submit 'Filtrar'
 
       %table.table.table-hover.datatable
         %thead
