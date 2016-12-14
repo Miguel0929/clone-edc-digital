@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin, except: [:students, :index, :show]
-  before_action :require_mentor, only: [:students]
+  before_action :require_admin, except: [:students, :index, :show, :analytics_program]
+  before_action :require_mentor, only: [:students, :analytics_program]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program]
   before_action :validate_student, only: [:edit, :update]
 
