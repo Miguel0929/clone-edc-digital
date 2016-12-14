@@ -70,6 +70,14 @@
               %span.icon-thumbnail
                 %i.fa.fa-book
 
+          - if current_user.mentor?
+            %li.m-t-30
+              %a.detailed{:href => mentors_groups_path }
+                %span.title Grupos
+                %span.details Grupos a los que tienes acceso
+              %span.icon-thumbnail
+                %i.fa.fa-users
+
           - if current_user.student?
             %li.m-t-30
               %a.detailed.redirector{:href => root_path}
