@@ -35,6 +35,7 @@ gem 'ahoy_matey'
 gem 'time_difference'
 gem 'deep_cloneable', '~> 2.2.2'
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'cocoon'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
