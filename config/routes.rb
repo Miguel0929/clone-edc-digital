@@ -98,6 +98,13 @@ Rails.application.routes.draw do
 
   namespace :mentors do
     resources :groups, only: [:index, :show]
+    resources :evaluations, only: [:index, :show]
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :user_answer_comments, only: [:index]
+    end
   end
 
 

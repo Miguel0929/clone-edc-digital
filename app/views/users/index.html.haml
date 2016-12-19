@@ -68,20 +68,26 @@
                   #{user.content_visited_percentage} %
                 %td
                   = user.comments.count
-              %td
-                .btn-group
-                  %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-                    %span.glyphicon.glyphicon-pencil
-                    %span.caret
-                  %ul.dropdown-menu
-                    %li
-                      = link_to 'Ver información', user_path(user)
-                    - if user.student?
+
+              - if current_user.admin?
+                %td
+                  .btn-group
+                    %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+                      %span.glyphicon.glyphicon-pencil
+                      %span.caret
+                    %ul.dropdown-menu
                       %li
-                        = link_to 'Editar información', edit_user_path(user)
-                    %li.divider
-                    %li
-                      = link_to 'Eliminar usuario', user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' }
+                        = link_to 'Ver información', user_path(user)
+                      - if user.student?
+                        %li
+                          = link_to 'Editar información', edit_user_path(user)
+                      %li.divider
+                      %li
+                        = link_to 'Eliminar usuario', user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' }
+
+              - if current_user.mentor?
+                %td
+                  = link_to 'Ver detalle', user_path(user)
 
       - if current_user.admin?
         = link_to 'Invitar usuario', new_user_invitation_path, class: 'btn btn-default'
