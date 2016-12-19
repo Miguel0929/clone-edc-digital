@@ -1,0 +1,36 @@
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+      %h2
+        Evaluación de programas
+      .row
+        .col-md-12
+          %p
+            %strong
+              Programa a evaluar:
+            = @program.name
+          %p
+            %strong
+              Alumno en evaluación
+            = @user.name
+    .panel-body
+      %table.table.table-striped
+        %thead
+          %tr
+            %th
+              Módulo
+            %th
+              Meta
+            %th
+              Resultado
+            %th
+        %tbody
+          - @program.chapters.each do |chapter|
+            %tr
+              %td
+                = chapter.name
+              %td
+                #{chapter.points} %
+              %td
+              %td
+                = link_to 'Evaluar módulo', mentors_evaluation_path(chapter, user_id: @user, program_id: @program)
