@@ -96,6 +96,17 @@ Rails.application.routes.draw do
   resources :groups
   resources :visits, only: [:index]
 
+  namespace :mentors do
+    resources :groups, only: [:index, :show]
+    resources :evaluations, only: [:index, :show, :update]
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :user_answer_comments, only: [:index]
+    end
+  end
+
 
   mount Ckeditor::Engine => '/ckeditor'
 end

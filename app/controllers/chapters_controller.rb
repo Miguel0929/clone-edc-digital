@@ -67,7 +67,9 @@ class ChaptersController < ApplicationController
 
   private
   def chapter_params
-    params.require(:chapter).permit(:name, :points)
+    params.require(:chapter).permit(:name, :points, evaluations_attributes: [
+      :id, :name, :points, :excelent, :good, :regular, :bad, :_destroy
+    ])
   end
 
   def set_program

@@ -2,6 +2,21 @@
   .row
     .col-md-12
       %h2.text-center
-        Editar Modulo
+        Editar Módulo
 
-      = render 'form'
+      = bootstrap_form_for([@program, @chapter]) do |f|
+        = f.text_field :name, label: 'Nombre del módulo'
+        = f.text_field :points, label: 'Valor del módulo'
+
+        %legend
+          Elementos de evaluación
+        .evaluations
+          = f.fields_for :evaluations do |evaluation|
+            = render 'evaluation_fields', f: evaluation
+          .links
+            = link_to_add_association 'Agregar elemento de evaluación', f, :evaluations, class: 'btn btn-primary'
+
+
+        %br
+        = link_to 'Cancelar', @program, class: 'btn btn-danger'
+        = f.submit 'Aceptar'

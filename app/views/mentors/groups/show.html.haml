@@ -1,0 +1,52 @@
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+      %h2
+        Detalle del grupo: #{@group.name}
+
+    .panel-body
+      .row
+        .col-md-6
+          %h5
+            Programas habilitados para este grupo
+          %ul
+            - @group.programs.each do |program|
+              %li
+                = program.name
+        .col-md-6
+          %h5
+            Profesores vinculados a este grupo
+          %ul
+            - @group.users.each do |user|
+              %li
+                = user.name
+      %h4
+        Lista de alumnos
+      %table.table.table-striped
+        %thead
+          %th
+            Nombre del alumno
+          %th
+            Correo electrónico
+          %th
+            Porcentaje contestado
+          %th
+            Procentaje de avance
+          %th
+            Total de comentarios
+          %th
+        %tbody
+          - @group.active_students.each do |student|
+            %tr
+              %td
+                = student.name
+              %td
+                = student.email
+              %td
+                #{student.answered_questions_percentage} %
+              %td
+                #{student.content_visited_percentage} %
+              %td
+                = student.comments.count
+              %td
+                = link_to 'Ver detalle', user_path(student)
