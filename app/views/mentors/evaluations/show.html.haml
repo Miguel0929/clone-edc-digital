@@ -37,35 +37,44 @@
                   = answer.comments_count
       %h4
         Rubrica de evaluación
-      - @chapter.evaluations.in_groups_of(2, false).each do |group|
+      = bootstrap_form_for(@chapter, url: mentors_evaluation_path) do |f|
+        %input{type: 'hidden', name: "user_id", value: @user.id}
+        %input{type: 'hidden', name: "program_id", value: @program.id}
+
         .row
-          - group.each do |evaluation|
+          - @chapter.evaluations.each_with_index do |evaluation, index|
             .col-md-6
               %h4
                 = evaluation.name
-              .radio
-                %label
-                  %input{type: 'radio'}
-                    %strong Exelente:
-                    #{evaluation.excelent}
+                = index
+
+              %input{type: 'hidden', name: "evaluation[#{index}][evaluation]", value: evaluation.id}
 
               .radio
-                %label
-                  %input{type: 'radio'}
-                    %strong Bueno:
-                    #{evaluation.good}
+                %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_excelent_#{index}", value: '100', checked: evaluation_pointed?(evaluation, 100)}
+                %label{for: "radio_excelent_#{index}"}
+                  %strong Exelente:
+                  #{evaluation.excelent}
 
               .radio
-                %label
-                  %input{type: 'radio'}
-                    %strong Regular:
-                    #{evaluation.regular}
+                %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_good_#{index}", value: '75', checked: evaluation_pointed?(evaluation, 75)}
+                %label{for: "radio_good_#{index}"}
+                  %strong Bueno:
+                  #{evaluation.good}
+              .radio
+                %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_regular_#{index}", value: '50', checked: evaluation_pointed?(evaluation, 50)}
+                %label{for: "radio_regular_#{index}"}
+                  %strong Regular:
+                  #{evaluation.regular}
 
               .radio
-                %label
-                  %input{type: 'radio'}
-                    %strong Malo:
-                    #{evaluation.bad}
+                %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_bad_#{index}", value: '25', checked: evaluation_pointed?(evaluation, 25)}
+                %label{for: "radio_bad_#{index}"}
+                  %strong Malo:
+                  #{evaluation.bad}
+
+        .row
+          %button.btn.btn-default{:type => "submit"} Evaluar módulo
 
 #answer-comments.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
   .modal-dialog
