@@ -25,4 +25,5 @@
 //= require ckeditor/init
 //= require modernizr
 //= require jquery.scrollbar
+//= require cocoon
 //= require_tree .
