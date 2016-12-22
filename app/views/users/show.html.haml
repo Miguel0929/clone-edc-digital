@@ -97,40 +97,7 @@
               %td
                 #{@user.percentage_questions_answered_for(program)}%
               %td
-                = link_to 'Ver detalle', analytics_program_user_path(@user, program_id: program)
-
-  %h3
-    Historial de sesiones
-
-  .panel.panel-default
-    .panel-body
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Navegador
-            %th
-              Dispositivo
-            %th
-              Sistema operativo
-            %th
-              Inicio de sesión
-            %th
-              Cierre de sesión
-            %th
-              Duración de la sesión
-        %tbody
-          - @user.visits.each do |visit|
-            %tr
-              %td
-                = visit.browser
-              %td
-                = visit.device_type
-              %td
-                = visit.os
-              %td
-                = l visit.started_at, format: :special
-              %td
-                = l visit.finished_at, format: :special unless visit.finished_at.nil?
-              %td
-                = visit.session_time
+                - if current_user.admin?
+                  = link_to 'Ver detalle', analytics_program_user_path(@user, program_id: program)
+                - elsif current_user.mentor?
+                  = link_to 'Ver detalle', mentors_evaluations_path(user_id: @user, program_id: program)

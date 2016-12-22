@@ -1,0 +1,35 @@
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+      %h2
+        Grupos a los que tienes acceso
+    .panel-body
+      %table.table.table-striped
+        %thead
+          %tr
+            %th
+              Nombre del grupo
+            %th
+              Clave
+            %th
+              Programas vinculados
+            %th
+              Profesores vinculados
+            %th
+        %tbody
+          - @groups.each do |group|
+            %tr
+              %td
+                = group.name
+              %td
+                = group.key
+              %td
+                - group.programs.each do |program|
+                  %p
+                    = program.name
+              %td
+                - group.users.each do |user|
+                  %p
+                    = user.name
+              %td
+                = link_to 'Ver alumnos', mentors_group_path(group)
