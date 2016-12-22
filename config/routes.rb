@@ -98,7 +98,7 @@ Rails.application.routes.draw do
 
   namespace :mentors do
     resources :groups, only: [:index, :show]
-    resources :evaluations, only: [:index, :show]
+    resources :evaluations, only: [:index, :show, :update]
   end
 
   namespace :api do

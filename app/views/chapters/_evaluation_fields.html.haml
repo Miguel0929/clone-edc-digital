@@ -1,0 +1,12 @@
+.row.nested-fields.well
+  = link_to_remove_association "Eliminar", f
+  .row
+    .col-md-8
+      = f.text_field :name, label: 'Nombre del elemento'
+    .col-md-4
+      = f.text_field :points, label: 'Ponderación'
+
+  = f.text_area :excelent, label: 'Criterio de evaluación para "Excelente"'
+  = f.text_area :good, label: 'Criterio de evaluación para "Bueno"'
+  = f.text_area :regular, label: 'Criterio de evaluación para "Regular"'
+  = f.text_area :bad, label: 'Criterio de evaluación para "Malo"'

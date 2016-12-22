@@ -25,12 +25,13 @@
               Resultado
             %th
         %tbody
-          - @program.chapters.each do |chapter|
+          - @chapters.each do |chapter|
             %tr
               %td
                 = chapter.name
               %td
                 #{chapter.points} %
               %td
+                #{(((chapter.evaluation_points * 100) / chapter.total_evaluations_points rescue 0) * chapter.points / 100)} %
               %td
                 = link_to 'Evaluar módulo', mentors_evaluation_path(chapter, user_id: @user, program_id: @program)
