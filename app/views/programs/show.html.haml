@@ -15,13 +15,13 @@
                   .panel-heading
                     %span.handle-sort
                       [mover]
-                    = link_to program_chapter_path(@program, chapter), method: :delete, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Elimiar modulo' do
+                    = link_to program_chapter_path(@program, chapter), method: :delete, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Elimiar módulo' do
                       %span.glyphicon.glyphicon-remove
 
-                    = link_to edit_program_chapter_path(@program, chapter), 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Editar modulo' do
+                    = link_to edit_program_chapter_path(@program, chapter), 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Editar módulo' do
                       %span.glyphicon.glyphicon-edit
 
-                    = link_to clone_program_chapter_path(@program, chapter), method: :post, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Clonar modulo' do
+                    = link_to clone_program_chapter_path(@program, chapter), method: :post, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Clonar módulo' do
                       %span.glyphicon.glyphicon-list
 
 
@@ -54,4 +54,4 @@
                         = link_to 'Agregar pregunta', new_chapter_question_path(chapter), class: 'btn btn-primary'
 
             .text-center
-              = link_to 'Agregar modulo', new_program_chapter_path(@program), class: 'btn btn-primary'
+              = link_to 'Agregar módulo', new_program_chapter_path(@program), class: 'btn btn-primary'

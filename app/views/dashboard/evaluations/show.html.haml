@@ -1,0 +1,92 @@
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+      %h2
+        Evaluación de módulos
+      .row
+        .col-md-12
+          %p
+            %strong
+              Programa a evaluar:
+            = @program.name
+    .panel-body
+      %h4
+        Módulo: #{@chapter.name}
+      %table.table.table-striped
+        %thead
+          %tr
+            %th
+              Pregunta
+            %th
+              Respuesta
+            %th
+              Comentarios
+        %tbody
+          - @answers.each do |answer|
+            %tr
+              %td
+                = answer.question_text
+              %td
+                = answer.answer_text
+              %td
+                %a.comments-count{href: '#', 'data-answer'=> answer.id, 'data-user'=> answer.user_id, 'data-total'=> answer.comments_count, 'data-content'=> answer.chapter_content_id}
+                  = answer.comments_count
+      %h4
+        Rubrica de evaluación
+      .row
+        - @chapter.evaluations.each_with_index do |evaluation, index|
+          .col-md-6
+            %h4
+              = evaluation.name
+              (#{evaluation.points}%)
+
+            %input{type: 'hidden', name: "evaluation[#{index}][evaluation]", value: evaluation.id}
+
+            .radio
+              %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_excelent_#{index}", value: '100', checked: evaluation_pointed?(evaluation, 100), disabled: true}
+              %label{for: "radio_excelent_#{index}"}
+                %strong Exelente:
+                #{evaluation.excelent}
+
+            .radio
+              %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_good_#{index}", value: '75', checked: evaluation_pointed?(evaluation, 75), disabled: true}
+              %label{for: "radio_good_#{index}"}
+                %strong Bueno:
+                #{evaluation.good}
+            .radio
+              %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_regular_#{index}", value: '50', checked: evaluation_pointed?(evaluation, 50), disabled: true}
+              %label{for: "radio_regular_#{index}"}
+                %strong Regular:
+                #{evaluation.regular}
+
+            .radio
+              %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_bad_#{index}", value: '25', checked: evaluation_pointed?(evaluation, 25), disabled: true}
+              %label{for: "radio_bad_#{index}"}
+                %strong Malo:
+                #{evaluation.bad}
+
+#answer-comments.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
+          %span.sr-only Close
+        %h4.modal-title Comentarios
+      .modal-body
+        .timeline-container.top-circle.answer-comments-body
+        .text-center
+          %a.btn.btn-default.answer-comment-link
+            Ir a la pregunta
+
+%script{:type => "text/template", id: 'answer-comment-template'}
+  .panel.panel-transparent
+    .timeline-point.warning.pl10
+      %i.pg-social
+    .timeline-content
+      %h5.answer-comment-user
+        {{user}}
+      %h6.answer-comment-date
+        {{date}}
+      %p.answer-comment-content
+        {{content}}
