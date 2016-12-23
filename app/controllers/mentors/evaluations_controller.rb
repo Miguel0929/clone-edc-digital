@@ -19,14 +19,17 @@ class Mentors::EvaluationsController < ApplicationController
 
     @evaluations = @user.user_evaluations.joins(:evaluation).where('evaluations.chapter_id = ?', 4)
 
-    @answers = Answer.select(
+    @answers = Question.select(
       "answers.*, questions.question_text, count(comments.id) as comments_count, (select id from chapter_contents where coursable_id = questions.id and coursable_type = 'Question' limit 1) as chapter_content_id"
     )
-    .joins(:question)
+    .joins("left outer join answers on answers.question_id = questions.id and answers.user_id = #{@user.id}")
+    .joins('left join chapter_contents on chapter_contents.coursable_id = questions.id')
     .joins('left outer join comments on comments.answer_id = answers.id')
-    .where('answers.question_id in (?) and answers.user_id = ?', @chapter.questions.pluck(:id), @user.id)
-    .group('questions.id')
+    .where('questions.id in (?) and chapter_contents.coursable_type = ?', @chapter.questions.pluck(:id), 'Question')
     .group('answers.id')
+    .group('questions.id')
+    .group('chapter_contents.position')
+    .order('chapter_contents.position asc')
   end
 
   def update
@@ -43,7 +46,7 @@ class Mentors::EvaluationsController < ApplicationController
 
   private
   def set_user
-    @user = User.find(params[:user_id])
+    @user = User.includes(:user_evaluations).find(params[:user_id])
   end
 
   def set_program
