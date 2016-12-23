@@ -9,10 +9,7 @@
             %strong
               Programa a evaluar:
             = @program.name
-          %p
-            %strong
-              Alumno en evaluación
-            = @user.name
+
     .panel-body
       %table.table.table-striped
         %thead
@@ -34,7 +31,7 @@
               %td
                 #{(((chapter.evaluation_points * 100) / chapter.total_evaluations_points rescue 0) * chapter.points / 100)} %
               %td
-                = link_to 'Evaluar módulo', mentors_evaluation_path(chapter, user_id: @user, program_id: @program)
+                = link_to 'Ver evaluación', dashboard_evaluation_path(chapter, program_id: @program)
           %tr
             %th
               Total

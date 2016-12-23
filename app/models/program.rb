@@ -4,6 +4,7 @@ class Program < ActiveRecord::Base
   has_many :chapters, -> { order(position: :asc) }, dependent: :destroy
   has_many :group_programs
   has_many :groups, through: :group_programs
+  has_many :program_notifications, dependent: :destroy
 
   validates_presence_of :name, :description, :cover
 

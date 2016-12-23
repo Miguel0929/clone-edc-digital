@@ -76,6 +76,8 @@ Rails.application.routes.draw do
     resources :answers, only: [] do
       resources :comments, only: [:create]
     end
+
+    resources :evaluations, only: [:index, :show]
   end
 
 
