@@ -5,8 +5,16 @@ class AnswersController < ApplicationController
   before_action :answer_is_not_present, only: [:update]
 
   def index
-    answers =  @user.answers
-    @answers = answers.select { |answer| answer.question.chapter_content.chapter.program == @program }
+    question_ids = Question.select('questions.id')
+    .joins('INNER JOIN chapter_contents on questions.id = chapter_contents.coursable_id')
+    .where('chapter_contents.chapter_id in (?) and chapter_contents.coursable_type = ?', @program.chapters.pluck(:id), 'Question')
+
+    @answers = Answer.includes(:rubric)
+    .select("answers.*, questions.question_text")
+    .joins(:question)
+    .where('answers.question_id in (?) and answers.user_id = ?', question_ids, @user.id)
+    .group('questions.id')
+    .group('answers.id')
   end
 
   def edit

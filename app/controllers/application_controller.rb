@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
     if resource.admin?
       users_path
     elsif resource.mentor?
-      students_users_path
+      mentors_groups_path
     elsif resource.student?
       welcome_path
     end
