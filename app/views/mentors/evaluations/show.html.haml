@@ -2,7 +2,7 @@
   .panel.panel-transparent
     .panel-heading
       %h2
-        Evaluación de modulos
+        Evaluación de módulos
       .row
         .col-md-12
           %p
@@ -46,7 +46,7 @@
             .col-md-6
               %h4
                 = evaluation.name
-                = index
+                (#{evaluation.points}%)
 
               %input{type: 'hidden', name: "evaluation[#{index}][evaluation]", value: evaluation.id}
 
