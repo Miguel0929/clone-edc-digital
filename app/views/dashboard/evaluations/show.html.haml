@@ -2,7 +2,7 @@
   .panel.panel-transparent
     .panel-heading
       %h2
-        Evaluación de modulos
+        Evaluación de módulos
       .row
         .col-md-12
           %p
@@ -33,38 +33,37 @@
                   = answer.comments_count
       %h4
         Rubrica de evaluación
-      = bootstrap_form_for(@chapter, url: mentors_evaluation_path) do |f|
-        .row
-          - @chapter.evaluations.each_with_index do |evaluation, index|
-            .col-md-6
-              %h4
-                = evaluation.name
-                = index
+      .row
+        - @chapter.evaluations.each_with_index do |evaluation, index|
+          .col-md-6
+            %h4
+              = evaluation.name
+              (#{evaluation.points}%)
 
-              %input{type: 'hidden', name: "evaluation[#{index}][evaluation]", value: evaluation.id}
+            %input{type: 'hidden', name: "evaluation[#{index}][evaluation]", value: evaluation.id}
 
-              .radio
-                %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_excelent_#{index}", value: '100', checked: evaluation_pointed?(evaluation, 100), disabled: true}
-                %label{for: "radio_excelent_#{index}"}
-                  %strong Exelente:
-                  #{evaluation.excelent}
+            .radio
+              %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_excelent_#{index}", value: '100', checked: evaluation_pointed?(evaluation, 100), disabled: true}
+              %label{for: "radio_excelent_#{index}"}
+                %strong Exelente:
+                #{evaluation.excelent}
 
-              .radio
-                %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_good_#{index}", value: '75', checked: evaluation_pointed?(evaluation, 75), disabled: true}
-                %label{for: "radio_good_#{index}"}
-                  %strong Bueno:
-                  #{evaluation.good}
-              .radio
-                %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_regular_#{index}", value: '50', checked: evaluation_pointed?(evaluation, 50), disabled: true}
-                %label{for: "radio_regular_#{index}"}
-                  %strong Regular:
-                  #{evaluation.regular}
+            .radio
+              %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_good_#{index}", value: '75', checked: evaluation_pointed?(evaluation, 75), disabled: true}
+              %label{for: "radio_good_#{index}"}
+                %strong Bueno:
+                #{evaluation.good}
+            .radio
+              %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_regular_#{index}", value: '50', checked: evaluation_pointed?(evaluation, 50), disabled: true}
+              %label{for: "radio_regular_#{index}"}
+                %strong Regular:
+                #{evaluation.regular}
 
-              .radio
-                %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_bad_#{index}", value: '25', checked: evaluation_pointed?(evaluation, 25), disabled: true}
-                %label{for: "radio_bad_#{index}"}
-                  %strong Malo:
-                  #{evaluation.bad}
+            .radio
+              %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_bad_#{index}", value: '25', checked: evaluation_pointed?(evaluation, 25), disabled: true}
+              %label{for: "radio_bad_#{index}"}
+                %strong Malo:
+                #{evaluation.bad}
 
 #answer-comments.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
   .modal-dialog
