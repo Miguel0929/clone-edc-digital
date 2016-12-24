@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users, :controllers => { :invitations => 'users/invitations', sessions: 'sessions' }
+  devise_for :users, sign_out_via: [:get, :delete], :controllers => { :invitations => 'users/invitations', sessions: 'sessions' }
 
-  devise_scope :user do
-    root :to => 'devise/sessions#new'
-  end
+  root 'dashboard/welcome#index'
 
   get '/dashboard', to: 'dashboard/welcome#index', as: :welcome
   get "/404", :to => "errors#not_found"
@@ -109,6 +107,11 @@ Rails.application.routes.draw do
     end
   end
 
+
+  match '/auth/sso/authorize' => 'auth#authorize', via: :all
+  match '/auth/sso/access_token' => 'auth#access_token', via: :all
+  match '/auth/sso/user' => 'auth#user', via: :all
+  match '/oauth/token' => 'auth#access_token', via: :all
 
   mount Ckeditor::Engine => '/ckeditor'
 end

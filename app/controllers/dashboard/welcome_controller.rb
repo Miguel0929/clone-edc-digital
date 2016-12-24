@@ -1,5 +1,6 @@
 class Dashboard::WelcomeController < ApplicationController
   before_action :authenticate_user!
+  before_action :redirect_when_is_not_student
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -33,5 +34,15 @@ class Dashboard::WelcomeController < ApplicationController
     end
 
     redirect_to dashboard_support_path, flash_message
+  end
+
+  private
+  def redirect_when_is_not_student
+    flash.clear
+    if current_user.admin?
+      redirect_to users_path
+    elsif current_user.mentor?
+      redirect_to students_users_path
+    end
   end
 end
