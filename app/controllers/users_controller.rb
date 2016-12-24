@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   def students
     @users = case current_user.role
      when 'admin'
-      User.students
+      User.students_table
      when 'mentor'
        User.where('id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
     end

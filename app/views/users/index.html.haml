@@ -59,15 +59,14 @@
                 %td
                   = user.huminize_role
               %td
-                - if user.student? && user.group.nil? == false
-                  = user.group.name
+                = user.group_name
               - if user.student?
                 %td
-                  #{user.answered_questions_percentage} %
+                  #{(user.answers_count * 100) / user.questions_count rescue 0}%
                 %td
-                  #{user.content_visited_percentage} %
+                  #{(user.content_tracked_count * 100) / user.content_count rescue 0}%
                 %td
-                  = user.comments.count
+                  = user.comments_count
 
               - if current_user.admin?
                 %td
