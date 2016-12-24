@@ -12,17 +12,6 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :phone_number, :email, :password, :password_confirmation, :gender, :bio, :state, :city, :profile_picture])
   end
 
-  def after_sign_in_path_for(resource)
-    flash.clear
-    if resource.admin?
-      users_path
-    elsif resource.mentor?
-      mentors_groups_path
-    elsif resource.student?
-      welcome_path
-    end
-  end
-
   def require_admin
     redirect_to root_url unless current_user.admin?
   end

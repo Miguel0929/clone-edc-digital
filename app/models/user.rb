@@ -18,8 +18,9 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :user_evaluations
   has_many :evaluations, through: :user_evaluations
+  has_many :access_grants, dependent: :delete_all
 
-  devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable
+  devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 
   scope :students, -> { where(role: 0) }
   scope :mentors, -> { where(role: 1) }
