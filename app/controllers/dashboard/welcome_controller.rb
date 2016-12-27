@@ -42,7 +42,7 @@ class Dashboard::WelcomeController < ApplicationController
     if current_user.admin?
       redirect_to users_path
     elsif current_user.mentor?
-      redirect_to mentors_groups_path
+      redirect_to mentor_groups_path
     end
   end
 end

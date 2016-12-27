@@ -1,4 +1,4 @@
-class Mentors::EvaluationsController < ApplicationController
+class Mentor::EvaluationsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_mentor
   before_action :set_user
@@ -6,7 +6,13 @@ class Mentors::EvaluationsController < ApplicationController
 
   helper_method :evaluation_pointed?
 
+  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "Estudiantes", :mentor_students_path
+
   def index
+    add_breadcrumb @user.email, mentor_student_path(@user)
+    add_breadcrumb "<a class='active' href='#{mentor_evaluations_path(program_id: @program, user_id: @user)}'>Evaluación de programa</a>".html_safe
+
     @chapters = @program.chapters.select(
       "chapters.*,"\
       "(select COALESCE(SUM(user_evaluations.points), 0)  from user_evaluations where user_evaluations.user_id = #{@user.id}  and user_evaluations.evaluation_id in (select id from evaluations where evaluations.chapter_id = chapters.id) ) as evaluation_points,"\
@@ -30,6 +36,10 @@ class Mentors::EvaluationsController < ApplicationController
     .group('questions.id')
     .group('chapter_contents.position')
     .order('chapter_contents.position asc')
+
+    add_breadcrumb @user.email, mentor_student_path(@user)
+    add_breadcrumb 'Evaluación de programa', mentor_evaluations_path(program_id: @program, user_id: @user)
+    add_breadcrumb "<a class='active' href='#{mentor_evaluation_path(@chapter, program_id: @program, user_id: @user)}'>Evaluación de programa</a>".html_safe
   end
 
   def update

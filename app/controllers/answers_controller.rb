@@ -4,7 +4,7 @@ class AnswersController < ApplicationController
   before_action :set_program
   before_action :answer_is_not_present, only: [:update]
 
-  add_breadcrumb "Administrador", :root_path
+  add_breadcrumb "EDCDIGITAL", :root_path
 
   def index
     add_breadcrumb "Estudiantes", :users_path

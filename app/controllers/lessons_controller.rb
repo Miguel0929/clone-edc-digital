@@ -3,7 +3,7 @@ class LessonsController < ApplicationController
   before_action :set_chapter
   before_action :set_lesson, only: [:show, :edit, :update, :destroy, :clone]
 
-  add_breadcrumb "Administrador", :root_path
+  add_breadcrumb "EDCDIGITAL", :root_path
   add_breadcrumb "Programas", :programs_path
 
   def new

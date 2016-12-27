@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_mentor
-    redirect_to root_url if current_user.student?
+    redirect_to root_url unless current_user.mentor?
   end
 
   def layout_by_resource

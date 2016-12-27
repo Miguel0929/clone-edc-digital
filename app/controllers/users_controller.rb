@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :require_admin
   before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program]
 
-  add_breadcrumb "Administrador", :root_path
+  add_breadcrumb "EDCDIGITAL", :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{users_path}'>Estudiantes</a>".html_safe

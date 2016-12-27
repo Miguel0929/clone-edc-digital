@@ -95,4 +95,4 @@
               %td
                 #{@user.percentage_questions_answered_for(program)}%
               %td
-                = link_to 'Ir a evaluación por módulos', mentors_evaluations_path(user_id: @user, program_id: program)
+                = link_to 'Ir a evaluación por módulos', mentor_evaluations_path(user_id: @user, program_id: program)

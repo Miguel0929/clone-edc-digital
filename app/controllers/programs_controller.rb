@@ -2,7 +2,7 @@ class ProgramsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_program, only: [:show, :edit, :update, :destroy, :clone]
 
-  add_breadcrumb "Administrador", :root_path
+  add_breadcrumb "EDCDIGITAL", :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{programs_path}'>Programas</a>".html_safe
