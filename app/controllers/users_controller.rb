@@ -11,16 +11,14 @@ class UsersController < ApplicationController
 
   def mentors
     @users = User.mentors
-
-    render :index
   end
 
   def students
     @users = case current_user.role
      when 'admin'
-      User.students
+      User.students_table
      when 'mentor'
-       User.where('id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
+      User.students_table.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
     end
 
     if params[:state].present?

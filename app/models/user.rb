@@ -34,6 +34,46 @@ class User < ActiveRecord::Base
   before_create :set_origin
   after_create :assign_group
 
+  def self.students_table
+
+    chapters_ids = "select chapters.id from chapters "\
+    "inner join programs on programs.id = chapters.program_id "\
+    "inner join group_programs on programs.id = group_programs.program_id "\
+    "where group_programs.group_id = users.group_id "
+
+    answers_count = "(select count(answers.*) from answers "\
+    "inner join questions on answers.question_id = questions.id "\
+    "inner join chapter_contents on chapter_contents.coursable_id = questions.id "\
+    "where chapter_contents.coursable_type = 'Question' "\
+    "and chapter_contents.chapter_id in (#{chapters_ids}) "\
+    "and answers.user_id = users.id) "
+
+    lessons_count = "(select count(lessons.*) from lessons "\
+    "inner join chapter_contents on chapter_contents.coursable_id = lessons.id "\
+    "where chapter_contents.coursable_type = 'Lesson' "\
+    "and chapter_contents.chapter_id in (#{chapters_ids})) "
+
+    content_tracked_count = "(select count(*) from trackers "\
+    "inner join chapter_contents on chapter_contents.id = trackers.chapter_content_id "\
+    "where chapter_contents.chapter_id in (#{chapters_ids}) "\
+    "and trackers.user_id = users.id "\
+    "and chapter_contents.coursable_type = 'Lesson') "\
+
+    select(
+    "users.*, groups.name as group_name, (select count(*) from comments where comments.user_id = users.id) as comments_count, "\
+    "(select count(questions) from questions "\
+    "inner join chapter_contents on chapter_contents.coursable_id = questions.id "\
+    "where chapter_contents.coursable_type = 'Question' and chapter_contents.chapter_id in (#{chapters_ids})) as questions_count, "\
+    "#{answers_count} as answers_count," \
+    "#{lessons_count} as content_count,"\
+    "#{content_tracked_count} as content_tracked_count"
+    )
+    .joins('left outer join groups on groups.id = users.group_id')
+    .where('users.role = 0 and users.invitation_accepted_at is not null')
+
+
+  end
+
 
   def name
     "#{first_name} #{last_name}"
@@ -119,6 +159,7 @@ class User < ActiveRecord::Base
 
     answer.nil? ? 0 : events.where(name: 'Answer updated').where_properties(answer_id: answer.id).count
   end
+
 
   private
 
