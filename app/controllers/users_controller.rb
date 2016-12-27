@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin, except: [:students, :index, :show, :analytics_program]
-  before_action :require_mentor, only: [:students, :analytics_program]
+  before_action :require_admin, except: [:index, :show, :analytics_program]
+  before_action :require_mentor, only: [:analytics_program]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program]
   before_action :validate_student, only: [:edit, :update]
 
@@ -14,12 +14,7 @@ class UsersController < ApplicationController
   end
 
   def students
-    @users = case current_user.role
-     when 'admin'
-      User.students_table
-     when 'mentor'
-      User.students_table.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
-    end
+    @users = User.students_table
 
     if params[:state].present?
       case params[:state]

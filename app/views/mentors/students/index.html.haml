@@ -1,0 +1,54 @@
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+      .pull-right
+        .col-xs-12
+          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+      .clearfix
+    .panel-body
+      %table.table.table-hover.datatable
+        %thead
+          %tr
+            %th
+              Id
+            %th
+              Nombre
+            %th
+              Correo electrónico
+            %th
+              Teléfono
+            %th
+              Estado
+            %th
+              Grupo
+            %th
+              Porcentaje contestado
+            %th
+              Porcentaje de avance
+            %th
+              Total de comentarios
+            %th
+        %tbody
+          - @users.each do |user|
+            %tr
+              %td
+                = user.id
+              %td
+                = user.name
+              %td
+                = user.email
+              %td
+                = user.phone_number
+              %td
+                = user.status
+              %td
+                = user.group_name
+              - if user.student?
+                %td
+                  #{(user.answers_count * 100) / user.questions_count rescue 0}%
+                %td
+                  #{(user.content_tracked_count * 100) / user.content_count rescue 0}%
+                %td
+                  = user.comments_count
+                %td
+                  = link_to 'Ver detalle', user_path(user)
