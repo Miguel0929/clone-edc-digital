@@ -5,4 +5,8 @@ class Mentors::StudentsController < ApplicationController
   def index
     @users = User.students_table.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
   end
+
+  def show
+    @user = User.find(params[:id])
+  end
 end

@@ -1,8 +1,6 @@
 .container-fluid.container-fixed-lg
   %h3
     Detalles del Alumno: #{@user.name}
-    = link_to edit_user_path(@user) do
-      %span.glyphicon.glyphicon-edit
   .panel.panel-default
     .panel-body
       .row
@@ -97,4 +95,4 @@
               %td
                 #{@user.percentage_questions_answered_for(program)}%
               %td
-                = link_to 'Ver detalle', analytics_program_user_path(@user, program_id: program)
+                = link_to 'Ir a evaluación por módulos', mentors_evaluations_path(user_id: @user, program_id: program)

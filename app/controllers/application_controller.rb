@@ -30,6 +30,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+
   private
   def sessions_controller?
     action_name == "new" && controller_name == "sessions"

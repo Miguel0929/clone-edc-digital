@@ -3,7 +3,13 @@ class QuestionsController < ApplicationController
   before_action :set_chapter
   before_action :set_question, only: [:edit, :update, :destroy, :clone]
 
+  add_breadcrumb "Administrador", :root_path
+  add_breadcrumb "Programas", :programs_path
+
   def new
+    add_breadcrumb @chapter.program.name, program_path(@chapter.program)
+    add_breadcrumb "<a class='active' href='#{new_chapter_question_path(@chapter)}'>Nueva pregunta</a>".html_safe
+
     @question = @chapter.questions.new
     ['Deficiente', 'Regular', 'Bueno', 'Excelente'].each do |criteria|
       @question.rubrics.new({criteria: criteria})
@@ -11,6 +17,9 @@ class QuestionsController < ApplicationController
   end
 
   def create
+    add_breadcrumb @chapter.program.name, program_path(@chapter.program)
+    add_breadcrumb "<a class='active' href='#{new_chapter_question_path(@chapter)}'>Nueva pregunta</a>".html_safe
+
     @question = @chapter.questions.build(question_params)
 
     if @question.save
@@ -23,9 +32,14 @@ class QuestionsController < ApplicationController
   end
 
   def edit
+    add_breadcrumb @chapter.program.name, program_path(@chapter.program)
+    add_breadcrumb "<a class='active' href='#{edit_chapter_question_path(@chapter, @question)}'>#{@question.question_text}</a>".html_safe
   end
 
   def update
+    add_breadcrumb @chapter.program.name, program_path(@chapter.program)
+    add_breadcrumb "<a class='active' href='#{edit_chapter_question_path(@chapter, @question)}'>#{@question.question_text}</a>".html_safe
+
     if @question.update_attributes(question_params)
       redirect_to @chapter.program
     else

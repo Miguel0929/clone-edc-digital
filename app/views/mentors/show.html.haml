@@ -1,7 +1,7 @@
 .container-fluid.container-fixed-lg
   %h3
-    Detalles del Alumno: #{@user.name}
-    = link_to edit_user_path(@user) do
+    Detalles del Mentor: #{@user.name}
+    = link_to edit_mentor_path(@user) do
       %span.glyphicon.glyphicon-edit
   .panel.panel-default
     .panel-body
@@ -44,57 +44,9 @@
                 %td Ubicación
                 %td #{@user.state}, #{@user.city}
               %tr.odd.gradeX
-                %td Grupo
-                %td
-                  = @user.group.name unless @user.group.nil?
               %tr.odd.gradeX
                 %td Fecha de creación de cuenta
                 %td #{l @user.created_at, format: :special}
               %tr.odd.gradeX
                 %td Fecha de activación de cuenta
                 %td #{l @user.invitation_accepted_at, format: :special unless @user.invitation_accepted_at.nil?}
-              %tr.odd.gradeX
-                %td Cursos inscritos
-                %td
-                  - @user.group.programs.each do |program|
-                    \-
-                    = link_to program.name, user_program_answers_path(@user, program)
-                    %br
-  %h3
-    Estadísticas generales de programas inscritos
-
-  .panel.panel-default
-    .panel-body
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Curso inscrito
-            %th
-              Contenidos vistos
-            %th
-              Respuestas contestadas
-            %th
-              Comentarios totales
-            %th
-              Porcentaje de contenido visto
-            %th
-              Porcentaje de preguntas contestadas
-            %th
-        %tbody
-          - @user.group.programs.each do |program|
-            %tr
-              %td
-                = program.name
-              %td
-                = @user.content_visted_for(program)
-              %td
-                = @user.questions_answered_for(program)
-              %td
-                = @user.total_comments_for(program)
-              %td
-                #{@user.percentage_content_visited_for(program)}%
-              %td
-                #{@user.percentage_questions_answered_for(program)}%
-              %td
-                = link_to 'Ver detalle', analytics_program_user_path(@user, program_id: program)

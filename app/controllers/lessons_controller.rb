@@ -3,14 +3,25 @@ class LessonsController < ApplicationController
   before_action :set_chapter
   before_action :set_lesson, only: [:show, :edit, :update, :destroy, :clone]
 
+  add_breadcrumb "Administrador", :root_path
+  add_breadcrumb "Programas", :programs_path
+
   def new
+    add_breadcrumb @chapter.program.name, program_path(@chapter.program)
+    add_breadcrumb "<a class='active' href='#{new_chapter_lesson_path(@chapter)}'>Nuevo contenido</a>".html_safe
+
     @lesson = @chapter.lessons.new
   end
 
   def show
+    add_breadcrumb @chapter.program.name, program_path(@chapter.program)
+    add_breadcrumb "<a class='active' href='#{chapter_lesson_path(@chapter, @lesson)}'>#{@lesson.identifier}</a>".html_safe
   end
 
   def create
+    add_breadcrumb @chapter.program.name, program_path(@chapter.program)
+    add_breadcrumb "<a class='active' href='#{new_chapter_lesson_path(@chapter)}'>Nuevo contenido</a>".html_safe
+
     @lesson = @chapter.lessons.build(lesson_params)
 
     if @lesson.save
@@ -23,9 +34,16 @@ class LessonsController < ApplicationController
   end
 
   def edit
+    add_breadcrumb @chapter.program.name, program_path(@chapter.program)
+    add_breadcrumb @lesson.identifier, chapter_lesson_path(@chapter, @lesson)
+    add_breadcrumb "<a class='active' href='#{edit_chapter_lesson_path(@chapter, @lesson)}'>Editar contenido</a>".html_safe
   end
 
   def update
+    add_breadcrumb @chapter.program.name, program_path(@chapter.program)
+    add_breadcrumb @lesson.identifier, chapter_lesson_path(@chapter, @lesson)
+    add_breadcrumb "<a class='active' href='#{edit_chapter_lesson_path(@chapter, @lesson)}'>Editar contenido</a>".html_safe
+
     if @lesson.update_attributes(lesson_params)
       redirect_to @chapter.program
     else

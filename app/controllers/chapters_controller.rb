@@ -3,11 +3,20 @@ class ChaptersController < ApplicationController
   before_action :set_program
   before_action :set_chapter, only: [:edit, :update, :destroy, :clone]
 
+  add_breadcrumb "Administrador", :root_path
+  add_breadcrumb "Programas", :programs_path
+
   def new
+    add_breadcrumb @program.name, program_path(@program)
+    add_breadcrumb "<a class='active' href='#{new_program_chapter_path(@program)}'>Crear módulo</a>".html_safe
+
     @chapter = @program.chapters.new
   end
 
   def create
+    add_breadcrumb @program.name, program_path(@program)
+    add_breadcrumb "<a class='active' href='#{new_program_chapter_path(@program)}'>Crear módulo</a>".html_safe
+
     @chapter = @program.chapters.new(chapter_params)
 
     if @chapter.save
@@ -18,9 +27,14 @@ class ChaptersController < ApplicationController
   end
 
   def edit
+    add_breadcrumb @program.name, program_path(@program)
+    add_breadcrumb "<a class='active' href='#{program_chapter_path(@program, @chapter)}'>#{@chapter.name}</a>".html_safe
   end
 
   def update
+    add_breadcrumb @program.name, program_path(@program)
+    add_breadcrumb "<a class='active' href='#{program_chapter_path(@program, @chapter)}'>#{@chapter.name}</a>".html_safe
+
     if @chapter.update(chapter_params)
       redirect_to @program
     else
