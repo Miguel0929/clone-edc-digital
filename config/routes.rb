@@ -83,22 +83,21 @@ Rails.application.routes.draw do
     member do
       get :analytics_program
     end
-    collection do
-      get :mentors
-      get :students
-    end
 
     resources :programs, only: [] do
       resources :answers, only: [:index, :edit, :update]
     end
   end
 
+  resources :mentors, except: [:create]
+
   resources :groups
   resources :visits, only: [:index]
 
-  namespace :mentors do
+  namespace :mentor do
     resources :groups, only: [:index, :show]
     resources :evaluations, only: [:index, :show, :update]
+    resources :students, only: [:index, :show]
   end
 
   namespace :api do

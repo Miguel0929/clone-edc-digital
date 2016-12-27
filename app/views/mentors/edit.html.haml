@@ -1,0 +1,14 @@
+.container
+  .row
+    .col-md-12
+      %h2.text-center
+        Editar información
+
+      = bootstrap_form_for(@user) do |f|
+        = f.text_field :first_name
+        = f.text_field :last_name
+        = f.text_field :email
+        = f.text_field :phone_number
+
+        = link_to 'Cancelar', mentor_path(@user), class: 'btn btn-danger'
+        = f.submit 'Aceptar'

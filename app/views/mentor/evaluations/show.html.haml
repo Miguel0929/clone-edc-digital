@@ -37,7 +37,7 @@
                   = answer.comments_count
       %h4
         Rubrica de evaluación
-      = bootstrap_form_for(@chapter, url: mentors_evaluation_path) do |f|
+      = bootstrap_form_for(@chapter, url: mentor_evaluation_path) do |f|
         %input{type: 'hidden', name: "user_id", value: @user.id}
         %input{type: 'hidden', name: "program_id", value: @program.id}
 

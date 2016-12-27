@@ -10,7 +10,7 @@ class Dashboard::ProgramsController < ApplicationController
   def show
     @program = Program.find(params[:id])
 
-    add_breadcrumb "programas", :dashboard_programs_path
+    add_breadcrumb "Programas", :dashboard_programs_path
     add_breadcrumb "<a class='active' href='#{dashboard_program_path @program}'>#{@program.name}</a>".html_safe
   end
 

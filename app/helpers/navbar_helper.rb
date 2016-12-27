@@ -1,13 +1,17 @@
 module NavbarHelper
-  def display_navbar_link(link_name, path, level_access, plus_member = false)
-    item = content_tag(:li, link(link_name, path), class: ['nav-item'])
+  def display_navbar_link(options)
+    item = content_tag(:li, class: options [:css]) do
+      concat(content_tag(:a, nil, href: options[:path], class: ['detailed']) do
+        concat content_tag(:span, options[:link], class: 'title')
+        concat content_tag(:span, options[:details], class: 'details')
+      end)
 
-    have_access = level_access.include?(current_user.role.to_sym)
-    return item if have_access || plus_member
-  end
+      concat(content_tag(:span, nil, class: 'icon-thumbnail') do
+        content_tag(:i, nil, class: "#{options[:icon]}")
+      end)
+    end
 
-  private
-  def link(link_name, path)
-    content_tag(:a, link_name, href: path)
+    have_access = options[:role].include?(current_user.role.to_sym)
+    return item if have_access
   end
 end
