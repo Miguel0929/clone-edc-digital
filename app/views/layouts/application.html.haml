@@ -33,58 +33,20 @@
           = image_tag('logo-edc-blanco-horizontal.png', height: 40)
       .sidebar-menu
         %ul.menu-items
-          - if current_user.admin?
-            %li.m-t-30
-              %a.detailed{:href => groups_path}
-                %span.title Grupos
-                %span.details Grupos de la plataforma
-              %span.icon-thumbnail
-                %i.fa.fa-users
+          = display_navbar_link({link: 'Grupos', details: 'Grupos de la plataforma' ,path: groups_path, css: ['m-t-30'], icon: 'fa fa-users', role: [:admin]})
+          = display_navbar_link({link: 'Mentores', details: 'Grupos de la plataforma' ,path: mentors_path, icon: 'fa fa-briefcase', role: [:admin]})
+          = display_navbar_link({link: 'Programas', details: 'Diseño de programas' ,path: programs_path, icon: 'fa fa-list-alt', role: [:admin]})
+          = display_navbar_link({link: 'Visitas', details: 'Panel de visitas' ,path: visits_path, icon: 'fa fa-list-alt', role: [:admin]})
+          = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: users_path, icon: 'fa fa-book', role: [:admin]})
 
-            %li.m-t-30
-              %a.detailed{:href => mentors_users_path}
-                %span.title Mentores
-                %span.details Mentores de la plataforma
-              %span.icon-thumbnail
-                %i.fa.fa-briefcase
+          = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: ['m-t-30'], icon: 'fa fa-users', role: [:mentor]})
+          = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
 
-            %li.m-t-30
-              %a.detailed{:href => programs_path}
-                %span.title Programas
-                %span.details Diseño de programas
-              %span.icon-thumbnail
-                %i.fa.fa-list-alt
 
-            %li.m-t-30
-              %a.detailed{:href => visits_path}
-                %span.title Visitas
-                %span.details Panel de visitas
-              %span.icon-thumbnail
-                %i.fa.fa-list-alt
-
-          - if current_user.admin? || current_user.mentor?
-            %li.m-t-30
-              %a.detailed{:href => students_users_path}
-                %span.title Estudiantes
-                %span.details Estudiantes de la plataforma
-              %span.icon-thumbnail
-                %i.fa.fa-book
-
-          - if current_user.mentor?
-            %li.m-t-30
-              %a.detailed{:href => mentors_groups_path }
-                %span.title Grupos
-                %span.details Grupos a los que tienes acceso
-              %span.icon-thumbnail
-                %i.fa.fa-users
+          = display_navbar_link({link: 'Inicio', details: 'Bienvenido a EDCdigital' ,path: root_path, css: ['m-t-30', 'redirector'], icon: 'fa fa-home', role: [:student]})
+          = display_navbar_link({link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})
 
           - if current_user.student?
-            %li.m-t-30
-              %a.detailed.redirector{:href => root_path}
-                %span.title Inicio
-                %span.details Bienvenido a EDCdigital
-              %span.icon-thumbnail
-                %i.fa.fa-home
             %li
               %a.detailed{:href => dashboard_programs_path}
                 %span.title Programas

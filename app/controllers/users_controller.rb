@@ -1,48 +1,43 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin, except: [:students, :index, :show, :analytics_program]
-  before_action :require_mentor, only: [:students, :analytics_program]
+  before_action :require_admin
   before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program]
-  before_action :validate_student, only: [:edit, :update]
+
+  add_breadcrumb "EDCDIGITAL", :root_path
 
   def index
-    redirect_to mentors_users_path
-  end
+    add_breadcrumb "<a class='active' href='#{users_path}'>Estudiantes</a>".html_safe
 
-  def mentors
-    @users = User.mentors
-  end
-
-  def students
-    @users = case current_user.role
-     when 'admin'
-      User.students_table
-     when 'mentor'
-      User.students_table.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
-    end
+    @users = User.students_table
 
     if params[:state].present?
       case params[:state]
         when 'active'
           @users = @users.where.not(invitation_accepted_at: nil)
-
         when 'inactive'
           @users = @users.where(invitation_accepted_at: nil)
       end
     end
 
     @users = @users.where(group: params[:group]) if params[:group].present?
-
-    render :index
   end
 
   def show
+    add_breadcrumb "Estudiantes", :users_path
+    add_breadcrumb "<a class='active' href='#{user_path(@user)}'>#{@user.email}</a>".html_safe
   end
 
   def edit
+    add_breadcrumb "Estudiantes", :users_path
+    add_breadcrumb @user.email, user_path(@user)
+    add_breadcrumb "<a class='active' href='#{edit_user_path(@user)}'>Editar información</a>".html_safe
   end
 
   def update
+    add_breadcrumb "Estudiantes", :users_path
+    add_breadcrumb @user.email, user_path(@user)
+    add_breadcrumb "<a class='active' href='#{edit_user_path(@user)}'>Editar información</a>".html_safe
+
     if @user.update(user_params)
       redirect_to @user
     else
@@ -59,6 +54,10 @@ class UsersController < ApplicationController
   def analytics_program
     @program = Program.find(params[:program_id])
     @chapter_contents = ChapterContent.joins(chapter: [:program]).where('programs.id = ?', @program.id).order(position: :asc)
+
+    add_breadcrumb "Estudiantes", :users_path
+    add_breadcrumb @user.email, user_path(@user)
+    add_breadcrumb "<a class='active' href='#{analytics_program_user_path(@user, program_id: @program)}'>Detalles de programa</a>".html_safe
   end
 
   private

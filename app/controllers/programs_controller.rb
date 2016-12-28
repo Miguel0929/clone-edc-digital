@@ -2,18 +2,31 @@ class ProgramsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_program, only: [:show, :edit, :update, :destroy, :clone]
 
+  add_breadcrumb "EDCDIGITAL", :root_path
+
   def index
+    add_breadcrumb "<a class='active' href='#{programs_path}'>Programas</a>".html_safe
+
     @programs = Program.all
   end
 
   def show
+    add_breadcrumb "Programas", :programs_path
+    add_breadcrumb "<a class='active' href='#{program_path(@program)}'>#{@program.name}</a>".html_safe
+
   end
 
   def new
+    add_breadcrumb "Programas", :programs_path
+    add_breadcrumb "<a class='active' href='#{new_program_path}'>Crear programa</a>".html_safe
+
     @program = Program.new
   end
 
   def create
+    add_breadcrumb "Programas", :programs_path
+    add_breadcrumb "<a class='active' href='#{new_program_path}'>Crear programa</a>".html_safe
+
     @program = Program.new(program_params)
 
     if @program.save
@@ -24,9 +37,14 @@ class ProgramsController < ApplicationController
   end
 
   def edit
+    add_breadcrumb "Programas", :programs_path
+    add_breadcrumb "<a class='active' href='#{edit_program_path(@program)}'>#{@program.name}</a>".html_safe
   end
 
   def update
+    add_breadcrumb "Programas", :programs_path
+    add_breadcrumb "<a class='active' href='#{edit_program_path(@program)}'>#{@program.name}</a>".html_safe
+
     if @program.update(program_params)
       redirect_to @program
     else

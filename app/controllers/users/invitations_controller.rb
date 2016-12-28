@@ -1,5 +1,7 @@
 class Users::InvitationsController < Devise::InvitationsController
   before_action :require_admin, only: [:new]
+  before_action :set_breadcrumb, only: [:new, :create]
+
 
   private
 
@@ -23,5 +25,10 @@ class Users::InvitationsController < Devise::InvitationsController
     end
 
     user
+  end
+
+  def set_breadcrumb
+    add_breadcrumb "Administrador", :root_path
+    add_breadcrumb "<a class='active' href='#{new_user_invitation_path}'>Enviar invitación</a>".html_safe
   end
 end
