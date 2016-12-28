@@ -6,8 +6,6 @@
           %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       .clearfix
     .panel-body
-      %h2
-        Lista de mentores
       %table.table.table-hover.datatable
         %thead
           %tr
@@ -24,6 +22,12 @@
             %th
               Grupo
             %th
+              Porcentaje contestado
+            %th
+              Porcentaje de avance
+            %th
+              Total de comentarios
+            %th
         %tbody
           - @users.each do |user|
             %tr
@@ -38,17 +42,13 @@
               %td
                 = user.status
               %td
-                = user.group.name
-              %td
-                .btn-group
-                  %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-                    %span.glyphicon.glyphicon-pencil
-                    %span.caret
-                  %ul.dropdown-menu
-                    %li
-                      = link_to 'Ver información', user_path(user)
-                    %li.divider
-                    %li
-                      = link_to 'Eliminar usuario', user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' }
-
-      = link_to 'Invitar usuario', new_user_invitation_path, class: 'btn btn-default'
+                = user.group_name
+              - if user.student?
+                %td
+                  #{(user.answers_count * 100) / user.questions_count rescue 0}%
+                %td
+                  #{(user.content_tracked_count * 100) / user.content_count rescue 0}%
+                %td
+                  = user.comments_count
+                %td
+                  = link_to 'Ver detalle', mentor_student_path(user)
