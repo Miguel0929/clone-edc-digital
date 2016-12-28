@@ -33,3 +33,33 @@
                 = visit.os
               %td
                 = l visit.started_at, format: :special
+
+      .row
+        %h2.text-center
+          Actividad de usuarios
+
+        = line_chart Visit.group_by_day(:started_at).count
+
+      .row
+        .col-md-6
+          %h2.text-center
+            Navegadores
+          = pie_chart Visit.group(:browser).count
+
+        .col-md-6
+          %h2.text-center
+            Dispositivos
+          = pie_chart Visit.group(:device_type).count
+
+        .col-md-6
+          %h2.text-center
+            Sistema operativo
+          = pie_chart Visit.group(:os).count
+
+        .col-md-6
+          %h2.text-center
+            Región
+
+          = geo_chart Visit.group(:country).count
+
+

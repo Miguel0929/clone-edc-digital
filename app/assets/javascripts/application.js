@@ -26,4 +26,6 @@
 //= require modernizr
 //= require jquery.scrollbar
 //= require cocoon
+//= require Chart.bundle
+//= require chartkick
 //= require_tree .
