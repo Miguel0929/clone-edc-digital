@@ -71,6 +71,7 @@ GEM
       activesupport (>= 3.2.0)
       json (>= 1.7)
       mime-types (>= 1.16)
+    chartkick (2.2.1)
     ckeditor (4.1.3)
       cocaine
       orm_adapter (~> 0.5.0)
@@ -238,6 +239,8 @@ GEM
     geocoder (1.4.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    groupdate (3.1.1)
+      activesupport (>= 3)
     haml (4.0.7)
       tilt
     haml-rails (0.9.0)
@@ -451,6 +454,7 @@ DEPENDENCIES
   breadcrumbs_on_rails
   byebug
   carrierwave
+  chartkick
   ckeditor
   cocoon
   coffee-rails (~> 4.1.0)
@@ -464,6 +468,7 @@ DEPENDENCIES
   figaro
   fog
   font-awesome-rails
+  groupdate
   haml-rails
   jbuilder (~> 2.0)
   jquery-datatables-rails (~> 3.3.0)
