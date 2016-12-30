@@ -69,7 +69,7 @@ class User < ActiveRecord::Base
     "#{content_tracked_count} as content_tracked_count"
     )
     .joins('left outer join groups on groups.id = users.group_id')
-    .where('users.role = 0 and users.invitation_accepted_at is not null')
+    .where('users.role = 0')
 
 
   end
