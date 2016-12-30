@@ -60,6 +60,6 @@
           %h2.text-center
             Región
 
-          = geo_chart Visit.group(:country).count
+          = geo_chart Visit.group(:region).count, library: {region: 'MX', resolution: 'provinces'}
 
 
