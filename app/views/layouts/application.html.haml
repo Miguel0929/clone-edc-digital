@@ -44,16 +44,17 @@
           = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
 
 
-          = display_navbar_link({link: 'Inicio', details: 'Bienvenido a EDCdigital' ,path: root_path, css: ['m-t-30', 'redirector'], icon: 'fa fa-home', role: [:student]})
-          = display_navbar_link({link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})
 
           - if current_user.student?
-            %li
-              %a.detailed{:href => dashboard_programs_path}
-                %span.title Programas
-                %span.details Cursos en EDCdigital
+            %li.m-t-30
+              %a.detailed.redirector{:href => root_path}
+                %span.title Inicio
+                %span.details Bienvenido a EDCdigital
               %span.icon-thumbnail
-                %i.pg-layouts
+                %i.fa.fa-home
+
+            = display_navbar_link({link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})
+
             %li
               %a{:href => "javascript:;"}
                 %span.title Configuración
