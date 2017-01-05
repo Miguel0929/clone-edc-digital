@@ -42,7 +42,8 @@ class AuthController < ApplicationController
         first_name: current_user.first_name,
         last_name: current_user.last_name,
         phone_number: current_user.phone_number,
-        role: current_user.role
+        role: current_user.role,
+        groups: user_groups
       }
     }
 
@@ -63,6 +64,15 @@ class AuthController < ApplicationController
       if access_grant.user
         sign_in access_grant.user
       end
+    end
+  end
+
+  def user_groups
+    return [] if current_user.admin?
+    if current_user.mentor?
+      current_user.groups.pluck(:id)
+    else
+      [current_user.group.id]
     end
   end
 end
