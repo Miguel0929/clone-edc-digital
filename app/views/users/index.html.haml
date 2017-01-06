@@ -15,6 +15,7 @@
               = f.select :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: true, label: 'Grupo' }
 
           = f.submit 'Filtrar'
+          = link_to "Exportar Excel", users_path(format: :xls, state: params[:state], group: params[:group]), { target: '_blank', class: 'btn btn-default'}
 
       %table.table.table-hover.datatable
         %thead

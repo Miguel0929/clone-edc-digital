@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Id</Data></Cell>
+        <Cell><Data ss:Type="String">Nombre</Data></Cell>
+        <Cell><Data ss:Type="String">Teléfono</Data></Cell>
+        <Cell><Data ss:Type="String">Estado</Data></Cell>
+        <Cell><Data ss:Type="String">Grupo</Data></Cell>
+        <Cell><Data ss:Type="String">Porcentaje contestado</Data></Cell>
+        <Cell><Data ss:Type="String">Porcentaje de avance</Data></Cell>
+        <Cell><Data ss:Type="String">Total de comentarios</Data></Cell>
+      </Row>
+      <% @users.each do |user| %>
+        <Row>
+          <Cell><Data ss:Type="Number"><%= user.id %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= user.name %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= user.phone_number %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= user.status %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= user.group_name %></Data></Cell>
+          <Cell><Data ss:Type="Number"><%= (user.answers_count * 100) / user.questions_count rescue 0 %></Data></Cell>
+          <Cell><Data ss:Type="Number"><%= (user.content_tracked_count * 100) / user.content_count rescue 0 %></Data></Cell>
+          <Cell><Data ss:Type="Number"><%= user.comments_count %></Data></Cell>
+        </Row>
+      <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>
