@@ -20,6 +20,11 @@ class UsersController < ApplicationController
     end
 
     @users = @users.where(group: params[:group]) if params[:group].present?
+
+    respond_to do |format|
+      format.html {}
+      format.xls
+    end
   end
 
   def show
