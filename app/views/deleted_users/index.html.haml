@@ -1,0 +1,51 @@
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+      .pull-right
+        .col-xs-12
+          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+      .clearfix
+    .panel-body
+      %table.table.table-hover.datatable
+        %thead
+          %tr
+            %th
+              Id
+            %th
+              Nombre
+            %th
+              Correo electrónico
+            %th
+              Teléfono
+            %th
+              Estado
+            %th
+              Rol
+            %th
+              Grupo
+            %th
+        %tbody
+          - @users.each do |user|
+            %tr
+              %td
+                = user.id
+              %td
+                = user.name
+              %td
+                = user.email
+              %td
+                = user.phone_number
+              %td
+                = user.status
+              %td
+                = user.huminize_role
+              %td
+                = user.group.name
+              %td
+                .btn-group
+                  %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+                    %span.glyphicon.glyphicon-pencil
+                    %span.caret
+                  %ul.dropdown-menu
+                    %li
+                      = link_to 'Activar', deleted_user_path(user), method: :put, data: { confirm: '¿Estás seguro?' }
