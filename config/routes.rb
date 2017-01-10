@@ -93,6 +93,7 @@ Rails.application.routes.draw do
 
   resources :groups
   resources :visits, only: [:index]
+  resources :deleted_users, only: [:index, :update], path: 'usuarios-desactivados'
 
   namespace :mentor do
     resources :groups, only: [:index, :show]
