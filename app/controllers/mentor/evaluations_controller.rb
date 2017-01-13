@@ -23,7 +23,7 @@ class Mentor::EvaluationsController < ApplicationController
   def show
     @chapter = Chapter.includes(:evaluations).find(params[:id])
 
-    @evaluations = @user.user_evaluations.joins(:evaluation).where('evaluations.chapter_id = ?', 4)
+    @evaluations = @user.user_evaluations.joins(:evaluation).where('evaluations.chapter_id = ?', @chapter.id)
 
     @answers = Question.select(
       "answers.*, questions.question_text, count(comments.id) as comments_count, (select id from chapter_contents where coursable_id = questions.id and coursable_type = 'Question' limit 1) as chapter_content_id"
