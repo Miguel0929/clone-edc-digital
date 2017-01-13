@@ -47,7 +47,7 @@ class Mentor::EvaluationsController < ApplicationController
 
     Evaluator.for(@user, params[:evaluation])
 
-    redirect_to mentors_evaluation_path(@chapter, user_id: @user, program_id: @program)
+    redirect_to mentor_evaluation_path(@chapter, user_id: @user, program_id: @program)
   end
 
   def evaluation_pointed?(evaluation, points)
