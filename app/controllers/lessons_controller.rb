@@ -27,7 +27,7 @@ class LessonsController < ApplicationController
     if @lesson.save
       @chapter.lessons << @lesson
       NewContentNotificationJob.perform_later(@chapter.program)
-      redirect_to @chapter.program
+      redirect_to @chapter.program, notice: "Se creo exitosamente el contenido #{@lesson.identifier}"
     else
       render :new
     end
@@ -45,7 +45,7 @@ class LessonsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{edit_chapter_lesson_path(@chapter, @lesson)}'>Editar contenido</a>".html_safe
 
     if @lesson.update_attributes(lesson_params)
-      redirect_to @chapter.program
+      redirect_to @chapter.program, notice: "Se actualizó exitosamente el contenido #{@lesson.identifier}"
     else
       render :edit
     end
@@ -57,7 +57,7 @@ class LessonsController < ApplicationController
       @lesson.destroy
     end
 
-    redirect_to @chapter.program
+    redirect_to @chapter.program, notice: "Se eliminó exitosamente el contenido #{@lesson.identifier}"
   end
 
   def clone
@@ -65,7 +65,7 @@ class LessonsController < ApplicationController
 
     @chapter.lessons << lesson_clone
 
-    redirect_to @chapter.program
+    redirect_to @chapter.program, notice: "Se creo exitosamente el contenido #{@lesson.identifier}"
   end
 
   private

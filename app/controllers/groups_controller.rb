@@ -34,7 +34,7 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
 
     if @group.save
-      redirect_to groups_path, notice: 'Group was successfully created.'
+      redirect_to groups_path, notice: "Se creo exitosamente el grupo #{@group.name}"
     else
       render :new
     end
@@ -47,7 +47,7 @@ class GroupsController < ApplicationController
     before_update_ids = @group.programs.pluck(:id)
     if @group.update(group_params)
       NewProgramNotificationJob.perform_later(before_update_ids, @group.programs.pluck(:id))
-      redirect_to groups_path, notice: 'Group was successfully updated.'
+      redirect_to groups_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
     else
       render :edit
     end
@@ -55,7 +55,7 @@ class GroupsController < ApplicationController
 
   def destroy
     @group.destroy
-    redirect_to groups_path, notice: 'Group was successfully destroyed.'
+    redirect_to groups_path, notice: "Se eliminó el grupo #{@group.name}"
   end
 
   private
