@@ -20,7 +20,7 @@ class DeletedUsersController < ApplicationController
       send_reactivation_email(90812, @user.email)
     end
 
-    redirect_to deleted_users_path
+    redirect_to deleted_users_path, notice: "Se reactivó exitosamente al usuario #{@user.email}"
   end
 
   private

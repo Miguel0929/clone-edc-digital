@@ -65,6 +65,9 @@ GEM
     breadcrumbs_on_rails (3.0.1)
     browser (2.3.0)
     builder (3.2.2)
+    bullet (5.5.0)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.10.0)
     byebug (9.0.5)
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
@@ -432,6 +435,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
+    uniform_notifier (1.10.0)
     user_agent_parser (2.3.0)
     uuidtools (2.1.5)
     warden (1.2.6)
@@ -452,6 +456,7 @@ DEPENDENCIES
   ahoy_matey
   bootstrap_form
   breadcrumbs_on_rails
+  bullet
   byebug
   carrierwave
   chartkick
@@ -501,4 +506,4 @@ RUBY VERSION
    ruby 2.2.1p85
 
 BUNDLED WITH
-   1.13.6
+   1.13.7

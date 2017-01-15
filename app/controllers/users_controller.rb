@@ -44,7 +44,7 @@ class UsersController < ApplicationController
     add_breadcrumb "<a class='active' href='#{edit_user_path(@user)}'>Editar información</a>".html_safe
 
     if @user.update(user_params)
-      redirect_to @user
+      redirect_to @user, notice: "Se actualizó exitosamente el detalle del usuario #{@user.email}"
     else
       render :edit
     end
@@ -53,7 +53,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
 
-    redirect_to users_path
+    redirect_to users_path, notice: "Se eliminó exitosamente al usuario #{@user.email}"
   end
 
   def analytics_program

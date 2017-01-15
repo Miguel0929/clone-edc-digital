@@ -20,7 +20,7 @@ class ChaptersController < ApplicationController
     @chapter = @program.chapters.new(chapter_params)
 
     if @chapter.save
-      redirect_to @program
+      redirect_to @program, notice: "Se creo exitosamente el módulo #{@chapter.name}"
     else
       render :new
     end
@@ -36,7 +36,7 @@ class ChaptersController < ApplicationController
     add_breadcrumb "<a class='active' href='#{program_chapter_path(@program, @chapter)}'>#{@chapter.name}</a>".html_safe
 
     if @chapter.update(chapter_params)
-      redirect_to @program
+      redirect_to @program, notice: "Se actualizó exitosamente el módulo #{@chapter.name}"
     else
       render :edit
     end
@@ -45,7 +45,7 @@ class ChaptersController < ApplicationController
   def destroy
      @chapter.destroy
 
-     redirect_to @program
+     redirect_to @program, notice: "Se eliminó exitosamente el módulo #{@chapter.name}"
   end
 
   def sort
@@ -76,7 +76,7 @@ class ChaptersController < ApplicationController
 
     clone_chapter.save
 
-    redirect_to @program
+    redirect_to @program, notice: "Se creo exitosamente el módulo #{clone_chapter.name}"
   end
 
   private
