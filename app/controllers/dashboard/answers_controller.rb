@@ -95,7 +95,7 @@ class Dashboard::AnswersController < ApplicationController
     elsif @chapter_content.chapter.program.next_chapter(@chapter_content.chapter) && @chapter_content.chapter.program.next_chapter(@chapter_content.chapter).chapter_contents.first
       redirect_to dashboard_chapter_content_path(@chapter_content.chapter.program.next_chapter(chapter_content.chapter).chapter_contents.first), notice: "Cambios guardados con éxito"
     else
-      redirect_to dashboard_program_path(chapter_content.chapter.program), notice: "Cambios guardados con éxito"
+      redirect_to dashboard_program_path(@chapter_content.chapter.program), notice: "Cambios guardados con éxito"
     end
   end
 end
