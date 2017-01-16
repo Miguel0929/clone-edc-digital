@@ -17,6 +17,6 @@ class Program < ActiveRecord::Base
   end
 
   def next_chapter(chapter)
-    chapters.where("id > ?", chapter.id).first
+    chapters.where("position > ?", chapter.position).first
   end
 end
