@@ -7,9 +7,6 @@
         .panel-title.pull-right
           - unless @answer.rubric.nil?
             = image_tag(image_for_rubric(@answer.rubric.criteria), :class=> 'rating-image',"data-original-title" => "Esta pregunta ha sido evaluada como #{@answer.rubric.criteria.downcase}", "data-toggle" => "tooltip")
-          %button.btn.btn-sm.btn-success.btn-cons.m-b-10{:type => "submit"}
-            %i.fa.fa-save
-            Guardar respuesta
         .clearfix
       .panel-body
         .row
@@ -30,7 +27,7 @@
               %p.small.hint-text.m-t-15
                 = @question.support_text
 
-        = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content }
+        = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content, answer: @answer, edit_mode: true }
 
 #warning-modal.modal.fade.slide-up.disable-scroll{"aria-hidden" => "true", :role => "dialog", :style => "display: none;", :tabindex => "-1"}
   .modal-dialog.modal-lg
