@@ -38,7 +38,6 @@ class Dashboard::WelcomeController < ApplicationController
 
   private
   def redirect_when_is_not_student
-    flash.clear
     if current_user.admin?
       redirect_to users_path
     elsif current_user.mentor?

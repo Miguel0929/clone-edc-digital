@@ -1,4 +1,14 @@
 es:
+  devise:
+    sessions:
+      user:
+        signed_in: 'Inicio de sesión exitoso'
+    invitations:
+      user:
+        send_instructions: Se ha enviado una invitación de nuevo usuario al correo %{email}
+    registrations:
+      user:
+        updated: Cambios guardados con éxito
   activerecord:
     errors:
       messages:

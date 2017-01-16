@@ -35,7 +35,7 @@ class AnswersController < ApplicationController
   def update
     if @answer.update(answer_params)
       create_notification
-      redirect_to user_program_answers_path(@user, @program)
+      redirect_to user_program_answers_path(@user, @program), notice: "Evaluación exitosamente guardada"
     else
       render :edit
     end
