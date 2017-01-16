@@ -41,7 +41,7 @@ class Dashboard::AnswersController < ApplicationController
     @answer.answer_text = sanitize_answer if @question.checkbox?
 
     if @answer.save
-      redirect_to dashboard_chapter_content_answer_path(@chapter_content, @answer)
+      redirect_to dashboard_chapter_content_answer_path(@chapter_content, @answer), notice: "Cambios guardados con éxito"
     elsif @answer.errors[:user_id].empty? == false
       redirect_to dashboard_chapter_content_answer_path(@chapter_content, Answer.find_by(user: @answer.user, question: @answer.question))
     else
@@ -69,7 +69,7 @@ class Dashboard::AnswersController < ApplicationController
     if @answer.save
       ahoy.track "Answer updated", answer_id: @answer.id
 
-      redirect_to dashboard_chapter_content_answer_path(@chapter_content, @answer)
+      redirect_to dashboard_chapter_content_answer_path(@chapter_content, @answer), notice: "Cambios guardados con éxito"
     else
       add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
       add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@question.question_text}</a>".html_safe

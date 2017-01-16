@@ -30,7 +30,7 @@ class ProgramsController < ApplicationController
     @program = Program.new(program_params)
 
     if @program.save
-      redirect_to @program
+      redirect_to @program, notice: "Se creo exitosamente el programa #{@program.name}"
     else
       render :new
     end
@@ -46,7 +46,7 @@ class ProgramsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{edit_program_path(@program)}'>#{@program.name}</a>".html_safe
 
     if @program.update(program_params)
-      redirect_to @program
+      redirect_to @program, notice: "Se actualizó exitosamente el programa #{@program.name}"
     else
       render :edit
     end
@@ -55,7 +55,7 @@ class ProgramsController < ApplicationController
   def destroy
      @program.destroy
 
-     redirect_to programs_path
+     redirect_to programs_path, notice: "Se eliminó exitosamente el programa #{@program.name}"
   end
 
   def clone
@@ -89,7 +89,7 @@ class ProgramsController < ApplicationController
 
     program.save
 
-    redirect_to programs_path
+    redirect_to programs_path, notice: "Se creo exitosamente el programa #{program.name}"
   end
 
   private

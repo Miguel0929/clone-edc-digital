@@ -25,7 +25,7 @@ class QuestionsController < ApplicationController
     if @question.save
       @chapter.questions << @question
       NewContentNotificationJob.perform_later(@chapter.program)
-      redirect_to @chapter.program
+      redirect_to @chapter.program, notice: "Se creo exitosamente la pregunta #{@question.question_text}"
     else
       render :new
     end
@@ -41,7 +41,7 @@ class QuestionsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{edit_chapter_question_path(@chapter, @question)}'>#{@question.question_text}</a>".html_safe
 
     if @question.update_attributes(question_params)
-      redirect_to @chapter.program
+      redirect_to @chapter.program, notice: "Se actualizó exitosamente la pregunta  #{@question.question_text}"
     else
       render :edit
     end
@@ -53,7 +53,7 @@ class QuestionsController < ApplicationController
       @question.destroy
     end
 
-    redirect_to @chapter.program
+    redirect_to @chapter.program, notice: "Se eliminó exitosamente la pregunta #{@question.question_text}"
   end
 
   def clone
@@ -65,7 +65,7 @@ class QuestionsController < ApplicationController
 
     @chapter.questions << question_clone
 
-    redirect_to @chapter.program
+    redirect_to @chapter.program, notice: "Se creo exitosamente la pregunta #{question_clone.question_text}"
   end
 
   private
