@@ -40,16 +40,9 @@ class Dashboard::AnswersController < ApplicationController
 
     @answer.answer_text = sanitize_answer if @question.checkbox?
 
-    if @answer.save
-      redirect_to dashboard_chapter_content_answer_path(@chapter_content, @answer), notice: "Cambios guardados con éxito"
-    elsif @answer.errors[:user_id].empty? == false
-      redirect_to dashboard_chapter_content_answer_path(@chapter_content, Answer.find_by(user: @answer.user, question: @answer.question))
-    else
-      add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
-      add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@question.question_text}</a>".html_safe
+    @answer.save
 
-      render :new
-    end
+    redirect_to_next_content
   end
 
   def edit
@@ -66,17 +59,9 @@ class Dashboard::AnswersController < ApplicationController
 
     @answer.assign_attributes(answer_params)
 
-    if @answer.save
-      ahoy.track "Answer updated", answer_id: @answer.id
+    @answer.save
 
-      redirect_to dashboard_chapter_content_answer_path(@chapter_content, @answer), notice: "Cambios guardados con éxito"
-    else
-      add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
-      add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@question.question_text}</a>".html_safe
-
-      render :new
-    end
-
+    redirect_to_next_content
   end
 
   private
@@ -102,5 +87,15 @@ class Dashboard::AnswersController < ApplicationController
 
   def sanitize_answer
     params[:answer][:answer_text].join('\n') if params[:answer][:answer_text].present?
+  end
+
+  def redirect_to_next_content
+    if @chapter_content.lower_item
+      redirect_to dashboard_chapter_content_path(@chapter_content.lower_item), notice: "Cambios guardados con éxito"
+    elsif @chapter_content.chapter.program.next_chapter(@chapter_content.chapter) && @chapter_content.chapter.program.next_chapter(@chapter_content.chapter).chapter_contents.first
+      redirect_to dashboard_chapter_content_path(@chapter_content.chapter.program.next_chapter(@chapter_content.chapter).chapter_contents.first), notice: "Cambios guardados con éxito"
+    else
+      redirect_to dashboard_program_path(@chapter_content.chapter.program), notice: "Cambios guardados con éxito"
+    end
   end
 end
