@@ -34,6 +34,14 @@ class User < ActiveRecord::Base
   before_create :set_origin
   after_create :assign_group
 
+  def self.authenticate(email, password)
+    user = find_for_authentication(email: email)
+
+    unless user.nil?
+      user.valid_password?(password) ? user : nil
+    end
+  end
+
   def self.students_table
 
     chapters_ids = "select chapters.id from chapters "\
