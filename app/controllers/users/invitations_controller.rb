@@ -24,6 +24,8 @@ class Users::InvitationsController < Devise::InvitationsController
       )
     end
 
+    flash[:notice] = "Se ha enviado una invitación de nuevo usuario al correo #{user.email}"
+
     user
   end
 

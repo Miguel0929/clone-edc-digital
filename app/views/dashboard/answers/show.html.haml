@@ -6,9 +6,6 @@
       .panel-title.pull-right
         - unless @answer.rubric.nil?
           = image_tag(image_for_rubric(@answer.rubric.criteria), :class=> 'rating-image',"data-original-title" => "Esta pregunta ha sido evaluada como #{@answer.rubric.criteria.downcase}", "data-toggle" => "tooltip")
-        = link_to edit_dashboard_chapter_content_answer_path(@chapter_content, @answer), class: 'btn btn-sm btn-primary btn-cons m-b-10', style: 'color:#fff;' do
-          %i.fa.fa-edit
-          %span.bold Editar respuesta
       .clearfix
     .panel-body
       .row
@@ -30,7 +27,7 @@
             %p.small.hint-text.m-t-15
               = @question.support_text
 
-      = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content }
+      = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content, answer: @answer, edit_mode: false }
 
   .timeline-container.top-circle
     - if @answer.comments.count > 0
@@ -40,8 +37,6 @@
             %i.pg-social
           .timeline-content
             .card.share.full-width
-              -#%button.close.tacha{"data-original-title" => "Eliminar comentario", "data-toggle" => "tooltip", :title => ""}
-                -#%i.fa.fa-times{"aria-hidden" => "true"}
               .card-header.clearfix
                 .user-pic
                   = image_tag('rubensito-01.png', height: 33)

@@ -16,4 +16,4 @@
                 .embed-responsive.embed-responsive-16by9
                   = raw model.video_url
 
-      = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content }
+      = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content, edit_mode: false}

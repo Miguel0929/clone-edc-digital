@@ -54,6 +54,7 @@ group :development do
   gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'bullet'
+  gem 'xray-rails'
 end
 
 group :test do
