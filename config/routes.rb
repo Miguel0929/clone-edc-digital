@@ -99,6 +99,12 @@ Rails.application.routes.draw do
     resources :groups, only: [:index, :show]
     resources :evaluations, only: [:index, :show, :update]
     resources :students, only: [:index, :show]
+    resources :comments, only: [:index, :create, :update] do
+      collection do
+        get :archived
+        get :news
+      end
+    end
   end
 
   namespace :api do
