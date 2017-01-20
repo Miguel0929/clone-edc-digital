@@ -45,6 +45,20 @@
           = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
 
 
+          - if current_user.mentor?
+            %li
+              %a{:href => "javascript:;"}
+                %span.title Comentarios
+                %span.arrow
+              %span.icon-thumbnail
+                %i.fa.fa-comments
+              %ul.sub-menu
+                %li
+                  %a{:href => mentor_comments_path } Todos
+                %li
+                  %a{:href => news_mentor_comments_path } Nuevos
+                %li
+                  %a{:href => archived_mentor_comments_path } Archivados
 
           - if current_user.student?
             %li.m-t-30
@@ -55,7 +69,6 @@
                 %i.fa.fa-home
 
             = display_navbar_link({link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})
-
             %li
               %a{:href => "javascript:;"}
                 %span.title Configuración
@@ -161,8 +174,17 @@
     - if notice
       .pgn-wrapper{"data-position" => "top-right"}
         .pgn.push-on-sidebar-open.pgn-simple
-          .alert.alert-info
+          .alert.alert-info.dimiss
             %button.close{"data-dismiss" => "alert", :type => "button"}>
               %span{"aria-hidden" => "true"} ×
               %span.sr-only Close
             = notice
+
+    - if alert
+      .pgn-wrapper{"data-position" => "top-right"}
+        .pgn.push-on-sidebar-open.pgn-simple
+          .alert.alert-danger.dimiss
+            %button.close{"data-dismiss" => "alert", :type => "button"}>
+              %span{"aria-hidden" => "true"} ×
+              %span.sr-only Close
+            = alert

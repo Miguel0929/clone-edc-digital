@@ -1,0 +1,5 @@
+.container-fluid.container-fixed-lg
+  %h3
+    Revisión de comentarios
+    %span.label.label-default Archivados
+  = render partial: 'mentor/comments/comments', locals: { comments: @comments }
