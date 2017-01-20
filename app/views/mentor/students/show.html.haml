@@ -96,3 +96,8 @@
                 #{@user.percentage_questions_answered_for(program)}%
               %td
                 = link_to 'Ir a evaluación por módulos', mentor_evaluations_path(user_id: @user, program_id: program)
+
+
+  %h3
+    Revisión de comentarios (Todos)
+  = render partial: 'mentor/comments/comments', locals: { comments: @comments }

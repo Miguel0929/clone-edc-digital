@@ -19,6 +19,10 @@ class Mentor::CommentsController < ApplicationController
   def create
     @comment = current_user.comments.new(comment_params)
 
+    @comment_to_reply = Comment.find_by(id: params[:comment_id])
+
+    @comment_to_reply.update(archived: true) if @comment_to_reply
+
     if @comment.save
       flash[:notice] = "Comentario respondido"
     end
@@ -31,7 +35,7 @@ class Mentor::CommentsController < ApplicationController
 
     @comment.update(archived: true)
 
-    redirect_to archived_mentor_comments_path, notice: 'Comentario archivado'
+    redirect_to params[:origin], notice: 'Comentario archivado'
   end
 
   private
@@ -44,6 +48,7 @@ class Mentor::CommentsController < ApplicationController
     .joins("INNER JOIN chapters on chapter_contents.chapter_id = chapters.id")
     .joins("INNER JOIN programs on programs.id = chapters.program_id")
     .where("users.id in (?)", current_user.groups.joins(:active_students).select('users.id'))
+    .order(created_at: :desc)
   end
 
   def comment_params
