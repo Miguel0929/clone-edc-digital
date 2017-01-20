@@ -174,7 +174,7 @@
     - if notice
       .pgn-wrapper{"data-position" => "top-right"}
         .pgn.push-on-sidebar-open.pgn-simple
-          .alert.alert-info
+          .alert.alert-info.dimiss
             %button.close{"data-dismiss" => "alert", :type => "button"}>
               %span{"aria-hidden" => "true"} ×
               %span.sr-only Close
@@ -183,7 +183,7 @@
     - if alert
       .pgn-wrapper{"data-position" => "top-right"}
         .pgn.push-on-sidebar-open.pgn-simple
-          .alert.alert-danger
+          .alert.alert-danger.dimiss
             %button.close{"data-dismiss" => "alert", :type => "button"}>
               %span{"aria-hidden" => "true"} ×
               %span.sr-only Close

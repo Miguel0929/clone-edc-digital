@@ -30,11 +30,11 @@
         .col-sm-12
 
           - unless comment.archived
-            = link_to mentor_comment_path(comment), method: :put, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-sm btn-primary btn-cons m-b-10'do
+            = link_to mentor_comment_path(comment, origin: request.path), method: :put, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-sm btn-primary btn-cons m-b-10'do
               %i.fa.fa-check-square-o
               Marcar como resuelto y archivar
 
-          %button.mentor-comment-answer.btn.btn-sm.btn-success.btn-cons.m-b-10{'data-answer'=> comment.answer_id}
+          %button.mentor-comment-answer.btn.btn-sm.btn-success.btn-cons.m-b-10{'data-answer'=> comment.answer_id, 'data-comment'=> comment.id}
             %i.pg.pg-comment
             Contestar este mensaje
 

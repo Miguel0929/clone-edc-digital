@@ -10,8 +10,8 @@
         .panel-body
           .sortable{'data-update-url'=> url_prod_helper(sort_program_chapters_url(@program))}
             - @program.chapters.each do |chapter|
-              #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
-                .panel.panel-default{id: "chapter_#{chapter.id}"}
+              #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist", id: "chapter_#{chapter.id}"}
+                .panel.panel-default
                   .panel-heading
                     %span.handle-sort
                       [mover]
