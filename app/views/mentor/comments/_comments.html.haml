@@ -1,0 +1,67 @@
+.timeline-container.top-circle.m-t-30
+  - @comments.each do |comment|
+    .panel.panel-transparent
+      .timeline-point.warning.pl10
+        %i.pg-social
+      .timeline-content
+        .card.share.full-width
+          .card-header.clearfix
+            .user-pic
+              = image_tag('rubensito-01.png', height: 33)
+            %h5
+              #{comment.first_name} #{comment.last_name}
+              - if comment.archived
+                %span.label.label-default Archivado
+              - else
+                %span.label.label-danger Nuevo
+            %h6
+              = l comment.created_at, format: :special
+          .card-description
+            %p
+              #{comment.content}
+            %p.text-black.small.m-t-10.text-left
+              %span.pg.pg-layouts
+              %strong #{comment.program_name}
+              %br/
+              %span.pg.pg-arrow_right
+              %span.pg.pg-arrow_right
+              #{comment.question_text}
+      .row.text-center.m-b-40.m-t-10
+        .col-sm-12
+
+          - unless comment.archived
+            = link_to mentor_comment_path(comment, origin: request.path), method: :put, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-sm btn-primary btn-cons m-b-10'do
+              %i.fa.fa-check-square-o
+              Marcar como resuelto y archivar
+
+          %button.mentor-comment-answer.btn.btn-sm.btn-success.btn-cons.m-b-10{'data-answer'=> comment.answer_id, 'data-comment'=> comment.id}
+            %i.pg.pg-comment
+            Contestar este mensaje
+
+          %button.btn.btn-sm.btn-info.btn-cons.m-b-10.redirector{href: dashboard_chapter_content_answer_path(comment.chapter_content_id, comment.answer_id)}
+            Ir a la pregunta
+            %i.fa.fa-forward
+
+
+
+
+#mentor-modal.modal.fade.slide-up.disable-scroll{"aria-hidden" => "true", :role => "dialog", :style => "display: none;", :tabindex => "-1"}
+  .modal-dialog.modal-lg
+    .modal-content-wrapper
+      .modal-content
+        .modal-header.clearfix.text-left
+          %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
+            %i.pg-close.fs-14
+          %h5 Agregar nuevo comentario
+          %p.p-b-10 Introduce aquí tu comentario
+        .modal-body
+          = form_for([:mentor, Comment.new]) do |f|
+            .row.m-b-20
+              .col-sm-12
+                = f.text_area :content, hide_label: true, placeholder: "Agrega tus comentarios aquí", class: 'form-control'
+            .row.mentor-comment-answer-form
+            .row
+              .col-sm-12.text-right
+                %button.btn.btn-success.btn.btn-sm.btn-cons{:type => "submit"}
+                  %i.pg-comment
+                  Comentar

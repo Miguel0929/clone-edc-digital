@@ -1,8 +1,8 @@
 %i.fa.fa-comment.m-r-10
 %span.fs-12.m-l-10
   - if current_user.mentor?
-    #{notification.model.comment.user.name} realizó un comentario en la pregunta
+    = "#{notification.model.comment.user.name} realizó un comentario en la pregunta" if notification.model.comment.nil? == false && notification.model.comment.user.nil? == false
   - else
-    #{notification.model.comment.user.name} realizó un comentario en tu pregunta
+    = "#{notification.model.comment.user.name} realizó un comentario en tu pregunta" if notification.model.comment.nil? == false && notification.model.comment.user.nil? == false
   %strong
     "#{notification.model.comment.answer.question.question_text}"
