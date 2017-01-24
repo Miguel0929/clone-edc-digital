@@ -111,6 +111,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :user_answer_comments, only: [:index]
       resources :static_login, only: [:create]
+
+      namespace :dashboard do
+        resources :programs, only: [:index]
+      end
     end
   end
 

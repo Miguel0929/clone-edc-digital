@@ -42,6 +42,21 @@ class User < ActiveRecord::Base
     end
   end
 
+  def generate_authentication_token
+    if authentication_token.blank?
+      self.authentication_token = loop do
+        token = Devise.friendly_token
+        break token if token_suitable?(token)
+      end
+
+      self.save
+    end
+  end
+
+  def token_suitable?(token)
+    self.class.where(authentication_token: token).count == 0
+  end
+
   def self.students_table
 
     chapters_ids = "select chapters.id from chapters "\
