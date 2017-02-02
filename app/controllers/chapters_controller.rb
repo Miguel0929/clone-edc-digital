@@ -49,7 +49,7 @@ class ChaptersController < ApplicationController
   end
 
   def sort
-    params[:chapter].each_with_index do |id, index|
+    params[:accordion_chapter].each_with_index do |id, index|
       Chapter.find(id).update_attributes({position: index + 1})
     end
 
