@@ -7,6 +7,7 @@ class Question < ActiveRecord::Base
   mount_uploader :support_image, SupportImageUploader
 
   has_many :answers, dependent: :destroy
+  has_many :comments, dependent: :destroy
   has_many :rubrics, dependent: :destroy
 
   enum question_type: [:short, :long, :checkbox, :radio, :dropdown]

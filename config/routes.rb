@@ -71,7 +71,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :answers, only: [] do
+    resources :questions, only: [] do
       resources :comments, only: [:create]
     end
 
