@@ -5,4 +5,4 @@
   - else
     = "#{notification.model.comment.user.name} realizó un comentario en tu pregunta" if notification.model.comment.nil? == false && notification.model.comment.user.nil? == false
   %strong
-    "#{notification.model.comment.answer.question.question_text}"
+    "#{notification.model.comment.question.question_text}"

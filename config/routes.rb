@@ -105,6 +105,9 @@ Rails.application.routes.draw do
         get :news
       end
     end
+    resources :questions, only: [:show] do
+      resources :question_comments, only: [:create]
+    end
   end
 
   namespace :api do

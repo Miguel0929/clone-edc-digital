@@ -26,11 +26,11 @@ class Mentor::EvaluationsController < ApplicationController
     @evaluations = @user.user_evaluations.joins(:evaluation).where('evaluations.chapter_id = ?', @chapter.id)
 
     @answers = Question.select(
-      "answers.*, questions.question_text, count(comments.id) as comments_count, (select id from chapter_contents where coursable_id = questions.id and coursable_type = 'Question' limit 1) as chapter_content_id"
+      "answers.*, questions.id as question_id, questions.question_text, count(comments.id) as comments_count, (select id from chapter_contents where coursable_id = questions.id and coursable_type = 'Question' limit 1) as chapter_content_id"
     )
     .joins("left outer join answers on answers.question_id = questions.id and answers.user_id = #{@user.id}")
     .joins('left join chapter_contents on chapter_contents.coursable_id = questions.id')
-    .joins('left outer join comments on comments.answer_id = answers.id')
+    .joins("left outer join comments on comments.question_id = questions.id and comments.owner_id = #{@user.id}")
     .where('questions.id in (?) and chapter_contents.coursable_type = ?', @chapter.questions.pluck(:id), 'Question')
     .group('answers.id')
     .group('questions.id')

@@ -33,7 +33,7 @@
               %td
                 = answer.answer_text
               %td
-                %a.comments-count{href: '#', 'data-answer'=> answer.id, 'data-user'=> answer.user_id, 'data-total'=> answer.comments_count, 'data-content'=> answer.chapter_content_id}
+                %a.comments-count{href: '#', 'data-question'=> answer.question_id, 'data-user'=> answer.user_id, 'data-content'=> answer.chapter_content_id, 'data-url'=> mentor_question_path(answer.question_id, user_id: answer.user_id)}
                   = answer.comments_count
       %h4
         Rubrica de evaluación

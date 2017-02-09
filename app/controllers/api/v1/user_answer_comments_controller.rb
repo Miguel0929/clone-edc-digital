@@ -1,7 +1,6 @@
 class Api::V1::UserAnswerCommentsController < Api::V1::BaseController
   def index
-    answer = Answer.find_by('id = ? and user_id = ?', params[:answer_id], params[:user_id])
-    @comments = answer.comments rescue []
+    @comments = Comment.where(question_id: params[:question_id], owner_id: params[:user_id])
 
     render json: @comments
   end

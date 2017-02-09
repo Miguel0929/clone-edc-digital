@@ -20,8 +20,7 @@ class Question < ActiveRecord::Base
 
 
   def comments_for(user)
-    user_answer = answers.find_by(user: user)
-    user_answer.nil? ? 0 : user_answer.comments.count
+    comments.where(owner: user).count
   end
 
   def chapter_content
