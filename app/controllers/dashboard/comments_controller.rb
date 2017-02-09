@@ -1,9 +1,9 @@
 class Dashboard::CommentsController < ApplicationController
   def create
-    answer = Answer.find(params[:answer_id]) 
-    comment = Comment.new(user: current_user, answer: answer, content: params[:comment][:content])
+    question = Question.find(params[:question_id])
+    comment = Comment.new(user: current_user, question: question, content: params[:comment][:content], owner: current_user)
     comment.save
 
-    redirect_to dashboard_chapter_content_answer_path(answer.question.chapter_content, answer)
+    redirect_to router_dashboard_chapter_content_answers_path(question.chapter_content)
   end
 end
