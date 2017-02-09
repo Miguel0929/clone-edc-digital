@@ -7,6 +7,7 @@ class Question < ActiveRecord::Base
   mount_uploader :support_image, SupportImageUploader
 
   has_many :answers, dependent: :destroy
+  has_many :comments, dependent: :destroy
   has_many :rubrics, dependent: :destroy
 
   enum question_type: [:short, :long, :checkbox, :radio, :dropdown]
@@ -19,8 +20,7 @@ class Question < ActiveRecord::Base
 
 
   def comments_for(user)
-    user_answer = answers.find_by(user: user)
-    user_answer.nil? ? 0 : user_answer.comments.count
+    comments.where(owner: user).count
   end
 
   def chapter_content

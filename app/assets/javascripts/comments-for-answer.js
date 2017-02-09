@@ -1,21 +1,18 @@
 $(document).on('turbolinks:load', function(){
   $('.comments-count').click(function(event) {
     event.preventDefault();
-    if($(this).data('total') === 0) {
-      return
-    }
-
     var data = {
       user: $(this).data('user'),
-      answer: $(this).data('answer'),
+      question: $(this).data('question'),
       chapter: $(this).data('content'),
+      question_url: $(this).data('url'),
     }
 
     $.ajax({
       url: '/api/v1/user_answer_comments',
       type: 'GET',
       dataType: 'json',
-      data: { user_id: data.user, answer_id: data.answer },
+      data: { user_id: data.user, question_id: data.question },
       success: function (response) {
         var comments = [];
         var $template = $('#answer-comment-template');
@@ -29,7 +26,7 @@ $(document).on('turbolinks:load', function(){
           )
         });
 
-        $('.answer-comment-link').attr('href', "/dashboard/course/" + data.chapter +"/answers/" + data.answer);
+        $('.answer-comment-link').attr('href', data.question_url);
         $('.answer-comments-body').html(comments.join());
         $('#answer-comments').modal('show');
       }

@@ -71,7 +71,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :answers, only: [] do
+    resources :questions, only: [] do
       resources :comments, only: [:create]
     end
 
@@ -104,6 +104,9 @@ Rails.application.routes.draw do
         get :archived
         get :news
       end
+    end
+    resources :questions, only: [:show] do
+      resources :question_comments, only: [:create]
     end
   end
 

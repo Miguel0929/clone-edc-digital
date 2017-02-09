@@ -14,7 +14,11 @@ class Dashboard::NotificationsController < ApplicationController
     path = case notification.notificable_type
       when 'CommentNotification'
         notification.update(read: true) unless notification.read
-        dashboard_chapter_content_answer_path(notification.model.comment.answer.question.chapter_content, notification.model.comment.answer)
+        if current_user.mentor?
+          mentor_question_path(notification.model.comment.question, user_id: notification.model.comment.owner_id)
+        else
+          router_dashboard_chapter_content_answers_path(notification.model.comment.question.chapter_content)
+        end
       when 'ProgramNotification'
         notification.update(read: true) unless notification.read
 
