@@ -1,4 +1,6 @@
 class Program < ActiveRecord::Base
+  acts_as_list
+
   mount_uploader :cover, CoverUploader
 
   has_many :chapters, -> { order(position: :asc) }, dependent: :destroy

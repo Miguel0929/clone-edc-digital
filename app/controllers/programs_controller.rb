@@ -7,7 +7,7 @@ class ProgramsController < ApplicationController
   def index
     add_breadcrumb "<a class='active' href='#{programs_path}'>Programas</a>".html_safe
 
-    @programs = Program.all
+    @programs = Program.all.order(position: :asc)
   end
 
   def show
@@ -90,6 +90,14 @@ class ProgramsController < ApplicationController
     program.save
 
     redirect_to programs_path, notice: "Se creo exitosamente el programa #{program.name}"
+  end
+
+  def sort
+    params[:program].each_with_index do |id, index|
+      Program.find(id).update_attributes({position: index + 1})
+    end
+
+    render nothing: true
   end
 
   private
