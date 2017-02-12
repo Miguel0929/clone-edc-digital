@@ -61,14 +61,15 @@
                   %a{:href => archived_mentor_comments_path } Archivados
 
           - if current_user.student?
-            %li.m-t-30
-              %a.detailed.redirector{:href => root_path}
-                %span.title Inicio
-                %span.details Bienvenido a EDCdigital
-              %span.icon-thumbnail
-                %i.fa.fa-home
+            = display_navbar_link({css: ['m-t-30'], link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})
 
-            = display_navbar_link({link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})
+            %li
+              %a.detailed.redirector{:href => root_path}
+                %span.title Acerca de
+                %span.details ¿Qué es EDCdigital?
+              %span.icon-thumbnail
+                %i.pg-map
+
             %li
               %a{:href => "javascript:;"}
                 %span.title Configuración

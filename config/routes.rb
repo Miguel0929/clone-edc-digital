@@ -8,6 +8,10 @@ Rails.application.routes.draw do
   get "/500", :to => "errors#internal_error"
 
   resources :programs do
+    collection do
+      post :sort
+    end
+
     resources :chapters, except: [:index, :show] do
       collection do
         post :sort
