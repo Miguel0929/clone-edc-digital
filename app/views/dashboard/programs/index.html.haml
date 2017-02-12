@@ -9,8 +9,13 @@
           .panel-title
             Programas de Aprendizaje
         .panel-body
-          - @programs.in_groups_of(3, false) do |group_programs|
-            - group_programs.each do |program|
+          %h5
+            Es tiempo de construir y validar tu idea de negocio...
+          %p.m-b-25
+            Utiliza estos cursos de e-learning para capacitarte en términos y conceptos que te permitirán construir una idea de negocio viable en lo comercial, digital, técnico y financiero. ¡Empecemos tu emprendimiento!
+
+          - @programs.each do |program|
+            .col-md-4.col-sm-6.col-xs-12.tarjeta-programa
               .card.share.share-other{"data-social" => "item"}
                 .card-content
                   %a{:href => dashboard_program_path(program)}
