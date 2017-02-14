@@ -1,13 +1,17 @@
 Rails.application.routes.draw do
   devise_for :users, sign_out_via: [:get, :delete], :controllers => { :invitations => 'users/invitations', sessions: 'sessions' }
 
-  root 'dashboard/welcome#index'
+  root 'dashboard/programs#index'
 
   get '/dashboard', to: 'dashboard/welcome#index', as: :welcome
   get "/404", :to => "errors#not_found"
   get "/500", :to => "errors#internal_error"
 
   resources :programs do
+    collection do
+      post :sort
+    end
+
     resources :chapters, except: [:index, :show] do
       collection do
         post :sort

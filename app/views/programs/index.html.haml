@@ -6,15 +6,18 @@
           %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       .clearfix
     .panel-body
-      %table.table.table-hover.datatable
+      %table.table.table-hover
         %thead
           %tr
             %th
+            %th
               Programa
             %th
-        %tbody
+        %tbody.sortable{'data-update-url'=> url_prod_helper(sort_programs_path)}
           - @programs.each do |program|
-            %tr
+            %tr{id: "program_#{program.id}"}
+              %td.handle-sort
+                [mover]
               %td
                 = program.name
               %td
