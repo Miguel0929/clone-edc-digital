@@ -14,7 +14,7 @@ class Comment < ActiveRecord::Base
     else
       ActiveRecord::Base.transaction do
         user.group.users.each do |mentor|
-          mentor.comment_notifications.create(comment: self, user: user)
+          mentor.comment_notifications.create(comment: self, user: user) unless mentor.nil?
         end
       end
     end
