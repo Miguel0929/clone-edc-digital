@@ -10,24 +10,34 @@
         <Cell><Data ss:Type="String">Id</Data></Cell>
         <Cell><Data ss:Type="String">Nombre</Data></Cell>
         <Cell><Data ss:Type="String">Correo electrónico</Data></Cell>
+        <Cell><Data ss:Type="String">Cursos inscritos</Data></Cell>
         <Cell><Data ss:Type="String">Teléfono</Data></Cell>
         <Cell><Data ss:Type="String">Estado</Data></Cell>
         <Cell><Data ss:Type="String">Grupo</Data></Cell>
         <Cell><Data ss:Type="String">Porcentaje contestado</Data></Cell>
         <Cell><Data ss:Type="String">Porcentaje de avance</Data></Cell>
         <Cell><Data ss:Type="String">Total de comentarios</Data></Cell>
+        <Cell><Data ss:Type="String">Fecha de creación de cuenta</Data></Cell>
+        <Cell><Data ss:Type="String">Fecha de activación de cuenta</Data></Cell>
       </Row>
       <% @users.each do |user| %>
         <Row>
           <Cell><Data ss:Type="Number"><%= user.id %></Data></Cell>
           <Cell><Data ss:Type="String"><%= user.name %></Data></Cell>
           <Cell><Data ss:Type="String"><%= user.email %></Data></Cell>
+          <Cell><Data ss:Type="String">
+            <% user.group.programs.each do |program| %>
+              <%= "#{program.name} (#{user.percentage_content_visited_for(program)}% visto / #{user.percentage_questions_answered_for(program)}% contestado)" %>
+            <% end %>
+          </Data></Cell>
           <Cell><Data ss:Type="String"><%= user.phone_number %></Data></Cell>
           <Cell><Data ss:Type="String"><%= user.status %></Data></Cell>
           <Cell><Data ss:Type="String"><%= user.group_name %></Data></Cell>
           <Cell><Data ss:Type="Number"><%= (user.answers_count * 100) / user.questions_count rescue 0 %></Data></Cell>
           <Cell><Data ss:Type="Number"><%= (user.content_tracked_count * 100) / user.content_count rescue 0 %></Data></Cell>
           <Cell><Data ss:Type="Number"><%= user.comments_count %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= user.created_at %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= user.invitation_accepted_at %></Data></Cell>
         </Row>
       <% end %>
     </Table>
