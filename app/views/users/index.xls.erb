@@ -26,8 +26,10 @@
           <Cell><Data ss:Type="String"><%= user.name %></Data></Cell>
           <Cell><Data ss:Type="String"><%= user.email %></Data></Cell>
           <Cell><Data ss:Type="String">
-            <% user.group.programs.each do |program| %>
-              <%= "#{program.name} (#{user.percentage_content_visited_for(program)}% visto / #{user.percentage_questions_answered_for(program)}% contestado)" %>
+            <% unless user.group.nil? %>
+              <% user.group.programs.each do |program| %>
+                <%= "#{program.name} (#{user.percentage_content_visited_for(program)}% visto / #{user.percentage_questions_answered_for(program)}% contestado)" %>
+              <% end %>
             <% end %>
           </Data></Cell>
           <Cell><Data ss:Type="String"><%= user.phone_number %></Data></Cell>
