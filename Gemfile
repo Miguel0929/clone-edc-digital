@@ -40,6 +40,8 @@ gem 'cocoon'
 gem 'omniauth'
 gem 'chartkick'
 gem 'groupdate'
+gem 'kaminari'
+gem 'bootstrap-kaminari-views'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
