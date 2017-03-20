@@ -41,6 +41,8 @@
             %th
               Total de comentarios
             %th
+              Cursos inscritos
+            %th
         %tbody
           - @users.each do |user|
             %tr
@@ -64,7 +66,11 @@
                 #{(user.content_tracked_count * 100) / user.content_count rescue 0}%
               %td
                 = user.comments_count
-
+              %td
+                - unless user.group.nil?
+                  - user.group.programs.each do |program|
+                    %p
+                      #{program.name} (#{user.percentage_content_visited_for(program)}% visto / #{user.percentage_questions_answered_for(program)}% contestado)
               %td
                 .btn-group
                   %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
