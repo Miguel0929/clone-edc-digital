@@ -227,3 +227,23 @@ es:
       special: "%d %B %Y, %H:%M %p"
     pm: pm
 
+  views:
+    pagination:
+      first: "&laquo; Primer"
+      last: "Último &raquo;"
+      previous: "&lsaquo; Anterior"
+      next: "Siguiente &rsaquo;"
+      truncate: "&hellip;"
+  helpers:
+    page_entries_info:
+      entry:
+        zero: "registros"
+        one: "registro"
+        other: "registro"
+      one_page:
+        display_entries:
+          zero: "No se encontraron %{entry_name}"
+          one: "Mostranto <b>1</b> %{entry_name}"
+          other: "Se encontraron <b>%{count}</b> %{entry_name}"
+      more_pages:
+        display_entries: "Mostrando %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> de <b>%{total}</b> en total"

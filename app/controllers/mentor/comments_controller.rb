@@ -49,6 +49,7 @@ class Mentor::CommentsController < ApplicationController
     .joins("INNER JOIN programs on programs.id = chapters.program_id")
     .where("users.id in (?)", current_user.groups.joins(:active_students).select('users.id'))
     .order(created_at: :desc)
+    .page(params[:page]).per(10)
   end
 
   def comment_params
