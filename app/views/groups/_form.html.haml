@@ -1,6 +1,9 @@
 = bootstrap_form_for @group do |f|
   = f.text_field :name, label: 'Nombre del grupo'
   = f.text_field :key, label: 'Clave'
+  = f.text_field :university, label: 'Universidad'
+  = f.collection_select(:state_id, State.all, :id, :name, label: 'Estado', include_blank: true)
+  = f.select :category, ['Escolarizado', ' Autodidact digital', 'Presencial', 'Experiemental'], label: 'Tipo de grupo', include_blank: true
 
   .form-group
     %label
