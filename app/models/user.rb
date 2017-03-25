@@ -20,6 +20,7 @@ class User < ActiveRecord::Base
   has_many :evaluations, through: :user_evaluations
   has_many :access_grants, dependent: :delete_all
   has_many :sessions
+  has_many :attachments
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 
