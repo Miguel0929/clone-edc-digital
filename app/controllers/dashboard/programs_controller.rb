@@ -25,7 +25,7 @@ class Dashboard::ProgramsController < ApplicationController
   private
   def redirect_when_is_not_student
     if current_user.admin?
-      redirect_to users_path
+      redirect_to students_users_path
     elsif current_user.mentor?
       redirect_to mentor_groups_path
     end
