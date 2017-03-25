@@ -129,6 +129,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :track_sessions, only: [:create]
 
   match '/auth/sso/authorize' => 'auth#authorize', via: :all
   match '/auth/sso/access_token' => 'auth#access_token', via: :all

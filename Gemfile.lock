@@ -443,6 +443,7 @@ GEM
     unf_ext (0.0.7.2)
     uniform_notifier (1.10.0)
     user_agent_parser (2.3.0)
+    useragent (0.16.8)
     uuidtools (2.1.5)
     warden (1.2.6)
       rack (>= 1.0)
@@ -510,6 +511,7 @@ DEPENDENCIES
   time_difference
   turbolinks
   uglifier (>= 1.3.0)
+  useragent
   web-console (~> 2.0)
   xray-rails
 
