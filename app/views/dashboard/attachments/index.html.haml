@@ -27,7 +27,7 @@
               - current_user.attachments.each do |attachment|
                 %tr
                   %th
-                    = attachment.display_name
+                    = link_to attachment.display_name, attachment.file.url
                   %th
                     = attachment.humanize_document_type
                   %th
