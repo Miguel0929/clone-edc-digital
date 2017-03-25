@@ -190,3 +190,11 @@
               %span{"aria-hidden" => "true"} ×
               %span.sr-only Close
             = alert
+
+    - if current_user && current_user.student?
+      :javascript
+        $(document).on('turbolinks:load', function(){
+          setInterval(function() {
+            $.post("#{track_sessions_path}")
+          }, 10000)
+        });

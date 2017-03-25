@@ -120,17 +120,17 @@
             %th
               Duración de la sesión
         %tbody
-          - @user.visits.each do |visit|
+          - @user.sessions.each do |visit|
             %tr
               %td
                 = visit.browser
               %td
                 = visit.device_type
               %td
-                = visit.os
+                = visit.platform
               %td
-                = l visit.started_at, format: :special
+                = l visit.start, format: :special
               %td
-                = l visit.finished_at, format: :special unless visit.finished_at.nil?
+                = l visit.finish, format: :special unless visit.finish.nil?
               %td
-                = visit.session_time
+                = visit.time
