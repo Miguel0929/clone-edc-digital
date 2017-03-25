@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   has_many :user_evaluations
   has_many :evaluations, through: :user_evaluations
   has_many :access_grants, dependent: :delete_all
+  has_many :sessions
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 
