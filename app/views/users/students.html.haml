@@ -7,7 +7,7 @@
       .clearfix
     .panel-body
       - if current_user.admin?
-        = bootstrap_form_tag(url: users_path, method: :get) do |f|
+        = bootstrap_form_tag(url: students_users_path, method: :get) do |f|
           .row
             .col-md-4
               = f.select :state, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:state]), {include_blank: true, label: 'Estado' }
@@ -15,7 +15,6 @@
               = f.select :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: true, label: 'Grupo' }
 
           = f.submit 'Filtrar'
-          = link_to "Exportar Excel", users_path(format: :xls, state: params[:state], group: params[:group]), { target: '_blank', class: 'btn btn-default'}
 
       %table.table.table-hover.datatable
         %thead
@@ -35,14 +34,6 @@
             %th
               Grupo
             %th
-              Porcentaje contestado
-            %th
-              Porcentaje de avance
-            %th
-              Total de comentarios
-            %th
-              Cursos inscritos
-            %th
         %tbody
           - @users.each do |user|
             %tr
@@ -59,18 +50,7 @@
               %td
                 = user.huminize_role
               %td
-                = user.group_name
-              %td
-                #{(user.answers_count * 100) / user.questions_count rescue 0}%
-              %td
-                #{(user.content_tracked_count * 100) / user.content_count rescue 0}%
-              %td
-                = user.comments_count
-              %td
-                - unless user.group.nil?
-                  - user.group.programs.each do |program|
-                    %p
-                      #{program.name} (#{user.percentage_content_visited_for(program)}% visto / #{user.percentage_questions_answered_for(program)}% contestado)
+                = user.group.name
               %td
                 .btn-group
                   %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
@@ -85,6 +65,3 @@
                     %li.divider
                     %li
                       = link_to 'Eliminar usuario', user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' }
-
-
-      = link_to 'Invitar usuario', new_user_invitation_path, class: 'btn btn-default'

@@ -65,6 +65,21 @@ class UsersController < ApplicationController
     add_breadcrumb "<a class='active' href='#{analytics_program_user_path(@user, program_id: @program)}'>Detalles de programa</a>".html_safe
   end
 
+  def students
+    @users = User.students.includes(:group)
+    
+    if params[:state].present?
+      case params[:state]
+        when 'active'
+          @users = @users.where.not(invitation_accepted_at: nil)
+        when 'inactive'
+          @users = @users.where(invitation_accepted_at: nil)
+      end
+    end
+
+    @users = @users.where(group: params[:group]) if params[:group].present?
+  end
+
   private
   def set_user
     @user = User.find(params[:id])

@@ -1,3 +1,6 @@
 .container-fluid.container-fixed-lg
   %h3 Revisión de comentarios (todos)
   = render partial: 'mentor/comments/comments', locals: { comments: @comments }
+
+  .text-center
+    = paginate @comments, :theme => 'twitter-bootstrap-3'

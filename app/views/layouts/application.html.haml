@@ -38,7 +38,8 @@
           = display_navbar_link({link: 'Mentores', details: 'Grupos de la plataforma' ,path: mentors_path, icon: 'fa fa-briefcase', role: [:admin]})
           = display_navbar_link({link: 'Programas', details: 'Diseño de programas' ,path: programs_path, icon: 'fa fa-list-alt', role: [:admin]})
           = display_navbar_link({link: 'Visitas', details: 'Panel de visitas' ,path: visits_path, icon: 'fa fa-list-alt', role: [:admin]})
-          = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: users_path, icon: 'fa fa-book', role: [:admin]})
+          = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: students_users_path, icon: 'fa fa-book', role: [:admin]})
+          = display_navbar_link({link: 'Analíticos de usuarios', details: 'Estudiantes de la plataforma' ,path: users_path, icon: 'fa fa-book', role: [:admin]})
           = display_navbar_link({link: 'Usuarios desactivados', details: 'Usuarios desactivados' ,path: deleted_users_path, icon: 'fa fa-ban', role: [:admin]})
 
           = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: ['m-t-30'], icon: 'fa fa-users', role: [:mentor]})
