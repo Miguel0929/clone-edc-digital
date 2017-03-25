@@ -42,6 +42,7 @@ gem 'chartkick'
 gem 'groupdate'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
+gem 'useragent'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'

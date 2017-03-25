@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170320021013) do
+ActiveRecord::Schema.define(version: 20170325181004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -205,6 +205,15 @@ ActiveRecord::Schema.define(version: 20170320021013) do
   end
 
   add_index "rubrics", ["question_id"], name: "index_rubrics_on_question_id", using: :btree
+
+  create_table "sessions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "browser"
+    t.string   "platform"
+    t.string   "device_type"
+    t.datetime "start"
+    t.datetime "finish"
+  end
 
   create_table "states", force: :cascade do |t|
     t.string "name"
