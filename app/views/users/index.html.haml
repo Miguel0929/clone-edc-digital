@@ -70,7 +70,7 @@
                 - unless user.group.nil?
                   - user.group.programs.each do |program|
                     %p
-                      #{program.name} (#{user.percentage_content_visited_for(program)}% visto / #{user.percentage_questions_answered_for(program)}% contestado)
+                      #{program.name}
               %td
                 .btn-group
                   %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
