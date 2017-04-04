@@ -129,6 +129,45 @@
               %th
                 = l attachment.updated_at, format: :special
 
+  %h3
+    Archivos compartidos con el usuario
+
+  .panel.panel-default
+    .panel-body
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+              Nombre de archivo
+            %th
+              Tipo de archivo
+            %th
+              Comentarios
+            %th
+              Subido en
+            %th
+              Fecha de modificación
+            %th
+        %tbody
+          - @user.shared_attachments.each do |attachment|
+            %tr
+              %th
+                = link_to attachment.display_name, attachment.file.url
+              %th
+                = attachment.humanize_document_type
+              %th
+                = attachment.label
+              %th
+                = l attachment.created_at, format: :special
+              %th
+                = l attachment.updated_at, format: :special
+              %th
+                = link_to 'Editar', edit_mentor_student_shared_attachment_path(@user, attachment), class: 'btn btn-default'
+                = link_to 'Eliminar', mentor_student_shared_attachment_path(@user, attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
+
+  = link_to 'Agregar archivo', new_mentor_student_shared_attachment_path(@user), class: 'btn btn-default'
+
+
 
   %h3
     Revisión de comentarios (Todos)
