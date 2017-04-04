@@ -109,7 +109,9 @@ Rails.application.routes.draw do
   namespace :mentor do
     resources :groups, only: [:index, :show]
     resources :evaluations, only: [:index, :show, :update]
-    resources :students, only: [:index, :show]
+    resources :students, only: [:index, :show] do
+      resources :shared_attachments
+    end
     resources :comments, only: [:index, :create, :update] do
       collection do
         get :archived
@@ -119,6 +121,8 @@ Rails.application.routes.draw do
     resources :questions, only: [:show] do
       resources :question_comments, only: [:create]
     end
+
+    resources :shared_group_attachments
   end
 
   namespace :api do
@@ -133,6 +137,7 @@ Rails.application.routes.draw do
   end
 
   resources :track_sessions, only: [:create]
+  resources :shared_group_attachments
 
   match '/auth/sso/authorize' => 'auth#authorize', via: :all
   match '/auth/sso/access_token' => 'auth#access_token', via: :all

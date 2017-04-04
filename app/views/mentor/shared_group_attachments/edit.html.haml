@@ -1,0 +1,29 @@
+- content_for :title  do
+  Editar Archivo - EDCdigital
+
+.container-fluid.container-fixed-lg
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .panel-title
+            Editar Archivo
+        .panel-body
+          = bootstrap_form_for([:mentor, @attachment]) do |f|
+            = f.text_field :name, label: 'Renombrar archivo'
+            = f.select :document_type, Attachment.document_type_options, label: 'Tipo de documento'
+            = f.text_field :label, label: 'Detalles / Comentarios'
+            .dropzone
+              = f.file_field :file, label: 'Archivo'
+
+            .form-group
+              %label
+                Grupos
+              - current_user.groups.each_with_index do |group, index|
+                .checkbox.check-success
+                  = check_box_tag 'shared_group_attachment[group_ids][]', group.id, @attachment.groups.include?(group), id: "check_groups_#{index}"
+                  %label{:for => "check_groups_#{index}" }
+                    = group.name
+              %input(type="hidden" name='shared_group_attachment[group_ids][]' value="")
+
+            = f.submit 'Actualizar'
