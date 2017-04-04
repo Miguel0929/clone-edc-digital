@@ -21,6 +21,7 @@ class User < ActiveRecord::Base
   has_many :access_grants, dependent: :delete_all
   has_many :sessions
   has_many :attachments
+  has_many :shared_attachments
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 
