@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   end
 
   namespace :dashboard do
+    get 'acerca-de',              to: 'welcome#index', as: :about
     get 'terminos-y-condiciones', to: 'welcome#terms', as: :terms
     get 'politica-de-privacidad', to: 'welcome#privacy', as: :privacy
     get 'ayuda',                  to: 'welcome#support', as: :support
@@ -80,6 +81,8 @@ Rails.application.routes.draw do
     end
 
     resources :evaluations, only: [:index, :show]
+
+    resources :attachments, only: [:index, :new, :create, :edit, :update, :destroy]
   end
 
 
@@ -129,6 +132,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :track_sessions, only: [:create]
 
   match '/auth/sso/authorize' => 'auth#authorize', via: :all
   match '/auth/sso/access_token' => 'auth#access_token', via: :all

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170320021013) do
+ActiveRecord::Schema.define(version: 20170325201832) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,16 @@ ActiveRecord::Schema.define(version: 20170320021013) do
   add_index "answers", ["answer_text"], name: "index_answers_on_answer_text", using: :btree
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
   add_index "answers", ["user_id"], name: "index_answers_on_user_id", using: :btree
+
+  create_table "attachments", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "file"
+    t.string   "label"
+    t.integer  "document_type"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "chapter_contents", force: :cascade do |t|
     t.integer "chapter_id"
@@ -205,6 +215,15 @@ ActiveRecord::Schema.define(version: 20170320021013) do
   end
 
   add_index "rubrics", ["question_id"], name: "index_rubrics_on_question_id", using: :btree
+
+  create_table "sessions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "browser"
+    t.string   "platform"
+    t.string   "device_type"
+    t.datetime "start"
+    t.datetime "finish"
+  end
 
   create_table "states", force: :cascade do |t|
     t.string "name"

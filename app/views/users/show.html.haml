@@ -98,6 +98,37 @@
                 #{@user.percentage_questions_answered_for(program)}%
               %td
                 = link_to 'Ver detalle', analytics_program_user_path(@user, program_id: program)
+  %h3
+    Archivos del usuario
+
+  .panel.panel-default
+    .panel-body
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+              Nombre de archivo
+            %th
+              Tipo de archivo
+            %th
+              Comentarios
+            %th
+              Subido en
+            %th
+              Fecha de modificación
+        %tbody
+          - @user.attachments.each do |attachment|
+            %tr
+              %th
+                = link_to attachment.display_name, attachment.file.url
+              %th
+                = attachment.humanize_document_type
+              %th
+                = attachment.label
+              %th
+                = l attachment.created_at, format: :special
+              %th
+                = l attachment.updated_at, format: :special
 
   %h3
     Historial de sesiones
@@ -120,17 +151,17 @@
             %th
               Duración de la sesión
         %tbody
-          - @user.visits.each do |visit|
+          - @user.sessions.each do |visit|
             %tr
               %td
                 = visit.browser
               %td
                 = visit.device_type
               %td
-                = visit.os
+                = visit.platform
               %td
-                = l visit.started_at, format: :special
+                = l visit.start, format: :special
               %td
-                = l visit.finished_at, format: :special unless visit.finished_at.nil?
+                = l visit.finish, format: :special unless visit.finish.nil?
               %td
-                = visit.session_time
+                = visit.time

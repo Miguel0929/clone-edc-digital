@@ -65,7 +65,7 @@
             = display_navbar_link({css: ['m-t-30'], link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})
 
             %li
-              %a.detailed.redirector{:href => root_path}
+              %a.detailed.redirector{:href => dashboard_about_path }
                 %span.title Acerca de
                 %span.details ¿Qué es EDCdigital?
               %span.icon-thumbnail
@@ -190,3 +190,11 @@
               %span{"aria-hidden" => "true"} ×
               %span.sr-only Close
             = alert
+
+    - if current_user && current_user.student?
+      :javascript
+        $(document).on('turbolinks:load', function(){
+          setInterval(function() {
+            $.post("#{track_sessions_path}")
+          }, 10000)
+        });

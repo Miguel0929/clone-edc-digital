@@ -97,6 +97,38 @@
               %td
                 = link_to 'Ir a evaluación por módulos', mentor_evaluations_path(user_id: @user, program_id: program)
 
+  %h3
+    Archivos del usuario
+
+  .panel.panel-default
+    .panel-body
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+              Nombre de archivo
+            %th
+              Tipo de archivo
+            %th
+              Comentarios
+            %th
+              Subido en
+            %th
+              Fecha de modificación
+        %tbody
+          - @user.attachments.each do |attachment|
+            %tr
+              %th
+                = link_to attachment.display_name, attachment.file.url
+              %th
+                = attachment.humanize_document_type
+              %th
+                = attachment.label
+              %th
+                = l attachment.created_at, format: :special
+              %th
+                = l attachment.updated_at, format: :special
+
 
   %h3
     Revisión de comentarios (Todos)
