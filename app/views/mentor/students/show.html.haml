@@ -96,6 +96,14 @@
                 #{@user.percentage_questions_answered_for(program)}%
               %td
                 = link_to 'Ir a evaluación por módulos', mentor_evaluations_path(user_id: @user, program_id: program)
+              %td
+                .btn-group
+                  %button.btn.btn-default.dropdown-toggle{type: "button", "data-toggle": "dropdown", "aria-haspopup": "true", "aria-expanded": false}
+                    Exportar a xlsx
+                    %span.caret
+                  %ul.dropdown-menu
+                    - program.chapters.each do |chapter|
+                      %li= link_to "#{chapter.name}", {controller: 'mentor/evaluations', action: 'show', id: chapter, user_id: @user, program_id: program, format: :xlsx}
 
   %h3
     Archivos del usuario

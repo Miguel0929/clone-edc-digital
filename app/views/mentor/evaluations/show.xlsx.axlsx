@@ -1,0 +1,17 @@
+wb = xlsx_package.workbook
+wb.styles do |style|
+  title_cell = style.add_style(bg_color: "f96a4b")
+  subtitle_cell = style.add_style(bg_color: "FFC300")
+  herder_cell = style.add_style(bg_color: "53f94b")
+  content_cell = style.add_style(bg_color: "4bdff9")
+
+  wb.add_worksheet(name: "Evaluaciones") do |sheet|
+    sheet.add_row ["Programa a evaluar", @program.name], style: [title_cell, subtitle_cell]
+    sheet.add_row ["Alumnno en evaluación", @user.name], style: [title_cell, subtitle_cell]
+    sheet.add_row ["Módulo", @chapter.name], style: [title_cell, subtitle_cell]
+    sheet.add_row ["Pregunta", "Respuesta"], style: [herder_cell, herder_cell]
+    @answers.each do |answer|
+      sheet.add_row [answer.question_text, answer.answer_text], style: [content_cell, content_cell]
+    end
+  end
+end
