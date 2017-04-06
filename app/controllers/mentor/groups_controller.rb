@@ -14,5 +14,10 @@ class Mentor::GroupsController < ApplicationController
 
     add_breadcrumb "Grupos", :mentor_groups_path
     add_breadcrumb "<a class='active' href='#{mentor_group_path(@group)}'>#{@group.name}</a>".html_safe
+
+    respond_to do |format|
+      format.html
+      format.xlsx{response.headers['Content-Disposition']='attachment; filename="students_list.xlsx"'}
+    end
   end
 end

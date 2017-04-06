@@ -22,6 +22,11 @@
                 = user.name
       %h4
         Lista de alumnos
+      .row
+        = link_to mentor_group_path(@group, format: :xlsx), class: "btn btn-success pull-right" do
+          Exportar a Excel 
+          %i.fa.fa-file-excel-o
+          
       %table.table.table-striped
         %thead
           %th
