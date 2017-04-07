@@ -265,6 +265,8 @@ GEM
       domain_name (~> 0.5)
     i18n (0.7.0)
     inflecto (0.0.2)
+    intercom-rails (0.3.4)
+      activesupport (> 3.0)
     ipaddress (0.8.3)
     jbuilder (2.5.0)
       activesupport (>= 3.0.0, < 5.1)
@@ -485,6 +487,7 @@ DEPENDENCIES
   font-awesome-rails
   groupdate
   haml-rails
+  intercom-rails
   jbuilder (~> 2.0)
   jquery-datatables-rails (~> 3.3.0)
   jquery-rails
@@ -519,4 +522,4 @@ RUBY VERSION
    ruby 2.2.1p85
 
 BUNDLED WITH
-   1.13.7
+   1.14.6
