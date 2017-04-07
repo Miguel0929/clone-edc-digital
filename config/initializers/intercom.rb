@@ -25,6 +25,14 @@ IntercomRails.config do |config|
   # config.user.current = Proc.new { current_user }
   # config.user.current = [Proc.new { current_user }]
 
+  config.user.custom_data = {
+    :role => Proc.new { |user| user.role },
+    :group => Proc.new { |user| user.group.name },
+    :phone => Proc.new { |user| user.phone_number },
+    :programs => Proc.new { |user| user.programs.map{ |program| "#{program.name} #{user.percentage_questions_answered_for(program)}%" }.join(', ') },
+    :avance => Proc.new { |user| "#{user.content_visited_percentage}%" },
+    :contestado => Proc.new { |user| "#{user.answered_questions_percentage}%" }
+  }
   # == Include for logged out Users
   # If set to true, include the Intercom messenger on all pages, regardless of whether
   # The user model class (set below) is present. Only available for Apps on the Acquire plan.
