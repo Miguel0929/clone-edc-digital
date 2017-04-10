@@ -40,7 +40,6 @@
       = bootstrap_form_for(@chapter, url: mentor_evaluation_path) do |f|
         %input{type: 'hidden', name: "user_id", value: @user.id}
         %input{type: 'hidden', name: "program_id", value: @program.id}
-
         .row
           - @chapter.evaluations.each_with_index do |evaluation, index|
             .col-md-6
@@ -58,7 +57,7 @@
 
               .radio
                 %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_good_#{index}", value: '75', checked: evaluation_pointed?(evaluation, 75)}
-                %label{for: "radio_good_#{index}"}
+                %label{for: "radio.name_good_#{index}"}
                   %strong Bueno:
                   #{evaluation.good}
               .radio
