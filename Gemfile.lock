@@ -58,6 +58,13 @@ GEM
       user_agent_parser
       uuidtools
     arel (6.0.3)
+    axlsx (2.0.1)
+      htmlentities (~> 4.3.1)
+      nokogiri (>= 1.4.1)
+      rubyzip (~> 1.0.0)
+    axlsx_rails (0.5.1)
+      actionpack (>= 3.1)
+      axlsx (>= 2.0.1)
     bcrypt (3.1.11)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -261,10 +268,13 @@ GEM
       haml (~> 4.0.0)
       nokogiri (~> 1.6.0)
       ruby_parser (~> 3.5)
+    htmlentities (4.3.4)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.7.0)
     inflecto (0.0.2)
+    intercom-rails (0.3.4)
+      activesupport (> 3.0)
     ipaddress (0.8.3)
     jbuilder (2.5.0)
       activesupport (>= 3.0.0, < 5.1)
@@ -396,6 +406,7 @@ GEM
     rspec-support (3.4.1)
     ruby_parser (3.8.2)
       sexp_processor (~> 4.1)
+    rubyzip (1.0.0)
     safely_block (0.1.1)
       errbase
     sass (3.4.22)
@@ -463,6 +474,7 @@ DEPENDENCIES
   active_model_serializers (~> 0.10.0)
   acts_as_list
   ahoy_matey
+  axlsx_rails
   bootstrap-kaminari-views
   bootstrap_form
   breadcrumbs_on_rails
@@ -485,6 +497,7 @@ DEPENDENCIES
   font-awesome-rails
   groupdate
   haml-rails
+  intercom-rails
   jbuilder (~> 2.0)
   jquery-datatables-rails (~> 3.3.0)
   jquery-rails
@@ -519,4 +532,4 @@ RUBY VERSION
    ruby 2.2.1p85
 
 BUNDLED WITH
-   1.13.7
+   1.14.6

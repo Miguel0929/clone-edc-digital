@@ -43,6 +43,8 @@ gem 'groupdate'
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'
 gem 'useragent'
+gem 'axlsx_rails'
+gem "intercom-rails"
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
