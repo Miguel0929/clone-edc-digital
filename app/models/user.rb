@@ -120,7 +120,7 @@ class User < ActiveRecord::Base
   end
 
   def programs
-    answers.map{ |asnwer| asnwer.question.chapter_content.chapter.program}.uniq.compact
+    group.programs
   end
 
   def has_answer_question?(model)
