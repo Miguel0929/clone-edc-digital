@@ -139,6 +139,12 @@ Rails.application.routes.draw do
   resources :track_sessions, only: [:create]
   resources :shared_group_attachments
 
+  namespace :baasstard do
+    namespace :api do
+      post 'users', to: 'users#show'
+    end
+  end
+
   match '/auth/sso/authorize' => 'auth#authorize', via: :all
   match '/auth/sso/access_token' => 'auth#access_token', via: :all
   match '/auth/sso/user' => 'auth#user', via: :all
