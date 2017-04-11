@@ -22,7 +22,7 @@ class Baasstard::Api::UsersController < ApplicationController
 
   private
   def format_programs(user)
-    user.programs.map do |program|
+    user.group.programs.map do |program|
       {
         program: program,
         percentage_content_visited: user.percentage_content_visited_for(program),
