@@ -1,0 +1,19 @@
+- content_for :title  do
+  Editar Archivo - EDCdigital
+
+.container-fluid.container-fixed-lg
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .panel-title
+            Editar Archivo
+        .panel-body
+          = bootstrap_form_for([:mentor, @user, @attachment], url: mentor_student_shared_attachment_path(@user, @attachment), method: :put) do |f|
+            = f.text_field :name, label: 'Renombrar archivo'
+            = f.select :document_type, Attachment.document_type_options, label: 'Tipo de documento'
+            = f.text_field :label, label: 'Detalles / Comentarios'
+            .dropzone
+              = f.file_field :file, label: 'Archivo'
+
+            = f.submit 'Actualizar'

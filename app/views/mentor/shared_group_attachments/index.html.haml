@@ -1,0 +1,43 @@
+- content_for :title  do
+  Archivos compartidos - EDCdigital
+
+.container-fluid.container-fixed-lg
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .panel-title
+            Archivos
+        .panel-body
+          %table.table.resumen-table.table-striped.rubrica-table
+            %thead
+              %tr
+                %th
+                  Nombre de archivo
+                %th
+                  Tipo de archivo
+                %th
+                  Comentarios
+                %th
+                  Subido en
+                %th
+                  Fecha de modificación
+                %th
+            %tbody
+              - @shared_group_attachments.each do |attachment|
+                %tr
+                  %th
+                    = link_to attachment.display_name, attachment.file.url
+                  %th
+                    = attachment.humanize_document_type
+                  %th
+                    = attachment.label
+                  %th
+                    = l attachment.created_at, format: :special
+                  %th
+                    = l attachment.updated_at, format: :special
+                  %th
+                    = link_to 'Editar', edit_mentor_shared_group_attachment_path(attachment), class: 'btn btn-default'
+                    = link_to 'Eliminar', mentor_shared_group_attachment_path(attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
+
+          = link_to 'Subir archivo', new_mentor_shared_group_attachment_path, class: 'btn btn-default'

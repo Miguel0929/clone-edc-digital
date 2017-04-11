@@ -41,3 +41,69 @@
                     = link_to 'Eliminar', dashboard_attachment_path(attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
 
           = link_to 'Subir archivo', new_dashboard_attachment_path, class: 'btn btn-default'
+
+          %h2 Archivos compartidos
+
+          %table.table.resumen-table.table-striped.rubrica-table
+            %thead
+              %tr
+                %th
+                  Nombre de archivo
+                %th
+                  Tipo de archivo
+                %th
+                  Comentarios
+                %th
+                  Subido en
+                %th
+                  Fecha de modificación
+                %th
+                  Compartido por
+            %tbody
+              - current_user.shared_attachments.each do |attachment|
+                %tr
+                  %th
+                    = link_to attachment.display_name, attachment.file.url
+                  %th
+                    = attachment.humanize_document_type
+                  %th
+                    = attachment.label
+                  %th
+                    = l attachment.created_at, format: :special
+                  %th
+                    = l attachment.updated_at, format: :special
+                  %th
+                    = attachment.owner.name
+
+          %h2 Archivos compartidos por grupo
+
+          %table.table.resumen-table.table-striped.rubrica-table
+            %thead
+              %tr
+                %th
+                  Nombre de archivo
+                %th
+                  Tipo de archivo
+                %th
+                  Comentarios
+                %th
+                  Subido en
+                %th
+                  Fecha de modificación
+                %th
+                  Compartido por
+            %tbody
+              - current_user.group.shared_group_attachments.each do |attachment|
+                %tr
+                  %th
+                    = link_to attachment.display_name, attachment.file.url
+                  %th
+                    = attachment.humanize_document_type
+                  %th
+                    = attachment.label
+                  %th
+                    = l attachment.created_at, format: :special
+                  %th
+                    = l attachment.updated_at, format: :special
+                  %th
+                    = attachment.owner.name
