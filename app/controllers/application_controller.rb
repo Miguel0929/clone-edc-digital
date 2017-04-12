@@ -29,7 +29,8 @@ class ApplicationController < ActionController::Base
       "application"
     end
   end
-
+  
+  helper_method :mailbox, :conversation
 
   private
   def sessions_controller?
@@ -50,4 +51,11 @@ class ApplicationController < ActionController::Base
       add_breadcrumb "<a class='active' href='#{edit_user_registration_path}'>Edita tu perfil</a>".html_safe
     end
   end
+  
+  def mailbox
+    @mailbox ||= current_user.mailbox
+  end
+  def conversation
+    @conversation ||= mailbox.conversations.find(params[:id])
+  end 
 end

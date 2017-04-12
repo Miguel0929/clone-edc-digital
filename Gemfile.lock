@@ -293,6 +293,9 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
+    mailboxer (0.14.0)
+      carrierwave (>= 0.5.8)
+      rails (>= 4.2.0)
     mailjet (1.4.10)
       activesupport (>= 3.1.0)
       rack (>= 1.4.0)
@@ -491,6 +494,7 @@ DEPENDENCIES
   jquery-turbolinks
   jquery-ui-rails
   kaminari
+  mailboxer
   mailjet
   mini_magick
   modernizr-rails
@@ -519,4 +523,4 @@ RUBY VERSION
    ruby 2.2.1p85
 
 BUNDLED WITH
-   1.13.7
+   1.14.5

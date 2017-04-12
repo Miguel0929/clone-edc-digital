@@ -185,6 +185,16 @@ class User < ActiveRecord::Base
     answer.nil? ? 0 : events.where(name: 'Answer updated').where_properties(answer_id: answer.id).count
   end
 
+  acts_as_messageable
+
+
+  def mailboxer_name
+    self.name
+  end
+  
+  def mailboxer_email(object)
+    self.email
+  end 
 
   private
 
