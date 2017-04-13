@@ -7,12 +7,11 @@
       .row
         .col-sm-10
           %h3
-          %br/
           .row-xs-height
             .col-xs-height
-              %h3.no-margin Contáctanos
+              %h3.no-margin Solicita ayuda de nuestro equipo de mentores
               %p.hint-text.m-t-5
-                Ya sea que solo necesites algo de ayuda o saludar al equipo detrás de EDCdigital.mx, ¡estaremos encantados de escuchar de ti! Envíanos un mensaje y contestaremos tan rápido como nos sea posible.
+                Utiliza esta forma de contacto para solicitar apoyo ne áreas de mentoría para tu idea de negocio
 
           - if notice
             .alert.alert-success
@@ -32,17 +31,28 @@
               %label.col-sm-3.control-label{:for => "urgency"} Nivel de urgencia
               .col-sm-9
                 %select.full-width.form-control.minimal{name: 'urgency'}
-                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Por favor selecciona que tan urgente es tu mensaje
+                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Por favor selecciona que la urgencia de tu mensaje
                   %option{:value => "Esto es solo un mensaje"} Esto es solo un mensaje
                   %option{:value => "Estaré bien, pero por favor arreglen esto"} Estaré bien, pero por favor arreglen esto
                   %option{:value => "Estoy atorado, nada de lo que hago funciona"} Estoy atorado, nada de lo que hago funciona
-                  %option{:value => "Me está matando esto"} Me está matando esto
+                  %option{:value => "Esto me está matando"} Esto me está matando
                   %option{:value => "Emergencia: Esto es crítico"} Emergencia: Esto es crítico
+            .form-group
+              %label.col-sm-3.control-label{:for => "matter"} Clasificación
+              .col-sm-9
+                %select.full-width.form-control.minimal{name: 'matter'}
+                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Por favor clasifica tu mensaje
+                  %option{:value => "Comentario"} Comentario
+                  %option{:value => "Sugerencia"} Sugerencia
+                  %option{:value => "Duda sobre el contenido"} Duda sobre el contenido
+                  %option{:value => "Duda sobre la plataforma"} Duda sobre la plataforma
             .form-group
               %label.col-sm-3.control-label{:for => "message"} Mensaje / Problema
               .col-sm-9
-                %textarea.form-control{:placeholder => "Describe aquí el problema o lo que estás enfrentando", name: 'message'}
+                %textarea.form-control{:rows => "8", :placeholder => "Describe aquí el problema o lo que estás enfrentando", name: 'message'}
             .clearfix
             .row.m-t-15
-              .col-sm-9
-                %button.btn.btn-success{:type => "submit"} Enviar
+              .col-sm-12
+                %button.btn.btn-success.btn-lg.pull-right{:type => "submit"} 
+                  %i.fa.fa-send-o 
+                  Enviar

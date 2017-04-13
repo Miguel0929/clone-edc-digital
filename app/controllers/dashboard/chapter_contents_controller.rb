@@ -12,6 +12,26 @@ class Dashboard::ChapterContentsController < ApplicationController
     end
   end
 
+  #Nuevo: datos para el correo
+  def mailer_interno
+    if params[:subject].present? == false || params[:message].present? == false
+      flash_message = { alert: 'Porfavor introduzca asunto y mensaje.'}
+    else
+      @recipients = [{adress: 'soporte-edcdigital@distritoemprendedor.com', type: 'soporte'}, {adress: current_user.email, type: 'usuario'}]
+      @recipients.each do |recipient, index|
+        if recipient[:type] == 'soporte'
+          Support.contact(params[:subject], params[:message], params[:urgency], params[:matter], current_user, params[:chapter],params[:signature], recipient[:adress]).deliver_now
+          flash_message = { notice: 'Su mensaje ha sido enviado.'}
+        else
+          Support.notify(params[:subject], params[:message], params[:urgency], params[:matter], current_user, params[:chapter],params[:signature], recipient[:adress]).deliver_now
+          flash_message = { notice: 'Su mensaje ha sido enviado.'}
+        end
+      end
+    end
+
+    redirect_to router_dashboard_chapter_content_answers_path, flash_message
+  end
+
   private
   def track_chapter_content
     @chapter_content = ChapterContent.find(params[:id])
