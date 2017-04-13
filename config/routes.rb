@@ -74,6 +74,7 @@ Rails.application.routes.draw do
           get :router
         end
       end
+      post "mailer_interno"
     end
 
     resources :questions, only: [] do

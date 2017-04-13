@@ -1,10 +1,24 @@
-- unless @urgency == 'none'
-  %p
-    %strong
-      Nivel de urgencia
-    = @urgency
-%p
-  #{@user.name} / #{@user.email} / #{@user.phone_number}:
-
-%p
-  = @message
+%br
+.col-md-10.col-offset-md-2	
+	%p
+		%strong
+			Alumno:
+		#{@user.name} / #{@user.email} / Teléfono: #{@user.phone_number}
+	%p
+		%strong
+			Nivel de urgencia:
+		= @urgency
+	%p
+		%strong
+			Clasificación del mensaje:
+		= @matter
+	- unless @urgency == 'none'
+		%p
+			%strong
+				Programa y capítulo: 
+			#{@signature} => #{@chapter}
+%br
+	%h2 Mensaje:
+	%p
+		= @message
+%br
