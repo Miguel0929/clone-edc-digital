@@ -91,6 +91,13 @@
                   = link_to destroy_user_session_path, method: :delete do
                     Cerrar sesión
                   %span.icon-thumbnail Cs
+
+            %li
+              %a.detailed.redirector{:href => dashboard_support_path}
+                %span.title Ayuda
+                %span.details Contactános
+              %span.icon-thumbnail
+                %i.fa.fa-info-circle
         .clearfix
     .page-container
       .header
