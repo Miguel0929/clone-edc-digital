@@ -1,6 +1,20 @@
 class ConversationsController < ApplicationController
   before_action :authenticate_user!
   def new
+    if current_user.mentor?
+      ids=[]
+      @contacts=[]
+      groups=current_user.groups
+      groups.each do |g|
+        ids.push(g.id)
+        g.active_students.each do |s|
+          @contacts.push(s)
+        end  
+      end
+    end
+    if current_user.student?
+      @contacts=current_user.group.users.collect
+    end  
   end
   def show
     @receipts= conversation.receipts_for(current_user)
