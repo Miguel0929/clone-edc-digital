@@ -3,13 +3,13 @@
 	<% if current_user.mentor?%>
 	<div class="form-group">
 		<%= f.label :contactos %>
-		<%= f.select(:recipients, @contacts.collect {|p|[p.name, p.id]},{include_blank:"Debes seleccionar primero el grupo..."},{class: "form-control"})  %>
+		<%= f.select(:recipients, @contacts.collect {|p|[p.name, p.id]},{include_blank:"Contactos..."},{class: "form-control"})  %>
 	</div>
 	<%end%>
 	<% if current_user.student?%>
 	<div class="form-group">
 		<%= f.label :contactos %>
-		<%= f.select(:recipients, @contacts.collect {|p|[p.name, p.id]},{include_blank:"Debes seleccionar primero el grupo..."},{class: "form-control"})  %>
+		<%= f.select(:recipients, @contacts.collect {|p|[p.name, p.id]},{include_blank:"Contactos..."},{class: "form-control"})  %>
 	</div>
 	<%end%>
 	<div class="form-group">
