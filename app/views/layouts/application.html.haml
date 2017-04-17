@@ -122,6 +122,22 @@
                         %a{:href => dashboard_notifications_path} Ver todas las notificaciones
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
                           %i.pg-refresh_new
+            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-l.b-r.no-style.p-l-30.p-r-20
+              %li.p-r-15.inline
+                .dropdown
+                  %a#notification-center.fa.fa-comment-o{"data-toggle" => "dropdown", :href => "javascript:;"}
+                    -  if  current_user.mailbox.inbox(:read=>false).count() > 0
+                      %span.bubble
+
+
+                  .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
+                    .notification-panel
+                      .notification-body.scrollable
+                        = render partial: "notifications/notification", collection: current_user.limited_notifications
+                      .notification-footer.text-center
+                        %a{:href => mailbox_inbox_path} Ver todas las notificaciones 
+                        %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
+                          %i.pg-refresh_new              
 
         .pull-right
           .visible-lg.visible-md.m-t-10
