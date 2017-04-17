@@ -1,0 +1,17 @@
+<div class="media">
+	<div class="media-left">
+		<a href="#">
+			<img class="madia-object" src="http://placehold.it/64x64" alt="...">
+		</a>
+	<center></center>	
+	</div>
+	<div class="media-body">
+
+			<b><%= conversation.originator.name %></b> -
+			<b>Asunto: </b><%=conversation.subject %> - 
+			<b>Fecha: </b><%=conversation.messages.last.created_at.strftime("%b %d, %Y at %I:%M%p") %></small><br>
+
+		<div class="pull-right"><%= truncate conversation.messages.last.body, length: 145 %>
+		<%= link_to "Ver", conversation_path(conversation) %></div>
+	</div>
+</div>
