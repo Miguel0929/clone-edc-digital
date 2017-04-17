@@ -281,6 +281,32 @@ ActiveRecord::Schema.define(version: 20170411223654) do
     t.datetime "finish"
   end
 
+  create_table "shared_attachments", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "file"
+    t.string   "label"
+    t.integer  "document_type"
+    t.string   "name"
+    t.integer  "owner_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "shared_group_attachment_groups", force: :cascade do |t|
+    t.integer "shared_group_attachment_id"
+    t.integer "group_id"
+  end
+
+  create_table "shared_group_attachments", force: :cascade do |t|
+    t.string   "file"
+    t.string   "label"
+    t.integer  "document_type"
+    t.string   "name"
+    t.integer  "owner_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "states", force: :cascade do |t|
     t.string "name"
   end
