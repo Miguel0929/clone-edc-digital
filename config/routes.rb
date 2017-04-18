@@ -143,6 +143,8 @@ Rails.application.routes.draw do
   namespace :baasstard do
     namespace :api do
       post 'users', to: 'users#show'
+      post 'users/invite', to: 'users#invite'
+      resources :groups, only: [:index]
     end
   end
 
