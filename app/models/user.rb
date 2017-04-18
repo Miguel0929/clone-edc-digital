@@ -196,6 +196,10 @@ class User < ActiveRecord::Base
     self.email
   end 
 
+  def limited_messages
+    mailbox.inbox.limit(3).order(created_at: :desc)
+  end
+
   private
 
   def set_origin
@@ -208,4 +212,6 @@ class User < ActiveRecord::Base
       group.users << self
     end
   end
+
+  
 end
