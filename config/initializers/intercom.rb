@@ -27,7 +27,7 @@ IntercomRails.config do |config|
 
   config.user.custom_data = {
     :role => Proc.new { |user| user.role },
-    :group => Proc.new { |user| user.group.name },
+    :group => Proc.new { |user| user.group.nil? ? 'Usuario administrador' : user.group.name },
     :phone => Proc.new { |user| user.phone_number },
     :programs => Proc.new { |user| user.programs.map{ |program| "#{program.name} #{user.percentage_questions_answered_for(program)}%" }.join(', ') },
     :avance => Proc.new { |user| "#{user.content_visited_percentage}%" },
