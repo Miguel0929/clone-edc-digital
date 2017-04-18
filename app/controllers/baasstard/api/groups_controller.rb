@@ -1,5 +1,6 @@
 class Baasstard::Api::GroupsController < ApplicationController
   skip_before_action :verify_authenticity_token
+  before_action :cors_set_access_control_headers
 
   def index
     render json: Group.all
