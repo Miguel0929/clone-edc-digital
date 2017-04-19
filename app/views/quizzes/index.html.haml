@@ -1,0 +1,25 @@
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+      .pull-right
+        .col-xs-12
+          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+      .clearfix
+    .panel-body
+      %table.table.table-over
+        %thead
+          %tr
+            %th Examen
+            %th Descripción
+            %th
+        %tbody
+          - @quizzes.each do |quiz|
+            %tr
+              %td= quiz.name
+              %td= quiz.description
+              %td
+                = link_to 'Ver', quiz, class: 'btn btn-default'
+                = link_to 'Editar', edit_quiz_path(quiz), class: 'btn btn-default'
+                = link_to 'Eliminar', quiz, :method => :delete, :data => { :confirm => '¿Estás seguro?' }, class: 'btn btn-default'
+
+      = link_to 'New Quiz', new_quiz_path
