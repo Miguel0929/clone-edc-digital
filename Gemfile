@@ -30,7 +30,6 @@ gem 'modernizr-rails'
 gem 'breadcrumbs_on_rails'
 gem 'rails-i18n'
 gem 'non-stupid-digest-assets'
-gem 'exception_notification'
 gem 'mailjet'
 gem 'ahoy_matey'
 gem 'time_difference'
@@ -46,6 +45,7 @@ gem 'useragent'
 gem 'axlsx_rails'
 gem "intercom-rails"
 gem 'mailboxer'
+gem 'rollbar'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'

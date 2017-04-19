@@ -21,6 +21,11 @@ class Baasstard::Api::UsersController < ApplicationController
     end
   end
 
+  def invite
+    user = User.invite!(email: params[:email], group_id: params[:group_id])
+    render json: user, status: :ok
+  end
+
   private
   def format_programs(user)
     user.group.programs.map do |program|
