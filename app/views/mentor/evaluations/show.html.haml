@@ -57,7 +57,7 @@
 
               .radio
                 %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_good_#{index}", value: '75', checked: evaluation_pointed?(evaluation, 75)}
-                %label{for: "radio.name_good_#{index}"}
+                %label{for: "radio_good_#{index}"}
                   %strong Bueno:
                   #{evaluation.good}
               .radio

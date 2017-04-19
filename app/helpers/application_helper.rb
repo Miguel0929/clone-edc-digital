@@ -21,6 +21,11 @@ module ApplicationHelper
       'rubensito-05.png'
     end
   end
+  
+  def answer_to_show(user, question)
+    answer = Answer.find_by(user_id: user.id, question_id: question.id)
+    answer.nil? ? '' : answer.answer_text 
+  end
 
   def parse_lesson_content(lesson)
     return lesson.content.gsub('{{video}}', '') if lesson.video_url.nil? || lesson.video_url.empty?
@@ -35,4 +40,16 @@ module ApplicationHelper
   def url_prod_helper(url)
     Rails.env.production? ? url.gsub('http', 'https') : url
   end
+  
+  def flash_class(level)
+    case level.to_sym
+      when :notice then "alert alert-success"
+      when :info then "alert alert-info"
+      when :alert then "alert alert-danger"
+      when :warning then "alert alert-warning"
+    end
+  end
+  def active_page(active_page)
+    @active == active_page ? "active" : ""
+  end 
 end
