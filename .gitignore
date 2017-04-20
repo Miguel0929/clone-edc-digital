@@ -43,3 +43,4 @@ bower.json
 /config/application.yml
 /config/local_env.yml
 sendgrid.env
+sendgrid.env

@@ -31,19 +31,21 @@
             %i.pg-close.fs-14
           %h5 Solicita ayuda de nuestro equipo de mentores
           %p.p-b-0.m-b-20
-            Utiliza esta forma de contacto para solicitar apoyo en áreas de mentoría para tu idea de negocio.
+            Utiliza esta forma de contacto para solicitar apoyo en áreas de mentiría para tu idea de negocio. 
+            %span
+              %strong Recuerda completar con toda la información relevante para que los mentores puedan apoyarte.
         .modal-body
           = form_tag(dashboard_chapter_content_mailer_interno_path, class: 'form-horizontal') do
             %input{:type=>"hidden", :value=>@chapter_content.chapter.name, :name=>:chapter}
             %input{:type=>"hidden", :value=>@chapter_content.chapter.program.name, :name=>:signature}
             .form-group
-              %label.col-sm-3.control-label{:for => "subject"} Asunto
+              %label.col-sm-3.control-label{:for => "raw_subject"} Asunto
               .col-sm-9
-                %input#correo.form-control{:name => "subject", :placeholder => "Aquí va tu asunto", :required => "", :type => "text"}/
+                %input#correo.form-control{:name => "raw_subject", :placeholder => "Aquí va tu asunto", :required => "", :type => "text"}/
             .form-group
               %label.col-sm-3.control-label{:for => "urgency"} Nivel de urgencia
               .col-sm-9
-                %select.full-width.form-control.minimal{name: 'urgency'}
+                %select.full-width.form-control.minimal{name: 'urgency', :required => ""}
                   %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Por favor selecciona que la urgencia de tu mensaje
                   %option{:value => "Esto es solo un mensaje"} Esto es solo un mensaje
                   %option{:value => "Estaré bien, pero por favor arreglen esto"} Estaré bien, pero por favor arreglen esto
@@ -53,15 +55,16 @@
             .form-group
               %label.col-sm-3.control-label{:for => "matter"} Clasificación
               .col-sm-9
-                %select.full-width.form-control.minimal{name: 'matter'}
+                %select.full-width.form-control.minimal{name: 'matter', :required => ""}
                   %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Por favor clasifica tu mensaje
                   %option{:value => "Comentario"} Comentario
                   %option{:value => "Sugerencia"} Sugerencia
-                  %option{:value => "Duda sobre el contenido"} Duda sobre el contenido
-                  %option{:value => "Duda sobre la plataforma"} Duda sobre la plataforma
-                  %option{:value => "Duda técnica sobre mi proyecto"} Duda técnica sobre mi proyecto
+                  %option{:value => "Duda sobre el contenido"} Tengo una duda sobre el contenido
+                  %option{:value => "Duda sobre la plataforma"} Tengo una duda sobre la plataforma
+                  %option{:value => "Duda sobre mi idea de negocio"} Tengo una duda sobre mi idea de negocio
+                  %option{:value => "Retroalimentación sobre mi idea de negocio"} Me gustaría recibir retroalimentación sobre mi idea de negocio
             .form-group
-              %label.col-sm-3.control-label{:for => "message"} Mensaje / Duda
+              %label.col-sm-3.control-label{:for => "message", :required => ""} Descripción detallada de tu mensaje o problema
               .col-sm-9
                 %textarea.form-control{:rows => "8", :placeholder => "Describe aquí el problema o lo que estás enfrentando", name: 'message'}
             .clearfix
