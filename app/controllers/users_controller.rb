@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   def index
     add_breadcrumb "<a class='active' href='#{users_path}'>Estudiantes</a>".html_safe
 
-    @users = User.students_table
+    @users = User.students_table.page(params[:page]).per(100)
 
     if params[:state].present?
       case params[:state]
