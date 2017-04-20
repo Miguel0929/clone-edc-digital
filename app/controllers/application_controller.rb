@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  skip_before_filter :verify_authenticity_token, if: -> { controller_name == 'sessions' && action_name == 'create' }
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :set_breadcrumb, if: :devise_controller?
   layout :layout_by_resource
@@ -29,7 +30,7 @@ class ApplicationController < ActionController::Base
       "application"
     end
   end
-  
+
   helper_method :mailbox, :conversation
 
   private
@@ -51,11 +52,11 @@ class ApplicationController < ActionController::Base
       add_breadcrumb "<a class='active' href='#{edit_user_registration_path}'>Edita tu perfil</a>".html_safe
     end
   end
-  
+
   def mailbox
     @mailbox ||= current_user.mailbox
   end
   def conversation
     @conversation ||= mailbox.conversations.find(params[:id])
-  end 
+  end
 end
