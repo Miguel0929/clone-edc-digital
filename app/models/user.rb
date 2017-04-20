@@ -186,6 +186,20 @@ class User < ActiveRecord::Base
     answer.nil? ? 0 : events.where(name: 'Answer updated').where_properties(answer_id: answer.id).count
   end
 
+  acts_as_messageable
+
+
+  def mailboxer_name
+    self.name
+  end
+  
+  def mailboxer_email(object)
+    self.email
+  end 
+
+  def limited_messages
+    mailbox.inbox.limit(3).order(created_at: :desc)
+  end
 
   private
 
@@ -199,4 +213,6 @@ class User < ActiveRecord::Base
       group.users << self
     end
   end
+
+  
 end

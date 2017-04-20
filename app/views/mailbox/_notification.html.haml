@@ -1,0 +1,14 @@
+.notification-item.clearfix{class: "#{item.receipts.where(mailbox_type: 'inbox').last.is_read ? '' : 'unread'}"}
+ .heading
+  =link_to  conversation_path(item), class: 'pull-left' do
+   .m-r-10
+    %span.fs-12.m-l-10
+     Un nuevo mensaje de 
+     %strong 
+      #{item.originator.name}: "#{item.messages.last.body}",  #{item.receipts.where(mailbox_type: 'inbox').last.is_read}
+     %strong  
+      "#{item.subject}",  
+    %span.pull-right.time
+     = distance_of_time_in_words(item.created_at.to_i, Time.now.to_i)
+ .option
+  %a.mark{:href => "#"}

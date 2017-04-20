@@ -91,6 +91,13 @@
                   = link_to destroy_user_session_path, method: :delete do
                     Cerrar sesión
                   %span.icon-thumbnail Cs
+
+            %li
+              %a.detailed.redirector{:href => dashboard_support_path}
+                %span.title Ayuda
+                %span.details Contactános
+              %span.icon-thumbnail
+                %i.fa.fa-info-circle
         .clearfix
     .page-container
       .header
@@ -125,6 +132,22 @@
                         %a{:href => dashboard_notifications_path} Ver todas las notificaciones
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
                           %i.pg-refresh_new
+            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-l.b-r.no-style.p-l-30.p-r-20
+              %li.p-r-15.inline
+                .dropdown
+                  %a#notification-center.fa.fa-comment-o{"data-toggle" => "dropdown", :href => "javascript:;"}
+                    -  if  unread_messages_count > 0
+                      %span.bubble
+
+
+                  .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
+                    .notification-panel
+                      .notification-body.scrollable
+                        = render partial: "mailbox/notification", collection: mailbox.inbox.limit(3).order(created_at: :desc), as: :item
+                      .notification-footer.text-center
+                        %a{:href => mailbox_inbox_path} Ver todas las notificaciones 
+                        %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
+                          %i.pg-refresh_new              
 
         .pull-right
           .visible-lg.visible-md.m-t-10

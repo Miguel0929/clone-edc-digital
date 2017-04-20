@@ -1,0 +1,25 @@
+<%= form_for :conversation , url: :conversations, html: { class: "" } do |f| %>
+	
+	<% if current_user.mentor?%>
+	<div class="form-group">
+		<%= f.label :contactos %>
+		<%= f.select(:recipients, @contacts.collect {|p|[p.name, p.id]},{include_blank:"Contactos..."},{class: "form-control js-example-basic-single", required: true})  %>
+	</div>
+	<%end%>
+	<% if current_user.student?%>
+	<div class="form-group">
+		<%= f.label :contactos %>
+		<%= f.select(:recipients, @contacts.collect {|p|[p.name, p.id]},{include_blank:"Contactos..."},{class: "form-control", required: true })  %>
+	</div>
+	<%end%>
+	<div class="form-group">
+		<%= f.label :asunto%>
+		<%= f.text_field :subject, class: "form-control", required: true %>
+	</div>
+	<div class="form-group">
+		<%= f.label :mensaje %>
+		<%= f.text_area :body, class: "form-control", placeholder: "Escribe tu mensaje aqui", rows:4, required: true %>
+	</div>
+	<%=f.submit "Enviar", class: "btn btn-success" %>
+	<button class="btn btn-info"><i class="glyphicon glyphicon-paperclip"></i></button>
+<%end%>			
