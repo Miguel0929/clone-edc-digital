@@ -1,11 +1,11 @@
-.notification-item.clearfix{class: "#{item.receipts.where(mailbox_type: 'inbox').last.is_read ? '' : 'unread'}"}
+.notification-item.clearfix{class: "#{item.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read ? '' : 'unread'}"}
  .heading
   =link_to  conversation_path(item), class: 'pull-left' do
    .m-r-10
     %span.fs-12.m-l-10
      Un nuevo mensaje de 
      %strong 
-      #{item.originator.name}: "#{item.messages.last.body}",  #{item.receipts.where(mailbox_type: 'inbox').last.is_read}
+      #{item.originator.name}: "#{ strip_tags(item.messages.last.body)}", 
      %strong  
       "#{item.subject}",  
     %span.pull-right.time

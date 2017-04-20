@@ -1,0 +1,35 @@
+- if status
+	.media{style: "#{conversation.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read ? 'background-color:rgb(153, 204, 255);' : '' }"}
+		.media-left
+			%a
+				%img.madia-object{src: "http://placehold.it/64x64", :alt => "..."} 
+		.media-body
+			%strong 
+				= conversation.originator.name  
+			%strong 
+				Asunto: 
+				= conversation.subject  
+			%strong Fecha: 
+			=conversation.messages.last.created_at.strftime("%b %d, %Y at %I:%M%p") 
+			%br
+			=conversation.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read
+			.pull-right
+				= truncate strip_tags(conversation.messages.last.body), length: 145 
+				= link_to "Ver", conversation_path(conversation) 
+- else
+	.media
+		.media-left
+			%a
+				%img.madia-object{src: "http://placehold.it/64x64", :alt => "..."} 
+		.media-body
+			%strong 
+				= conversation.originator.name  
+			%strong 
+				Asunto: 
+				= conversation.subject  
+			%strong Fecha: 
+			=conversation.messages.last.created_at.strftime("%b %d, %Y at %I:%M%p") 
+			%br
+			.pull-right
+				= truncate strip_tags(conversation.messages.last.body), length: 145 
+				= link_to "Ver", conversation_path(conversation) 

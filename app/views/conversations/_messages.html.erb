@@ -11,7 +11,10 @@
 
 		<div class="media-body alert alert-warning">
 			<b><%= message.sender.name %>:</b><br>
-			<%= message.body %>
+			<%= message.body.html_safe %>
+			<% if message.attachment.length > 0 %>
+				<%= link_to "Descargar", "#{message.attachment}", html_options ={download: message.attachment} %>
+			<%end%>
 		</div>	
 	</div>
 	<%else%>
@@ -19,7 +22,10 @@
 		<div class="media-body alert alert-info">
 			<div class="pull-right">
 				<b  class="pull-right"><%= message.sender.name %>:</b><br>
-				<%= message.body %>
+				<%= message.body.html_safe %><br>
+				<% if message.attachment.length > 0 %>
+					<%= link_to "Descargar", "#{message.attachment}", html_options ={download: message.attachment} %>
+				<%end%>
 			</div>	
 		</div>
 		<div class="media-right">

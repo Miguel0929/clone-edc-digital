@@ -19,7 +19,7 @@
 				<% if is_conversation %>
 					<%= render 'conversations/form'%>
 				<% else %>
-					<%= render partial: 'conversations/conversation', collection: messages %>
+					<%= render partial: 'conversations/conversation', collection: messages, locals:{status: status} %>
 					<%= paginate messages%>
 				<% end %>
 			</div>
