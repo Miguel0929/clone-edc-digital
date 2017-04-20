@@ -9,3 +9,11 @@
   color: #777;
   cursor: move;
 }
+
+.extra-bottom-4 {
+	margin-bottom: 4px;
+}
+
+.image-width-100 {
+	width: 100%;
+}
