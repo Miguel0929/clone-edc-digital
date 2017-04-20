@@ -55,6 +55,7 @@ Rails.application.routes.draw do
     get 'ayuda',                  to: 'welcome#support', as: :support
     post 'send_support_email',    to: 'welcome#send_support_email'
     get 'confidencialidad-y-propiedad-industrial', to: 'welcome#service', as: :service
+    get 'ruta',                   to: 'welcome#pathway', as: :pathway
 
     resources :notifications, only: [:index, :show] do
       collection do
