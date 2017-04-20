@@ -1,0 +1,75 @@
+.well
+  = bootstrap_form_for([@quiz, @quiz_question]) do |f|
+    = f.text_field :question_text, label: "Pregunta"
+    = f.text_area :support_text, label: "Información de apoyo"
+    = f.select :question_type, QuizQuestion::TYPES, { label: "Tipo de pregunta" }
+    = f.text_area :answer_options, hide_label: true, rows: 8, class: 'hide'
+    #question-answers
+      %br
+      .row
+        .col-md-4
+          .input-group
+            %input#answer-option.form-control{ placeholder: "Respuesta", type: "text" }/
+            %span.input-group-btn
+              %button#addAnswer.btn.btn-default{ type: "button" }
+                Agregar
+      .row
+        %h6
+          Respuestas
+        %ul#answers-list
+    %br
+    = f.text_field :points, label: 'Valor de esta pregunta'
+    = f.hidden_field :quiz_id, value: @quiz.id
+    = link_to 'Cancelar', @quiz, class: 'btn btn-danger'
+    = f.submit 'Aceptar'
+
+:javascript
+  $(document).on('turbolinks:load', function(){
+    setAnswersOptions();
+    var questionType = $('#quiz_question_question_type').val();
+
+    $('#addAnswer').click(function(){
+      var option = $('#answer-option').val();
+      if(!option || /^\s*$/.test(option)){
+        return true;
+      }
+
+      $('#answers-list').append(getOptionElement(option));
+      $('#answer-option').val('');
+      formatTextArea();
+    });
+
+    function setAnswersOptions() {
+      var answers = $('#quiz_question_answer_options').val().split('\n');
+      $('#answers-list').html('')
+      $.each(answers, function(key, answer){
+        if(!(!answer || /^\s*$/.test(answer))){
+          $('#answers-list').append(getOptionElement(answer));
+        }
+      });
+    }
+    
+    function getOptionElement(answer){
+      return $('<li>')
+            .append(answer)
+            .attr('class', 'answer-option')
+            .append(
+              $('<a>')
+              .attr('href', 'javascript:void(0)').append(
+                $('<span>').attr('class', 'glyphicon glyphicon-remove')
+              )
+              .click(function(){
+                $(this).parent().remove();
+                formatTextArea();
+              })
+            )
+    }
+
+    function formatTextArea(){
+      var answers = [];
+      $.each($('.answer-option'), function(key, element){
+        answers.push(element.textContent)
+      });
+      $('#question_answer_options').val(answers.join('\n'));
+    }
+  });

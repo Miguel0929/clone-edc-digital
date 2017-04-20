@@ -26,6 +26,10 @@ Rails.application.routes.draw do
       post :clone
     end
   end
+  
+  resources :quizzes do
+    resources :quiz_questions
+  end
 
   resources :chapters, only: [] do
     resources :lessons, except: [:index] do
