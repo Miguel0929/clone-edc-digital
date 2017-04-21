@@ -20,7 +20,7 @@
 
         = f.submit 'Filtrar'
 
-      %table.table.table-hover.datatable
+      %table.table.table-hover
         %thead
           %tr
             %th
@@ -41,6 +41,8 @@
               Porcentaje de avance
             %th
               Total de comentarios
+            %th
+              Cursos inscritos
             %th
         %tbody
           - @users.each do |user|
@@ -65,4 +67,19 @@
                 %td
                   = user.comments_count
                 %td
+                  .btn-group
+                    %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+                      Programas
+                      %span.caret
+                    - unless user.group.nil?
+                      %ul.dropdown-menu
+                        - user.group.programs.each do |program|
+                          %li{style: "padding:5px;"}
+                            #{program.name}. Contestado: #{user.percentage_questions_answered_for(program)}%
+                          %li.divider{role: 'separator'}
+                %td
                   = link_to 'Ver detalle', mentor_student_path(user)
+      .pull-right
+        = paginate @users
+        %br
+        %span.text-center= page_entries_info @users

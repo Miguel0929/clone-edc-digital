@@ -6,7 +6,7 @@ class Mentor::GroupsController < ApplicationController
 
   def index
     add_breadcrumb "<a class='active' href='#{mentor_groups_path}'>Grupos</a>".html_safe
-    @groups = current_user.groups.includes(:programs, :users)
+    @groups = current_user.groups.includes(:programs, :users).page(params[:page]).per(10)
   end
 
   def show
