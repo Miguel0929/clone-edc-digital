@@ -12,10 +12,11 @@
 .number-inside-bubble {
   position: relative;
   top: -7px;
-  left: 5px;
+  left: 2px;
   font-size: 9px;
   font-weight: normal;
   font-family: Verdana;
+  text-align: center;
  }
 
 .icon-set-2 {

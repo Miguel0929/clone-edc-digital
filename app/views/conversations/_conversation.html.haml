@@ -1,7 +1,7 @@
 - if status 
 	.media{class: "#{conversation.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read ? 'default-leido' : 'default-no-leido' }"}
 		.media-left
-			%a{href: conversation_path(conversation)}
+			%a{href: conversation_path(conversation)+"#last"}
 				- if conversation.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read
 					%img.leida{src: image_path('mail-leido.png'), :alt => "..."}
 				-else 
