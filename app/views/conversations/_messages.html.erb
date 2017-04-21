@@ -1,5 +1,5 @@
 
-<% @receipts.reverse_each do |receipt| %>
+<% @receipts.each do |receipt| %>
 	<% message= receipt.message %>
 	<% if message.sender.id != current_user.id%>
 	<div class="media">
@@ -9,25 +9,33 @@
 			</a>
 		</div>
 
-		<div class="media-body alert alert-warning">
-			<b><%= message.sender.name %>:</b><br>
-			<%= message.body.html_safe %> <br>
-			<%= message.created_at.strftime("%b %d, %Y at %I:%M%p") %>
-			<% if message.attachment.length > 0 %>
-				<%= link_to "Descargar", "#{message.attachment}", html_options ={download: message.attachment} %>
-			<%end%>
+		<div class="media-body alert alert-warning" id="<%= if message.id == @receipts.last.message.id then 'last' else '' end%>">
+			<strong><%= message.sender.name %>:</strong><br>
+			<div><%= message.body.html_safe %> 
+				<% if message.attachment.length > 0 %>
+					<%= link_to "#{message.attachment}", html_options ={download: message.attachment} do %>
+						<i class="glyphicon glyphicon-paperclip"></i>
+					<%end%>
+				<%end%>
+			</div>
+			<br>
+			<%= distance_of_time_in_words(message.created_at.to_i, Time.now.to_i) %>
 		</div>	
 	</div>
 	<%else%>
 	<div class="media">
-		<div class="media-body alert alert-info">
+		<div class="media-body alert alert-info"  id="<%= if message.id == @receipts.last.message.id then 'last' else '' end%>">
 			<div class="pull-right">
-				<b  class="pull-right"><%= message.sender.name %>:</b><br>
-				<%= message.body.html_safe %><br>
-				<%= message.created_at.strftime("%b %d, %Y at %I:%M%p") %>
-				<% if message.attachment.length > 0 %>
-					<%= link_to "Descargar", "#{message.attachment}", html_options ={download: message.attachment} %>
-				<%end%>
+				<strong  class="pull-right"><%= message.sender.name %>:</strong><br>
+				<div class="pull-right"><%= message.body.html_safe %>
+					<% if message.attachment.length > 0 %>
+						<%= link_to "#{message.attachment}", html_options ={download: message.attachment} do %>
+							<i class="glyphicon glyphicon-paperclip"></i>
+						<%end%>
+					<%end%>
+				</div>
+				<br>
+				<div class="pull-right"><%= distance_of_time_in_words(message.created_at.to_i, Time.now.to_i) %></div>
 			</div>	
 		</div>
 		<div class="media-right">
@@ -38,3 +46,6 @@
 	</div>
 	<%end%>	
 <%end%>
+<script type="text/javascript">
+	
+</script>

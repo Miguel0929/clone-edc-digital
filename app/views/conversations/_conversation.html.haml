@@ -1,7 +1,7 @@
 - if status 
 	.media{style: "#{conversation.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read ? 'margin-top:-19px;margin-bottom:-19px;margin-left:-20px;margin-right:-20px;' : 'background-color:#EAF2F8; margin-top:-19px;margin-bottom:-19px;margin-left:-20px;margin-right:-20px;' }"}
 		.media-left
-			%a{href: conversation_path(conversation)}
+			%a{href: conversation_path(conversation)+"#last"}
 				- if conversation.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read
 					%img.madia-object{src: image_path('mail-open-outline.png'), :alt => "...", style:"padding:10px;", width: "64px", heigth:"64px"}
 				-else 

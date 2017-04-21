@@ -139,6 +139,10 @@ class User < ActiveRecord::Base
     notifications.where(read: false).count > 0
   end
 
+  def notifications_count
+    return notifications.where(read: false).count 
+  end
+
   def content_visted_for(program)
     trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id = ?", program.id).count
   end

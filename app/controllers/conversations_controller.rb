@@ -17,7 +17,7 @@ class ConversationsController < ApplicationController
     end  
   end
   def show
-    @receipts= conversation.receipts_for(current_user)
+    @receipts= conversation.receipts_for(current_user).order(:created_at)
     conversation.mark_as_read(current_user)
   end
   def create
