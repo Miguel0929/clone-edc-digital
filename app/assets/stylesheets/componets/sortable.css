@@ -9,3 +9,7 @@
   color: #777;
   cursor: move;
 }
+
+.normal-weight {
+	font-weight: normal;
+}
