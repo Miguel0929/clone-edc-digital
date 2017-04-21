@@ -19,6 +19,7 @@
             = f.select :visited, options_for_select(OptionsRange.percentages), {include_blank: true, label: 'Porcentaje visto' }
 
         = f.submit 'Filtrar'
+        = link_to "Exportar a excel", exports_mentor_students_path(format: :xlsx), class: "btn btn-success"
 
       %table.table.table-hover
         %thead

@@ -54,6 +54,13 @@ class Mentor::StudentsController < ApplicationController
     .order(created_at: :desc)
   end
 
+  def exports
+    @users = User.students_table.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id')) 
+    respond_to do |format|
+      format.xlsx{response.headers['Content-Disposition']='attachment; filename="Lista de alumnos.xlsx"'} 
+    end
+  end
+
   private
   def percentage_condition(percentage, count)
     case count
