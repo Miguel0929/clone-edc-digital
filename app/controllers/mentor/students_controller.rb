@@ -8,6 +8,7 @@ class Mentor::StudentsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{mentor_students_path}'>Estudiantes</a>".html_safe
 
     @users = User.students_table.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
+      .page(params[:page]).per(100)
 
     if params[:state].present?
       case params[:state]
