@@ -113,6 +113,9 @@ Rails.application.routes.draw do
     resources :evaluations, only: [:index, :show, :update]
     resources :students, only: [:index, :show] do
       resources :shared_attachments
+      collection do
+        get :exports
+      end
     end
     resources :comments, only: [:index, :create, :update] do
       collection do
