@@ -11,7 +11,8 @@
 
 		<div class="media-body alert alert-warning">
 			<b><%= message.sender.name %>:</b><br>
-			<%= message.body.html_safe %>
+			<%= message.body.html_safe %> <br>
+			<%= message.created_at.strftime("%b %d, %Y at %I:%M%p") %>
 			<% if message.attachment.length > 0 %>
 				<%= link_to "Descargar", "#{message.attachment}", html_options ={download: message.attachment} %>
 			<%end%>
@@ -23,6 +24,7 @@
 			<div class="pull-right">
 				<b  class="pull-right"><%= message.sender.name %>:</b><br>
 				<%= message.body.html_safe %><br>
+				<%= message.created_at.strftime("%b %d, %Y at %I:%M%p") %>
 				<% if message.attachment.length > 0 %>
 					<%= link_to "Descargar", "#{message.attachment}", html_options ={download: message.attachment} %>
 				<%end%>

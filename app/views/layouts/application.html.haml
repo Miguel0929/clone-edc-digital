@@ -44,6 +44,7 @@
 
           = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: ['m-t-30'], icon: 'fa fa-users', role: [:mentor]})
           = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
+          = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:admin]}) 
 
 
           - if current_user.mentor?
@@ -60,6 +61,7 @@
                   %a{:href => news_mentor_comments_path } Nuevos
                 %li
                   %a{:href => archived_mentor_comments_path } Archivados
+              = display_navbar_link({css: ['m-t-30'], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]}) 
 
           - if current_user.student?
             = display_navbar_link({css: ['m-t-30'], link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})
@@ -88,6 +90,7 @@
                   = link_to destroy_user_session_path, method: :delete do
                     Cerrar sesión
                   %span.icon-thumbnail Cs
+            = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:student]})      
         .clearfix
     .page-container
       .header
@@ -125,11 +128,9 @@
             %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-l.b-r.no-style.p-l-30.p-r-20
               %li.p-r-15.inline
                 .dropdown
-                  %a#notification-center.fa.fa-comment-o{"data-toggle" => "dropdown", :href => "javascript:;"}
+                  %a#notification-center.icon-set-2.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
                     -  if  unread_messages_count > 0
                       %span.bubble
-
-
                   .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
                     .notification-panel
                       .notification-body.scrollable

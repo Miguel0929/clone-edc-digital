@@ -1,35 +1,35 @@
-- if status
-	.media{style: "#{conversation.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read ? 'background-color:rgb(153, 204, 255);' : '' }"}
+- if status 
+	.media{style: "#{conversation.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read ? 'margin-top:-19px;margin-bottom:-19px;margin-left:-20px;margin-right:-20px;' : 'background-color:#EAF2F8; margin-top:-19px;margin-bottom:-19px;margin-left:-20px;margin-right:-20px;' }"}
 		.media-left
-			%a
-				%img.madia-object{src: "http://placehold.it/64x64", :alt => "..."} 
+			%a{href: conversation_path(conversation)}
+				- if conversation.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read
+					%img.madia-object{src: image_path('mail-open-outline.png'), :alt => "...", style:"padding:10px;", width: "64px", heigth:"64px"}
+				-else 
+					%img.madia-object{src: image_path('mail.png'), :alt => "...", style:"padding:10px;", width: "64px", heigth:"64px"}	 
 		.media-body
-			%strong 
-				= conversation.originator.name  
-			%strong 
-				Asunto: 
-				= conversation.subject  
-			%strong Fecha: 
-			=conversation.messages.last.created_at.strftime("%b %d, %Y at %I:%M%p") 
-			%br
-			=conversation.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read
-			.pull-right
-				= truncate strip_tags(conversation.messages.last.body), length: 145 
-				= link_to "Ver", conversation_path(conversation) 
+			%p{style:"color:#4965a0;font-weight:bold;margin-top:2.5%; display:inline-block;"}
+				= link_to conversation.originator.name, conversation_path(conversation)
+			%p{style:"color:#616161; font-size:14px;display:inline-block; text-align:center; margin-left:5%;"}
+				= conversation.subject 
+			%small{style:"float:right;color:#616161;margin-top:2%;padding:5px;margin-right:3%;"} 
+				=conversation.messages.last.created_at.strftime("%b %d, %Y at %I:%M%p")
+			%br 	
+			.p{style:"padding:5px;"}
+				= truncate strip_tags(conversation.messages.last.body), length: 60 
+	%hr{style:"border-color:#ccc;border-width:thin; width:106%;margin-left:-3%;"}
 - else
-	.media
+	.media{style: "margin-top:-19px;margin-bottom:-19px;margin-left:-20px;margin-right:-20px;"}
 		.media-left
-			%a
-				%img.madia-object{src: "http://placehold.it/64x64", :alt => "..."} 
+			%a{href: conversation_path(conversation)}
+				%img.madia-object{src: image_path('mail.png'), :alt => "...", style:"padding:10px;", width: "64px", heigth:"64px"}
 		.media-body
-			%strong 
-				= conversation.originator.name  
-			%strong 
-				Asunto: 
-				= conversation.subject  
-			%strong Fecha: 
-			=conversation.messages.last.created_at.strftime("%b %d, %Y at %I:%M%p") 
-			%br
-			.pull-right
-				= truncate strip_tags(conversation.messages.last.body), length: 145 
-				= link_to "Ver", conversation_path(conversation) 
+			%p{style:"color:#4965a0;font-weight:bold;margin-top:2.5%; display:inline-block;"}
+				= link_to conversation.originator.name, conversation_path(conversation)
+			%p{style:"color:#616161; font-size:14px;display:inline-block; text-align:center; margin-left:5%;"}
+				= conversation.subject 
+			%small{style:"float:right;color:#616161;margin-top:2%;padding:5px;margin-right:3%;"} 
+				=conversation.messages.last.created_at.strftime("%b %d, %Y at %I:%M%p")
+			%br 	
+			.p{style:"padding:5px;"}
+				= truncate strip_tags(conversation.messages.last.body), length: 60 
+	%hr{style:"border-color:#ccc;border-width:thin; width:106%;margin-left:-3%;"}

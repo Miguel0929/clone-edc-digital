@@ -7,7 +7,7 @@
 		= f.text_field :subject, class: "form-control", required: true 
 	.form-group
 		= f.label :mensaje 
-		= f.text_area :body, class: "form-control ckeditor", placeholder: "Escribe tu mensaje aqui", rows:4, required: true
+		= f.text_area :body, class: "form-control editable", placeholder: "Escribe tu mensaje aquí", rows:4, style: "height:90px; background-color:white;" 
 	.form-group
 		= f.label :adjuntar
 		= f.file_field :attachment  

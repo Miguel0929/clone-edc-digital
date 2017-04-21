@@ -16,4 +16,22 @@ function validar() {
         	alert("Please upgrade your browser, because your current browser lacks some new features we need!");
     	}
 	};
+$('.editable').each(function() {
+    var $this = $(this);
+    var styles = $this.attr('style');
+    if (typeof styles != 'undefined') {
+        styles = ' style="' + styles + '"';
+    }
+
+    $this.wrap('<div class="editable-wrapper"/>');
+    var $w = $(this).parent();
+    $w.prepend('<div class="editable" ' + styles + ' data-placeholder="'+$this.attr('placeholder')+'">' + $this.val()+'</div>');
+    $this.hide();
+    var editor = new MediumEditor('.editable-wrapper',{toolbar:false,placeholder:{text:"Escribe tu mensaje aqui"}});
+});
+$('form').submit(function(){
+    $('.editable-wrapper').each(function(){
+        $(this).find('textarea').val($(this).find('.editable').html());
+    });
+});    
 </script>
