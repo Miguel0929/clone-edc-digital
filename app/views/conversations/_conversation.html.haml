@@ -1,35 +1,35 @@
 - if status 
-	.media{style: "#{conversation.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read ? 'margin-top:-19px;margin-bottom:-19px;margin-left:-20px;margin-right:-20px;' : 'background-color:#EAF2F8; margin-top:-19px;margin-bottom:-19px;margin-left:-20px;margin-right:-20px;' }"}
+	.media{class: "#{conversation.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read ? 'default-leido' : 'default-no-leido' }"}
 		.media-left
 			%a{href: conversation_path(conversation)}
 				- if conversation.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read
-					%img.madia-object{src: image_path('mail-open-outline.png'), :alt => "...", style:"padding:10px;", width: "64px", heigth:"64px"}
+					%img.leida{src: image_path('mail-leido.png'), :alt => "..."}
 				-else 
-					%img.madia-object{src: image_path('mail.png'), :alt => "...", style:"padding:10px;", width: "64px", heigth:"64px"}	 
+					%img.leida{src: image_path('mail-no-leido.png'), :alt => "..."}	 
 		.media-body
-			%p{style:"color:#4965a0;font-weight:bold;margin-top:2.5%; display:inline-block;"}
+			%p.name
 				= link_to conversation.originator.name, conversation_path(conversation)
-			%p{style:"color:#616161; font-size:14px;display:inline-block; text-align:center; margin-left:5%;"}
+			%small.asunto ASUNTO:
+			%p.text-asunto
 				= conversation.subject 
-			%small{style:"float:right;color:#616161;margin-top:2%;padding:5px;margin-right:3%;"} 
+			%small.fecha 
 				=conversation.messages.last.created_at.strftime("%b %d, %Y at %I:%M%p")
 			%br 	
-			.p{style:"padding:5px;"}
+			.p.mensaje
 				= truncate strip_tags(conversation.messages.last.body), length: 60 
-	%hr{style:"border-color:#ccc;border-width:thin; width:106%;margin-left:-3%;"}
 - else
-	.media{style: "margin-top:-19px;margin-bottom:-19px;margin-left:-20px;margin-right:-20px;"}
+	.media.default-leido
 		.media-left
 			%a{href: conversation_path(conversation)}
-				%img.madia-object{src: image_path('mail.png'), :alt => "...", style:"padding:10px;", width: "64px", heigth:"64px"}
+				%img.leida{src: image_path('mail-leido.png'), :alt => "..."} 
 		.media-body
-			%p{style:"color:#4965a0;font-weight:bold;margin-top:2.5%; display:inline-block;"}
+			%p.name
 				= link_to conversation.originator.name, conversation_path(conversation)
-			%p{style:"color:#616161; font-size:14px;display:inline-block; text-align:center; margin-left:5%;"}
+			%small.asunto ASUNTO:
+			%p.text-asunto
 				= conversation.subject 
-			%small{style:"float:right;color:#616161;margin-top:2%;padding:5px;margin-right:3%;"} 
+			%small.fecha 
 				=conversation.messages.last.created_at.strftime("%b %d, %Y at %I:%M%p")
 			%br 	
-			.p{style:"padding:5px;"}
+			.p.mensaje
 				= truncate strip_tags(conversation.messages.last.body), length: 60 
-	%hr{style:"border-color:#ccc;border-width:thin; width:106%;margin-left:-3%;"}
