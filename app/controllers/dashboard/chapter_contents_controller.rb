@@ -19,7 +19,7 @@ class Dashboard::ChapterContentsController < ApplicationController
     elsif params[:urgency] == 'none' || params[:matter] == 'none'
       flash_message = { alert: 'ERROR: Recuerda seleccionar nivel de urgencia y clasificación.'}
     else
-      @recipients = [{adress: 'soporte-edcdigital@distritoemprendedor.com', type: 'soporte'}, {adress: current_user.email, type: 'usuario'}]
+      @recipients = [{adress: 'soporte@edc-digital.com', type: 'soporte'}, {adress: current_user.email, type: 'usuario'}]
       @recipients.each do |recipient, index|
         if recipient[:type] == 'soporte'
           subject = "Solicitud de soporte EDC-Digital: " + params[:raw_subject]
