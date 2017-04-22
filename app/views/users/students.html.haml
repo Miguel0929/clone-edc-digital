@@ -3,7 +3,6 @@
     .panel-heading
       .pull-right
         .col-xs-12
-          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       .clearfix
     .panel-body
       - if current_user.admin?
@@ -15,8 +14,9 @@
               = f.select :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: true, label: 'Grupo' }
 
           = f.submit 'Filtrar'
+          = link_to 'Exortar excel', exports_users_path(format: :xlsx), class: 'btn btn-success'
 
-      %table.table.table-hover.datatable
+      %table.table.table-hover
         %thead
           %tr
             %th
@@ -65,3 +65,7 @@
                     %li.divider
                     %li
                       = link_to 'Eliminar usuario', user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' }
+      .pull-right
+        = paginate @users
+        %br
+        = page_entries_info @users
