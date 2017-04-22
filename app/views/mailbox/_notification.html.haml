@@ -5,7 +5,8 @@
     %span.fs-12.m-l-10
      Un nuevo mensaje de 
      %strong 
-      #{item.originator.name}: "#{ strip_tags(item.messages.last.body)}", 
+      #{item.originator.name}: "#{ truncate strip_tags(item.messages.last.body), length: 15 }",
+     Asunto:  
      %strong  
       "#{item.subject}",  
     %span.pull-right.time
