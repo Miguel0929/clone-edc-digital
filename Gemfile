@@ -46,6 +46,7 @@ gem 'axlsx_rails'
 gem "intercom-rails"
 gem 'mailboxer'
 gem 'rollbar'
+gem 'sendgrid-ruby'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
