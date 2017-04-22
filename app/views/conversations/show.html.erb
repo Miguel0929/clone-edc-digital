@@ -15,17 +15,18 @@
 		</div>
 	</div>
 	<div class="col-md-8">
-		<div class="pull-right">
-			<% if conversation.is_trashed?(current_user) %>
-				<%= link_to "Restaurar", untrash_conversation_path(conversation), class: "btn btn-info", method: :post %>
-			<%else%>
-				<%= link_to "Eliminar", trash_conversation_path(conversation), class: "btn btn-danger", method: :post, data: {confirm: "Estas Seguro?"} %>			
-			<%end%>
-		</div>
-		<br>
 		<br>	
 		<div class="spacer"></div>
 		<div class="panel panel-default">
+			<div class="pull-right eliminar">
+				<% if conversation.is_trashed?(current_user) %>
+				<%= link_to "Restaurar", untrash_conversation_path(conversation), class: "btn btn-info", method: :post %>
+				<%else%>
+				<%= link_to trash_conversation_path(conversation) , class: "e-conversacion", title: "Eliminar esta conversación", method: :post, data: {confirm: "Estas Seguro?"} do %>
+				<i class="glyphicon glyphicon-trash"></i>
+				<%end%>			
+				<%end%>
+			</div>
 			<center>
 				<h5><b>Asunto: </b><%=@receipts.first.message.subject%></h5>
 			</center>
@@ -35,11 +36,12 @@
 			<div class="panel-footer">
 				<%= form_for :message, url: reply_conversation_path(conversation), :html => { :onsubmit => "return validar()" } do |f|%>
 					<div class="form_group">
-						<%= f.text_area :body, placeholder: "  Responder mensaje", rows: 4, class: "form_control col-md-12 editable", style: "height:90px; background-color:white;" %>
+						<%= f.text_area :body, placeholder: "  Responder mensaje", rows: 4, class: "form_control  editable", class: "t-a"  %>
 					<div>
-					<div class="form_group">
-						<%= f.label :adjuntar %>
-						<%= f.file_field :attachment %>
+					<div class="form_group adjuntar">
+						<%= f.file_field :attachment do%>
+							<i class="glyphicon glyphicon-paperclip"></i>
+						<% end %>
 					</div>		
 					<%= f.submit "Responder", class: "btn-danger btn pull-right", id:"i_submit"%>
 				<%end%>
