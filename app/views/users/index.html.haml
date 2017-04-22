@@ -3,7 +3,6 @@
     .panel-heading
       .pull-right
         .col-xs-12
-          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       .clearfix
     .panel-body
       - if current_user.admin?
@@ -20,7 +19,7 @@
               = f.select :visited, options_for_select(OptionsRange.percentages), {include_blank: true, label: 'Porcentaje visto' }
 
           = f.submit 'Filtrar'
-          = link_to "Exportar Excel", users_path(format: :xls, state: params[:state], group: params[:group]), { target: '_blank', class: 'btn btn-default'}
+          = link_to 'Exortar excel', exports_users_path(format: :xlsx), class: 'btn btn-success'
 
       %table.table.table-hover
         %thead
