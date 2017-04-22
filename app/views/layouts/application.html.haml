@@ -71,6 +71,28 @@
             = display_navbar_link({css: [''], link: 'Mis archivos', details: 'Archivos digitales' ,path: dashboard_attachments_path, icon: 'fa fa-file', role: [:student]})
 
             %li
+              %a.detailed.redirector{:href => dashboard_pathway_path }
+                %span.title Mi ruta
+                %span.details Ruta de emprendimiento
+              %span.icon-thumbnail
+                %i.fa.fa-map-o
+
+            %li
+              %a.detailed.redirector{:href => dashboard_support_path}
+                %span.title Ayuda de mentores
+                %span.details Solicita apoyo de mentores
+              %span.icon-thumbnail
+                %i.fa.fa-info-circle
+            = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:student]})      
+            
+            %li
+              %a.detailed{:href => "https://www.edc-megatendencias.com/", :target => "_blank" }
+                %span.title EDC Megatendencias
+                %span.details Ir a EDC Megatendencias
+              %span.icon-thumbnail
+                %i.fa.fa-line-chart
+
+            %li
               %a.detailed.redirector{:href => dashboard_about_path }
                 %span.title Acerca de
                 %span.details ¿Qué es EDCdigital?
@@ -94,28 +116,6 @@
                   = link_to destroy_user_session_path, method: :delete do
                     Cerrar sesión
                   %span.icon-thumbnail Cs
-
-            %li
-              %a.detailed{:href => "https://www.edc-megatendencias.com/", :target => "_blank" }
-                %span.title EDC Megatendencias
-                %span.details Ir a EDC Megatendencias
-              %span.icon-thumbnail
-                %i.fa.fa-line-chart
-
-            %li
-              %a.detailed.redirector{:href => dashboard_pathway_path }
-                %span.title Mi ruta
-                %span.details Ruta de emprendimiento
-              %span.icon-thumbnail
-                %i.fa.fa-map-o
-
-            %li
-              %a.detailed.redirector{:href => dashboard_support_path}
-                %span.title Ayuda de mentores
-                %span.details Solicita apoyo de mentores
-              %span.icon-thumbnail
-                %i.fa.fa-info-circle
-            = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:student]})      
 
         .clearfix
     .page-container
