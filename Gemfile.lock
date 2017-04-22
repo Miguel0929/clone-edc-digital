@@ -307,6 +307,8 @@ GEM
       activesupport (>= 3.1.0)
       rack (>= 1.4.0)
       rest-client
+    medium-editor-rails (2.3.1)
+      railties (>= 3.0)
     method_source (0.8.2)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
@@ -507,6 +509,7 @@ DEPENDENCIES
   kaminari
   mailboxer
   mailjet
+  medium-editor-rails
   mini_magick
   modernizr-rails
   non-stupid-digest-assets

@@ -1,0 +1,40 @@
+.header .bubble {
+  border-radius: 30%;
+  height: 14px;
+  width: 20px;
+  background-color: rgba(226, 32, 91, 0.85);
+  color: #fff;
+  position: relative;
+  top: -6px;
+  float: right;
+  right: -10px;
+}
+.number-inside-bubble {
+  position: relative;
+  top: -7px;
+  left: 2px;
+  font-size: 9px;
+  font-weight: normal;
+  font-family: Verdana;
+  text-align: center;
+ }
+
+.icon-set-2 {
+  background: url('icons/top_tray_2x-2.png') no-repeat;
+  position: relative;
+  display: block;
+  background-size: 95px 19px;
+}
+	
+.icon-set-2.globe-fill {
+  background-position: -1px -1px;
+  width: 17px;
+  height: 17px;
+  top: 2px;
+}
+
+|.icon-set-2 {
+    background: url('icons/top_tray_2x-2.png') no-repeat;
+    position: relative;
+    background-size: 95px 19px;
+}
