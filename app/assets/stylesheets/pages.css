@@ -33,7 +33,7 @@
   top: 2px;
 }
 
-|.icon-set-2 {
+.icon-set-2 {
     background: url('icons/top_tray_2x-2.png') no-repeat;
     position: relative;
     background-size: 95px 19px;
