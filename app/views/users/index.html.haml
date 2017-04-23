@@ -79,7 +79,7 @@
                     %ul.dropdown-menu
                       - user.group.programs.each do |program|
                         %li{style: "padding:5px;"}
-                          #{program.name}. Contestado: #{user.percentage_questions_answered_for(program)}%
+                          #{program.name}. Contestado: #{user.percentage_questions_answered_for(program)}% Visto: #{user.percentage_content_visited_for(program)}%
                         %li.divider{role: 'separator'}
               %td
                 .btn-group
