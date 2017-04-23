@@ -46,7 +46,11 @@
 
           = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: ['m-t-30'], icon: 'fa fa-users', role: [:mentor]})
           = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
+<<<<<<< HEAD
           = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: mentor_shared_group_attachments_path, icon: 'fa fa-file', role: [:mentor]})
+=======
+          = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:admin]}) 
+>>>>>>> feature/inbox
 
 
           - if current_user.mentor?
@@ -63,6 +67,7 @@
                   %a{:href => news_mentor_comments_path } Nuevos
                 %li
                   %a{:href => archived_mentor_comments_path } Archivados
+              = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]}) 
 
           - if current_user.student?
             = display_navbar_link({css: ['m-t-30'], link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})
@@ -92,6 +97,7 @@
                   = link_to destroy_user_session_path, method: :delete do
                     Cerrar sesión
                   %span.icon-thumbnail Cs
+<<<<<<< HEAD
 
             %li
               %a.detailed.redirector{:href => dashboard_support_path}
@@ -99,6 +105,9 @@
                 %span.details Contactános
               %span.icon-thumbnail
                 %i.fa.fa-info-circle
+=======
+            = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:student]})      
+>>>>>>> feature/inbox
         .clearfix
     .page-container
       .header
@@ -123,7 +132,11 @@
                   %a#notification-center.icon-set.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
                     - if current_user.has_notifications?
                       %span.bubble
-
+                        %span.number-inside-bubble
+                          - if current_user.notifications_count > 20
+                            +20
+                          - else
+                            = current_user.notifications_count
 
                   .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
                     .notification-panel
@@ -133,14 +146,17 @@
                         %a{:href => dashboard_notifications_path} Ver todas las notificaciones
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
                           %i.pg-refresh_new
-            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-l.b-r.no-style.p-l-30.p-r-20
+            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-30.p-r-20
               %li.p-r-15.inline
                 .dropdown
-                  %a#notification-center.fa.fa-comment-o{"data-toggle" => "dropdown", :href => "javascript:;"}
+                  %a#notification-center.icon-set-2.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
                     -  if  unread_messages_count > 0
                       %span.bubble
-
-
+                        %span.number-inside-bubble
+                          - if unread_messages_count > 20 
+                            +20
+                          - else
+                            = unread_messages_count  
                   .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
                     .notification-panel
                       .notification-body.scrollable

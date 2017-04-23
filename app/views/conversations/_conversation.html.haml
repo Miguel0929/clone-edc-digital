@@ -1,0 +1,35 @@
+- if status 
+	.media{class: "#{conversation.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read ? 'default-leido' : 'default-no-leido' }"}
+		.media-left
+			%a{href: conversation_path(conversation)+"#last"}
+				- if conversation.receipts.where(mailbox_type: 'inbox',receiver_id: current_user.id).last.is_read
+					%img.leida{src: image_path('mail-leido.png'), :alt => "..."}
+				-else 
+					%img.leida{src: image_path('mail-no-leido.png'), :alt => "..."}	 
+		.media-body
+			%p.name
+				= link_to conversation.originator.name, conversation_path(conversation)
+			%small.asunto ASUNTO:
+			%p.text-asunto
+				= conversation.subject 
+			%small.fecha 
+				=conversation.messages.last.created_at.strftime("%b %d, %Y at %I:%M%p")
+			%br 	
+			.p.mensaje
+				= truncate strip_tags(conversation.messages.last.body), length: 60 
+- else
+	.media.default-leido
+		.media-left
+			%a{href: conversation_path(conversation)}
+				%img.leida{src: image_path('mail-leido.png'), :alt => "..."} 
+		.media-body
+			%p.name
+				= link_to conversation.originator.name, conversation_path(conversation)
+			%small.asunto ASUNTO:
+			%p.text-asunto
+				= conversation.subject 
+			%small.fecha 
+				=conversation.messages.last.created_at.strftime("%b %d, %Y at %I:%M%p")
+			%br 	
+			.p.mensaje
+				= truncate strip_tags(conversation.messages.last.body), length: 60 
