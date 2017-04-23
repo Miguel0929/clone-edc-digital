@@ -14,4 +14,5 @@ class MailboxController < ApplicationController
     @trash = mailbox.trash.page(params[:page]).per(20)
     @active = :trash
   end
+
 end

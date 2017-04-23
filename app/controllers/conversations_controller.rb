@@ -17,18 +17,25 @@ class ConversationsController < ApplicationController
     end  
   end
   def show
-    @receipts= conversation.receipts_for(current_user)
+    @receipts= conversation.receipts_for(current_user).order(:created_at)
     conversation.mark_as_read(current_user)
   end
   def create
     recipients=User.where(id: conversation_params[:recipients])
-    conversation=current_user.send_message(recipients,conversation_params[:body],conversation_params[:subject]).conversation
-    p "aqui"
+    if conversation_params[:attachment].nil?
+      conversation=current_user.send_message(recipients,conversation_params[:body],conversation_params[:subject]).conversation
+    else
+      conversation=current_user.send_message(recipients,conversation_params[:body],conversation_params[:subject],true, conversation_params[:attachment].open).conversation
+    end  
     flash[:success] = "Tu mensaje a sido enviado!"
     redirect_to conversation_path(conversation)
   end
   def reply
-    current_user.reply_to_conversation(conversation,message_params[:body])
+    if message_params[:attachment].nil?
+      current_user.reply_to_conversation(conversation,message_params[:body])
+    else
+      current_user.reply_to_conversation(conversation,message_params[:body],"",true,true, message_params[:attachment].open)
+    end  
     flash[:notice]="Your reply message was succesfully"
     redirect_to conversation_path(conversation)
   end 
@@ -46,10 +53,10 @@ class ConversationsController < ApplicationController
   private
 
   def conversation_params
-    params.require(:conversation).permit(:subject, :body, :recipients)
+    params.require(:conversation).permit(:subject, :body, :attachment, :recipients)
   end 
 
   def message_params
-    params.require(:message).permit(:subject,:body)
+    params.require(:message).permit(:subject,:body, :attachment)
   end 
 end
