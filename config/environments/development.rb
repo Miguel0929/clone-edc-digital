@@ -48,7 +48,7 @@ Rails.application.configure do
     :port           => 587,
     :authentication => :plain,
     :user_name      => 'apikey',
-    :password       => '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',
+    :password       => ENV['SENDGRID_API_KEY'],
     :domain         => 'gmail.com',
     :enable_starttls_auto => true
   }
