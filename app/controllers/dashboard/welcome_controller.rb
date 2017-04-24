@@ -38,11 +38,11 @@ class Dashboard::WelcomeController < ApplicationController
       @recipients.each do |recipient, index|
         if recipient[:type] == 'soporte'
           subject = "Solicitud de soporte EDC-Digital: " + params[:raw_subject]
-          Support.contact(subject, params[:raw_subject], params[:message], params[:urgency], params[:matter], current_user, chapter, params[:signature], recipient[:adress]).deliver_now
+          Support.contact(subject, params[:message], params[:urgency], params[:matter], current_user, chapter, params[:signature], recipient[:adress]).deliver_now
           flash_message = { notice: 'Su mensaje ha sido enviado.'}
         else
           subject = "Recibimos tu mensaje: " + params[:raw_subject]
-          Support.notify(subject, params[:raw_subject], params[:message], params[:urgency], params[:matter], current_user, chapter, params[:signature], recipient[:adress]).deliver_now
+          Support.notify(subject, params[:message], params[:urgency], params[:matter], current_user, chapter, params[:signature], recipient[:adress]).deliver_now
           flash_message = { notice: 'Su mensaje ha sido enviado.'}
         end
       end
