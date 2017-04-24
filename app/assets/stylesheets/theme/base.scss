@@ -1203,6 +1203,12 @@ body.rtl [class*="col-"] {
   position: relative;
   display: block;
 }
+.icon-set-2 {
+  background: image-url('icons/top_tray_2x-2.png') no-repeat;
+  position: relative;
+  display: block;
+  background-size: 95px 19px;
+}
 .icon-set.globe-fill {
   background-position: -1px -1px;
   width: 17px;
