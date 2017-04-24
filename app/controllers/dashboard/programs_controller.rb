@@ -13,6 +13,10 @@ class Dashboard::ProgramsController < ApplicationController
 
     add_breadcrumb "Programas", :dashboard_programs_path
     add_breadcrumb "<a class='active' href='#{dashboard_program_path @program}'>#{@program.name}</a>".html_safe
+    respond_to do |format|
+      format.html
+      format.xlsx{response.headers['Content-Disposition']='attachment; filename="mis_respuestas_#{@program.name}.xlsx"'}
+    end
   end
 
   def resume
