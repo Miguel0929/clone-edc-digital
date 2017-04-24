@@ -58,7 +58,7 @@ class Support
       from: {
         email: FROM
       },
-      template_id: "4969519e-b843-431d-8ccd-93123332ab0c"
+      template_id: "f0d0d83d-5ece-4737-86be-56790b432c15"
     }
 
     sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
