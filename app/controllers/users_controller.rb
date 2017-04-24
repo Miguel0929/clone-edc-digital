@@ -80,8 +80,7 @@ class UsersController < ApplicationController
   end
 
   def students
-    @users = User.students.includes(:group).page(params[:page]).per(100)
-
+    @users = User.students.includes(:group)
 
     if params[:state].present?
       case params[:state]
