@@ -29,16 +29,33 @@ class DeletedUsersController < ApplicationController
   end
 
   def send_reactivation_email(template_id, email_address)
-    Mailjet::Send.create(
-      from_email: "soporte-edcdigital@distritoemprendedor.com",
-      from_name: "Soporte EDCdigital",
-      subject: "Tu cuenta de EDCdigital ha sido reactivada",
-      "Mj-TemplateID": template_id,
-      "Mj-TemplateLanguage": "true",
-      recipients: [{ 'Email'=> email_address}],
-      vars: {
-        "user_emailaddress" => email_address
-      }
-    )
+    data = {
+      personalizations: [
+        {
+          to: [ { email: email_address } ],
+          substitutions: {
+            "-user_emailaddress-"=> email_address,
+            "-confirmation_link-" => ''
+          },
+          subject: "Tu cuenta de EDCdigital ha sido reactivada"
+        },
+      ],
+      from: {
+        email: "soporte-edcdigital@distritoemprendedor.com"
+      },
+      template_id: "21fa670a-a5f8-484c-960c-00fda450a692"
+    }
+
+    sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
+    begin
+      response = sg.client.mail._("send").post(request_body: data)
+      Rails.logger.info response.status_code
+      Rails.logger.info response.body
+      Rails.logger.info response.headers
+      FakeEmail.new
+    rescue Exception => e
+      Rails.logger.info e.message
+      FakeEmail.new
+    end
   end
 end

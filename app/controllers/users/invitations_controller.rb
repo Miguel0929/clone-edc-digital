@@ -11,17 +11,33 @@ class Users::InvitationsController < Devise::InvitationsController
     end
 
     if Rails.env.production?
-      Mailjet::Send.create(
-        from_email: "hola@emprendiendodesdecero.com",
-        from_name: "Equipo EDCdigital",
-        subject: "Tu cuenta en EDCdigital ha sido creada",
-        "Mj-TemplateID": "67867",
-        "Mj-TemplateLanguage": "true",
-        recipients: [{ 'Email'=> user.email }],
-        vars: {
-          "confirmation_link" => accept_user_invitation_url(:invitation_token => user.raw_invitation_token)
-        }
-      )
+      data = {
+        personalizations: [
+          {
+            to: [ { email: user.email } ],
+            substitutions: {
+              "-confirmation_link-" => accept_user_invitation_url(:invitation_token => user.raw_invitation_token)
+            },
+            subject: "Tu cuenta en EDCdigital ha sido creada"
+          },
+        ],
+        from: {
+          email: "hola@emprendiendodesdecero.com"
+        },
+        template_id: "506fcba3-80ce-4de9-bb7f-41e1e752ce0f"
+      }
+
+      sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
+      begin
+        response = sg.client.mail._("send").post(request_body: data)
+        Rails.logger.info response.status_code
+        Rails.logger.info response.body
+        Rails.logger.info response.headers
+        FakeEmail.new
+      rescue Exception => e
+        Rails.logger.info e.message
+        FakeEmail.new
+      end
     end
 
     flash[:notice] = "Se ha enviado una invitación de nuevo usuario al correo #{user.email}"
