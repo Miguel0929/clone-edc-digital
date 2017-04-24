@@ -3,6 +3,7 @@
     .panel-heading
       .pull-right
         .col-xs-12
+          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       .clearfix
     .panel-body
       - if current_user.admin?
@@ -16,7 +17,7 @@
           = f.submit 'Filtrar'
           = link_to 'Exportar excel', exports_users_path(format: :xlsx), class: 'btn btn-success'
 
-      %table.table.table-hover
+      %table.table.table-hover.datatable
         %thead
           %tr
             %th
@@ -65,7 +66,3 @@
                     %li.divider
                     %li
                       = link_to 'Eliminar usuario', user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' }
-      .pull-right
-        = paginate @users
-        %br
-        = page_entries_info @users
