@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   def index
     add_breadcrumb "<a class='active' href='#{users_path}'>Estudiantes</a>".html_safe
 
-    @users = User.students_table
+    @users = User.students_table.page(params[:page]).per(100)
 
     if params[:state].present?
       case params[:state]
@@ -80,7 +80,8 @@ class UsersController < ApplicationController
   end
 
   def students
-    @users = User.students.includes(:group)
+    @users = User.students.includes(:group).page(params[:page]).per(100)
+
 
     if params[:state].present?
       case params[:state]
@@ -92,6 +93,13 @@ class UsersController < ApplicationController
     end
 
     @users = @users.where(group: params[:group]) if params[:group].present?
+  end
+
+  def exports
+    @users = User.students.includes(:group)
+    respond_to do |format|
+      format.xlsx{response.headers['Content-Disposition']='attachment; filename="Lista de alumnos.xlsx"'} 
+    end
   end
 
   private

@@ -1,8 +1,12 @@
-= bootstrap_form_for([:dashboard, @attachment]) do |f|
-  = f.text_field :name, label: 'Renombrar archivo'
-  = f.select :document_type, Attachment.document_type_options, label: 'Tipo de documento'
-  = f.text_field :label, label: 'Detalles / Comentarios'
-  .dropzone
-    = f.file_field :file, label: 'Archivo'
-
-  = f.submit 'Actualizar'
+.m-b-100
+  = bootstrap_form_for([:dashboard, @attachment]) do |f|
+    .m-b-20
+      = f.text_field :name, label: 'Nombre del archivo'
+    .m-b-20
+      = f.select :document_type, Attachment.document_type_options, label: 'Tipo de documento'
+    .m-b-20
+      = f.text_field :label, label: 'Detalles / Comentarios'
+    .dropzone
+      = f.file_field :file, label: 'Selecciona tu archivo'
+    .pull-right    
+      = f.submit 'Subir archivo', class: 'btn btn-lg btn-success'

@@ -140,7 +140,7 @@
                                       / <![endif]
                                       Hola, hemos recibido tu mensaje:
                                       %em
-                                        "#{@subject}".
+                                        "#{@raw_subject}".
                                       %br/
                                       Estamos por atenderlo. Te pedimos te mantengas al tanto de tu correo y de la plataforma EDCdigital para tener retroalimentación cuanto antes.
                                     %br/
@@ -168,6 +168,8 @@
                                     %span{:style => "font-family: 'proxima_nova_rgregular', Helvetica; font-weight: normal;"}
                                       %br/
                                       Estamos para servirte, que tengas un excelente día.
+                                      %br/
+                                      = image_tag attachments['firmacool.png'].url, alt: 'Firma EDCdigital', width:"216", height:"96"
                                       %br/
                                       %strong
                                         Equipo Emprendiendo desde Cero

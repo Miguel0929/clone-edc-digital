@@ -55,6 +55,7 @@ Rails.application.routes.draw do
     get 'ayuda',                  to: 'welcome#support', as: :support
     post 'send_support_email',    to: 'welcome#send_support_email'
     get 'confidencialidad-y-propiedad-industrial', to: 'welcome#service', as: :service
+    get 'ruta',                   to: 'welcome#pathway', as: :pathway
 
     resources :notifications, only: [:index, :show] do
       collection do
@@ -90,6 +91,7 @@ Rails.application.routes.draw do
   resources :users, except: [:create] do
     collection do
       get :students
+      get :exports
     end
 
     member do
@@ -112,6 +114,9 @@ Rails.application.routes.draw do
     resources :evaluations, only: [:index, :show, :update]
     resources :students, only: [:index, :show] do
       resources :shared_attachments
+      collection do
+        get :exports
+      end
     end
     resources :comments, only: [:index, :create, :update] do
       collection do

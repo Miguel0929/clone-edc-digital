@@ -3,7 +3,7 @@ IntercomRails.config do |config|
   #
   config.app_id = ENV["INTERCOM_APP_ID"] || "mb7vwpp6"
 
-  config.include_for_logged_out_users = false
+  config.include_for_logged_out_users = true
   # == Intercom session_duration
   #
   # config.session_duration = 300000

@@ -8,6 +8,7 @@ class Mentor::StudentsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{mentor_students_path}'>Estudiantes</a>".html_safe
 
     @users = User.students_table.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
+      .page(params[:page]).per(100)
 
     if params[:state].present?
       case params[:state]
@@ -51,6 +52,13 @@ class Mentor::StudentsController < ApplicationController
     .joins("INNER JOIN programs on programs.id = chapters.program_id")
     .where("users.id = ?", @user.id)
     .order(created_at: :desc)
+  end
+
+  def exports
+    @users = User.students_table.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id')) 
+    respond_to do |format|
+      format.xlsx{response.headers['Content-Disposition']='attachment; filename="Lista de alumnos.xlsx"'} 
+    end
   end
 
   private

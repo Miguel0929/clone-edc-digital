@@ -13,6 +13,7 @@
 //= require jquery
 //= require ahoy
 //= require jquery-ui
+//= require medium-editor
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables

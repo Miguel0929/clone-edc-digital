@@ -42,11 +42,12 @@
           = display_navbar_link({link: 'Analíticos de usuarios', details: 'Estudiantes de la plataforma' ,path: users_path, icon: 'fa fa-book', role: [:admin]})
           = display_navbar_link({link: 'Usuarios desactivados', details: 'Usuarios desactivados' ,path: deleted_users_path, icon: 'fa fa-ban', role: [:admin]})
           = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: shared_group_attachments_path, icon: 'fa fa-file', role: [:admin]})
+          = display_navbar_link({link: 'Enviar invitación', details: 'Enviar uinvitación a un nuevo usuario', path: new_user_invitation_path, icon: 'fa fa-envelope-o', role: [:admin]})
+          = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:admin]}) 
 
           = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: ['m-t-30'], icon: 'fa fa-users', role: [:mentor]})
           = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
           = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: mentor_shared_group_attachments_path, icon: 'fa fa-file', role: [:mentor]})
-
 
           - if current_user.mentor?
             %li
@@ -62,10 +63,33 @@
                   %a{:href => news_mentor_comments_path } Nuevos
                 %li
                   %a{:href => archived_mentor_comments_path } Archivados
+              = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]}) 
 
           - if current_user.student?
             = display_navbar_link({css: ['m-t-30'], link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})
             = display_navbar_link({css: [''], link: 'Mis archivos', details: 'Archivos digitales' ,path: dashboard_attachments_path, icon: 'fa fa-file', role: [:student]})
+
+            %li
+              %a.detailed.redirector{:href => dashboard_pathway_path }
+                %span.title Mi ruta
+                %span.details Ruta de emprendimiento
+              %span.icon-thumbnail
+                %i.fa.fa-map-o
+
+            %li
+              %a.detailed.redirector{:href => dashboard_support_path}
+                %span.title Ayuda de mentores
+                %span.details Solicita apoyo de mentores
+              %span.icon-thumbnail
+                %i.fa.fa-info-circle
+            = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:student]})      
+            
+            %li
+              %a.detailed{:href => "https://www.edc-megatendencias.com/", :target => "_blank" }
+                %span.title EDC Megatendencias
+                %span.details Ir a EDC Megatendencias
+              %span.icon-thumbnail
+                %i.fa.fa-line-chart
 
             %li
               %a.detailed.redirector{:href => dashboard_about_path }
@@ -74,7 +98,7 @@
               %span.icon-thumbnail
                 %i.pg-map
 
-            %li
+            %li.extra-bottom-4
               %a{:href => "javascript:;"}
                 %span.title Configuración
                 %span.arrow
@@ -98,6 +122,7 @@
                 %span.details Contactános
               %span.icon-thumbnail
                 %i.fa.fa-info-circle
+            = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:student]})      
         .clearfix
     .page-container
       .header
@@ -122,7 +147,11 @@
                   %a#notification-center.icon-set.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
                     - if current_user.has_notifications?
                       %span.bubble
-
+                        %span.number-inside-bubble
+                          - if current_user.notifications_count > 20
+                            +20
+                          - else
+                            = current_user.notifications_count
 
                   .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
                     .notification-panel
@@ -132,14 +161,17 @@
                         %a{:href => dashboard_notifications_path} Ver todas las notificaciones
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
                           %i.pg-refresh_new
-            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-l.b-r.no-style.p-l-30.p-r-20
+            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-30.p-r-20
               %li.p-r-15.inline
                 .dropdown
-                  %a#notification-center.fa.fa-comment-o{"data-toggle" => "dropdown", :href => "javascript:;"}
+                  %a#notification-center.icon-set-2.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
                     -  if  unread_messages_count > 0
                       %span.bubble
-
-
+                        %span.number-inside-bubble
+                          - if unread_messages_count > 20 
+                            +20
+                          - else
+                            = unread_messages_count  
                   .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
                     .notification-panel
                       .notification-body.scrollable
@@ -165,10 +197,6 @@
                   %a{:href => edit_user_registration_path}
                     %i.pg-settings_small
                     Configuraciones
-                %li
-                  %a{:href => dashboard_support_path }
-                    %i.pg-signals
-                    Ayuda
                 %li.bg-master-lighter
                   = link_to destroy_user_session_path, method: :delete, class: 'clearfix' do
                     %span.pull-left Cerrar sesión
