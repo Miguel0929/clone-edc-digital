@@ -141,10 +141,14 @@
                   %a#notification-center.icon-set.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
                     - if current_user.has_notifications?
                       %span.bubble
-                        %span.number-inside-bubble
-                          - if current_user.notifications_count > 20
+                        - if current_user.notifications_count > 20
+                          %span.number-inside-bubble-m20
                             +20
-                          - else
+                        - elsif current_user.notifications_count < 20 and current_user.notifications_count > 9
+                          %span.number-inside-bubble-20
+                            = current_user.notifications_count
+                        - elsif current_user.notifications_count < 9
+                          %span.number-inside-bubble-9  
                             = current_user.notifications_count
 
                   .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
@@ -161,11 +165,16 @@
                   %a#notification-center.icon-set-2.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
                     -  if  unread_messages_count > 0
                       %span.bubble
-                        %span.number-inside-bubble
-                          - if unread_messages_count > 20 
+                        - if unread_messages_count > 20
+                          %span.number-inside-bubble-m20   
                             +20
-                          - else
-                            = unread_messages_count  
+                        - elsif unread_messages_count < 20 and unread_messages_count > 9
+                          %span.number-inside-bubble-20
+                            = unread_messages_count
+                        - elsif unread_messages_count < 9
+                          %span.number-inside-bubble-9
+                            = unread_messages_count
+
                   .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
                     .notification-panel
                       .notification-body.scrollable
