@@ -38,13 +38,14 @@ class Support
     end
   end
 
-  def self.notify(subject, message, urgency, matter, user, chapter, signature, recipient)
+  def self.notify(subject, raw_subject, message, urgency, matter, user, chapter, signature, recipient)
     data = {
       personalizations: [
         {
           to: [ { email: recipient } ],
           substitutions: {
-            "-raw_subject-"=> subject,
+            "-subject-"=> subject,
+            "-raw_subject-" => raw_subject,
             "-user_name-" => user.name,
             "-user_email-" => user.email,
             "-user_phone_number-" => user.phone_number,
