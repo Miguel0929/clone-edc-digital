@@ -94,6 +94,13 @@ class UsersController < ApplicationController
     @users = @users.where(group: params[:group]) if params[:group].present?
   end
 
+  def exports
+    @users = User.students.includes(:group)
+    respond_to do |format|
+      format.xlsx{response.headers['Content-Disposition']='attachment; filename="Lista de alumnos.xlsx"'} 
+    end
+  end
+
   private
   def set_user
     @user = User.find(params[:id])

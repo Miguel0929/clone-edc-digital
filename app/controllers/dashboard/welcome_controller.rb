@@ -34,11 +34,11 @@ class Dashboard::WelcomeController < ApplicationController
       flash_message = { alert: 'ERROR: Recuerda seleccionar urgencia y clasificación.'}
     else
       chapter = "Sección de ayuda (<a class='active' href='https://www.edcdigital.mx/dashboard/ayuda'>puedes verla aquí</a>)".html_safe
-      @recipients = [{adress: 'soporte-edcdigital@distritoemprendedor.com', type: 'soporte'}, {adress: current_user.email, type: 'usuario'}]
+      @recipients = [{adress: 'soporte@edc-digital.com', type: 'soporte'}, {adress: current_user.email, type: 'usuario'}]
       @recipients.each do |recipient, index|
         if recipient[:type] == 'soporte'
           subject = "Solicitud de soporte EDC-Digital: " + params[:raw_subject]
-          Support.contact(subject, params[:raw_subject], params[:message], params[:urgency], params[:matter], current_user, chapter, params[:signature], recipient[:adress]).deliver_now
+          Support.contact(subject, params[:message], params[:urgency], params[:matter], current_user, chapter, params[:signature], recipient[:adress]).deliver_now
           flash_message = { notice: 'Su mensaje ha sido enviado.'}
         else
           subject = "Recibimos tu mensaje: " + params[:raw_subject]
