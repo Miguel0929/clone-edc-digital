@@ -62,7 +62,7 @@
     Estadísticas generales de programas inscritos
 
   .panel.panel-default
-    .panel-body
+    .panel-body.table-responsive
       %table.table.table-hover
         %thead
           %tr
@@ -105,7 +105,7 @@
     Archivos del usuario
 
   .panel.panel-default
-    .panel-body
+    .panel-body.table-responsive
       %table.table.table-hover
         %thead
           %tr
@@ -137,7 +137,7 @@
     Archivos compartidos con el usuario
 
   .panel.panel-default
-    .panel-body
+    .panel-body.table-responsive
       %table.table.table-hover
         %thead
           %tr
@@ -168,11 +168,12 @@
               %th
                 = link_to 'Editar', edit_mentor_student_shared_attachment_path(@user, attachment), class: 'btn btn-default'
                 = link_to 'Eliminar', mentor_student_shared_attachment_path(@user, attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
+  
+  .pull-right
+    = link_to new_mentor_student_shared_attachment_path(@user), class: 'btn btn-primary btn-lg m-b-50 m-r-30' do
+      %i.fa.fa-upload
+      Agregar archivo
 
-  = link_to 'Agregar archivo', new_mentor_student_shared_attachment_path(@user), class: 'btn btn-default'
-
-
-
-  %h3
-    Revisión de comentarios (Todos)
-  = render partial: 'mentor/comments/comments', locals: { comments: @comments }
+  /%h3
+  /  Revisión de comentarios (Todos)
+  /= render partial: 'mentor/comments/comments', locals: { comments: @comments }

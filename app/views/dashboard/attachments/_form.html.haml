@@ -3,7 +3,7 @@
     .m-b-20
       = f.text_field :name, label: 'Nombre del archivo'
     .m-b-20
-      = f.select :document_type, Attachment.document_type_options, label: 'Tipo de documento'
+      = f.select(:document_type, Attachment.document_type_options, {:label => 'Tipo de documento'}, {:class => 'minimal'})
     .m-b-20
       = f.text_field :label, label: 'Detalles / Comentarios'
     .dropzone
