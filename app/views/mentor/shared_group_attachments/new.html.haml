@@ -1,17 +1,23 @@
 - content_for :title  do
   Subir Archivo - EDCdigital
 
-.container-fluid.container-fixed-lg
+.container-fluid.container-fixed-lg.bg-white
   .row
-    .col-md-12
-      .panel.panel-default
+    .panel.panel-transparent.p-t-50
+      .col-md-4
         .panel-heading
           .panel-title
-            Subir Archivo
+            Compartir archivos
         .panel-body
+          %i.fa.fa-share-square-o.fa-2x.hint-text.m-t-40
+          .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+            Usa este formulario para compartir archivos con tus grupos
+          %p.m-b-30{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+            Puedes compartir archivos con uno o más grupos 
+      .col-md-8
+        .m-r-40.m-l-40.p-b-70
           = bootstrap_form_for([:mentor, @attachment]) do |f|
-            = f.text_field :name, label: 'Renombrar archivo'
-            = f.select :document_type, Attachment.document_type_options, label: 'Tipo de documento'
+            = f.select(:document_type, Attachment.document_type_options, {:label => 'Tipo de documento'}, {:class => 'minimal'})
             = f.text_field :label, label: 'Detalles / Comentarios'
             = f.hidden_field :owner_id, value: current_user.id
             .dropzone
@@ -26,5 +32,5 @@
                   %label{:for => "check_groups_#{index}" }
                     = group.name
               %input(type="hidden" name='shared_group_attachment[group_ids][]' value="")
-
-            = f.submit 'Actualizar'
+              .pull-right
+                = f.submit 'Subir archivo', class: 'btn btn-lg btn-success'
