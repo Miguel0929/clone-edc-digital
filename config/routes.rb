@@ -91,6 +91,7 @@ Rails.application.routes.draw do
   resources :users, except: [:create] do
     collection do
       get :students
+      get :exports
     end
 
     member do

@@ -43,39 +43,41 @@
           = display_navbar_link({link: 'Usuarios desactivados', details: 'Usuarios desactivados' ,path: deleted_users_path, icon: 'fa fa-ban', role: [:admin]})
           = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: shared_group_attachments_path, icon: 'fa fa-file', role: [:admin]})
           = display_navbar_link({link: 'Enviar invitación', details: 'Enviar uinvitación a un nuevo usuario', path: new_user_invitation_path, icon: 'fa fa-envelope-o', role: [:admin]})
+          = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:admin]}) 
 
           = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: ['m-t-30'], icon: 'fa fa-users', role: [:mentor]})
           = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
           = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: mentor_shared_group_attachments_path, icon: 'fa fa-file', role: [:mentor]})
-          = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:admin]}) 
 
-
-          - if current_user.mentor?
-            %li
-              %a{:href => "javascript:;"}
-                %span.title Comentarios
-                %span.arrow
-              %span.icon-thumbnail
-                %i.fa.fa-comments
-              %ul.sub-menu
-                %li
-                  %a{:href => mentor_comments_path } Todos
-                %li
-                  %a{:href => news_mentor_comments_path } Nuevos
-                %li
-                  %a{:href => archived_mentor_comments_path } Archivados
-              = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]}) 
+          
 
           - if current_user.student?
             = display_navbar_link({css: ['m-t-30'], link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})
+            = display_navbar_link({css: [''], link: 'Mi ruta', details: 'Ruta de emprendimiento' ,path: dashboard_pathway_path, icon: 'fa fa-map-o', role: [:student]})
             = display_navbar_link({css: [''], link: 'Mis archivos', details: 'Archivos digitales' ,path: dashboard_attachments_path, icon: 'fa fa-file', role: [:student]})
+
+            %li
+              %a.detailed.redirector{:href => dashboard_support_path}
+                %span.title Ayuda de mentores
+                %span.details Solicita apoyo de mentores
+              %span.icon-thumbnail
+                %i.fa.fa-info-circle  
+            
+            = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:student]})
+
+            %li
+              %a.detailed{:href => "https://www.edc-megatendencias.com/", :target => "_blank" }
+                %span.title EDC Megatendencias
+                %span.details Ir a EDC Megatendencias
+              %span.icon-thumbnail
+                %i.fa.fa-line-chart
 
             %li
               %a.detailed.redirector{:href => dashboard_about_path }
                 %span.title Acerca de
                 %span.details ¿Qué es EDCdigital?
               %span.icon-thumbnail
-                %i.pg-map
+                %i.pg-map 
 
             %li.extra-bottom-4
               %a{:href => "javascript:;"}
@@ -94,29 +96,7 @@
                   = link_to destroy_user_session_path, method: :delete do
                     Cerrar sesión
                   %span.icon-thumbnail Cs
-
-            %li
-              %a.detailed{:href => "https://www.edc-megatendencias.com/", :target => "_blank" }
-                %span.title EDC Megatendencias
-                %span.details Ir a EDC Megatendencias
-              %span.icon-thumbnail
-                %i.fa.fa-line-chart
-
-            %li
-              %a.detailed.redirector{:href => dashboard_pathway_path }
-                %span.title Mi ruta
-                %span.details Ruta de emprendimiento
-              %span.icon-thumbnail
-                %i.fa.fa-map-o
-
-            %li
-              %a.detailed.redirector{:href => dashboard_support_path}
-                %span.title Ayuda de mentores
-                %span.details Solicita apoyo de mentores
-              %span.icon-thumbnail
-                %i.fa.fa-info-circle
-            = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:student]})      
-
+               
         .clearfix
     .page-container
       .header
@@ -141,10 +121,14 @@
                   %a#notification-center.icon-set.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
                     - if current_user.has_notifications?
                       %span.bubble
-                        %span.number-inside-bubble
-                          - if current_user.notifications_count > 20
+                        - if current_user.notifications_count > 20
+                          %span.number-inside-bubble-m20
                             +20
-                          - else
+                        - elsif current_user.notifications_count < 20 and current_user.notifications_count > 9
+                          %span.number-inside-bubble-20
+                            = current_user.notifications_count
+                        - elsif current_user.notifications_count < 9
+                          %span.number-inside-bubble-9  
                             = current_user.notifications_count
 
                   .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
@@ -161,11 +145,16 @@
                   %a#notification-center.icon-set-2.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
                     -  if  unread_messages_count > 0
                       %span.bubble
-                        %span.number-inside-bubble
-                          - if unread_messages_count > 20 
+                        - if unread_messages_count > 20
+                          %span.number-inside-bubble-m20   
                             +20
-                          - else
-                            = unread_messages_count  
+                        - elsif unread_messages_count < 20 and unread_messages_count > 9
+                          %span.number-inside-bubble-20
+                            = unread_messages_count
+                        - elsif unread_messages_count < 9
+                          %span.number-inside-bubble-9
+                            = unread_messages_count
+
                   .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
                     .notification-panel
                       .notification-body.scrollable
@@ -246,3 +235,20 @@
             $.post("#{track_sessions_path}")
           }, 10000)
         });
+
+          /Esto de abajo es el elemento del menú para ver los comentarios, que actualmente fueron deshabilitados
+          /- if current_user.mentor?
+          /  %li
+          /    %a{:href => "javascript:;"}
+          /      %span.title Comentarios
+          /      %span.arrow
+          /    %span.icon-thumbnail
+          /      %i.fa.fa-comments
+          /    %ul.sub-menu
+          /      %li
+          /        %a{:href => mentor_comments_path } Todos
+          /      %li
+          /        %a{:href => news_mentor_comments_path } Nuevos
+          /      %li
+          /        %a{:href => archived_mentor_comments_path } Archivados
+          /    = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]}) 

@@ -14,6 +14,9 @@ class ConversationsController < ApplicationController
     end
     if current_user.student?
       @contacts=current_user.group.users.collect
+    end
+    if current_user.admin?
+      @contacts=User.mentors.collect
     end  
   end
   def show
