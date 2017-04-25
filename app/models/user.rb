@@ -21,6 +21,7 @@ class User < ActiveRecord::Base
   has_many :access_grants, dependent: :delete_all
   has_many :sessions
   has_many :attachments
+  has_many :shared_attachments
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 
@@ -119,7 +120,7 @@ class User < ActiveRecord::Base
   end
 
   def programs
-    answers.map{ |asnwer| asnwer.question.chapter_content.chapter.program}.uniq.compact
+    group.programs
   end
 
   def has_answer_question?(model)

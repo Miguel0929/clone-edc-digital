@@ -33,3 +33,7 @@
                     = user.name
               %td
                 = link_to 'Ver alumnos', mentor_group_path(group)
+      .pull-right
+        = paginate @groups
+        %br
+        %span.text-center= page_entries_info @groups

@@ -7,42 +7,57 @@
       .row
         .col-sm-10
           %h3
-          %br/
           .row-xs-height
             .col-xs-height
-              %h3.no-margin Contáctanos
+              %h3.no-margin Solicita ayuda de nuestro equipo de mentores
               %p.hint-text.m-t-5
-                Ya sea que solo necesites algo de ayuda o saludar al equipo detrás de EDCdigital.mx, ¡estaremos encantados de escuchar de ti! Envíanos un mensaje y contestaremos tan rápido como nos sea posible.
-
-          - if notice
-            .alert.alert-success
-              %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
-              = notice
-          - if alert
-            .alert.alert-danger
-              %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
-              = alert
+                Utiliza esta forma de contacto para solicitar apoyo en áreas de mentiría para tu idea de negocio. 
+                %span
+                  %strong Recuerda completar con toda la información relevante para que los mentores puedan apoyarte.
 
           = form_tag(dashboard_send_support_email_path, class: 'form-horizontal') do
             .form-group
-              %label.col-sm-3.control-label{:for => "subject"} Asunto
+              %label.col-sm-3.control-label{:for => "raw_subject"} Asunto
               .col-sm-9
-                %input#correo.form-control{:name => "subject", :placeholder => "Aquí va tu asunto", :required => "", :type => "text"}/
+                %input#correo.form-control{:name => "raw_subject", :placeholder => "Aquí va tu asunto", :required => "", :type => "text"}/
             .form-group
               %label.col-sm-3.control-label{:for => "urgency"} Nivel de urgencia
               .col-sm-9
-                %select.full-width.form-control.minimal{name: 'urgency'}
-                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Por favor selecciona que tan urgente es tu mensaje
+                %select.full-width.form-control.minimal{name: 'urgency', :required => ""}
+                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Por favor selecciona que la urgencia de tu mensaje
                   %option{:value => "Esto es solo un mensaje"} Esto es solo un mensaje
                   %option{:value => "Estaré bien, pero por favor arreglen esto"} Estaré bien, pero por favor arreglen esto
                   %option{:value => "Estoy atorado, nada de lo que hago funciona"} Estoy atorado, nada de lo que hago funciona
-                  %option{:value => "Me está matando esto"} Me está matando esto
+                  %option{:value => "Esto me está matando"} Esto me está matando
                   %option{:value => "Emergencia: Esto es crítico"} Emergencia: Esto es crítico
             .form-group
-              %label.col-sm-3.control-label{:for => "message"} Mensaje / Problema
+              %label.col-sm-3.control-label{:for => "matter"} Clasificación
               .col-sm-9
-                %textarea.form-control{:placeholder => "Describe aquí el problema o lo que estás enfrentando", name: 'message'}
+                %select.full-width.form-control.minimal{name: 'matter', :required => ""}
+                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Por favor clasifica tu mensaje
+                  %option{:value => "Comentario"} Comentario
+                  %option{:value => "Sugerencia"} Sugerencia
+                  %option{:value => "Duda sobre el contenido"} Tengo una duda sobre el contenido
+                  %option{:value => "Duda sobre la plataforma"} Tengo una duda sobre la plataforma
+                  %option{:value => "Duda sobre mi idea de negocio"} Tengo una duda sobre mi idea de negocio
+                  %option{:value => "Retroalimentación sobre mi idea de negocio"} Me gustaría recibir retroalimentación sobre mi idea de negocio
+            .form-group
+              %label.col-sm-3.control-label{:for => "message"} Descripción detallada de tu mensaje o problema
+              .col-sm-9
+                %textarea.form-control{:rows => "8", :placeholder => "Describe aquí el problema o lo que estás enfrentando", name: 'message', :required => ""}
             .clearfix
             .row.m-t-15
-              .col-sm-9
-                %button.btn.btn-success{:type => "submit"} Enviar
+              .col-sm-12
+                %button.btn.btn-success.btn-lg.pull-right{:type => "submit"} 
+                  %i.fa.fa-send-o 
+                  Enviar
+
+
+          /- if notice
+          /  .alert.alert-success
+          /    %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
+          /    = notice
+          /- if alert
+          /  .alert.alert-danger
+          /    %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
+          /    = alert

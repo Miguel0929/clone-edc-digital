@@ -88,11 +88,4 @@ Rails.application.configure do
     authentication:       :plain,
     enable_starttls_auto: true
   }
-
-  Rails.application.config.middleware.use ExceptionNotification::Rack,
-  :email => {
-    :email_prefix => "[ERROR ON PRODUCTION] ",
-    :sender_address => %{"EDC Reporter" <hola@distritoemprendedor.com>},
-    :exception_recipients => %w{soporte-edcdigital@distritoemprendedor.com}
-  }
 end

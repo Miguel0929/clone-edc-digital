@@ -21,6 +21,11 @@ module ApplicationHelper
       'rubensito-05.png'
     end
   end
+  
+  def answer_to_show(user, question)
+    answer = Answer.find_by(user_id: user.id, question_id: question.id)
+    answer.nil? ? '' : answer.answer_text 
+  end
 
   def parse_lesson_content(lesson)
     return lesson.content.gsub('{{video}}', '') if lesson.video_url.nil? || lesson.video_url.empty?

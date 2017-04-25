@@ -55,6 +55,7 @@ Rails.application.routes.draw do
     get 'ayuda',                  to: 'welcome#support', as: :support
     post 'send_support_email',    to: 'welcome#send_support_email'
     get 'confidencialidad-y-propiedad-industrial', to: 'welcome#service', as: :service
+    get 'ruta',                   to: 'welcome#pathway', as: :pathway
 
     resources :notifications, only: [:index, :show] do
       collection do
@@ -74,6 +75,7 @@ Rails.application.routes.draw do
           get :router
         end
       end
+      post "mailer_interno"
     end
 
     resources :questions, only: [] do
@@ -89,6 +91,7 @@ Rails.application.routes.draw do
   resources :users, except: [:create] do
     collection do
       get :students
+      get :exports
     end
 
     member do
@@ -109,7 +112,12 @@ Rails.application.routes.draw do
   namespace :mentor do
     resources :groups, only: [:index, :show]
     resources :evaluations, only: [:index, :show, :update]
-    resources :students, only: [:index, :show]
+    resources :students, only: [:index, :show] do
+      resources :shared_attachments
+      collection do
+        get :exports
+      end
+    end
     resources :comments, only: [:index, :create, :update] do
       collection do
         get :archived
@@ -119,6 +127,8 @@ Rails.application.routes.draw do
     resources :questions, only: [:show] do
       resources :question_comments, only: [:create]
     end
+
+    resources :shared_group_attachments
   end
 
   namespace :api do
@@ -133,6 +143,15 @@ Rails.application.routes.draw do
   end
 
   resources :track_sessions, only: [:create]
+  resources :shared_group_attachments
+  
+  namespace :baasstard do
+    namespace :api do
+      post 'users', to: 'users#show'
+      post 'users/invite', to: 'users#invite'
+      resources :groups, only: [:index]
+    end
+  end
 
   match '/auth/sso/authorize' => 'auth#authorize', via: :all
   match '/auth/sso/access_token' => 'auth#access_token', via: :all

@@ -6,7 +6,7 @@ class Mentor::GroupsController < ApplicationController
 
   def index
     add_breadcrumb "<a class='active' href='#{mentor_groups_path}'>Grupos</a>".html_safe
-    @groups = current_user.groups.includes(:programs, :users)
+    @groups = current_user.groups.includes(:programs, :users).page(params[:page]).per(10)
   end
 
   def show
@@ -14,5 +14,10 @@ class Mentor::GroupsController < ApplicationController
 
     add_breadcrumb "Grupos", :mentor_groups_path
     add_breadcrumb "<a class='active' href='#{mentor_group_path(@group)}'>#{@group.name}</a>".html_safe
+
+    respond_to do |format|
+      format.html
+      format.xlsx{response.headers['Content-Disposition']='attachment; filename="students_list.xlsx"'}
+    end
   end
 end

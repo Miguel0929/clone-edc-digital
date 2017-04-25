@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170411223654) do
+ActiveRecord::Schema.define(version: 20170418203415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -264,6 +264,13 @@ ActiveRecord::Schema.define(version: 20170411223654) do
     t.string   "support_image"
   end
 
+  create_table "quizzes", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "rubrics", force: :cascade do |t|
     t.string  "criteria"
     t.text    "base"
@@ -279,6 +286,32 @@ ActiveRecord::Schema.define(version: 20170411223654) do
     t.string   "device_type"
     t.datetime "start"
     t.datetime "finish"
+  end
+
+  create_table "shared_attachments", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "file"
+    t.string   "label"
+    t.integer  "document_type"
+    t.string   "name"
+    t.integer  "owner_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "shared_group_attachment_groups", force: :cascade do |t|
+    t.integer "shared_group_attachment_id"
+    t.integer "group_id"
+  end
+
+  create_table "shared_group_attachments", force: :cascade do |t|
+    t.string   "file"
+    t.string   "label"
+    t.integer  "document_type"
+    t.string   "name"
+    t.integer  "owner_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "states", force: :cascade do |t|

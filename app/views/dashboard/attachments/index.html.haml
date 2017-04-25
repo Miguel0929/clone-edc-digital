@@ -1,43 +1,133 @@
 - content_for :title  do
-  Mis archivos - EDCdigital
+	Mis archivos - EDCdigital
 
 .container-fluid.container-fixed-lg
-  .row
-    .col-md-12
-      .panel.panel-default
-        .panel-heading
-          .panel-title
-            Mis archivos
-        .panel-body
-          %table.table.resumen-table.table-striped.rubrica-table
-            %thead
-              %tr
-                %th
-                  Nombre de archivo
-                %th
-                  Tipo de archivo
-                %th
-                  Comentarios
-                %th
-                  Subido en
-                %th
-                  Fecha de modificación
-                %th
-            %tbody
-              - current_user.attachments.each do |attachment|
-                %tr
-                  %th
-                    = link_to attachment.display_name, attachment.file.url
-                  %th
-                    = attachment.humanize_document_type
-                  %th
-                    = attachment.label
-                  %th
-                    = l attachment.created_at, format: :special
-                  %th
-                    = l attachment.updated_at, format: :special
-                  %th
-                    = link_to 'Editar', edit_dashboard_attachment_path(attachment), class: 'btn btn-default'
-                    = link_to 'Eliminar', dashboard_attachment_path(attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					.panel-title.pull-left
+						Mis archivos
+					.pull-right.m-r-20.m-t-40
+						= link_to 'SUBIR ARCHIVO', new_dashboard_attachment_path, class: 'btn btn-lg btn-success'
+				.panel-body
 
-          = link_to 'Subir archivo', new_dashboard_attachment_path, class: 'btn btn-default'
+					%h3{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;", class: "m-t-50"} Mis archivos almacenados
+
+					.table-responsive
+						%table.table.resumen-table.table-striped.rubrica-table
+							%thead
+								%tr
+									%th
+										Nombre de archivo
+									%th
+										Tipo de archivo
+									%th
+										Comentarios
+									%th
+										Subido en
+									%th
+										Fecha de modificación
+									%th
+							%tbody
+								- if current_user.attachments.empty?
+									%tr
+										%td{colspan: 6}
+											%span{style: "color: red;"} No tienes archivos almacenados por el momento
+								- else
+									- current_user.attachments.each do |attachment|
+										%tr
+											%th
+												= link_to attachment.display_name, attachment.file.url
+											%th.normal-weight
+												= attachment.humanize_document_type
+											%th.normal-weight
+												= attachment.label
+											%th.normal-weight
+												= l attachment.created_at, format: :special
+											%th.normal-weight
+												= l attachment.updated_at, format: :special
+											%th.normal-weight
+												= link_to 'Editar', edit_dashboard_attachment_path(attachment), class: 'btn btn-default', style: 'width: 100px;'
+												= link_to 'Eliminar', dashboard_attachment_path(attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default', style: 'width: 100px;'
+
+					/= link_to 'Subir archivo', new_dashboard_attachment_path, class: 'btn btn-default'
+
+			.panel.panel-default
+				.panel-body
+					%h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"} Mis archivos compartidos
+					.table-responsive
+						%table.table.resumen-table.table-striped.rubrica-table
+							%thead
+								%tr
+									%th
+										Nombre de archivo
+									%th
+										Tipo de archivo
+									%th
+										Comentarios
+									%th
+										Subido en
+									%th
+										Fecha de modificación
+									%th
+										Compartido por
+							%tbody
+								- if current_user.shared_attachments.empty?
+									%tr
+										%td{colspan: 6}
+											%span{style: "color: red;"} No tienes archivos compartidos por el momento
+								- else
+									- current_user.shared_attachments.each do |attachment|
+										%tr
+											%th.normal-weight
+												= link_to attachment.display_name, attachment.file.url
+											%th.normal-weight
+												= attachment.humanize_document_type
+											%th.normal-weight
+												= attachment.label
+											%th.normal-weight
+												= l attachment.created_at, format: :special
+											%th.normal-weight
+												= l attachment.updated_at, format: :special
+											%th.normal-weight
+												= attachment.owner.name
+			.panel.panel-default
+				.panel-body
+					%h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"} Mis archivos compartidos por grupo
+					.table-responsive
+						%table.table.resumen-table.table-striped.rubrica-table
+							%thead
+								%tr
+									%th
+										Nombre de archivo
+									%th
+										Tipo de archivo
+									%th
+										Comentarios
+									%th
+										Subido en
+									%th
+										Fecha de modificación
+									%th
+										Compartido por
+							%tbody
+								- if current_user.group.shared_group_attachments.empty?
+									%tr
+										%td{colspan: 6}
+											%span{style: "color: red;"} No tienes archivos de grupo compartidos por el momento
+								- else
+									- current_user.group.shared_group_attachments.each do |attachment|
+										%tr
+											%th.normal-weight
+												= link_to attachment.display_name, attachment.file.url
+											%th.normal-weight
+												= attachment.humanize_document_type
+											%th.normal-weight
+												= attachment.label
+											%th.normal-weight
+												= l attachment.created_at, format: :special
+											%th.normal-weight
+												= l attachment.updated_at, format: :special
+											%th.normal-weight
+												= attachment.owner.name
