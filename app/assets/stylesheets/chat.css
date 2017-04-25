@@ -160,6 +160,7 @@ p.mensaje{
 }
 
 
+
 @media (min-width: 1001px) and (max-width: 1201px){
 	.t-l:after {
 		content: '';
@@ -183,6 +184,34 @@ p.mensaje{
 		display: inline-block;
 		vertical-align: middle;
 		margin-left: 83.8%;
+		transform : rotate(180deg);
+		margin-top: -22%;
+	}
+}
+
+@media (min-width: 992px) and (max-width: 1000px){
+	.t-l:after {
+		content: '';
+		width: 0px;
+		height: 0px;
+		border-style: solid;
+		border-width: 16px 16px 16px 0;
+		border-color: transparent #eee transparent transparent;
+		display: inline-block;
+		vertical-align: middle;
+		margin-left: 13.4%;
+		margin-top: -22%;
+	}
+	.t-r:after {
+		content: '';
+		width: 0px;
+		height: 0px;
+		border-style: solid;
+		border-width: 16px 16px 16px 0;
+		border-color: transparent #eee transparent transparent;
+		display: inline-block;
+		vertical-align: middle;
+		margin-left: 82.9%;
 		transform : rotate(180deg);
 		margin-top: -22%;
 	}
