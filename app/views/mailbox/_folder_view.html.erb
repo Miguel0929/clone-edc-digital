@@ -15,14 +15,16 @@
 	</div>
 	<div class="col-md-8">
 		<div class="panel panel-default">
-			<div class="panel-body p0">
 				<% if is_conversation %>
-					<%= render 'conversations/form'%>
+					<div class="panel-body">
+						<%= render 'conversations/form'%>
+					</div>	
 				<% else %>
+					<div class="panel-body p0">
 					<%= render partial: 'conversations/conversation', collection: messages, locals:{status: status} %>
-					<%= paginate messages%>
+					<center><%= paginate messages%></center>
+					</div>
 				<% end %>
-			</div>
 		</div>
 	</div>
 </div>		
