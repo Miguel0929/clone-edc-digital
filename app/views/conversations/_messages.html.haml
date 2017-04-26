@@ -12,8 +12,11 @@
         %br/
         .l
           = message.body.html_safe
-          - if message.attachment.length > 0
-            = link_to "#{message.attachment}", html_options ={download: message.attachment} do
+          %br/
+          - att = MailboxAttachment.where(message_id: message.id).first
+          - unless att.nil?
+            = link_to "#{att.file.url}", html_options ={download: att.file.url} do
+              = att.file_identifier
               %i.glyphicon.glyphicon-paperclip
         / <br>
         %small.l
@@ -29,10 +32,13 @@
           %br/
           .pull-right
             = message.body.html_safe
-            - if message.attachment.length > 0
-              = link_to "#{message.attachment}", html_options ={download: message.attachment} do
+            %br/
+          .pull-rigth  
+            - att = MailboxAttachment.where(message_id: message.id).first
+            - unless att.nil?
+              = link_to "#{att.file.url}", html_options ={download: att.file.url} do
+                = att.file_identifier
                 %i.glyphicon.glyphicon-paperclip
-          %br/
           .pull-right
             %small
               = distance_of_time_in_words(message.created_at.to_i, Time.now.to_i)

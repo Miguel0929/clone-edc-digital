@@ -36,6 +36,7 @@
               = f.submit "Responder", class: "btn-danger btn pull-right", id:"i_submit"
               .clearfix
     :javascript
+      document.getElementById('last').scrollIntoView(true );
       function validar() {
           		if (window.File && window.FileReader && window.FileList && window.Blob)
           		{
