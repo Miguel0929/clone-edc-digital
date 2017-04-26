@@ -1,0 +1,42 @@
+- @receipts.each do |receipt|
+  - message= receipt.message
+  - if message.sender.id != current_user.id
+    .media
+      .media-left
+        %a{"data-toggle" => "tooltip", :title => "#{message.created_at.strftime("%A, %b, %d, %Y at %I:%M%p")}"}
+          %img.conversacion{:alt => "...", :src => "#{image_path('verde.png')}"}/
+      .media-body.trans{:id => "#{if message.id == @receipts.last.message.id then 'last' else '' end}"}
+        %strong.l
+          = message.sender.name
+          \:
+        %br/
+        .l
+          = message.body.html_safe
+          - if message.attachment.length > 0
+            = link_to "#{message.attachment}", html_options ={download: message.attachment} do
+              %i.glyphicon.glyphicon-paperclip
+        / <br>
+        %small.l
+          = distance_of_time_in_words(message.created_at.to_i, Time.now.to_i)
+      .t-l
+  - else
+    .media
+      .media-body.trans{:id => "#{if message.id == @receipts.last.message.id then 'last' else '' end}"}
+        .pull-right.r
+          %strong.pull-right
+            = message.sender.name
+            \:
+          %br/
+          .pull-right
+            = message.body.html_safe
+            - if message.attachment.length > 0
+              = link_to "#{message.attachment}", html_options ={download: message.attachment} do
+                %i.glyphicon.glyphicon-paperclip
+          %br/
+          .pull-right
+            %small
+              = distance_of_time_in_words(message.created_at.to_i, Time.now.to_i)
+      .media-right
+        %a{"data-toggle" => "tooltip", :title => "#{message.created_at.strftime("%A, %b, %d, %Y at %I:%M%p")}"}
+          %img.conversacion{:alt => "...", :src => "#{image_path('morado.png')}"}/
+      .t-r
