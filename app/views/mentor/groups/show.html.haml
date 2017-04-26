@@ -23,9 +23,12 @@
       %h4
         Lista de alumnos
       .row
-        = link_to mentor_group_path(@group, format: :xlsx), class: "btn btn-success pull-right" do
-          Exportar a Excel 
-          %i.fa.fa-file-excel-o
+        .col-md-10
+          = link_to mentor_group_path(@group, format: :xlsx), class: "btn btn-success pull-left" do
+            Exportar a Excel 
+            %i.fa.fa-file-excel-o
+        .col-md-2
+          %input#group_student.form-control.pull-right{:placeholder => "Search", :type => "text"}/
           
       %table.table.table-striped
         %thead
@@ -41,7 +44,7 @@
             Total de comentarios
           %th
         %tbody
-          - @group.active_students.each do |student|
+          - @students.each do |student|
             %tr
               %td
                 = student.name
