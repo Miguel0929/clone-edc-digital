@@ -85,7 +85,7 @@ Rails.application.configure do
     address:              ENV['MAILER_ADDRESS'],
     port:                 ENV['MAILER_PORT'].to_i,
     user_name:            ENV['MAILER_USERNAME'],
-    password:             ENV['MAILER_PASSWORD'],
+    password:             ENV['SENDGRID_API_KEY'],
     authentication:       :plain,
     domain:               'gmail.com',
     enable_starttls_auto: true
