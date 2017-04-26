@@ -28,7 +28,11 @@ class ConversationsController < ApplicationController
     if conversation_params[:attachment].nil?
       conversation=current_user.send_message(recipients,conversation_params[:body],conversation_params[:subject]).conversation
     else
-      conversation=current_user.send_message(recipients,conversation_params[:body],conversation_params[:subject],true, conversation_params[:attachment].open).conversation
+      conversation=current_user.send_message(recipients,conversation_params[:body],conversation_params[:subject]).conversation
+      att= MailboxAttachment.new
+      att.message_id= conversation.receipts.where(mailbox_type: 'sentbox',receiver_id: current_user.id).last.message.id
+      att.file=conversation_params[:attachment]
+      att.save!
     end  
     flash[:success] = "Tu mensaje a sido enviado!"
     redirect_to conversation_path(conversation)
@@ -37,7 +41,11 @@ class ConversationsController < ApplicationController
     if message_params[:attachment].nil?
       current_user.reply_to_conversation(conversation,message_params[:body])
     else
-      current_user.reply_to_conversation(conversation,message_params[:body],"",true,true, message_params[:attachment].open)
+      current_user.reply_to_conversation(conversation,message_params[:body])
+      att= MailboxAttachment.new
+      att.message_id= conversation.receipts.where(mailbox_type: 'sentbox',receiver_id: current_user.id).last.message.id
+      att.file=message_params[:attachment]
+      att.save!
     end  
     flash[:notice]="Your reply message was succesfully"
     redirect_to conversation_path(conversation)
