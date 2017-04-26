@@ -3,7 +3,8 @@
     .panel-heading
       .pull-right
         .col-xs-12
-          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          /%input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          %input#mentor_students.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       .clearfix
     .panel-body
       = bootstrap_form_tag(url: mentor_students_path, method: :get) do |f|
@@ -78,6 +79,7 @@
                           - user.group.programs.each do |program|
                             %li{style: "padding:5px;"}
                               #{program.name}. Contestado: #{user.percentage_questions_answered_for(program)}%
+                              Visto: #{user.percentage_content_visited_for(program)}%
                             %li.divider{role: 'separator'}
                   %td
                     = link_to 'Ver detalle', mentor_student_path(user)
