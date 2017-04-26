@@ -22,6 +22,10 @@ class Support
       from: {
         email: FROM
       },
+      reply_to: {
+        email: user.email, 
+        name: user.name
+      },
       template_id: "4969519e-b843-431d-8ccd-93123332ab0c"
     }
 
@@ -58,6 +62,10 @@ class Support
       ],
       from: {
         email: FROM
+      },
+      reply_to: {
+        email: "soporte@edc-digital.com", 
+        name: "Soporte EDC"
       },
       template_id: "f0d0d83d-5ece-4737-86be-56790b432c15"
     }
