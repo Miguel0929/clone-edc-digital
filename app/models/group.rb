@@ -12,4 +12,9 @@ class Group < ActiveRecord::Base
 
   validates_presence_of :name, :key
   validates_uniqueness_of :key
+
+  scope :group_search, -> (query) {
+    where('lower(groups.name) LIKE lower(?) OR lower(groups.key) LIKE lower(?)',
+         "%#{query}%", "%#{query}%")
+  }
 end
