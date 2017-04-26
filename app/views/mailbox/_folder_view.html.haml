@@ -1,0 +1,20 @@
+.container
+  .spacer
+  .col-md-4
+    %center
+      = link_to "Nuevo mensaje", new_conversation_path, class: "btn btn-success"
+      .spacer
+      %br/
+    .panel.panel-default
+      .panel-body.p-t-20
+        = render partial: 'mailbox/folders'
+  .col-md-8
+    .panel.panel-default
+      - if is_conversation
+        .panel-body
+          = render 'conversations/form'
+      - else
+        .panel-body.p0
+          = render partial: 'conversations/conversation', collection: messages, locals:{status: status}
+          %center= paginate messages
+	
