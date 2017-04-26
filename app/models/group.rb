@@ -17,4 +17,9 @@ class Group < ActiveRecord::Base
     where('lower(groups.name) LIKE lower(?) OR lower(groups.key) LIKE lower(?)',
          "%#{query}%", "%#{query}%")
   }
+
+  def student_search(query) 
+    active_students.where('lower(users.first_name) LIKE lower(?) OR lower(users.last_name) LIKE lower(?) OR lower(users.email) LIKE lower(?)',
+                         "%#{query}%", "%#{query}%", "%#{query}%") 
+  end
 end

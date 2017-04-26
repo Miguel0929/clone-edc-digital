@@ -28,6 +28,10 @@ class User < ActiveRecord::Base
   scope :students, -> { where(role: 0) }
   scope :mentors, -> { where(role: 1) }
   scope :invitation_accepted, -> { where.not('invitation_accepted_at' => nil) }
+  scope :search, -> (query) {
+    where('lower(users.first_name) LIKE lower(?) OR lower(users.last_name) LIKE lower(?) OR lower(users.email) LIKE lower(?)',
+         "%#{query}%", "%#{query}%", "%#{query}%")
+  }
 
   validates_presence_of :first_name, :last_name, :phone_number
   validates_acceptance_of :agreement
