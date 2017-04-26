@@ -1,7 +1,4 @@
-# encoding: utf-8
-
 class MailboxAttachmentUploader < CarrierWave::Uploader::Base
-
   if Rails.env.production?
     storage :fog
   else
