@@ -46,8 +46,7 @@
 
           = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: ['m-t-30'], icon: 'fa fa-users', role: [:mentor]})
           = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
-          = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: mentor_shared_group_attachments_path, icon: 'fa fa-file', role: [:mentor]}) 
-
+          = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: mentor_shared_group_attachments_path, icon: 'fa fa-file', role: [:mentor]})
 
           - if current_user.student?
             = display_navbar_link({css: ['m-t-30'], link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})

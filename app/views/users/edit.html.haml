@@ -10,6 +10,8 @@
         = f.text_field :email
         = f.text_field :phone_number
         = f.collection_select(:group_id, Group.all, :id, :name, label: 'Grupo al que pertenece')
+        - if current_user.admin?
+          = f.select(:role, User.roles, label: "Tipo de usuario")
 
         = link_to 'Cancelar', user_path(@user), class: 'btn btn-danger'
         = f.submit 'Aceptar'
