@@ -28,7 +28,7 @@ class MentorsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{edit_mentor_path(@user)}'>Editar información</a>".html_safe
 
     if @user.update(user_params)
-      redirect_to @user
+      redirect_to mentors_path
     else
       render :edit
     end
@@ -46,7 +46,7 @@ class MentorsController < ApplicationController
   end
 
   def user_params
-    params.require(:mentor).permit(:first_name, :last_name, :email, :phone_number)
+    params.require(:mentor).permit(:first_name, :last_name, :email, :phone_number, :role)
   end
 
   def validate_student
