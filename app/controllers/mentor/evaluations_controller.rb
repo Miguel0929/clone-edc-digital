@@ -1,6 +1,6 @@
 class Mentor::EvaluationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_mentor
+  before_action :require_mentor, except: [:index]
   before_action :set_user
   before_action :set_program
 
