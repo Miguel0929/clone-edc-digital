@@ -26,3 +26,17 @@
                         = program.name
                       %h6
                         = program.description
+                - @current_user.programs.each do |personal|
+                  -if program.name == personal.name
+                    .p-b-10
+                      -if @current_user.percentage_questions_answered_for(program) == 0
+                        .p-b-10.p-r-15.m-b-10.m-t-5
+                          .no-margin.pull-right{:style => "color: #3C93CE;"}
+                            Curso no iniciado
+                      -elsif
+                        .progress
+                          .progress-bar.progress-bar-primary{:style => "width:#{@current_user.percentage_questions_answered_for(program)}%"}
+                        .p-b-10.p-r-15.m-b-10.m-t-5
+                          .no-margin.pull-right{:style => "color: #3C93CE;"}
+                            #{@current_user.percentage_questions_answered_for(program)}% de progreso
+
