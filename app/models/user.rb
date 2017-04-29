@@ -146,7 +146,7 @@ class User < ActiveRecord::Base
   end
 
   def notifications_count
-    return notifications.where(read: false).count 
+    return notifications.where(read: false).count
   end
 
   def content_visted_for(program)
@@ -172,6 +172,8 @@ class User < ActiveRecord::Base
   end
 
   def answered_questions_percentage
+    return 0 if group.nil?
+    
     total_of_answers = group.programs.joins(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
     total_of_questions = group.programs.joins(chapters: [:questions]).select('questions.*').count
 
@@ -179,6 +181,8 @@ class User < ActiveRecord::Base
   end
 
   def content_visited_percentage
+    return 0 if group.nil?
+
     total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id in (?)", group.programs.pluck(:id)).count
     total_of_contents = group.programs.joins(chapters: [:chapter_contents]).where("chapter_contents.coursable_type = 'Lesson'").count
 
@@ -201,10 +205,10 @@ class User < ActiveRecord::Base
   def mailboxer_name
     self.name
   end
-  
+
   def mailboxer_email(object)
     self.email
-  end 
+  end
 
   def limited_messages
     mailbox.inbox.limit(3).order(created_at: :desc)
@@ -223,5 +227,5 @@ class User < ActiveRecord::Base
     end
   end
 
-  
+
 end
