@@ -10,6 +10,8 @@ class Users::InvitationsController < Devise::InvitationsController
       u.skip_invitation = true if Rails.env.production?
     end
 
+    BaasstardNotifier.user_invited(user) rescue nil
+
     if Rails.env.production?
       data = {
         personalizations: [
@@ -49,4 +51,10 @@ class Users::InvitationsController < Devise::InvitationsController
     add_breadcrumb "Administrador", :root_path
     add_breadcrumb "<a class='active' href='#{new_user_invitation_path}'>Enviar invitación</a>".html_safe
   end
+
+  def accept_resource
+  resource = resource_class.accept_invitation!(update_resource_params)
+  BaasstardNotifier.user_invited(resource) rescue nil
+  resource
+end
 end
