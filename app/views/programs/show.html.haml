@@ -43,8 +43,11 @@
                                   %span.glyphicon.glyphicon-list
                                 %br
                                 %a{href: chapter_lesson_path(chapter, content.model)}
-
                                   = content.model.identifier
+                                %span.pull-right
+                                  Rating:
+                                  = content.rating 
+
                             - elsif content.coursable_type == 'Question'
                               .well{id: "chapter_content_#{content.id}"}
                                 = render partial: 'questions/question', locals: { question: content.model, chapter: chapter}

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  post 'rank/vote'
+
   devise_for :users, sign_out_via: [:get, :delete], :controllers => { :invitations => 'users/invitations', sessions: 'sessions' }
 
   root 'dashboard/programs#index'
@@ -76,7 +78,9 @@ Rails.application.routes.draw do
         end
       end
       post "mailer_interno"
+      post "rank" 
     end
+
 
     resources :questions, only: [] do
       resources :comments, only: [:create]
@@ -170,5 +174,6 @@ Rails.application.routes.draw do
   get 'mailbox/inbox' => 'mailbox#inbox', as: :mailbox_inbox
   get 'mailbox/sent' => 'mailbox#sent', as: :mailbox_sent
   get 'mailbox/trash' => 'mailbox#trash', as: :mailbox_trash
+
   
 end
