@@ -27,7 +27,7 @@ class Dashboard::ChapterContentsController < ApplicationController
           flash_message = { notice: 'Su mensaje ha sido enviado.'}
         else
           subject = "Recibimos tu mensaje: " + params[:raw_subject]
-          Support.notify(subject, params[:message], params[:urgency], params[:matter], current_user, params[:chapter],params[:signature], recipient[:adress]).deliver_now
+          Support.notify(subject, params[:raw_subject], params[:message], params[:urgency], params[:matter], current_user, params[:chapter],params[:signature], recipient[:adress]).deliver_now
           flash_message = { notice: 'Su mensaje ha sido enviado.'}
         end
       end
