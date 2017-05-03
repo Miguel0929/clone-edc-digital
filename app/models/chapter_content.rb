@@ -3,7 +3,7 @@ class ChapterContent < ActiveRecord::Base
   belongs_to :coursable, polymorphic: true
 
   has_many :trackers
-  has_many :chapter_content_ranks
+  has_many :ratings, as: :ratingable 
 
   acts_as_list scope: :chapter
 

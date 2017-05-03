@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  post 'rank/vote'
+  post 'ratings/vote_chapter_content'
 
   devise_for :users, sign_out_via: [:get, :delete], :controllers => { :invitations => 'users/invitations', sessions: 'sessions' }
 

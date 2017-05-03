@@ -3,7 +3,7 @@ class Dashboard::ChapterContentsController < ApplicationController
   before_action :track_chapter_content, only: [:show]
 
   def show
-    rank= ChapterContentRank.where(chapter_content_id: @chapter_content.id, user_id: current_user.id).first
+    rank= Rating.where(ratingable_type: "ChapterContent", ratingable_id: @chapter_content.id, user_id: current_user.id).first
     if rank.nil?
       @rank=0
     else
