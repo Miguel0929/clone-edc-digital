@@ -7,6 +7,7 @@ class Program < ActiveRecord::Base
   has_many :group_programs
   has_many :groups, through: :group_programs
   has_many :program_notifications, dependent: :destroy
+  has_many :ratings, as: :ratingable 
 
   validates_presence_of :name, :description, :cover
 
@@ -21,4 +22,14 @@ class Program < ActiveRecord::Base
   def next_chapter(chapter)
     chapters.where("position > ?", chapter.position).first
   end
+
+  def rating
+    r=self.ratings.average(:rank)
+    if r.nil?
+      return 0.0
+    else
+      return r
+    end 
+    
+  end 
 end

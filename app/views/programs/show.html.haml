@@ -7,6 +7,9 @@
         .panel-heading
           %h3.panel-title
             = @program.name
+          .pull-right
+            Rating: 
+            = @program.rating  
         .panel-body
           .sortable{'data-update-url'=> url_prod_helper(sort_program_chapters_url(@program))}
             - @program.chapters.each do |chapter|

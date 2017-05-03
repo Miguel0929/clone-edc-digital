@@ -11,12 +11,11 @@ class ChapterContent < ActiveRecord::Base
     coursable_type.constantize.find(coursable_id)
   end
   def rating
-  	r=self.chapter_content_ranks.average(:rank)
+  	r=self.ratings.average(:rank)
   	if r.nil?
   		return 0.0
   	else
   		return r
   	end	
-  	
   end	
 end
