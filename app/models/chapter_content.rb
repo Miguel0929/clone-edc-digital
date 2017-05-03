@@ -3,6 +3,7 @@ class ChapterContent < ActiveRecord::Base
   belongs_to :coursable, polymorphic: true
 
   has_many :trackers
+  has_many :reports, as: :reportable
 
   acts_as_list scope: :chapter
 

@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+
+  resources :reports, only: [:index,:destroy,:create] do
+    member do
+      post :visto
+    end
+  end     
+
   devise_for :users, sign_out_via: [:get, :delete], :controllers => { :invitations => 'users/invitations', sessions: 'sessions' }
 
   root 'dashboard/programs#index'
