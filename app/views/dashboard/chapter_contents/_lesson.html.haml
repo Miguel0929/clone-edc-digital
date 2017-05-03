@@ -20,24 +20,75 @@
                   = raw model.video_url
 
       = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content, edit_mode: false}
-      :javascript
-        var frm = $('#form_rank');
-        $('.rank').click(function() {
-          frm.submit();
-        });
-        frm.submit(function (ev) {
-          console.log(9);
-          $.ajax({
-              type: frm.attr('method'),
-              url: frm.attr('action'),
-              data: frm.serialize(),
-              success: function (data) {
-                console.log(data);
-              },
-              error: function (data){
-              }
-          });
-          ev.preventDefault();
-        });
-
         
+#reportarModal.modal.fade{:role => "dialog"}
+  .modal-dialog
+    .modal-content
+      .modal-body
+        %center
+          %h2
+            Reportar contenido
+            %i.fa.fa-flag{"aria-hidden" => "true", :style => "color:red;"}
+          %p
+            ¿Por qué reportas este contenido?
+            = form_tag(reports_path, method: "post", id: "form_report") do
+              = hidden_field_tag :chapter_content_id, @chapter_content.id  
+              .form-group
+                = radio_button_tag(:cause, "No se entiende")
+                = label_tag(:cause2, "El contenido no se entiende")
+              .form-group   
+                = radio_button_tag(:cause, "Poco explicativo")
+                = label_tag(:cause2, "El contenido no es suficientemente explicativo.")
+              .form-group
+                = radio_button_tag(:cause, "Fallando")
+                = label_tag(:cause3, "El contenido esta fallando.")
+              .form-group  
+                = radio_button_tag(:cause, "No se visualiza")
+                = label_tag(:cause4, "El contenido no se visualiza.")
+              .form-group  
+                = radio_button_tag(:cause, "No disponible")
+                = label_tag(:cause5, "El contenido aparece como no disponible.")     
+      .modal-footer
+        %button#reportar.btn.btn-primary.sweet-blue
+          Reportar
+        %button.btn.btn-default.sweet-gray{"data-dismiss" => "modal", :type => "button"}
+          Cerrar
+:javascript
+  $('#reportar').click(function() {
+    frm2.submit();
+  });
+  var frm2 = $('#form_report');         
+  frm2.submit(function (ev) {
+    $.ajax({
+      type: frm2.attr('method'),
+      url: frm2.attr('action'),
+      data: frm2.serialize(),
+      success: function (data) {
+        console.log(data);
+        $('#reportarModal').modal('hide');
+      },
+      error: function (data){
+        console.log("Error");
+        console.log(data);
+      }
+    });           
+    ev.preventDefault();         
+  });
+  var frm = $('#form_rank');
+  $('.rank').click(function() {
+    frm.submit();
+  });
+  frm.submit(function (ev) {
+    console.log(9);
+    $.ajax({
+        type: frm.attr('method'),
+        url: frm.attr('action'),
+        data: frm.serialize(),
+        success: function (data) {
+          console.log(data);
+        },
+        error: function (data){
+        }
+    });
+    ev.preventDefault();
+  });
