@@ -3,6 +3,9 @@
     .panel-heading
       .panel-title.question-title
         = @chapter_content.chapter.name
+      .pull-right   
+        = render partial: "layouts/stars", locals: {value: @chapter_content, route: ratings_vote_chapter_content_path}
+
     .panel-body
       .row
         .col-md-12
@@ -17,3 +20,24 @@
                   = raw model.video_url
 
       = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content, edit_mode: false}
+      :javascript
+        var frm = $('#form_rank');
+        $('.rank').click(function() {
+          frm.submit();
+        });
+        frm.submit(function (ev) {
+          console.log(9);
+          $.ajax({
+              type: frm.attr('method'),
+              url: frm.attr('action'),
+              data: frm.serialize(),
+              success: function (data) {
+                console.log(data);
+              },
+              error: function (data){
+              }
+          });
+          ev.preventDefault();
+        });
+
+        

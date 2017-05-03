@@ -1,0 +1,23 @@
+= form_tag( route , method: "post", :id => 'form_rank') do
+	%fieldset.rating
+		= hidden_field_tag :content_rating_id, value.id
+		%input#star5.rank{:name => "rating", :type => "radio", :value => "5", :checked => @rank == 5}/
+		%label.full{:for => "star5", :title => "Awesome - 5 stars"}
+		%input#star4half.rank{:name => "rating", :type => "radio", :value => "4.5", :checked => @rank == 4.5}/
+		%label.half{:for => "star4half", :title => "Pretty good - 4.5 stars"}
+		%input#star4.rank{:name => "rating", :type => "radio", :value => "4", :checked => @rank == 4}/
+		%label.full{:for => "star4", :title => "Pretty good - 4 stars"}
+		%input#star3half.rank{:name => "rating", :type => "radio", :value => "3.5", :checked => @rank == 3.5}/
+		%label.half{:for => "star3half", :title => "Meh - 3.5 stars"}
+		%input#star3.rank{:name => "rating", :type => "radio", :value => "3", :checked => @rank == 3}/
+		%label.full{:for => "star3", :title => "Meh - 3 stars"}
+		%input#star2half.rank{:name => "rating", :type => "radio", :value => "2.5", :checked => @rank == 2.5}/
+		%label.half{:for => "star2half", :title => "Kinda bad - 2.5 stars"}
+		%input#star2.rank{:name => "rating", :type => "radio", :value => "2", :checked => @rank == 2}/
+		%label.full{:for => "star2", :title => "Kinda bad - 2 stars"}
+		%input#star1half.rank{:name => "rating", :type => "radio", :value => "1.5", :checked => @rank == 1.5}/
+		%label.half{:for => "star1half", :title => "Meh - 1.5 stars"}
+		%input#star1.rank{:name => "rating", :type => "radio", :value => "1", :checked => @rank == 1}/
+		%label.full{:for => "star1", :title => "Sucks big time - 1 star"}
+		%input#starhalf.rank{:name => "rating", :type => "radio", :value => "0.5", :checked => @rank == 0.5}/
+		%label.half{:for => "starhalf", :title => "Sucks big time - 0.5 stars"}
