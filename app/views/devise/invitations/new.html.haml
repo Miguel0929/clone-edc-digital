@@ -9,3 +9,5 @@
         = f.collection_select(:group_id, Group.all, :id, :name, label: 'Grupo')
 
         = f.submit 'Enviar invitación'
+:javascript
+  $('select').select2();
