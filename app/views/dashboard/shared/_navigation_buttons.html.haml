@@ -9,9 +9,11 @@
     - if edit_mode == false
       - if chapter_content.lower_item
         .pull-right
+          %a.btn.btn-sm.btn-danger.m-b-10{"title"=>"Reportar","data-target"=>"#reportarModal","data-toggle"=>"modal"}
+            %i.fa.fa-flag{"aria-hidden" => "true"}
           %button.btn.btn-sm.btn-info.btn-cons.m-b-10.redirector{href: dashboard_chapter_content_path(chapter_content.lower_item)}
             %span.bold Continuar
-            %i.fa.fa-forward
+            %i.fa.fa-forward 
 
       - elsif chapter_content.chapter.program.next_chapter(chapter_content.chapter) && chapter_content.chapter.program.next_chapter(chapter_content.chapter).chapter_contents.first
         .pull-right
