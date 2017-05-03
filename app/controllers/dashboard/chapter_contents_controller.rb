@@ -3,6 +3,12 @@ class Dashboard::ChapterContentsController < ApplicationController
   before_action :track_chapter_content, only: [:show]
 
   def show
+    rank= Rating.where(ratingable_type: "ChapterContent", ratingable_id: @chapter_content.id, user_id: current_user.id).first
+    if rank.nil?
+      @rank=0
+    else
+      @rank=rank.rank
+    end  
     if @chapter_content.coursable_type == 'Question'
       redirect_to router_dashboard_chapter_content_answers_path(@chapter_content), status: 301
     else

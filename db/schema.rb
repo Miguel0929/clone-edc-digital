@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170425204042) do
+ActiveRecord::Schema.define(version: 20170501200853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -278,6 +278,18 @@ ActiveRecord::Schema.define(version: 20170425204042) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "ratings", force: :cascade do |t|
+    t.float    "rank"
+    t.integer  "user_id"
+    t.integer  "ratingable_id"
+    t.string   "ratingable_type"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "ratings", ["ratingable_type", "ratingable_id"], name: "index_ratings_on_ratingable_type_and_ratingable_id", using: :btree
+  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
+
   create_table "rubrics", force: :cascade do |t|
     t.string  "criteria"
     t.text    "base"
@@ -422,4 +434,5 @@ ActiveRecord::Schema.define(version: 20170425204042) do
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
+  add_foreign_key "ratings", "users"
 end

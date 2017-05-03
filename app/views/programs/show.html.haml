@@ -7,6 +7,9 @@
         .panel-heading
           %h3.panel-title
             = @program.name
+          .pull-right
+            Rating: 
+            = @program.rating  
         .panel-body
           .sortable{'data-update-url'=> url_prod_helper(sort_program_chapters_url(@program))}
             - @program.chapters.each do |chapter|
@@ -43,8 +46,11 @@
                                   %span.glyphicon.glyphicon-list
                                 %br
                                 %a{href: chapter_lesson_path(chapter, content.model)}
-
                                   = content.model.identifier
+                                %span.pull-right
+                                  Rating:
+                                  = content.rating 
+
                             - elsif content.coursable_type == 'Question'
                               .well{id: "chapter_content_#{content.id}"}
                                 = render partial: 'questions/question', locals: { question: content.model, chapter: chapter}
