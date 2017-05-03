@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
   has_many :sessions
   has_many :attachments
   has_many :shared_attachments
+  has_many :chapter_content_rank
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 
