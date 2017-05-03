@@ -1,0 +1,44 @@
+.container-fluid.container-fixed-lg.bg-white
+	.panel.panel-transparent
+		.panel-heading
+			.clearfix
+		.panel-body
+			%table.table.table-hover.text-center
+				%thead
+					%tr
+						%th.text-center
+							Id
+						%th.text-center
+							Causa
+						%th.text-center
+							Contenido
+						%th.text-center
+							Fecha
+						%th.text-center
+							Eliminar
+						%th.text-center
+							Ver
+				%tbody
+					- @reports.each do |report|
+						%tr.default-leido
+							%td
+								- if report.status
+									=link_to visto_report_path(report.id), method: "post" do
+										%i.fa.fa-eye-slash 
+								- else
+									=link_to visto_report_path(report.id), method: "post" do
+										%i.fa.fa-eye
+							%td
+								= report.cause
+							%td
+								= report.model.model.identifier
+							%td
+								= report.created_at.strftime("%d/%m/%Y %H:%M:%S")
+							%td
+								=link_to "Eliminar",report_path(report.id), data: { confirm: '¿Estás seguro?' }, method: "delete", class: "btn btn-default" 
+							%td
+								- if report.reportable_type=="ChapterContent"
+									=link_to "Ver",dashboard_chapter_content_path(report.reportable_id), class: "btn btn-default"
+			%center						
+				= paginate @reports 	
+                
