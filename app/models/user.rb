@@ -2,9 +2,9 @@ class User < ActiveRecord::Base
   attr_accessor :agreement
   acts_as_paranoid
   mount_uploader :profile_picture, ProfilePictureUploader
-  ROLETYPES = [ ['Estudiante', 'student'], ['Mentor', 'mentor'], ['Administrador', 'admin'] ]
+  ROLETYPES = [ ['Estudiante', 'student'], ['Mentor', 'mentor'], ['Administrador', 'admin'], ['Staff', 'staff']]
 
-  enum role: [ :student, :mentor, :admin ]
+  enum role: [ :student, :mentor, :admin, :staff ]
   enum gender: [ :male, :female ]
 
   has_many :answers
