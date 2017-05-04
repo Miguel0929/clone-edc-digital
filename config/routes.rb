@@ -115,6 +115,7 @@ Rails.application.routes.draw do
   end
 
   resources :mentors, except: [:create]
+  resources :staffs, except: [:create]
 
   resources :groups
   resources :visits, only: [:index]
