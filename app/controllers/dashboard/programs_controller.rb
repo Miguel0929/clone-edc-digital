@@ -39,6 +39,8 @@ class Dashboard::ProgramsController < ApplicationController
       redirect_to students_users_path
     elsif current_user.mentor?
       redirect_to mentor_groups_path
+    elsif current_user.staff?
+      redirect_to students_users_path
     end
   end
 end

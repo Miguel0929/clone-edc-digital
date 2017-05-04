@@ -1,0 +1,16 @@
+.container
+  .row
+    .col-md-12
+      %h2.text-center
+        Editar información
+
+      = bootstrap_form_for(@user) do |f|
+        = f.text_field :first_name
+        = f.text_field :last_name
+        = f.text_field :email
+        = f.text_field :phone_number
+        - if current_user.admin? 
+          = f.select(:role, User::ROLETYPES, label: "Tipo de usuario")
+
+        = link_to 'Cancelar', staff_path(@user), class: 'btn btn-danger'
+        = f.submit 'Aceptar'

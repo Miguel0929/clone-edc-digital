@@ -1,0 +1,52 @@
+.container-fluid.container-fixed-lg
+  %h3
+    Detalles del Mentor: #{@user.name}
+    = link_to edit_staff_path(@user) do
+      %span.glyphicon.glyphicon-edit
+  .panel.panel-default
+    .panel-body
+      .row
+        .col-md-2
+          .share.share-other.m-t-5
+            .card-content
+              - if current_user.profile_picture.url.nil?
+                = image_tag('person-1-square.jpg', class: 'img-responsive')
+              - else
+                = image_tag(current_user.profile_picture.url, class: 'img-responsive')
+              .card-header.clearfix
+                %h6
+                  = @user.name
+                %p.small.hint-text.m-t-5 #{@user.state}, #{@user.city}
+                %p.small.hint-text.m-t-5
+                  %span
+                    Porcentaje contestado #{@user.answered_questions_percentage} %
+                    %i.fa.fa-line-chart
+                  %br
+                  %span
+                    Porcentaje de avance #{@user.content_visited_percentage} %
+                    %i.fa.fa-line-chart
+        .col-md-10
+          %table.table.resumen-table.table-striped.table-top-border.perfil-table
+            %tbody
+              %tr.odd.gradeX
+                %td{:width => "25%"} Nombre
+                %td
+                  = @user.name
+              %tr.odd.gradeX
+                %td Correo electrónico
+                %td
+                  = @user.email
+              %tr.odd.gradeX
+                %td Teléfono
+                %td
+                  = @user.phone_number
+              %tr.odd.gradeX
+                %td Ubicación
+                %td #{@user.state}, #{@user.city}
+              %tr.odd.gradeX
+              %tr.odd.gradeX
+                %td Fecha de creación de cuenta
+                %td #{l @user.created_at, format: :special}
+              %tr.odd.gradeX
+                %td Fecha de activación de cuenta
+                %td #{l @user.invitation_accepted_at, format: :special unless @user.invitation_accepted_at.nil?}
