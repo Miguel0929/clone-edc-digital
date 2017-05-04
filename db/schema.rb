@@ -299,6 +299,7 @@ ActiveRecord::Schema.define(version: 20170502172747) do
     t.string   "ratingable_type"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+  end
   
   create_table "reports", force: :cascade do |t|
     t.string   "cause"
@@ -312,18 +313,6 @@ ActiveRecord::Schema.define(version: 20170502172747) do
   add_index "reports", ["reportable_type", "reportable_id"], name: "index_reports_on_reportable_type_and_reportable_id", using: :btree
   add_index "ratings", ["ratingable_type", "ratingable_id"], name: "index_ratings_on_ratingable_type_and_ratingable_id", using: :btree
   add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
-
-  create_table "reports", force: :cascade do |t|
-    t.string   "cause"
-    t.boolean  "status"
-    t.integer  "reportable_id"
-    t.string   "reportable_type"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "reports", ["reportable_type", "reportable_id"], name: "index_reports_on_reportable_type_and_reportable_id", using: :btree
->>>>>>> feature/new-user-role
 
   create_table "rubrics", force: :cascade do |t|
     t.string  "criteria"
