@@ -61,17 +61,6 @@ ActiveRecord::Schema.define(version: 20170502225600) do
     t.datetime "updated_at"
   end
 
-  create_table "chapter_content_ranks", force: :cascade do |t|
-    t.float    "rank"
-    t.integer  "user_id"
-    t.integer  "chapter_content_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-  end
-
-  add_index "chapter_content_ranks", ["chapter_content_id"], name: "index_chapter_content_ranks_on_chapter_content_id", using: :btree
-  add_index "chapter_content_ranks", ["user_id"], name: "index_chapter_content_ranks_on_user_id", using: :btree
-
   create_table "chapter_contents", force: :cascade do |t|
     t.integer "chapter_id"
     t.integer "coursable_id"
@@ -288,6 +277,20 @@ ActiveRecord::Schema.define(version: 20170502225600) do
     t.string   "support_image"
   end
 
+  create_table "quiz_questions", force: :cascade do |t|
+    t.integer  "question_type"
+    t.string   "question_text"
+    t.integer  "position"
+    t.text     "answer_options"
+    t.text     "support_text"
+    t.integer  "points"
+    t.integer  "quiz_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "quiz_questions", ["quiz_id"], name: "index_quiz_questions_on_quiz_id", using: :btree
+
   create_table "quizzes", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
@@ -295,7 +298,6 @@ ActiveRecord::Schema.define(version: 20170502225600) do
     t.datetime "updated_at",  null: false
   end
 
-<<<<<<< HEAD
   create_table "ratings", force: :cascade do |t|
     t.float    "rank"
     t.integer  "user_id"
@@ -304,7 +306,7 @@ ActiveRecord::Schema.define(version: 20170502225600) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
-  
+
   create_table "reports", force: :cascade do |t|
     t.string   "cause"
     t.boolean  "status"
@@ -459,10 +461,9 @@ ActiveRecord::Schema.define(version: 20170502225600) do
   add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
   add_index "visits", ["visit_token"], name: "index_visits_on_visit_token", unique: true, using: :btree
 
-  add_foreign_key "chapter_content_ranks", "chapter_contents"
-  add_foreign_key "chapter_content_ranks", "users"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
+  add_foreign_key "quiz_questions", "quizzes"
   add_foreign_key "ratings", "users"
 end

@@ -2,9 +2,9 @@ class User < ActiveRecord::Base
   attr_accessor :agreement
   acts_as_paranoid
   mount_uploader :profile_picture, ProfilePictureUploader
-  ROLETYPES = [ ['Estudiante', 'student'], ['Mentor', 'mentor'], ['Administrador', 'admin'] ]
+  ROLETYPES = [ ['Estudiante', 'student'], ['Mentor', 'mentor'], ['Administrador', 'admin'], ['Staff', 'staff']]
 
-  enum role: [ :student, :mentor, :admin ]
+  enum role: [ :student, :mentor, :admin, :staff ]
   enum gender: [ :male, :female ]
 
   has_many :answers
@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
 
   scope :students, -> { where(role: 0) }
   scope :mentors, -> { where(role: 1) }
+  scope :staffs, -> { where(role: 3) }
   scope :invitation_accepted, -> { where.not('invitation_accepted_at' => nil) }
   scope :search, -> (query) {
     where('lower(users.first_name) LIKE lower(?) OR lower(users.last_name) LIKE lower(?) OR lower(users.email) LIKE lower(?)',
