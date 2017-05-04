@@ -1,30 +1,35 @@
 - content_for :title  do
-  Subir Archivo - EDCdigital
+	Subir Archivo - EDCdigital
 
-.container-fluid.container-fixed-lg
-  .row
-    .col-md-12
-      .panel.panel-default
-        .panel-heading
-          .panel-title
-            Subir Archivo
-        .panel-body
-          = bootstrap_form_for(@attachment) do |f|
-            = f.text_field :name, label: 'Renombrar archivo'
-            = f.select :document_type, Attachment.document_type_options, label: 'Tipo de documento'
-            = f.text_field :label, label: 'Detalles / Comentarios'
-            = f.hidden_field :owner_id, value: current_user.id
-            .dropzone
-              = f.file_field :file, label: 'Archivo'
-
-            .form-group
-              %label
-                Grupos
-              - Group.all.each_with_index do |group, index|
-                .checkbox.check-success
-                  = check_box_tag 'shared_group_attachment[group_ids][]', group.id, @attachment.groups.include?(group), id: "check_groups_#{index}"
-                  %label{:for => "check_groups_#{index}" }
-                    = group.name
-              %input(type="hidden" name='shared_group_attachment[group_ids][]' value="")
-
-            = f.submit 'Actualizar'
+.container-fluid.container-fixed-lg.bg-white
+	.row
+		.panel.panel-transparent.p-t-50
+			.col-md-4
+				.panel-heading
+					.panel-title
+						Subir Archivo
+				.panel-body
+					%i.fa.fa-upload.fa-2x.hint-text.m-t-40
+					.h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+						Usa este formulario para compartir archivos con los grupos
+					%p.m-b-30{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+						Puedes escoger los grupos con los que se compartirán los archivos
+			.col-md-8
+				.m-r-70.m-l-30
+					= bootstrap_form_for(@attachment) do |f|
+						= f.select(:document_type, Attachment.document_type_options, {:label => 'Tipo de documento'}, {:class => 'minimal'})
+						= f.text_field :label, label: 'Detalles / Comentarios'
+						= f.hidden_field :owner_id, value: current_user.id
+						.dropzone
+							= f.file_field :file, label: 'Archivo'
+						.form-group
+							%label
+								Grupos
+							- Group.all.each_with_index do |group, index|
+								.checkbox.check-success
+									= check_box_tag 'shared_group_attachment[group_ids][]', group.id, @attachment.groups.include?(group), id: "check_groups_#{index}"
+									%label{:for => "check_groups_#{index}" }
+										= group.name
+							%input(type="hidden" name='shared_group_attachment[group_ids][]' value="")
+						.pull-right.m-t-30.m-b-30
+							= f.submit 'Compartir archivo', class: 'btn btn-lg btn-success'
