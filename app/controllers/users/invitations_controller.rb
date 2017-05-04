@@ -1,5 +1,5 @@
 class Users::InvitationsController < Devise::InvitationsController
-  before_action :require_admin, only: [:new]
+  before_action :require_creator, only: [:new]
   before_action :set_breadcrumb, only: [:new, :create]
 
 

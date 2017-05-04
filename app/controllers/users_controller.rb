@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin
+  before_action :require_admin, except: [:students]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program]
 
   add_breadcrumb "EDCDIGITAL", :root_path
