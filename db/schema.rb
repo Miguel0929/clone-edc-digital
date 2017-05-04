@@ -292,10 +292,7 @@ ActiveRecord::Schema.define(version: 20170502225600) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
-
-  add_index "ratings", ["ratingable_type", "ratingable_id"], name: "index_ratings_on_ratingable_type_and_ratingable_id", using: :btree
-  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
-
+  
   create_table "reports", force: :cascade do |t|
     t.string   "cause"
     t.boolean  "status"
@@ -305,6 +302,8 @@ ActiveRecord::Schema.define(version: 20170502225600) do
     t.datetime "updated_at",      null: false
   end
 
+  add_index "ratings", ["ratingable_type", "ratingable_id"], name: "index_ratings_on_ratingable_type_and_ratingable_id", using: :btree
+  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
   add_index "reports", ["reportable_type", "reportable_id"], name: "index_reports_on_reportable_type_and_reportable_id", using: :btree
 
   create_table "rubrics", force: :cascade do |t|
