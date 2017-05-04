@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502172747) do
+ActiveRecord::Schema.define(version: 20170502225600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -268,6 +268,12 @@ ActiveRecord::Schema.define(version: 20170502172747) do
     t.text     "description"
     t.string   "cover"
     t.integer  "position"
+    t.string   "category" 
+    t.text     "objetive"
+    t.text     "curriculum"
+    t.string   "icon"
+    t.string   "video"
+    t.string   "color"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -289,29 +295,27 @@ ActiveRecord::Schema.define(version: 20170502172747) do
     t.datetime "updated_at",  null: false
   end
 
-<<<<<<< HEAD
   create_table "ratings", force: :cascade do |t|
     t.float    "rank"
     t.integer  "user_id"
     t.integer  "ratingable_id"
     t.string   "ratingable_type"
-=======
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
   create_table "reports", force: :cascade do |t|
     t.string   "cause"
     t.boolean  "status"
     t.integer  "reportable_id"
     t.string   "reportable_type"
->>>>>>> feature/report_contents
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
 
-<<<<<<< HEAD
   add_index "ratings", ["ratingable_type", "ratingable_id"], name: "index_ratings_on_ratingable_type_and_ratingable_id", using: :btree
   add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
-=======
   add_index "reports", ["reportable_type", "reportable_id"], name: "index_reports_on_reportable_type_and_reportable_id", using: :btree
->>>>>>> feature/report_contents
 
   create_table "rubrics", force: :cascade do |t|
     t.string  "criteria"
