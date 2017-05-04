@@ -2,6 +2,7 @@ class Program < ActiveRecord::Base
   acts_as_list
 
   mount_uploader :cover, CoverUploader
+  mount_uploader :icon, IconProgramUploader
 
   has_many :chapters, -> { order(position: :asc) }, dependent: :destroy
   has_many :group_programs
@@ -21,4 +22,16 @@ class Program < ActiveRecord::Base
   def next_chapter(chapter)
     chapters.where("position > ?", chapter.position).first
   end
+
+  def self.category_type_options
+    [['Selecciona una categoría', 'none'], ['Cursos principales', 'main'], ['Cursos adicionales', 'additional'], ['Cursos externos', 'external']]
+  end
+
+  def self.color_options
+    [['Verde', '#67b220'], ['Azul', '#3f5ba3'], ['Coral', '#f46c6c'], ['Amarillo', '#edcf5d'], ['Rosa', '#e83e79'], ['Azul eléctrico', '#7976fb']]
+  end
 end
+
+#def self.color_options
+  #[{color: 'Verde', value: '#67b220'}, {color: 'Azul', value: '#3f5ba3'}]
+#end
