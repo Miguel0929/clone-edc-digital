@@ -65,107 +65,110 @@
 
   .panel.panel-default
     .panel-body
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Curso inscrito
-            %th
-              Contenidos vistos
-            %th
-              Respuestas contestadas
-            %th
-              Comentarios totales
-            %th
-              Porcentaje de contenido visto
-            %th
-              Porcentaje de preguntas contestadas
-            %th
-        %tbody
-          - @user.group.programs.each do |program|
+      .table-responsive
+        %table.table.table-hover
+          %thead
             %tr
-              %td
-                = program.name
-              %td
-                = @user.content_visted_for(program)
-              %td
-                = @user.questions_answered_for(program)
-              %td
-                = @user.total_comments_for(program)
-              %td
-                #{@user.percentage_content_visited_for(program)}%
-              %td
-                #{@user.percentage_questions_answered_for(program)}%
-              %td
-                = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx), class: "btn btn-success" do
-                  Descargar Excel 
-                  %i.fa.fa-file-excel-o
-              %td
-                = link_to 'Ver detalle', analytics_program_user_path(@user, program_id: program)
+              %th
+                Curso inscrito
+              %th
+                Contenidos vistos
+              %th
+                Respuestas contestadas
+              %th
+                Comentarios totales
+              %th
+                Porcentaje de contenido visto
+              %th
+                Porcentaje de preguntas contestadas
+              %th
+          %tbody
+            - @user.group.programs.each do |program|
+              %tr
+                %td
+                  = program.name
+                %td
+                  = @user.content_visted_for(program)
+                %td
+                  = @user.questions_answered_for(program)
+                %td
+                  = @user.total_comments_for(program)
+                %td
+                  #{@user.percentage_content_visited_for(program)}%
+                %td
+                  #{@user.percentage_questions_answered_for(program)}%
+                %td
+                  = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx), class: "btn btn-success" do
+                    Descargar Excel 
+                    %i.fa.fa-file-excel-o
+                %td
+                  = link_to 'Ver detalle', analytics_program_user_path(@user, program_id: program)
   %h3
     Archivos del usuario
 
   .panel.panel-default
     .panel-body
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Nombre de archivo
-            %th
-              Tipo de archivo
-            %th
-              Comentarios
-            %th
-              Subido en
-            %th
-              Fecha de modificación
-        %tbody
-          - @user.attachments.each do |attachment|
+      .table-responsive
+        %table.table.table-hover
+          %thead
             %tr
               %th
-                = link_to attachment.display_name, attachment.file.url
+                Nombre de archivo
               %th
-                = attachment.humanize_document_type
+                Tipo de archivo
               %th
-                = attachment.label
+                Comentarios
               %th
-                = l attachment.created_at, format: :special
+                Subido en
               %th
-                = l attachment.updated_at, format: :special
+                Fecha de modificación
+          %tbody
+            - @user.attachments.each do |attachment|
+              %tr
+                %th
+                  = link_to attachment.display_name, attachment.file.url
+                %th
+                  = attachment.humanize_document_type
+                %th
+                  = attachment.label
+                %th
+                  = l attachment.created_at, format: :special
+                %th
+                  = l attachment.updated_at, format: :special
 
   %h3
     Historial de sesiones
 
   .panel.panel-default
     .panel-body
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Navegador
-            %th
-              Dispositivo
-            %th
-              Sistema operativo
-            %th
-              Inicio de sesión
-            %th
-              Cierre de sesión
-            %th
-              Duración de la sesión
-        %tbody
-          - @user.sessions.each do |visit|
+      .table-responsive
+        %table.table.table-hover
+          %thead
             %tr
-              %td
-                = visit.browser
-              %td
-                = visit.device_type
-              %td
-                = visit.platform
-              %td
-                = l visit.start, format: :special
-              %td
-                = l visit.finish, format: :special unless visit.finish.nil?
-              %td
-                = visit.time
+              %th
+                Navegador
+              %th
+                Dispositivo
+              %th
+                Sistema operativo
+              %th
+                Inicio de sesión
+              %th
+                Cierre de sesión
+              %th
+                Duración de la sesión
+          %tbody
+            - @user.sessions.each do |visit|
+              %tr
+                %td
+                  = visit.browser
+                %td
+                  = visit.device_type
+                %td
+                  = visit.platform
+                %td
+                  = l visit.start, format: :special
+                %td
+                  = l visit.finish, format: :special unless visit.finish.nil?
+                %td
+                  = visit.time
