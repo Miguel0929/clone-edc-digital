@@ -33,7 +33,7 @@ class Program < ActiveRecord::Base
     end 
     
   end 
-
+  
   def self.category_type_options
     [['Selecciona una categoría', 'none'], ['Cursos principales', 'main'], ['Cursos adicionales', 'additional'], ['Cursos externos', 'external']]
   end
