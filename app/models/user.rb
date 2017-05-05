@@ -216,6 +216,40 @@ class User < ActiveRecord::Base
     mailbox.inbox.limit(3).order(created_at: :desc)
   end
 
+  def time_average
+    return 0 if sessions.last.nil?
+    t = 0
+    sessions.each do |time|
+      t += time.minutes
+    end
+    t / sessions.count
+  end
+
+  def total_time
+    return 0 if sessions.last.nil?
+    t = 0
+    sessions.each do |time|
+      t += time.minutes
+    end
+    t
+  end
+
+  def last_time
+    return 'El usuario no ha iniciado sesión' if sessions.last.nil?
+    TimeDifference.between(sessions.last.finish, Time.now)
+        .humanize
+        .gsub('Years', 'Año')
+        .gsub('Months', 'Meses')
+        .gsub('Weeks', 'Semanas')
+        .gsub('Week', 'Semana')
+        .gsub('Days', 'Dias')
+        .gsub('Hours', 'Horas')
+        .gsub('Minutes', 'Minutos')
+        .gsub('Minute', 'Minuto')
+        .gsub('Seconds', 'Segundos')
+        .gsub('and', 'y')
+  end
+
   private
 
   def set_origin
