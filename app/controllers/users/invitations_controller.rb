@@ -1,7 +1,9 @@
 class Users::InvitationsController < Devise::InvitationsController
   before_action :require_creator, only: [:new]
   before_action :set_breadcrumb, only: [:new, :create]
-
+  def after_invite_path_for(resource)
+    new_user_invitation_path
+  end
 
   private
 
@@ -43,7 +45,6 @@ class Users::InvitationsController < Devise::InvitationsController
     end
 
     flash[:notice] = "Se ha enviado una invitación de nuevo usuario al correo #{user.email}"
-
     user
   end
 
