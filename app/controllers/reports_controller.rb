@@ -8,6 +8,7 @@ class ReportsController < ApplicationController
   def create
   	@chapter_content=ChapterContent.find(params[:chapter_content_id])
   	@chapter_content.reports.create(cause: params[:cause],status: true)
+    Reports.report(@chapter_content.reports.order(:created_at).last)
   	render json: {status: "Ok"}
   end
   def destroy
