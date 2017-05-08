@@ -9,10 +9,10 @@
         .col-md-2
           .share.share-other.m-t-5
             .card-content
-              - if current_user.profile_picture.url.nil?
+              - if @user.profile_picture.url.nil?
                 = image_tag('person-1-square.jpg', class: 'img-responsive')
               - else
-                = image_tag(current_user.profile_picture.url, class: 'img-responsive')
+                = image_tag(@user.profile_picture.url, class: 'img-responsive')
               .card-header.clearfix
                 %h6
                   = @user.name
@@ -34,7 +34,7 @@
                   %span
                     #{ @user.time_average.round(2) } minutos.
                 %p.small.hint-text.m-t-5 
-                  Total de de uso 
+                  Total de uso 
                   %span
                     #{ @user.total_time.round(2) } munutos.
         .col-md-10
