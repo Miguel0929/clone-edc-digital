@@ -25,6 +25,18 @@
                   %span
                     Porcentaje de avance #{@user.content_visited_percentage} %
                     %i.fa.fa-line-chart
+                %p.small.hint-text.m-t-5 
+                  Ultima vez:
+                  %span
+                    #{ @user.last_time }
+                %p.small.hint-text.m-t-5 
+                  Promedio de uso:
+                  %span
+                    #{ @user.time_average.round(2) } minutos.
+                %p.small.hint-text.m-t-5 
+                  Total de de uso 
+                  %span
+                    #{ @user.total_time.round(2) } munutos.
         .col-md-10
           %table.table.resumen-table.table-striped.table-top-border.perfil-table
             %tbody
