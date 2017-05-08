@@ -1,0 +1,36 @@
+- content_for :title  do
+	Preguntas frecuentes - EDCdigital
+
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+	%section.demo-bg-section.p-b-65.p-t-50
+		.container
+			.md-p-l-20.md-p-r-20.xs-no-padding
+				/%h5.block-title.hint-text.no-margin.text-white Programa de Aprendizaje
+				.row
+					.col-sm-5.col-md-4.text-white
+						.p-t-20.p-l-35.md-p-l-5.md-p-t-15
+							Preguntas frecuentes
+					.col-sm-7.col-md-8.no-padding.xs-p-l-15.xs-p-r-15.text-white
+						%h2.m-t-5.text-white
+							¿Cómo podemos ayudarte hoy?
+						
+
+.m-t-50
+	- @categories.each do |category|
+		%ul
+			%li 
+				= link_to category.name, category
+				(#{category.frequents.count})
+				= link_to 'Editar', edit_frequent_category_path(category), class: 'btn btn-sm'
+				= link_to 'Eliminar', frequent_category_path(category), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-sm'
+
+				- category.frequents.each do |frequent|
+					%ul
+						%li 
+							= link_to frequent.name, frequent
+							= link_to 'Editar', edit_frequent_path(frequent), class: 'btn btn-sm'
+							= link_to 'Eliminar', frequent_path(frequent), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-sm'
+
+= link_to 'Crear nueva categoría', new_frequent_category_path, class: 'btn btn-default'
+
+= link_to 'Crear nueva pregunta', new_frequent_path, class: 'btn btn-default'

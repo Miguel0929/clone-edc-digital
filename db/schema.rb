@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502225600) do
+ActiveRecord::Schema.define(version: 20170505155031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,6 +130,21 @@ ActiveRecord::Schema.define(version: 20170502225600) do
     t.string  "good"
     t.string  "regular"
     t.string  "bad"
+  end
+
+  create_table "frequent_categories", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "frequents", force: :cascade do |t|
+    t.text     "name"
+    t.text     "answer"
+    t.boolean  "featured"
+    t.integer  "frequent_category_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "group_programs", force: :cascade do |t|
@@ -257,7 +272,7 @@ ActiveRecord::Schema.define(version: 20170502225600) do
     t.text     "description"
     t.string   "cover"
     t.integer  "position"
-    t.string   "category" 
+    t.string   "category"
     t.text     "objetive"
     t.text     "curriculum"
     t.string   "icon"
@@ -277,20 +292,6 @@ ActiveRecord::Schema.define(version: 20170502225600) do
     t.string   "support_image"
   end
 
-  create_table "quiz_questions", force: :cascade do |t|
-    t.integer  "question_type"
-    t.string   "question_text"
-    t.integer  "position"
-    t.text     "answer_options"
-    t.text     "support_text"
-    t.integer  "points"
-    t.integer  "quiz_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-  end
-
-  add_index "quiz_questions", ["quiz_id"], name: "index_quiz_questions_on_quiz_id", using: :btree
-
   create_table "quizzes", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
@@ -307,6 +308,9 @@ ActiveRecord::Schema.define(version: 20170502225600) do
     t.datetime "updated_at",      null: false
   end
 
+  add_index "ratings", ["ratingable_type", "ratingable_id"], name: "index_ratings_on_ratingable_type_and_ratingable_id", using: :btree
+  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
+
   create_table "reports", force: :cascade do |t|
     t.string   "cause"
     t.boolean  "status"
@@ -316,8 +320,6 @@ ActiveRecord::Schema.define(version: 20170502225600) do
     t.datetime "updated_at",      null: false
   end
 
-  add_index "ratings", ["ratingable_type", "ratingable_id"], name: "index_ratings_on_ratingable_type_and_ratingable_id", using: :btree
-  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
   add_index "reports", ["reportable_type", "reportable_id"], name: "index_reports_on_reportable_type_and_reportable_id", using: :btree
 
   create_table "rubrics", force: :cascade do |t|
@@ -464,6 +466,5 @@ ActiveRecord::Schema.define(version: 20170502225600) do
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
-  add_foreign_key "quiz_questions", "quizzes"
   add_foreign_key "ratings", "users"
 end

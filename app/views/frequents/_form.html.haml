@@ -1,0 +1,6 @@
+= bootstrap_form_for(@frequent) do |f|
+    = f.text_field :name, label: 'Nombre de la pregunta frecuente'
+    = f.text_area :answer, label: 'Respuesta'
+    = f.select :frequent_category_id, Frequent.category_of_frequents, label: 'Categoría'
+    = f.submit 'Enviar'
+    =link_to "Cancelar", frequent_categories_path, class: 'btn btn-default'

@@ -1,0 +1,10 @@
+- content_for :title  do
+	Preguntas frecuentes - EDCdigital
+
+%h4
+	= @frequent.name
+
+%p 
+	=@frequent.answer
+
+= link_to "Regresar a preguntas", frequent_category_path(@frequent.frequent_category_id), class: 'btn btn-default'
