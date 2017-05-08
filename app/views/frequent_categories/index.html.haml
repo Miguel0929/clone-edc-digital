@@ -2,35 +2,49 @@
 	Preguntas frecuentes - EDCdigital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
-	%section.demo-bg-section.p-b-65.p-t-50
+	%section.demo-bg-section.p-b-65.p-t-50.m-b-40
 		.container
 			.md-p-l-20.md-p-r-20.xs-no-padding
-				/%h5.block-title.hint-text.no-margin.text-white Programa de Aprendizaje
+				.row-clearfix
+					.pull-right
+						= link_to new_frequent_path do
+							%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.m-r-20
+								%i.fa.fa-plus-circle
+								Crear nueva pregunta
+
 				.row
-					.col-sm-5.col-md-4.text-white
-						.p-t-20.p-l-35.md-p-l-5.md-p-t-15
-							Preguntas frecuentes
-					.col-sm-7.col-md-8.no-padding.xs-p-l-15.xs-p-r-15.text-white
-						%h2.m-t-5.text-white
+					.col-sm-12.col-md-12.no-padding.xs-p-l-15.xs-p-r-15.text-white
+						%h2.text-center.text-white
 							¿Cómo podemos ayudarte hoy?
 						
-
-.m-t-50
 	- @categories.each do |category|
-		%ul
-			%li 
-				= link_to category.name, category
-				(#{category.frequents.count})
-				= link_to 'Editar', edit_frequent_category_path(category), class: 'btn btn-sm'
-				= link_to 'Eliminar', frequent_category_path(category), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-sm'
+		.raw.col-md-6
+			.card.share{"data-social" => "item"}
+				.pull-right.p-t-10.p-r-15.p-l-10.clearfix
+					= link_to edit_frequent_category_path(category) do
+						%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar"}
+							%i.fa.fa-edit
+					= link_to frequent_category_path(category), method: :delete, data: { confirm: '¿Estás seguro?' } do
+						%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar"}
+							%i.fa.fa-times
+				.card-header.clearfix 
+					%h5   
+						= link_to category.name, category, :style => "color: black;"
+						(#{category.frequents.count})
 
-				- category.frequents.each do |frequent|
-					%ul
-						%li 
-							= link_to frequent.name, frequent
-							= link_to 'Editar', edit_frequent_path(frequent), class: 'btn btn-sm'
-							= link_to 'Eliminar', frequent_path(frequent), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-sm'
+				.card-description
+					-if category.frequents.exists?
+						- category.frequents.each do |frequent|
+							%ul.list-unstyled
+								%li 
+									= link_to frequent.name, frequent
+									= link_to edit_frequent_path(frequent) do
+										%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-20.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar"}
+											%i.fa.fa-edit{:style => "font-size:18px;"}
+									= link_to frequent_path(frequent), method: :delete, data: { confirm: '¿Estás seguro?' } do
+										%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar"}
+											%i.fa.fa-times-circle{:style => "font-size:18px;"}
+					-elsif
+						%center
+							Aún no hay preguntas para esta categoría
 
-= link_to 'Crear nueva categoría', new_frequent_category_path, class: 'btn btn-default'
-
-= link_to 'Crear nueva pregunta', new_frequent_path, class: 'btn btn-default'

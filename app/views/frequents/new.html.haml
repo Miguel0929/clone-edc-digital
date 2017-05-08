@@ -1,12 +1,14 @@
 - content_for :title  do
-  Nueva Categoría
+	Nueva Categoría
 
 .container-fluid.container-fixed-lg
-  .row
-    .col-md-12
-      .panel.panel-default
-        .panel-heading
-          .panel-title
-            ¿Cuál será la nueva categoría?
-        .panel-body
-          = render "form"
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading.clearfix
+					.pull-right
+						= link_to 'Crear nueva categoría', new_frequent_category_path, class: 'btn btn-sm'
+					.panel-title
+						¿Cuál será la nueva categoría?
+				.panel-body
+					= render "form"
