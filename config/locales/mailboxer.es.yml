@@ -1,0 +1,5 @@
+es:    
+  mailboxer:   
+    message_mailer:  
+      subject_new: "Nuevo mensaje en EDC-Digital: %{subject}"  
+      subject_reply: "Nueva Respuesta en EDC-Digital: %{subject}"
