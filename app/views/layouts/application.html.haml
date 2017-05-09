@@ -159,7 +159,13 @@
                       .notification-footer.text-center
                         %a{:href => mailbox_inbox_path} Ver todas las notificaciones 
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
-                          %i.pg-refresh_new              
+                          %i.pg-refresh_new   
+            %a{:href => frequent_questions_path, :target => "blank"} 
+              %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-30.p-r-20
+                %li.p-r-15.inline
+                  #notification-center.fa.fa-question-circle{:style => "font-size:18px;"}
+
+                    
 
         .pull-right
           .visible-lg.visible-md.m-t-10
