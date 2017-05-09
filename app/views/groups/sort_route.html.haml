@@ -1,0 +1,21 @@
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+    .panel-body
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+            %th
+              Programa
+            %th
+        %tbody.sortable{'data-update-url'=> url_prod_helper(sort_group_path)}
+          - @programs.each do |p|
+            %tr{id: "program_#{p.program.id}"}
+              %td.handle-sort
+                [mover]
+              %td
+                = p.program.name
+              %td
+                = link_to 'Ver', program_path(p.program), class: 'btn btn-default'
+                = link_to 'Editar', edit_program_path(p.program), class: 'btn btn-default'  

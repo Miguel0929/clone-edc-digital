@@ -28,6 +28,8 @@
                       = link_to 'Información del grupo', group_path(group)
                     %li
                       = link_to 'Editar', edit_group_path(group)
+                    %li
+                      = link_to 'Editar "Ruta de aprendizaje"', sort_route_group_path(group) 
                     %li.divider
                     %li
                       = link_to 'Eliminar', group, :method => :delete, :data => { :confirm => '¿Estás seguro?' }

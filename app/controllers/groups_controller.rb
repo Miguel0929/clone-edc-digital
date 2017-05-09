@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_group, only: [:show, :edit, :update, :destroy]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort]
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -57,6 +57,20 @@ class GroupsController < ApplicationController
     @group.destroy
     redirect_to groups_path, notice: "Se eliminó el grupo #{@group.name}"
   end
+
+  def sort_route
+    add_breadcrumb "Grupos", :groups_path
+    add_breadcrumb "<a class='active' href='#{sort_route_group_path(@group)}'>#{@group.name}</a>".html_safe
+    @programs=@group.group_programs.order(:position)
+  end
+
+  def sort
+    p @group
+    params[:program].each_with_index do |id, index|
+      @group.group_programs.where(program_id: id).first.update_attributes({position: index + 1})
+    end
+    render nothing: true
+  end  
 
   private
   def set_group
