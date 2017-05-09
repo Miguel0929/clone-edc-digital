@@ -4,6 +4,7 @@
 %span.option
   = link_to 'Eliminar', quiz_quiz_question_path(quiz, question), method: :delete, data: {confirm: '¿Estás seguro?'}
 .question-wrapper
+  = render partial: "quiz_questions/inputs/#{question.question_type}", locals: { question: question }
 %span.option
   Valor:
   = question.points

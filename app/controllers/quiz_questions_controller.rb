@@ -1,7 +1,7 @@
 class QuizQuestionsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_quiz, only: [:new, :create]
+  before_action :set_quiz, only: [:new, :create, :destroy]
 
   def new
     @quiz_question = @quiz.quiz_questions.build
@@ -16,12 +16,18 @@ class QuizQuestionsController < ApplicationController
     end
   end
 
+  def destroy
+    @quiz_question = QuizQuestion.find(params[:id])
+    @quiz_question.destroy
+    redirect_to @quiz
+  end
+
   private
     def set_quiz
       @quiz = Quiz.find(params[:quiz_id])
     end
 
     def quiz_question_params
-      params.require(:quiz_question).permit(:question_type, :question_text, :position, :answer_options, :support_text, :quiz_id)
+      params.require(:quiz_question).permit(:question_type, :question_text, :position, :answer_options, :support_text, :quiz_id, :points)
     end
 end

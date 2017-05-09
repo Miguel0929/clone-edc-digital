@@ -100,6 +100,8 @@ Rails.application.routes.draw do
     resources :evaluations, only: [:index, :show]
 
     resources :attachments, only: [:index, :new, :create, :edit, :update, :destroy]
+
+    resources :quizzes, only: [:index]
   end
 
 
