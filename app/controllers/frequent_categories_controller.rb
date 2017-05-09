@@ -26,7 +26,7 @@ class FrequentCategoriesController < ApplicationController
 		@category = FrequentCategory.new(category_params)
 
 		if @category.save
-		  redirect_to new_frequent_path
+		  redirect_to new_frequent_path, notice: "Se creó exitosamente la categoría #{@category.name}"
 		else
 		  render :new
 		end
@@ -48,7 +48,7 @@ class FrequentCategoriesController < ApplicationController
 
 	def destroy
 		@category.destroy
-		redirect_to frequent_categories_path
+		redirect_to frequent_categories_path, notice: "Se eliminó exitosamente la categoría #{@category.name}"
 	end
 
 	private

@@ -6,8 +6,7 @@ class FrequentsController < ApplicationController
 
 	def show
 		add_breadcrumb "Preguntas frecuentes", :frequent_categories_path
-    add_breadcrumb "<a class='active' href='#{frequent_category_path(@frequent.frequent_category_id)}'>#{FrequentCategory.find(@frequent.frequent_category_id).name}</a>".html_safe
-		
+    	add_breadcrumb "<a class='active' href='#{frequent_category_path(@frequent.frequent_category_id)}'>#{FrequentCategory.find(@frequent.frequent_category_id).name}</a>".html_safe	
 	end
 
 	def index
@@ -16,37 +15,37 @@ class FrequentsController < ApplicationController
 
 	def new
 		add_breadcrumb "Preguntas frecuentes", :frequent_categories_path
-    add_breadcrumb "<a class='active'>Nueva pregunta</a>".html_safe
+    	add_breadcrumb "<a class='active'>Nueva pregunta</a>".html_safe
 		@frequent = Frequent.new
 	end
 
 	def create
 		@frequent = Frequent.new(frequent_params)
 
-    if @frequent.save
-      redirect_to frequent_categories_path
-    else
-      render :new
-    end
+	    if @frequent.save
+	      redirect_to frequent_categories_path, notice: "Se creó exitosamente la pregunta #{@frequent.name}"
+	    else
+	      render :new
+	    end
 	end
 
 	def edit
 		add_breadcrumb "Preguntas frecuentes", :frequent_categories_path
-    add_breadcrumb "<a href='#{frequent_category_path(@frequent.frequent_category_id)}'>#{FrequentCategory.find(@frequent.frequent_category_id).name}</a>".html_safe
+    	add_breadcrumb "<a href='#{frequent_category_path(@frequent.frequent_category_id)}'>#{FrequentCategory.find(@frequent.frequent_category_id).name}</a>".html_safe
 		add_breadcrumb "<a class='active'>Editar pregunta</a>".html_safe
 	end
 
 	def update
 		if @frequent.update(frequent_params)
-      redirect_to frequent_categories_path, notice: "Se actualizó exitosamente la pregunta #{@frequent.name}"
-    else
-      render :edit
-    end	
+      		redirect_to frequent_path(@frequent), notice: "Se actualizó exitosamente la pregunta #{@frequent.name}"
+	    else
+	      render :edit
+	    end	
 	end
 
 	def destroy
 		@frequent.destroy
-    redirect_to frequent_categories_path
+    	redirect_to frequent_categories_path, notice: "Se eliminó exitosamente la pregunta #{@frequent.name}"
 	end
 
 	private
@@ -55,7 +54,7 @@ class FrequentsController < ApplicationController
 	end
 
 	def frequent_params
-    params.require(:frequent).permit(:name, :answer, :frequent_category_id)
-  end
+	   params.require(:frequent).permit(:name, :answer, :frequent_category_id)
+	end
 
 end

@@ -5,7 +5,7 @@ class Frequent < ActiveRecord::Base
 
 	def self.category_of_frequents
 		categories = FrequentCategory.all
-		@array = []
+		@array = [['SELECCIONA UNA CATEGORÍA']]
 
 		categories.each do |cat|
 			event = [cat[:name], cat[:id]]

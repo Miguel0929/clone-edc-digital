@@ -24,23 +24,24 @@
 								%tr{:role => "row"}
 									%td.v-align-middle.bold{:width => "75%", :style => "line-height: 3;"} 
 										= link_to frequent.name, frequent
-									%td
-										.center
-											= link_to edit_frequent_path(frequent) do
-												%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar"}
-													%i.fa.fa-edit{:style => "font-size:18px;"}
-									%td
-										.center
-											= link_to frequent_path(frequent), method: :delete, data: { confirm: '¿Estás seguro?' } do
-												%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar"}
-													%i.fa.fa-times{:style => "font-size:18px;"}
+									- if current_user.admin?
+										%td
+											.center
+												= link_to edit_frequent_path(frequent) do
+													%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar"}
+														%i.fa.fa-edit{:style => "font-size:18px;"}
+										%td
+											.center
+												= link_to frequent_path(frequent), method: :delete, data: { confirm: '¿Estás seguro?' } do
+													%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar"}
+														%i.fa.fa-times{:style => "font-size:18px;"}
 						- elsif
 							%tr{:role => "row"}
 								%td.v-align-middle.bold{:width => "75%", :style => "line-height: 3;"} 
 									.text-center
 										Aún no hay preguntas para esta categoría
-		.pull-right
-			= link_to frequent_categories_path do
-				%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.m-r-20
-					%i.fa.fa-mail-reply
-					Regresar a preguntas frecuentes
+			.pull-right
+				= link_to frequent_categories_path do
+					%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.m-r-20
+						%i.fa.fa-mail-reply
+						Regresar a preguntas frecuentes

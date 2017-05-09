@@ -3,12 +3,23 @@
 
 .container-fluid.container-fixed-lg
 	.row
-		.col-md-12
-			.panel.panel-default
-				.panel-heading.clearfix
-					.pull-right
-						= link_to 'Crear nueva categoría', new_frequent_category_path, class: 'btn btn-sm'
+		.panel.panel-transparent.p-t-40
+			.col-md-4
+				.panel-heading
 					.panel-title
-						¿Cuál será la nueva categoría?
+						Preguntas frecuentes
 				.panel-body
+					%i.fa.fa-question-circle.fa-2x.hint-text.m-t-10
+					.h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+						Usa este campo para modificar preguntas frecuentes
+					%p.m-b-30{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+						Recuerda elegir siempre una categoría para tu pregunta
+			.col-md-8
+				.m-t-20
+					.pull-right
+						= link_to new_frequent_category_path do
+							%button.btn.btn-lg.btn-rounded.btn-primary
+								%i.fa.fa-plus
+								Crear nueva categoría
+					.clearfix
 					= render "form"

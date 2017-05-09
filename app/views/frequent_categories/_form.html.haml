@@ -1,4 +1,9 @@
 = bootstrap_form_for(@category) do |f|
-            = f.text_field :name, label: 'Nombre de la categoría'
-            = f.submit 'Enviar'
-            =link_to "Cancelar", frequent_categories_path, class: 'btn btn-default'
+	= f.text_field :name, label: 'Nombre de la categoría:'
+	.pull-right
+		=link_to frequent_categories_path do
+			%button.btn.btn-info.m-l-10
+				%i.fa.fa-times
+				Cancelar
+		= f.submit 'Guardar categoría', class: 'btn btn-success m-l-10'
+	

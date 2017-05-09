@@ -1,12 +1,19 @@
 - content_for :title  do
-  Nueva Categoría
+	Nueva Categoría
 
 .container-fluid.container-fixed-lg
-  .row
-    .col-md-12
-      .panel.panel-default
-        .panel-heading
-          .panel-title
-            ¿Cuál será la nueva categoría?
-        .panel-body
-          = render 'form'
+	.row
+		.panel.panel-transparent.p-t-30
+			.col-md-5
+				.panel-heading
+					.panel-title
+						¿Cuál será la nueva categoría?
+				.panel-body
+					%i.fa.fa-upload.fa-2x.hint-text.m-t-10
+					.h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+						Usa este campo modificar o crear categorías de preguntas frecuentes
+					%p.m-b-30{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+						Puedes elegir grupos diferentes a los que compartes tus arvhivos
+			.col-md-7
+				.m-t-20
+					= render 'form'
