@@ -1,0 +1,16 @@
+= form_for :conversation , url: :conversations, html: { class: "",:onsubmit => "return validar()"  } do |f|
+	.form-group
+		= f.label :contactos
+		= f.select(:recipients, @contacts.collect {|p|[p.name, p.id]},{include_blank:"Contactos..."},{class: "form-control js-example-basic-single", required: true })  
+	.form-group
+		= f.label :asunto
+		= f.text_field :subject, class: "form-control", required: true 
+	.form-group
+		= f.label :mensaje 
+		= f.text_area :body, class: "form-control editable", placeholder: "Escribe tu mensaje aquí", rows:4, style: "height:90px; background-color:white;" 
+	.form-group
+		= f.label :adjuntar
+		= f.file_field :attachment  
+	=f.submit "Enviar", class: "btn btn-success" 
+
+	

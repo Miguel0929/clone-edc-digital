@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170419183204) do
+
+ActiveRecord::Schema.define(version: 20170502225600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -169,6 +170,13 @@ ActiveRecord::Schema.define(version: 20170419183204) do
     t.string   "video_url"
   end
 
+  create_table "mailbox_attachments", force: :cascade do |t|
+    t.string   "file"
+    t.string   "message_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "mailboxer_conversation_opt_outs", force: :cascade do |t|
     t.integer "unsubscriber_id"
     t.string  "unsubscriber_type"
@@ -250,6 +258,12 @@ ActiveRecord::Schema.define(version: 20170419183204) do
     t.text     "description"
     t.string   "cover"
     t.integer  "position"
+    t.string   "category"
+    t.text     "objetive"
+    t.text     "curriculum"
+    t.string   "icon"
+    t.string   "video"
+    t.string   "color"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -284,6 +298,29 @@ ActiveRecord::Schema.define(version: 20170419183204) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "ratings", force: :cascade do |t|
+    t.float    "rank"
+    t.integer  "user_id"
+    t.integer  "ratingable_id"
+    t.string   "ratingable_type"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "ratings", ["ratingable_type", "ratingable_id"], name: "index_ratings_on_ratingable_type_and_ratingable_id", using: :btree
+  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
+
+  create_table "reports", force: :cascade do |t|
+    t.string   "cause"
+    t.boolean  "status"
+    t.integer  "reportable_id"
+    t.string   "reportable_type"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "reports", ["reportable_type", "reportable_id"], name: "index_reports_on_reportable_type_and_reportable_id", using: :btree
 
   create_table "rubrics", force: :cascade do |t|
     t.string  "criteria"
@@ -429,5 +466,9 @@ ActiveRecord::Schema.define(version: 20170419183204) do
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
+<<<<<<< HEAD
   add_foreign_key "quiz_questions", "quizzes"
+=======
+  add_foreign_key "ratings", "users"
+>>>>>>> development
 end

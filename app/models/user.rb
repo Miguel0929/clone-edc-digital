@@ -2,8 +2,9 @@ class User < ActiveRecord::Base
   attr_accessor :agreement
   acts_as_paranoid
   mount_uploader :profile_picture, ProfilePictureUploader
+  ROLETYPES = [ ['Estudiante', 'student'], ['Mentor', 'mentor'], ['Administrador', 'admin'], ['Staff', 'staff']]
 
-  enum role: [ :student, :mentor, :admin ]
+  enum role: [ :student, :mentor, :admin, :staff ]
   enum gender: [ :male, :female ]
 
   has_many :answers
@@ -22,12 +23,18 @@ class User < ActiveRecord::Base
   has_many :sessions
   has_many :attachments
   has_many :shared_attachments
+  has_many :chapter_content_rank
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 
   scope :students, -> { where(role: 0) }
   scope :mentors, -> { where(role: 1) }
+  scope :staffs, -> { where(role: 3) }
   scope :invitation_accepted, -> { where.not('invitation_accepted_at' => nil) }
+  scope :search, -> (query) {
+    where('lower(users.first_name) LIKE lower(?) OR lower(users.last_name) LIKE lower(?) OR lower(users.email) LIKE lower(?)',
+         "%#{query}%", "%#{query}%", "%#{query}%")
+  }
 
   validates_presence_of :first_name, :last_name, :phone_number
   validates_acceptance_of :agreement
@@ -140,6 +147,10 @@ class User < ActiveRecord::Base
     notifications.where(read: false).count > 0
   end
 
+  def notifications_count
+    return notifications.where(read: false).count
+  end
+
   def content_visted_for(program)
     trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id = ?", program.id).count
   end
@@ -163,6 +174,8 @@ class User < ActiveRecord::Base
   end
 
   def answered_questions_percentage
+    return 0 if group.nil?
+    
     total_of_answers = group.programs.joins(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
     total_of_questions = group.programs.joins(chapters: [:questions]).select('questions.*').count
 
@@ -170,6 +183,8 @@ class User < ActiveRecord::Base
   end
 
   def content_visited_percentage
+    return 0 if group.nil?
+
     total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id in (?)", group.programs.pluck(:id)).count
     total_of_contents = group.programs.joins(chapters: [:chapter_contents]).where("chapter_contents.coursable_type = 'Lesson'").count
 
@@ -192,13 +207,47 @@ class User < ActiveRecord::Base
   def mailboxer_name
     self.name
   end
-  
+
   def mailboxer_email(object)
     self.email
-  end 
+  end
 
   def limited_messages
     mailbox.inbox.limit(3).order(created_at: :desc)
+  end
+
+  def time_average
+    return 0 if sessions.last.nil?
+    t = 0
+    sessions.each do |time|
+      t += time.minutes
+    end
+    t / sessions.count
+  end
+
+  def total_time
+    return 0 if sessions.last.nil?
+    t = 0
+    sessions.each do |time|
+      t += time.minutes
+    end
+    t
+  end
+
+  def last_time
+    return 'El usuario no ha iniciado sesión' if sessions.last.nil?
+    TimeDifference.between(sessions.last.finish, Time.now)
+        .humanize
+        .gsub('Years', 'Año')
+        .gsub('Months', 'Meses')
+        .gsub('Weeks', 'Semanas')
+        .gsub('Week', 'Semana')
+        .gsub('Days', 'Dias')
+        .gsub('Hours', 'Horas')
+        .gsub('Minutes', 'Minutos')
+        .gsub('Minute', 'Minuto')
+        .gsub('Seconds', 'Segundos')
+        .gsub('and', 'y')
   end
 
   private
@@ -214,5 +263,5 @@ class User < ActiveRecord::Base
     end
   end
 
-  
+
 end

@@ -144,9 +144,9 @@ body.rtl [class*="col-"] {
   text-align: center;
 }
 .header .bubble {
-  border-radius: 100%;
+  border-radius: 20%;
   height: 14px;
-  width: 14px;
+  width: 18px;
   background-color: rgba(226, 32, 91, 0.77);
   color: #fff;
   position: relative;
@@ -336,7 +336,7 @@ body.rtl [class*="col-"] {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 65%;
+  width: 66%;
 }
 .page-sidebar .sidebar-menu .menu-items > li {
   display: block;
@@ -390,7 +390,7 @@ body.rtl [class*="col-"] {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  width: 65%;
+  width: 95%;
 }
 .page-sidebar .sidebar-menu .menu-items > li > a > .details {
   font-size: 12px;
@@ -1202,6 +1202,12 @@ body.rtl [class*="col-"] {
   background: image-url('icons/top_tray.png') no-repeat;
   position: relative;
   display: block;
+}
+.icon-set-2 {
+  background: image-url('icons/top_tray_2x-2.png') no-repeat;
+  position: relative;
+  display: block;
+  background-size: 95px 19px;
 }
 .icon-set.globe-fill {
   background-position: -1px -1px;

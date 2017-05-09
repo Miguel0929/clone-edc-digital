@@ -15,6 +15,7 @@
               = f.select :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: true, label: 'Grupo' }
 
           = f.submit 'Filtrar'
+          = link_to 'Exportar excel', exports_users_path(format: :xlsx), class: 'btn btn-success'
 
       %table.table.table-hover.datatable
         %thead
@@ -22,7 +23,7 @@
             %th
               Id
             %th
-              Nombre
+              Nombres
             %th
               Correo electrónico
             %th

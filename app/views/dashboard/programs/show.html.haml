@@ -1,11 +1,15 @@
 .container-fluid.container-fixed-lg.top-container-padding
-  %section.demo-bg-section.p-b-85.p-t-75
+  %section.demo-bg-section.p-b-0.p-t-75
     .container
       .md-p-l-20.md-p-r-20.xs-no-padding
         %h5.block-title.hint-text.no-margin.text-white Programa de Aprendizaje
+        .pull-right
+          -if current_user.admin?
+            Rating: 
+            = @program.rating
         .row
           .col-sm-5.col-md-4
-            %h1.m-t-5.text-white
+            %h2.m-t-5.text-white
               = @program.name
           .col-sm-7.col-md-8.no-padding.xs-p-l-15.xs-p-r-15.text-white
             .p-t-20.p-l-35.md-p-l-5.md-p-t-15
@@ -22,7 +26,23 @@
 
                 = link_to dashboard_program_path(user_id: current_user, format: :xlsx), class: "btn btn-success btn-sm btn-cons m-b-10" do
                   %i.fa.fa-file-excel-o
-                  Descargar mi compilación de resultados en Excel 
+                  Descargar mi compilación de resultados en Excel
+        -if @current_user.percentage_questions_answered_for(@program) == 0
+          %section.demo-bg-section.p-b-20.p-t-65
+            .pull-right.m-r-60
+              %h5{:style => "color: #48B0F7;"}
+                No has iniciado este programa aún
+            .clearfix
+        -elsif
+          %section.demo-bg-section.p-b-10.p-t-65
+            .progress.m-b-5{:style => "background-color: #ffffff1a;"}
+              .progress-bar.progress-bar-complete{:style => "width:#{@current_user.percentage_questions_answered_for(@program)}%"}
+            .pull-right.m-r-50{:style => "color: #48B0F7;"}
+              Progreso contestado del #{@current_user.percentage_questions_answered_for(@program)}%
+            .clearfix
+              .pull-right    
+                Calificar curso:
+                = render partial: "layouts/stars", locals: {value: @program, route: ratings_vote_program_path}   
 
 .container-fluid.container-fixed-lg
   .row
@@ -72,3 +92,22 @@
                                   Comentarios
                                   %span.badge
                                     = content.model.comments_for(current_user)
+:javascript
+  var frm = $('#form_rank');
+  $('.rank').click(function() {
+    frm.submit();
+  });
+  frm.submit(function (ev) {
+    console.log(9);
+    $.ajax({
+        type: frm.attr('method'),
+        url: frm.attr('action'),
+        data: frm.serialize(),
+        success: function (data) {
+          console.log(data);
+        },
+        error: function (data){
+        }
+    });
+    ev.preventDefault();
+  });

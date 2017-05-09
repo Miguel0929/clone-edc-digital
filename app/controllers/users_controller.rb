@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin
+  before_action :require_admin, except: [:students]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program]
 
   add_breadcrumb "EDCDIGITAL", :root_path
@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   def index
     add_breadcrumb "<a class='active' href='#{users_path}'>Estudiantes</a>".html_safe
 
-    @users = User.students_table
+    @users = User.students_table.page(params[:page]).per(100)
 
     if params[:state].present?
       case params[:state]
@@ -94,13 +94,20 @@ class UsersController < ApplicationController
     @users = @users.where(group: params[:group]) if params[:group].present?
   end
 
+  def exports
+    @users = User.students.includes(:group)
+    respond_to do |format|
+      format.xlsx{response.headers['Content-Disposition']='attachment; filename="Lista de alumnos.xlsx"'} 
+    end
+  end
+
   private
   def set_user
     @user = User.find(params[:id])
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :group_id)
+    params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :group_id, :role)
   end
 
   def validate_student

@@ -78,14 +78,16 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.default_url_options = { host: ENV['MAILER_HOST'], port: 80 }
-  config.action_mailer.default_options = {from: ENV['MAILER_FROM']}
+  config.action_mailer.default charset: 'utf-8'
   config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.smtp_settings = {
     address:              ENV['MAILER_ADDRESS'],
     port:                 ENV['MAILER_PORT'].to_i,
     user_name:            ENV['MAILER_USERNAME'],
-    password:             ENV['MAILER_PASSWORD'],
+    password:             ENV['SENDGRID_API_KEY'],
     authentication:       :plain,
+    domain:               'gmail.com',
     enable_starttls_auto: true
   }
 end

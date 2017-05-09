@@ -1,7 +1,14 @@
 .well
-  = bootstrap_form_for(@program) do |f|
-    = f.text_field :name, label: 'Nombre del programa'
-    = f.text_area :description, label: 'Breve descripción del programa'
-    = f.file_field :cover, label: 'Portada del programa'
-    = link_to 'Cancelar', programs_path, class: 'btn btn-danger'
-    = f.submit 'Aceptar'
+	= bootstrap_form_for(@program) do |f|
+		= f.text_field :name, label: 'Nombre del programa'
+		= f.select(:category, Program.category_type_options, {:label => 'Categoría'}, {:class => 'minimal'}) 
+		= f.text_area :description, label: 'Breve descripción del programa'
+		= f.text_area :objetive, label: 'Objetivo del programa'
+		= f.text_area :curriculum, label: 'Descripción del temario'
+		= f.file_field :cover, label: 'Portada del programa'
+		= f.file_field :icon, label: 'Ícono del programa'
+		= f.text_field :video, label: 'URL del video del programa'
+		= f.select(:color, @selected_color = Program.color_options, {:label => 'Color distintivo'}, {:class => 'minimal'}) 
+		= link_to 'Cancelar', programs_path, class: 'btn btn-danger'
+		= f.submit 'Aceptar'
+

@@ -3,7 +3,8 @@
     .panel-heading
       .pull-right
         .col-xs-12
-          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          /%input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          %input#mentor_students.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       .clearfix
     .panel-body
       = bootstrap_form_tag(url: mentor_students_path, method: :get) do |f|
@@ -19,50 +20,71 @@
             = f.select :visited, options_for_select(OptionsRange.percentages), {include_blank: true, label: 'Porcentaje visto' }
 
         = f.submit 'Filtrar'
+        = link_to "Exportar a excel", exports_mentor_students_path(format: :xlsx), class: "btn btn-success"
 
-      %table.table.table-hover.datatable
-        %thead
-          %tr
-            %th
-              Id
-            %th
-              Nombre
-            %th
-              Correo electrónico
-            %th
-              Teléfono
-            %th
-              Estado
-            %th
-              Grupo
-            %th
-              Porcentaje contestado
-            %th
-              Porcentaje de avance
-            %th
-              Total de comentarios
-            %th
-        %tbody
-          - @users.each do |user|
+      .table-responsive
+        %table.table.table-hover
+          %thead
             %tr
-              %td
-                = user.id
-              %td
-                = user.name
-              %td
-                = user.email
-              %td
-                = user.phone_number
-              %td
-                = user.status
-              %td
-                = user.group_name
-              - if user.student?
+              %th
+                Id
+              %th
+                Nombre
+              %th
+                Correo electrónico
+              %th
+                Teléfono
+              %th
+                Estado
+              %th
+                Grupo
+              %th
+                Porcentaje contestado
+              %th
+                Porcentaje de avance
+              %th
+                Total de comentarios
+              %th
+                Cursos inscritos
+              %th
+          %tbody
+            - @users.each do |user|
+              %tr
                 %td
-                  #{(user.answers_count * 100) / user.questions_count rescue 0}%
+                  = user.id
                 %td
-                  #{(user.content_tracked_count * 100) / user.content_count rescue 0}%
+                  = user.name
                 %td
-                  = user.comments_count
+                  = user.email
                 %td
-                  = link_to 'Ver detalle', mentor_student_path(user)
+                  = user.phone_number
+                %td
+                  = user.status
+                %td
+                  = user.group_name
+                - if user.student?
+                  %td
+                    #{(user.answers_count * 100) / user.questions_count rescue 0}%
+                  %td
+                    #{(user.content_tracked_count * 100) / user.content_count rescue 0}%
+                  %td
+                    = user.comments_count
+                  %td
+                    .btn-group
+                      %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+                        Programas
+                        %span.caret
+                      - unless user.group.nil?
+                        %ul.dropdown-menu
+                          - user.group.programs.each do |program|
+                            %li{style: "padding:5px;"}
+                              #{program.name}. Contestado: #{user.percentage_questions_answered_for(program)}%
+                              Visto: #{user.percentage_content_visited_for(program)}%
+                            %li.divider{role: 'separator'}
+                  %td
+                    = link_to 'Ver detalle', mentor_student_path(user)
+
+      .pull-right
+        = paginate @users
+        %br
+        %span.text-center= page_entries_info @users

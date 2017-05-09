@@ -11,6 +11,13 @@ class Dashboard::ProgramsController < ApplicationController
   def show
     @program = Program.find(params[:id])
 
+    rank= Rating.where(ratingable_type: "Program", ratingable_id: @program.id, user_id: current_user.id).first
+    if rank.nil?
+      @rank=0
+    else
+      @rank=rank.rank
+    end 
+
     add_breadcrumb "Programas", :dashboard_programs_path
     add_breadcrumb "<a class='active' href='#{dashboard_program_path @program}'>#{@program.name}</a>".html_safe
     respond_to do |format|
@@ -32,6 +39,8 @@ class Dashboard::ProgramsController < ApplicationController
       redirect_to students_users_path
     elsif current_user.mentor?
       redirect_to mentor_groups_path
+    elsif current_user.staff?
+      redirect_to students_users_path
     end
   end
 end

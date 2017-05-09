@@ -4,6 +4,8 @@
       %h2
         Grupos a los que tienes acceso
     .panel-body
+      .col-md-3.pull-right
+        %input#group-search.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       %table.table.table-striped
         %thead
           %tr
@@ -33,3 +35,7 @@
                     = user.name
               %td
                 = link_to 'Ver alumnos', mentor_group_path(group)
+      .pull-right
+        = paginate @groups
+        %br
+        %span.text-center= page_entries_info @groups

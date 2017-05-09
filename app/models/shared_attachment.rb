@@ -10,7 +10,7 @@ class SharedAttachment < ActiveRecord::Base
   before_save :rename_file
 
   def self.document_type_options
-    [['Fotografía o Imagen', 'image'], ['PDF', 'pdf'], ['Documento Office', 'office'], ['Otro', 'other_document']]
+    [['Selecciona un tipo de documento', 'none'], ['Fotografía o Imagen', 'image'], ['PDF', 'pdf'], ['Documento Office', 'office'], ['Otro', 'other_document']]
   end
 
   def humanize_document_type

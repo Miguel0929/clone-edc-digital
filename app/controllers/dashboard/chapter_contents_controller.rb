@@ -3,6 +3,12 @@ class Dashboard::ChapterContentsController < ApplicationController
   before_action :track_chapter_content, only: [:show]
 
   def show
+    rank= Rating.where(ratingable_type: "ChapterContent", ratingable_id: @chapter_content.id, user_id: current_user.id).first
+    if rank.nil?
+      @rank=0
+    else
+      @rank=rank.rank
+    end  
     if @chapter_content.coursable_type == 'Question'
       redirect_to router_dashboard_chapter_content_answers_path(@chapter_content), status: 301
     else
@@ -14,16 +20,20 @@ class Dashboard::ChapterContentsController < ApplicationController
 
   #Nuevo: datos para el correo
   def mailer_interno
-    if params[:subject].present? == false || params[:message].present? == false
-      flash_message = { alert: 'Porfavor introduzca asunto y mensaje.'}
+    if params[:raw_subject].present? == false || params[:message].present? == false
+      flash_message = { alert: 'ERROR: No olvides escribir asunto y mensaje.'}
+    elsif params[:urgency] == 'none' || params[:matter] == 'none'
+      flash_message = { alert: 'ERROR: Recuerda seleccionar nivel de urgencia y clasificación.'}
     else
-      @recipients = [{adress: 'soporte-edcdigital@distritoemprendedor.com', type: 'soporte'}, {adress: current_user.email, type: 'usuario'}]
+      @recipients = [{adress: 'soporte@edc-digital.com', type: 'soporte'}, {adress: current_user.email, type: 'usuario'}]
       @recipients.each do |recipient, index|
         if recipient[:type] == 'soporte'
-          Support.contact(params[:subject], params[:message], params[:urgency], params[:matter], current_user, params[:chapter],params[:signature], recipient[:adress]).deliver_now
+          subject = "Solicitud de soporte EDC-Digital: " + params[:raw_subject]
+          Support.contact(subject, params[:message], params[:urgency], params[:matter], current_user, params[:chapter],params[:signature], recipient[:adress], nil).deliver_now
           flash_message = { notice: 'Su mensaje ha sido enviado.'}
         else
-          Support.notify(params[:subject], params[:message], params[:urgency], params[:matter], current_user, params[:chapter],params[:signature], recipient[:adress]).deliver_now
+          subject = "Recibimos tu mensaje: " + params[:raw_subject]
+          Support.notify(subject, params[:raw_subject], params[:message], params[:urgency], params[:matter], current_user, params[:chapter],params[:signature], recipient[:adress], nil).deliver_now
           flash_message = { notice: 'Su mensaje ha sido enviado.'}
         end
       end

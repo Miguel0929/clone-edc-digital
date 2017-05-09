@@ -1,12 +1,19 @@
 - content_for :title  do
-  Editar Archivo - EDCdigital
+	Editar Archivo - EDCdigital
 
-.container-fluid.container-fixed-lg
-  .row
-    .col-md-12
-      .panel.panel-default
-        .panel-heading
-          .panel-title
-            Editar Archivo
-        .panel-body
-          = render 'form'
+.container-fluid.container-fixed-lg.bg-white
+	.row
+		.panel.panel-transparent.p-t-50
+			.col-md-4
+				.panel-heading
+					.panel-title
+						Editar Archivo
+				.panel-body
+					%i.fa.fa-edit.fa-2x.hint-text.m-t-40
+					.h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+						Usa este formulario para editar archivos de tu cuenta
+					%p.m-b-30{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+						Puedes usar los archivos en tu cuenta para compartirlos con tus mentores 
+			.col-md-8
+				.m-r-40.m-l-40
+					= render 'form'
