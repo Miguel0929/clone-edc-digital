@@ -3,6 +3,7 @@ class Program < ActiveRecord::Base
 
   mount_uploader :cover, CoverUploader
   mount_uploader :icon, IconProgramUploader
+  mount_uploader :small_cover, SmallCoverUploader
 
   has_many :chapters, -> { order(position: :asc) }, dependent: :destroy
   has_many :group_programs
