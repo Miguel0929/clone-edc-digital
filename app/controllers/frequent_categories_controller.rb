@@ -6,8 +6,8 @@ class FrequentCategoriesController < ApplicationController
 
 	def index
 		add_breadcrumb "<a class='active' href='#{frequent_categories_path}'>Preguntas frecuentes</a>".html_safe
-		@categories = FrequentCategory.all
 		
+		@categories = FrequentCategory.all
 	end
 
 	def show
@@ -53,7 +53,7 @@ class FrequentCategoriesController < ApplicationController
 
 	private
   def category_params
-		params.require(:frequent_category).permit(:name)
+		params.require(:frequent_category).permit(:name, :term)
   end
 
   def set_category
