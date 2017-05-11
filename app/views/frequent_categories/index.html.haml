@@ -12,12 +12,16 @@
 								%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.m-r-20
 									%i.fa.fa-plus-circle
 									Crear nueva pregunta
-
 				.row
 					.col-sm-12.col-md-12.no-padding.xs-p-l-15.xs-p-r-15.text-white
 						%h2.text-center.text-white
 							¿Cómo podemos ayudarte hoy?
-		
+			.input-group.transparent.center-margin
+				= form_tag(frequents_path, method: :get) do
+					= text_field_tag :term, params[:term]
+					= submit_tag 'Buscar', class: "boton-buscar"
+
+
 	- if @categories.exists?					
 		- @categories.each do |category|
 			.raw.col-md-6

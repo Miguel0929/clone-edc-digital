@@ -13,5 +13,13 @@ class Frequent < ActiveRecord::Base
 		end
 
 		@array
-  end
+	end
+
+	def self.search(term)
+		if term
+			where('name ILIKE ?', "%#{term}%")
+		else
+			all
+		end
+	end
 end
