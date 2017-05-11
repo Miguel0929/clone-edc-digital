@@ -278,6 +278,7 @@ ActiveRecord::Schema.define(version: 20170505155031) do
     t.string   "icon"
     t.string   "video"
     t.string   "color"
+    t.string   "small_cover"
   end
 
   create_table "questions", force: :cascade do |t|
