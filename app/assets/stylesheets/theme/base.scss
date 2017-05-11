@@ -1099,6 +1099,10 @@ body.rtl [class*="col-"] {
 }
 .breadcrumb li {
   padding-left: 0px;
+  max-width: 350px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .breadcrumb > li + li:before {
   padding: 0 5px;

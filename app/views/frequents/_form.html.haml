@@ -1,0 +1,13 @@
+= bootstrap_form_for(@frequent) do |f|
+	= f.text_field :name, label: 'Nombre de la pregunta frecuente'
+	= f.text_area :answer, ckeditor: { language: 'es'}, id: 'ckeditor', label: 'Respuesta'
+	= f.select :frequent_category_id, Frequent.category_of_frequents, label: 'Categoría'
+	.pull-right.m-t-15.m-b-40
+		=link_to frequent_categories_path do
+			%button.btn.btn-info.m-l-10
+				%i.fa.fa-times
+				Cancelar
+		= f.submit 'Guardar pregunta', class: 'btn btn-success m-l-10'
+
+:javascript
+	CKEDITOR.replace('ckeditor');
