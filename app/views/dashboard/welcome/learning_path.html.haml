@@ -1,0 +1,30 @@
+.container-fluid.sm-p-l-5.bg-master-lighter
+	%h2.text-center
+		Ruta de aprendizaje
+	.timeline-container.top-circle
+		%section.timeline
+			- @group_programs.each do |p|
+				.timeline-block
+					.timeline-point.success
+					.timeline-content
+						.card.share.share-other{"data-social" => "item"}
+							.card-content
+								%a{:href => dashboard_program_path(p.program)}
+									= image_tag(p.program.cover.url)
+								%a{:href => dashboard_program_path(p.program)}
+									.card-header.clearfix
+										%h5
+											= p.program.name
+										%h6
+											= p.program.description
+									.p-b-10
+										-if @current_user.percentage_questions_answered_for(p.program) == 0
+											.p-b-10.p-r-15.m-b-10.m-t-5
+												.no-margin.pull-right{:style => "color: #3C93CE;"}
+													Curso no iniciado
+										-elsif
+											.progress
+												.progress-bar.progress-bar-primary{:style => "width:#{@current_user.percentage_questions_answered_for(p.program)}%"}
+											.p-b-10.p-r-15.m-b-10.m-t-5
+												.no-margin.pull-right{:style => "color: #3C93CE;"}
+													#{@current_user.percentage_questions_answered_for(p.program)}% de progreso					

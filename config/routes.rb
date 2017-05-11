@@ -65,6 +65,7 @@ Rails.application.routes.draw do
     post 'send_support_email',    to: 'welcome#send_support_email'
     get 'confidencialidad-y-propiedad-industrial', to: 'welcome#service', as: :service
     get 'ruta',                   to: 'welcome#pathway', as: :pathway
+    get 'ruta-aprendizaje',       to: 'welcome#learning_path', as: :learning_path
 
     resources :notifications, only: [:index, :show] do
       collection do
@@ -117,7 +118,12 @@ Rails.application.routes.draw do
   resources :mentors, except: [:create]
   resources :staffs, except: [:create]
 
-  resources :groups
+  resources :groups do
+    member do
+      get :sort_route
+      post :sort
+    end  
+  end  
   resources :visits, only: [:index]
   resources :deleted_users, only: [:index, :update], path: 'usuarios-desactivados'
 
