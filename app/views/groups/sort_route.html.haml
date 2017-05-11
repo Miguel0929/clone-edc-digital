@@ -1,6 +1,8 @@
 .container-fluid.container-fixed-lg.bg-white
   .panel.panel-transparent
     .panel-heading
+      %h2.text-center
+        Editar "Ruta de aprendizaje"
     .panel-body
       %table.table.table-hover
         %thead
@@ -13,7 +15,10 @@
           - @programs.each do |p|
             %tr{id: "program_#{p.program.id}"}
               %td.handle-sort
-                [mover]
+                .row
+                  = image_tag(p.program.cover.url, options={width: 50, heigth: 50})
+                .row
+                  [mover]
               %td
                 = p.program.name
               %td
