@@ -101,7 +101,13 @@ Rails.application.routes.draw do
 
     resources :attachments, only: [:index, :new, :create, :edit, :update, :destroy]
 
-    resources :quizzes, only: [:index]
+    resources :quizzes, only: [:index, :show] do
+      member do
+        get :apply
+      end
+    end
+
+    resources :quiz_answers, only: [:show, :new, :create, :update, :edit]
   end
 
 

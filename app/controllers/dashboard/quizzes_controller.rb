@@ -5,4 +5,16 @@ class Dashboard::QuizzesController < ApplicationController
   def index
     @quizzes = current_user.group.quizzes
   end
+
+  def show
+    @quiz = Quiz.find(params[:id])
+  end
+
+  def apply
+    @answers = []
+    @quiz = Quiz.find(params[:id])
+    @quiz.quiz_questions.each do |question|
+      @answers << QuizAnswer.new(quiz_question_id: question.id, user_id: current_user.id)
+    end
+  end
 end

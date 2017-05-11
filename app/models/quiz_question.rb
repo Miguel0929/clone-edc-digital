@@ -3,6 +3,7 @@ class QuizQuestion < ActiveRecord::Base
     ['Checkbox', 'checkbox'], ['Radio button', 'radio'], ['Select', 'dropdown']
   ]
   belongs_to :quiz
+  has_many :quiz_answers, dependent: :destroy
 
   enum question_type: [:checkbox, :radio, :dropdown]
 end
