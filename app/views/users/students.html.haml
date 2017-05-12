@@ -3,7 +3,8 @@
     .panel-heading
       .pull-right
         .col-xs-12
-          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          / %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          %input#admin_students.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       .clearfix
     .panel-body
       - if current_user.admin?
@@ -17,7 +18,7 @@
           = f.submit 'Filtrar'
           = link_to 'Exportar excel', exports_users_path(format: :xlsx), class: 'btn btn-success'
 
-      %table.table.table-hover.datatable
+      %table.table.table-hover
         %thead
           %tr
             %th
@@ -81,5 +82,7 @@
                     = link_to new_user_invitation_path, :target => "_blank" do
                       %i.fa.fa-send-o
                       Enviar invitación
-
-
+      .pull-right
+        = paginate @users
+        %br
+        = page_entries_info @users
