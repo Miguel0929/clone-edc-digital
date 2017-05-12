@@ -7,9 +7,15 @@
     #question-answers
       %br
       .row
-        .col-md-4
+        .col-md-4.m-r-0
           .input-group
             %input#answer-option.form-control{ placeholder: "Respuesta", type: "text" }/
+        .col-md-4
+          .input-group
+            %select#answer_status.form-control
+              %option Seleccion una opcion
+              %option{value: "incorrecta"} Incorrecta
+              %option{value: "correcta"} Correcta
             %span.input-group-btn
               %button#addAnswer.btn.btn-default{ type: "button" }
                 Agregar
