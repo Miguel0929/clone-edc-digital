@@ -92,6 +92,7 @@ class UsersController < ApplicationController
     end
 
     @users = @users.where(group: params[:group]) if params[:group].present?
+    @users = @users.search(params[:query]) if params[:query].present?
   end
 
   def exports

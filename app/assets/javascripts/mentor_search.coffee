@@ -16,5 +16,10 @@ $(document).on 'turbolinks:load', ->
       query = $(this).val()
       window.location = "?query="+query
       e.preventDefault
+  $('#admin_students').keypress (e) ->
+    if e.keyCode == 13
+      query = $(this).val()
+      window.location = "?query="+query
+      e.preventDefault
   return
 
