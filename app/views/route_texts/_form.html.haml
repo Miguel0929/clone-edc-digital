@@ -1,0 +1,12 @@
+= bootstrap_form_for(@routetext) do |f|
+	= f.text_field :name, label: 'Nombre del texto:'
+	= f.text_area :redaction, ckeditor: { language: 'es'}, id: 'ckeditor', label: 'Redata el texto aquí'
+	.pull-right
+		=link_to dashboard_pathway_path do
+			%button.btn.btn-info.m-l-10
+				%i.fa.fa-times
+				Cancelar
+		= f.submit 'Guardar texto', class: 'btn btn-success m-l-10'
+
+:javascript
+	CKEDITOR.replace('ckeditor');

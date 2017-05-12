@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170510232729) do
+ActiveRecord::Schema.define(version: 20170512172744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(version: 20170510232729) do
   create_table "group_programs", force: :cascade do |t|
     t.integer "group_id"
     t.integer "program_id"
+    t.integer "position"
   end
 
   add_index "group_programs", ["group_id"], name: "index_group_programs_on_group_id", using: :btree
@@ -319,9 +320,25 @@ ActiveRecord::Schema.define(version: 20170510232729) do
     t.string   "reportable_type"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.integer  "user_id"
   end
 
   add_index "reports", ["reportable_type", "reportable_id"], name: "index_reports_on_reportable_type_and_reportable_id", using: :btree
+  add_index "reports", ["user_id"], name: "index_reports_on_user_id", using: :btree
+
+  create_table "route_covers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "route_image"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "route_texts", force: :cascade do |t|
+    t.string   "name"
+    t.text     "redaction"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "rubrics", force: :cascade do |t|
     t.string  "criteria"
@@ -468,4 +485,5 @@ ActiveRecord::Schema.define(version: 20170510232729) do
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
   add_foreign_key "ratings", "users"
+  add_foreign_key "reports", "users"
 end
