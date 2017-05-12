@@ -80,7 +80,7 @@ class UsersController < ApplicationController
   end
 
   def students
-    @users = User.students.includes(:group)
+    @users = User.students.includes(:group).page(params[:page]).per(100)
 
     if params[:state].present?
       case params[:state]
@@ -92,6 +92,7 @@ class UsersController < ApplicationController
     end
 
     @users = @users.where(group: params[:group]) if params[:group].present?
+    @users = @users.search(params[:query]) if params[:query].present?
   end
 
   def exports
