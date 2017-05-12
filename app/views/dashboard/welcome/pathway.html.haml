@@ -32,6 +32,12 @@
 					
 				.panel-body
 					%div.m-b-30
-						= raw @last_text.redaction
+						- if @texts.exists?
+							= raw @last_text.redaction
+						- else
+							Aún no hay descripción de la ruta
 					.panel.panel-default.m-b-30
-						= image_tag(@last_cover.route_image, :class => "image-width-100", :alt => "Ruta de EDC Digital")
+						- if @covers.exists?
+							= image_tag(@last_cover.route_image, :class => "image-width-100", :alt => "Ruta de EDC Digital")
+						- else
+							Ruta de EDC Digital
