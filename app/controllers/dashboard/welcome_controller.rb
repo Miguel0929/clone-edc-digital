@@ -24,6 +24,10 @@ class Dashboard::WelcomeController < ApplicationController
 
   def pathway
     add_breadcrumb "<a class='active' href='#{dashboard_pathway_path}'>Mi ruta de emprendimiento</a>".html_safe
+    @last_text = RouteText.last
+    @last_cover = RouteCover.last
+    @texts = RouteText.all
+    @covers = RouteCover.all
   end
   def learning_path
     @group_programs=current_user.group.group_programs.order(:position)

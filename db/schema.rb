@@ -361,6 +361,20 @@ ActiveRecord::Schema.define(version: 20170511195007) do
   add_index "reports", ["reportable_type", "reportable_id"], name: "index_reports_on_reportable_type_and_reportable_id", using: :btree
   add_index "reports", ["user_id"], name: "index_reports_on_user_id", using: :btree
 
+  create_table "route_covers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "route_image"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "route_texts", force: :cascade do |t|
+    t.string   "name"
+    t.text     "redaction"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "rubrics", force: :cascade do |t|
     t.string  "criteria"
     t.text    "base"

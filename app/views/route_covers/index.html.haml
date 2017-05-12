@@ -1,0 +1,17 @@
+%h1 RouteCovers#index
+%p Find me in app/views/route_covers/index.html.haml
+
+%ul
+	- if @routecovers.exists?
+		- @routecovers.each do |cover|
+			%li
+				%span
+					= cover.name
+				%span
+					= cover.route_image
+				%span
+					= link_to "Editar", edit_route_cover_path(cover)
+				%span
+					= link_to "Eliminar", route_cover_path(cover), method: :delete, data: { confirm: '¿Estás seguro?' }
+
+= link_to "Subir imagen", new_route_cover_path
