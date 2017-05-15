@@ -1,0 +1,18 @@
+%h1 RouteTexts#index
+%p Find me in app/views/route_texts/index.html.haml
+
+%ul
+	- if @routetexts.exists?
+		- @routetexts.each do |text|
+			%li
+				%span
+					= text.name
+				%edit
+					= link_to "Editar", edit_route_text_path(text)
+				%span
+					= link_to "Eliminar", route_text_path(text), method: :delete, data: { confirm: '¿Estás seguro?' }
+
+= link_to "Crear texto", new_route_text_path
+
+
+	

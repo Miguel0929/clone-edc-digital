@@ -95,6 +95,14 @@
                   = link_to destroy_user_session_path, method: :delete do
                     Cerrar sesión
                   %span.icon-thumbnail Cs
+
+          - if current_user.admin?
+            %li
+              %a.detailed.redirector{:href => dashboard_pathway_path }
+                %span.title Mi ruta
+                %span.details Editar Mi ruta
+              %span.icon-thumbnail
+                %i.fa.fa-map-o
                
         .clearfix
     .page-container

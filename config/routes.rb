@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   post 'ratings/vote_chapter_content'
   post 'ratings/vote_program'
 
@@ -198,5 +199,7 @@ Rails.application.routes.draw do
   resources :frequents
   resources :frequent_categories
   get '/frequent_questions', to: "frequent_categories#index"
+  resources :route_texts
+  resources :route_covers
   
 end

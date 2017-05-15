@@ -1,0 +1,2 @@
+module RouteTextsHelper
+end

@@ -4518,8 +4518,24 @@ body > .pgn-wrapper {
   background-color: #6d5cae;
   background-image: none;
 }
+.progress-bar-primary-dark {
+  background-color: #5B4D91;
+  background-image: none;
+}
+.progress-bar-primary-light {
+  background-color: #ada4d1;
+  background-image: none;
+}
 .progress-bar-complete {
   background-color: #48b0f7;
+  background-image: none;
+}
+.progress-bar-complete-dark {
+  background-color: #398cc5;
+  background-image: none;
+}
+.progress-bar-complete-light {
+  background-color: #b1d3eb;
   background-image: none;
 }
 .progress-bar-success {
