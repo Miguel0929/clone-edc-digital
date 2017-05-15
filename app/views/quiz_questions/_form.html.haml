@@ -12,7 +12,7 @@
             %input#answer-option.form-control{ placeholder: "Respuesta", type: "text" }/
         .col-md-4
           .input-group
-            %select#answer_status.form-control
+            %select#answer-status.form-control
               %option Seleccion una opcion
               %option{value: "incorrecta"} Incorrecta
               %option{value: "correcta"} Correcta
@@ -36,11 +36,12 @@
 
     $('#addAnswer').click(function(){
       var option = $('#answer-option').val();
+      var stat = $('#answer-status').val();
       if(!option || /^\s*$/.test(option)){
         return true;
       }
 
-      $('#answers-list').append(getOptionElement(option));
+      $('#answers-list').append(getOptionElement(option + " ~ " + stat));
       $('#answer-option').val('');
       formatTextArea();
     });

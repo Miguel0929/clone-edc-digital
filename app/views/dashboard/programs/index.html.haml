@@ -39,24 +39,3 @@
                         .p-b-10.p-r-15.m-b-10.m-t-5
                           .no-margin.pull-right{:style => "color: #3C93CE;"}
                             #{@current_user.percentage_questions_answered_for(program)}% de progreso
-      
-      .panel.panel-transparent
-        .panel-heading
-          .panel-title
-            Examenes de evaluación
-        .panel-body
-          %h5
-            Contesta las evaluaciones y mide tu progreso
-          %p.m-b-25
-            Mas texto blablabla.... 
-
-          - @quizzes.each do |quiz|
-            .col-md-4.col-sm-6.col-xs-12.tarjeta-programa
-              .card.share.share-other{"data-social" => "item"}
-                .card-content
-                  %a{:href => 'dashboard_program_path(program)'}
-                    .card-header.clearfix
-                      %h5
-                        = quiz.name
-                      %h6
-                        = quiz.description

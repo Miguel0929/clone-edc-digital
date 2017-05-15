@@ -1,10 +1,14 @@
 class QuizQuestionsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_quiz, only: [:new, :create, :destroy]
+  before_action :set_quiz, only: [:new, :create, :destroy, :edit, :update]
 
   def new
     @quiz_question = @quiz.quiz_questions.build
+  end
+
+  def edit
+    @quiz_question = QuizQuestion.find(params[:id])
   end
 
   def create
@@ -13,6 +17,15 @@ class QuizQuestionsController < ApplicationController
       redirect_to @quiz
     else
       render :new
+    end
+  end
+
+  def update
+    @quiz_question = QuizQuestion.find(params[:id])
+    if @quiz_question.update(quiz_question_params)
+      redirect_to @quiz
+    else
+      render :edit
     end
   end
 

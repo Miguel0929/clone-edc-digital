@@ -12,9 +12,16 @@
               %p
                 = @quiz.description
               %p
-                = link_to apply_dashboard_quiz_path(@quiz), class: 'btn btn-sm btn-primary btn-cons m-b-10' do
-                  %i.fa.fa-play
-                  %span.bold Contestar
+                - if @quiz.quiz_questions.first.quiz_answers.where(user: current_user).empty?
+                  = link_to apply_dashboard_quiz_path(@quiz), class: 'btn btn-sm btn-primary btn-cons m-b-10' do
+                    %i.fa.fa-play
+                    %span.bold Contestar
+                - else
+                  = link_to '#', class: 'btn btn-sm btn-success btn-cons m-b-10' do
+                    %i.fa.fa-check
+                    %span.bold 
+                      Ya has contestado este examen: 
+                    
 .container-fluid.container-fixed-lg
   .row
     .col-sm-12
@@ -36,5 +43,18 @@
                       = link_to "#", class: "btn btn-success btn-rounded" do
                         %i.fa.fa-tasks 
                       = question.question_text
-                    %td= "status"
-                    %td= "comentarios"
+                      - answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: current_user.id)
+                    %td
+                      = answer.nil? ? "Sin contestar" : answer.answer_text
+                      - unless answer.nil?
+                        = answer.correct == true ? "<i class='fa fa-check'></i>".html_safe : "<i class='fa fa-times'></i>".html_safe 
+                    %td
+                      - if !answer.nil?
+                        = answer.correct == true ? answer.quiz_question.points : '0'
+                      - else
+                        0
+                %tr
+                  %td{colspan: '2'}
+                    %h5.pull-right Total
+                  %td
+                    %h5= @quiz.average(current_user)

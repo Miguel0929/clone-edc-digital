@@ -4,4 +4,4 @@
       .col-md-4
         %input{:name => "answers[#{i}][answer_text]", :type => "radio", :value => answer, id: "radio_#{answers.quiz_question_id}_#{index}", checked: answer_is_selected?(answers, answer)}
         %label{:for => "radio_#{answers.quiz_question_id}_#{index}"}
-          = answer
+          = answer.split('~')[0]

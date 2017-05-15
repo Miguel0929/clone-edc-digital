@@ -19,4 +19,5 @@
     .form-group
       .row
         .pull-right.m-l-30
+          = hidden_field_tag :quiz_id, @quiz.id
           = submit_tag "Guardar", class: "btn btn-default btn-lg"
