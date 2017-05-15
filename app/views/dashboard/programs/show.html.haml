@@ -27,22 +27,50 @@
                 = link_to dashboard_program_path(user_id: current_user, format: :xlsx), class: "btn btn-success btn-sm btn-cons m-b-10" do
                   %i.fa.fa-file-excel-o
                   Descargar mi compilación de resultados en Excel
-        -if @current_user.percentage_questions_answered_for(@program) == 0
+        - if @current_user.percentage_questions_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) == 0
           %section.demo-bg-section.p-b-20.p-t-65
-            .pull-right.m-r-60
-              %h5{:style => "color: #48B0F7;"}
-                No has iniciado este programa aún
+          .row.col-md-4
+            .pull-left.p-b-10
+              %span.m-r-20{:style => "color: #48B0F7; font-size:"}
+                %i.fa.fa-edit
+                No has iniciado este curso
             .clearfix
-        -elsif
-          %section.demo-bg-section.p-b-10.p-t-65
-            .progress.m-b-5{:style => "background-color: #ffffff1a;"}
-              .progress-bar.progress-bar-complete{:style => "width:#{@current_user.percentage_questions_answered_for(@program)}%"}
-            .pull-right.m-r-50{:style => "color: #48B0F7;"}
-              Progreso contestado del #{@current_user.percentage_questions_answered_for(@program)}%
+        - elsif @current_user.percentage_questions_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) > 0
+          .row
+            %section.demo-bg-section.p-b-10.p-t-65
+              .progress.m-b-5{:style => "background-color: #ffffff1a;"}
+                .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.percentage_questions_answered_for(@program)}%"}
+                .progress-bar.progress-bar-complete-light{:style => "width:#{@current_user.percentage_content_visited_for(@program)-@current_user.percentage_questions_answered_for(@program)}%"}
+          .row.col-md-4
+            .pull-left
+              %span.m-r-20{:style => "color: #48B0F7;"}
+                %i.fa.fa-edit
+                No has iniciado este curso
+              %span{:style => "color: #b1d3eb;"}
+                %i.fa.fa-eye
+                #{@current_user.percentage_content_visited_for(@program)}% visto
             .clearfix
-              .pull-right    
-                Calificar curso:
-                = render partial: "layouts/stars", locals: {value: @program, route: ratings_vote_program_path}   
+        - else
+          .row
+            %section.demo-bg-section.p-b-10.p-t-65
+              .progress.m-b-5{:style => "background-color: #ffffff1a;"}
+                .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.percentage_questions_answered_for(@program)}%"}
+                .progress-bar.progress-bar-complete-light{:style => "width:#{@current_user.percentage_content_visited_for(@program)-@current_user.percentage_questions_answered_for(@program)}%"}
+          .row.col-md-4
+            .pull-left
+              %span.m-r-20{:style => "color: #48B0F7;"}
+                %i.fa.fa-edit
+                Progreso del #{@current_user.percentage_questions_answered_for(@program)}%
+              %span{:style => "color: #b1d3eb;"}
+                %i.fa.fa-eye
+                #{@current_user.percentage_content_visited_for(@program)}% visto
+            .clearfix
+        .row.col-md-8.p-b-10
+          .pull-right
+            %span.pull-left.m-r-10{:style => "color:#dddddd"}
+              Califica este curso:
+            %span.pull-right
+              = render partial: "layouts/stars", locals: {value: @program, route: ratings_vote_program_path}   
 
 .container-fluid.container-fixed-lg
   .row
