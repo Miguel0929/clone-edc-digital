@@ -2,6 +2,10 @@ module ApplicationHelper
   def answer_to_array(question)
     @question_answers ||= question.answer_options.split("\n").map {|option| option.strip}
   end
+  
+  def answer_to_select(question)
+    question.answer_options.split("\n").map { |option| [ option.split('~')[0].strip, option.strip ]}
+  end
 
   def answer_is_selected?(answers, answer)
     return false if answers.answer_text.nil?

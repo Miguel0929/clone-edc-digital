@@ -24,5 +24,15 @@
         %label{:for => "check_users_#{index}" }
           = user.name
     %input(type="hidden" name='group[user_ids][]' value="")
+  
+  .form-group
+    %label
+      Lista de Quizzes
+    - Quiz.all.each_with_index do |quiz, index|
+      .checkbox.check-success
+        = check_box_tag 'group[quiz_ids][]', quiz.id, @group.quizzes.include?(quiz), id: "check_quizzes_#{index}"
+        %label{:for => "check_quizzes_#{index}" }
+          = quiz.name
+    %input(type="hidden" name='group[quiz_ids][]' value="")
 
   = f.submit 'Aceptar'

@@ -1,0 +1,5 @@
+.form-group
+  %select.form-control
+    - question.answer_options.split("\n").each do |answer|
+      %option
+        = answer

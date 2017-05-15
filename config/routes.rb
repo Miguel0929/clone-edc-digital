@@ -36,6 +36,10 @@ Rails.application.routes.draw do
       post :clone
     end
   end
+  
+  resources :quizzes do
+    resources :quiz_questions
+  end
 
   resources :chapters, only: [] do
     resources :lessons, except: [:index] do
@@ -98,6 +102,14 @@ Rails.application.routes.draw do
     resources :evaluations, only: [:index, :show]
 
     resources :attachments, only: [:index, :new, :create, :edit, :update, :destroy]
+
+    resources :quizzes, only: [:index, :show] do
+      member do
+        get :apply
+      end
+    end
+
+    resources :quiz_answers, only: [:show, :new, :create, :update, :edit]
   end
 
 

@@ -37,6 +37,7 @@
           = display_navbar_link({link: 'Grupos', details: 'Grupos de la plataforma' ,path: groups_path, css: ['m-t-30'], icon: 'fa fa-users', role: [:admin]})
           = display_navbar_link({link: 'Mentores', details: 'Grupos de la plataforma' ,path: mentors_path, icon: 'fa fa-briefcase', role: [:admin]})
           = display_navbar_link({link: 'Programas', details: 'Diseño de programas' ,path: programs_path, icon: 'fa fa-list-alt', role: [:admin]})
+          = display_navbar_link({link: 'Exámen', details: 'Crear exámen rápido', path: quizzes_path, icon: 'fa fa-file-text-o', role: [:admin]})
           = display_navbar_link({link: 'Visitas', details: 'Panel de visitas' ,path: visits_path, icon: 'fa fa-list-alt', role: [:admin]})
           = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: students_users_path, icon: 'fa fa-book', role: [:admin, :staff]})
           = display_navbar_link({link: 'Staff', details: 'Personal de invitaciones', path: staffs_path, icon: 'fa fa-user-md', role: [:admin]})
@@ -54,6 +55,7 @@
 
           - if current_user.student?
             = display_navbar_link({css: ['m-t-30'], link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})
+            = display_navbar_link({link: 'Examenes', details: 'Examenes en EDCdigital', path: dashboard_quizzes_path, icon: 'fa fa-question-circle', role: [:student]})
             = display_navbar_link({css: [''], link: 'Mi ruta', details: 'Ruta de emprendimiento' ,path: dashboard_pathway_path, icon: 'fa fa-map-o', role: [:student]})
             = display_navbar_link({css: [''], link: 'Ruta de aprendizaje', details: 'Ruta de apendizaje' ,path: dashboard_learning_path_path, icon: 'fa fa-map-o', role: [:student]})
             = display_navbar_link({css: [''], link: 'Mis archivos', details: 'Archivos digitales' ,path: dashboard_attachments_path, icon: 'fa fa-file', role: [:student]})
