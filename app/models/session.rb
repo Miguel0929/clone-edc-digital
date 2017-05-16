@@ -11,7 +11,7 @@ class Session < ActiveRecord::Base
         .humanize
         .gsub('Years', 'Año')
         .gsub('Months', 'Meses')
-        .gsub('Month' 'Mes')
+        .gsub('Month', 'Mes')
         .gsub('Weeks', 'Semanas')
         .gsub('Week', 'Semana')
         .gsub('Days', 'Días')
