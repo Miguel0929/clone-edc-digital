@@ -13,3 +13,6 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += %w( ckeditor/* )
 Rails.application.config.assets.paths << Rails.root.join('app', 'assets', 'html')
 Rails.application.config.assets.register_mime_type('text/html', '.html')
+Rails.application.config.assets.precompile += %w( landings/* )
+Rails.application.config.assets.precompile += %w( landings.js )
+Rails.application.config.assets.precompile += %w( landings.css )
