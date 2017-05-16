@@ -24,7 +24,7 @@
 
 	- if @categories.exists?					
 		- @categories.each do |category|
-			.raw.col-md-6
+			.col-md-6
 				.card.share{"data-social" => "item"}
 					- if current_user.admin?
 						.pull-right.p-t-10.p-r-15.p-l-10.clearfix
@@ -39,9 +39,9 @@
 							= link_to category.name, category, :style => "color: black;"
 							(#{category.frequents.count})
 
-					.card-description
+					.card-description.p-b-0
 						-if category.frequents.exists?
-							- category.frequents.each do |frequent|
+							- category.frequents.first(5).each do |frequent|
 								%ul.list-unstyled
 									%li 
 										= link_to frequent.name, frequent
@@ -53,11 +53,18 @@
 												%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar"}
 													%i.fa.fa-times-circle{:style => "font-size:18px;"}
 						-elsif
-							%center
+							%center.p-b-10
 								Aún no hay preguntas para esta categoría
+					- if category.frequents.count > 3
+						.card-footer.clearfix
+							.pull-left
+								= link_to frequent_category_path(category) do
+									.btn-tag.btn-tag-light.btn-tag-rounded.m-l-10
+										%i.fa.fa-eye
+										Ver todas las preguntas (#{category.frequents.count})
 	
 	- elsif
-		.raw.col-md-12
+		.row.col-md-12
 			.card.share{"data-social" => "item"}
 				.card-header
 					%h5.text-center 
