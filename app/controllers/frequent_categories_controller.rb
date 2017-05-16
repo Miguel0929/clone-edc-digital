@@ -6,7 +6,7 @@ class FrequentCategoriesController < ApplicationController
 
 	def index
 		add_breadcrumb "<a class='active' href='#{frequent_categories_path}'>Preguntas frecuentes</a>".html_safe
-		
+
 		@categories = FrequentCategory.all
 	end
 

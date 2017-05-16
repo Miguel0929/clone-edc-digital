@@ -2,10 +2,11 @@ class Frequent < ActiveRecord::Base
 	belongs_to :frequent_category
 
 	validates :name, presence: true
+	validates :frequent_category_id, presence: true
 
 	def self.category_of_frequents
 		categories = FrequentCategory.all
-		@array = [['SELECCIONA UNA CATEGORÍA']]
+		@array = []
 
 		categories.each do |cat|
 			event = [cat[:name], cat[:id]]
