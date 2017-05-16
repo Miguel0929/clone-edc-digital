@@ -7,7 +7,7 @@
           -if current_user.admin?
             Rating: 
             = @program.rating
-        .row
+        .row.col-md-12
           .col-sm-5.col-md-4
             %h2.m-t-5.text-white
               = @program.name
@@ -28,30 +28,30 @@
                   %i.fa.fa-file-excel-o
                   Descargar mi compilación de resultados en Excel
         - if @current_user.percentage_questions_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) == 0
-          %section.demo-bg-section.p-b-20.p-t-65
-          .row.col-md-4
+          %section.col-md-12.demo-bg-section.p-b-20.p-t-65
+          .row.col-sm-6
             .pull-left.p-b-10
               %span.m-r-20{:style => "color: #48B0F7; font-size:"}
                 %i.fa.fa-edit
-                No has comenzado a contestar este curso
+                No has contestado este curso
             .clearfix
         - elsif @current_user.percentage_questions_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) > 0
-          .row
+          .row.col-sm-12
             %section.demo-bg-section.p-b-10.p-t-65
               .progress.m-b-5{:style => "background-color: #ffffff1a;"}
                 .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.percentage_questions_answered_for(@program)}%"}
                 .progress-bar.progress-bar-complete-light{:style => "width:#{@current_user.percentage_content_visited_for(@program)-@current_user.percentage_questions_answered_for(@program)}%"}
-          .row.col-md-4
+          .row.col-sm-6
             .pull-left
               %span.m-r-20{:style => "color: #48B0F7;"}
                 %i.fa.fa-edit
-                No has comenzado a contestar este curso
+                No has contestado este curso
               %span{:style => "color: #b1d3eb;"}
                 %i.fa.fa-eye
                 #{@current_user.percentage_content_visited_for(@program)}% visto
             .clearfix
         - else
-          .row
+          .row.col-sm-12
             %section.demo-bg-section.p-b-10.p-t-65
               .progress.m-b-5{:style => "background-color: #ffffff1a;"}
                 .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.percentage_questions_answered_for(@program)}%"}
@@ -65,7 +65,7 @@
                 %i.fa.fa-eye
                 #{@current_user.percentage_content_visited_for(@program)}% visto
             .clearfix
-        .row.col-md-8.p-b-10
+        .row.col-sm-6.p-b-10
           .pull-right
             %span.pull-left.m-r-10{:style => "color:#dddddd"}
               Califica este curso:
