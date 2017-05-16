@@ -13,7 +13,7 @@ class FrequentsController < ApplicationController
 		add_breadcrumb "<a href='#{frequent_categories_path}'>Preguntas frecuentes</a>".html_safe
 		add_breadcrumb "<a class='active' href='#{frequents_path}'>Búsqueda de preguntas frecuentes</a>".html_safe
 		@frequentsearch = Frequent.search(params[:term])
-		@search_term = (params[:term]).capitalize
+		@search_term = (params[:term])
 	end
 
 	def new
