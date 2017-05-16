@@ -41,7 +41,7 @@
 
 					.card-description.p-b-0
 						-if category.frequents.exists?
-							- category.frequents.first(3).each do |frequent|
+							- category.frequents.first(5).each do |frequent|
 								%ul.list-unstyled
 									%li 
 										= link_to frequent.name, frequent
