@@ -150,10 +150,21 @@ ActiveRecord::Schema.define(version: 20170512213426) do
   create_table "group_programs", force: :cascade do |t|
     t.integer "group_id"
     t.integer "program_id"
+    t.integer "position"
   end
 
   add_index "group_programs", ["group_id"], name: "index_group_programs_on_group_id", using: :btree
   add_index "group_programs", ["program_id"], name: "index_group_programs_on_program_id", using: :btree
+
+  create_table "group_quizzes", force: :cascade do |t|
+    t.integer  "group_id"
+    t.integer  "quiz_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "group_quizzes", ["group_id"], name: "index_group_quizzes_on_group_id", using: :btree
+  add_index "group_quizzes", ["quiz_id"], name: "index_group_quizzes_on_quiz_id", using: :btree
 
   create_table "group_users", force: :cascade do |t|
     t.integer "group_id"
@@ -293,7 +304,6 @@ ActiveRecord::Schema.define(version: 20170512213426) do
     t.string   "support_image"
   end
 
-<<<<<<< HEAD
   create_table "quiz_answers", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "quiz_question_id"
@@ -320,8 +330,6 @@ ActiveRecord::Schema.define(version: 20170512213426) do
 
   add_index "quiz_questions", ["quiz_id"], name: "index_quiz_questions_on_quiz_id", using: :btree
 
-=======
->>>>>>> feature/landing-page
   create_table "quizzes", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
@@ -348,9 +356,11 @@ ActiveRecord::Schema.define(version: 20170512213426) do
     t.string   "reportable_type"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.integer  "user_id"
   end
 
   add_index "reports", ["reportable_type", "reportable_id"], name: "index_reports_on_reportable_type_and_reportable_id", using: :btree
+  add_index "reports", ["user_id"], name: "index_reports_on_user_id", using: :btree
 
   create_table "route_covers", force: :cascade do |t|
     t.string   "name"
@@ -507,8 +517,14 @@ ActiveRecord::Schema.define(version: 20170512213426) do
   add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
   add_index "visits", ["visit_token"], name: "index_visits_on_visit_token", unique: true, using: :btree
 
+  add_foreign_key "group_quizzes", "groups"
+  add_foreign_key "group_quizzes", "quizzes"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
+  add_foreign_key "quiz_answers", "quiz_questions"
+  add_foreign_key "quiz_answers", "users"
+  add_foreign_key "quiz_questions", "quizzes"
   add_foreign_key "ratings", "users"
+  add_foreign_key "reports", "users"
 end
