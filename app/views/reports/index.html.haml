@@ -38,7 +38,10 @@
 							%td
 								= report.cause
 							%td
-								= report.user.name	
+								- if report.user.nil?
+									N/A
+								- else	
+									= report.user.name	
 							%td
 								= report.model.chapter.program.name
 							%td
