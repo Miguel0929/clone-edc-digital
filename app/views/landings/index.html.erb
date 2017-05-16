@@ -6,7 +6,7 @@
     <title>EDCdigital</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="<%=image_path('favicon.ico')%>" />
 
     <meta name="description" content="Plataforma digital para la construcción y validación de tu idea de negocio, para el programa Emprendiendo desde Cero"/>
 	<meta name="keywords" content="emprendedor, emprendedores, emprendimiento, financiamiento, jóvenes, finanzas, capacitación, curso, inversión, capital, privado"/>
@@ -53,7 +53,6 @@
           </div>
           <div class="pull-right hidden-sm hidden-xs col-sm-6">
             <div class="header-inner text-right">
-              <a class="m-r-15 hint-text link text-black b-r b-grey p-r-20" target="new" href="<%= root_url %>">Ir a edc-digital.com</a>
               <p class="font-montserrat fs-13 text-master p-t-20 inline ">+52 (55) 5351 6633 <i class="m-l-10 fa fa-phone"></i></p>
             </div>
           </div>
@@ -78,7 +77,7 @@
                   </li>
                   <li>
                     <a href="<%= user_session_path %>" target="new" data-text="Login" class="p-r-0 btn btn-sm btn-bordered btn-white block-title fs-12 hidden-xs">Iniciar sesión</a>
-                    <a href="<%= user_session_path %>" target="new" data-text="Login" class="p-r-0 visible-xs">Iniciar sesión</a>
+                    <a href="<%= user_session_path %>" data-text="Login" class="p-r-0 visible-xs">Iniciar sesión</a>
                   </li>
                   <li class="visible-sm visible-xs">
                     <a data-text="Contact Us" href="#">+52 (55) 5351 6633 <i class="m-l-10 fa fa-phone"></i></a>
@@ -119,8 +118,8 @@
                                       Comienza la construcción<br>de tu idea de negocio
                                         </h1>
                             <h5 class="text-white hint-text">Programa de seguimiento Emprendiendo desde Cero digital</h5>
-                            <a href="<%= user_session_path %>" target="new" class="btn btn-white font-montserrat all-caps btn-cons fs-12 m-t-25 hidden-xs">Ir a plataforma de seguimiento aquí >></a>
-                            <a href="<%= user_session_path %>" target="new" class="btn btn-white font-montserrat all-caps btn-cons fs-12 m-t-25 visible-xs">Ir a plataforma de seguimiento >></a>
+                            <a href="<%= user_session_path %>"  class="btn btn-white font-montserrat all-caps btn-cons fs-12 m-t-25 hidden-xs">Inicia sesión en tu seguimiento aquí >></a>
+                            <a href="<%= user_session_path %>"  class="btn btn-white font-montserrat all-caps btn-cons fs-12 m-t-25 visible-xs">Inicia sesión en tu seguimiento aquí >></a>
                           </div>
                         </div>
                       </div>
@@ -211,7 +210,7 @@
             <div class="col-xs-height col-middle">
               <div class="text-center">
                 <h1 class="text-white col-sm-12 p-b-10">Comienza hoy mismo a construir y validar tu idea de negocio</h1>
-                <a class="btn btn-lg btn-primary btn-cons btn-rounded m-t-20" href="<%= user_session_path %>" target="new">Ir a EDCdigital</a>
+                <a class="btn btn-lg btn-primary btn-cons btn-rounded m-t-20" href="<%= user_session_path %>">Inicia sesión en EDCdigital aquí</a>
                 <p class="fs-12 font-arial text-white m-t-30"><span class="hint-text">En caso de que aún no tengas tu cuenta,
                         </span> puedes solicitarla <a href="https://emprendiendodesdecero.com/seguimiento" target="new">aquí</a>.
                 </p>
@@ -222,10 +221,6 @@
       </div>
     </section>
     <!-- END CONTENT SECTION -->
-  
-   
-
-
     <!-- START FOOTER -->
     <section class="p-b-30 p-t-40">
       <div class="container">
