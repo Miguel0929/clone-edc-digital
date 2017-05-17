@@ -3,7 +3,7 @@
 
 .container-fluid.container-fixed-lg
   .panel.panel-transparent
-    .panel-body
+    .panel-body.p-t-0
       .row
         .col-sm-10
           %h3
@@ -11,7 +11,7 @@
             .col-xs-height
               %h3.no-margin Solicita ayuda de nuestro equipo de mentores
               %p.hint-text.m-t-5
-                Utiliza esta forma de contacto para solicitar apoyo en áreas de mentiría para tu idea de negocio. 
+                Utiliza esta forma de contacto para solicitar apoyo en áreas de mentoría para tu idea de negocio. 
                 %span
                   %strong Recuerda completar con toda la información relevante para que los mentores puedan apoyarte.
 
@@ -45,7 +45,13 @@
               %label.col-sm-3.control-label{:for => "message"} Descripción detallada de tu mensaje o problema
               .col-sm-9
                 %textarea.form-control{:rows => "8", :placeholder => "Describe aquí el problema o lo que estás enfrentando", name: 'message', :required => ""}
-              = file_field(:file,:attachment)
+            .form-group
+              %label.col-sm-3.control-label{:for => "message"} Adjunta archivos
+              .col-sm-9
+                .m-b-10
+                  ¿Requieres adjuntar un archivo para ilustrar tu mensaje? Puedes hacerlo aquí:
+                .m-b-10
+                  = file_field(:file,:attachment)
 
             .clearfix
             .row.m-t-15
