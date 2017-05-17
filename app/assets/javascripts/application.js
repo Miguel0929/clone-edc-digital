@@ -30,3 +30,8 @@
 //= require Chart.bundle
 //= require chartkick
 //= require_tree .
+//= stub landings/pace.min
+//= stub landings/pages.frontend
+//= stub landings/velocity.min
+//= stub landings/velocity.ui
+//= stub landings
