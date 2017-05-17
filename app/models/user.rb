@@ -163,6 +163,10 @@ class User < ActiveRecord::Base
     program.chapters.joins(questions: [answers: [:comments]]).where('comments.user_id': self.id).count
   end
 
+  def comments_count
+    comments.count
+  end
+
   def percentage_content_visited_for(program)
     total = program.chapters.joins(:lessons).select('lessons.*').count
     (content_visted_for(program) * 100) / total rescue 0
