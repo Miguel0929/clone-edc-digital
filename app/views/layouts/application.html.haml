@@ -169,7 +169,7 @@
                       .notification-body.scrollable
                         = render partial: "mailbox/notification", collection: mailbox.inbox.limit(3).order(created_at: :desc), as: :item
                       .notification-footer.text-center
-                        %a{:href => mailbox_inbox_path} Ver todas las notificaciones 
+                        %a{:href => mailbox_inbox_path} Ver todos los mensajes 
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
                           %i.pg-refresh_new   
             %a{:href => frequent_questions_path, :target => "blank"} 
