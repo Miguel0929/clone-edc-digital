@@ -19,9 +19,8 @@
  *= require dataTables/extras/dataTables.fixedColumns
  *= require_self
  *= require medium-editor
- *= stub 'landings/pages-icons'
- *= stub 'landings/pages'
- *= stub 'landings/plugins/pace-theme-flash'
- *= stub 'landings/plugins/swiper.min'
- *= stub 'landings'
+ *= stub landings/pages-icons
+ *= stub landings/pages
+ *= stub landings/plugins/pace-theme-flash
+ *= stub landings/plugins/swiper.min
  */
