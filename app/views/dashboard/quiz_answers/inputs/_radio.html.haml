@@ -1,0 +1,7 @@
+.radio.radio-success
+  - answer_to_array(question).each_with_index do |answer, index|
+    .row
+      .col-md-4
+        %input{:name => "answers[#{i}][answer_text]", :type => "radio", :value => answer, id: "radio_#{answers.quiz_question_id}_#{index}", checked: answer_is_selected?(answers, answer)}
+        %label{:for => "radio_#{answers.quiz_question_id}_#{index}"}
+          = answer.split('~')[0]

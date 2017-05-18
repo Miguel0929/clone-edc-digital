@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
   has_many :attachments
   has_many :shared_attachments
   has_many :chapter_content_rank
+  has_many :quiz_answers
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 
