@@ -27,8 +27,9 @@
               Datos de contacto
             %th{:width => "25%"}
               Infomración de usuario
-            %th{:width => "25%"}
-              Porcentaje de avances
+            - if current_user.admin?
+              %th{:width => "25%"}
+                Porcentaje de avances
             %th
               Acciones
         %tbody
@@ -65,22 +66,23 @@
                     %span.bold Grupo:
                   %li.inline 
                     = user.group.name.capitalize unless user.group.nil?
-              %td
-                %ul.p-l-0.m-b-5
-                  %li.inline 
-                    %span.bold Contestado:
-                  %li.inline 
-                    #{user.answered_questions_percentage}%
-                %ul.p-l-0.m-b-5
-                  %li.inline 
-                    %span.bold Visto:
-                  %li.inline 
-                    #{user.content_visited_percentage}%
-                %ul.p-l-0.m-b-5
-                  %li.inline 
-                    %span.bold Comentarios:
-                  %li.inline 
-                    = user.comments_count
+              - if current_user.admin?
+                %td
+                  %ul.p-l-0.m-b-5
+                    %li.inline 
+                      %span.bold Contestado:
+                    %li.inline 
+                      #{user.answered_questions_percentage}%
+                  %ul.p-l-0.m-b-5
+                    %li.inline 
+                      %span.bold Visto:
+                    %li.inline 
+                      #{user.content_visited_percentage}%
+                  %ul.p-l-0.m-b-5
+                    %li.inline 
+                      %span.bold Comentarios:
+                    %li.inline 
+                      = user.comments_count
               %td
                 %ul.unstyled.list-unstyled.p-l-0.m-b-5
                   %li 
@@ -88,18 +90,19 @@
                       %i.fa.fa-eye
                       Ver información
                   - if user.student?
-                    %li
-                      = link_to edit_user_path(user) do
-                        %i.fa.fa-edit
-                        Editar
-                  %li
-                    = link_to user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' } do
-                      %i.fa.fa-times
-                      Eliminar
-                  %li
-                    = link_to new_user_invitation_path, :target => "_blank" do
-                      %i.fa.fa-send-o
-                      Enviar invitación
+                    - if current_user.admin?
+                      %li
+                        = link_to edit_user_path(user) do
+                          %i.fa.fa-edit
+                          Editar
+                      %li
+                        = link_to user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                          %i.fa.fa-times
+                          Eliminar
+                      %li
+                        = link_to new_user_invitation_path, :target => "_blank" do
+                          %i.fa.fa-send-o
+                          Enviar invitación
       .pull-right
         = paginate @users
         %br
