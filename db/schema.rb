@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170512172744) do
+ActiveRecord::Schema.define(version: 20170517203151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,14 @@ ActiveRecord::Schema.define(version: 20170512172744) do
   add_index "answers", ["answer_text"], name: "index_answers_on_answer_text", using: :btree
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
   add_index "answers", ["user_id"], name: "index_answers_on_user_id", using: :btree
+
+  create_table "async_jobs", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "progress"
+    t.integer  "total"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "attachments", force: :cascade do |t|
     t.integer  "user_id"
@@ -132,6 +140,12 @@ ActiveRecord::Schema.define(version: 20170512172744) do
     t.string  "bad"
   end
 
+  create_table "exporters", force: :cascade do |t|
+    t.string   "file"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "frequent_categories", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -150,7 +164,6 @@ ActiveRecord::Schema.define(version: 20170512172744) do
   create_table "group_programs", force: :cascade do |t|
     t.integer "group_id"
     t.integer "program_id"
-    t.integer "position"
   end
 
   add_index "group_programs", ["group_id"], name: "index_group_programs_on_group_id", using: :btree
@@ -310,6 +323,7 @@ ActiveRecord::Schema.define(version: 20170512172744) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.text     "answer_text"
+    t.boolean  "correct"
   end
 
   add_index "quiz_answers", ["quiz_question_id"], name: "index_quiz_answers_on_quiz_question_id", using: :btree
@@ -355,11 +369,9 @@ ActiveRecord::Schema.define(version: 20170512172744) do
     t.string   "reportable_type"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.integer  "user_id"
   end
 
   add_index "reports", ["reportable_type", "reportable_id"], name: "index_reports_on_reportable_type_and_reportable_id", using: :btree
-  add_index "reports", ["user_id"], name: "index_reports_on_user_id", using: :btree
 
   create_table "route_covers", force: :cascade do |t|
     t.string   "name"
@@ -525,5 +537,4 @@ ActiveRecord::Schema.define(version: 20170512172744) do
   add_foreign_key "quiz_answers", "users"
   add_foreign_key "quiz_questions", "quizzes"
   add_foreign_key "ratings", "users"
-  add_foreign_key "reports", "users"
 end

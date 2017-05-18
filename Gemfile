@@ -48,6 +48,7 @@ gem "intercom-rails"
 gem 'mailboxer'
 gem 'rollbar'
 gem 'sendgrid-ruby'
+gem 'sucker_punch', '~> 2.0'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
