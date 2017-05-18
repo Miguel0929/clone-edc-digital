@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170517203151) do
+ActiveRecord::Schema.define(version: 20170518205627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -164,6 +164,7 @@ ActiveRecord::Schema.define(version: 20170517203151) do
   create_table "group_programs", force: :cascade do |t|
     t.integer "group_id"
     t.integer "program_id"
+    t.integer "position"
   end
 
   add_index "group_programs", ["group_id"], name: "index_group_programs_on_group_id", using: :btree
@@ -362,6 +363,14 @@ ActiveRecord::Schema.define(version: 20170517203151) do
   add_index "ratings", ["ratingable_type", "ratingable_id"], name: "index_ratings_on_ratingable_type_and_ratingable_id", using: :btree
   add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
 
+  create_table "report_notifications", force: :cascade do |t|
+    t.integer  "report_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "report_notifications", ["report_id"], name: "index_report_notifications_on_report_id", using: :btree
+
   create_table "reports", force: :cascade do |t|
     t.string   "cause"
     t.boolean  "status"
@@ -369,9 +378,11 @@ ActiveRecord::Schema.define(version: 20170517203151) do
     t.string   "reportable_type"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.integer  "user_id"
   end
 
   add_index "reports", ["reportable_type", "reportable_id"], name: "index_reports_on_reportable_type_and_reportable_id", using: :btree
+  add_index "reports", ["user_id"], name: "index_reports_on_user_id", using: :btree
 
   create_table "route_covers", force: :cascade do |t|
     t.string   "name"
@@ -537,4 +548,6 @@ ActiveRecord::Schema.define(version: 20170517203151) do
   add_foreign_key "quiz_answers", "users"
   add_foreign_key "quiz_questions", "quizzes"
   add_foreign_key "ratings", "users"
+  add_foreign_key "report_notifications", "reports"
+  add_foreign_key "reports", "users"
 end

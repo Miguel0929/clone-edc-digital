@@ -29,6 +29,9 @@ class Dashboard::NotificationsController < ApplicationController
         elsif notification.model.new_program?
           dashboard_programs_path
         end
+      when 'ReportNotification'
+        notification.update(read: true) unless notification.read
+        reports_path
     end
 
     redirect_to path
