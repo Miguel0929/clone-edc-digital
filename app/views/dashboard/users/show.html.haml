@@ -67,109 +67,109 @@
                     \-
                     = program.name
                     %br
-- if current_user.id == @user.id
-  %h3
-    Estadísticas generales de programas inscritos
+  - if current_user.id == @user.id
+    %h3
+      Estadísticas generales de programas inscritos
 
-  .panel.panel-default
-    .panel-body.table-responsive
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Curso inscrito
-            %th
-              Contenidos vistos
-            %th
-              Respuestas contestadas
-            %th
-              Comentarios totales
-            %th
-              Porcentaje de contenido visto
-            %th
-              Porcentaje de preguntas contestadas
-            %th
-            %th
-        %tbody
-          - @user.group.programs.each do |program|
-            %tr
-              %td
-                = program.name
-              %td
-                = @user.content_visted_for(program)
-              %td
-                = @user.questions_answered_for(program)
-              %td
-                = @user.total_comments_for(program)
-              %td
-                #{@user.percentage_content_visited_for(program)}%
-              %td
-                #{@user.percentage_questions_answered_for(program)}%
-  %h3
-    Mis Archivos
-
-  .panel.panel-default
-    .panel-body.table-responsive
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Nombre de archivo
-            %th
-              Tipo de archivo
-            %th
-              Comentarios
-            %th
-              Subido en
-            %th
-              Fecha de modificación
-        %tbody
-          - @user.attachments.each do |attachment|
+    .panel.panel-default
+      .panel-body.table-responsive
+        %table.table.table-hover
+          %thead
             %tr
               %th
-                = link_to attachment.display_name, attachment.file.url
+                Curso inscrito
               %th
-                = attachment.humanize_document_type
+                Contenidos vistos
               %th
-                = attachment.label
+                Respuestas contestadas
               %th
-                = l attachment.created_at, format: :special
+                Comentarios totales
               %th
-                = l attachment.updated_at, format: :special
+                Porcentaje de contenido visto
+              %th
+                Porcentaje de preguntas contestadas
+              %th
+              %th
+          %tbody
+            - @user.group.programs.each do |program|
+              %tr
+                %td
+                  = program.name
+                %td
+                  = @user.content_visted_for(program)
+                %td
+                  = @user.questions_answered_for(program)
+                %td
+                  = @user.total_comments_for(program)
+                %td
+                  #{@user.percentage_content_visited_for(program)}%
+                %td
+                  #{@user.percentage_questions_answered_for(program)}%
+    %h3
+      Mis Archivos
 
-  %h3
-    Compartidos conmigo
-
-  .panel.panel-default
-    .panel-body.table-responsive
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Nombre de archivo
-            %th
-              Tipo de archivo
-            %th
-              Comentarios
-            %th
-              Subido en
-            %th
-              Fecha de modificación
-            %th
-        %tbody
-          - @user.shared_attachments.each do |attachment|
+    .panel.panel-default
+      .panel-body.table-responsive
+        %table.table.table-hover
+          %thead
             %tr
               %th
-                = link_to attachment.display_name, attachment.file.url
+                Nombre de archivo
               %th
-                = attachment.humanize_document_type
+                Tipo de archivo
               %th
-                = attachment.label
+                Comentarios
               %th
-                = l attachment.created_at, format: :special
+                Subido en
               %th
-                = l attachment.updated_at, format: :special
+                Fecha de modificación
+          %tbody
+            - @user.attachments.each do |attachment|
+              %tr
+                %th
+                  = link_to attachment.display_name, attachment.file.url
+                %th
+                  = attachment.humanize_document_type
+                %th
+                  = attachment.label
+                %th
+                  = l attachment.created_at, format: :special
+                %th
+                  = l attachment.updated_at, format: :special
+
+    %h3
+      Compartidos conmigo
+
+    .panel.panel-default
+      .panel-body.table-responsive
+        %table.table.table-hover
+          %thead
+            %tr
               %th
-                = link_to 'Editar', edit_mentor_student_shared_attachment_path(@user, attachment), class: 'btn btn-default'
-                = link_to 'Eliminar', mentor_student_shared_attachment_path(@user, attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
-  
+                Nombre de archivo
+              %th
+                Tipo de archivo
+              %th
+                Comentarios
+              %th
+                Subido en
+              %th
+                Fecha de modificación
+              %th
+          %tbody
+            - @user.shared_attachments.each do |attachment|
+              %tr
+                %th
+                  = link_to attachment.display_name, attachment.file.url
+                %th
+                  = attachment.humanize_document_type
+                %th
+                  = attachment.label
+                %th
+                  = l attachment.created_at, format: :special
+                %th
+                  = l attachment.updated_at, format: :special
+                %th
+                  = link_to 'Editar', edit_mentor_student_shared_attachment_path(@user, attachment), class: 'btn btn-default'
+                  = link_to 'Eliminar', mentor_student_shared_attachment_path(@user, attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
+    
