@@ -3,7 +3,7 @@
 
 .container-fluid.container-fixed-lg
   .panel.panel-transparent
-    .panel-body
+    .panel-body.p-t-0
       .row
         .col-sm-10
           %h3
@@ -45,7 +45,13 @@
               %label.col-sm-3.control-label{:for => "message"} Descripción detallada de tu mensaje o problema
               .col-sm-9
                 %textarea.form-control{:rows => "8", :placeholder => "Describe aquí el problema o lo que estás enfrentando", name: 'message', :required => ""}
-              = file_field(:file,:attachment)
+            .form-group
+              %label.col-sm-3.control-label{:for => "message"} Adjunta archivos
+              .col-sm-9
+                .m-b-10
+                  ¿Requieres adjuntar un archivo para ilustrar tu mensaje? Puedes hacerlo aquí:
+                .m-b-10
+                  = file_field(:file,:attachment)
 
             .clearfix
             .row.m-t-15
