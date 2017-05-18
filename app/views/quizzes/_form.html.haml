@@ -1,11 +1,5 @@
 .well
   = bootstrap_form_for @quiz do |f|
-    - if @quiz.errors.any?
-      #error_explanation
-        %h2= "#{pluralize(@quiz.errors.count, "error")} prohibited this quiz from being saved:"
-        %ul
-          - @quiz.errors.full_messages.each do |msg|
-            %li= msg
     = f.text_field :name, label: "Nombre del exámen"
     = f.text_area :description, label: "Descripción"
     = f.submit 'Aceptar'

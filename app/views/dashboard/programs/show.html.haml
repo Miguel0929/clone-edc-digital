@@ -19,11 +19,6 @@
                 = link_to dashboard_evaluations_path(program_id: @program), class: 'btn btn-sm btn-primary btn-cons m-b-10' do
                   %i.fa.fa-play
                   %span.bold Ir a mi rúbrica de evaluación
-
-                /= link_to resume_dashboard_program_path, class: 'btn btn-sm btn-info btn-cons m-b-10'do
-                / %i.fa.fa-tasks
-                / %span.bold Ver mi compilación de resultados
-
                 = link_to dashboard_program_path(user_id: current_user, format: :xlsx), class: "btn btn-success btn-sm btn-cons m-b-10" do
                   %i.fa.fa-file-excel-o
                   Descargar mi compilación de resultados en Excel
