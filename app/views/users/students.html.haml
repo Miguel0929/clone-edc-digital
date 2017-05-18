@@ -16,17 +16,19 @@
               = f.select :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: true, label: 'Grupo' }
 
           = f.submit 'Filtrar'
-          = link_to 'Exportar excel', exports_users_path(format: :xlsx), class: 'btn btn-success'
+          = link_to 'Exportar excel', students_users_path(format: :xlsx), class: 'btn btn-success'
 
       %table.table.table-hover
         %thead
           %tr
             %th
               Id
-            %th{:width => "35%"}
+            %th{:width => "25%"}
               Datos de contacto
-            %th{:width => "35%"}
+            %th{:width => "25%"}
               Infomración de usuario
+            %th{:width => "25%"}
+              Porcentaje de avances
             %th
               Acciones
         %tbody
@@ -62,7 +64,23 @@
                   %li.inline 
                     %span.bold Grupo:
                   %li.inline 
-                    = user.group.name unless user.group.nil?
+                    = user.group.name.capitalize unless user.group.nil?
+              %td
+                %ul.p-l-0.m-b-5
+                  %li.inline 
+                    %span.bold Contestado:
+                  %li.inline 
+                    #{user.answered_questions_percentage}%
+                %ul.p-l-0.m-b-5
+                  %li.inline 
+                    %span.bold Visto:
+                  %li.inline 
+                    #{user.content_visited_percentage}%
+                %ul.p-l-0.m-b-5
+                  %li.inline 
+                    %span.bold Comentarios:
+                  %li.inline 
+                    = user.comments_count
               %td
                 %ul.unstyled.list-unstyled.p-l-0.m-b-5
                   %li 
