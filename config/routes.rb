@@ -117,7 +117,7 @@ Rails.application.routes.draw do
 
   resources :mentors, except: [:create]
   resources :staffs, except: [:create]
-
+  resources :exporters, only: [:show]
   resources :groups
   resources :visits, only: [:index]
   resources :deleted_users, only: [:index, :update], path: 'usuarios-desactivados'
@@ -148,6 +148,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :user_answer_comments, only: [:index]
       resources :static_login, only: [:create]
+      resources :async_jobs, only: [:show]
 
       namespace :dashboard do
         resources :programs, only: [:index]
