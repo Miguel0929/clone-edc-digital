@@ -195,6 +195,11 @@
                   %a{:href => edit_user_registration_path}
                     %i.pg-settings_small
                     Configuraciones
+                - if current_user.student?
+                  %li
+                    %a{:href => dashboard_user_path(current_user)}
+                      %i.fa.fa-user
+                      Mi perfil
                 %li.bg-master-lighter
                   = link_to destroy_user_session_path, method: :delete, class: 'clearfix' do
                     %span.pull-left Cerrar sesión
