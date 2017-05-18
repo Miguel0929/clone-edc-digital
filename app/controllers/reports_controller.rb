@@ -8,7 +8,12 @@ class ReportsController < ApplicationController
   def create
   	@chapter_content=ChapterContent.find(params[:chapter_content_id])
   	@chapter_content.reports.create(cause: params[:cause], status: true, user_id: current_user.id)
-    Reports.report(@chapter_content.reports.order(:created_at).last)
+    report = @chapter_content.reports.order(:created_at).last
+    rn=ReportNotification.create(report_id: report.id)
+    User.admin.each do |usr|
+      Notification.create(user_id: usr.id, notificable: rn)
+    end  
+    Reports.report(report)
   	render json: {status: "Ok"}
   end
   def destroy

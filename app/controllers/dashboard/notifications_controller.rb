@@ -5,7 +5,7 @@ class Dashboard::NotificationsController < ApplicationController
     add_breadcrumb "EDCDIGITAL", :root_path
     add_breadcrumb "<a class='active' href='#{dashboard_notifications_path}'>Notificaciones</a>".html_safe
 
-    @notifications = current_user.notifications.order(created_at: :desc)
+    @notifications = current_user.notifications.order(created_at: :desc).page(params[:page]).per(30)
   end
 
   def show
@@ -29,6 +29,9 @@ class Dashboard::NotificationsController < ApplicationController
         elsif notification.model.new_program?
           dashboard_programs_path
         end
+      when 'ReportNotification'
+        notification.update(read: true) unless notification.read
+        reports_path
     end
 
     redirect_to path
