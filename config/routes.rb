@@ -139,6 +139,7 @@ Rails.application.routes.draw do
       post :sort
     end  
   end  
+
   resources :exporters, only: [:show]
   resources :groups
   resources :visits, only: [:index]

@@ -1,8 +1,9 @@
 .container-fluid.container-fixed-lg
   %h3
     Detalles del Alumno: #{@user.name}
-    = link_to edit_user_path(@user) do
-      %span.glyphicon.glyphicon-edit
+    - if current_user.admin?
+      = link_to edit_user_path(@user) do
+        %span.glyphicon.glyphicon-edit
   .panel.panel-default
     .panel-body
       .row
@@ -67,11 +68,18 @@
                 %td #{l @user.invitation_accepted_at, format: :special unless @user.invitation_accepted_at.nil?}
               %tr.odd.gradeX
                 %td Cursos inscritos
-                %td
-                  - @user.group.programs.each do |program|
-                    \-
-                    = link_to program.name, user_program_answers_path(@user, program)
-                    %br
+                - if current_user.admin?
+                  %td
+                    - @user.group.programs.each do |program|
+                      \-
+                      = link_to program.name, user_program_answers_path(@user, program)
+                      %br
+                - else
+                  %td
+                    - @user.group.programs.each do |program|
+                      \-
+                      = program.name
+                      %br
   %h3
     Estadísticas generales de programas inscritos
 
@@ -93,7 +101,8 @@
                 Porcentaje de contenido visto
               %th
                 Porcentaje de preguntas contestadas
-              %th
+              - if current_user.admin?
+                %th
           %tbody
             - @user.group.programs.each do |program|
               %tr
@@ -109,12 +118,14 @@
                   #{@user.percentage_content_visited_for(program)}%
                 %td
                   #{@user.percentage_questions_answered_for(program)}%
-                %td
-                  = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx), class: "btn btn-success" do
-                    Descargar Excel 
-                    %i.fa.fa-file-excel-o
-                %td
-                  = link_to 'Ver detalle', analytics_program_user_path(@user, program_id: program)
+                - if current_user.admin?
+                  %td
+                    = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx), class: "btn btn-success" do
+                      Descargar Excel 
+                      %i.fa.fa-file-excel-o
+                  %td
+                    = link_to 'Ver detalle', analytics_program_user_path(@user, program_id: program)
+- if current_user.admin?
   %h3
     Archivos del usuario
 
