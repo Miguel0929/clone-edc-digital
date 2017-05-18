@@ -74,6 +74,8 @@ Rails.application.routes.draw do
     get 'ruta',                   to: 'welcome#pathway', as: :pathway
     get 'ruta-aprendizaje',       to: 'welcome#learning_path', as: :learning_path
 
+    resources :users, only: [:show]
+
     resources :notifications, only: [:index, :show] do
       collection do
         post :mark_as_read
