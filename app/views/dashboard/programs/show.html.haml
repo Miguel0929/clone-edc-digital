@@ -64,7 +64,7 @@
           .pull-right
             %span.pull-left.m-r-10{:style => "color:#dddddd"}
               Califica este curso:
-            %span.pull-right
+            %span.pull-right.rating
               = render partial: "layouts/stars", locals: {value: @program, route: ratings_vote_program_path}   
 
 .container-fluid.container-fixed-lg
