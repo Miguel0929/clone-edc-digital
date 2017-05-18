@@ -66,10 +66,10 @@
       success: function (data) {
         console.log(data);
         $('#reportarModal').modal('hide');
+        alert("Tu reporte ha sido enviado.");
       },
       error: function (data){
-        console.log("Error");
-        console.log(data);
+        alert("Error");
       }
     });           
     ev.preventDefault();         
