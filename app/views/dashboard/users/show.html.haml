@@ -1,0 +1,175 @@
+.container-fluid.container-fixed-lg
+  %h3
+    Detalles del Alumno: #{@user.name}
+    - if current_user.id == @user.id
+      = link_to edit_user_registration_path do
+        %span.glyphicon.glyphicon-edit
+  .panel.panel-default
+    .panel-body
+      .row
+        .col-md-2
+          .share.share-other.m-t-5
+            .card-content
+              - if @user.profile_picture.url.nil?
+                = image_tag('person-1-square.jpg', class: 'img-responsive')
+              - else
+                = image_tag(@user.profile_picture.url, class: 'img-responsive')
+              .card-header.clearfix
+                %h6
+                  = @user.name
+                %p.small.hint-text.m-t-5 #{@user.state}, #{@user.city}
+                %p.small.hint-text.m-t-5
+                  %span
+                    Porcentaje contestado #{@user.answered_questions_percentage} %
+                    %i.fa.fa-line-chart
+                  %br
+                  %span
+                    Porcentaje de avance #{@user.content_visited_percentage} %
+                    %i.fa.fa-line-chart
+                %p.small.hint-text.m-t-5 
+                  Ultima vez:
+                  %span
+                    #{ @user.last_time }
+                %p.small.hint-text.m-t-5 
+                  Promedio de uso:
+                  %span
+                    #{ @user.time_average.round(2) } minutos.
+                %p.small.hint-text.m-t-5 
+                  Total de uso 
+                  %span
+                    #{ @user.total_time.round(2) } minutos.
+        .col-md-10
+          %table.table.resumen-table.table-striped.table-top-border.perfil-table
+            %tbody
+              %tr.odd.gradeX
+                %td{:width => "25%"} Nombre
+                %td
+                  = @user.name
+              %tr.odd.gradeX
+                %td Correo electrónico
+                %td
+                  = @user.email
+              %tr.odd.gradeX
+                %td Teléfono
+                %td
+                  = @user.phone_number
+              %tr.odd.gradeX
+                %td Ubicación
+                %td #{@user.state}, #{@user.city}
+              %tr.odd.gradeX
+                %td Grupo
+                %td
+                  = @user.group.name unless @user.group.nil?
+              %tr.odd.gradeX
+                %td Cursos inscritos
+                %td
+                  - @user.group.programs.each do |program|
+                    \-
+                    = program.name
+                    %br
+- if current_user.id == @user.id
+  %h3
+    Estadísticas generales de programas inscritos
+
+  .panel.panel-default
+    .panel-body.table-responsive
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+              Curso inscrito
+            %th
+              Contenidos vistos
+            %th
+              Respuestas contestadas
+            %th
+              Comentarios totales
+            %th
+              Porcentaje de contenido visto
+            %th
+              Porcentaje de preguntas contestadas
+            %th
+            %th
+        %tbody
+          - @user.group.programs.each do |program|
+            %tr
+              %td
+                = program.name
+              %td
+                = @user.content_visted_for(program)
+              %td
+                = @user.questions_answered_for(program)
+              %td
+                = @user.total_comments_for(program)
+              %td
+                #{@user.percentage_content_visited_for(program)}%
+              %td
+                #{@user.percentage_questions_answered_for(program)}%
+  %h3
+    Mis Archivos
+
+  .panel.panel-default
+    .panel-body.table-responsive
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+              Nombre de archivo
+            %th
+              Tipo de archivo
+            %th
+              Comentarios
+            %th
+              Subido en
+            %th
+              Fecha de modificación
+        %tbody
+          - @user.attachments.each do |attachment|
+            %tr
+              %th
+                = link_to attachment.display_name, attachment.file.url
+              %th
+                = attachment.humanize_document_type
+              %th
+                = attachment.label
+              %th
+                = l attachment.created_at, format: :special
+              %th
+                = l attachment.updated_at, format: :special
+
+  %h3
+    Compartidos conmigo
+
+  .panel.panel-default
+    .panel-body.table-responsive
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+              Nombre de archivo
+            %th
+              Tipo de archivo
+            %th
+              Comentarios
+            %th
+              Subido en
+            %th
+              Fecha de modificación
+            %th
+        %tbody
+          - @user.shared_attachments.each do |attachment|
+            %tr
+              %th
+                = link_to attachment.display_name, attachment.file.url
+              %th
+                = attachment.humanize_document_type
+              %th
+                = attachment.label
+              %th
+                = l attachment.created_at, format: :special
+              %th
+                = l attachment.updated_at, format: :special
+              %th
+                = link_to 'Editar', edit_mentor_student_shared_attachment_path(@user, attachment), class: 'btn btn-default'
+                = link_to 'Eliminar', mentor_student_shared_attachment_path(@user, attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
+  
