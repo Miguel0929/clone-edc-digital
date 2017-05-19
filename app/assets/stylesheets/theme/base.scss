@@ -5394,7 +5394,8 @@ body > .pgn-wrapper {
   opacity: 1;
 }
 .panel-group .panel-heading .panel-title > a:hover {
-  color: #626262 !important;
+  //color: #626262 !important;
+  color: #2387cc !important;
 }
 .panel-group .panel-heading .panel-title > a:hover:after {
   color: #626262 !important;
@@ -5404,8 +5405,11 @@ body > .pgn-wrapper {
   content: "\f056";
   position: absolute;
   right: 13px;
-  top: 36%;
-  color: #626262;
+  //top: 36%;
+  //color: #626262;
+  top: 35%;
+  color: #439fdf;
+  font-size: 20px;
 }
 .panel-group .panel-heading .panel-title > a.collapsed {
   color: rgba(98, 98, 98, 0.7);
@@ -5413,7 +5417,9 @@ body > .pgn-wrapper {
 }
 .panel-group .panel-heading .panel-title > a.collapsed:after {
   content: "\f055";
-  color: rgba(98, 98, 98, 0.7);
+  //color: rgba(98, 98, 98, 0.7);
+  color: #439fdf;
+  font-size: 20px;
 }
 .panel-group .panel + .panel {
   margin-top: 2px;
@@ -14083,5 +14089,5 @@ select:-moz-focusring {
 
 .tarjeta-programa {
   padding-left: 0px;
-  min-height: 490px
+  min-height: 600px
 }

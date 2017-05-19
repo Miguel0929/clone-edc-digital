@@ -47,6 +47,8 @@ class Dashboard::ChapterContentsController < ApplicationController
     @chapter_content = ChapterContent.find(params[:id])
     if Tracker.find_by(chapter_content: @chapter_content, user: current_user).nil?
       Tracker.create(chapter_content: @chapter_content, user: current_user)
+    else
+      Tracker.find_by(chapter_content: @chapter_content, user: current_user).touch
     end
 
     ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
