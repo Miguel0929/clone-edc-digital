@@ -32,7 +32,6 @@ class Program < ActiveRecord::Base
     else
       return r
     end 
-    
   end 
   
   def self.category_type_options
@@ -41,6 +40,23 @@ class Program < ActiveRecord::Base
 
   def self.color_options
     [['Verde', '#67b220'], ['Azul', '#3f5ba3'], ['Coral', '#f46c6c'], ['Amarillo', '#edcf5d'], ['Rosa', '#e83e79'], ['Azul eléctrico', '#7976fb']]
+  end
+
+  def get_last_move(thisprogram, current_user)
+    current_program = Program.where(id: thisprogram.id).last
+    tracker_list = []
+    current_program.chapters.each do |chapter|
+      chapter.chapter_contents.each do |content|
+        content.trackers.each do |tracker|
+          if tracker.user_id == current_user.id
+            event = tracker
+            tracker_list << event
+          end
+        end
+      end
+    end
+    last_content = tracker_list.sort_by{|m| [m.updated_at].max}.last
+    return last_content
   end
 end
 

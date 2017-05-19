@@ -1,0 +1,13 @@
+a.pump-link {
+	color: #626262;
+}
+a.pump-link:hover {
+	//text-decoration: underline;
+	color: #48b0f7;
+}
+.p-r-17 {
+	padding-right: 17.5px;
+}
+.p-l-17 {
+	padding-left: 17.5px;
+}
