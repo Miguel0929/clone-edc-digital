@@ -1,5 +1,5 @@
 class NewContentNotificationJob < ActiveJob::Base
-  queue_as :default
+  include SuckerPunch::Job
 
   def perform(program)
     program.groups.each do |group|
