@@ -33,7 +33,7 @@ class Program < ActiveRecord::Base
       return r
     end 
   end 
-  
+
   def self.category_type_options
     [['Selecciona una categoría', 'none'], ['Cursos principales', 'main'], ['Cursos adicionales', 'additional'], ['Cursos externos', 'external']]
   end
@@ -58,6 +58,7 @@ class Program < ActiveRecord::Base
     last_content = tracker_list.sort_by{|m| [m.updated_at].max}.last
     return last_content
   end
+
 end
 
 #def self.color_options

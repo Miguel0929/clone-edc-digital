@@ -6,6 +6,7 @@ class Dashboard::ProgramsController < ApplicationController
   def index
     add_breadcrumb "<a class='active' href='#{dashboard_programs_path}'>Programas</a>".html_safe
     @programs = current_user.group.programs.order(position: :asc) rescue []
+    @quizzes = current_user.group.quizzes.order(id: :asc) rescue []
   end
 
   def show

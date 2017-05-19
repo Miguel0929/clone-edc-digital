@@ -11,7 +11,9 @@ Rails.application.routes.draw do
 
   devise_for :users, sign_out_via: [:get, :delete], :controllers => { :invitations => 'users/invitations', sessions: 'sessions' }
 
-  root 'dashboard/programs#index'
+  #root 'dashboard/programs#index'
+  get '/', to: 'landings#index'
+  root 'landings#index'
 
   get '/dashboard', to: 'dashboard/welcome#index', as: :welcome
   get "/404", :to => "errors#not_found"
@@ -35,6 +37,10 @@ Rails.application.routes.draw do
     member do
       post :clone
     end
+  end
+  
+  resources :quizzes do
+    resources :quiz_questions
   end
 
   resources :chapters, only: [] do
@@ -66,6 +72,9 @@ Rails.application.routes.draw do
     post 'send_support_email',    to: 'welcome#send_support_email'
     get 'confidencialidad-y-propiedad-industrial', to: 'welcome#service', as: :service
     get 'ruta',                   to: 'welcome#pathway', as: :pathway
+    get 'ruta-aprendizaje',       to: 'welcome#learning_path', as: :learning_path
+
+    resources :users, only: [:show]
 
     resources :notifications, only: [:index, :show] do
       collection do
@@ -97,6 +106,14 @@ Rails.application.routes.draw do
     resources :evaluations, only: [:index, :show]
 
     resources :attachments, only: [:index, :new, :create, :edit, :update, :destroy]
+
+    resources :quizzes, only: [:index, :show] do
+      member do
+        get :apply
+      end
+    end
+
+    resources :quiz_answers, only: [:show, :new, :create, :update, :edit]
   end
 
 
@@ -118,6 +135,14 @@ Rails.application.routes.draw do
   resources :mentors, except: [:create]
   resources :staffs, except: [:create]
 
+  resources :groups do
+    member do
+      get :sort_route
+      post :sort
+    end  
+  end  
+
+  resources :exporters, only: [:show]
   resources :groups
   resources :visits, only: [:index]
   resources :deleted_users, only: [:index, :update], path: 'usuarios-desactivados'
@@ -148,6 +173,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :user_answer_comments, only: [:index]
       resources :static_login, only: [:create]
+      resources :async_jobs, only: [:show]
 
       namespace :dashboard do
         resources :programs, only: [:index]

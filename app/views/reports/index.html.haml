@@ -7,17 +7,22 @@
 				%thead
 					%tr
 						%th.text-center
+						%th.text-center
 							Id
 						%th.text-center
 							Causa
 						%th.text-center
-							Contenido
+							Usuario	
+						%th.text-center
+							Programa
+						%th.text-center
+							Capitulo
+						%th.text-center
+							Contenido		
 						%th.text-center
 							Fecha
 						%th.text-center
-							Eliminar
-						%th.text-center
-							Ver
+							Opciones
 				%tbody
 					- @reports.each do |report|
 						%tr.default-leido
@@ -29,14 +34,24 @@
 									=link_to visto_report_path(report.id), method: "post" do
 										%i.fa.fa-eye
 							%td
+								= report.id			
+							%td
 								= report.cause
 							%td
-								= report.model.model.identifier
+								- if report.user.nil?
+									N/A
+								- else	
+									= report.user.name	
+							%td
+								= report.model.chapter.program.name
+							%td
+								= report.model.chapter.name
+							%td
+								= report.model.model.identifier		
 							%td
 								= report.created_at.strftime("%d/%m/%Y %H:%M:%S")
 							%td
-								=link_to "Eliminar",report_path(report.id), data: { confirm: '¿Estás seguro?' }, method: "delete", class: "btn btn-default" 
-							%td
+								=link_to "Eliminar reporte",report_path(report.id), data: { confirm: '¿Estás seguro?' }, method: "delete", class: "btn btn-default"
 								- if report.reportable_type=="ChapterContent"
 									=link_to "Ver",dashboard_chapter_content_path(report.reportable_id), class: "btn btn-default"
 			%center						
