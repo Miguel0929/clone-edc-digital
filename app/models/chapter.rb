@@ -24,11 +24,11 @@ class Chapter < ActiveRecord::Base
           record << event
         end
       elsif content.coursable_type == 'Question'
-        if current_user.trackers.find_by(chapter_content: content).nil?
-          event = 0
+        if current_user.has_answer_question?(content.model)
+          event = 1
           record << event
         else
-          event = 1
+          event = 0
           record << event
         end
       end
