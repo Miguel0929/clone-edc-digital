@@ -1,5 +1,5 @@
 class NewProgramNotificationJob < ActiveJob::Base
-  queue_as :default
+  include SuckerPunch::Job
 
   def perform(before_update_ids, after_update_ids)
     programs_before_update = Program.find(before_update_ids)

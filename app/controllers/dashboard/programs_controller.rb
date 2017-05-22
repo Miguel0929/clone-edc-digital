@@ -19,6 +19,17 @@ class Dashboard::ProgramsController < ApplicationController
       @rank=rank.rank
     end 
 
+    @last_moved_content = @program.get_last_move(@program, current_user)
+    @last_move = @last_moved_content.chapter_content_id
+    @last_time = @last_moved_content.updated_at
+    last_content = ChapterContent.find(@last_moved_content.chapter_content_id)
+    
+    if last_content.coursable_type == "Lesson"
+      @last_text = last_content.model.identifier
+    else
+      @last_text = last_content.model.question_text
+    end
+
     add_breadcrumb "Programas", :dashboard_programs_path
     add_breadcrumb "<a class='active' href='#{dashboard_program_path @program}'>#{@program.name}</a>".html_safe
     respond_to do |format|
