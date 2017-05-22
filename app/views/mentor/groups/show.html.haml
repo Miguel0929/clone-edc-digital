@@ -29,32 +29,35 @@
             %i.fa.fa-file-excel-o
         .col-md-2
           %input#group_student.form-control.pull-right{:placeholder => "Search", :type => "text"}/
-          
-      %table.table.table-striped
-        %thead
-          %th
-            Nombre del alumno
-          %th
-            Correo electrónico
-          %th
-            Porcentaje contestado
-          %th
-            Procentaje de avance
-          %th
-            Total de comentarios
-          %th
-        %tbody
-          - @students.each do |student|
-            %tr
-              %td
-                = student.name
-              %td
-                = student.email
-              %td
-                #{student.answered_questions_percentage} %
-              %td
-                #{student.content_visited_percentage} %
-              %td
-                = student.comments.count
-              %td
-                = link_to 'Ver detalle', mentor_student_path(student)
+      
+      .table-responsive   
+        %table.table.table-striped
+          %thead
+            %th
+              Nombre del alumno
+            %th
+              Correo electrónico
+            %th{width: "12%"}
+              Porcentaje contestado
+            %th{width: "12%"}
+              Procentaje visto
+            %th{width: "12%"}
+              Total de comentarios
+            %th
+          %tbody
+            - @students.each do |student|
+              %tr
+                %td
+                  = student.name
+                %td
+                  = student.email
+                %td
+                  #{student.answered_questions_percentage} %
+                %td
+                  #{student.content_visited_percentage} %
+                %td
+                  = student.comments.count
+                %td
+                  = link_to mentor_student_path(student) do
+                    %i.fa.fa-eye
+                    Ver detalle
