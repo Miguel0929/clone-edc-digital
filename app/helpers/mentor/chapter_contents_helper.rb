@@ -1,0 +1,2 @@
+module Mentor::ChapterContentsHelper
+end
