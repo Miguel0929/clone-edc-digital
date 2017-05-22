@@ -33,7 +33,7 @@
         - elsif @current_user.percentage_questions_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) > 0
           .row.col-sm-12
             %section.demo-bg-section.p-b-10.p-t-65
-              .progress.m-b-5{:style => "background-color: #ffffff1a;"}
+              .progress.m-b-5{:style => "background-color: #eef5fb;"}
                 .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.percentage_questions_answered_for(@program)}%"}
           .row.col-sm-6
             .pull-left
@@ -47,7 +47,7 @@
         - else
           .row.col-sm-12
             %section.demo-bg-section.p-b-10.p-t-65
-              .progress.m-b-5{:style => "background-color: #ffffff1a;"}
+              .progress.m-b-5{:style => "background-color: #eef5fb;"}
                 .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.percentage_questions_answered_for(@program)}%"}
           .row.col-md-6
             .pull-left
