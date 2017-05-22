@@ -1,0 +1,26 @@
+- content_for :title  do
+  Programas - EDCdigital
+
+.container-fluid.container-fixed-lg
+  .row
+    .col-md-12
+      .panel.panel-transparent
+        .panel-heading
+          .panel-title
+            Examenes de evaluación
+        .panel-body
+          %h5
+            Contesta las evaluaciones y mide tu progreso
+          %p.m-b-25
+            Mas texto blablabla.... 
+
+          - @quizzes.each do |quiz|
+            .col-md-4.col-sm-6.col-xs-12.tarjeta-programa
+              .card.share.share-other{"data-social" => "item"}
+                .card-content
+                  %a{:href => "#{dashboard_quiz_path(quiz)}"}
+                    .card-header.clearfix
+                      %h5
+                        = quiz.name
+                      %h6
+                        = quiz.description

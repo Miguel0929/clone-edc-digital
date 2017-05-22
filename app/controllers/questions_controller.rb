@@ -24,7 +24,7 @@ class QuestionsController < ApplicationController
 
     if @question.save
       @chapter.questions << @question
-      NewContentNotificationJob.perform_later(@chapter.program)
+      NewContentNotificationJob.perform_async(@chapter.program)
       redirect_to @chapter.program, notice: "Se creo exitosamente la pregunta #{@question.question_text}"
     else
       render :new

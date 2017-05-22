@@ -21,3 +21,8 @@
 .normal-weight {
 	font-weight: normal;
 }
+
+.minus-30 {
+	position: relative;
+	top: -30px;
+}

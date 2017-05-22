@@ -1,4 +1,4 @@
-.container-fluid.container-fixed-lg.top-container-padding
+.container-fluid.container-fixed-lg.top-container-padding.m-b-25
   %section.demo-bg-section.p-b-0.p-t-75
     .container
       .md-p-l-20.md-p-r-20.xs-no-padding
@@ -7,7 +7,7 @@
           -if current_user.admin?
             Rating: 
             = @program.rating
-        .row
+        .row.col-md-12
           .col-sm-5.col-md-4
             %h2.m-t-5.text-white
               = @program.name
@@ -19,32 +19,72 @@
                 = link_to dashboard_evaluations_path(program_id: @program), class: 'btn btn-sm btn-primary btn-cons m-b-10' do
                   %i.fa.fa-play
                   %span.bold Ir a mi rúbrica de evaluación
-
-                /= link_to resume_dashboard_program_path, class: 'btn btn-sm btn-info btn-cons m-b-10'do
-                / %i.fa.fa-tasks
-                / %span.bold Ver mi compilación de resultados
-
                 = link_to dashboard_program_path(user_id: current_user, format: :xlsx), class: "btn btn-success btn-sm btn-cons m-b-10" do
                   %i.fa.fa-file-excel-o
                   Descargar mi compilación de resultados en Excel
-        -if @current_user.percentage_questions_answered_for(@program) == 0
-          %section.demo-bg-section.p-b-20.p-t-65
-            .pull-right.m-r-60
-              %h5{:style => "color: #48B0F7;"}
-                No has iniciado este programa aún
+        - if @current_user.percentage_questions_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) == 0
+          %section.col-md-12.demo-bg-section.p-b-20.p-t-65
+          .row.col-sm-6
+            .pull-left.p-b-10
+              %span.m-r-20{:style => "color: #48B0F7; font-size:"}
+                %i.fa.fa-edit
+                No has contestado este curso
             .clearfix
-        -elsif
-          %section.demo-bg-section.p-b-10.p-t-65
-            .progress.m-b-5{:style => "background-color: #ffffff1a;"}
-              .progress-bar.progress-bar-complete{:style => "width:#{@current_user.percentage_questions_answered_for(@program)}%"}
-            .pull-right.m-r-50{:style => "color: #48B0F7;"}
-              Progreso contestado del #{@current_user.percentage_questions_answered_for(@program)}%
+        - elsif @current_user.percentage_questions_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) > 0
+          .row.col-sm-12
+            %section.demo-bg-section.p-b-10.p-t-65
+              .progress.m-b-5{:style => "background-color: #ffffff1a;"}
+                .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.percentage_questions_answered_for(@program)}%"}
+          .row.col-sm-6
+            .pull-left
+              %span.m-r-20{:style => "color: #48B0F7;"}
+                %i.fa.fa-edit
+                No has contestado este curso
+              %span{:style => "color: #b1d3eb;"}
+                %i.fa.fa-eye
+                #{@current_user.percentage_content_visited_for(@program)}% visto
             .clearfix
-              .pull-right    
-                Calificar curso:
-                = render partial: "layouts/stars", locals: {value: @program, route: ratings_vote_program_path}   
+        - else
+          .row.col-sm-12
+            %section.demo-bg-section.p-b-10.p-t-65
+              .progress.m-b-5{:style => "background-color: #ffffff1a;"}
+                .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.percentage_questions_answered_for(@program)}%"}
+          .row.col-md-6
+            .pull-left
+              %span.m-r-20{:style => "color: #48B0F7;"}
+                %i.fa.fa-edit
+                #{@current_user.percentage_questions_answered_for(@program)}% contestado
+              %span{:style => "color: #b1d3eb;"}
+                %i.fa.fa-eye
+                #{@current_user.percentage_content_visited_for(@program)}% visto
+            .clearfix
+        .row.col-sm-6.p-b-10
+          .pull-right
+            %span.pull-left.m-r-10{:style => "color:#dddddd"}
+              Califica este curso:
+            %span.pull-right.rating
+              = render partial: "layouts/stars", locals: {value: @program, route: ratings_vote_program_path}   
 
 .container-fluid.container-fixed-lg
+  .row{:id => "last_move_box"}
+    .col-sm-12.col-md-10
+      .panel.panel-transparent.m-b-0
+        .panel-heading
+          .panel-title
+            Reanudar tus últimos avances
+        .panel-body
+          .card.status.contenido-reciente.m-b-0{"data-social" => "item"}
+            .circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Cerrar", :id => "hide_last"}
+            %h5 
+              = distance_of_time_in_words(@last_time.to_i, Time.now.to_i)
+            %h2 
+              = truncate(@last_text, length: 60, separator: ' ')
+            %p
+              = link_to dashboard_chapter_content_path(@last_move) do
+                %button.btn.btn-sm.btn-complete.btn-cons.m-b-10{:type => "button"}
+                  %i.fa.fa-play
+                  %span.bold Reanudar mis avances
+  
   .row
     .col-sm-12
       .panel.panel-transparent
@@ -59,7 +99,18 @@
                   .panel-heading{:role => "tab", :id=>"heading_#{chapter.id}"}
                     %h4.panel-title
                       %a{"aria-controls" => "collapse_#{chapter.id}", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse_#{chapter.id}"}
-                        = "#{chapter.name} (#{chapter.points} puntos)"
+                        .col-xs-6
+                          = "#{chapter.name} "
+                        .col-xs-5
+                        - if chapter.get_chapter_progress(chapter, current_user) == "complete"
+                          %span.label{class: "label-success"}
+                            Módulo completado
+                        - elsif chapter.get_chapter_progress(chapter, current_user) == "progress"
+                          %span.label{class: "label-warning"}
+                            Módulo en progreso
+                        - else
+                          %span.label{class: "label-master"}
+                            Módulo no iniciado
 
                   .panel-collapse.collapse{:id=>"collapse_#{chapter.id}", "aria-labelledby" => "heading_#{chapter.id}", :role => "tabpanel"}
                     .panel-body
@@ -67,31 +118,29 @@
                         %tbody
                           - chapter.chapter_contents.each do |content|
                             %tr.odd.gradeX
-                              %td{style: "width: 5%;"}
-                                = link_to dashboard_chapter_content_path(content), class: "btn #{current_user.trackers.find_by(chapter_content: content).nil? ? 'btn-default' : 'btn-success'} btn-rounded redirector" do
+                              %td{style: "width: 10%;"}
+                                = link_to dashboard_chapter_content_path(content), class: "btn btn-rounded redirector" do
                                   - if content.coursable_type == 'Lesson'
                                     %i.fa.fa-youtube-play
                                   - elsif content.coursable_type == 'Question'
-                                    %i.fa.fa-tasks
+                                    %i.fa.fa-edit
 
-                              %td{style: "width: 60%;"}
+                              %td{style: "width: 70%;"}
                                 - if content.coursable_type == 'Lesson'
-                                  = content.model.identifier
+                                  = link_to content.model.identifier, dashboard_chapter_content_path(content), class: "pump-link"
                                 - elsif content.coursable_type == 'Question'
-                                  = content.model.question_text
+                                  = link_to truncate(content.model.question_text, length: 120, separator: ' '), dashboard_chapter_content_path(content), class: "pump-link"
                               %td
                                 - if content.coursable_type == 'Lesson'
-                                  %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? '' : 'label-success'}"}
-                                    = current_user.trackers.find_by(chapter_content: content).nil? ? 'Nuevo' : 'Completado'
+                                  %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master' : 'label-success p-r-17 p-l-17'}"}
+                                    = current_user.trackers.find_by(chapter_content: content).nil? ? 'No visto' : 'Visto'
                                 - elsif content.coursable_type == 'Question'
-                                  %span.label{class: "#{current_user.has_answer_question?(content.model) ? 'label-success' : ''}"}
-                                    = current_user.has_answer_question?(content.model) ? 'Completado' : 'Nuevo'
+                                  %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master m-r-10' : 'label-success p-r-17 p-l-17 m-r-10'}"}
+                                    = current_user.trackers.find_by(chapter_content: content).nil? ? 'No visto' : 'Visto'
+                                  %span.label{class: "#{current_user.has_answer_question?(content.model) ? 'label-info p-r-17 p-l-17' : 'label-master'}"}
+                                    = current_user.has_answer_question?(content.model) ? 'Contestado' : 'No contestado'
 
-                              %td
-                                - if content.coursable_type == 'Question'
-                                  Comentarios
-                                  %span.badge
-                                    = content.model.comments_for(current_user)
+
 :javascript
   var frm = $('#form_rank');
   $('.rank').click(function() {
@@ -111,3 +160,11 @@
     });
     ev.preventDefault();
   });
+
+  var hide_last_button = document.getElementById('hide_last');
+  hide_last_button.onclick = function() {
+      var div = document.getElementById('last_move_box');
+      if (div.style.display !== 'none') {
+          div.style.display = 'none';
+      }
+  };

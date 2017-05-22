@@ -2,9 +2,12 @@
   .panel.panel-default
     .panel-heading
       .panel-title.question-title
-        = @chapter_content.chapter.name
-      .pull-right   
-        = render partial: "layouts/stars", locals: {value: @chapter_content, route: ratings_vote_chapter_content_path}
+        = @chapter_content.chapter.name  
+      .pull-right
+        %span.pull-left
+          Califica este contenido:
+        %span.pull-right.rating     
+          = render partial: "layouts/stars", locals: {value: @chapter_content, route: ratings_vote_chapter_content_path}
 
     .panel-body
       .row
@@ -66,10 +69,10 @@
       success: function (data) {
         console.log(data);
         $('#reportarModal').modal('hide');
+        alert("Tu reporte ha sido enviado.");
       },
       error: function (data){
-        console.log("Error");
-        console.log(data);
+        alert("Error");
       }
     });           
     ev.preventDefault();         

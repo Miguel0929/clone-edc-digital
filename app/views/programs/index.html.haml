@@ -13,7 +13,7 @@
             %th
               Programa
             %th
-        %tbody.sortable{'data-update-url'=> url_prod_helper(sort_programs_path)}
+        %tbody.sortable{'data-update-url'=> url_prod_helper(sort_programs_path())}
           - @programs.each do |program|
             %tr{id: "program_#{program.id}"}
               %td.handle-sort

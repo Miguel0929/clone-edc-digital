@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
   has_many :attachments
   has_many :shared_attachments
   has_many :chapter_content_rank
+  has_many :quiz_answers
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 
@@ -161,6 +162,10 @@ class User < ActiveRecord::Base
 
   def total_comments_for(program)
     program.chapters.joins(questions: [answers: [:comments]]).where('comments.user_id': self.id).count
+  end
+
+  def comments_count
+    comments.count
   end
 
   def percentage_content_visited_for(program)

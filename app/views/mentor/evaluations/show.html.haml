@@ -73,7 +73,8 @@
                   #{evaluation.bad}
 
         .row
-          %button.btn.btn-default{:type => "submit"} Evaluar módulo
+          %button.btn.btn-success{:type => "submit", :name => "path", :value => "store"} Evaluar módulo
+          %button.btn.btn-primary{:type => "submit", :name => "path", :value => "out"} Evaluar y salir
 
 #answer-comments.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
   .modal-dialog

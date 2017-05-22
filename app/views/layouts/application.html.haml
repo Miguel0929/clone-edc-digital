@@ -37,6 +37,7 @@
           = display_navbar_link({link: 'Grupos', details: 'Grupos de la plataforma' ,path: groups_path, css: ['m-t-30'], icon: 'fa fa-users', role: [:admin]})
           = display_navbar_link({link: 'Mentores', details: 'Grupos de la plataforma' ,path: mentors_path, icon: 'fa fa-briefcase', role: [:admin]})
           = display_navbar_link({link: 'Programas', details: 'Diseño de programas' ,path: programs_path, icon: 'fa fa-list-alt', role: [:admin]})
+          = display_navbar_link({link: 'Exámen', details: 'Crear exámen rápido', path: quizzes_path, icon: 'fa fa-file-text-o', role: [:admin]})
           = display_navbar_link({link: 'Visitas', details: 'Panel de visitas' ,path: visits_path, icon: 'fa fa-list-alt', role: [:admin]})
           = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: students_users_path, icon: 'fa fa-book', role: [:admin, :staff]})
           = display_navbar_link({link: 'Staff', details: 'Personal de invitaciones', path: staffs_path, icon: 'fa fa-user-md', role: [:admin]})
@@ -44,7 +45,8 @@
           = display_navbar_link({link: 'Usuarios desactivados', details: 'Usuarios desactivados' ,path: deleted_users_path, icon: 'fa fa-ban', role: [:admin]})
           = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: shared_group_attachments_path, icon: 'fa fa-file', role: [:admin]})
           = display_navbar_link({link: 'Enviar invitación', details: 'Enviar invitación a un nuevo usuario', path: new_user_invitation_path, icon: 'fa fa-envelope-o', role: [:admin, :staff]})
-          = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:admin]}) 
+          = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:admin]})
+          = display_navbar_link({css: [], link: 'Reportes', details: 'Consulta los reportes de contenidos' ,path: reports_path, icon: 'fa fa-flag', role: [:admin]})  
 
           = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: ['m-t-30'], icon: 'fa fa-users', role: [:mentor]})
           = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
@@ -53,7 +55,9 @@
 
           - if current_user.student?
             = display_navbar_link({css: ['m-t-30'], link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})
+            = display_navbar_link({link: 'Examenes', details: 'Examenes en EDCdigital', path: dashboard_quizzes_path, icon: 'fa fa-question-circle', role: [:student]})
             = display_navbar_link({css: [''], link: 'Mi ruta', details: 'Ruta de emprendimiento' ,path: dashboard_pathway_path, icon: 'fa fa-map-o', role: [:student]})
+            = display_navbar_link({css: [''], link: 'Ruta de aprendizaje', details: 'Ruta de apendizaje' ,path: dashboard_learning_path_path, icon: 'fa fa-map-signs', role: [:student]})
             = display_navbar_link({css: [''], link: 'Mis archivos', details: 'Archivos digitales' ,path: dashboard_attachments_path, icon: 'fa fa-file', role: [:student]})
 
             %li
@@ -93,6 +97,14 @@
                   = link_to destroy_user_session_path, method: :delete do
                     Cerrar sesión
                   %span.icon-thumbnail Cs
+
+          - if current_user.admin?
+            %li
+              %a.detailed.redirector{:href => dashboard_pathway_path }
+                %span.title Mi ruta
+                %span.details Editar Mi ruta
+              %span.icon-thumbnail
+                %i.fa.fa-map-o
                
         .clearfix
     .page-container
@@ -157,9 +169,15 @@
                       .notification-body.scrollable
                         = render partial: "mailbox/notification", collection: mailbox.inbox.limit(3).order(created_at: :desc), as: :item
                       .notification-footer.text-center
-                        %a{:href => mailbox_inbox_path} Ver todas las notificaciones 
+                        %a{:href => mailbox_inbox_path} Ver todos los mensajes 
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
-                          %i.pg-refresh_new              
+                          %i.pg-refresh_new   
+            %a{:href => frequent_questions_path, :target => "blank"} 
+              %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-30.p-r-20
+                %li.p-r-15.inline
+                  #notification-center.fa.fa-question-circle{:style => "font-size:18px;"}
+
+                    
 
         .pull-right
           .visible-lg.visible-md.m-t-10
@@ -177,6 +195,11 @@
                   %a{:href => edit_user_registration_path}
                     %i.pg-settings_small
                     Configuraciones
+                - if current_user.student?
+                  %li
+                    %a{:href => dashboard_user_path(current_user)}
+                      %i.fa.fa-user
+                      Mi perfil
                 %li.bg-master-lighter
                   = link_to destroy_user_session_path, method: :delete, class: 'clearfix' do
                     %span.pull-left Cerrar sesión

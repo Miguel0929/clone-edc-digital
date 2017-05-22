@@ -4,12 +4,40 @@
 	.row
 		.col-sm-12
 			.panel.panel-transparent
-				.panel-heading
-					.panel-title
+				.panel-heading.clearfix
+					.panel-title.pull-left
 						Mi ruta de emprendimiento
-					.panel-body
-						%div.m-b-20
-							Esto es EDC Digital. Aquí te presentamos tu ruta a recorrer dentro de nuestra plataforma. A través de esta experiencia te encontrarás con variedad de cursos conformados por secciones de aprendizaje (e-learning) y sus respectivos módulos de construcción de tu idea de negocio; a lo largo de las distintas fases recibirás retroalimentación por parte de nuestros mentores y expertos, quienes te ayudarán a evaluar tu idea en su aspecto comercial, técnico y financiero, conforme la vas construyendo.
-						%div.m-b-30
-							Es de importancia saber, que mientras vayas avanzando por tu ruta, nuevo contenido será desbloqueado, así que será necesaria una dedicación constante de tu parte para completar tu viaje y así podamos vincularte de regreso a la Tierra. ¿Listo para despegar? ¡Emprende desde Cero Digital! 
-						= image_tag('ruta-edc-digital.png', :class => "image-width-100")
+					- if current_user.admin?
+						.pull-right
+							- if @texts.exists?
+								=link_to edit_route_text_path(@last_text), {:style => 'opacity:1;'} do
+									%button.btn.btn-complete.m-l-10
+										%i.fa.fa-edit
+										Editar Texto
+							- else
+								=link_to new_route_text_path, {:style => 'opacity:1;'} do
+									%button.btn.btn-info.m-l-10
+										%i.fa.fa-plus
+										Redactar texto
+							- if @covers.exists?
+								=link_to edit_route_cover_path(@last_cover), {:style => 'opacity:1;'} do
+									%button.btn.btn-complete.m-l-10
+										%i.fa.fa-image
+										Editar Imagen
+							- else
+								=link_to new_route_cover_path, {:style => 'opacity:1;'} do
+									%button.btn.btn-info.m-l-10
+										%i.fa.fa-plus
+										Subir imagen
+					
+				.panel-body
+					%div.m-b-30
+						- if @texts.exists?
+							= raw @last_text.redaction
+						- else
+							Aún no hay descripción de la ruta
+					.panel.panel-default.m-b-30
+						- if @covers.exists?
+							= image_tag(@last_cover.route_image, :class => "image-width-100", :alt => "Ruta de EDC Digital")
+						- else
+							Ruta de EDC Digital

@@ -16,3 +16,10 @@
         - @group.users.invitation_accepted.each do |user|
           %li
             = user.name
+
+      %h4
+        Quizzes habilitados
+      %ul
+        - @group.quizzes.each do |quiz|
+          %li
+            = quiz.name

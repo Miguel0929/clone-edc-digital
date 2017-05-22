@@ -1,0 +1,60 @@
+.container-fluid.container-fixed-lg.top-container-padding
+  %section.demo-bg-section.p-b-0.p-t-75
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        %h5.block-title.hint-text.no-margin.text-white Examen Rápido
+        .row
+          .col-sm-5.col-md-4
+            %h2.m-t-5.text-white
+              = @quiz.name
+          .col-sm-7.col-md-8.no-padding.xs-p-l-15.xs-p-r-15.text-white
+            .p-t-20.p-l-35.md-p-l-5.md-p-t-15
+              %p
+                = @quiz.description
+              %p
+                - if @quiz.quiz_questions.first.quiz_answers.where(user: current_user).empty?
+                  = link_to apply_dashboard_quiz_path(@quiz), class: 'btn btn-sm btn-primary btn-cons m-b-10' do
+                    %i.fa.fa-play
+                    %span.bold Contestar
+                - else
+                  = link_to '#', class: 'btn btn-sm btn-success btn-cons m-b-10' do
+                    %i.fa.fa-check
+                    %span.bold 
+                      Ya has contestado este examen: 
+                    
+.container-fluid.container-fixed-lg
+  .row
+    .col-sm-12
+      .panel.panel-transparent
+        .panel-heading
+          .panel-title
+            Vista previa del examen
+        .panel-body
+          .sm-m-l-5.sm-m-r-5
+          .panel.panel-default
+            .panel-heading{:role => "tab", :id=>"heading_#{@quiz.id}"}
+              %h4.panel-title
+                = "#{@quiz.name} (#{@quiz.description})"
+            .panel-body
+              %table.table.table-striped.table-hover
+                - @quiz.quiz_questions.each do |question|
+                  %tr
+                    %td
+                      = link_to "#", class: "btn btn-success btn-rounded" do
+                        %i.fa.fa-tasks 
+                      = question.question_text
+                      - answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: current_user.id)
+                    %td
+                      = answer.nil? ? "Sin contestar" : answer.answer_text
+                      - unless answer.nil?
+                        = answer.correct == true ? "<i class='fa fa-check'></i>".html_safe : "<i class='fa fa-times'></i>".html_safe 
+                    %td
+                      - if !answer.nil?
+                        = answer.correct == true ? answer.quiz_question.points : '0'
+                      - else
+                        0
+                %tr
+                  %td{colspan: '2'}
+                    %h5.pull-right Total
+                  %td
+                    %h5= @quiz.average(current_user)

@@ -51,7 +51,11 @@ class Mentor::EvaluationsController < ApplicationController
 
     Evaluator.for(@user, params[:evaluation])
 
-    redirect_to mentor_evaluation_path(@chapter, user_id: @user, program_id: @program), notice: "Evaluación exitosamente guardada"
+    if params[:path] == "store"
+      redirect_to mentor_evaluation_path(@chapter, user_id: @user, program_id: @program), notice: "Evaluación exitosamente guardada"
+    else
+      redirect_to mentor_evaluations_path(user_id: @user, program_id: @program), notice: "Evaluación exitosamente guardada"
+    end
   end
 
   def evaluation_pointed?(evaluation, points)

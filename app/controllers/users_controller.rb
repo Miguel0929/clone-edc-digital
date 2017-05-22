@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin, except: [:students]
+  before_action :require_admin, except: [:students, :show]
+  before_action :require_creator, only: [:students, :show]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program]
 
   add_breadcrumb "EDCDIGITAL", :root_path
@@ -80,18 +81,32 @@ class UsersController < ApplicationController
   end
 
   def students
-    @users = User.students.includes(:group)
+    respond_to do |format|
+      format.html do
+        @users = User.students.includes(:group).page(params[:page]).per(100)
 
-    if params[:state].present?
-      case params[:state]
-        when 'active'
-          @users = @users.where.not(invitation_accepted_at: nil)
-        when 'inactive'
-          @users = @users.where(invitation_accepted_at: nil)
+        if params[:state].present?
+          case params[:state]
+            when 'active'
+              @users = @users.where.not(invitation_accepted_at: nil)
+            when 'inactive'
+              @users = @users.where(invitation_accepted_at: nil)
+          end
+        end
+
+        @users = @users.where(group: params[:group]) if params[:group].present?
+        @users = @users.search(params[:query]) if params[:query].present?
+      end
+      format.xlsx do
+        @users = User.students.includes(:group)
+        @job = AsyncJob.create({title: 'Exporting csv', progress: 0, total: @users.count})
+        exporter = Exporter.new
+        exporter.file = Pathname('public/system/export.csv').open
+        exporter.save
+        StudentsExporterJob.perform_async(@job.id, @users, exporter)
+        redirect_to exporter_path(@job)
       end
     end
-
-    @users = @users.where(group: params[:group]) if params[:group].present?
   end
 
   def exports

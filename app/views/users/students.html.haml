@@ -3,7 +3,8 @@
     .panel-heading
       .pull-right
         .col-xs-12
-          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          / %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          %input#admin_students.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       .clearfix
     .panel-body
       - if current_user.admin?
@@ -15,54 +16,94 @@
               = f.select :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: true, label: 'Grupo' }
 
           = f.submit 'Filtrar'
-          = link_to 'Exportar excel', exports_users_path(format: :xlsx), class: 'btn btn-success'
+          = link_to 'Exportar excel', students_users_path(format: :xlsx), class: 'btn btn-success'
 
-      %table.table.table-hover.datatable
+      %table.table.table-hover
         %thead
           %tr
             %th
               Id
+            %th{:width => "25%"}
+              Datos de contacto
+            %th{:width => "25%"}
+              Infomración de usuario
+            - if current_user.admin?
+              %th{:width => "25%"}
+                Porcentaje de avances
             %th
-              Nombres
-            %th
-              Correo electrónico
-            %th
-              Teléfono
-            %th
-              Estado
-            %th
-              Rol
-            %th
-              Grupo
-            %th
+              Acciones
         %tbody
           - @users.each do |user|
             %tr
               %td
                 = user.id
+              %td  
+                .m-b-5
+                  = link_to user.name, user_path(user)
+                %ul.p-l-0.m-b-5
+                  %li.inline 
+                    %i.fa.fa-envelope
+                  %li.inline 
+                    = user.email
+                %ul.p-l-0.m-b-5
+                  %li.inline 
+                    %i.fa.fa-phone
+                  %li.inline 
+                    = user.phone_number
               %td
-                = link_to user.name, user_path(user)
+                %ul.p-l-0.m-b-5
+                  %li.inline 
+                    %span.bold Estado:
+                  %li.inline 
+                    = user.status
+                %ul.p-l-0.m-b-5
+                  %li.inline 
+                    %span.bold Rol:
+                  %li.inline 
+                    = user.huminize_role
+                %ul.p-l-0.m-b-5
+                  %li.inline 
+                    %span.bold Grupo:
+                  %li.inline 
+                    = user.group.name.capitalize unless user.group.nil?
+              - if current_user.admin?
+                %td
+                  %ul.p-l-0.m-b-5
+                    %li.inline 
+                      %span.bold Contestado:
+                    %li.inline 
+                      #{user.answered_questions_percentage}%
+                  %ul.p-l-0.m-b-5
+                    %li.inline 
+                      %span.bold Visto:
+                    %li.inline 
+                      #{user.content_visited_percentage}%
+                  %ul.p-l-0.m-b-5
+                    %li.inline 
+                      %span.bold Comentarios:
+                    %li.inline 
+                      = user.comments_count
               %td
-                = user.email
-              %td
-                = user.phone_number
-              %td
-                = user.status
-              %td
-                = user.huminize_role
-              %td
-                = user.group.name unless user.group.nil?
-              %td
-                .btn-group
-                  %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-                    %span.glyphicon.glyphicon-pencil
-                    %span.caret
-                  %ul.dropdown-menu
-                    %li
-                      = link_to 'Ver información', user_path(user)
-                    - if user.student?
+                %ul.unstyled.list-unstyled.p-l-0.m-b-5
+                  %li 
+                    = link_to user_path(user) do
+                      %i.fa.fa-eye
+                      Ver información
+                  - if user.student?
+                    - if current_user.admin?
                       %li
-                        = link_to 'Editar información', edit_user_path(user)
-                    %li.divider
-                    %li
-                      = link_to 'Eliminar usuario', user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' }
+                        = link_to edit_user_path(user) do
+                          %i.fa.fa-edit
+                          Editar
+                      %li
+                        = link_to user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                          %i.fa.fa-times
+                          Eliminar
+                      %li
+                        = link_to new_user_invitation_path, :target => "_blank" do
+                          %i.fa.fa-send-o
+                          Enviar invitación
+      .pull-right
+        = paginate @users
+        %br
+        = page_entries_info @users

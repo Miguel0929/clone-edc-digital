@@ -26,63 +26,75 @@
         %table.table.table-hover
           %thead
             %tr
-              %th
+              %th{:width => "3%"}
                 Id
+              %th{:width => "25%"}
+                Datos de contacto
+              %th{:width => "20%"}
+                Info. de estudiante
+              %th{:width => "15%"}
+                Avances totales
               %th
-                Nombre
-              %th
-                Correo electrónico
-              %th
-                Teléfono
-              %th
-                Estado
-              %th
-                Grupo
-              %th
-                Porcentaje contestado
-              %th
-                Porcentaje de avance
-              %th
-                Total de comentarios
-              %th
-                Cursos inscritos
-              %th
+                Cursos inscritos          
           %tbody
             - @users.each do |user|
               %tr
                 %td
                   = user.id
                 %td
-                  = user.name
+                  .m-b-5
+                    = link_to user.name, mentor_student_path(user)
+                  %ul.p-l-0.m-b-5
+                    %li.inline 
+                      %i.fa.fa-envelope
+                    %li.inline 
+                      = user.email
+                  %ul.p-l-0.m-b-5
+                    %li.inline 
+                      %i.fa.fa-phone
+                    %li.inline 
+                      = user.phone_number
                 %td
-                  = user.email
+                  %ul.p-l-0.m-b-5
+                    %li.inline 
+                      %span.bold Estado:
+                    %li.inline 
+                      = user.status
+                  %ul.p-l-0.m-b-5
+                    %li.inline 
+                      %span.bold Grupo:
+                    %li.inline 
+                      = user.group_name.capitalize
                 %td
-                  = user.phone_number
-                %td
-                  = user.status
-                %td
-                  = user.group_name
-                - if user.student?
+                  - if user.student?
+                    %ul.p-l-0.m-b-5
+                      %li.inline
+                        %span.bold Contestado:
+                      %li.inline 
+                        #{(user.answers_count * 100) / user.questions_count rescue 0}%
+                    %ul.p-l-0.m-b-5
+                      %li.inline
+                        %span.bold Visto:
+                      %li.inline 
+                      #{(user.content_tracked_count * 100) / user.content_count rescue 0}%
+                    %ul.p-l-0.m-b-5
+                      %li.inline
+                        %span.bold Comentarios:
+                      %li.inline 
+                        = user.comments_count
                   %td
-                    #{(user.answers_count * 100) / user.questions_count rescue 0}%
-                  %td
-                    #{(user.content_tracked_count * 100) / user.content_count rescue 0}%
-                  %td
-                    = user.comments_count
-                  %td
-                    .btn-group
-                      %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-                        Programas
-                        %span.caret
-                      - unless user.group.nil?
-                        %ul.dropdown-menu
-                          - user.group.programs.each do |program|
-                            %li{style: "padding:5px;"}
-                              #{program.name}. Contestado: #{user.percentage_questions_answered_for(program)}%
-                              Visto: #{user.percentage_content_visited_for(program)}%
-                            %li.divider{role: 'separator'}
-                  %td
-                    = link_to 'Ver detalle', mentor_student_path(user)
+                    - unless user.group.nil?
+                      %ul.unstyled.no-style
+                        - user.group.programs.each do |program|
+                          %li.inline.p-b-5
+                            %i.fa.fa-check
+                            #{program.name}. 
+                            %strong
+                              Contestado: 
+                            #{user.percentage_questions_answered_for(program)}%
+                            %strong
+                              Visto: 
+                            #{user.percentage_content_visited_for(program)}%
 
       .pull-right
         = paginate @users
