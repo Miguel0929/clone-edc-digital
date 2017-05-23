@@ -42,46 +42,46 @@
                 %td
                   = user.id
                 %td
-                  .m-b-5
+                  .m-b-0
                     = link_to user.name, mentor_student_path(user)
-                  %ul.p-l-0.m-b-5
+                  %ul.p-l-0.m-b-0
                     %li.inline 
                       %i.fa.fa-envelope
                     %li.inline 
                       = user.email
-                  %ul.p-l-0.m-b-5
+                  %ul.p-l-0.m-b-0
                     %li.inline 
                       %i.fa.fa-phone
                     %li.inline 
                       = user.phone_number
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %i.fa.fa-eye
+                    %li.inline 
+                      = link_to "Ver informacion de usuario", mentor_student_path(user)   
                 %td
-                  %ul.p-l-0.m-b-5
+                  %ul.p-l-0.m-b-0
                     %li.inline 
                       %span.bold Estado:
                     %li.inline 
                       = user.status
-                  %ul.p-l-0.m-b-5
+                  %ul.p-l-0.m-b-0
                     %li.inline 
                       %span.bold Grupo:
                     %li.inline 
                       = user.group_name.capitalize
                 %td
                   - if user.student?
-                    %ul.p-l-0.m-b-5
+                    %ul.p-l-0.m-b-0
                       %li.inline
                         %span.bold Contestado:
                       %li.inline 
                         #{(user.answers_count * 100) / user.questions_count rescue 0}%
-                    %ul.p-l-0.m-b-5
+                    %ul.p-l-0.m-b-0
                       %li.inline
                         %span.bold Visto:
                       %li.inline 
                       #{(user.content_tracked_count * 100) / user.content_count rescue 0}%
-                    %ul.p-l-0.m-b-5
-                      %li.inline
-                        %span.bold Comentarios:
-                      %li.inline 
-                        = user.comments_count
                   %td
                     - unless user.group.nil?
                       %ul.unstyled.no-style
