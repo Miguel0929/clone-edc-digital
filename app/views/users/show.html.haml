@@ -70,7 +70,7 @@
                 %td Cursos inscritos
                 - if current_user.admin?
                   %td
-                    - Program.all.each do |program|
+                    - @user.group.programs.each do |program|
                       \-
                       = link_to program.name, user_program_answers_path(@user, program)
                       %br
@@ -119,6 +119,8 @@
                 %td
                   #{@user.percentage_questions_answered_for(program)}%
                 - if current_user.admin?
+                  %td
+                    = !@user.group.programs.exists?(program) ? "No disponible para el estudiante" : "Disponible para el estudiante"
                   %td
                     = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx), class: "btn btn-success" do
                       Descargar Excel 
