@@ -6,18 +6,22 @@
 			- @group_programs.each do |p|
 				- unless p.program.nil?
 					.timeline-block
-						.timeline-point.success
+						.timeline-point.info
+							%i.fa.fa-certificate{"aria-hidden"=>"true"}
 						.timeline-content
 							.card.share.share-other{"data-social" => "item"}
 								.card-content
-									%a{:href => dashboard_program_path(p.program)}
-										= image_tag(p.program.cover.url)
-									%a{:href => dashboard_program_path(p.program)}
-										.card-header.clearfix
-											%h5
-												= p.program.name
-											%h6
-												= p.program.description
+									.col-md-6
+										%a{:href => dashboard_program_path(p.program)}
+											= image_tag(p.program.cover.url, class: "img-rounded learning-img")
+									.col-md-6		
+										%a{:href => dashboard_program_path(p.program)}
+											.card-header
+												%h5
+													= p.program.name
+												%h6
+													= p.program.description
+									.col-md-12			
 										.p-b-10
 											-if @current_user.percentage_questions_answered_for(p.program) == 0
 												.p-b-10.p-r-15.m-b-10.m-t-5
@@ -28,4 +32,7 @@
 													.progress-bar.progress-bar-primary{:style => "width:#{@current_user.percentage_questions_answered_for(p.program)}%"}
 												.p-b-10.p-r-15.m-b-10.m-t-5
 													.no-margin.pull-right{:style => "color: #3C93CE;"}
-														#{@current_user.percentage_questions_answered_for(p.program)}% de progreso					
+														#{@current_user.percentage_questions_answered_for(p.program)}% de progreso
+							.event-date
+								%h6.font-montserrat.all-caps.hint-text.m-t-0 
+								%small.fs-12.hint-text											
