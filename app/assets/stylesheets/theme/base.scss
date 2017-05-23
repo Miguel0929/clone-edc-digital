@@ -5406,9 +5406,9 @@ body > .pgn-wrapper {
   position: absolute;
   right: 13px;
   //top: 36%;
-  //color: #626262;
+  color: #626262;
   top: 35%;
-  color: #439fdf;
+  //color: #439fdf;
   font-size: 20px;
 }
 .panel-group .panel-heading .panel-title > a.collapsed {
@@ -5417,8 +5417,8 @@ body > .pgn-wrapper {
 }
 .panel-group .panel-heading .panel-title > a.collapsed:after {
   content: "\f055";
-  //color: rgba(98, 98, 98, 0.7);
-  color: #439fdf;
+  color: rgba(98, 98, 98, 0.7);
+  //color: #439fdf;
   font-size: 20px;
 }
 .panel-group .panel + .panel {
