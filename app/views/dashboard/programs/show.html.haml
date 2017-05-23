@@ -66,24 +66,25 @@
               = render partial: "layouts/stars", locals: {value: @program, route: ratings_vote_program_path}   
 
 .container-fluid.container-fixed-lg
-  .row{:id => "last_move_box"}
-    .col-sm-12.col-md-10
-      .panel.panel-transparent.m-b-0
-        .panel-heading
-          .panel-title
-            Reanudar tus últimos avances
-        .panel-body
-          .card.status.contenido-reciente.m-b-0{"data-social" => "item"}
-            .circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Cerrar", :id => "hide_last"}
-            %h5 
-              = distance_of_time_in_words(@last_time.to_i, Time.now.to_i)
-            %h2 
-              = truncate(@last_text, length: 60, separator: ' ')
-            %p
-              = link_to dashboard_chapter_content_path(@last_move) do
-                %button.btn.btn-sm.btn-complete.btn-cons.m-b-10{:type => "button"}
-                  %i.fa.fa-play
-                  %span.bold Reanudar mis avances
+  - if !@last_moved_content.nil?
+    .row{:id => "last_move_box"}
+      .col-sm-12.col-md-10
+        .panel.panel-transparent.m-b-0
+          .panel-heading
+            .panel-title
+              Reanudar tus últimos avances
+          .panel-body
+            .card.status.contenido-reciente.m-b-0{"data-social" => "item"}
+              .circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Cerrar", :id => "hide_last"}
+              %h5 
+                = distance_of_time_in_words(@last_time.to_i, Time.now.to_i)
+              %h2 
+                = truncate(@last_text, length: 60, separator: ' ')
+              %p
+                = link_to dashboard_chapter_content_path(@last_move) do
+                  %button.btn.btn-sm.btn-complete.btn-cons.m-b-10{:type => "button"}
+                    %i.fa.fa-play
+                    %span.bold Reanudar mis avances
   
   .row
     .col-sm-12
@@ -93,24 +94,32 @@
             Detalles del contenido
         .panel-body
           - @program.chapters.each do |chapter|
+            - chapter_progress = chapter.get_chapter_progress(chapter, current_user)
             .sm-m-l-5.sm-m-r-5
               #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
                 .panel.panel-default
-                  .panel-heading{:role => "tab", :id=>"heading_#{chapter.id}"}
+                  .panel-heading.p-b-0{:role => "tab", :id=>"heading_#{chapter.id}"}
                     %h4.panel-title
                       %a{"aria-controls" => "collapse_#{chapter.id}", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse_#{chapter.id}"}
                         .col-xs-6
                           = "#{chapter.name} "
                         .col-xs-5
-                        - if chapter.get_chapter_progress(chapter, current_user) == "complete"
+                        - if chapter_progress[0] == "complete"
                           %span.label{class: "label-success"}
                             Módulo completado
-                        - elsif chapter.get_chapter_progress(chapter, current_user) == "progress"
+                        - elsif chapter_progress[0] == "progress"
                           %span.label{class: "label-warning"}
                             Módulo en progreso
                         - else
                           %span.label{class: "label-master"}
                             Módulo no iniciado
+                    %p.subtitle-module-text.p-l-15
+                      Porcentaje contestado:
+                      %span
+                        #{chapter_progress[1]}% /
+                      Porcentaje visto:
+                      %span 
+                        #{chapter_progress[2]}%
 
                   .panel-collapse.collapse{:id=>"collapse_#{chapter.id}", "aria-labelledby" => "heading_#{chapter.id}", :role => "tabpanel"}
                     .panel-body

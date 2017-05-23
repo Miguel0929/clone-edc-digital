@@ -11,3 +11,9 @@ a.pump-link:hover {
 .p-l-17 {
 	padding-left: 17.5px;
 }
+.subtitle-module-text {
+  opacity: .7;
+    font-size: 12px;
+    position: relative;
+    bottom: 8px;
+}
