@@ -20,14 +20,16 @@ class Dashboard::ProgramsController < ApplicationController
     end 
 
     @last_moved_content = @program.get_last_move(@program, current_user)
-    @last_move = @last_moved_content.chapter_content_id
-    @last_time = @last_moved_content.updated_at
-    last_content = ChapterContent.find(@last_moved_content.chapter_content_id)
-    
-    if last_content.coursable_type == "Lesson"
-      @last_text = last_content.model.identifier
-    else
-      @last_text = last_content.model.question_text
+    if !@last_moved_content.nil?
+      @last_move = @last_moved_content.chapter_content_id
+      @last_time = @last_moved_content.updated_at
+      last_content = ChapterContent.find(@last_moved_content.chapter_content_id)
+      
+      if last_content.coursable_type == "Lesson"
+        @last_text = last_content.model.identifier
+      else
+        @last_text = last_content.model.question_text
+      end
     end
 
     add_breadcrumb "Programas", :dashboard_programs_path
