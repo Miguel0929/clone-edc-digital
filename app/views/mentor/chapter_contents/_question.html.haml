@@ -1,0 +1,5 @@
+%h2.text-center
+  = model.question_text
+%div
+  .well
+    = render partial: "/dashboard/stage_contents/inputs/#{model.question_type}", locals: { question: model }
