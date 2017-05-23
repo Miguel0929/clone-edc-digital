@@ -17,3 +17,8 @@ a.pump-link:hover {
     position: relative;
     bottom: 8px;
 }
+.answer-lead {
+	font-size: 18px;
+    line-height: 28px;
+    font-weight: lighter;
+}
