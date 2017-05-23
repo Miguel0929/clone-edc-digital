@@ -12,16 +12,21 @@ class Chapter < ActiveRecord::Base
 
   accepts_nested_attributes_for :evaluations, reject_if: :all_blank, allow_destroy: true
 
+  
+
   def get_chapter_progress(chapter, current_user)
     record = []
+    viewed = []
     chapter_contents.each do |content|
   	  if content.coursable_type == 'Lesson'
         if current_user.trackers.find_by(chapter_content: content).nil?
           event = 0
           record << event
+          viewed << event
         else
           event = 1
           record << event
+          viewed << event
         end
       elsif content.coursable_type == 'Question'
         if current_user.has_answer_question?(content.model)
@@ -31,8 +36,23 @@ class Chapter < ActiveRecord::Base
           event = 0
           record << event
         end
+        if current_user.trackers.find_by(chapter_content: content).nil?
+          event = 0
+          viewed << event
+        else
+          event = 1
+          viewed << event
+        end
       end
     end
+    #Calcular el porcentaje visto (percentage_viewed) y completado (percentage_done) de cada chapter
+    total_record = record.size
+    total_viewed = viewed.size
+    record_ones = record.count(1)
+    viewed_ones = viewed.count(1)
+    percentage_done = (record_ones.to_f / total_record.to_f * 100).round(0)
+    percentage_viewed = (viewed_ones.to_f / total_viewed.to_f * 100).round(0)
+    #Etiquetar cada chapter como completo, incompleto o en progreso
     if record.detect {|i| i == 0}.nil? #si no hay ningún cero en el arreglo @record
       status = "complete"
     else
@@ -42,7 +62,8 @@ class Chapter < ActiveRecord::Base
         status = "progress"
       end
     end
-    return status
+
+    return status, percentage_done, percentage_viewed
   end
 
 end
