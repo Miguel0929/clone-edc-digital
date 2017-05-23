@@ -103,4 +103,9 @@ h1 { font-size: 1.5em; margin: 10px; }
     cursor: inherit;
     display: block;
 }
+.learning-img{
+  margin-top:15px; 
+  margin-bottom:15px
+}
+
 
