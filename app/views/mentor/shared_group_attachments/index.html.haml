@@ -35,7 +35,7 @@
                 - @shared_group_attachments.each do |attachment|
                   %tr
                     %th
-                      = link_to attachment.display_name, attachment.file.url
+                      = link_to attachment.display_name, attachment.file.url, target: :_blank
                     %th.normal-weight
                       = attachment.humanize_document_type
                     %th.normal-weight

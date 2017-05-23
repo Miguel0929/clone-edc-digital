@@ -1,0 +1,47 @@
+.row
+  .col-sm-12
+    - if chapter_content.higher_item
+      .pull-left
+        %button.btn.btn-sm.btn-info.btn-cons.m-b-10.redirector{href: mentor_chapter_content_path(chapter_content.higher_item)}
+          %i.fa.fa-backward
+          %span.bold Regresar
+
+    - if edit_mode == false
+      - if chapter_content.lower_item
+        .pull-right
+          %a.btn.btn-sm.btn-danger.m-b-10{"title"=>"Reportar","data-target"=>"#reportarModal","data-toggle"=>"modal"}
+            %i.fa.fa-flag{"aria-hidden" => "true"}
+          %button.btn.btn-sm.btn-info.btn-cons.m-b-10.redirector{href: mentor_chapter_content_path(chapter_content.lower_item)}
+            %span.bold Continuar
+            %i.fa.fa-forward 
+
+      - elsif chapter_content.chapter.program.next_chapter(chapter_content.chapter) && chapter_content.chapter.program.next_chapter(chapter_content.chapter).chapter_contents.first
+        .pull-right
+          %button.btn.btn-sm.btn-info.btn-cons.m-b-10.redirector{href: mentor_chapter_content_path(chapter_content.chapter.program.next_chapter(chapter_content.chapter).chapter_contents.first)}
+            %span.bold Siguiente módulo
+            %i.fa.fa-forward
+      - else
+        .pull-right
+          %button.btn.btn-sm.btn-info.btn-cons.m-b-10.redirector{href: mentor_program_path(chapter_content.chapter.program)}
+            %span.bold Volver al contenido del programa
+            %i.fa.fa-forward
+
+
+
+
+    - if chapter_content.coursable_type == "Question"
+      .pull-right
+        - if (@answer.new_record? == false && edit_mode == true) || (@answer.new_record? && edit_mode == true)
+          - if chapter_content.lower_item
+            %button.btn.btn-sm.btn-info.btn-cons.m-b-10.redirector{href: mentor_chapter_content_path(chapter_content.lower_item)}
+              %span.bold Sólo continuar
+              %i.fa.fa-forward
+
+          - elsif chapter_content.chapter.program.next_chapter(chapter_content.chapter) && chapter_content.chapter.program.next_chapter(chapter_content.chapter).chapter_contents.first
+            %button.btn.btn-sm.btn-info.btn-cons.m-b-10.redirector{href: mentor_chapter_content_path(chapter_content.chapter.program.next_chapter(chapter_content.chapter).chapter_contents.first)}
+              %span.bold Siguiente módulo
+              %i.fa.fa-forward
+          - else
+            %button.btn.btn-sm.btn-info.btn-cons.m-b-10.redirector{href: mentor_program_path(chapter_content.chapter.program)}
+              %span.bold Volver al contenido del programa
+              %i.fa.fa-forward

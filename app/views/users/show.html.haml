@@ -70,13 +70,13 @@
                 %td Cursos inscritos
                 - if current_user.admin?
                   %td
-                    - @user.group.programs.each do |program|
+                    - Program.all.each do |program|
                       \-
                       = link_to program.name, user_program_answers_path(@user, program)
                       %br
                 - else
                   %td
-                    - @user.group.programs.each do |program|
+                    - @user.group.program.all.each do |program|
                       \-
                       = program.name
                       %br
@@ -104,7 +104,7 @@
               - if current_user.admin?
                 %th
           %tbody
-            - @user.group.programs.each do |program|
+            - Program.all.each do |program|
               %tr
                 %td
                   = program.name
@@ -149,7 +149,7 @@
             - @user.attachments.each do |attachment|
               %tr
                 %th
-                  = link_to attachment.display_name, attachment.file.url
+                  = link_to attachment.display_name, attachment.file.url, target: :_blank
                 %th
                   = attachment.humanize_document_type
                 %th

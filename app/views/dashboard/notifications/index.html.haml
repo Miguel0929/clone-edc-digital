@@ -14,3 +14,5 @@
           .notification-panel.notification-panel-2
             .notification-body.notification-body-3
               = render partial: 'notifications/notification', collection: @notifications
+          %center
+            = paginate @notifications    

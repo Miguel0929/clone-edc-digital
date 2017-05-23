@@ -1,0 +1,30 @@
+- content_for :title  do
+  Programas - EDCdigital
+
+.container-fluid.container-fixed-lg
+  .row
+    .col-md-12
+      .panel.panel-transparent
+        .panel-heading
+          .panel-title
+            Programas de Aprendizaje
+        .panel-body
+          %h5
+            Es tiempo de construir y validar tu idea de negocio...
+          %p.m-b-25
+            Utiliza estos cursos de e-learning para capacitarte en términos y conceptos que te permitirán construir una idea de negocio viable en lo comercial, digital, técnico y financiero. ¡Empecemos tu emprendimiento!
+
+          - @programs.each do |program|
+            .col-md-4.col-sm-6.col-xs-12.tarjeta-programa
+              .card.share.share-other{"data-social" => "item"}
+                .card-content
+                  %a{:href => mentor_program_path(program)}
+                    = image_tag(program.cover.url)
+                  %a{:href => mentor_program_path(program)}
+                    .card-header.clearfix
+                      %h5
+                        = program.name
+                      %h6
+                        = program.description
+                                             
+

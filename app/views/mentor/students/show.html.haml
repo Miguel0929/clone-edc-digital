@@ -135,7 +135,7 @@
           - @user.attachments.each do |attachment|
             %tr
               %th
-                = link_to attachment.display_name, attachment.file.url
+                = link_to attachment.display_name, attachment.file.url, target: :_blank
               %th
                 = attachment.humanize_document_type
               %th
@@ -168,7 +168,7 @@
           - @user.shared_attachments.each do |attachment|
             %tr
               %th
-                = link_to attachment.display_name, attachment.file.url
+                = link_to attachment.display_name, attachment.file.url, target: :_blank
               %th
                 = attachment.humanize_document_type
               %th

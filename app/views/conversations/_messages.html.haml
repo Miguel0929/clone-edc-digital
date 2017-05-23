@@ -22,7 +22,7 @@
           %br/
           - att = MailboxAttachment.where(message_id: message.id).first
           - unless att.nil?
-            = link_to "#{att.file.url}", html_options ={download: att.file.url} do
+            = link_to "#{att.file.url}", html_options ={target: :_blank, class: "pull-right"} do
               = att.file_identifier
               %i.glyphicon.glyphicon-paperclip
         / <br>
@@ -50,7 +50,7 @@
           .pull-rigth  
             - att = MailboxAttachment.where(message_id: message.id).first
             - unless att.nil?
-              = link_to "#{att.file.url}", html_options ={download: att.file.url, class: "pull-right"} do
+              = link_to "#{att.file.url}", html_options ={target: :_blank, class: "pull-right"} do
                 = att.file_identifier
                 %i.glyphicon.glyphicon-paperclip
           .pull-right
