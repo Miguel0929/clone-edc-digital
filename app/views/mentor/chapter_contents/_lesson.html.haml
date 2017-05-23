@@ -76,14 +76,21 @@
       data: frm2.serialize(),
       success: function (data) {
         $('#reportarModal').modal('hide');
-        $('#alert-rep').css('display','block')
+        setTimeout(cerrar,3000);
       },
       error: function (data){
         alert("Error");
       }
-    });           
+    });
+    setTimeout(5000);
+    $("#alert-rep").css('display','block')
+    $('#al').removeClass('dimiss');           
     ev.preventDefault();         
   });
+  function cerrar(){
+    $('#alert-rep').css('display','none');
+    $('#al').addClass('dimiss');
+  }
   var frm = $('#form_rank');
   $('.rank').click(function() {
     frm.submit();
