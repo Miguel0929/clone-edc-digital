@@ -98,21 +98,15 @@ class UsersController < ApplicationController
         @users = @users.search(params[:query]) if params[:query].present?
       end
       format.xlsx do
+        fast = params[:fast] == 'true' ? true : false
         @users = User.students.includes(:group)
         @job = AsyncJob.create({title: 'Exporting csv', progress: 0, total: @users.count})
         exporter = Exporter.new
         exporter.file = Pathname('public/system/export.csv').open
         exporter.save
-        StudentsExporterJob.perform_async(@job.id, @users, exporter)
+        StudentsExporterJob.perform_async(@job.id, @users, exporter, fast)
         redirect_to exporter_path(@job)
       end
-    end
-  end
-
-  def exports
-    @users = User.students.includes(:group)
-    respond_to do |format|
-      format.xlsx{response.headers['Content-Disposition']='attachment; filename="Lista de alumnos.xlsx"'} 
     end
   end
 
