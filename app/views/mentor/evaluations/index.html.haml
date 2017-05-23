@@ -20,11 +20,11 @@
             %th
               Módulo
             %th
-              Meta
+              Valor del módulo
             %th
-              Resultado
+              Resultado de evaluación
             %th
-              Preguntas totales
+              Preguntas diponibles
             %th
               Preguntas contestadas
             %th
@@ -35,9 +35,9 @@
               %td
                 = chapter.name
               %td
-                #{chapter.points} %
+                = chapter.points == 0 ? "N/A" : "#{chapter.points}.pts"
               %td
-                #{(((chapter.evaluation_points * 100) / chapter.total_evaluations_points rescue 0) * chapter.points / 100)} %
+                = chapter.points == 0 ? "N/A" : "#{(((chapter.evaluation_points * 100) / chapter.total_evaluations_points rescue 0) * chapter.points / 100)}.pts"
               %td
                 = chapter.questions.count
               %td

@@ -16,7 +16,16 @@
               = f.select :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: true, label: 'Grupo' }
 
           = f.submit 'Filtrar'
-          = link_to 'Exportar excel', students_users_path(format: :xlsx), class: 'btn btn-success'
+          .btn-group
+            %button.btn.btn-success.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button" }
+              Exportar Lista
+              %span.caret
+            %ul.dropdown-menu
+              %li
+                = link_to 'Formato rápido', students_users_path(format: :xlsx, fast: true)
+              %li
+                = link_to 'Formato completo', students_users_path(format: :xlsx, fast: false)
+
 
       %table.table.table-hover
         %thead

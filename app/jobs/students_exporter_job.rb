@@ -3,12 +3,16 @@ require 'csv'
 class StudentsExporterJob
   include SuckerPunch::Job
 
-  def perform(job_id, students, exporter)
+  def perform(job_id, students, exporter, fast)
     job = AsyncJob.find(job_id)
     
     progress = job.progress
     csv_string = CSV.generate(encoding: "UTF-8") do |csv|
-      csv << ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', 'Cursos inscritos']
+      if fast
+        csv << ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance']
+      else
+        csv << ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', 'Programas inscrito']
+      end
 
       students.each do |student|
         progress = progress + 1
@@ -24,11 +28,23 @@ class StudentsExporterJob
           "",
           ""
         ]
-        unless student.group.nil?
-          student.group.programs.each do |program|
-            csv << ["", "", "", "", "", "", "", "", "#{program.name}.", "Contestado: #{student.percentage_questions_answered_for(program)}%"]
+
+        if !fast
+          unless student.group.nil?
+            Program.all.each do |program|
+              if student.group.programs.exists?(program)
+                csv << ["", "", "", "", "", "", "", "", 
+                  "#{program.name}.", 
+                  "Contestado: #{student.percentage_questions_answered_for(program)}%",
+                  "Visto: #{student.content_visted_for(program)}%"
+                ]
+              else
+                csv << ["","","","","","","","","#{program.name}.", "N/A", "N/A"]
+              end
+            end
           end
         end
+
         job.update({progress: progress})
       end
     end
