@@ -1,0 +1,7 @@
+- answer_to_array(@question).each_with_index do |answer, index|
+  .row
+    .col-md-4
+      .checkbox.check-success
+        = check_box_tag 'answer[answer_text][]', answer, answer_is_selected?(@answer, answer), id: "check_#{index}", disabled: disabled
+        %label{:for => "check_#{index}" }
+          = answer
