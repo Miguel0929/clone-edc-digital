@@ -9,104 +9,201 @@
         = @user.name
     .panel-body
       .row
-        .col-md-8
+        .col-sm-7
           %h5.m-b-0
             Programa a evaluar:
           %h3.m-t-0
             = @program.name
-        .col-md-4
+        .col-sm-5
           .p.text-right
-            %button.btn.btn-success.btn-cons{:type => "submit", :name => "path", :value => "store"} Guardar evaluación
-            %button.btn.btn-info.btn-cons{:type => "submit", :name => "path", :value => "out"} Guardar y salir
+            %button.btn.btn-success.btn-cons{:type => "submit", :form => "evolve", :name => "path", :value => "store"} 
+              Guardar
+            %button.btn.btn-info.btn-cons{:type => "submit", :form => "evolve", :name => "path", :value => "out"}
+              Guardar y salir
+
       .row
-        .col-md-7
+        .col-sm-7
           .panel.panel-default
             .panel-heading
               .panel-title
                 Preguntas del programa
             .panel-body
-              %h3.text-complete
+              %h3.text-complete.m-b-30
                 Módulo #{@chapter.position}: #{@chapter.name}
               %ol.p-l-10
-                - @answers.each do |answer|
-                  %li
-                    %h5.m-b-10
-                      = answer.question_text
-                    %p.answer-lead
-                      = answer.answer_text
-                    %p.m-b-25
-                      %a.comments-count{href: '#', 'data-question'=> answer.question_id, 'data-user'=> answer.user_id, 'data-content'=> answer.chapter_content_id, 'data-url'=> mentor_question_path(answer.question_id, user_id: answer.user_id)}
-                        Comentarios:
-                        = answer.comments_count
-        .col-md-5
+                - if @answers.exists?
+                  - @answers.each do |answer|
+                    %li.m-b-30
+                      %h5.m-b-10
+                        = answer.question_text
+                      - if !answer.answer_text.nil?
+                        %p.answer-lead
+                          = answer.answer_text
+                      - else
+                        %p.answer-lead-red
+                          Sin respuesta
+                      /%p.m-b-25
+                      /%a.comments-count{href: '#', 'data-question'=> answer.question_id, 'data-user'=> answer.user_id, 'data-content'=> answer.chapter_content_id, 'data-url'=> mentor_question_path(answer.question_id, user_id: answer.user_id)}
+                      /Comentarios:
+                      /= answer.comments_count
+                - else
+                  %label.label-danger.padding-5.m-b-10
+                    No hay preguntas en este módulo
+        
+        
+        .col-sm-5
           .panel.panel-default
             .panel-heading
               .panel-title
                 Rúbrica de evaluación
+            .panel-body
+              .container-fluid.p-l-0.p-r-0
+                #rootwizard
+                  - if @chapter.evaluations.exists?
+                    / Nav tabs
+                    %ul.nav.nav-tabs.nav-tabs-fillup.nav-tabs-separator.nav-stack-sm
+                      - @chapter.evaluations.each_with_index do |chapter, index|
+                        %li{:style => "width:30px;", :class => "#{index==0 ? 'active' : ''}"}
+                          %a.p-l-11.l-h-5{"data-toggle" => "tab", :href => "#tab#{index}"}
+                            = index + 1
+                    / Tab panes
+                    = bootstrap_form_for(@chapter, url: mentor_evaluation_path, :html => {:id => "evolve"}) do |f|
+                      %input{type: 'hidden', name: "user_id", value: @user.id}
+                      %input{type: 'hidden', name: "program_id", value: @program.id}
+                        .tab-content
+                          - @chapter.evaluations.each_with_index do |evaluation, index|
+                            .tab-pane.padding-20.slide-left{:id => "tab#{index}", :class => "#{index==0 ? 'active' : ''}"}
+                              .row.row-same-height
+                                = evaluation.name
+                                (#{evaluation.points}%)
+                                %input{type: 'hidden', name: "evaluation[#{index}][evaluation]", value: evaluation.id}
+                                .radio.radio-success
+                                  %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_excelent_#{index}", value: '100', checked: evaluation_pointed?(evaluation, 100)}
+                                  %label{for: "radio_excelent_#{index}"}
+                                    %strong Exelente:
+                                    #{evaluation.excelent}
+                                .radio.radio-success
+                                  %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_good_#{index}", value: '75', checked: evaluation_pointed?(evaluation, 75)}
+                                  %label{for: "radio_good_#{index}"}
+                                    %strong Bueno:
+                                    #{evaluation.good}
+                                .radio.radio-success
+                                  %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_regular_#{index}", value: '50', checked: evaluation_pointed?(evaluation, 50)}
+                                  %label{for: "radio_regular_#{index}"}
+                                    %strong Regular:
+                                    #{evaluation.regular}
+                                .radio.radio-success
+                                  %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_bad_#{index}", value: '25', checked: evaluation_pointed?(evaluation, 25)}
+                                  %label{for: "radio_bad_#{index}"}
+                                    %strong Malo:
+                                    #{evaluation.bad}
+                        
+                      .padding-20.bg-white
+                        %ul.pager.wizard
+                          %li.next
+                            %button.btn.btn-primary.btn-cons.btn-animated.from-left.fa.fa-arrow-right.pull-right{:type => "button"}
+                              %span Siguiente
+                          %li.next.finish.hidden
+                            %button.btn.btn-primary.btn-cons.btn-animated.from-left.fa.fa-cog.pull-right{:type => "button"}
+                              %span Último
+                          %li.previous.first.hidden
+                            %button.btn.btn-default.btn-cons.btn-animated.from-left.fa.fa-cog.pull-right{:type => "button"}
+                              %span Primero
+                          %li.previous
+                            %button.btn.btn-default.btn-cons.pull-right{:type => "button"}
+                              %span Anterior
+                  - else 
+                    .nav-tabs.nav-tabs-separator.m-b-15
+                    %label.label-danger.padding-5.m-b-10
+                      No hay rúbrica para este módulo
 
-      %h4
-        Rubrica de evaluación
-      = bootstrap_form_for(@chapter, url: mentor_evaluation_path) do |f|
-        %input{type: 'hidden', name: "user_id", value: @user.id}
-        %input{type: 'hidden', name: "program_id", value: @program.id}
-        .row
-          - @chapter.evaluations.each_with_index do |evaluation, index|
-            .col-md-6
-              %h4
-                = evaluation.name
-                (#{evaluation.points}%)
+%script{:type => "text/javascript"}
+  (function(e){var n=function(d,k){d=e(d);var a=this,g=[],c=e.extend({},e.fn.bootstrapWizard.defaults,k),f=null,b=null;this.rebindClick=function(h,a){h.unbind("click",a).bind("click",a)};this.fixNavigationButtons=function(){f.length||(b.find("a:first").tab("show"),f=b.find('li:has([data-toggle="tab"]):first'));e(c.previousSelector,d).toggleClass("disabled",a.firstIndex()>=a.currentIndex());e(c.nextSelector,d).toggleClass("disabled",a.currentIndex()>=a.navigationLength());e(c.backSelector,d).toggleClass("disabled",
+  0==g.length);a.rebindClick(e(c.nextSelector,d),a.next);a.rebindClick(e(c.previousSelector,d),a.previous);a.rebindClick(e(c.lastSelector,d),a.last);a.rebindClick(e(c.firstSelector,d),a.first);a.rebindClick(e(c.backSelector,d),a.back);if(c.onTabShow&&"function"===typeof c.onTabShow&&!1===c.onTabShow(f,b,a.currentIndex()))return!1};this.next=function(h){if(d.hasClass("last")||c.onNext&&"function"===typeof c.onNext&&!1===c.onNext(f,b,a.nextIndex()))return!1;h=a.currentIndex();$index=a.nextIndex();$index>
+  a.navigationLength()||(g.push(h),b.find('li:has([data-toggle="tab"]):eq('+$index+") a").tab("show"))};this.previous=function(h){if(d.hasClass("first")||c.onPrevious&&"function"===typeof c.onPrevious&&!1===c.onPrevious(f,b,a.previousIndex()))return!1;h=a.currentIndex();$index=a.previousIndex();0>$index||(g.push(h),b.find('li:has([data-toggle="tab"]):eq('+$index+") a").tab("show"))};this.first=function(h){if(c.onFirst&&"function"===typeof c.onFirst&&!1===c.onFirst(f,b,a.firstIndex())||d.hasClass("disabled"))return!1;
+  g.push(a.currentIndex());b.find('li:has([data-toggle="tab"]):eq(0) a').tab("show")};this.last=function(h){if(c.onLast&&"function"===typeof c.onLast&&!1===c.onLast(f,b,a.lastIndex())||d.hasClass("disabled"))return!1;g.push(a.currentIndex());b.find('li:has([data-toggle="tab"]):eq('+a.navigationLength()+") a").tab("show")};this.back=function(){if(0==g.length)return null;var a=g.pop();if(c.onBack&&"function"===typeof c.onBack&&!1===c.onBack(f,b,a))return g.push(a),!1;d.find('li:has([data-toggle="tab"]):eq('+
+  a+") a").tab("show")};this.currentIndex=function(){return b.find('li:has([data-toggle="tab"])').index(f)};this.firstIndex=function(){return 0};this.lastIndex=function(){return a.navigationLength()};this.getIndex=function(a){return b.find('li:has([data-toggle="tab"])').index(a)};this.nextIndex=function(){return b.find('li:has([data-toggle="tab"])').index(f)+1};this.previousIndex=function(){return b.find('li:has([data-toggle="tab"])').index(f)-1};this.navigationLength=function(){return b.find('li:has([data-toggle="tab"])').length-
+  1};this.activeTab=function(){return f};this.nextTab=function(){return b.find('li:has([data-toggle="tab"]):eq('+(a.currentIndex()+1)+")").length?b.find('li:has([data-toggle="tab"]):eq('+(a.currentIndex()+1)+")"):null};this.previousTab=function(){return 0>=a.currentIndex()?null:b.find('li:has([data-toggle="tab"]):eq('+parseInt(a.currentIndex()-1)+")")};this.show=function(b){b=isNaN(b)?d.find('li:has([data-toggle="tab"]) a[href=#'+b+"]"):d.find('li:has([data-toggle="tab"]):eq('+b+") a");0<b.length&&
+  (g.push(a.currentIndex()),b.tab("show"))};this.disable=function(a){b.find('li:has([data-toggle="tab"]):eq('+a+")").addClass("disabled")};this.enable=function(a){b.find('li:has([data-toggle="tab"]):eq('+a+")").removeClass("disabled")};this.hide=function(a){b.find('li:has([data-toggle="tab"]):eq('+a+")").hide()};this.display=function(a){b.find('li:has([data-toggle="tab"]):eq('+a+")").show()};this.remove=function(a){var c="undefined"!=typeof a[1]?a[1]:!1;a=b.find('li:has([data-toggle="tab"]):eq('+a[0]+
+  ")");c&&(c=a.find("a").attr("href"),e(c).remove());a.remove()};var l=function(d){var g=b.find('li:has([data-toggle="tab"])');d=g.index(e(d.currentTarget).parent('li:has([data-toggle="tab"])'));g=e(g[d]);if(c.onTabClick&&"function"===typeof c.onTabClick&&!1===c.onTabClick(f,b,a.currentIndex(),d,g))return!1},m=function(d){$element=e(d.target).parent();d=b.find('li:has([data-toggle="tab"])').index($element);if($element.hasClass("disabled")||c.onTabChange&&"function"===typeof c.onTabChange&&!1===c.onTabChange(f,
+  b,a.currentIndex(),d))return!1;f=$element;a.fixNavigationButtons()};this.resetWizard=function(){e('a[data-toggle="tab"]',b).off("click",l);e('a[data-toggle="tab"]',b).off("shown shown.bs.tab",m);b=d.find("ul:first",d);f=b.find('li:has([data-toggle="tab"]).active',d);e('a[data-toggle="tab"]',b).on("click",l);e('a[data-toggle="tab"]',b).on("shown shown.bs.tab",m);a.fixNavigationButtons()};b=d.find("ul:first",d);f=b.find('li:has([data-toggle="tab"]).active',d);b.hasClass(c.tabClass)||b.addClass(c.tabClass);
+  if(c.onInit&&"function"===typeof c.onInit)c.onInit(f,b,0);if(c.onShow&&"function"===typeof c.onShow)c.onShow(f,b,a.nextIndex());e('a[data-toggle="tab"]',b).on("click",l);e('a[data-toggle="tab"]',b).on("shown shown.bs.tab",m)};e.fn.bootstrapWizard=function(d){if("string"==typeof d){var k=Array.prototype.slice.call(arguments,1);1===k.length&&k.toString();return this.data("bootstrapWizard")[d](k)}return this.each(function(a){a=e(this);if(!a.data("bootstrapWizard")){var g=new n(a,d);a.data("bootstrapWizard",
+  g);g.fixNavigationButtons()}})};e.fn.bootstrapWizard.defaults={tabClass:"nav nav-pills",nextSelector:".wizard li.next",previousSelector:".wizard li.previous",firstSelector:".wizard li.first",lastSelector:".wizard li.last",backSelector:".wizard li.back",onShow:null,onInit:null,onNext:null,onPrevious:null,onLast:null,onFirst:null,onBack:null,onTabChange:null,onTabClick:null,onTabShow:null}})(jQuery);
 
-              %input{type: 'hidden', name: "evaluation[#{index}][evaluation]", value: evaluation.id}
+  (function($) {
 
-              .radio
-                %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_excelent_#{index}", value: '100', checked: evaluation_pointed?(evaluation, 100)}
-                %label{for: "radio_excelent_#{index}"}
-                  %strong Exelente:
-                  #{evaluation.excelent}
+  'use strict';
 
-              .radio
-                %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_good_#{index}", value: '75', checked: evaluation_pointed?(evaluation, 75)}
-                %label{for: "radio_good_#{index}"}
-                  %strong Bueno:
-                  #{evaluation.good}
-              .radio
-                %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_regular_#{index}", value: '50', checked: evaluation_pointed?(evaluation, 50)}
-                %label{for: "radio_regular_#{index}"}
-                  %strong Regular:
-                  #{evaluation.regular}
+  $(document).ready(function() {
 
-              .radio
-                %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_bad_#{index}", value: '25', checked: evaluation_pointed?(evaluation, 25)}
-                %label{for: "radio_bad_#{index}"}
-                  %strong Malo:
-                  #{evaluation.bad}
+  $('#rootwizard').bootstrapWizard({
+  onTabShow: function(tab, navigation, index) {
+  var $total = navigation.find('li').length;
+  var $current = index + 1;
 
-        .row
-          %button.btn.btn-success{:type => "submit", :name => "path", :value => "store"} Evaluar módulo
-          %button.btn.btn-primary{:type => "submit", :name => "path", :value => "out"} Evaluar y salir
+  // If it's the last tab then hide the last button and show the finish instead
+  if ($current >= $total) {
+  $('#rootwizard').find('.pager .next').hide();
+  $('#rootwizard').find('.pager .finish').show().removeClass('disabled hidden');
+  } else {
+  $('#rootwizard').find('.pager .next').show();
+  $('#rootwizard').find('.pager .finish').hide();
+  }
 
-#answer-comments.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-  .modal-dialog
-    .modal-content
-      .modal-header
-        %button.close{"data-dismiss" => "modal", :type => "button"}
-          %span{"aria-hidden" => "true"} &times;
-          %span.sr-only Close
-        %h4.modal-title Comentarios
-      .modal-body
-        .timeline-container.top-circle.answer-comments-body
-        .text-center
-          %a.btn.btn-default.answer-comment-link
-            Ir a la pregunta
+  var li = navigation.find('li.active');
 
-%script{:type => "text/template", id: 'answer-comment-template'}
-  .panel.panel-transparent
-    .timeline-point.warning.pl10
-      %i.pg-social
-    .timeline-content
-      %h5.answer-comment-user
-        {{user}}
-      %h6.answer-comment-date
-        {{date}}
-      %p.answer-comment-content
-        {{content}}
+  var btnNext = $('#rootwizard').find('.pager .next').find('button');
+  var btnPrev = $('#rootwizard').find('.pager .previous').find('button');
+
+  // remove fontAwesome icon classes
+  function removeIcons(btn) {
+  btn.removeClass(function(index, css) {
+  return (css.match(/(^|\s)fa-\S+/g) || []).join(' ');
+  });
+  }
+
+  if ($current > 1 && $current < $total) {
+
+  var nextIcon = li.next().find('.fa');
+  var nextIconClass = nextIcon.attr('class').match(/fa-[\w-]*/).join();
+
+  removeIcons(btnNext);
+  btnNext.addClass(nextIconClass + ' btn-animated from-left fa');
+
+  var prevIcon = li.prev().find('.fa');
+  var prevIconClass = prevIcon.attr('class').match(/fa-[\w-]*/).join();
+
+  removeIcons(btnPrev);
+  btnPrev.addClass(prevIconClass + ' btn-animated from-left fa');
+  } else if ($current == 1) {
+  // remove classes needed for button animations from previous button
+  btnPrev.removeClass('btn-animated from-left fa');
+  removeIcons(btnPrev);
+  } else {
+  // remove classes needed for button animations from next button
+  btnNext.removeClass('btn-animated from-left fa');
+  removeIcons(btnNext);
+  }
+  },
+  onNext: function(tab, navigation, index) {
+  console.log("Showing next tab");
+  },
+  onPrevious: function(tab, navigation, index) {
+  console.log("Showing previous tab");
+  },
+  onInit: function() {
+  $('#rootwizard ul').removeClass('nav-pills');
+  }
+
+  });
+
+  $('.remove-item').click(function() {
+  $(this).parents('tr').fadeOut(function() {
+  $(this).remove();
+  });
+  });
+
+  });
+
+  })(window.jQuery);
+

@@ -18,7 +18,17 @@ a.pump-link:hover {
     bottom: 8px;
 }
 .answer-lead {
+	color: #409ede;
 	font-size: 18px;
     line-height: 28px;
     font-weight: lighter;
+}
+.answer-lead-red {
+	color: red;
+	font-size: 16px;
+    line-height: 28px;
+    font-weight: lighter;
+}
+.l-h-5 {
+	line-height: 5px !important;
 }
