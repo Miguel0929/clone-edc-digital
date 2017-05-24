@@ -26,7 +26,7 @@ class Users::InvitationsController < Devise::InvitationsController
           },
         ],
         from: {
-          email: "hola@emprendiendodesdecero.com"
+          email: "soporte@edc-digital.com"
         },
         template_id: "506fcba3-80ce-4de9-bb7f-41e1e752ce0f"
       }
