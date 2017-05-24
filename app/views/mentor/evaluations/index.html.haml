@@ -20,19 +20,29 @@
             %th
               Módulo
             %th
-              Meta
+              Valor del módulo
             %th
-              Resultado
+              Resultado de evaluación
+            %th
+              Preguntas diponibles
+            %th
+              Preguntas contestadas
             %th
         %tbody
+          - answers_total = 0
           - @chapters.each do |chapter|
             %tr
               %td
                 = chapter.name
               %td
-                #{chapter.points} %
+                = chapter.points == 0 ? "N/A" : "#{chapter.points}.pts"
               %td
-                #{(((chapter.evaluation_points * 100) / chapter.total_evaluations_points rescue 0) * chapter.points / 100)} %
+                = chapter.points == 0 ? "N/A" : "#{(((chapter.evaluation_points * 100) / chapter.total_evaluations_points rescue 0) * chapter.points / 100)}.pts"
+              %td
+                = chapter.questions.count
+              %td
+                = answered_questions(chapter, @user)
+                - answers_total += answered_questions(chapter, @user)
               %td
                 = link_to 'Evaluar módulo', mentor_evaluation_path(chapter, user_id: @user, program_id: @program)
           %tr
@@ -42,4 +52,8 @@
               #{@chapters.sum(:points)} %
             %th
               #{@chapters.map { |chapter| (((chapter.evaluation_points * 100) / chapter.total_evaluations_points rescue 0) * chapter.points / 100) }.inject(0, :+) } %
+            %th
+              = total_qustions(@chapters)
+            %th
+              = answers_total
             %th

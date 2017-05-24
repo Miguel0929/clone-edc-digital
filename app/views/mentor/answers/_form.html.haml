@@ -1,0 +1,28 @@
+.container-fluid.container-fixed-lg
+  = bootstrap_form_tag() do |f|
+    .panel.panel-default
+      .panel-heading
+        .panel-title.question-title
+          = @chapter_content.chapter.name
+        .panel-title.pull-right
+          - unless @answer.rubric.nil?
+            = image_tag(image_for_rubric(@answer.rubric.criteria), :class=> 'rating-image',"data-original-title" => "Esta pregunta ha sido evaluada como #{@answer.rubric.criteria.downcase}", "data-toggle" => "tooltip")
+        .clearfix
+      .panel-body
+        .row
+          .col-md-10.col-md-offset-1
+            .padding-30.m-t-50.p-b-100
+              %i.fa.fa-tasks.fa-2x.hint-text
+              .pull-right
+                - unless @question.support_image.nil?
+                  = image_tag(@question.support_image.url, class: 'img-responsive')
+              .clearfix
+              %h2
+                = @question.question_text
+
+              = render partial: "/mentor/answers/inputs/#{@question.question_type}", locals: { disabled: disabled, f: f}
+
+              %p.small.hint-text.m-t-15
+                = @question.support_text
+
+        = render partial: '/mentor/shared/navegation_buttons', locals: { chapter_content: @chapter_content, answer: @answer, edit_mode: true }

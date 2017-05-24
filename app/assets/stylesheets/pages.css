@@ -103,6 +103,7 @@ h1 { font-size: 1.5em; margin: 10px; }
     cursor: inherit;
     display: block;
 }
+
 .boton-buscar {
   height: 28px;
   position: relative;
@@ -114,3 +115,9 @@ h1 { font-size: 1.5em; margin: 10px; }
   position: relative;
   bottom: 2px;
 }
+
+.learning-img{
+  margin-top:15px; 
+  margin-bottom:15px
+}
+

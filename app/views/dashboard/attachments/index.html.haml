@@ -28,7 +28,7 @@
 										Subido en
 									%th
 										Fecha de modificación
-									%th
+									%th{:width => "10%"}
 							%tbody
 								- if current_user.attachments.empty?
 									%tr
@@ -37,8 +37,8 @@
 								- else
 									- current_user.attachments.each do |attachment|
 										%tr
-											%th
-												= link_to attachment.display_name, attachment.file.url
+											%th.normal-weight
+												= link_to attachment.display_name, attachment.file.url, target: :_blank
 											%th.normal-weight
 												= attachment.humanize_document_type
 											%th.normal-weight
@@ -48,8 +48,14 @@
 											%th.normal-weight
 												= l attachment.updated_at, format: :special
 											%th.normal-weight
-												= link_to 'Editar', edit_dashboard_attachment_path(attachment), class: 'btn btn-default', style: 'width: 100px;'
-												= link_to 'Eliminar', dashboard_attachment_path(attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default', style: 'width: 100px;'
+												.p-b-10
+													= link_to edit_dashboard_attachment_path(attachment) do
+														%i.fa.fa-edit
+														Editar
+												.p-b-10
+													= link_to dashboard_attachment_path(attachment), method: :delete, data: { confirm: '¿Estás seguro?' } do
+														%i.fa.fa-times
+														Eliminar
 
 					/= link_to 'Subir archivo', new_dashboard_attachment_path, class: 'btn btn-default'
 
@@ -81,7 +87,7 @@
 									- current_user.shared_attachments.each do |attachment|
 										%tr
 											%th.normal-weight
-												= link_to attachment.display_name, attachment.file.url
+												= link_to attachment.display_name, attachment.file.url, target: :_blank
 											%th.normal-weight
 												= attachment.humanize_document_type
 											%th.normal-weight
@@ -120,7 +126,7 @@
 									- current_user.group.shared_group_attachments.each do |attachment|
 										%tr
 											%th.normal-weight
-												= link_to attachment.display_name, attachment.file.url
+												= link_to attachment.display_name, attachment.file.url, target: :_blank
 											%th.normal-weight
 												= attachment.humanize_document_type
 											%th.normal-weight

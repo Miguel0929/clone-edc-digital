@@ -76,7 +76,7 @@
                       %br
                 - else
                   %td
-                    - @user.group.programs.each do |program|
+                    - @user.group.program.all.each do |program|
                       \-
                       = program.name
                       %br
@@ -104,7 +104,7 @@
               - if current_user.admin?
                 %th
           %tbody
-            - @user.group.programs.each do |program|
+            - Program.all.each do |program|
               %tr
                 %td
                   = program.name
@@ -119,6 +119,8 @@
                 %td
                   #{@user.percentage_questions_answered_for(program)}%
                 - if current_user.admin?
+                  %td
+                    = !@user.group.programs.exists?(program) ? "No disponible para el estudiante" : "Disponible para el estudiante"
                   %td
                     = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx), class: "btn btn-success" do
                       Descargar Excel 
@@ -149,7 +151,7 @@
             - @user.attachments.each do |attachment|
               %tr
                 %th
-                  = link_to attachment.display_name, attachment.file.url
+                  = link_to attachment.display_name, attachment.file.url, target: :_blank
                 %th
                   = attachment.humanize_document_type
                 %th
