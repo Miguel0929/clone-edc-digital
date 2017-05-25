@@ -97,6 +97,7 @@
                       %br
                 - else
                   %td
+                    - @user.group.programs.each do |program|
                       \-
                       = program.name
                       %br
