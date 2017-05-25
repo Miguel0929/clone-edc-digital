@@ -1,3 +1,5 @@
-$(document).ready(function() {
-	$("select").select2();
+$(document).on('turbolinks:load', function(){
+  $(document).ready(function() {
+          $("select").select2();
+  });
 });
