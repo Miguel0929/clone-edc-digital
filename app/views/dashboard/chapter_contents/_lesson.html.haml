@@ -56,6 +56,14 @@
           Reportar
         %button.btn.btn-default.sweet-gray{"data-dismiss" => "modal", :type => "button"}
           Cerrar
+#alert-rep.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-info
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      Contenido reportado
+
 :javascript
   $('#reportar').click(function() {
     frm2.submit();
@@ -67,16 +75,22 @@
       url: frm2.attr('action'),
       data: frm2.serialize(),
       success: function (data) {
-        console.log(data);
         $('#reportarModal').modal('hide');
-        alert("Tu reporte ha sido enviado.");
+        setTimeout(cerrar,3000);
       },
       error: function (data){
         alert("Error");
       }
-    });           
+    });
+    setTimeout(5000);
+    $("#alert-rep").css('display','block')
+    $('#al').removeClass('dimiss');         
     ev.preventDefault();         
   });
+  function cerrar(){
+    $('#alert-rep').css('display','none');
+    $('#al').addClass('dimiss');
+  }
   var frm = $('#form_rank');
   $('.rank').click(function() {
     frm.submit();
