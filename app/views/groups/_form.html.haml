@@ -4,35 +4,7 @@
   = f.text_field :university, label: 'Universidad'
   = f.collection_select(:state_id, State.all, :id, :name, label: 'Estado', include_blank: true)
   = f.select :category, ['Escolarizado', ' Autodidacta digital', 'Presencial', 'Experiemental'], label: 'Tipo de grupo', include_blank: true
-
-  .form-group
-    %label
-      Lista de pogramas
-    - Program.all.each_with_index do |program, index|
-      .checkbox.check-success
-        = check_box_tag 'group[program_ids][]', program.id, @group.programs.include?(program), id: "check_programs_#{index}"
-        %label{:for => "check_programs_#{index}" }
-          = program.name
-    %input(type="hidden" name='group[program_ids][]' value="")
-
-  .form-group
-    %label
-      Lista de mentores
-    - User.mentors.invitation_accepted.each_with_index do |user, index|
-      .checkbox.check-success
-        = check_box_tag 'group[user_ids][]', user.id, @group.users.include?(user), id: "check_users_#{index}"
-        %label{:for => "check_users_#{index}" }
-          = user.name
-    %input(type="hidden" name='group[user_ids][]' value="")
-  
-  .form-group
-    %label
-      Lista de Quizzes
-    - Quiz.all.each_with_index do |quiz, index|
-      .checkbox.check-success
-        = check_box_tag 'group[quiz_ids][]', quiz.id, @group.quizzes.include?(quiz), id: "check_quizzes_#{index}"
-        %label{:for => "check_quizzes_#{index}" }
-          = quiz.name
-    %input(type="hidden" name='group[quiz_ids][]' value="")
-
+  = f.select :program_ids, Program.all.collect{|p| [p.name, p.id]}, {indlude_blank: false}, multiple: 'multiple'
+  = f.select :user_ids, User.mentors.invitation_accepted.collect{|u| [u.name, u.id]}, {include_blank: false}, multiple: 'multiple'
+  = f.select :quiz_ids, Quiz.all.collect{|q| [q.name, q.id]}, {include_blank: false}, multiple: 'multiple'
   = f.submit 'Aceptar'
