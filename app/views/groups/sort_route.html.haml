@@ -13,17 +13,18 @@
             %th
         %tbody.sortable2{'data-update-url'=> url_prod_helper(sort_group_path)}
           - @programs.each do |p|
-            %tr{id: "program_#{p.program.id}"}
-              %td.handle-sort
-                .row
-                  = image_tag(p.program.cover.url, options={width: 50, heigth: 50})
-                .row
-                  [mover]
-              %td
-                = p.program.name
-              %td
-                = link_to 'Ver', program_path(p.program), class: 'btn btn-default'
-                = link_to 'Editar', edit_program_path(p.program), class: 'btn btn-default'              
+            - unless p.program.nil?
+              %tr{id: "program_#{p.program.id}"}
+                %td.handle-sort
+                  .row
+                    = image_tag(p.program.cover.url, options={width: 50, heigth: 50})
+                  .row
+                    [mover]
+                %td
+                  = p.program.name
+                %td
+                  = link_to 'Ver', program_path(p.program), class: 'btn btn-default'
+                  = link_to 'Editar', edit_program_path(p.program), class: 'btn btn-default'              
 #alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
     #al.alert.alert-info
