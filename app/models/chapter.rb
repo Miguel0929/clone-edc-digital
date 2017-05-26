@@ -12,8 +12,6 @@ class Chapter < ActiveRecord::Base
 
   accepts_nested_attributes_for :evaluations, reject_if: :all_blank, allow_destroy: true
 
-  
-
   def get_chapter_progress(chapter, current_user)
     record = []
     viewed = []
@@ -62,8 +60,11 @@ class Chapter < ActiveRecord::Base
         status = "progress"
       end
     end
-
     return status, percentage_done, percentage_viewed
+  end
+
+  def chapter_checked?(chapter, user)
+    Evaluation.joins(:user_evaluations).where(:user_evaluations => {:user_id => user}).where(chapter_id: chapter).exists?
   end
 
 end
