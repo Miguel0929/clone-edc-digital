@@ -84,10 +84,10 @@
               Contenidos
             %th.text-center{:width => '10%'}
               Preguntas
-            %th.text-center
+            %th.text-center{:width => '25%'}
               Módulos del curso
-            %th
-            %th
+            %th{:width => '11%'}
+            %th{:width => '11%'}
         %tbody
           - Program.all.each do |program|
             %tr
@@ -124,7 +124,9 @@
                               M-#{index + 1}
                               %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
               %td
-                = link_to 'Ir a evaluación por módulos', mentor_evaluations_path(user_id: @user, program_id: program)
+                = link_to mentor_evaluations_path(user_id: @user, program_id: program) do
+                  %i.fa.fa-chevron-circle-right
+                  Ir a evaluación por módulos
               %td 
                 = !@user.group.programs.exists?(program) ? "No disponible para el estudiante" : "Disponible para el estudiante"
               %td
