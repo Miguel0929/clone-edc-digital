@@ -18,5 +18,8 @@ class ChapterContent < ActiveRecord::Base
   	else
   		return r
   	end	
+  end
+  def rating_count
+    return self.ratings.count
   end	
 end
