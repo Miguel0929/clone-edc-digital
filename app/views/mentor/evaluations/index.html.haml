@@ -17,11 +17,11 @@
       %table.table.table-striped
         %thead
           %tr
-            %th
+            %th.text-center
               Módulo
-            %th{:width => "20%"}
+            %th.text-center{:width => "20%"}
               Puntajes de módulo
-            %th{:width => "20%"}
+            %th.text-center{:width => "20%"}
               Preguntas de módulo
             %th
         %tbody
@@ -29,9 +29,9 @@
           - @chapters.each do |chapter|
             %tr
               - result = evaluation_result(chapter)
-              %td
+              %td.text-center
                 = chapter.name
-              %td.p-b-15
+              %td.p-b-15.text-center
                 - if chapter.questions.count == 0
                   Módulo sin preguntas
                 - elsif chapter.points == 0
@@ -44,7 +44,7 @@
                   %span /
                   = chapter.points
                   %span pts
-              %td
+              %td.text-center
                 - if chapter.questions.count > 0
                   - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions.count.to_f).ceil
                   .p-r-10
@@ -57,17 +57,17 @@
                   - answers_total += answered_questions(chapter, @user)
                 - else
                   Módulo sin preguntas
-              %td
+              %td.text-center
                 = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: @program) do
                   .fa.fa-edit
                   Evaluar módulo
           %tr
-            %th
+            %th.text-center
               Total
-            %th
+            %th.text-center
               #{@chapters.map { |chapter| evaluation_result(chapter) }.inject(0, :+) } /
               #{@chapters.sum(:points)} pts
-            %th
+            %th.text-center
               = answers_total
               %span contestadas /
               = total_qustions(@chapters)
