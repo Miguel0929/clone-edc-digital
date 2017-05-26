@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   post 'ratings/vote_chapter_content'
   post 'ratings/vote_program'
+  get 'rating/program/:id', to: "ratings#show", as: "rating_program" 
 
   resources :reports, only: [:index,:destroy,:create] do
     member do
