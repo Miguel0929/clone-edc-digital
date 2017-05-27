@@ -116,7 +116,7 @@
                     %p.subtitle-module-text.p-l-15
                       Porcentaje contestado:
                       %span
-                        #{chapter_progress[1]}% /
+                        #{(answered_questions(chapter, current_user) * 100) / (chapter.questions.count == 0 ? 1 : chapter.questions.count) }% /
                       Porcentaje visto:
                       %span 
                         #{chapter_progress[2]}%
