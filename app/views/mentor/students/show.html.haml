@@ -80,19 +80,19 @@
           %tr
             %th
               Curso inscrito
-            %th.text-center{:width => '10%'}
+            %th.text-center{:width => '13%'}
               Contenidos
-            %th.text-center{:width => '10%'}
+            %th.text-center{:width => '13%'}
               Preguntas
-            %th.text-center{:width => '25%'}
+            %th.text-center{:width => '27%'}
               Módulos del curso
             %th{:width => '11%'}
-            %th{:width => '11%'}
+            %th
         %tbody
           - Program.all.each do |program|
             %tr
               %td.p-b-35
-                = program.name
+                = link_to program.name, mentor_evaluations_path(user_id: @user, program_id: program)
               %td.text-center
                 %div
                   #{@user.content_visted_for(program)} vistos
@@ -123,14 +123,10 @@
                             .label{:class => "#{(answered_percentage > 0) ? 'label-warning' : ''} #{checked ? '' : 'p-sides-14'}"}
                               M-#{index + 1}
                               %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
-              %td
-                = link_to mentor_evaluations_path(user_id: @user, program_id: program) do
-                  %i.fa.fa-chevron-circle-right
-                  Ir a evaluación por módulos
               %td 
                 = !@user.group.programs.exists?(program) ? "No disponible para el estudiante" : "Disponible para el estudiante"
               %td
-                = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx), class: "btn btn-success" do
+                = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx), class: "btn btn-sm btn-success" do
                   Descargar Excel 
                   %i.fa.fa-file-excel-o
   %h3

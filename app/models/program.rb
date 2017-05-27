@@ -59,6 +59,20 @@ class Program < ActiveRecord::Base
     return last_content
   end
 
+  def program_checked?(program, user)
+    tracker = []
+    Program.find(program.id).chapters.each do |chapter|
+      if chapter.chapter_checked?(chapter, user)
+        event = 1
+      else
+        event = 0
+      end
+      tracker << event
+    end
+    status = tracker.detect {|i| i == 0}.nil? #si no hay ningún cero en el arreglo @tracker es TRUE
+    return status
+  end
+
 end
 
 #def self.color_options
