@@ -17,19 +17,19 @@
       %table.table.table-striped
         %thead
           %tr
-            %th.text-center
-              Módulo
-            %th.text-center{:width => "20%"}
-              Puntajes de módulo
-            %th.text-center{:width => "20%"}
-              Preguntas de módulo
             %th
+              Módulo
+            %th.text-center{:width => "22%"}
+              Puntajes de módulo
+            %th.text-center{:width => "22%"}
+              Preguntas de módulo
+            %th{:width => "20%"}
         %tbody
           - answers_total = 0
           - @chapters.each do |chapter|
             %tr
               - result = evaluation_result(chapter)
-              %td.text-center
+              %td
                 = chapter.name
               %td.p-b-15.text-center
                 - if chapter.questions.count == 0
@@ -62,7 +62,7 @@
                   .fa.fa-edit
                   Evaluar módulo
           %tr
-            %th.text-center
+            %th
               Total
             %th.text-center
               #{@chapters.map { |chapter| evaluation_result(chapter) }.inject(0, :+) } /
@@ -72,5 +72,4 @@
               %span contestadas /
               = total_qustions(@chapters)
               %span disponibles
-            %th
             %th
