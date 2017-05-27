@@ -16,7 +16,7 @@ class StudentsExporterJob
 
       students.each do |student|
         progress = progress + 1
-        csv << [
+        content = [
           student.id,
           student.name,
           student.email,
@@ -25,26 +25,21 @@ class StudentsExporterJob
           student.group.nil? ? "" : student.group.name,
           "#{student.answered_questions_percentage}%",
           "#{student.content_visited_percentage}%",
-          "",
-          ""
         ]
-
+        programs = ''
         if !fast
           unless student.group.nil?
             Program.all.each do |program|
               if student.group.programs.exists?(program)
-                csv << ["", "", "", "", "", "", "", "", 
-                  "#{program.name}.", 
-                  "Contestado: #{student.percentage_questions_answered_for(program)}%",
-                  "Visto: #{student.content_visted_for(program)}%"
-                ]
+                programs += "#{ program.name}.Contestado: #{student.percentage_questions_answered_for(program)}% Visto: #{student.content_visted_for(program)}% \n"
               else
-                csv << ["","","","","","","","","#{program.name}.", "N/A", "N/A"]
+                programs += "#{program.name}. Contestado: N/A Visto: N/A \n"
               end
             end
+            content << programs
           end
         end
-
+        csv << content
         job.update({progress: progress})
       end
     end
