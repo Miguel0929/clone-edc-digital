@@ -168,15 +168,6 @@ Rails.application.routes.draw do
     end
 
     resources :shared_group_attachments
-
-    resources :programs, only: [:index, :show] 
-    resources :chapter_contents, path: 'course', only: [:show] do
-      resources :answers, only: [:show, :new, :create] do
-        collection do
-          get :router
-        end
-      end
-    end
   end
 
   namespace :api do
