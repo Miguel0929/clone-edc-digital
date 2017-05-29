@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170518205627) do
+ActiveRecord::Schema.define(version: 20170529165641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -304,6 +304,8 @@ ActiveRecord::Schema.define(version: 20170518205627) do
     t.string   "video"
     t.string   "color"
     t.string   "small_cover"
+    t.integer  "level"
+    t.integer  "tipo"
   end
 
   create_table "questions", force: :cascade do |t|

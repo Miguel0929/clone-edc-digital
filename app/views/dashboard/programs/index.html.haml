@@ -8,12 +8,24 @@
         .panel-heading
           .panel-title
             Programas de Aprendizaje
-        .panel-body
+        .panel-body   
           %h5
             Es tiempo de construir y validar tu idea de negocio...
           %p.m-b-25
             Utiliza estos cursos de e-learning para capacitarte en términos y conceptos que te permitirán construir una idea de negocio viable en lo comercial, digital, técnico y financiero. ¡Empecemos tu emprendimiento!
 
+          = bootstrap_form_tag(url: dashboard_programs_path, method: :get) do |f|
+            .row
+              .col-md-4
+                = f.select :tipo, options_for_select([['e-learning', 'elearning'], ['Construccion de idea de negocios', 'construccion']], params[:tipo]), {include_blank: true, label: 'Tipo' }
+              .col-md-4
+                = f.select :level, options_for_select([['Básico', 'basico'], ['Intermedio', 'intermedio'],['Avanzado', 'avanzado']], params[:level]), {include_blank: true, label: 'Nivel de dificultad' }  
+              .col-md-4
+                = f.select :orden, options_for_select([['Tipo de Programa', 'tipo'], ['Ruta de Aprendizaje', 'ruta'],['Orden Alfabético', 'abc']], params[:orden]), {include_blank: true, label: 'Orden' }
+            .row
+              .pull-right    
+                = f.submit 'Filtrar'  
+          %br    
           - @programs.each do |program|
             .col-md-4.col-sm-6.col-xs-12.tarjeta-programa
               .card.share.share-other{"data-social" => "item"}

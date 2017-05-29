@@ -11,6 +11,9 @@ class Program < ActiveRecord::Base
   has_many :program_notifications, dependent: :destroy
   has_many :ratings, as: :ratingable 
 
+  enum tipo: [ :elearning, :construccion ]
+  enum level: [:basico, :intermedio, :avanzado]
+
   validates_presence_of :name, :description, :cover
 
   def next_content_for(user)
@@ -37,7 +40,12 @@ class Program < ActiveRecord::Base
   def self.category_type_options
     [['Selecciona una categoría', 'none'], ['Cursos principales', 'main'], ['Cursos adicionales', 'additional'], ['Cursos externos', 'external']]
   end
-
+  def self.tipo_type_options
+    [['e-learning', 'elearning'], ['Construccion de idea de negocio', 'construccion']]
+  end
+  def self.level_type_options
+    [['Básico', 'basico'], ['Intermedio', 'intermedio'], ['Avanzado', 'avanzado']]
+  end
   def self.color_options
     [['Verde', '#67b220'], ['Azul', '#3f5ba3'], ['Coral', '#f46c6c'], ['Amarillo', '#edcf5d'], ['Rosa', '#e83e79'], ['Azul eléctrico', '#7976fb']]
   end
