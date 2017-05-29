@@ -7,7 +7,20 @@ class Dashboard::ProgramsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{dashboard_programs_path}'>Programas</a>".html_safe
     #@programs = current_user.group.programs.order(position: :asc) rescue []
 
-    @programs = current_user.group.programs
+    ids=[]
+    if current_user.student? 
+      @programs = current_user.group.programs
+    elsif current_user.mentor?
+      current_user.groups.each do |g|
+        g.programs.each do |p|
+          unless ids.include?(p.id)          
+            ids.push(p.id)         
+          end
+        end  
+      end
+      @programs=Program.where(id: ids)
+    end  
+    
     if params[:tipo]=="elearning"
       @programs=@programs.where(tipo: 0)
     elsif params[:tipo]=="construccion"
