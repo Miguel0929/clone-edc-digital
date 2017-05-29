@@ -5,7 +5,32 @@ class Dashboard::ProgramsController < ApplicationController
 
   def index
     add_breadcrumb "<a class='active' href='#{dashboard_programs_path}'>Programas</a>".html_safe
-    @programs = current_user.group.programs.order(position: :asc) rescue []
+    #@programs = current_user.group.programs.order(position: :asc) rescue []
+
+    @programs = current_user.group.programs
+    if params[:tipo]=="elearning"
+      @programs=@programs.where(tipo: 0)
+    elsif params[:tipo]=="construccion"
+      @programs=@programs.where(tipo: 1)
+    end
+
+    if params[:level]=="basico"
+      @programs=@programs.where(level: 0)
+    elsif params[:level]=="intermedio"
+      @programs=@programs.where(level: 1)
+    elsif params[:level]=="avanzado"  
+      @programs=@programs.where(level: 2)
+    end
+
+    if params[:orden]=="tipo"
+      @programs=@programs.order(:tipo)
+    elsif params[:orden]=="ruta"
+      @programs=@programs.order("group_programs.position")  
+    elsif params[:orden]=="abc"
+      @programs=@programs.order(name: :asc) 
+    end  
+          
+
     @quizzes = current_user.group.quizzes.order(id: :asc) rescue []
   end
 
