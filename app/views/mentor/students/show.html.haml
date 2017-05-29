@@ -78,12 +78,10 @@
       %table.table.table-hover
         %thead
           %tr
-            %th
+            %th{:width => '25%'}
               Curso inscrito
-            %th.text-center{:width => '13%'}
-              Contenidos
-            %th.text-center{:width => '13%'}
-              Preguntas
+            %th{:width => '22%'}
+              Avances del alumno
             %th.text-center{:width => '27%'}
               Módulos del curso
             %th{:width => '11%'}
@@ -93,16 +91,17 @@
             %tr
               %td.p-b-35
                 = link_to program.name, mentor_evaluations_path(user_id: @user, program_id: program)
-              %td.text-center
-                %div
-                  #{@user.content_visted_for(program)} vistos
-                %div
-                  (#{@user.percentage_content_visited_for(program)}%)
-              %td.text-center
-                %div
-                  #{@user.questions_answered_for(program)} contestadas
-                %div
-                  (#{@user.percentage_questions_answered_for(program)}%)
+              %td
+                .m-b-10
+                  %i.fa.fa-edit
+                  #{@user.questions_answered_for(program)} 
+                  %span preguntas contestadas
+                  %strong (#{@user.percentage_questions_answered_for(program)}%)
+                .m-b-10
+                  %i.fa.fa-eye
+                  #{@user.content_visted_for(program)} 
+                  %span contenidos vistos
+                  %strong (#{@user.percentage_content_visited_for(program)}%)
               %td
                 %ul.list-inline.no-style.unstyled
                   - program.chapters.each_with_index do |chapter, index|
