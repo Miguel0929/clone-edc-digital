@@ -222,6 +222,10 @@ Rails.application.routes.draw do
   resources :frequents
   resources :frequent_categories
   get '/frequent_questions', to: "frequent_categories#index"
+  resources :glossaries
+  resources :glossary_categories
+  get '/glossary', to: "glossary_categories#index"
+
   resources :route_texts
   resources :route_covers
   

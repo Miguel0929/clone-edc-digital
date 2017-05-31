@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170518205627) do
+ActiveRecord::Schema.define(version: 20170529232354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -159,6 +159,23 @@ ActiveRecord::Schema.define(version: 20170518205627) do
     t.integer  "frequent_category_id"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+  end
+
+  create_table "glossaries", force: :cascade do |t|
+    t.string   "term"
+    t.text     "definition"
+    t.string   "image"
+    t.integer  "glossary_category_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "glossaries", ["glossary_category_id"], name: "index_glossaries_on_glossary_category_id", using: :btree
+
+  create_table "glossary_categories", force: :cascade do |t|
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "group_programs", force: :cascade do |t|
@@ -539,6 +556,7 @@ ActiveRecord::Schema.define(version: 20170518205627) do
   add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
   add_index "visits", ["visit_token"], name: "index_visits_on_visit_token", unique: true, using: :btree
 
+  add_foreign_key "glossaries", "glossary_categories"
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
