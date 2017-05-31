@@ -1,0 +1,11 @@
+= bootstrap_form_for(@glossary) do |f|
+	= f.text_field :term, label: 'Término de glosario'
+	= f.text_area :definition, label: 'Definición', rows: 7
+	= f.select :glossary_category_id, Glossary.category_of_glossaries, {label: 'Categoría', prompt: 'Selecciona una opción', required: true}
+	= f.file_field :image, label: 'Imagen de ilustración (opcional)'
+	.pull-right.m-t-15.m-b-40
+		=link_to glossary_categories_path do
+			%button.btn.btn-info.m-l-10
+				%i.fa.fa-times
+				Cancelar
+		= f.submit 'Guardar término', class: 'btn btn-success m-l-10'
