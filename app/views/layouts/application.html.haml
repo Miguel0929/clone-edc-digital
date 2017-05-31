@@ -99,6 +99,13 @@
                     Cerrar sesión
                   %span.icon-thumbnail Cs
 
+            %li
+              %a.detailed.redirector{:href => glossary_categories_path }
+                %span.title Glosario de EDC
+                %span.details Realiza una búsqueda
+              %span.icon-thumbnail
+                %i.fa.fa-book 
+
           - if current_user.admin?
             %li
               %a.detailed.redirector{:href => dashboard_pathway_path }
@@ -106,6 +113,14 @@
                 %span.details Editar Mi ruta
               %span.icon-thumbnail
                 %i.fa.fa-map-o
+
+            %li
+              %a.detailed.redirector{:href => glossary_categories_path }
+                %span.title Glosario de EDC
+                %span.details Editar glosario
+              %span.icon-thumbnail
+                %i.fa.fa-book 
+
                
         .clearfix
     .page-container
