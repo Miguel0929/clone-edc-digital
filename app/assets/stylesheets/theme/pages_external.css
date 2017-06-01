@@ -32,6 +32,17 @@ a.pump-link:hover {
 .l-h-5 {
 	line-height: 5px !important;
 }
-.no-opacity a{
+.text-overflow p{
+	display: none;
+}
+.text-overflow p:first-child{
+	display:inline-block;
+    width: 350px;
+    height: 21px !important;
+    white-space: nowrap;
+    overflow:hidden !important;
+    text-overflow: ellipsis;
+    margin-bottom: 0px;
+}.no-opacity a{
 	opacity: 1 !important;
 }
