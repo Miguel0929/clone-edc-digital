@@ -3,8 +3,10 @@
   .row
     .col-md-8
       = f.text_field :name, label: 'Nombre del elemento'
-    .col-md-4
-      = f.text_field :points, label: 'Ponderación'
+    .col-md-2
+      = f.number_field :points, label: 'Ponderación'
+    .col-md-2
+      = f.number_field :position, label: 'Posición (orden)', min: 1
 
   = f.text_area :excelent, label: 'Criterio de evaluación para "Excelente"'
   = f.text_area :good, label: 'Criterio de evaluación para "Bueno"'
