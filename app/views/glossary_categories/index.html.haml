@@ -82,7 +82,9 @@
 														%span.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar grupo"}
 															%i.fa.fa-times
 										%td.p-t-15.p-b-15
-											= truncate(glossary.definition, :length => 70, :separator => ' ')
+											.text-overflow
+												= raw glossary.definition
+											- truncate(glossary.definition, :length => 70, :separator => ' ')
 							- else
 								%tr
 									%td.p-t-15.p-b-15
