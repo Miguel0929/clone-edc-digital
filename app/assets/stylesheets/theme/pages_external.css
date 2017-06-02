@@ -32,3 +32,6 @@ a.pump-link:hover {
 .l-h-5 {
 	line-height: 5px !important;
 }
+.no-opacity a{
+	opacity: 1 !important;
+}
