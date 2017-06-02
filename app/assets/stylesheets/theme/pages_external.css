@@ -58,3 +58,6 @@ a.pump-link:hover {
     text-overflow: ellipsis;
     margin-bottom: 0px;
 }
+.no-opacity a{
+	opacity: 1 !important;
+}
