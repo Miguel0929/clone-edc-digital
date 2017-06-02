@@ -64,7 +64,11 @@ class Chapter < ActiveRecord::Base
   end
 
   def chapter_checked?(chapter, user)
-    Evaluation.joins(:user_evaluations).where(:user_evaluations => {:user_id => user}).where(chapter_id: chapter).exists?
+    checked = Evaluation.joins(:user_evaluations).where(:user_evaluations => {:user_id => user}).where(chapter_id: chapter).count
+    if checked > 0
+      total = Evaluation.where(chapter_id: chapter).count
+      return checked == total
+    end
   end
 
 end

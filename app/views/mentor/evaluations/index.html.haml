@@ -19,44 +19,67 @@
           %tr
             %th
               Módulo
-            %th.text-center{:width => "22%"}
-              Puntajes de módulo
-            %th.text-center{:width => "22%"}
+            %th.text-center{:width => "21%"}
               Preguntas de módulo
-            %th{:width => "20%"}
+            %th.text-center{:width => "20%"}
+              Rúbricas evaluadas
+            %th.text-center{:width => "20%"}
+              Puntajes de módulo
+            %th{:width => "15%"}
         %tbody
-          - answers_total = 0
+          - answers_total, rubrics_checked = 0, 0
           - @chapters.each do |chapter|
             %tr
               - result = evaluation_result(chapter)
               %td
                 = chapter.name
-              %td.p-b-15.text-center
-                - if chapter.questions.count == 0
-                  Módulo sin preguntas
-                - elsif chapter.points == 0
-                  No hay puntaje
-                - else
-                  .p-r-10
-                    .progress.m-b-10
-                      .progress-bar.progress-bar-primary{:style => "width: #{result * (100 / chapter.points)}%"}
-                  = result
-                  %span /
-                  = chapter.points
-                  %span pts
-              %td.text-center
+              %td
                 - if chapter.questions.count > 0
                   - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions.count.to_f).ceil
                   .p-r-10
-                    .progress.m-b-10
-                      .progress-bar{:style => "width: #{answered_percentage}%", :class => "#{(answered_percentage > 95) ? 'progress-bar-success' : 'progress-bar-primary'}"}
-                  = answered_questions(chapter, @user)
-                  %span contestadas /
-                  = chapter.questions.count
-                  %span disponibles
+                    .progress.m-b-10.m-l-20.m-r-10
+                      .progress-bar{:style => "width: #{answered_percentage}%", :class => "#{(answered_percentage > 95) ? 'progress-bar-success' : 'progress-bar-warning'}"}
+                  .text-center
+                    = answered_questions(chapter, @user)
+                    %span contestadas /
+                    = chapter.questions.count
+                    %span disponibles
                   - answers_total += answered_questions(chapter, @user)
                 - else
-                  Módulo sin preguntas
+                  .text-center Módulo sin preguntas
+              %td
+                - if chapter.questions.count == 0
+                  .text-center Módulo sin preguntas
+                - elsif chapter.evaluations.exists?
+                  - total, counter = chapter.evaluations.count, 0
+                  - chapter.evaluations.each do |evaluation|
+                    - evaluation_checked?(@user, evaluation) ? (counter += 1; rubrics_checked += 1) : counter += 0
+                  .p-r-10
+                    .progress.m-b-10.m-l-20.m-r-10
+                      .progress-bar{:style => "width: #{((counter.to_f/total.to_f)*100).ceil}%", :class => "#{((counter/total) == 1) ? 'progress-bar-success' : 'progress-bar-warning'}"}
+                  .text-center
+                    = counter 
+                    %span revisiones /
+                    = total
+                    %span disponibles
+                - else
+                  .text-center.text-danger No hay rúbrica
+              %td.p-b-15
+                - if chapter.questions.count == 0
+                  .text-center Módulo sin preguntas
+                - elsif !chapter.evaluations.exists?
+                  .text-center.text-danger No hay rúbrica
+                - elsif chapter.points == 0
+                  .text-center No hay puntaje
+                - else
+                  .p-r-10
+                    .progress.m-b-10.m-l-20.m-r-10
+                      .progress-bar.progress-bar-complete{:style => "width: #{result * (100 / chapter.points)}%"}
+                  .text-center
+                    = result
+                    %span /
+                    = chapter.points
+                    %span pts
               %td.text-center
                 = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: @program) do
                   .fa.fa-edit
@@ -65,11 +88,14 @@
             %th
               Total
             %th.text-center
-              #{@chapters.map { |chapter| evaluation_result(chapter) }.inject(0, :+) } /
-              #{@chapters.sum(:points)} pts
-            %th.text-center
               = answers_total
               %span contestadas /
               = total_qustions(@chapters)
               %span disponibles
+            %th.text-center
+              #{rubrics_checked} revisiones /
+              #{@chapters.map { |chapter| chapter.evaluations.count }.inject(0, :+) } disponibles
+            %th.text-center
+              #{@chapters.map { |chapter| evaluation_result(chapter) }.inject(0, :+) } /
+              #{@chapters.sum(:points)} pts
             %th
