@@ -56,7 +56,7 @@
 
           - if current_user.student?
             = display_navbar_link({css: ['m-t-30'], link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})
-            /= display_navbar_link({link: 'Examenes', details: 'Examenes en EDCdigital', path: dashboard_quizzes_path, icon: 'fa fa-question-circle', role: [:student]})
+            = display_navbar_link({link: 'Examenes', details: 'Examenes en EDCdigital', path: dashboard_quizzes_path, icon: 'fa fa-question-circle', role: [:student]})
             = display_navbar_link({css: [''], link: 'Mi ruta', details: 'Ruta de emprendimiento' ,path: dashboard_pathway_path, icon: 'fa fa-map-o', role: [:student]})
             = display_navbar_link({css: [''], link: 'Ruta de aprendizaje', details: 'Ruta de apendizaje' ,path: dashboard_learning_path_path, icon: 'fa fa-map-signs', role: [:student]})
             = display_navbar_link({css: [''], link: 'Mis archivos', details: 'Archivos digitales' ,path: dashboard_attachments_path, icon: 'fa fa-file', role: [:student]})
