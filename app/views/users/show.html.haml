@@ -127,6 +127,35 @@
                       %i.fa.fa-file-excel-o
                   %td
                     = link_to 'Ver detalle', analytics_program_user_path(@user, program_id: program)
+  %h3
+    Estadísticas generales de examenes
+
+  .panel.panel-default
+    .panel-body
+      .table-responsive
+        %table.table.table-hover
+          %thead
+            %tr
+              %th
+                Exámen
+              %th
+                Preguntas disponibles
+              %th
+                Preguntas contestadas
+              %th
+                Calificación
+              %th
+          %tbody
+            - @user.group.quizzes.each do |quiz|
+              %tr
+                %td= quiz.name
+                %td= quiz.quiz_questions.count
+                %td= quiz.answered(@user)
+                %td= quiz.average(@user)
+                %td= link_to "Ver detalle", analytics_quiz_user_path(@user, quiz_id: quiz)
+
+
+
   - if current_user.admin?
     %h3
       Archivos del usuario
