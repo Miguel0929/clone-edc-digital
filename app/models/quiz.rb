@@ -14,4 +14,9 @@ class Quiz < ActiveRecord::Base
     end
     return total
   end
+
+  def answered(user)
+    ids = quiz_questions.map { |q| q.id }
+    return QuizAnswer.where(quiz_question_id: ids, user_id: user.id).count
+  end
 end

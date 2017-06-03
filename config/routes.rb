@@ -128,6 +128,10 @@ Rails.application.routes.draw do
       get :analytics_program
     end
 
+    member do 
+      get :analytics_quiz
+    end
+
     resources :programs, only: [] do
       resources :answers, only: [:index, :edit, :update]
     end

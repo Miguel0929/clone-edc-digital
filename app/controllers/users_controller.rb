@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin, except: [:students, :show]
   before_action :require_creator, only: [:students, :show]
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz]
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -120,6 +120,13 @@ class UsersController < ApplicationController
     add_breadcrumb "Estudiantes", :users_path
     add_breadcrumb @user.email, user_path(@user)
     add_breadcrumb "<a class='active' href='#{analytics_program_user_path(@user, program_id: @program)}'>Detalles de programa</a>".html_safe
+  end
+
+  def analytics_quiz
+    @quiz = Quiz.find(params[:quiz_id])
+    add_breadcrumb "Estudiantes", :users_path
+    add_breadcrumb @user.email, user_path(@user)
+    add_breadcrumb "<a class='active' href='#{analytics_quiz_user_path(@user, quiz_id: @quiz)}'>Detalles del exámen</a>".html_safe
   end
 
   def students
