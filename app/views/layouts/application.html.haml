@@ -45,8 +45,9 @@
           = display_navbar_link({link: 'Usuarios desactivados', details: 'Usuarios desactivados' ,path: deleted_users_path, icon: 'fa fa-ban', role: [:admin]})
           = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: shared_group_attachments_path, icon: 'fa fa-file', role: [:admin]})
           = display_navbar_link({link: 'Enviar invitación', details: 'Enviar invitación a un nuevo usuario', path: new_user_invitation_path, icon: 'fa fa-envelope-o', role: [:admin, :staff]})
+          = display_navbar_link({link: 'Enviar invitación en grupo', details: 'Enviar invitación a un grupo de usuario', path: new_group_invitation_path, icon: 'fa fa-users', role: [:admin, :staff]})
           = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:admin]})
-          = display_navbar_link({css: [], link: 'Reportes', details: 'Consulta los reportes de contenidos' ,path: reports_path, icon: 'fa fa-flag', role: [:admin]})  
+          = display_navbar_link({css: [], link: 'Reportes', details: 'Consulta los reportes de contenidos' ,path: reports_path, icon: 'fa fa-flag', role: [:admin]})
 
           = display_navbar_link({link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, css: ['m-t-30'], icon: 'fa pg-layouts', role: [:mentor]})
           = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: [''], icon: 'fa fa-users', role: [:mentor]})
@@ -66,8 +67,8 @@
                 %span.title Ayuda de mentores
                 %span.details Solicita apoyo de mentores
               %span.icon-thumbnail
-                %i.fa.fa-info-circle  
-            
+                %i.fa.fa-info-circle
+
             = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:student]})
 
             %li
@@ -82,7 +83,7 @@
                 %span.title Acerca de
                 %span.details ¿Qué es EDCdigital?
               %span.icon-thumbnail
-                %i.pg-map 
+                %i.pg-map
 
             %li.extra-bottom-4
               %a{:href => "javascript:;"}
@@ -104,7 +105,7 @@
                 %span.title Glosario de EDC
                 %span.details Realiza una búsqueda
               %span.icon-thumbnail
-                %i.fa.fa-book 
+                %i.fa.fa-book
 
           - if current_user.admin?
             %li
@@ -119,9 +120,8 @@
                 %span.title Glosario de EDC
                 %span.details Editar glosario
               %span.icon-thumbnail
-                %i.fa.fa-book 
+                %i.fa.fa-book
 
-               
         .clearfix
     .page-container
       .header
@@ -152,8 +152,8 @@
                         - elsif current_user.notifications_count < 20 and current_user.notifications_count > 9
                           %span.number-inside-bubble-20
                             = current_user.notifications_count
-                        - else 
-                          %span.number-inside-bubble-9  
+                        - else
+                          %span.number-inside-bubble-9
                             = current_user.notifications_count
 
                   .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
@@ -171,13 +171,13 @@
                     -  if  unread_messages_count > 0
                       %span.bubble
                         - if unread_messages_count > 20
-                          %span.number-inside-bubble-m20   
+                          %span.number-inside-bubble-m20
                             +20
                         - elsif unread_messages_count < 20 && unread_messages_count > 9
                           %span.number-inside-bubble-20
                             = unread_messages_count
                         - else
-                          %span.number-inside-bubble-9 
+                          %span.number-inside-bubble-9
                             = unread_messages_count
 
                   .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
@@ -185,15 +185,15 @@
                       .notification-body.scrollable
                         = render partial: "mailbox/notification", collection: mailbox.inbox.limit(3).order(created_at: :desc), as: :item
                       .notification-footer.text-center
-                        %a{:href => mailbox_inbox_path} Ver todos los mensajes 
+                        %a{:href => mailbox_inbox_path} Ver todos los mensajes
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
-                          %i.pg-refresh_new   
-            %a{:href => frequent_questions_path, :target => "blank"} 
+                          %i.pg-refresh_new
+            %a{:href => frequent_questions_path, :target => "blank"}
               %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-30.p-r-20
                 %li.p-r-15.inline
                   #notification-center.fa.fa-question-circle{:style => "font-size:18px;"}
 
-                    
+
 
         .pull-right
           .visible-lg.visible-md.m-t-10
@@ -287,4 +287,4 @@
           /        %a{:href => news_mentor_comments_path } Nuevos
           /      %li
           /        %a{:href => archived_mentor_comments_path } Archivados
-          /    = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]}) 
+          /    = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]})

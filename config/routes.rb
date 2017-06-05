@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     member do
       post :visto
     end
-  end     
+  end
 
   devise_for :users, sign_out_via: [:get, :delete], :controllers => { :invitations => 'users/invitations', sessions: 'sessions' }
 
@@ -39,7 +39,7 @@ Rails.application.routes.draw do
       post :clone
     end
   end
-  
+
   resources :quizzes do
     resources :quiz_questions
   end
@@ -96,7 +96,7 @@ Rails.application.routes.draw do
         end
       end
       post "mailer_interno"
-      post "rank" 
+      post "rank"
     end
 
 
@@ -140,8 +140,8 @@ Rails.application.routes.draw do
     member do
       get :sort_route
       post :sort
-    end  
-  end  
+    end
+  end
 
   resources :exporters, only: [:show]
   resources :groups
@@ -168,6 +168,18 @@ Rails.application.routes.draw do
     end
 
     resources :shared_group_attachments
+<<<<<<< HEAD
+=======
+
+    resources :programs, only: [:index, :show]
+    resources :chapter_contents, path: 'course', only: [:show] do
+      resources :answers, only: [:show, :new, :create] do
+        collection do
+          get :router
+        end
+      end
+    end
+>>>>>>> send multiple invitations
   end
 
   namespace :api do
@@ -184,7 +196,7 @@ Rails.application.routes.draw do
 
   resources :track_sessions, only: [:create]
   resources :shared_group_attachments
-  
+
   namespace :baasstard do
     namespace :api do
       post 'users', to: 'users#show'
@@ -199,14 +211,14 @@ Rails.application.routes.draw do
   match '/oauth/token' => 'auth#access_token', via: :all
 
   mount Ckeditor::Engine => '/ckeditor'
-  
-  resources :conversations do 
+
+  resources :conversations do
     member do
       post :reply
       post :trash
       post :untrash
-    end 
-  end 
+    end
+  end
   get 'mailbox/inbox' => 'mailbox#inbox', as: :mailbox_inbox
   get 'mailbox/sent' => 'mailbox#sent', as: :mailbox_sent
   get 'mailbox/trash' => 'mailbox#trash', as: :mailbox_trash
@@ -220,5 +232,6 @@ Rails.application.routes.draw do
 
   resources :route_texts
   resources :route_covers
-  
+
+  resources :group_invitations, only: [:new, :create]
 end

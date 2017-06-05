@@ -1,7 +1,9 @@
 class LandingsController < ApplicationController
+  before_action :authenticate_user!
+	
 	layout false
 	before_action :redirect_when_is_not_auth
-	
+
 	def index
 		render :index
 	end
@@ -16,9 +18,9 @@ class LandingsController < ApplicationController
 	    elsif current_user.staff?
 	      redirect_to students_users_path
 	    elsif current_user.student?
-	    	redirect_to dashboard_programs_path  
+	    	redirect_to dashboard_programs_path
 	    end
-	  end	  
-	end	
-		
+	  end
+	end
+
 end
