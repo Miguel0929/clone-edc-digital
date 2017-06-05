@@ -17,13 +17,14 @@
                 %p.small.hint-text.m-t-5 #{@user.state}, #{@user.city}
                 %p.small.hint-text.m-t-5
                   %span
-                    Porcentaje contestado #{@user.answered_questions_percentage} %
                     %i.fa.fa-line-chart
+                    Porcentaje contestado #{@user.answered_questions_percentage} %
                   %br
                   %span
-                    Porcentaje de avance #{@user.content_visited_percentage} %
                     %i.fa.fa-line-chart
+                    Porcentaje de avance #{@user.content_visited_percentage} %
                 %p.small.hint-text.m-t-5 
+                  %i.fa.fa-history
                   Ultima vez:
                   %span
                     #{ @user.last_time }
