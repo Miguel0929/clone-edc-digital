@@ -10,7 +10,7 @@ class GroupInvitationsController < ApplicationController
       redirect_to new_group_invitation_path
     else
       CSV.foreach(params[:csv].tempfile, headers: true, encoding:'iso-8859-1:utf-8') do |row|
-        InvitationJob.perform_async(row['NOMBRE'], row['CORREO'], params[:group_id])
+        InvitationJob.perform_async(row['NOMBRE'], row['CORREO'], params[:group_id], accept_user_invitation_url)
       end
 
       flash[:notice] = "Invitaciones enviadas"

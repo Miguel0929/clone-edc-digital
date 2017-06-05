@@ -1,8 +1,7 @@
 class InvitationJob
   include SuckerPunch::Job
-  include Rails.application.routes.url_helpers
 
-  def perform(name, email, group_id)
+  def perform(name, email, group_id, url)
     user = User.invite!(:email => email, :first_name => name, group_id: group_id) do |u|
       u.skip_invitation = true
     end
@@ -12,7 +11,7 @@ class InvitationJob
           {
             to: [ { email: user.email } ],
             substitutions: {
-              "-confirmation_link-" => accept_user_invitation_url(:invitation_token => user.raw_invitation_token)
+              "-confirmation_link-" => "#{url}?invitation_token=#{user.raw_invitation_token}"
             },
             subject: "Tu cuenta en EDCdigital ha sido creada"
           },
