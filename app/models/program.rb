@@ -82,7 +82,3 @@ class Program < ActiveRecord::Base
   end
 
 end
-
-#def self.color_options
-  #[{color: 'Verde', value: '#67b220'}, {color: 'Azul', value: '#3f5ba3'}]
-#end
