@@ -11,6 +11,12 @@ a.pump-link:hover {
 .p-l-17 {
 	padding-left: 17.5px;
 }
+.p-r-8 {
+	padding-right: 7.5px;
+}
+.p-l-8 {
+	padding-left: 7.5px;
+}
 .subtitle-module-text {
   opacity: .7;
     font-size: 12px;
@@ -32,3 +38,27 @@ a.pump-link:hover {
 .l-h-5 {
 	line-height: 5px !important;
 }
+.p-sides-14{
+	padding-left: 14.6px;
+	padding-right: 14.5px;
+}
+.p-sides-14-2{
+	padding-left: 14.57px;
+	padding-right: 14.57px;
+}
+.text-overflow p{
+	display: none;
+}
+.text-overflow p:first-child{
+	display:inline-block;
+    width: 350px;
+    height: 21px !important;
+    white-space: nowrap;
+    overflow:hidden !important;
+    text-overflow: ellipsis;
+    margin-bottom: 0px;
+}
+.no-opacity a{
+	opacity: 1 !important;
+}
+

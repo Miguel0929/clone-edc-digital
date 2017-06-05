@@ -5,14 +5,12 @@ class Chapter < ActiveRecord::Base
   has_many :chapter_contents, -> { order(position: :asc) }, dependent: :destroy
   has_many :lessons, :through => :chapter_contents, :source => :coursable, :source_type => 'Lesson', dependent: :destroy
   has_many :questions, :through => :chapter_contents, :source => :coursable, :source_type => 'Question', dependent: :destroy
-  has_many :evaluations
+  has_many :evaluations, -> { order(position: :asc) }
   belongs_to :program
 
   acts_as_list scope: :program
 
   accepts_nested_attributes_for :evaluations, reject_if: :all_blank, allow_destroy: true
-
-  
 
   def get_chapter_progress(chapter, current_user)
     record = []
@@ -62,8 +60,15 @@ class Chapter < ActiveRecord::Base
         status = "progress"
       end
     end
-
     return status, percentage_done, percentage_viewed
+  end
+
+  def chapter_checked?(chapter, user)
+    checked = Evaluation.joins(:user_evaluations).where(:user_evaluations => {:user_id => user}).where(chapter_id: chapter).count
+    if checked > 0
+      total = Evaluation.where(chapter_id: chapter).count
+      return checked == total
+    end
   end
 
 end

@@ -96,6 +96,10 @@
               .col-sm-9
                 = f.text_area :bio, class: 'form-control', placeholder: 'Comparte una pequeña descripción de ti y tus habilidades.'
             .form-group
+              %label.col-sm-3.control-label{:for => "name"} ¿En qué sector económico se ubica tu producto/servicio?
+              .col-sm-9
+                = f.select :industry_id, Industry.all.collect {|p| [ p.name, p.id ] },  {include_blank: "Selecciona el sector económico"}, { :class => 'minimal form-control full-width' }   
+            .form-group
               %label.col-sm-3.control-label{:for => "correo"} Nueva contraseña (dejar en blanco si no requieres cambiarlo)
               .col-sm-9
                 = f.password_field :password, class: 'form-control', placeholder: 'Introduce tu contraseña'

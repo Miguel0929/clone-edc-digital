@@ -17,13 +17,14 @@
                 %p.small.hint-text.m-t-5 #{@user.state}, #{@user.city}
                 %p.small.hint-text.m-t-5
                   %span
-                    Porcentaje contestado #{@user.answered_questions_percentage} %
                     %i.fa.fa-line-chart
+                    Porcentaje contestado #{@user.answered_questions_percentage} %
                   %br
                   %span
-                    Porcentaje de avance #{@user.content_visited_percentage} %
                     %i.fa.fa-line-chart
+                    Porcentaje de avance #{@user.content_visited_percentage} %
                 %p.small.hint-text.m-t-5 
+                  %i.fa.fa-history
                   Ultima vez:
                   %span
                     #{ @user.last_time }
@@ -78,41 +79,54 @@
       %table.table.table-hover
         %thead
           %tr
-            %th
+            %th{:width => '25%'}
               Curso inscrito
-            %th
-              Contenidos vistos
-            %th
-              Respuestas contestadas
-            %th
-              Comentarios totales
-            %th
-              Porcentaje de contenido visto
-            %th
-              Porcentaje de preguntas contestadas
-            %th
+            %th{:width => '22%'}
+              Avances del alumno
+            %th.text-center{:width => '27%'}
+              Módulos del curso
+            %th{:width => '11%'}
             %th
         %tbody
           - Program.all.each do |program|
             %tr
+              %td.p-b-35
+                = link_to program.name, mentor_evaluations_path(user_id: @user, program_id: program)
               %td
-                = program.name
+                .m-b-10
+                  %i.fa.fa-edit
+                  #{@user.questions_answered_for(program)} 
+                  %span preguntas contestadas
+                  %strong (#{@user.percentage_questions_answered_for(program)}%)
+                .m-b-10
+                  %i.fa.fa-eye
+                  #{@user.content_visted_for(program)} 
+                  %span contenidos vistos
+                  %strong (#{@user.percentage_content_visited_for(program)}%)
               %td
-                = @user.content_visted_for(program)
-              %td
-                = @user.questions_answered_for(program)
-              %td
-                = @user.total_comments_for(program)
-              %td
-                #{@user.percentage_content_visited_for(program)}%
-              %td
-                #{@user.percentage_questions_answered_for(program)}%
-              %td
-                = link_to 'Ir a evaluación por módulos', mentor_evaluations_path(user_id: @user, program_id: program)
+                %ul.list-inline.no-style.unstyled
+                  - program.chapters.each_with_index do |chapter, index|
+                    %li
+                      = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: program) do
+                        - if chapter.questions.count == 0
+                          .label.label-info.p-sides-14
+                            M-#{index + 1}
+                            %i.fa
+                        - else
+                          - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions.count.to_f).ceil
+                          - checked = chapter.chapter_checked?(chapter.id, @user.id)
+                          - if answered_percentage > 95
+                            .label.label-success{:class => "#{checked ? '' : 'p-sides-14'}"}
+                              M-#{index + 1}
+                              %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
+                          - else
+                            .label{:class => "#{(answered_percentage > 0) ? 'label-warning' : ''} #{checked ? '' : 'p-sides-14'}"}
+                              M-#{index + 1}
+                              %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
               %td 
                 = !@user.group.programs.exists?(program) ? "No disponible para el estudiante" : "Disponible para el estudiante"
               %td
-                = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx), class: "btn btn-success" do
+                = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx), class: "btn btn-sm btn-success" do
                   Descargar Excel 
                   %i.fa.fa-file-excel-o
   %h3

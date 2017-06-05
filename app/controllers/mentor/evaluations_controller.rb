@@ -5,12 +5,18 @@ class Mentor::EvaluationsController < ApplicationController
   before_action :set_program
 
   helper_method :evaluation_pointed?
+  helper_method :evaluation_result
+  helper_method :evaluation_checked?
 
   add_breadcrumb "EDCDIGITAL", :root_path
   add_breadcrumb "Estudiantes", :mentor_students_path
 
   def index
-    add_breadcrumb @user.email, mentor_student_path(@user)
+    if current_user.admin?
+      add_breadcrumb @user.email, user_path(@user)
+    else
+      add_breadcrumb @user.email, mentor_student_path(@user)
+    end
     add_breadcrumb "<a class='active' href='#{mentor_evaluations_path(program_id: @program, user_id: @user)}'>Evaluación de programa</a>".html_safe
 
     @chapters = @program.chapters.select(
@@ -26,6 +32,9 @@ class Mentor::EvaluationsController < ApplicationController
 
   def show
     @chapter = Chapter.includes(:evaluations).find(params[:id])
+
+    allevals = @chapter.evaluations
+    @totaleval = allevals.map { |evaluation| evaluation.points }.inject(0, :+) 
 
     @evaluations = @user.user_evaluations.joins(:evaluation).where('evaluations.chapter_id = ?', @chapter.id)
 
@@ -60,6 +69,14 @@ class Mentor::EvaluationsController < ApplicationController
 
   def evaluation_pointed?(evaluation, points)
     !@evaluations.where(evaluation: evaluation, points: points).empty?
+  end
+
+  def evaluation_result(chapter)
+    (((chapter.evaluation_points * 100) / chapter.total_evaluations_points rescue 0) * chapter.points / 100)
+  end
+
+  def evaluation_checked?(user, evaluation)
+    UserEvaluation.where(user_id: user, evaluation_id: evaluation).exists?
   end
 
   private

@@ -6,20 +6,74 @@
       .clearfix
     .panel-body
       - if current_user.admin?
-        = bootstrap_form_tag(url: users_path, method: :get) do |f|
-          .row
-            .col-md-4
-              = f.select :state, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:state]), {include_blank: true, label: 'Estado' }
-            .col-md-4
-              = f.select :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: true, label: 'Grupo' }
-          .row
-            .col-md-4
-              = f.select :answered, options_for_select(OptionsRange.percentages), {include_blank: true, label: 'Porcentaje contestado' }
-            .col-md-4
-              = f.select :visited, options_for_select(OptionsRange.percentages), {include_blank: true, label: 'Porcentaje visto' }
+        = form_tag(users_path, method: :get) do
+          .col-md-12.col-sm-12.col-xs-12
+            %aside.sidebar-menu
+              %h4.search-title Filtrar búsqueda:
+              .search-group
+                .col-md-2.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-check-square-o
+                    Status:
+                  = select_tag :status, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:status]), {include_blank: "Filtra por status", class: "form-control"} 
+              .search-group
+                .col-md-2.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-users
+                    Grupo:
+                  = select_tag :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "form-control" }
+              .search-group
+                .col-md-2.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-university
+                    Universidad:
+                  = text_field_tag :university, params[:university], class: "form-control", placeholder: "Filtra por universidad"  
 
-          = f.submit 'Filtrar'
-          = link_to 'Exportar excel', exports_users_path(format: :xlsx), class: 'btn btn-success'
+              .search-group
+                .col-md-2.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-map-marker
+                    Estado:
+                  = select_tag :state, options_from_collection_for_select(State.all, :id, :name, params[:state]), {include_blank: "Filtra por estado", class: "col-md-12" }
+              .search-group
+                .col-md-2.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-graduation-cap
+                    Tipo de grupo:
+                  = select_tag :tipo,  options_for_select(['Escolarizado', ' Autodidacta digital', 'Presencial', 'Experiemental'], params[:tipo]), {include_blank: "Filtra por tipo de grupo", class: "form-control" }
+              .search-group
+                .col-md-2.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-industry
+                    Industria:
+                  = select_tag :industria,  options_from_collection_for_select(Industry.all,:id,:name, params[:industria]), {include_blank: "Filtra por industria en la que emprendes", class: "form-control" }
+          .col-md-12        
+            .search-group
+              .col-md-3.col-sm-6.col-xs-12
+                .s-s-title
+                  %i.fa.fa-check-circle
+                  Porcentaje contestado  
+                = select_tag :answered, options_for_select(OptionsRange.percentages, params[:answered]), {include_blank: "Filtra por porcentaje contestado" }
+            .search-group
+              .col-md-3.col-sm-6.col-xs-12
+                .s-s-title
+                  %i.fa.fa-eye
+                  Porcentaje visto
+                = select_tag :visited, options_for_select(OptionsRange.percentages, params[:visited]), {include_blank: "Filtra por porcentaje visto" }
+            .search-group
+              .col-md-3.col-sm-6.col-xs-12
+                .s-s-title
+                  %i.fa.fa-book
+                  Programa (*)  
+                = select_tag :program, options_from_collection_for_select(Program.all,:id, :name, params[:program]), {include_blank: "Seleccionar programa", class: "form-control" }    
+          .col-md-12      
+            %i.row
+              (*) Selecciona un programa para filtrar por el porcentaje de contenido contestado/visto      
+          %br
+          %br      
+          .col-md-12      
+            = submit_tag 'Filtrar', class: "btn btn-default"
+            = link_to 'Exportar excel', exports_users_path(format: :xlsx), class: 'btn btn-success'
 
       %table.table.table-hover
         %thead
@@ -47,6 +101,7 @@
             %th
               Cursos inscritos
             %th
+              Opciones
         %tbody
           - @users.each do |user|
             %tr
@@ -63,11 +118,11 @@
               %td
                 = user.huminize_role
               %td
-                = user.group_name
+                = user.group.name
               %td
-                #{(user.answers_count * 100) / user.questions_count rescue 0}%
+                #{user.answered_questions_percentage}%
               %td
-                #{(user.content_tracked_count * 100) / user.content_count rescue 0}%
+                #{user.content_visited_percentage}%
               %td
                 = user.comments_count
               %td
