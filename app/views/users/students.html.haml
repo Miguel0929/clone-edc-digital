@@ -26,6 +26,10 @@
               %li
                 = link_to 'Formato completo', students_users_path(format: :xlsx, fast: false)
 
+      - if params[:state].present? || params[:group].present?
+        .well
+          %h2
+            = @users.count
 
       %table.table.table-hover
         %thead
