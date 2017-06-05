@@ -29,6 +29,9 @@ class Mentor::EvaluationsController < ApplicationController
   def show
     @chapter = Chapter.includes(:evaluations).find(params[:id])
 
+    allevals = @chapter.evaluations
+    @totaleval = allevals.map { |evaluation| evaluation.points }.inject(0, :+) 
+
     @evaluations = @user.user_evaluations.joins(:evaluation).where('evaluations.chapter_id = ?', @chapter.id)
 
     @answers = Question.select(

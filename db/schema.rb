@@ -13,6 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20170602165727) do
 
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -138,6 +139,7 @@ ActiveRecord::Schema.define(version: 20170602165727) do
     t.string  "good"
     t.string  "regular"
     t.string  "bad"
+    t.integer "position"
   end
 
   create_table "exporters", force: :cascade do |t|
