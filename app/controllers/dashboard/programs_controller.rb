@@ -8,8 +8,10 @@ class Dashboard::ProgramsController < ApplicationController
     #@programs = current_user.group.programs.order(position: :asc) rescue []
 
     ids=[]
-    if current_user.student? 
-      @programs = current_user.group.programs
+    if current_user.student?
+      unless current_user.group.nil? 
+        @programs = current_user.group.programs
+      end  
     elsif current_user.mentor?
       current_user.groups.each do |g|
         g.programs.each do |p|
