@@ -12,7 +12,11 @@ class Mentor::EvaluationsController < ApplicationController
   add_breadcrumb "Estudiantes", :mentor_students_path
 
   def index
-    add_breadcrumb @user.email, mentor_student_path(@user)
+    if current_user.admin?
+      add_breadcrumb @user.email, user_path(@user)
+    else
+      add_breadcrumb @user.email, mentor_student_path(@user)
+    end
     add_breadcrumb "<a class='active' href='#{mentor_evaluations_path(program_id: @program, user_id: @user)}'>Evaluación de programa</a>".html_safe
 
     @chapters = @program.chapters.select(
