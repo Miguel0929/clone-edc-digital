@@ -5,6 +5,8 @@ class Mentor::EvaluationsController < ApplicationController
   before_action :set_program
 
   helper_method :evaluation_pointed?
+  helper_method :evaluation_result
+  helper_method :evaluation_checked?
 
   add_breadcrumb "EDCDIGITAL", :root_path
   add_breadcrumb "Estudiantes", :mentor_students_path
@@ -60,6 +62,14 @@ class Mentor::EvaluationsController < ApplicationController
 
   def evaluation_pointed?(evaluation, points)
     !@evaluations.where(evaluation: evaluation, points: points).empty?
+  end
+
+  def evaluation_result(chapter)
+    (((chapter.evaluation_points * 100) / chapter.total_evaluations_points rescue 0) * chapter.points / 100)
+  end
+
+  def evaluation_checked?(user, evaluation)
+    UserEvaluation.where(user_id: user, evaluation_id: evaluation).exists?
   end
 
   private
