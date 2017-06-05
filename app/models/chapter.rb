@@ -5,7 +5,7 @@ class Chapter < ActiveRecord::Base
   has_many :chapter_contents, -> { order(position: :asc) }, dependent: :destroy
   has_many :lessons, :through => :chapter_contents, :source => :coursable, :source_type => 'Lesson', dependent: :destroy
   has_many :questions, :through => :chapter_contents, :source => :coursable, :source_type => 'Question', dependent: :destroy
-  has_many :evaluations
+  has_many :evaluations, -> { order(position: :asc) }
   belongs_to :program
 
   acts_as_list scope: :program
