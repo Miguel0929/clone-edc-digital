@@ -1,0 +1,25 @@
+- content_for :title  do
+	Edita este término
+
+.container-fluid.container-fixed-lg
+	.row
+		.panel.panel-transparent.p-t-20
+			.col-md-4
+				.panel-heading
+					.panel-title
+						Términos de glosario
+				.panel-body
+					%i.fa.fa-book.fa-2x.hint-text.m-t-10
+					.h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+						Usa este campo para modificar términos de glosario
+					%p.m-b-30{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+						Recuerda elegir siempre una categoría para tu término
+			.col-md-8
+				.m-t-20
+					.pull-right
+						= link_to new_glossary_category_path do
+							%button.btn.btn-lg.btn-rounded.btn-primary
+								%i.fa.fa-plus
+								Crear nueva categoría
+					.clearfix
+					= render "form"

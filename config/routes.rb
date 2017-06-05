@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   post 'ratings/vote_chapter_content'
   post 'ratings/vote_program'
+  get 'rating/program/:id', to: "ratings#show", as: "rating_program" 
 
   resources :reports, only: [:index,:destroy,:create] do
     member do
@@ -167,15 +168,6 @@ Rails.application.routes.draw do
     end
 
     resources :shared_group_attachments
-
-    resources :programs, only: [:index, :show] 
-    resources :chapter_contents, path: 'course', only: [:show] do
-      resources :answers, only: [:show, :new, :create] do
-        collection do
-          get :router
-        end
-      end
-    end
   end
 
   namespace :api do
@@ -222,6 +214,10 @@ Rails.application.routes.draw do
   resources :frequents
   resources :frequent_categories
   get '/frequent_questions', to: "frequent_categories#index"
+  resources :glossaries
+  resources :glossary_categories
+  get '/glossary', to: "glossary_categories#index"
+
   resources :route_texts
   resources :route_covers
   

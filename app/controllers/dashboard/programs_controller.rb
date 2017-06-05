@@ -5,7 +5,47 @@ class Dashboard::ProgramsController < ApplicationController
 
   def index
     add_breadcrumb "<a class='active' href='#{dashboard_programs_path}'>Programas</a>".html_safe
-    @programs = current_user.group.programs.order(position: :asc) rescue []
+    #@programs = current_user.group.programs.order(position: :asc) rescue []
+
+    ids=[]
+    if current_user.student?
+      unless current_user.group.nil? 
+        @programs = current_user.group.programs
+      end  
+    elsif current_user.mentor?
+      current_user.groups.each do |g|
+        g.programs.each do |p|
+          unless ids.include?(p.id)          
+            ids.push(p.id)         
+          end
+        end  
+      end
+      @programs=Program.where(id: ids)
+    end  
+    
+    if params[:tipo]=="elearning"
+      @programs=@programs.where(tipo: 0)
+    elsif params[:tipo]=="construccion"
+      @programs=@programs.where(tipo: 1)
+    end
+
+    if params[:level]=="basico"
+      @programs=@programs.where(level: 0)
+    elsif params[:level]=="intermedio"
+      @programs=@programs.where(level: 1)
+    elsif params[:level]=="avanzado"  
+      @programs=@programs.where(level: 2)
+    end
+
+    if params[:orden]=="tipo"
+      @programs=@programs.order(:tipo)
+    elsif params[:orden]=="ruta"
+      @programs=@programs.order("group_programs.position")  
+    elsif params[:orden]=="abc"
+      @programs=@programs.order(name: :asc) 
+    end  
+          
+
     @quizzes = current_user.group.quizzes.order(id: :asc) rescue []
   end
 
@@ -51,8 +91,6 @@ class Dashboard::ProgramsController < ApplicationController
   def redirect_when_is_not_student
     if current_user.admin?
       redirect_to students_users_path
-    elsif current_user.mentor?
-      redirect_to mentor_groups_path
     elsif current_user.staff?
       redirect_to students_users_path
     end
