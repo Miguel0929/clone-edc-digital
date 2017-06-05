@@ -25,7 +25,8 @@
               Rúbricas evaluadas
             %th.text-center{:width => "20%"}
               Puntajes de módulo
-            %th{:width => "15%"}
+            - if current_user.mentor?
+              %th{:width => "15%"}
         %tbody
           - answers_total, rubrics_checked = 0, 0
           - @chapters.each do |chapter|
@@ -80,10 +81,11 @@
                     %span /
                     = chapter.points
                     %span pts
-              %td.text-center
-                = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: @program) do
-                  .fa.fa-edit
-                  Evaluar módulo
+              - if current_user.mentor?
+                %td.text-center
+                  = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: @program) do
+                    .fa.fa-edit
+                    Evaluar módulo
           %tr
             %th
               Total
@@ -98,4 +100,5 @@
             %th.text-center
               #{@chapters.map { |chapter| evaluation_result(chapter) }.inject(0, :+) } /
               #{@chapters.sum(:points)} pts
-            %th
+            - if current_user.mentor?
+              %th
