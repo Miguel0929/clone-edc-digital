@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   post 'ratings/vote_chapter_content'
   post 'ratings/vote_program'
-  get 'rating/program/:id', to: "ratings#show", as: "rating_program" 
+  get 'rating/program/:id', to: "ratings#show", as: "rating_program"
 
   resources :reports, only: [:index,:destroy,:create] do
     member do
@@ -168,8 +168,6 @@ Rails.application.routes.draw do
     end
 
     resources :shared_group_attachments
-<<<<<<< HEAD
-=======
 
     resources :programs, only: [:index, :show]
     resources :chapter_contents, path: 'course', only: [:show] do
@@ -179,7 +177,6 @@ Rails.application.routes.draw do
         end
       end
     end
->>>>>>> send multiple invitations
   end
 
   namespace :api do
