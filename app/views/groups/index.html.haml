@@ -1,37 +1,70 @@
 .container-fluid.container-fixed-lg.bg-white
-  .panel.panel-transparent
+  .panel
     .panel-heading
       .pull-right
         .col-xs-12
           %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+      .pull-left
+        .col-xs-12.no-opacity
+          = link_to new_group_path do
+            .btn.btn-success
+              %i.fa.fa-plus
+              Crear grupo
       .clearfix
     .panel-body
       %table.table.table-hover.datatable
         %thead
           %tr
             %th Nombre
-            %th Clave
-            %th
+            %th Números del grupo
+            %th Acciones
 
         %tbody
           - @groups.each do |group|
             %tr
-              %td= group.name
-              %td= group.key
-              %td
-                .btn-group
-                  %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-                    %span.glyphicon.glyphicon-pencil
-                    %span.caret
-                  %ul.dropdown-menu
-                    %li
-                      = link_to 'Información del grupo', group_path(group)
-                    %li
-                      = link_to 'Editar', edit_group_path(group)
-                    %li
-                      = link_to 'Editar "Ruta de aprendizaje"', sort_route_group_path(group) 
-                    %li.divider
-                    %li
-                      = link_to 'Eliminar', group, :method => :delete, :data => { :confirm => '¿Estás seguro?' }
-
-      = link_to 'Crear grupo', new_group_path, class: 'btn btn-default'
+              %td.p-b-15
+                %h5.m-t-0
+                  = link_to group.name, group_path(group)
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %i.fa.fa-key
+                    %span Clave:
+                  %li.inline 
+                    %strong 
+                      = group.key
+              %td.p-b-15
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %strong
+                      %i.fa.fa-angle-right
+                      %span Profesores:
+                  %li.inline 
+                    = group.users.count
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %strong
+                      %i.fa.fa-angle-right
+                      %span Programas:
+                  %li.inline 
+                    = group.programs.count
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %strong
+                      %i.fa.fa-angle-right
+                      %span Estudiantes:
+                  %li.inline 
+                    = group.active_students.count
+              %td.p-b-15
+                %ul.unstyled.list-unstyled.p-l-0.m-b-0
+                  %li
+                    = link_to edit_group_path(group) do
+                      %i.fa.fa-edit
+                      Editar
+                  %li
+                    = link_to sort_route_group_path(group) do
+                      %i.fa.fa-map-signs
+                      Editar "Ruta de aprendizaje"
+                  %li
+                    = link_to group, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+                      %i.fa.fa-times
+                      Eliminar
