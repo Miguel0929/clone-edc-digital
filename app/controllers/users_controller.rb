@@ -94,7 +94,10 @@ class UsersController < ApplicationController
           end
         end
 
-        @users = @users.where(group: params[:group]) if params[:group].present?
+        if params[:group].present?
+          @users = @users.where(group: params[:group])
+          @group = Group.find(params[:group])
+        end
         @users = @users.search(params[:query]) if params[:query].present?
       end
       format.xlsx do

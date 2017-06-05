@@ -28,8 +28,42 @@
 
       - if params[:state].present? || params[:group].present?
         .well
-          %h2
+          - complete = [] #vector-contador global a
+          - check = [] #vector-contador global b
+          - ave = [] #vector-contador global c
+          - @users.each do |student|
+            - control_a = [] #vector-contador a por alumno
+            - control_b = [] #vector-contador b por alumno
+            - ave << student.answered_questions_percentage
+            - @group.programs.each do |program|
+              - (student.percentage_questions_answered_for(program) >= 95) ? control_a << 1 : control_a << 0
+              - program.program_checked?(program, student) ? control_b << 1 : control_b << 0
+            - complete << (control_a.detect{|i| i == 0 } ? 0 : 1)
+            - check << (control_b.detect{|i| i == 0 } ? 0 : 1)
+          %ul
+            %li.inline 
+              %i.fa.fa-edit 
+            %li.inline 
+              Alumnos totales: 
             = @users.count
+          %ul.p-l-10.m-b-0
+            %li.inline 
+              %i.fa.fa-edit 
+            %li.inline 
+              Alumnos completos:  
+              %strong #{complete.count(1)} / #{complete.size}
+          %ul.p-l-10.m-b-0
+            %li.inline 
+              %i.fa.fa-check
+            %li.inline 
+              Alumnos revisados:
+              %strong #{check.count(1)} / #{check.size}
+          %ul.p-l-10.m-b-0
+            %li.inline 
+              %i.fa.fa-rocket
+            %li.inline 
+              Avance global de grupo: 
+              %strong #{(ave.inject{ |sum, el| sum + el }.to_f / ave.size).ceil}%
 
       %table.table.table-hover
         %thead
