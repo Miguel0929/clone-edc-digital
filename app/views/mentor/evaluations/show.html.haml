@@ -75,7 +75,8 @@
                             .tab-pane.padding-20.slide-left{:id => "tab#{index}", :class => "#{index==0 ? 'active' : ''}"}
                               .row.row-same-height
                                 = evaluation.name
-                                (#{evaluation.points}%)
+                                %em{:style => "font-size:0.9em;"}
+                                  (#{evaluation.points} pts o #{evaluation.points * 100 / @totaleval}%)
                                 %input{type: 'hidden', name: "evaluation[#{index}][evaluation]", value: evaluation.id}
                                 .radio.radio-success
                                   %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_excelent_#{index}", value: '100', checked: evaluation_pointed?(evaluation, 100)}
@@ -104,10 +105,10 @@
                             %button.btn.btn-primary.btn-cons.btn-animated.from-left.fa.fa-arrow-right.pull-right{:type => "button"}
                               %span Siguiente
                           %li.next.finish.hidden
-                            %button.btn.btn-primary.btn-cons.btn-animated.from-left.fa.fa-cog.pull-right{:type => "button"}
-                              %span Último
+                            %button.btn.btn-info.btn-cons.btn-animated.from-left.fa.fa-check.pull-right{:type => "submit", :name => "path", :value => "out"}
+                              %span Guardar y salir
                           %li.previous.first.hidden
-                            %button.btn.btn-default.btn-cons.btn-animated.from-left.fa.fa-cog.pull-right{:type => "button"}
+                            %button.btn.btn-default.btn-cons.btn-animated.from-left.fa.fa-check.pull-right{:type => "button"}
                               %span Primero
                           %li.previous
                             %button.btn.btn-default.btn-cons.pull-right{:type => "button"}

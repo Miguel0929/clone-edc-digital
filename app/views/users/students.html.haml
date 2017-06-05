@@ -101,7 +101,7 @@
                 %ul.p-l-0.m-b-0
                   %li.inline 
                     %span.bold Estado:
-                  %li.inline 
+                  %li.inline{:class => "#{(user.status == 'Inactivo') ? 'text-danger' : 'text-primary'}"} 
                     = user.status
                 %ul.p-l-0.m-b-0
                   %li.inline 

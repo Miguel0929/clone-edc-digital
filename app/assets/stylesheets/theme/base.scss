@@ -9985,7 +9985,7 @@ Main components
   width: 2px;
   background: #fff;
 }
-@media only screen and (min-width: 1170px) {
+@media only screen and (min-width: 900px) {
   .timeline-container:not(.left) .timeline {
     margin-bottom: 3em;
   }
@@ -10009,7 +10009,7 @@ Main components
 .timeline-block:last-child {
   margin-bottom: 0;
 }
-@media only screen and (min-width: 1170px) {
+@media only screen and (min-width: 900px) {
   .timeline-container:not(.left) .timeline .timeline-block {
     margin: 4em 0;
   }
@@ -10064,7 +10064,7 @@ Main components
 .timeline-point.warning {
   background-color: #f8d053;
 }
-@media only screen and (min-width: 1170px) {
+@media only screen and (min-width: 900px) {
   .timeline-container:not(.left) .timeline .timeline-point {
     left: 50%;
     margin-left: -21px;
@@ -10160,7 +10160,7 @@ Main components
     width: 94%;
   }
 }
-@media only screen and (min-width: 1170px) {
+@media only screen and (min-width: 900px) {
   .timeline-container:not(.left) .timeline .timeline-content {
     margin-left: 0;
     width: 46%;
@@ -10214,7 +10214,7 @@ Main components
     text-align: right;
   }
 }
-@media only screen and (min-width: 1170px) {
+@media only screen and (min-width: 900px) {
   /* inverse bounce effect on even content blocks */
   .timeline-container:not(.left) .timeline .timeline-block:nth-child(even) .timeline-content.bounce-in {
     -webkit-animation: cd-bounce-2-inverse 0.6s;
@@ -10403,7 +10403,7 @@ Main components
   right: 118%;
   text-align: right;
 }
-@media only screen and (min-width: 1170px) {
+@media only screen and (min-width: 900px) {
   .timeline-container.left {
     width: 60%;
     margin-left: 100px;
