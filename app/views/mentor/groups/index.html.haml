@@ -70,8 +70,11 @@
                   %li.inline 
                     %i.fa.fa-rocket
                   %li.inline 
-                    Avance global de grupo: 
-                    %strong #{(ave.inject{ |sum, el| sum + el }.to_f / ave.size).ceil}%
+                    Avance global de grupo:
+                    -unless ave.nil?
+                      %strong #{0}%
+                    -else   
+                      %strong #{(ave.inject{ |sum, el| sum + el }.to_f / ave.size).ceil}%
       .pull-right
         = paginate @groups
         %br
