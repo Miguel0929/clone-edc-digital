@@ -194,7 +194,7 @@ class UsersController < ApplicationController
 
         @users = @users.search(params[:query]) if params[:query].present?
 
-        @users = @users.page(params[:page]).per(100)
+        @users = @users.page(params[:page]).per(10)
       end
       format.xlsx do
         fast = params[:fast] == 'true' ? true : false
