@@ -20,13 +20,14 @@
                 %p.small.hint-text.m-t-5 #{@user.state}, #{@user.city}
                 %p.small.hint-text.m-t-5
                   %span
-                    Porcentaje contestado #{@user.answered_questions_percentage} %
                     %i.fa.fa-line-chart
+                    Porcentaje contestado #{@user.answered_questions_percentage} %
                   %br
                   %span
-                    Porcentaje de avance #{@user.content_visited_percentage} %
                     %i.fa.fa-line-chart
-                %p.small.hint-text.m-t-5 
+                    Porcentaje de avance #{@user.content_visited_percentage} %
+                %p.small.hint-text.m-t-5
+                  %i.fa.fa-history 
                   Ultima vez:
                   %span
                     #{ @user.last_time }
@@ -84,49 +85,44 @@
     Estadísticas generales de programas inscritos
 
   .panel.panel-default
-    .panel-body
-      .table-responsive
-        %table.table.table-hover
-          %thead
-            %tr
-              %th
-                Curso inscrito
-              %th
-                Contenidos vistos
-              %th
-                Respuestas contestadas
-              %th
-                Comentarios totales
-              %th
-                Porcentaje de contenido visto
-              %th
-                Porcentaje de preguntas contestadas
-              - if current_user.admin?
+    .panel-body.table-responsive
+      %table.table.table-hover
+        %thead
+          %tr
+            %th{:width => '22%'}
+              Curso inscrito
+            %th{:width => '22%'}
+              Avances del alumno
+            %th.text-center{:width => '27%'}
+              Status de módulos del curso
+            %th{:width => '10%'}
+            %th
+              Acciones
                 %th
-          %tbody
-            - Program.all.each do |program|
-              %tr
+        %tbody
+          - Program.all.each do |program|
+            %tr
+              %td
+                = program.name
+              %td
+                = @user.content_visted_for(program)
+              %td
+                = @user.questions_answered_for(program)
+              %td
+                = @user.total_comments_for(program)
+              %td
+                #{@user.percentage_content_visited_for(program)}%
+              %td
+                #{@user.percentage_questions_answered_for(program)}%
+              - if current_user.admin?
                 %td
-                  = program.name
+                  = !@user.group.programs.exists?(program) ? "No disponible para el estudiante" : "Disponible para el estudiante"
                 %td
-                  = @user.content_visted_for(program)
+                  = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx), class: "btn btn-success" do
+                    Descargar Excel 
+                    %i.fa.fa-file-excel-o
                 %td
-                  = @user.questions_answered_for(program)
-                %td
-                  = @user.total_comments_for(program)
-                %td
-                  #{@user.percentage_content_visited_for(program)}%
-                %td
-                  #{@user.percentage_questions_answered_for(program)}%
-                - if current_user.admin?
-                  %td
-                    = !@user.group.programs.exists?(program) ? "No disponible para el estudiante" : "Disponible para el estudiante"
-                  %td
-                    = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx), class: "btn btn-success" do
-                      Descargar Excel 
-                      %i.fa.fa-file-excel-o
-                  %td
-                    = link_to 'Ver detalle', analytics_program_user_path(@user, program_id: program)
+                  = link_to 'Ver detalle', analytics_program_user_path(@user, program_id: program)
   %h3
     Estadísticas generales de exámenes
 
@@ -153,8 +149,22 @@
                 %td= quiz.answered(@user)
                 %td= quiz.average(@user)
                 %td= link_to "Ver detalle", analytics_quiz_user_path(@user, quiz_id: quiz)
-
-
+                %td.p-b-15
+                  = !@user.group.programs.exists?(program) ? "No disponible para el estudiante" : "Disponible para el estudiante"
+                %td.p-b-15
+                  %ul.unstyled.list-unstyled.p-l-0.m-b-0
+                    %li
+                      = link_to analytics_program_user_path(@user, program_id: program) do
+                        %i.fa.fa-line-chart
+                        Ver analíticos
+                    %li
+                      = link_to mentor_evaluations_path(user_id: @user, program_id: program) do
+                        %i.fa.fa-check-square-o
+                        Ver evaluación
+                    %li
+                      = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx) do
+                        %i.fa.fa-file-excel-o
+                        Descargar Excel 
 
   - if current_user.admin?
     %h3

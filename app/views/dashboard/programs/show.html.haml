@@ -106,7 +106,7 @@
                         .col-xs-5
                         - if chapter_progress[0] == "complete"
                           %span.label{class: "label-success"}
-                            Módulo completado
+                            Módulo completo
                         - elsif chapter_progress[0] == "progress"
                           %span.label{class: "label-warning"}
                             Módulo en progreso
@@ -116,7 +116,10 @@
                     %p.subtitle-module-text.p-l-15
                       Porcentaje contestado:
                       %span
-                        #{(answered_questions(chapter, current_user) * 100) / (chapter.questions.count == 0 ? 1 : chapter.questions.count) }% /
+                        - if chapter.questions.count == 0
+                          no aplica /
+                        - else
+                          #{(answered_questions(chapter, current_user) * 100) / (chapter.questions.count == 0 ? 1 : chapter.questions.count) }% /
                       Porcentaje visto:
                       %span 
                         #{chapter_progress[2]}%

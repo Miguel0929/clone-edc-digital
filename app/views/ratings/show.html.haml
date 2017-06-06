@@ -1,0 +1,46 @@
+.container
+  .row
+    .col-md-12
+      %h2.text-center
+        Diseño del programa
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title
+            = @program.name
+          .pull-right
+            Rating: 
+            = @program.rating  
+        .panel-body
+          - @program.chapters.each do |chapter|
+            #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist", id: "chapter_#{chapter.id}"}
+              .panel.panel-default
+                .panel-heading
+                  %h3.panel-title
+                    %a{"aria-controls" => "collapse_#{chapter.id}", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse_#{chapter.id}"}
+                      = chapter.name
+                .panel-collapse.collapse{:id=>"collapse_#{chapter.id}", "aria-labelledby" => "heading_#{chapter.id}", :role => "tabpanel"}
+                  .panel-body
+                    %table.table.table-hover
+                      %thead
+                        %tr
+                          %th
+                            Contenido 
+                          %th.text-center
+                            Votos
+                          %th.text-center
+                            Rating
+                          %th.text-center
+                            Ver   
+                      %tbody      
+                      - chapter.chapter_contents.each do |content|
+                        - if content.coursable_type == 'Lesson'
+                          %tr
+                            %td
+                              = content.model.identifier
+                            %td.text-center
+                              = content.rating_count
+                            %td.text-center
+                              = content.rating
+                            %td.text-center
+                              = link_to "Ver contenido", dashboard_chapter_content_path(content), class: "btn btn-default"   
+                        

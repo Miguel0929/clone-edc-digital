@@ -32,6 +32,12 @@
               = error_for(resource, :email)
           .row
             .col-sm-12
+              .form-group.form-group-default{class: "#{class_for(resource, :industry_id)}"}
+                = f.label :industry_id, '¿En qué sector económico se ubica tu producto/servicio?'
+                = f.select :industry_id, Industry.all.collect {|p| [ p.name, p.id ] },  {include_blank: "Selecciona el sector económico"}, { :class => 'minimal form-control full-width' }
+              = error_for(resource, :industry_id)    
+          .row
+            .col-sm-12
               .form-group.form-group-default{class: "#{class_for(resource, :password)}"}
                 = f.label :password, 'Contraseña'
                 = f.password_field :password, class: 'form-control', placeholder: 'Introduce tu contraseña'

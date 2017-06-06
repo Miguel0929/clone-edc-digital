@@ -1,0 +1,13 @@
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+      .pull-right
+        .col-xs-12
+      .clearfix
+    .panel-body
+      %h2.text-center
+        Invitaciones en grupo
+      = bootstrap_form_tag(url: group_invitations_path) do |f|
+        = f.file_field :csv
+        = f.collection_select(:group_id, Group.all, :id, :name)
+        = f.submit 'Invitar'

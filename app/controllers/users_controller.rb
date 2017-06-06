@@ -9,10 +9,9 @@ class UsersController < ApplicationController
   def index
     add_breadcrumb "<a class='active' href='#{users_path}'>Estudiantes</a>".html_safe
 
-    @users = User.students_table.page(params[:page]).per(100)
-
-    if params[:state].present?
-      case params[:state]
+    @users = User.students
+    if params[:status].present?
+      case params[:status]
         when 'active'
           @users = @users.where.not(invitation_accepted_at: nil)
         when 'inactive'
@@ -20,21 +19,64 @@ class UsersController < ApplicationController
       end
     end
 
-    if params[:answered].present?
-      @users = @users.select do |user|
-        percentage = (user.answers_count * 100) / user.questions_count rescue 0
-        percentage_condition(percentage, params[:answered].to_i)
-      end
+    if params[:group].present?
+      @users = @users.where(group: params[:group])
+    end  
+
+    if params[:university].present?
+      @users = @users.joins(:group).where(groups: {university: params[:university]})
+    end 
+
+    if params[:state].present?
+      @users = @users.joins(:group).where(groups: {state_id: params[:state]})
     end
 
-    if params[:visited].present?
-      @users = @users.select do |user|
-        percentage = (user.content_tracked_count * 100) / user.content_count rescue 0
-        percentage_condition(percentage, params[:visited].to_i)
-      end
+    if params[:tipo].present?
+      @users = @users.joins(:group).where(groups: {category: params[:tipo]})
     end
 
-    @users = @users.where(group: params[:group]) if params[:group].present?
+    if params[:industria].present?
+      @users = @users.where(industry_id: params[:industria])
+    end
+
+    ids=[]
+    if params[:answered].present? && params[:program].length==0
+      @users.each do |user|
+        percentage = user.answered_questions_percentage rescue 0
+        if params[:answered].to_i >= percentage && params[:answered].to_i-10 < percentage
+          ids.push(user.id)
+        end 
+      end
+      @users=@users.where(id: ids)
+    elsif params[:answered].present? && params[:program].length > 0
+      @users.each do |user|
+        percentage = user.percentage_questions_answered_for(Program.find(params[:program])) rescue 0
+        if params[:answered].to_i >= percentage && params[:answered].to_i-10 < percentage
+          ids.push(user.id)
+        end
+      end
+      @users=@users.where(id: ids)   
+    end
+    ids=[]
+    if params[:visited].present? && params[:program].length==0 
+      @users.each do |user|
+        percentage = user.content_visited_percentage rescue 0
+        if params[:visited].to_i >= percentage && params[:visited].to_i-10 < percentage
+          ids.push(user.id)
+        end 
+      end
+      @users=@users.where(id: ids)
+    elsif params[:visited].present? && params[:program].length > 0 
+      @users.each do |user|
+        percentage = user.percentage_content_visited_for(Program.find(params[:program])) rescue 0
+        if params[:visited].to_i >= percentage && params[:visited].to_i-10 < percentage
+          ids.push(user.id)
+        end
+      end
+      @users=@users.where(id: ids)    
+    end
+
+    @users = @users.page(params[:page]).per(100)
 
     respond_to do |format|
       format.html {}
@@ -90,10 +132,10 @@ class UsersController < ApplicationController
   def students
     respond_to do |format|
       format.html do
-        @users = User.students.includes(:group).page(params[:page]).per(100)
+        @users = User.students.includes(:group)
 
-        if params[:state].present?
-          case params[:state]
+        if params[:status].present?
+          case params[:status]
             when 'active'
               @users = @users.where.not(invitation_accepted_at: nil)
             when 'inactive'
@@ -101,8 +143,65 @@ class UsersController < ApplicationController
           end
         end
 
-        @users = @users.where(group: params[:group]) if params[:group].present?
+        if params[:group].present?
+          @users = @users.where(group: params[:group])
+        end
+
+        if params[:university].present?
+          @users = @users.joins(:group).where(groups: {university: params[:university]})
+        end 
+
+        if params[:state].present?
+          @users = @users.joins(:group).where(groups: {state_id: params[:state]})
+        end
+
+        if params[:tipo].present?
+          @users = @users.joins(:group_).where(groups: {category: params[:tipo]})
+        end
+
+        if params[:industria].present?
+          @users = @users.where(industry_id: params[:industria])
+        end
+        ids=[]
+        if params[:answered].present? && params[:program].length==0
+          @users.each do |user|
+            percentage = user.answered_questions_percentage rescue 0
+            if params[:answered].to_i >= percentage && params[:answered].to_i-10 < percentage
+              ids.push(user.id)
+            end 
+          end
+          @users=@users.where(id: ids)
+        elsif params[:answered].present? && params[:program].length > 0
+          @users.each do |user|
+            percentage = user.percentage_questions_answered_for(Program.find(params[:program])) rescue 0
+            if params[:answered].to_i >= percentage && params[:answered].to_i-10 < percentage
+              ids.push(user.id)
+            end
+          end
+          @users=@users.where(id: ids)   
+        end
+        ids=[]
+        if params[:visited].present? && params[:program].length==0 
+          @users.each do |user|
+            percentage = user.content_visited_percentage rescue 0
+            if params[:visited].to_i >= percentage && params[:visited].to_i-10 < percentage
+              ids.push(user.id)
+            end 
+          end
+          @users=@users.where(id: ids)
+        elsif params[:visited].present? && params[:program].length > 0 
+          @users.each do |user|
+            percentage = user.percentage_content_visited_for(Program.find(params[:program])) rescue 0
+            if params[:visited].to_i >= percentage && params[:visited].to_i-10 < percentage
+              ids.push(user.id)
+            end
+          end
+          @users=@users.where(id: ids)    
+        end
+
         @users = @users.search(params[:query]) if params[:query].present?
+
+        @users = @users.page(params[:page]).per(100)
       end
       format.xlsx do
         fast = params[:fast] == 'true' ? true : false
@@ -123,7 +222,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :group_id, :role)
+    params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :industry_id, :group_id, :role)
   end
 
   def validate_student
@@ -138,7 +237,7 @@ class UsersController < ApplicationController
         percentage >= 11 && percentage <=20
       when 30
         percentage >= 21 && percentage <=30
-      when 4
+      when 40
         percentage >= 31 && percentage <=40
       when 50
         percentage >= 41 && percentage <=50

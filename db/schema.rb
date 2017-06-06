@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170518205627) do
+ActiveRecord::Schema.define(version: 20170602165727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(version: 20170518205627) do
     t.string  "good"
     t.string  "regular"
     t.string  "bad"
+    t.integer "position"
   end
 
   create_table "exporters", force: :cascade do |t|
@@ -159,6 +160,23 @@ ActiveRecord::Schema.define(version: 20170518205627) do
     t.integer  "frequent_category_id"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
+  end
+
+  create_table "glossaries", force: :cascade do |t|
+    t.string   "term"
+    t.text     "definition"
+    t.string   "image"
+    t.integer  "glossary_category_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "glossaries", ["glossary_category_id"], name: "index_glossaries_on_glossary_category_id", using: :btree
+
+  create_table "glossary_categories", force: :cascade do |t|
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "group_programs", force: :cascade do |t|
@@ -200,6 +218,12 @@ ActiveRecord::Schema.define(version: 20170518205627) do
   end
 
   add_index "groups", ["deleted_at"], name: "index_groups_on_deleted_at", using: :btree
+
+  create_table "industries", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "lessons", force: :cascade do |t|
     t.string   "identifier"
@@ -304,6 +328,8 @@ ActiveRecord::Schema.define(version: 20170518205627) do
     t.string   "video"
     t.string   "color"
     t.string   "small_cover"
+    t.integer  "level"
+    t.integer  "tipo"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -496,11 +522,13 @@ ActiveRecord::Schema.define(version: 20170518205627) do
     t.string   "provider"
     t.string   "uid"
     t.string   "authentication_token",   limit: 30
+    t.integer  "industry_id"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["industry_id"], name: "index_users_on_industry_id", using: :btree
   add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
   add_index "users", ["invitations_count"], name: "index_users_on_invitations_count", using: :btree
   add_index "users", ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
@@ -539,6 +567,7 @@ ActiveRecord::Schema.define(version: 20170518205627) do
   add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
   add_index "visits", ["visit_token"], name: "index_visits_on_visit_token", unique: true, using: :btree
 
+  add_foreign_key "glossaries", "glossary_categories"
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
@@ -550,4 +579,5 @@ ActiveRecord::Schema.define(version: 20170518205627) do
   add_foreign_key "ratings", "users"
   add_foreign_key "report_notifications", "reports"
   add_foreign_key "reports", "users"
+  add_foreign_key "users", "industries"
 end

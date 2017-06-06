@@ -9,33 +9,71 @@
       %table.table.table-striped
         %thead
           %tr
-            %th
+            %th{:width => '20%'}
               Nombre del grupo
-            %th
-              Clave
-            %th
+            %th{:width => '30%'}
               Programas vinculados
-            %th
+            %th{:width => '25%'}
               Profesores vinculados
-            %th
         %tbody
           - @groups.each do |group|
             %tr
               %td
-                = group.name
-              %td
-                = group.key
-              %td
-                - group.programs.each do |program|
-                  %p
-                    = program.name
-              %td
+                .m-b-10
+                  = link_to group.name, mentor_group_path(group)
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    Clave: 
+                  %li.inline 
+                    %strong
+                      = group.key
+              %td.p-b-20
+                %ol.p-l-20
+                  - group.programs.each do |program|
+                    %li
+                      = program.name
+              %td.p-b-20
                 - group.users.each do |user|
-                  %p
-                    = user.name
-              %td
-                = link_to 'Ver alumnos', mentor_group_path(group)
+                  %ul.p-l-10.m-b-0
+                    %li.inline 
+                      %i.fa.fa-angle-right 
+                    %li.inline 
+                      = user.name
       .pull-right
         = paginate @groups
         %br
         %span.text-center= page_entries_info @groups
+/              %td.p-b-20
+/                - complete = [] #vector-contador global a
+/                - check = [] #vector-contador global b
+/                - ave = [] #vector-contador global c
+/                - group.active_students.each do |student|
+/                  - control_a = [] #vector-contador a por alumno
+/                  - control_b = [] #vector-contador b por alumno
+/                  - ave << student.answered_questions_percentage
+/                  - group.programs.each do |program|
+/                    - (student.percentage_questions_answered_for(program) >= 95) ? control_a << 1 : control_a << 0
+/                    - program.program_checked?(program, student) ? control_b << 1 : control_b << 0
+/                  - complete << (control_a.detect{|i| i == 0 } ? 0 : 1)
+/                  - check << (control_b.detect{|i| i == 0 } ? 0 : 1)
+/                %ul.p-l-10.m-b-0
+/                  %li.inline 
+/                    %i.fa.fa-edit 
+/                  %li.inline 
+/                    Alumnos completos:  
+/                    %strong #{complete.count(1)} / #{complete.size}
+/                %ul.p-l-10.m-b-0
+/                  %li.inline 
+/                    %i.fa.fa-check
+/                  %li.inline 
+/                    Alumnos revisados:
+/                    %strong #{check.count(1)} / #{check.size}
+/                %ul.p-l-10.m-b-0
+/                  %li.inline 
+/                    %i.fa.fa-rocket
+/                  %li.inline 
+/                    Avance global de grupo:
+/                    -unless ave.nil?
+/                      %strong #{0}%
+/                    -else   
+/                      %strong #{(ave.inject{ |sum, el| sum + el }.to_f / ave.size).ceil}%

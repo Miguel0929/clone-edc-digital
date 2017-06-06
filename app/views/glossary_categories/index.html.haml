@@ -1,0 +1,121 @@
+- content_for :title  do
+	Glosario - EDCdigital
+
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+	%section.demo-bg-section.p-b-35.p-t-30
+		.container
+			.md-p-l-20.md-p-r-20.xs-no-padding
+				.row
+					.col-sm-12.col-md-12.no-padding.xs-p-l-15.xs-p-r-15.text-white
+						%h2.pull-left.text-white
+							%i.fa.fa-book
+							Glosario de EDC-Digital
+						- if current_user.admin?
+							.pull-right.m-t-15
+								= link_to new_glossary_path do
+									%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.m-r-20
+										%i.fa.fa-plus-circle
+										Agregar término al vocabulario
+
+.container-fluid.container-fixed-lg.bg-white.p-t-15.minus-30
+	.col-sm-7
+		.panel.panel-transparent
+			.panel-heading
+				.panel-title Consulta nuestro glosario
+			.panel-body
+				%h5 Busca el término que te gustaría consultar
+				= form_tag(glossaries_path, method: :get) do
+					.form-group.form-group-default
+						= label_tag nil, 'Tu búsqueda', class: 'highlight'
+						= text_field_tag :key, params[:key], class: "form-control notification-message", placeholder: "Ej: Bitcoin..."
+					.pull-right
+						= submit_tag 'Buscar', class: "btn btn-success show-notification"
+	.col-sm-5
+		.panel.panel-transparent
+			.panel-heading.p-b-20
+				.panel-title El conocimiento es poder
+			.panel-body
+				%p
+					¿Tienes dificultad para entender algunos contenidos de la plataforma? No te preocupes, sabemos que EDC Digital incluye una variedad de tecnicismos que pueden ser nuevos para ti. Por ello construimos este glosario, mismo que mantenemos en actualización constante y ponemos a tu disposición	
+
+.container-fluid.container-fixed-lg
+	.col-sm-9
+		.panel.panel-transparent
+			.panel-heading
+				.panel-title Descubre nuestras últimas definiciones
+			.panel-body
+				.table-responsive
+					%table.table.table-hover
+						%thead
+							%tr
+								%th{:width => "27%"}
+									Entrada
+								%th{:width => "20%"}
+									Grupo
+								%th
+									Definición
+						%tbody
+							- if @glossaries.exists?
+								- @glossaries.last(5).each do |glossary|
+									%tr
+										%td.p-t-15.p-b-15
+											.pull-left
+												= link_to glossary.term, glossary_path(glossary)
+											- if current_user.admin?
+												.pull-right.p-r-10
+													= link_to edit_glossary_path(glossary) do
+														%span.p-l-5.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar entrada"}
+															%i.fa.fa-edit
+													= link_to glossary_path(glossary), method: :delete, data: { confirm: '¿Estás seguro?' } do
+														%span.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar entrada"}
+															%i.fa.fa-times
+										%td.p-t-15.p-b-15
+											- category = owner_category(glossary)
+											.pull-left
+												= link_to category.title, glossary_category_path(category)
+											- if current_user.admin?
+												.pull-right.p-r-10
+													= link_to edit_glossary_category_path(category) do
+														%span.p-l-5.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar grupo"}
+															%i.fa.fa-edit
+													= link_to glossary_category_path(category), method: :delete, data: { confirm: '¿Estás seguro?' } do
+														%span.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar grupo"}
+															%i.fa.fa-times
+										%td.p-t-15.p-b-15
+											.text-overflow
+												= raw glossary.definition
+											- truncate(glossary.definition, :length => 70, :separator => ' ')
+							- else
+								%tr
+									%td.p-t-15.p-b-15
+										Aún no hay entradas
+	.col-sm-3
+		.panel
+			.panel-heading.m-b-15
+				.panel-title Explora por iniciales:
+			.panel-body
+				- if @categories.exists?
+					%ul.no-style.unstyled
+						- @categories.each do |category|
+							%li.m-b-20
+								.pull-left
+									= link_to glossary_category_path(category) do
+										%i.p-l-10.fa.fa-angle-right
+										= category.title
+								- if current_user.admin?
+									.pull-right
+										= link_to edit_glossary_category_path(category) do
+											%span.p-l-20.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar grupo"}
+												%i.fa.fa-edit
+										= link_to glossary_category_path(category), method: :delete, data: { confirm: '¿Estás seguro?' } do
+											%span.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar grupo"}
+												%i.fa.fa-times
+								.clearfix
+				- else
+					%p
+						Aún no hay grupos
+
+
+
+
+
