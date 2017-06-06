@@ -106,6 +106,14 @@ class Mentor::StudentsController < ApplicationController
     end
   end
 
+  def analytics_quiz
+    @quiz = Quiz.find(params[:quiz_id])
+    @user = User.find(params[:id])
+    add_breadcrumb "Estudiantes", :mentor_students_path
+    add_breadcrumb "<a href='#{mentor_student_path(@user)}'>#{@user.email}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{analytics_quiz_mentor_student_path(@user, quiz_id: @quiz)}'>Detalles del exámen</a>".html_safe
+  end
+
   private
   def percentage_condition(percentage, count)
     case count

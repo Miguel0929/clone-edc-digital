@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin, except: [:students, :show]
   before_action :require_creator, only: [:students, :show]
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz]
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -122,6 +122,13 @@ class UsersController < ApplicationController
     add_breadcrumb "<a class='active' href='#{analytics_program_user_path(@user, program_id: @program)}'>Detalles de programa</a>".html_safe
   end
 
+  def analytics_quiz
+    @quiz = Quiz.find(params[:quiz_id])
+    add_breadcrumb "Estudiantes", :users_path
+    add_breadcrumb @user.email, user_path(@user)
+    add_breadcrumb "<a class='active' href='#{analytics_quiz_user_path(@user, quiz_id: @quiz)}'>Detalles del exámen</a>".html_safe
+  end
+
   def students
     respond_to do |format|
       format.html do
@@ -131,13 +138,27 @@ class UsersController < ApplicationController
           case params[:status]
             when 'active'
               @users = @users.where.not(invitation_accepted_at: nil)
+              @allusers = User.students.where.not(invitation_accepted_at: nil)
             when 'inactive'
               @users = @users.where(invitation_accepted_at: nil)
+              @allusers = User.students.where(invitation_accepted_at: nil)
           end
         end
 
-        if params[:group].present?
+        if params[:group].present? && params[:status].present?
+          case params[:status]
+            when 'active'
+              @users = @users.where(group: params[:group]).where.not(invitation_accepted_at: nil)
+              @allusers = User.students.where(group: params[:group]).where.not(invitation_accepted_at: nil)
+            when 'inactive'
+              @users = @users.where(group: params[:group], invitation_accepted_at: nil)
+              @allusers = User.students.where(group: params[:group], invitation_accepted_at: nil)
+          end
+          @group = Group.find(params[:group])
+        elsif params[:group].present? && !params[:status].present?
           @users = @users.where(group: params[:group])
+          @allusers = User.students.where(group: params[:group])
+          @group = Group.find(params[:group])
         end
 
         if params[:university].present?

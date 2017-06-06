@@ -3,18 +3,27 @@ class QuizzesController < ApplicationController
   before_action :require_admin
   before_action :set_quiz, only: [:show, :edit, :update, :destroy]
 
+  add_breadcrumb "EDCDIGITAL", :root_path
+
   def index
+    add_breadcrumb "<a class='active' href='#{quizzes_path}'>Examenes</a>".html_safe
     @quizzes = Quiz.all
   end
 
   def show
+    add_breadcrumb "<a class='active' href='#{quizzes_path}'>Examenes</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{quiz_path(@quiz)}'>#{@quiz.name}</a>".html_safe
   end
 
   def new
+    add_breadcrumb "<a class='active' href='#{quizzes_path}'>Examenes</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{new_quiz_path(@quiz)}'>Nuevo</a>".html_safe
     @quiz = Quiz.new
   end
 
   def edit
+    add_breadcrumb "<a class='active' href='#{quizzes_path}'>Examenes</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{edit_quiz_path(@quiz)}'>Editar</a>".html_safe
   end
 
   def create
@@ -57,6 +66,6 @@ class QuizzesController < ApplicationController
     end
 
     def quiz_params
-      params.require(:quiz).permit(:name, :description)
+      params.require(:quiz).permit(:name, :description, group_ids: [])
     end
 end

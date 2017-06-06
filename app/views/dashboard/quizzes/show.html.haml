@@ -17,10 +17,13 @@
                     %i.fa.fa-play
                     %span.bold Contestar
                 - else
-                  = link_to '#', class: 'btn btn-sm btn-success btn-cons m-b-10' do
+                  = link_to  detail_dashboard_quiz_path(@quiz), class: 'btn btn-sm btn-success btn-cons m-b-10' do
                     %i.fa.fa-check
                     %span.bold 
-                      Ya has contestado este examen: 
+                      Ya has contestado este examen:
+                      %br
+                      Ver detalle
+                     
                     
 .container-fluid.container-fixed-lg
   .row
@@ -36,7 +39,14 @@
               %h4.panel-title
                 = "#{@quiz.name} (#{@quiz.description})"
             .panel-body
-              %table.table.table-striped.table-hover
+              %table.table.table-hover
+                %thead
+                  %tr
+                    %th Pregunta
+                    %th Respuesta
+                    %th Revisada
+                    %th Valor
+                    %th Obtenido
                 - @quiz.quiz_questions.each do |question|
                   %tr
                     %td
@@ -44,17 +54,20 @@
                         %i.fa.fa-tasks 
                       = question.question_text
                       - answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: current_user.id)
+                    %td= answer.answer_text
                     %td
-                      = answer.nil? ? "Sin contestar" : answer.answer_text
+                      = answer.nil? ? "Sin contestar" : ''
                       - unless answer.nil?
-                        = answer.correct == true ? "<i class='fa fa-check'></i>".html_safe : "<i class='fa fa-times'></i>".html_safe 
+                        = answer.correct == true ? "<span class='label label-success'>Correcto</span>".html_safe : "<span class='label label-danger'>Incorrecto</span>".html_safe 
+                    %td= answer.quiz_question.points
                     %td
-                      - if !answer.nil?
-                        = answer.correct == true ? answer.quiz_question.points : '0'
-                      - else
-                        0
+                      %strong
+                        - if !answer.nil?
+                          = answer.correct == true ? answer.quiz_question.points : '0'
+                        - else
+                          0
                 %tr
-                  %td{colspan: '2'}
+                  %td{colspan: '4'}
                     %h5.pull-right Total
                   %td
                     %h5= @quiz.average(current_user)

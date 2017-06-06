@@ -3,14 +3,23 @@ module ApplicationHelper
     @question_answers ||= question.answer_options.split("\n").map {|option| option.strip}
   end
   
-  def answer_to_select(question)
-    question.answer_options.split("\n").map { |option| [ option.split('~')[0].strip, option.strip ]}
+  def answer_to_select(question, detail)
+    if detail
+      question.answer_options.split("\n").map { |option| [ "#{option.split('~')[0].strip} #{option.split('~')[1].strip}", option.strip ]}
+    else
+      question.answer_options.split("\n").map { |option| [ option.split('~')[0].strip, option.strip ]}
+    end
   end
 
   def answer_is_selected?(answers, answer)
     return false if answers.answer_text.nil?
 
     answers.answer_text.split('\n').include?(answer)
+  end
+
+  def quiz_answer_selected?(answers, answer)
+    return false if answers.answer_text.nil?
+    answer.include?(answers.answer_text)
   end
 
   def image_for_rubric(criteria, style='')
