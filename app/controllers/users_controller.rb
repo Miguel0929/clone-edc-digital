@@ -138,8 +138,8 @@ class UsersController < ApplicationController
           end
         end
 
-        if params[:group].present? && params[:state].present?
-          case params[:state]
+        if params[:group].present? && params[:status].present?
+          case params[:status]
             when 'active'
               @users = @users.where(group: params[:group]).where.not(invitation_accepted_at: nil)
               @allusers = User.students.where(group: params[:group]).where.not(invitation_accepted_at: nil)
@@ -148,7 +148,7 @@ class UsersController < ApplicationController
               @allusers = User.students.where(group: params[:group], invitation_accepted_at: nil)
           end
           @group = Group.find(params[:group])
-        elsif params[:group].present? && !params[:state].present?
+        elsif params[:group].present? && !params[:status].present?
           @users = @users.where(group: params[:group])
           @allusers = User.students.where(group: params[:group])
           @group = Group.find(params[:group])

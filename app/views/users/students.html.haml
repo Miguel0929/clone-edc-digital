@@ -86,22 +86,21 @@
                   %li
                     = link_to 'Formato completo', students_users_path(format: :xlsx, fast: false)
 
-      - if (params[:group].present? || params[:state].present?) && @allusers.count > 0
-        - seen = [] #vector-contador global a
-        - ave = [] #vector-contador global b
+      - if (params[:group].present?) && @allusers.count > 0
+        - seen, ave = [], [] #vectores-contadores globales a y b
         - @allusers.each do |student|
           - seen << student.content_visited_percentage
           - ave << student.answered_questions_percentage
         .well.m-t-25
           .font-montserrat.p-l-25.p-b-10{:style => "text-transform: uppercase;"}
-            %u Estadísticas de búsqueda
+            Estadísticas del grupo "#{Group.find(params[:group]).name}" #{(params[:status] == 'active') ? "en estado activo" : "en estado inactivo"}
           .row
             .col-xs-4
               %ul.p-l-10.m-b-0
                 %li.inline 
                   %i.fa.fa-user 
                 %li.inline 
-                  Alumnos totales: 
+                  Alumnos del grupo: 
                 = @allusers.count
             .col-xs-4
               %ul.p-l-10.m-b-0
