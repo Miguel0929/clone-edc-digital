@@ -1,5 +1,5 @@
 - content_for :title  do
-  Programas - EDCdigital
+  Exámenes - EDCdigital
 
 .container-fluid.container-fixed-lg
   .row
@@ -7,20 +7,25 @@
       .panel.panel-transparent
         .panel-heading
           .panel-title
-            Examenes de evaluación
+            Exámenes de evaluación
         .panel-body
           %h5
-            Contesta las evaluaciones y mide tu progreso
-          %p.m-b-25
-            Mas texto blablabla.... 
-
-          - @quizzes.each do |quiz|
-            .col-md-4.col-sm-6.col-xs-12.tarjeta-programa
-              .card.share.share-other{"data-social" => "item"}
-                .card-content
-                  %a{:href => "#{dashboard_quiz_path(quiz)}"}
-                    .card-header.clearfix
-                      %h5
-                        = quiz.name
-                      %h6
-                        = quiz.description
+            Contesta las evaluaciones y mide tu progreso  
+          %table.table.table-hover
+            %thead
+              %tr
+                %th Examen
+                %th Status
+                %th Calificación
+                %th 
+            %tbody
+              - @quizzes.each do |quiz|
+                %tr
+                  %td= quiz.name
+                  %td= quiz.answered(current_user) > 0 ? 'Contestado' : 'No contestado'
+                  %td= quiz.answered(current_user) > 0 ? quiz.average(current_user) : 'No disponible'
+                  %td 
+                    -if quiz.answered(current_user) > 0  
+                      = link_to 'Ver resultados', dashboard_quiz_path(quiz)
+                    -else
+                      = link_to 'contestar', apply_dashboard_quiz_path(quiz)
