@@ -3,10 +3,10 @@
     /.m-b-20
     /  = f.text_field :name, label: 'Nombre del archivo'
     .m-b-20
-      = f.select(:document_type, Attachment.document_type_options, {:label => 'Tipo de documento'}, {:class => 'minimal'})
+      = f.select(:document_type, Attachment.document_type_options, {:label => 'Tipo de documento', prompt: 'Selecciona el tipo de archivo', required: true}, {:class => 'minimal'})
     .m-b-20
-      = f.text_field :label, label: 'Detalles / Comentarios'
+      = f.text_field :label, label: 'Detalles / Comentarios', required: true
     .dropzone
-      = f.file_field :file, label: 'Selecciona tu archivo'
+      = f.file_field :file, label: 'Selecciona tu archivo', required: true
     .pull-right.m-t-30
       = f.submit 'Subir archivo', class: 'btn btn-lg btn-success'

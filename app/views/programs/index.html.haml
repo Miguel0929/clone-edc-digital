@@ -13,6 +13,8 @@
             %th
               Programa
             %th
+            %th
+              Rating
         %tbody.sortable{'data-update-url'=> url_prod_helper(sort_programs_path())}
           - @programs.each do |program|
             %tr{id: "program_#{program.id}"}
@@ -25,5 +27,8 @@
                 = link_to 'Editar', edit_program_path(program), class: 'btn btn-default'
                 = link_to 'Clonar', clone_program_path(program), method: :post, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
                 = link_to 'Eliminar', program_path(program), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
+                = link_to 'Ver Ratings', rating_program_path(program), class: 'btn btn-default'
+              %td 
+                =program.rating 
 
       = link_to 'Crear programa', new_program_path, class: 'btn btn-default'
