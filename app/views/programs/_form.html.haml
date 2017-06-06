@@ -11,7 +11,8 @@
 		= f.file_field :small_cover, label: 'Portada del programa para la ruta (versión corta)'
 		= f.file_field :icon, label: 'Ícono del programa'
 		= f.text_field :video, label: 'URL del video del programa'
-		= f.select(:color, @selected_color = Program.color_options, {:label => 'Color distintivo'}, {:class => 'minimal'}) 
+		= f.select(:color, @selected_color = Program.color_options, {:label => 'Color distintivo'}, {:class => 'minimal'})
+		= f.select :group_ids, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupos"}, { :multiple => true}  
 		= link_to 'Cancelar', programs_path, class: 'btn btn-danger'
 		= f.submit 'Aceptar'
 
