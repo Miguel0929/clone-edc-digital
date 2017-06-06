@@ -111,6 +111,7 @@ Rails.application.routes.draw do
     resources :quizzes, only: [:index, :show] do
       member do
         get :apply
+        get :detail
       end
     end
 
@@ -128,6 +129,10 @@ Rails.application.routes.draw do
       get :analytics_program
     end
 
+    member do 
+      get :analytics_quiz
+    end
+
     resources :programs, only: [] do
       resources :answers, only: [:index, :edit, :update]
     end
@@ -139,9 +144,9 @@ Rails.application.routes.draw do
   resources :groups do
     member do
       get :sort_route
-      post :sort
-    end
-  end
+        post :sort
+    end  
+  end  
 
   resources :exporters, only: [:show]
   resources :groups
@@ -155,6 +160,9 @@ Rails.application.routes.draw do
       resources :shared_attachments
       collection do
         get :exports
+      end
+      member do 
+        get :analytics_quiz
       end
     end
     resources :comments, only: [:index, :create, :update] do

@@ -46,7 +46,7 @@ class MentorsController < ApplicationController
   end
 
   def user_params
-    params.require(:mentor).permit(:first_name, :last_name, :email, :phone_number, :role)
+    params.require(:mentor).permit(:first_name, :last_name, :email, :phone_number, :role, group_ids: [])
   end
 
   def validate_student

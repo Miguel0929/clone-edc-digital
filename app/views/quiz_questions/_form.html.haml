@@ -40,7 +40,10 @@
       if(!option || /^\s*$/.test(option)){
         return true;
       }
-
+      if(stat == 'Seleccion una opcion'){
+        alert('Selecciona si la respuesta es correcta o incorrecta');
+        return false;
+      }
       $('#answers-list').append(getOptionElement(option + " ~ " + stat));
       $('#answer-option').val('');
       formatTextArea();

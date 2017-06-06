@@ -8,7 +8,7 @@ class Dashboard::QuizAnswersController < ApplicationController
       answer[1][:answer_text] = answer[1][:answer_text].split(' ~ ')[0]  
       QuizAnswer.create(answer_params(answer))
     end
-    redirect_to dashboard_quiz_path(@quiz)
+    redirect_to detail_dashboard_quiz_path(@quiz)
   end
 
   private

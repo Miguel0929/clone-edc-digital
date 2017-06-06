@@ -130,6 +130,32 @@
                   Descargar Excel 
                   %i.fa.fa-file-excel-o
   %h3
+    Estadísticas generales de exámenes
+
+  .panel.panel-default
+    .panel-body
+      .table-responsive
+        %table.table.table-hover
+          %thead
+            %tr
+              %th
+                Examen
+              %th
+                Preguntas disponibles
+              %th
+                Preguntas contestadas
+              %th
+                Calificación
+              %th
+          %tbody
+            - @user.group.quizzes.each do |quiz|
+              %tr
+                %td= quiz.name
+                %td= quiz.quiz_questions.count
+                %td= quiz.answered(@user)
+                %td= quiz.average(@user)
+                %td= link_to "Ver detalle", analytics_quiz_mentor_student_path(@user, quiz_id: quiz)
+  %h3
     Archivos del usuario
 
   .panel.panel-default
