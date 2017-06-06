@@ -76,7 +76,7 @@ class Mentor::StudentsController < ApplicationController
       end
       @users=@users.where(id: ids)    
     end
-    @users=@users.page(params[:page]).per(100)
+    @users=@users.page(params[:page]).per(10)
     #@users = @users.where(group: params[:group]) if params[:group].present?
     @users = @users.students_table.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id')).search(params[:query]) if params[:query].present?
   end
