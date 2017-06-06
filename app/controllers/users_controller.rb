@@ -89,15 +89,29 @@ class UsersController < ApplicationController
           case params[:state]
             when 'active'
               @users = @users.where.not(invitation_accepted_at: nil)
+              @allusers = User.students.where.not(invitation_accepted_at: nil)
             when 'inactive'
               @users = @users.where(invitation_accepted_at: nil)
+              @allusers = User.students.where(invitation_accepted_at: nil)
           end
         end
 
-        if params[:group].present?
+        if params[:group].present? && params[:state].present?
+          case params[:state]
+            when 'active'
+              @users = @users.where(group: params[:group]).where.not(invitation_accepted_at: nil)
+              @allusers = User.students.where(group: params[:group]).where.not(invitation_accepted_at: nil)
+            when 'inactive'
+              @users = @users.where(group: params[:group], invitation_accepted_at: nil)
+              @allusers = User.students.where(group: params[:group], invitation_accepted_at: nil)
+          end
+          @group = Group.find(params[:group])
+        elsif params[:group].present? && !params[:state].present?
           @users = @users.where(group: params[:group])
+          @allusers = User.students.where(group: params[:group])
           @group = Group.find(params[:group])
         end
+
         @users = @users.search(params[:query]) if params[:query].present?
       end
       format.xlsx do

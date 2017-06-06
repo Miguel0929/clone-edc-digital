@@ -26,44 +26,37 @@
               %li
                 = link_to 'Formato completo', students_users_path(format: :xlsx, fast: false)
 
-      - if params[:state].present? || params[:group].present?
-        .well
-          - complete = [] #vector-contador global a
-          - check = [] #vector-contador global b
-          - ave = [] #vector-contador global c
-          - @users.each do |student|
-            - control_a = [] #vector-contador a por alumno
-            - control_b = [] #vector-contador b por alumno
-            - ave << student.answered_questions_percentage
-            - @group.programs.each do |program|
-              - (student.percentage_questions_answered_for(program) >= 95) ? control_a << 1 : control_a << 0
-              - program.program_checked?(program, student) ? control_b << 1 : control_b << 0
-            - complete << (control_a.detect{|i| i == 0 } ? 0 : 1)
-            - check << (control_b.detect{|i| i == 0 } ? 0 : 1)
-          %ul
-            %li.inline 
-              %i.fa.fa-edit 
-            %li.inline 
-              Alumnos totales: 
-            = @users.count
-          %ul.p-l-10.m-b-0
-            %li.inline 
-              %i.fa.fa-edit 
-            %li.inline 
-              Alumnos completos:  
-              %strong #{complete.count(1)} / #{complete.size}
-          %ul.p-l-10.m-b-0
-            %li.inline 
-              %i.fa.fa-check
-            %li.inline 
-              Alumnos revisados:
-              %strong #{check.count(1)} / #{check.size}
-          %ul.p-l-10.m-b-0
-            %li.inline 
-              %i.fa.fa-rocket
-            %li.inline 
-              Avance global de grupo: 
-              %strong #{(ave.inject{ |sum, el| sum + el }.to_f / ave.size).ceil}%
+      - if (params[:group].present? || params[:state].present?) && @allusers.count > 0
+        - seen = [] #vector-contador global a
+        - ave = [] #vector-contador global b
+        - @allusers.each do |student|
+          - seen << student.content_visited_percentage
+          - ave << student.answered_questions_percentage
+        .well.m-t-25
+          .font-montserrat.p-l-25.p-b-10{:style => "text-transform: uppercase;"}
+            %u Estadísticas de búsqueda
+          .row
+            .col-xs-4
+              %ul.p-l-10.m-b-0
+                %li.inline 
+                  %i.fa.fa-user 
+                %li.inline 
+                  Alumnos totales: 
+                = @allusers.count
+            .col-xs-4
+              %ul.p-l-10.m-b-0
+                %li.inline 
+                  %i.fa.fa-eye 
+                %li.inline 
+                  Promedio visto:  
+                  %strong #{(seen.inject{ |sum, el| sum + el }.to_f / seen.size).ceil}%
+            .col-xs-4
+              %ul.p-l-10.m-b-0
+                %li.inline 
+                  %i.fa.fa-rocket
+                %li.inline 
+                  Promedio contestado: 
+                  %strong #{(ave.inject{ |sum, el| sum + el }.to_f / ave.size).ceil}%
 
       %table.table.table-hover
         %thead
