@@ -11,8 +11,9 @@ class Program < ActiveRecord::Base
   has_many :program_notifications, dependent: :destroy
   has_many :ratings, as: :ratingable 
 
-  enum tipo: [ :elearning, :construccion ]
+  enum tipo: [ :elearning, :construccion, :fusion ]
   enum level: [:basico, :intermedio, :avanzado]
+  enum content_type: [:ruta, :complementario, :powered]
 
   validates_presence_of :name, :description, :cover
 
@@ -41,7 +42,7 @@ class Program < ActiveRecord::Base
     [['Selecciona una categoría', 'none'], ['Cursos principales', 'main'], ['Cursos adicionales', 'additional'], ['Cursos externos', 'external']]
   end
   def self.tipo_type_options
-    [['e-learning', 'elearning'], ['Construccion de idea de negocio', 'construccion']]
+    [['e-learning', 'elearning'], ['Construccion de idea de negocio', 'construccion'], ['Fúsion', 'fusion']]
   end
   def self.level_type_options
     [['Básico', 'basico'], ['Intermedio', 'intermedio'], ['Avanzado', 'avanzado']]
@@ -49,6 +50,9 @@ class Program < ActiveRecord::Base
   def self.color_options
     [['Verde', '#67b220'], ['Azul', '#3f5ba3'], ['Coral', '#f46c6c'], ['Amarillo', '#edcf5d'], ['Rosa', '#e83e79'], ['Azul eléctrico', '#7976fb']]
   end
+  def self.content_type_options
+    [['Ruta EDC', 'ruta'], ['Complementario', 'complementario'], ['Powered by ( Brindado por terceros)','powered']]
+  end  
 
   def get_last_move(thisprogram, current_user)
     current_program = Program.where(id: thisprogram.id).last
