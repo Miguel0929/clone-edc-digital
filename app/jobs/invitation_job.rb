@@ -1,7 +1,8 @@
 class InvitationJob
   include SuckerPunch::Job
 
-  def perform(name, email, group_id, url)
+  def perform(name, email, group_id, url, job)
+
     user = User.invite!(:email => email, :first_name => name, group_id: group_id) do |u|
       u.skip_invitation = true
     end
@@ -22,6 +23,9 @@ class InvitationJob
         template_id: "506fcba3-80ce-4de9-bb7f-41e1e752ce0f"
       }
 
+      progress = job.progress
+      progress = progress + 1
+      job.update({progress: progress})
       sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
       begin
         response = sg.client.mail._("send").post(request_body: data)
