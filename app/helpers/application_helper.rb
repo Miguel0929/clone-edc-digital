@@ -20,6 +20,7 @@ module ApplicationHelper
   def quiz_answer_selected?(answers, answer)
     return false if answers.answer_text.nil?
     answer.include?(answers.answer_text)
+    #answers.answer_text.split('\n').include?(answer)
   end
 
   def image_for_rubric(criteria, style='')
