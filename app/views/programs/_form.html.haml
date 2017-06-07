@@ -3,7 +3,8 @@
 		= f.text_field :name, label: 'Nombre del programa'
 		= f.select(:category, Program.category_type_options, {:label => 'Categoría'}, {:class => 'minimal'})
 		= f.select(:tipo, Program.tipo_type_options, {:label => 'Tipo de programa', :class => 'minimal', :include_blank => "Selecciona un tipo"}) 
-		= f.select( :level, Program.level_type_options,{:label => 'Nivel de dificultad', :class=>'minimal', :include_blank => "Selecciona el nivel de dificultad"}) 
+		= f.select( :level, Program.level_type_options,{:label => 'Nivel de dificultad', :class=>'minimal', :include_blank => "Selecciona el nivel de dificultad"})
+		= f.select( :content_type, Program.content_type_options,{:label => 'Tipo de contenido', :class=>'minimal', :include_blank => "Selecciona el tipo contenido"})  
 		= f.text_area :description, label: 'Breve descripción del programa'
 		= f.text_area :objetive, label: 'Objetivo del programa'
 		= f.text_area :curriculum, label: 'Descripción del temario'
