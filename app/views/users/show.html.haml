@@ -98,57 +98,42 @@
             %th{:width => '10%'}
             %th
               Acciones
-                %th
         %tbody
           - Program.all.each do |program|
             %tr
-              %td
-                = program.name
-              %td
-                = @user.content_visted_for(program)
-              %td
-                = @user.questions_answered_for(program)
-              %td
-                = @user.total_comments_for(program)
-              %td
-                #{@user.percentage_content_visited_for(program)}%
-              %td
-                #{@user.percentage_questions_answered_for(program)}%
+              %td.p-b-15
+                = link_to program.name, analytics_program_user_path(@user, program_id: program)
+              %td.p-b-15
+                .m-b-10
+                  %i.fa.fa-edit
+                  #{@user.questions_answered_for(program)} 
+                  %span preguntas contestadas
+                  %strong (#{@user.percentage_questions_answered_for(program)}%)
+                .m-b-10
+                  %i.fa.fa-eye
+                  #{@user.content_visted_for(program)} 
+                  %span contenidos vistos
+                  %strong (#{@user.percentage_content_visited_for(program)}%)
+              %td.p-b-15
+                %ul.list-inline.no-style.unstyled
+                  - program.chapters.each_with_index do |chapter, index|
+                    %li
+                      - if chapter.questions.count == 0
+                        .label.label-info.p-sides-14
+                          M-#{index + 1}
+                          %i.fa
+                      - else
+                        - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions.count.to_f).ceil
+                        - checked = chapter.chapter_checked?(chapter.id, @user.id)
+                        - if answered_percentage > 95
+                          .label.label-success{:class => "#{checked ? '' : 'p-sides-14'}"}
+                            M-#{index + 1}
+                            %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
+                        - else
+                          .label{:class => "#{(answered_percentage > 0) ? 'label-warning' : ''} #{checked ? '' : 'p-sides-14'}"}
+                            M-#{index + 1}
+                            %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
               - if current_user.admin?
-                %td
-                  = !@user.group.programs.exists?(program) ? "No disponible para el estudiante" : "Disponible para el estudiante"
-                %td
-                  = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx), class: "btn btn-success" do
-                    Descargar Excel 
-                    %i.fa.fa-file-excel-o
-                %td
-                  = link_to 'Ver detalle', analytics_program_user_path(@user, program_id: program)
-  %h3
-    Estadísticas generales de exámenes
-
-  .panel.panel-default
-    .panel-body
-      .table-responsive
-        %table.table.table-hover
-          %thead
-            %tr
-              %th
-                Examen
-              %th
-                Preguntas disponibles
-              %th
-                Preguntas contestadas
-              %th
-                Calificación
-              %th
-          %tbody
-            - @user.group.quizzes.each do |quiz|
-              %tr
-                %td= quiz.name
-                %td= quiz.quiz_questions.count
-                %td= quiz.answered(@user)
-                %td= quiz.average(@user)
-                %td= link_to "Ver detalle", analytics_quiz_user_path(@user, quiz_id: quiz)
                 %td.p-b-15
                   = !@user.group.programs.exists?(program) ? "No disponible para el estudiante" : "Disponible para el estudiante"
                 %td.p-b-15
