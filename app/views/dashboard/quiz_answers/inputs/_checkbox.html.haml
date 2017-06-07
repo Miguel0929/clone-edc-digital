@@ -2,7 +2,7 @@
   .row
     .col-md-4
       .checkbox.check-success
-        = check_box_tag "answers[#{i}][answer_text]", answer, quiz_answer_selected?(answers, answer.split('~')[0]), id: "check_#{answers.quiz_question_id}_#{index}", disabled: disabled
+        = check_box_tag "answers[#{i}][answer_text][]", answer, quiz_answer_selected?(answers, answer.split('~')[0]), id: "check_#{answers.quiz_question_id}_#{index}", disabled: disabled, multiple: true
         %label{:for => "check_#{answers.quiz_question_id}_#{index}" }
           - if detail
             = "#{answer.split('~')[0]} #{answer.split('~')[1]}"

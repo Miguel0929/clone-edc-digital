@@ -4,9 +4,19 @@ class Dashboard::QuizAnswersController < ApplicationController
   
   def create
     params[:answers].each_with_index do |answer, index|
-      answer[1][:correct] = answer[1][:answer_text].split(' ~ ')[1] == 'correcta' ? true : false 
-      answer[1][:answer_text] = answer[1][:answer_text].split(' ~ ')[0]  
-      QuizAnswer.create(answer_params(answer))
+      answer_text = answer[1][:answer_text]
+        if answer_text.class == Array
+
+          answer_text.each do |a|
+            answer[1][:correct] = a.split(' ~ ')[1] == 'correcta' ? true : false
+            answer[1][:answer_text] = a.split(' ~ ')[0]
+            QuizAnswer.create(answer_params(answer))
+          end
+        else
+          answer[1][:correct] = answer[1][:answer_text].split(' ~ ')[1] == 'correcta' ? true : false 
+          answer[1][:answer_text] = answer[1][:answer_text].split(' ~ ')[0]  
+          QuizAnswer.create(answer_params(answer))
+        end
     end
     redirect_to detail_dashboard_quiz_path(@quiz)
   end
