@@ -31,7 +31,7 @@ module ApplicationHelper
       end
     else
       answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: user.id)
-      total += question.points if answer.correct == true && !answer.nil?
+      !answer.nil? && answer.correct == true ? total += question.points : 0
     end
     return total
   end
