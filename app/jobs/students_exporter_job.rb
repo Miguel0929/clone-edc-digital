@@ -31,12 +31,13 @@ class StudentsExporterJob
           unless student.group.nil?
             Program.all.each do |program|
               if student.group.programs.exists?(program)
-                programs += "#{ program.name}.Contestado: #{student.percentage_questions_answered_for(program)}% Visto: #{student.content_visted_for(program)}% \n"
+                content << "#{ program.name }.\nCONTESTADO: #{student.percentage_questions_answered_for(program)}%"
+                content << "#{ program.name }.\nVISTO: #{student.content_visted_for(program)}%"
               else
-                programs += "#{program.name}. Contestado: N/A Visto: N/A \n"
+                content << "#{program.name}.\nCONTESTADO: N/A"
+                content << "#{program.name}.\nVISTO: N/A"
               end
             end
-            content << programs
           end
         end
         csv << content
