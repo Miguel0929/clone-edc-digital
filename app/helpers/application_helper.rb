@@ -5,7 +5,7 @@ module ApplicationHelper
   
   def answer_to_select(question, detail)
     if detail
-      question.answer_options.split("\n").map { |option| [ "#{option.split('~')[0].strip} #{option.split('~')[1].strip}", option.strip ]}
+      question.answer_options.split("\n").map { |option| [ option.strip, option.strip ]}
     else
       question.answer_options.split("\n").map { |option| [ option.split('~')[0].strip, option.strip ]}
     end
@@ -13,13 +13,27 @@ module ApplicationHelper
 
   def answer_is_selected?(answers, answer)
     return false if answers.answer_text.nil?
-
     answers.answer_text.split('\n').include?(answer)
   end
 
   def quiz_answer_selected?(answers, answer)
     return false if answers.answer_text.nil?
     answer.include?(answers.answer_text)
+    #answers.answer_text.split('\n').include?(answer)
+  end
+
+  def points_quiz_question(question, user)
+    total = 0
+    if question.question_type == 'checkbox'
+      answers = QuizAnswer.where(quiz_question_id: question.id, user_id: user.id) 
+      answers.each do |answer|
+        total += (question.points / answers.count) if answer.correct == true && !answer.nil?
+      end
+    else
+      answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: user.id)
+      total += question.points if answer.correct == true && !answer.nil?
+    end
+    return total
   end
 
   def image_for_rubric(criteria, style='')

@@ -54,18 +54,13 @@
                         %i.fa.fa-tasks 
                       = question.question_text
                       - answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: current_user.id)
-                    %td= answer.answer_text
+                    %td= QuizAnswer.respuesta(question.id, current_user.id)
                     %td
-                      = answer.nil? ? "Sin contestar" : ''
-                      - unless answer.nil?
-                        = answer.correct == true ? "<span class='label label-success'>Correcto</span>".html_safe : "<span class='label label-danger'>Incorrecto</span>".html_safe 
+                      = answer.nil? ? "Sin contestar" : QuizAnswer.revisada(question.id, current_user.id).html_safe
                     %td= answer.quiz_question.points
                     %td
                       %strong
-                        - if !answer.nil?
-                          = answer.correct == true ? answer.quiz_question.points : '0'
-                        - else
-                          0
+                        = points_quiz_question(question, current_user)
                 %tr
                   %td{colspan: '4'}
                     %h5.pull-right Total
