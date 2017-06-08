@@ -7,9 +7,18 @@ class Quiz < ActiveRecord::Base
   def average(user)
     total = 0
     quiz_questions.each do |question|
-    answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: user.id)
-    if !answer.nil? && answer.correct
-        total += question.points
+    if question.question_type == 'checkbox'
+      answers = QuizAnswer.where(quiz_question_id: question.id, user_id: user.id)
+      answers.each do |answer|
+        if !answer.nil? && answer.correct
+          total += (question.points / answers.count)
+        end
+      end
+    else
+      answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: user.id)
+      if !answer.nil? && answer.correct
+          total += question.points
+        end
       end
     end
     return total

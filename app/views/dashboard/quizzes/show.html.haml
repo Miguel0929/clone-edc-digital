@@ -60,10 +60,7 @@
                     %td= answer.quiz_question.points
                     %td
                       %strong
-                        - if !answer.nil?
-                          = answer.correct == true ? answer.quiz_question.points : '0'
-                        - else
-                          0
+                        = points_quiz_question(question, current_user)
                 %tr
                   %td{colspan: '4'}
                     %h5.pull-right Total

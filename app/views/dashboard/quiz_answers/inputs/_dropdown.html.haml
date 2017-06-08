@@ -1,1 +1,4 @@
-= f.select :answer_text, answer_to_select(question, detail), { hide_label: true }, disabled: disabled, class: 'minimal'
+- if answers.answer_text
+  = f.select :answer_text, [answers.answer_text + (answers.correct == true ? ' ~ correcta' : ' ~ incorrecta')], { hide_label: true }, disabled: disabled, class: 'minimal'
+- else
+  = f.select :answer_text, answer_to_select(question, detail), { hide_label: true }, disabled: disabled, class: 'minimal'
