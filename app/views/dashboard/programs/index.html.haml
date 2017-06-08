@@ -17,11 +17,11 @@
           = bootstrap_form_tag(url: dashboard_programs_path, method: :get) do |f|
             .row
               .col-md-4
-                = f.select :tipo, options_for_select([['e-learning', 'elearning'], ['Construccion de idea de negocios', 'construccion']], params[:tipo]), {include_blank: true, label: 'Tipo' }
+                = f.select :tipo, options_for_select([['e-learning', 'elearning'], ['Construccion de idea de negocios', 'construccion'], ['Fúsion', 'fusion']], params[:tipo]), {prompt: "Todos", label: 'Tipo' }
               .col-md-4
-                = f.select :level, options_for_select([['Básico', 'basico'], ['Intermedio', 'intermedio'],['Avanzado', 'avanzado']], params[:level]), {include_blank: true, label: 'Nivel de dificultad' }  
+                = f.select :level, options_for_select([['Básico', 'basico'], ['Intermedio', 'intermedio'],['Avanzado', 'avanzado']], params[:level]), {prompt: "Todos", label: 'Nivel de dificultad' }  
               .col-md-4
-                = f.select :orden, options_for_select([['Tipo de Programa', 'tipo'], ['Ruta de Aprendizaje', 'ruta'],['Orden Alfabético', 'abc']], params[:orden]), {include_blank: true, label: 'Orden' }
+                = f.select :orden, options_for_select([['Tipo de Programa', 'tipo'], ['Ruta de Aprendizaje', 'ruta'],['Orden Alfabético', 'abc']], params[:orden]), {prompt: "Ordena tus programas", label: 'Orden' }
             .row
               .pull-right    
                 = f.submit 'Filtrar'  

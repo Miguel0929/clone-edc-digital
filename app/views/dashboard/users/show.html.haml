@@ -59,11 +59,11 @@
               %tr.odd.gradeX
                 %td Grupo
                 %td
-                  = @user.group.name unless @user.industry.nil?
+                  = @user.group.name unless @user.group.nil?
               %tr.odd.gradeX
-                %td Sector economico
+                %td Sector económico
                 %td
-                  = @user.industry.name unless @user.group.nil?    
+                  = @user.industry.name unless @user.industry.nil?    
               %tr.odd.gradeX
                 %td Cursos inscritos
                 %td

@@ -129,7 +129,7 @@ Rails.application.routes.draw do
       get :analytics_program
     end
 
-    member do 
+    member do
       get :analytics_quiz
     end
 
@@ -145,8 +145,8 @@ Rails.application.routes.draw do
     member do
       get :sort_route
         post :sort
-    end  
-  end  
+    end
+  end
 
   resources :exporters, only: [:show]
   resources :groups
@@ -161,7 +161,7 @@ Rails.application.routes.draw do
       collection do
         get :exports
       end
-      member do 
+      member do
         get :analytics_quiz
       end
     end
@@ -237,7 +237,8 @@ Rails.application.routes.draw do
   resources :route_texts
   resources :route_covers
 
-  resources :group_invitations, only: [:new, :create]
+  resources :group_invitations, only: [:new, :create, :show]
   resources :chapter_stats
   post '/save_chapter_stats' => 'chapter_stats#post'
+  
 end
