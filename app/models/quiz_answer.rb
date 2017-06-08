@@ -7,7 +7,7 @@ class QuizAnswer < ActiveRecord::Base
     where(quiz_question_id: quiz_question, user_id: user).each do |answers|
       respuesta += answers.answer_text + " "
     end
-    respuesta
+    respuesta == '' ? 'Sin respuesta' : respuesta
   end
 
   def self.revisada(quiz_question, user)
