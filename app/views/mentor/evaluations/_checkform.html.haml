@@ -1,0 +1,16 @@
+-if @chapter_stats.nil?
+  = form_for :chapter_stats, url: chapter_stats_path, remote: true do |f|
+    = f.hidden_field 'user', :value => @user.id, id: 'user_key'
+    = f.hidden_field 'program', :value => @program.id, id: 'program_key'
+    = f.hidden_field 'chapter', :value => @chapter.id, id: 'chapter_key'
+    = f.check_box :checked, id: 'checking_chapter'
+    %label.p-l-5{:for => "checking_chapter"}
+      Marcar módulo como evaluado
+- else 
+  = form_for @chapter_stats, url: chapter_stats_path, remote: true do |f|
+    = f.hidden_field 'user', :value => @user.id, id: 'user_key'
+    = f.hidden_field 'program', :value => @program.id, id: 'program_key'
+    = f.hidden_field 'chapter', :value => @chapter.id, id: 'chapter_key'
+    = f.check_box :checked, id: 'checking_chapter'
+    %label.p-l-5{:for => "checking_chapter"}
+      = (@chapter_stats.checked == 1) ? "Módulo evaluado" : "Marcar módulo como evaluado"

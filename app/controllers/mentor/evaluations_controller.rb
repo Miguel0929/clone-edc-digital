@@ -32,6 +32,7 @@ class Mentor::EvaluationsController < ApplicationController
 
   def show
     @chapter = Chapter.includes(:evaluations).find(params[:id])
+    @chapter_stats = ChapterStat.where(user_id: @user.id, chapter_id: @chapter.id).last
 
     allevals = @chapter.evaluations
     @totaleval = allevals.map { |evaluation| evaluation.points }.inject(0, :+) 
@@ -58,12 +59,16 @@ class Mentor::EvaluationsController < ApplicationController
   def update
     @chapter = Chapter.find(params[:id])
 
-    Evaluator.for(@user, params[:evaluation])
-
-    if params[:path] == "store"
-      redirect_to mentor_evaluation_path(@chapter, user_id: @user, program_id: @program), notice: "Evaluación exitosamente guardada"
+    new_eval = Evaluator.for(@user, params[:evaluation])
+    
+    if new_eval.nil?
+      redirect_to mentor_evaluation_path(@chapter, user_id: @user, program_id: @program), alert: "Debes evaluar todas las rúbricas"
     else
-      redirect_to mentor_evaluations_path(user_id: @user, program_id: @program), notice: "Evaluación exitosamente guardada"
+      if params[:path] == "store"
+        redirect_to mentor_evaluation_path(@chapter, user_id: @user, program_id: @program), notice: "Evaluación exitosamente guardada"
+      else
+        redirect_to mentor_evaluations_path(user_id: @user, program_id: @program), notice: "Evaluación exitosamente guardada"
+      end
     end
   end
 
