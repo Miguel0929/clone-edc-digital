@@ -73,17 +73,28 @@ class Program < ActiveRecord::Base
   end
 
   def program_checked?(program, user)
-    tracker = []
-    Program.find(program.id).chapters.each do |chapter|
-      if chapter.chapter_checked?(chapter, user)
-        event = 1
+    thisprogram = ProgramStat.where(user_id: user, program_id: program).last
+    if thisprogram.nil?
+      status = false
+    else
+      if thisprogram.checked == 1
+        status = true
       else
-        event = 0
+        status = false
       end
-      tracker << event
     end
-    status = tracker.detect {|i| i == 0}.nil? #si no hay ningún cero en el arreglo @tracker es TRUE
     return status
+    #tracker = []
+    #Program.find(program.id).chapters.each do |chapter|
+    #  if chapter.chapter_checked?(chapter, user)
+    #    event = 1
+    #  else
+    #    event = 0
+    #  end
+    #  tracker << event
+    #end
+    #status = tracker.detect {|i| i == 0}.nil? #si no hay ningún cero en el arreglo @tracker es TRUE
+    #return status
   end
 
 end

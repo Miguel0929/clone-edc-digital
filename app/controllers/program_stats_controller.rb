@@ -19,8 +19,8 @@ class ProgramStatsController < ApplicationController
 
 		respond_to do |format|
 			#format.html{ redirect_to mentor_student_path(user), notice: "Evaluación actualizada"}
-			format.json {head :ok}
-			format.js
+			format.json{ head :ok}
+			format.js{flash.now[:notice] = "my secret number "+rand(0,5)+" !"}
 		end
   end
 

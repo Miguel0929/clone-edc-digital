@@ -1,6 +1,13 @@
 .container-fluid.container-fixed-lg
-  %h3
-    Detalles del Alumno: #{@user.name}
+  .row
+    .col-sm-9
+      %h3
+        Detalles del Alumno: #{@user.name}
+    .col-sm-3
+      = link_to mentor_group_path(@user.group.id), class: "pull-right" do
+        %button.btn.btn-info.btn-sm.m-t-10.m-b-10
+          %i.fa.fa-reply
+          Regresar a grupo
   .panel.panel-default
     .panel-body
       .row
@@ -71,8 +78,15 @@
                     \-
                     = link_to program.name, user_program_answers_path(@user, program)
                     %br
-  %h3
-    Estadísticas generales de programas inscritos
+  .row
+    .col-sm-9
+      %h3
+        Estadísticas generales de programas inscritos
+    .col-sm-3
+      = link_to mentor_group_path(@user.group.id), class: "pull-right" do
+        %button.btn.btn-info.btn-sm.m-t-10.m-b-10
+          %i.fa.fa-reply
+          Regresar a grupo
 
   .panel.panel-default
     .panel-body.table-responsive
@@ -129,19 +143,19 @@
                 %strong{:class => "#{(!@user.group.programs.exists?(program)) ? 'text-danger' : 'text-success'}"}
                   #{(!@user.group.programs.exists?(program)) ? 'No' : 'Sí'}
               %td.p-r-0
-                %ul.unstyled.no-style
-                  %li
+                %ul.unstyled.no-style.p-l-0
+                  %li.p-l-0
                     = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx) do
                       %i.fa.fa-file-excel-o
                       Descargar Excel 
-                  %li{:style => 'color: #3a8fc8;'}
+                  %li.p-l-0{:style => 'color: #3a8fc8;'}
                     %input{type: "hidden", id: "user_key_#{@user.id}", value: @user.id}
                     %input{type: "hidden", id: "program_key_#{program.id}", value: program.id}
 
                     %form{:action => program_stats_path, 'data-remote': "true", method: :post, id: "edit_program_stat_#{program.id}"}
                       - if get_program_stat(@user, program).nil?
                         %input{type: "checkbox", id: "checking_program_#{program.id}", name: "program_stat[checked]"}
-                        %label.p-l-5{:for => "checking_program_#{program.id}"} Evaluar programa
+                        %label.p-l-5{:for => "checking_program_#{program.id}"} Marcar como evaluado
                       - else 
                         - program_stats = get_program_stat(@user, program)
                         - if program_stats.checked == 1
@@ -149,7 +163,7 @@
                         - else
                           %input{type: "checkbox", id: "checking_program_#{program.id}", value: program_stats.checked, name: "program_stat[checked]"}
                         %label.p-l-5{:for => "checking_program_#{program.id}"}
-                          = (program_stats.checked == 1) ? "Programa evaluado" : "Evaluar este programa"
+                          = (program_stats.checked == 1) ? "Programa evaluado" : "Marcar como evaluado"
                     %script{ :type => 'text/javascript' }
                       $(document).ready(function(){
                       $("#checking_program_" + #{program.id}).change(function(){
@@ -160,9 +174,10 @@
                       type: "post",
                       url: "/save_program_stats", 
                       data: {src, src2, src3},
-                      success: function(result){
+                      success: function(data){
                       data.parents('form:first').submit();
                       }});
+                      $("#alert-ra").css('display','block');setTimeout(function(){$("#alert-ra").css('display','none');},3000);
                       });
                       });
 
@@ -264,6 +279,14 @@
     = link_to new_mentor_student_shared_attachment_path(@user), class: 'btn btn-primary btn-lg m-b-50 m-r-30' do
       %i.fa.fa-upload
       Agregar archivo
+
+#alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-info
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      Estado de evaluación modificado      
 
   /%h3
   /  Revisión de comentarios (Todos)
