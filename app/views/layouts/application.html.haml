@@ -229,7 +229,8 @@
               .inner
                 %ul.breadcrumb
                   = render_breadcrumbs :tag => :li, separator: ''
-          = yield
+          %div{class: "#{controller_name}_#{action_name}"}
+            = yield
 
         .container-fluid.container-fixed-lg.footer
           .copyright.sm-text-center
