@@ -79,18 +79,20 @@
       %table.table.table-hover
         %thead
           %tr
-            %th{:width => '25%'}
-              Curso inscrito
             %th{:width => '22%'}
+              Curso inscrito
+            %th{:width => '23%'}
               Avances del alumno
-            %th.text-center{:width => '27%'}
+            %th.text-center{:width => '26%'}
               Módulos del curso
-            %th{:width => '11%'}
-            %th
+            %th.text-center{:width => '8%'}
+              Disponible (estudiante)
+            %th.text-center
+              Acciones
         %tbody
           - Program.all.each do |program|
             %tr
-              %td.p-b-35
+              %td.p-b-35{:style => "font-size: 1em;"}
                 = link_to program.name, mentor_evaluations_path(user_id: @user, program_id: program)
               %td
                 .m-b-10
@@ -123,12 +125,47 @@
                             .label{:class => "#{(answered_percentage > 0) ? 'label-warning' : ''} #{checked ? '' : 'p-sides-14'}"}
                               M-#{index + 1}
                               %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
-              %td 
-                = !@user.group.programs.exists?(program) ? "No disponible para el estudiante" : "Disponible para el estudiante"
-              %td
-                = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx), class: "btn btn-sm btn-success" do
-                  Descargar Excel 
-                  %i.fa.fa-file-excel-o
+              %td.text-center 
+                %strong{:class => "#{(!@user.group.programs.exists?(program)) ? 'text-danger' : 'text-success'}"}
+                  #{(!@user.group.programs.exists?(program)) ? 'No' : 'Sí'}
+              %td.p-r-0
+                %ul.unstyled.no-style
+                  %li
+                    = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx) do
+                      %i.fa.fa-file-excel-o
+                      Descargar Excel 
+                  %li{:style => 'color: #3a8fc8;'}
+                    %input{type: "hidden", id: "user_key_#{@user.id}", value: @user.id}
+                    %input{type: "hidden", id: "program_key_#{program.id}", value: program.id}
+
+                    %form{:action => program_stats_path, 'data-remote': "true", method: :post, id: "edit_program_stat_#{program.id}"}
+                      - if get_program_stat(@user, program).nil?
+                        %input{type: "checkbox", id: "checking_program_#{program.id}", name: "program_stat[checked]"}
+                        %label.p-l-5{:for => "checking_program_#{program.id}"} Evaluar programa
+                      - else 
+                        - program_stats = get_program_stat(@user, program)
+                        - if program_stats.checked == 1
+                          %input{type: "checkbox", id: "checking_program_#{program.id}", value: program_stats.checked, name: "program_stat[checked]", checked: :true}
+                        - else
+                          %input{type: "checkbox", id: "checking_program_#{program.id}", value: program_stats.checked, name: "program_stat[checked]"}
+                        %label.p-l-5{:for => "checking_program_#{program.id}"}
+                          = (program_stats.checked == 1) ? "Programa evaluado" : "Evaluar este programa"
+                    %script{ :type => 'text/javascript' }
+                      $(document).ready(function(){
+                      $("#checking_program_" + #{program.id}).change(function(){
+                      var src = $(this).val();
+                      var src2 = $("#user_key_" + #{@user.id}).val();
+                      var src3 = $("#program_key_" + #{program.id}).val();
+                      $.ajax({
+                      type: "post",
+                      url: "/save_program_stats", 
+                      data: {src, src2, src3},
+                      success: function(result){
+                      data.parents('form:first').submit();
+                      }});
+                      });
+                      });
+
   %h3
     Estadísticas generales de exámenes
 

@@ -238,7 +238,7 @@ Rails.application.routes.draw do
   resources :route_covers
 
   resources :group_invitations, only: [:new, :create, :show]
-  resources :chapter_stats
-  post '/save_chapter_stats' => 'chapter_stats#post'
+  resources :program_stats
+  post '/save_program_stats' => 'program_stats#post'
   
 end

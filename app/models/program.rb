@@ -10,6 +10,7 @@ class Program < ActiveRecord::Base
   has_many :groups, through: :group_programs
   has_many :program_notifications, dependent: :destroy
   has_many :ratings, as: :ratingable 
+  has_many :program_stats
 
   enum tipo: [ :elearning, :construccion, :fusion ]
   enum level: [:basico, :intermedio, :avanzado]

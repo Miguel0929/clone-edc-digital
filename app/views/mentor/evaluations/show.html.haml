@@ -1,14 +1,8 @@
 .container-fluid.container-fixed-lg.bg-transparent
   .panel.panel-transparent
     .panel-heading.p-t-0.m-b-10
-      .row
-        .col-xs-6
-          .panel-title.m-b-30
-            Rúbrica de evaluación
-        .col-xs-6
-          .btn-like.pull-right
-            .panel-title
-              = render 'checkform'
+      .panel-title.m-b-30
+        Rúbrica de evaluación
       .m-t-15.m-b-15
         %strong
           Alumno en evaluación:
@@ -214,19 +208,3 @@
   });
 
   })(window.jQuery);
-
-  $(document).ready(function(){
-  $("#checking_chapter").change(function(){
-  var src = $(this).val();
-  var src2 = $("#user_key").val();
-  var src3 = $("#program_key").val();
-  var src4 = $("#chapter_key").val();
-  $.ajax({
-  type: "post",
-  url: "/save_chapter_stats", 
-  data: {src, src2, src3, src4},
-  success: function(result){
-  data.parents('form:first').submit();
-  }});
-  });
-  });

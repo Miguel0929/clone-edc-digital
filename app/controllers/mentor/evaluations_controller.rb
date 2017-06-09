@@ -32,7 +32,6 @@ class Mentor::EvaluationsController < ApplicationController
 
   def show
     @chapter = Chapter.includes(:evaluations).find(params[:id])
-    @chapter_stats = ChapterStat.where(user_id: @user.id, chapter_id: @chapter.id).last
 
     allevals = @chapter.evaluations
     @totaleval = allevals.map { |evaluation| evaluation.points }.inject(0, :+) 
