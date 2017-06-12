@@ -42,7 +42,7 @@
                 %li.inline 
                   Promedio visto:  
                   %strong
-                    - if !seen.nil?
+                    - if !seen.empty?
                       #{(seen.inject{ |sum, el| sum + el }.to_f / seen.size).ceil}%
                     - else
                       N/A
@@ -52,7 +52,7 @@
                 %li.inline 
                   Promedio contestado: 
                   %strong 
-                    - if !ave.nil?
+                    - if !ave.empty?
                       #{(ave.inject{ |sum, el| sum + el }.to_f / ave.size).ceil}%
                     - else
                       N/A
