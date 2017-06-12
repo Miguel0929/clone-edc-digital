@@ -14,12 +14,20 @@
             Programa a evaluar:
           %h3.m-t-0
             = @program.name
-        .col-sm-5
-          .p.text-right
-            %button.btn.btn-success.btn-cons{:type => "submit", :form => "evolve", :name => "path", :value => "store"} 
-              Guardar
-            %button.btn.btn-info.btn-cons{:type => "submit", :form => "evolve", :name => "path", :value => "out"}
-              Guardar y salir
+        - if current_user.mentor?
+          .col-sm-5
+            .p.text-right
+              %button.btn.btn-success.btn-cons{:type => "submit", :form => "evolve", :name => "path", :value => "store"} 
+                Guardar
+              %button.btn.btn-info.btn-cons{:type => "submit", :form => "evolve", :name => "path", :value => "out"}
+                Guardar y salir      
+        - else
+          .col-sm-5
+            .p.text-right
+              = link_to user_path(@user) do 
+                %button.btn.btn-info.btn-cons
+                  %i.fa.fa-reply
+                  Regresar
 
       .row
         .col-sm-7
@@ -104,9 +112,10 @@
                           %li.next
                             %button.btn.btn-primary.btn-cons.btn-animated.from-left.fa.fa-arrow-right.pull-right{:type => "button"}
                               %span Siguiente
-                          %li.next.finish.hidden
-                            %button.btn.btn-info.btn-cons.btn-animated.from-left.fa.fa-check.pull-right{:type => "submit", :name => "path", :value => "out"}
-                              %span Guardar y salir
+                          - if current_user.mentor?
+                            %li.next.finish.hidden
+                              %button.btn.btn-info.btn-cons.btn-animated.from-left.fa.fa-check.pull-right{:type => "submit", :name => "path", :value => "out"}
+                                %span Guardar y salir
                           %li.previous.first.hidden
                             %button.btn.btn-default.btn-cons.btn-animated.from-left.fa.fa-check.pull-right{:type => "button"}
                               %span Primero

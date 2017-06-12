@@ -1,6 +1,6 @@
 class Mentor::EvaluationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_mentor, except: [:index]
+  before_action :require_admin_or_mentor
   before_action :set_user
   before_action :set_program
 
@@ -50,7 +50,11 @@ class Mentor::EvaluationsController < ApplicationController
     .group('chapter_contents.position')
     .order('chapter_contents.position asc')
 
-    add_breadcrumb @user.email, mentor_student_path(@user)
+    if current_user.admin?
+      add_breadcrumb @user.email, user_path(@user)
+    else
+      add_breadcrumb @user.email, mentor_student_path(@user)
+    end
     add_breadcrumb 'Evaluación de programa', mentor_evaluations_path(program_id: @program, user_id: @user)
     add_breadcrumb "<a class='active' href='#{mentor_evaluation_path(@chapter, program_id: @program, user_id: @user)}'>Evaluación de programa</a>".html_safe
   end
