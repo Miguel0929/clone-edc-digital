@@ -11,6 +11,7 @@ class Dashboard::QuizzesController < ApplicationController
     @quiz = Quiz.find(params[:id])
     add_breadcrumb "<a href='#{dashboard_quizzes_path}'>Exámenes</a>".html_safe    
     add_breadcrumb "<a class='active' href='#{dashboard_quiz_path(@quiz)}'>#{@quiz.name}</a>".html_safe
+    redirect_to dashboard_quizzes_path unless @quiz.answered(current_user) > 0
   end
 
   def detail
