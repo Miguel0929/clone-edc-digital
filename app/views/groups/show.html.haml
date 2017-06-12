@@ -71,11 +71,7 @@
       %h4
         Lista de alumnos
       .row
-        .col-md-10
-          = link_to mentor_group_path(@group, format: :xlsx), class: "btn btn-success pull-left" do
-            Exportar a Excel 
-            %i.fa.fa-file-excel-o
-        .col-md-2
+        .col-md-2.col-md-offset-10
           %input#group_student.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       
       .table-responsive   

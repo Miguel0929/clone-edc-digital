@@ -1,7 +1,6 @@
 class Mentor::GroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_mentor, only: [:index]
-  before_action :require_admin_or_mentor, only: [:show]
+  before_action :require_mentor
 
   add_breadcrumb "EDCDIGITAL", :root_path
 

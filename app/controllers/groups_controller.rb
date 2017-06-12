@@ -12,6 +12,7 @@ class GroupsController < ApplicationController
 
   def show
     @students = @group.active_students
+    @students = @group.student_search(params[:query]) if params[:query].present?
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{group_path(@group)}'>#{@group.name}</a>".html_safe
   end
