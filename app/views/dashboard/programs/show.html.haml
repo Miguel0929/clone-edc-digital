@@ -28,7 +28,7 @@
             .pull-left.p-b-10
               %span.m-r-20{:style => "color: #48B0F7; font-size:"}
                 %i.fa.fa-edit
-                No has contestado este curso
+                Curso no iniciado
             .clearfix
         - elsif @current_user.percentage_questions_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) > 0
           .row.col-sm-12
@@ -39,7 +39,7 @@
             .pull-left
               %span.m-r-20{:style => "color: #48B0F7;"}
                 %i.fa.fa-edit
-                No has contestado este curso
+                Curso no contestado
               %span{:style => "color: #b1d3eb;"}
                 %i.fa.fa-eye
                 #{@current_user.percentage_content_visited_for(@program)}% visto
