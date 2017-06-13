@@ -61,4 +61,18 @@ a.pump-link:hover {
 .no-opacity a{
 	opacity: 1 !important;
 }
+.btn-like{
+	display: inline-block;
+	min-width: 120px;
+	font-size: 14px;
+	color: #111;
+	background-color: #E6E6E6;
+	border-color: #E6E6E6;
+	line-height: 21px;
+	padding-left: 17px;
+	padding-right: 17px;
+	position: relative;
+	padding: 6px 12px;
+	border-radius: 4px;
+}
 

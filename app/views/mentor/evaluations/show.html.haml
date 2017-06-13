@@ -3,10 +3,11 @@
     .panel-heading.p-t-0.m-b-10
       .panel-title.m-b-30
         Rúbrica de evaluación
-      %div.m-t-15
+      .m-t-15.m-b-15
         %strong
           Alumno en evaluación:
         = @user.name
+
     .panel-body
       .row
         .col-sm-7
@@ -19,7 +20,7 @@
             %button.btn.btn-success.btn-cons{:type => "submit", :form => "evolve", :name => "path", :value => "store"} 
               Guardar
             %button.btn.btn-info.btn-cons{:type => "submit", :form => "evolve", :name => "path", :value => "out"}
-              Guardar y salir
+              Guardar y salir        
 
       .row
         .col-sm-7
@@ -207,4 +208,3 @@
   });
 
   })(window.jQuery);
-
