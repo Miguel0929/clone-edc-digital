@@ -29,6 +29,7 @@
 //= require cocoon
 //= require Chart.bundle
 //= require chartkick
+//= require jquery-readyselector
 //= require_tree "."
 //= stub landings/pace.min
 //= stub landings/pages.frontend

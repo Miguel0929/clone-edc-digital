@@ -25,6 +25,10 @@ class ApplicationController < ActionController::Base
     redirect_to root_url unless current_user.admin? || current_user.staff?
   end
 
+  def require_admin_or_mentor
+    redirect_to root_url unless current_user.mentor? || current_user.admin?
+  end
+
   def layout_by_resource
     if devise_controller? && resource_name == :user && ((sessions_controller?) || (invitations_controller?) || (registrations_controller?))
       "login"
