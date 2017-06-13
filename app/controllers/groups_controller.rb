@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort, :student_control]
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -85,6 +85,11 @@ class GroupsController < ApplicationController
     end
     render nothing: true
   end  
+
+  def student_control
+    add_breadcrumb "Grupos", :groups_path
+    add_breadcrumb "<a class='active' href='#{edit_group_path(@group)}'>#{@group.name}</a>".html_safe
+  end
 
   private
   def set_group
