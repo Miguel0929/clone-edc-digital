@@ -1,0 +1,40 @@
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+      %h1
+        Universidades
+    .row      
+      - @states.each do |s|
+        .col-md-2
+          %center
+            = link_to s.name,  state_universities_path + "?state=" + s.id.to_s, html_options= {class: "btn btn-link"}                       
+    .panel-body
+      .pull-right
+        =link_to "Crear universidad", new_university_path, html_options= {class: "btn btn-primary"} 
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+              Id
+            %th
+              Nombre
+            %th
+              Estado
+            %th
+              Opciones
+        %tbody
+          - @universities.each do |u|
+            %tr
+              %td
+                = u.id
+              %td
+                = u.name
+              %td
+                = u.state.name
+              %td
+                = link_to 'Eliminar', university_path(u), method: :delete, data: { confirm: '¿Estás seguro?' }
+                = link_to 'Editar', edit_university_path(u)
+      .pull-right
+        = paginate @universities
+        %br
+        %center.text-center= page_entries_info @universities                 
