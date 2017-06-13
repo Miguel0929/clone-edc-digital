@@ -105,6 +105,7 @@ class GroupsController < ApplicationController
     end
 
     redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
+    add_breadcrumb "<a class='active' href='#{edit_group_path(@group)}'>#{@group.name}</a>".html_safe
   end
 
   private
