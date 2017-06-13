@@ -57,6 +57,9 @@ class GroupsController < ApplicationController
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{edit_group_path(@group)}'>#{@group.name}</a>".html_safe
 
+    puts "perrin"
+    puts group_params[:student_ids]
+    
     before_update_ids = @group.programs.pluck(:id)
     if @group.update(group_params)
       NewProgramNotificationJob.perform_async(before_update_ids, @group.programs.pluck(:id))
@@ -91,6 +94,6 @@ class GroupsController < ApplicationController
   end
 
   def group_params
-    params.require(:group).permit(:name, :key, :state_id, :university_id, :category, program_ids: [], user_ids: [], quiz_ids: [])
+    params.require(:group).permit(:name, :key, :state_id, :university, :category, program_ids: [], user_ids: [], student_ids: [], quiz_ids: [])
   end
 end
