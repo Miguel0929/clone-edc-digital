@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170607205344) do
+ActiveRecord::Schema.define(version: 20170608171428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -315,6 +315,17 @@ ActiveRecord::Schema.define(version: 20170607205344) do
 
   add_index "program_notifications", ["program_id"], name: "index_program_notifications_on_program_id", using: :btree
 
+  create_table "program_stats", force: :cascade do |t|
+    t.integer  "checked",    default: 0
+    t.integer  "user_id"
+    t.integer  "program_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "program_stats", ["program_id"], name: "index_program_stats_on_program_id", using: :btree
+  add_index "program_stats", ["user_id"], name: "index_program_stats_on_user_id", using: :btree
+
   create_table "programs", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -585,6 +596,8 @@ ActiveRecord::Schema.define(version: 20170607205344) do
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
+  add_foreign_key "program_stats", "programs"
+  add_foreign_key "program_stats", "users"
   add_foreign_key "quiz_answers", "quiz_questions"
   add_foreign_key "quiz_answers", "users"
   add_foreign_key "quiz_questions", "quizzes"

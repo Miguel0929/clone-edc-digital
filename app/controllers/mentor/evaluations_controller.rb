@@ -1,6 +1,6 @@
 class Mentor::EvaluationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_mentor, except: [:index]
+  before_action :require_admin_or_mentor
   before_action :set_user
   before_action :set_program
 
@@ -50,7 +50,11 @@ class Mentor::EvaluationsController < ApplicationController
     .group('chapter_contents.position')
     .order('chapter_contents.position asc')
 
-    add_breadcrumb @user.email, mentor_student_path(@user)
+    if current_user.admin?
+      add_breadcrumb @user.email, user_path(@user)
+    else
+      add_breadcrumb @user.email, mentor_student_path(@user)
+    end
     add_breadcrumb 'Evaluación de programa', mentor_evaluations_path(program_id: @program, user_id: @user)
     add_breadcrumb "<a class='active' href='#{mentor_evaluation_path(@chapter, program_id: @program, user_id: @user)}'>Evaluación de programa</a>".html_safe
   end
@@ -58,12 +62,16 @@ class Mentor::EvaluationsController < ApplicationController
   def update
     @chapter = Chapter.find(params[:id])
 
-    Evaluator.for(@user, params[:evaluation])
-
-    if params[:path] == "store"
-      redirect_to mentor_evaluation_path(@chapter, user_id: @user, program_id: @program), notice: "Evaluación exitosamente guardada"
+    new_eval = Evaluator.for(@user, params[:evaluation])
+    
+    if new_eval.nil?
+      redirect_to mentor_evaluation_path(@chapter, user_id: @user, program_id: @program), alert: "Debes evaluar todas las rúbricas"
     else
-      redirect_to mentor_evaluations_path(user_id: @user, program_id: @program), notice: "Evaluación exitosamente guardada"
+      if params[:path] == "store"
+        redirect_to mentor_evaluation_path(@chapter, user_id: @user, program_id: @program), notice: "Evaluación exitosamente guardada"
+      else
+        redirect_to mentor_evaluations_path(user_id: @user, program_id: @program), notice: "Evaluación exitosamente guardada"
+      end
     end
   end
 
