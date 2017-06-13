@@ -256,6 +256,16 @@ class User < ActiveRecord::Base
         .gsub('and', 'y')
   end
 
+  def self.active_users
+    active_users_list = []
+    User.students.each do |student|
+      if student.status == "Activo"
+        active_users_list << student
+      end
+    end
+    return active_users_list
+  end
+
   private
 
   def set_origin
