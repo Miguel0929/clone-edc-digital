@@ -105,10 +105,10 @@
                         = link_to mentor_evaluations_path(user_id: student, program_id: program) do
                           - if progress_percentage > 95
                             .label.label-success{:class => "#{review ? '' : 'p-sides-14-2'}"}
-                              P-#{index + 1}
+                              = program.alias
                               %i.fa{:class => "#{review ? 'fa-check' : ''}"}
                           - else
                             .label{:class => "#{(progress_percentage > 0) ? 'label-warning' : ''} #{review ? '' : 'p-sides-14-2'}"}
-                              P-#{index + 1}
+                              = program.alias
                               %i.fa{:class => "#{review ? 'fa-check' : ''}"}
                   
