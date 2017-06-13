@@ -10,7 +10,14 @@ class Mentor::StudentsController < ApplicationController
 
     #@users = User.students_table.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
     #  .page(params[:page]).per(100)
-
+    ids=[]
+    uni= Group.where.not(university_id: nil)
+    uni.each do |u|
+      unless ids.include?(u.university_id)
+        ids.push(u.university_id)
+      end  
+    end
+    @universities=University.where(id: ids) 
     @users = User.students.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
     if params[:status].present?
       case params[:status]
@@ -26,7 +33,7 @@ class Mentor::StudentsController < ApplicationController
     end  
 
     if params[:university].present?
-      @users = @users.joins(:group).where(groups: {university: params[:university]})
+      @users = @users.joins(:group).where(groups: {university_id: params[:university]})
     end 
 
     if params[:state].present?

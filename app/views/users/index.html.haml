@@ -27,7 +27,7 @@
                   .s-s-title
                     %i.fa.fa-university
                     Universidad:
-                  = text_field_tag :university, params[:university], class: "form-control", placeholder: "Filtra por universidad"  
+                  = select_tag :university, options_from_collection_for_select(@universities, :id, :name, params[:university]), {include_blank: "Filtra por universidad", class: "col-md-12" } 
 
               .search-group
                 .col-md-2.col-sm-4.col-xs-12

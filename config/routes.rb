@@ -241,4 +241,9 @@ Rails.application.routes.draw do
   resources :program_stats
   post '/save_program_stats' => 'program_stats#post'
   
+  resources :universities do
+    collection do
+      get :state
+    end  
+  end
 end
