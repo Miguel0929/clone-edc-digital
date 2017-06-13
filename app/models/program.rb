@@ -96,5 +96,9 @@ class Program < ActiveRecord::Base
     #status = tracker.detect {|i| i == 0}.nil? #si no hay ningún cero en el arreglo @tracker es TRUE
     #return status
   end
+  def alias
+    arr=self.name.split(" ") 
+    return self.name[0,3]+"."+arr[1][0].capitalize+"."+self.id.to_s
+  end
 
 end
