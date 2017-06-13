@@ -241,4 +241,9 @@ Rails.application.routes.draw do
   resources :route_covers
 
   resources :group_invitations, only: [:new, :create, :show]
+  resources :universities do
+    collection do
+      get :state
+    end  
+  end
 end

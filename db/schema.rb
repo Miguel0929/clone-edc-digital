@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170607160928) do
+ActiveRecord::Schema.define(version: 20170607205344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -210,14 +210,15 @@ ActiveRecord::Schema.define(version: 20170607160928) do
     t.string   "name"
     t.string   "key"
     t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.integer  "state_id"
-    t.string   "university"
     t.string   "category"
+    t.integer  "university_id"
   end
 
   add_index "groups", ["deleted_at"], name: "index_groups_on_deleted_at", using: :btree
+  add_index "groups", ["university_id"], name: "index_groups_on_university_id", using: :btree
 
   create_table "industries", force: :cascade do |t|
     t.string   "name"
@@ -482,6 +483,15 @@ ActiveRecord::Schema.define(version: 20170607160928) do
   add_index "trackers", ["chapter_content_id"], name: "index_trackers_on_chapter_content_id", using: :btree
   add_index "trackers", ["user_id"], name: "index_trackers_on_user_id", using: :btree
 
+  create_table "universities", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "state_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "universities", ["state_id"], name: "index_universities_on_state_id", using: :btree
+
   create_table "user_evaluations", force: :cascade do |t|
     t.integer "user_id"
     t.integer "evaluation_id"
@@ -571,6 +581,7 @@ ActiveRecord::Schema.define(version: 20170607160928) do
   add_foreign_key "glossaries", "glossary_categories"
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"
+  add_foreign_key "groups", "universities"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
@@ -580,5 +591,6 @@ ActiveRecord::Schema.define(version: 20170607160928) do
   add_foreign_key "ratings", "users"
   add_foreign_key "report_notifications", "reports"
   add_foreign_key "reports", "users"
+  add_foreign_key "universities", "states"
   add_foreign_key "users", "industries"
 end

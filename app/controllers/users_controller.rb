@@ -8,8 +8,15 @@ class UsersController < ApplicationController
 
   def index
     add_breadcrumb "<a class='active' href='#{users_path}'>Estudiantes</a>".html_safe
-
+    ids=[]
     @users = User.students
+    uni= Group.where.not(university_id: nil)
+    uni.each do |u|
+      unless ids.include?(u.university_id)
+        ids.push(u.university_id)
+      end  
+    end
+    @universities=University.where(id: ids)  
     if params[:status].present?
       case params[:status]
         when 'active'
@@ -24,7 +31,7 @@ class UsersController < ApplicationController
     end  
 
     if params[:university].present?
-      @users = @users.joins(:group).where(groups: {university: params[:university]})
+      @users = @users.joins(:group).where(groups: {university_id: params[:university]})
     end 
 
     if params[:state].present?
@@ -132,7 +139,15 @@ class UsersController < ApplicationController
   def students
     respond_to do |format|
       format.html do
+        ids=[]
         @users = User.students.includes(:group)
+        uni= Group.where.not(university_id: nil)
+        uni.each do |u|
+          unless ids.include?(u.university_id)
+            ids.push(u.university_id)
+          end  
+        end
+        @universities=University.where(id: ids) 
 
         if params[:status].present?
           case params[:status]
@@ -162,7 +177,7 @@ class UsersController < ApplicationController
         end
 
         if params[:university].present?
-          @users = @users.joins(:group).where(groups: {university: params[:university]})
+          @users = @users.joins(:group).where(groups: {university_id: params[:university]})
         end 
 
         if params[:state].present?
