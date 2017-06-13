@@ -124,6 +124,14 @@
                     %span.bold Grupo:
                   %li.inline 
                     = user.group.name.capitalize
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %span.bold Última sesión:
+                  %li.inline 
+                    - if !user.visits.last.nil?
+                      = l user.visits.last.started_at, format: :short_special
+                    - else
+                      %span.text-danger Ninguna
               %td
                 - if user.student?
                   %ul.p-l-0.m-b-0
