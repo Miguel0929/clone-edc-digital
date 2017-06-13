@@ -46,6 +46,19 @@
                 %td{:width => "25%"} Nombre
                 %td
                   = @user.name
+              - if current_user.admin?
+                %tr.odd.gradeX
+                  %td{:width => "25%"} Estatus de evaluación
+                  %td
+                    = editable @user, :evaluation_status, source: [:evaluado, :'sin evaluar'], type: :select
+                    %a{href: '#', title: 'Haz clic para editar la información'}
+                      %i.fa.fa-edit
+              - else
+                %tr.odd.gradeX
+                  %td{:width => "25%"} Estatus de evaluación
+                  %td
+                    = @user.evaluation_status
+
               %tr.odd.gradeX
                 %td Correo electrónico
                 %td

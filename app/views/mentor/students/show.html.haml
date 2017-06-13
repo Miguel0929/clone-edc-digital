@@ -51,6 +51,12 @@
                 %td
                   = @user.name
               %tr.odd.gradeX
+                %td{:width => "25%"} Estatus de evaluación
+                %td
+                  = editable @user, :evaluation_status, source: [:evaluado, :'sin evaluar'], type: :select, url: mentor_student_path(@user)
+                  %a{href: '#', title: 'Haz clic para editar la información'}
+                    %i.fa.fa-edit
+              %tr.odd.gradeX
                 %td Correo electrónico
                 %td
                   = @user.email

@@ -35,3 +35,9 @@
 //= stub landings/pages.frontend
 //= stub landings/velocity.min
 //= stub landings/velocity.ui
+//= require editable/bootstrap-editable
+//= require editable/rails
+
+$(document).on('turbolinks:load', function(){
+  $('.editable').editable();
+});

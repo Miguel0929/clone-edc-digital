@@ -49,6 +49,7 @@ gem 'mailboxer'
 gem 'rollbar'
 gem 'sendgrid-ruby'
 gem 'sucker_punch', '~> 2.0'
+gem 'x-editable-rails'
 
 
 source 'https://rails-assets.org' do

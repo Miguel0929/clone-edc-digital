@@ -100,10 +100,14 @@ class UsersController < ApplicationController
     add_breadcrumb @user.email, user_path(@user)
     add_breadcrumb "<a class='active' href='#{edit_user_path(@user)}'>Editar información</a>".html_safe
 
-    if @user.update(user_params)
-      redirect_to @user, notice: "Se actualizó exitosamente el detalle del usuario #{@user.email}"
-    else
-      render :edit
+    respond_to do |format|
+      if @user.update(user_params)
+        format.html { redirect_to @user, notice: "Se actualizó exitosamente el detalle del usuario #{@user.email}" }
+        format.json { render json: @user, status: :ok }
+      else
+        format.html { render :edit }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -236,7 +240,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :industry_id, :group_id, :role)
+    params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :industry_id, :group_id, :role, :evaluation_status)
   end
 
   def validate_student
