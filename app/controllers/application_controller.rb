@@ -4,6 +4,12 @@ class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :set_breadcrumb, if: :devise_controller?
   layout :layout_by_resource
+  helper_method :xeditable?
+
+
+  def xeditable? object = nil
+    true
+  end
 
   protected
   def configure_permitted_parameters
@@ -28,6 +34,7 @@ class ApplicationController < ActionController::Base
   def require_admin_or_mentor
     redirect_to root_url unless current_user.mentor? || current_user.admin?
   end
+
 
   def layout_by_resource
     if devise_controller? && resource_name == :user && ((sessions_controller?) || (invitations_controller?) || (registrations_controller?))
