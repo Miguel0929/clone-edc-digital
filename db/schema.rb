@@ -557,7 +557,10 @@ ActiveRecord::Schema.define(version: 20170613214742) do
     t.string   "authentication_token",   limit: 30
     t.integer  "industry_id"
     t.integer  "evaluation_status",                 default: 0
+<<<<<<< HEAD
     t.boolean  "banned",                            default: false
+=======
+>>>>>>> Campo estatus de evaluacion para alumno
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
