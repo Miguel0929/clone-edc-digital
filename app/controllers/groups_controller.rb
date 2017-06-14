@@ -111,6 +111,19 @@ class GroupsController < ApplicationController
 >>>>>>> Formulario editar alumnos de grupo
   end
 
+  def unlink_student
+    user = params[:src]
+    student = User.find(user.id)
+    if student.nil?
+      @no_group = student.update(group_id: nil)
+    else
+      flash.now[:alert] = "Este alumno no existe"
+    end
+    respond_to do |format|
+      format.json{ head :ok}
+    end
+  end
+
   private
   def set_group
     @group = Group.find(params[:id])

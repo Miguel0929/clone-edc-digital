@@ -18,13 +18,9 @@
 						%a.slow_scroll{href: "#add_students", style: "opacity: 1;"}
 							%button.btn.btn-primary.no-opacity
 								%i.fa.fa-plus
-<<<<<<< HEAD
 								Agregar alumnos
 						%button.btn.btn-danger{:type => "submit", :form => "delete_users"}
-=======
 								Editar alumnos
-						%button.btn.btn-danger
->>>>>>> Formulario editar alumnos de grupo
 							%i.fa.fa-times
 							Eliminar alumnos
 			.clearfix
@@ -71,7 +67,6 @@
 				= f.select :student_ids, User.active_users.collect{|u| [u.email, u.id]}, {include_blank: false, label: 'Estudiantes'}, multiple: 'multiple'
 				.center{:style => "display: table; margin: 0 auto;"}
 					= f.submit 'Actualizar alumnos', :class => "btn btn-success btn-lg"
-<<<<<<< HEAD
 
 %script{:type=>"text/javascript"}
 	$('.slow_scroll').click(function(){
@@ -80,5 +75,3 @@
 	}, 500);
 	return false;
 	});
-=======
->>>>>>> Formulario editar alumnos de grupo
