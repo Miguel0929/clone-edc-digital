@@ -1,7 +1,7 @@
 class MentorsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :change_state]
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -38,6 +38,16 @@ class MentorsController < ApplicationController
     @user.destroy
 
     redirect_to mentors_path
+  end
+  
+  def change_state
+    if @user.banned?
+      @user.unbann!
+    else
+      @user.bann!
+    end
+
+    redirect_to mentor_path(@user)
   end
 
   private
