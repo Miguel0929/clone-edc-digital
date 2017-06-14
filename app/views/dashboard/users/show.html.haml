@@ -63,7 +63,7 @@
               %tr.odd.gradeX
                 %td Sector económico
                 %td
-                  = @user.industry.name unless @user.industry.nil?    
+                  = unless @user.industry.nil? then @user.industry.name else 'N/A' end
               %tr.odd.gradeX
                 %td Cursos inscritos
                 %td
