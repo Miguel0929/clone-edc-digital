@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort, :student_control]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort, :student_control, :unlink_student]
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -92,6 +92,7 @@ class GroupsController < ApplicationController
 
   def unlink_student
     user = params[:src]
+    user = params[:src2]
     student = User.find(user.id)
     if student.nil?
       @no_group = student.update(group_id: nil)
