@@ -93,6 +93,7 @@ class GroupsController < ApplicationController
   def student_control
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{student_control_group_path(@group)}'>#{@group.name}</a>".html_safe
+<<<<<<< HEAD
   end
 
   def unlink_student
@@ -106,6 +107,8 @@ class GroupsController < ApplicationController
 
     redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
     add_breadcrumb "<a class='active' href='#{edit_group_path(@group)}'>#{@group.name}</a>".html_safe
+=======
+>>>>>>> Formulario editar alumnos de grupo
   end
 
   private
