@@ -1,5 +1,5 @@
-.container-fluid.container-fixed-lg.bg-white
-	.panel.panel-transparent
+.container-fluid.container-fixed-lg
+	.panel.panel-default
 		.panel-heading
 			%h4
 				Alumnos vinculados a #{@group.name} (#{@group.students.count} alumnos)
@@ -11,7 +11,7 @@
 						%a.slow_scroll{href: "#add_students", style: "opacity: 1;"}
 							%button.btn.btn-primary.no-opacity
 								%i.fa.fa-plus
-								Agregar alumnos
+								Editar alumnos
 						%button.btn.btn-danger
 							%i.fa.fa-times
 							Eliminar alumnos
@@ -39,16 +39,12 @@
 							%td.p-t-15.p-b-15
 								Eliminar vinculación
 
-			.row#add_students
-				%h4
-					Edita aquí los estudiantes vinculados al grupo:
-				= bootstrap_form_for @group do |f|
-					= f.select :student_ids, User.active_users.collect{|u| [u.email, u.id]}, {include_blank: false, label: 'Estudiantes'}, multiple: 'multiple'
-
-%script(type="text/javascript")  
-	$('.slow_scroll').click(function(){
-	$('html, body').animate({
-	scrollTop: $( $(this).attr('href') ).offset().top
-	}, 500);
-	return false;
-	});
+	.panel.panel-default#add_students
+		.panel-heading
+			%h4
+				Edita aquí los estudiantes vinculados al grupo:
+		.panel-body
+			= bootstrap_form_for @group do |f|
+				= f.select :student_ids, User.active_users.collect{|u| [u.email, u.id]}, {include_blank: false, label: 'Estudiantes'}, multiple: 'multiple'
+				.center{:style => "display: table; margin: 0 auto;"}
+					= f.submit 'Actualizar alumnos', :class => "btn btn-success btn-lg"
