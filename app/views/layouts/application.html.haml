@@ -46,6 +46,7 @@
           = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: shared_group_attachments_path, icon: 'fa fa-file', role: [:admin]})
           = display_navbar_link({link: 'Enviar invitación', details: 'Enviar invitación a un nuevo usuario', path: new_user_invitation_path, icon: 'fa fa-envelope-o', role: [:admin, :staff]})
           = display_navbar_link({link: 'Enviar invitación en grupo', details: 'Enviar invitación a un grupo de usuario', path: new_group_invitation_path, icon: 'fa fa-users', role: [:admin, :staff]})
+          = display_navbar_link({css: [], link: 'Universidades', details: 'Catalogo de universidades' ,path: universities_path, icon: 'fa fa-university', role: [:admin]})
           = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:admin]})
           = display_navbar_link({css: [], link: 'Reportes', details: 'Consulta los reportes de contenidos' ,path: reports_path, icon: 'fa fa-flag', role: [:admin]})
 
