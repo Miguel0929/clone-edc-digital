@@ -261,6 +261,7 @@ class User < ActiveRecord::Base
         .gsub('and', 'y')
   end
 
+<<<<<<< HEAD
   def self.active_users
     active_users_list = []
     User.students.each do |student|
@@ -269,6 +270,14 @@ class User < ActiveRecord::Base
       end
     end
     return active_users_list
+  end
+
+  def bann!
+    update({banned: true})
+  end
+
+  def unbann!
+    update({banned: false})
   end
 
   private

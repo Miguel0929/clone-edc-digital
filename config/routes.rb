@@ -131,6 +131,7 @@ Rails.application.routes.draw do
 
     member do
       get :analytics_quiz
+      get :change_state
     end
 
     resources :programs, only: [] do
@@ -138,7 +139,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :mentors, except: [:create]
+  resources :mentors, except: [:create] do
+    member do
+      get :change_state
+    end
+  end
   resources :staffs, except: [:create]
 
   resources :groups do
