@@ -154,6 +154,7 @@ Rails.application.routes.draw do
     member do
       get :student_control
       post :unlink_student
+      post '/unlink_group_student' => 'groups#unlink_student'
     end
   end
 

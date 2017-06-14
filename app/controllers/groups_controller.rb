@@ -113,6 +113,7 @@ class GroupsController < ApplicationController
 
   def unlink_student
     user = params[:src]
+    user = params[:src2]
     student = User.find(user.id)
     if student.nil?
       @no_group = student.update(group_id: nil)
