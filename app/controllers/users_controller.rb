@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin, except: [:students, :show]
   before_action :require_creator, only: [:students, :show]
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state]
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -247,6 +247,16 @@ class UsersController < ApplicationController
         redirect_to exporter_path(@job)
       end
     end
+  end
+
+  def change_state
+    if @user.banned?
+      @user.unbann!
+    else
+      @user.bann!
+    end
+
+    redirect_to @user
   end
 
   private

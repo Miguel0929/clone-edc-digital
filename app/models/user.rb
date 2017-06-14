@@ -268,6 +268,14 @@ class User < ActiveRecord::Base
     return active_users_list
   end
 
+  def bann!
+    update({banned: true})
+  end
+
+  def unbann!
+    update({banned: false})
+  end
+
   private
 
   def set_origin
