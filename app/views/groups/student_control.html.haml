@@ -26,7 +26,7 @@
 						%th Teléfono
 						%th Eliminar vinculación
 				%tbody
-					- @group.students.each do |user|
+					- @group.students.each_with_index do |user, index|
 						%tr
 							%td.p-t-15.p-b-15
 								= user.id
@@ -37,7 +37,25 @@
 							%td.p-t-15.p-b-15
 								= user.phone_number
 							%td.p-t-15.p-b-15
-								Eliminar vinculación
+								%input{type: "hidden", id: "user_key_#{user.id}", value: user.id}
+								%form{:action => students_users_path, 'data-remote': "true", method: :post, id: "edit_student_link_#{user.id}"}
+									%input{type: "checkbox", id: "unlinking_student_#{user.id}", name: "student_stat[checked]"}
+									%label.p-l-5{:for => "unlinking_student_#{user.id}"} Desvincular alumno
+								%script{ :type => 'text/javascript' }
+									$(document).ready(function(){
+									$("#unlinking_student_#{user.id}).change(function(){
+									var src = $(this).val();
+									var src2 = $("#user_key_" + #{user.id}).val();
+									$.ajax({
+									type: "post",
+									url: "/unlink_group_student", 
+									data: {src, src2},
+									success: function(data){
+									data.parents('form:first').submit();
+									}});
+									$("#alert-ra").css('display','block');setTimeout(function(){$("#alert-ra").css('display','none');},3000);
+									});
+									});
 
 	.panel.panel-default#add_students
 		.panel-heading
