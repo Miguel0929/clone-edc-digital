@@ -22,15 +22,24 @@
             = f.hidden_field :owner_id, value: current_user.id
             .dropzone
               = f.file_field :file, label: 'Archivo'
-
+            .form-group
+              %button.btn.btn-info{type: 'button', id: 'checkall'}
+                Seleccionar todos
             .form-group
               %label
                 Grupos
               - current_user.groups.each_with_index do |group, index|
                 .checkbox.check-success
-                  = check_box_tag 'shared_group_attachment[group_ids][]', group.id, @attachment.groups.include?(group), id: "check_groups_#{index}"
+                  = check_box_tag 'shared_group_attachment[group_ids][]', group.id, @attachment.groups.include?(group), id: "check_groups_#{index}", class: "group_select"
                   %label{:for => "check_groups_#{index}" }
                     = group.name
               %input(type="hidden" name='shared_group_attachment[group_ids][]' value="")
               .pull-right
                 = f.submit 'Subir archivo', class: 'btn btn-lg btn-success'
+
+:javascript
+  $(document).on('turbolinks:load', function(){
+    $('#checkall').click(function(){
+      $('.group_select').prop('checked', true);
+    }); 
+  });
