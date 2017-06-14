@@ -54,9 +54,6 @@ class GroupsController < ApplicationController
   def update
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{edit_group_path(@group)}'>#{@group.name}</a>".html_safe
-
-    puts "perrin"
-    puts group_params[:student_ids]
     
     before_update_ids = @group.programs.pluck(:id)
     if @group.update(group_params)
@@ -88,7 +85,7 @@ class GroupsController < ApplicationController
 
   def student_control
     add_breadcrumb "Grupos", :groups_path
-    add_breadcrumb "<a class='active' href='#{edit_group_path(@group)}'>#{@group.name}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{student_control_group_path(@group)}'>#{@group.name}</a>".html_safe
   end
 
   private
