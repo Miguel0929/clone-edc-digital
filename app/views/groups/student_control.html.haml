@@ -2,10 +2,10 @@
 	.panel.panel-default
 		.panel-heading
 			%h4
-				Alumnos vinculados a #{@group.name} (#{@group.students.count} alumnos)
+				Alumnos vinculados a #{@group.name} (#{@group.active_students.count} alumnos)
 			.row.m-b-10.m-t-20
 				.col-sm-4.pull-left
-					%input#mentor_students.form-control.pull-right{:placeholder => "search", :type => "text"}/
+					%input#search-table.form-control.pull-right{:placeholder => "Buscar", :type => "text"}/
 				.col-sm-8.pull-right
 					.pull-right
 						%a.slow_scroll{href: "#add_students", style: "opacity: 1;"}
@@ -27,7 +27,7 @@
 							%th Teléfono
 							%th Eliminar vinculación
 					%tbody
-						- @group.students.each_with_index do |user, index|
+						- @group.active_students.each do |user|
 							%tr
 								%td.p-t-15.p-b-15
 									= user.id
@@ -58,7 +58,7 @@
 			= bootstrap_form_for @group do |f|
 				= f.select :student_ids, User.active_users.collect{|u| [u.email, u.id]}, {include_blank: false, label: 'Estudiantes'}, multiple: 'multiple'
 				.center{:style => "display: table; margin: 0 auto;"}
-					= f.submit 'Actualizar alumnos', :class => "btn btn-success btn-lg", :source => "add_students"
+					= f.submit 'Actualizar alumnos', :class => "btn btn-success btn-lg"
 
 %script{:type=>"text/javascript"}
 	$('.slow_scroll').click(function(){
