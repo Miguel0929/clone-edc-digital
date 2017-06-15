@@ -10,6 +10,7 @@ class Program < ActiveRecord::Base
   has_many :groups, through: :group_programs
   has_many :program_notifications, dependent: :destroy
   has_many :ratings, as: :ratingable 
+  has_many :program_stats
 
   enum tipo: [ :elearning, :construccion, :fusion ]
   enum level: [:basico, :intermedio, :avanzado]
@@ -72,17 +73,32 @@ class Program < ActiveRecord::Base
   end
 
   def program_checked?(program, user)
-    tracker = []
-    Program.find(program.id).chapters.each do |chapter|
-      if chapter.chapter_checked?(chapter, user)
-        event = 1
+    thisprogram = ProgramStat.where(user_id: user, program_id: program).last
+    if thisprogram.nil?
+      status = false
+    else
+      if thisprogram.checked == 1
+        status = true
       else
-        event = 0
+        status = false
       end
-      tracker << event
     end
-    status = tracker.detect {|i| i == 0}.nil? #si no hay ningún cero en el arreglo @tracker es TRUE
     return status
+    #tracker = []
+    #Program.find(program.id).chapters.each do |chapter|
+    #  if chapter.chapter_checked?(chapter, user)
+    #    event = 1
+    #  else
+    #    event = 0
+    #  end
+    #  tracker << event
+    #end
+    #status = tracker.detect {|i| i == 0}.nil? #si no hay ningún cero en el arreglo @tracker es TRUE
+    #return status
+  end
+  def alias
+    arr=self.name.split(" ") 
+    return self.name[0,3]+"."+arr[1][0].capitalize+"."+self.id.to_s
   end
 
 end

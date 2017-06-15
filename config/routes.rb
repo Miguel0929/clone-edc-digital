@@ -242,6 +242,9 @@ Rails.application.routes.draw do
   resources :route_covers
 
   resources :group_invitations, only: [:new, :create, :show]
+  resources :program_stats
+  post '/save_program_stats' => 'program_stats#post'
+  
   resources :universities do
     collection do
       get :state

@@ -50,6 +50,14 @@
                       Número de grupos: 
                   %li.inline 
                     = user.groups.count
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %span.bold Última sesión:
+                  %li.inline 
+                    - if !user.visits.last.nil?
+                      = l user.visits.last.started_at, format: :short_special
+                    - else
+                      %span.text-danger Ninguna
               %td.p-b-15
                 %ul.unstyled.list-unstyled.p-l-0.m-b-0
                   %li

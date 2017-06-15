@@ -54,6 +54,10 @@
                 %td
                   = @user.phone_number
               %tr.odd.gradeX
+                %td Industria
+                %td
+                  = @user.industry.name unless @user.industry.nil?       
+              %tr.odd.gradeX
                 %td Ubicación
                 %td #{@user.state}, #{@user.city}
               %tr.odd.gradeX
@@ -63,7 +67,7 @@
               %tr.odd.gradeX
                 %td Sector económico
                 %td
-                  = @user.industry.name unless @user.industry.nil?    
+                  = unless @user.industry.nil? then @user.industry.name else 'N/A' end
               %tr.odd.gradeX
                 %td Cursos inscritos
                 %td

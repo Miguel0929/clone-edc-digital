@@ -25,8 +25,7 @@
               Rúbricas evaluadas
             %th.text-center{:width => "20%"}
               Puntajes de módulo
-            - if current_user.mentor?
-              %th{:width => "15%"}
+            %th{:width => "15%"}
         %tbody
           - answers_total, rubrics_checked = 0, 0
           - @chapters.each do |chapter|
@@ -42,9 +41,9 @@
                       .progress-bar{:style => "width: #{answered_percentage}%", :class => "#{(answered_percentage > 95) ? 'progress-bar-success' : 'progress-bar-warning'}"}
                   .text-center
                     = answered_questions(chapter, @user)
-                    %span contestadas /
+                    %span de
                     = chapter.questions.count
-                    %span disponibles
+                    %span preguntas
                   - answers_total += answered_questions(chapter, @user)
                 - else
                   .text-center Módulo sin preguntas
@@ -60,9 +59,9 @@
                       .progress-bar{:style => "width: #{((counter.to_f/total.to_f)*100).ceil}%", :class => "#{((counter/total) == 1) ? 'progress-bar-success' : 'progress-bar-warning'}"}
                   .text-center
                     = counter 
-                    %span revisiones /
+                    %span de
                     = total
-                    %span disponibles
+                    %span rúbricas
                 - else
                   .text-center.text-danger No hay rúbrica
               %td.p-b-15
@@ -81,24 +80,26 @@
                     %span /
                     = chapter.points
                     %span pts
-              - if current_user.mentor?
-                %td.text-center
-                  = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: @program) do
+              %td.text-center
+                = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: @program) do
+                  - if current_user.mentor?
                     .fa.fa-edit
                     Evaluar módulo
+                  - else
+                    .fa.fa-eye
+                    Ver evaluación
           %tr
             %th
               Total
             %th.text-center
               = answers_total
-              %span contestadas /
+              %span de
               = total_qustions(@chapters)
-              %span disponibles
+              %span preguntas
             %th.text-center
-              #{rubrics_checked} revisiones /
-              #{@chapters.map { |chapter| chapter.evaluations.count }.inject(0, :+) } disponibles
+              #{rubrics_checked} de
+              #{@chapters.map { |chapter| chapter.evaluations.count }.inject(0, :+) } rubricas
             %th.text-center
               #{@chapters.map { |chapter| evaluation_result(chapter) }.inject(0, :+) } /
               #{@chapters.sum(:points)} pts
-            - if current_user.mentor?
-              %th
+            %th
