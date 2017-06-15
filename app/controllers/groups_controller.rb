@@ -58,7 +58,11 @@ class GroupsController < ApplicationController
     before_update_ids = @group.programs.pluck(:id)
     if @group.update(group_params)
       NewProgramNotificationJob.perform_async(before_update_ids, @group.programs.pluck(:id))
-      redirect_to groups_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
+      if params[:source] == 'add_students'
+        redirect_to groups_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
+      else
+        redirect_to student_control_group_path(@group), notice: "Se actualizó exitosamente el grupo #{@group.name}"
+      end
     else
       render :edit
     end
@@ -89,17 +93,15 @@ class GroupsController < ApplicationController
   end
 
   def unlink_student
-    user = params[:src]
-    user = params[:src2]
-    student = User.find(user.id)
-    if student.nil?
-      @no_group = student.update(group_id: nil)
-    else
-      flash.now[:alert] = "Este alumno no existe"
+    users = params[:users_ids]
+    if !users.nil?
+      users.each do |user|
+        thisuser = User.find(user)
+        thisuser.update(group_id: nil)
+      end
     end
-    respond_to do |format|
-      format.json{ head :ok}
-    end
+
+    redirect_to student_control_group_path(@group)
   end
 
   private
