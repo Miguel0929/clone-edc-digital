@@ -44,9 +44,7 @@ class Dashboard::ProgramsController < ApplicationController
     elsif params[:orden]=="abc"
       @programs=@programs.order(name: :asc) 
     end  
-          
 
-    @quizzes = current_user.group.quizzes.order(id: :asc) rescue []
   end
 
   def show
