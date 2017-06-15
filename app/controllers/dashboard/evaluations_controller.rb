@@ -43,7 +43,7 @@ class Dashboard::EvaluationsController < ApplicationController
   end
 
   def evaluation_pointed?(evaluation, points)
-    !@evaluations.where(evaluation: evaluation, points: points).empty?
+    !current_user.user_evaluations.where(evaluation: evaluation, points: points).empty?
   end
 
   private

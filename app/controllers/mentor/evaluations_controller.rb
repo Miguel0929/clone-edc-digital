@@ -68,8 +68,10 @@ class Mentor::EvaluationsController < ApplicationController
       redirect_to mentor_evaluation_path(@chapter, user_id: @user, program_id: @program), alert: "Debes evaluar todas las rúbricas"
     else
       if params[:path] == "store"
+        @user.program_notifications.create({ program_id: @program.id, notification_type: 0 })
         redirect_to mentor_evaluation_path(@chapter, user_id: @user, program_id: @program), notice: "Evaluación exitosamente guardada"
       else
+        @user.program_notifications.create({ program_id: @program.id, notification_type: 0 })
         redirect_to mentor_evaluations_path(user_id: @user, program_id: @program), notice: "Evaluación exitosamente guardada"
       end
     end

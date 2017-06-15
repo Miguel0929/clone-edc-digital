@@ -28,6 +28,8 @@ class Dashboard::NotificationsController < ApplicationController
           dashboard_program_path(notification.model.program)
         elsif notification.model.new_program?
           dashboard_programs_path
+        elsif notification.model.evaluation?
+          dashboard_evaluations_path(program_id: notification.model.program.id)          
         end
       when 'ReportNotification'
         notification.update(read: true) unless notification.read
