@@ -1,8 +1,15 @@
 .container-fluid.container-fixed-lg
 	.panel.panel-default
 		.panel-heading
-			%h4
-				Alumnos vinculados a #{@group.name} (#{@group.active_students.count} alumnos)
+			.row
+				.col-sm-9
+					%h4
+						Alumnos vinculados a #{@group.name} (#{@group.active_students.count} alumnos)
+				.col-sm-3
+					.pull-right
+						= link_to groups_path, style: "opacity: 1;" do
+							%i.fa.fa-reply
+							Regresar a grupos
 			.row.m-b-10.m-t-20
 				.col-sm-4.pull-left
 					%input#search-table.form-control.pull-right{:placeholder => "Buscar", :type => "text"}/

@@ -2,14 +2,14 @@
   .panel.panel-default
     .panel-heading
       .pull-right
-        .col-xs-12
-          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
-      .pull-left
         .col-xs-12.no-opacity
           = link_to new_group_path do
             .btn.btn-success
               %i.fa.fa-plus
               Crear grupo
+      .pull-left
+        .col-xs-12
+          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       .clearfix
     .panel-body
       %table.table.table-hover.datatable
