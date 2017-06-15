@@ -5,57 +5,50 @@
 				Alumnos vinculados a #{@group.name} (#{@group.students.count} alumnos)
 			.row.m-b-10.m-t-20
 				.col-sm-4.pull-left
-					%input#mentor_students.form-control.pull-right{:placeholder => "Buscar", :type => "text"}/
+					%input#mentor_students.form-control.pull-right{:placeholder => "search", :type => "text"}/
 				.col-sm-8.pull-right
 					.pull-right
 						%a.slow_scroll{href: "#add_students", style: "opacity: 1;"}
 							%button.btn.btn-primary.no-opacity
 								%i.fa.fa-plus
 								Agregar alumnos
-						%button.btn.btn-danger
+						%button.btn.btn-danger{:type => "submit", :form => "delete_users"}
 							%i.fa.fa-times
 							Eliminar alumnos
 			.clearfix
 		.panel-body
-			%table.table.table-hover.datatable
-				%thead
-					%tr
-						%th ID
-						%th Nombre
-						%th Correo
-						%th Teléfono
-						%th Eliminar vinculación
-				%tbody
-					- @group.students.each_with_index do |user, index|
+			= form_tag unlink_student_group_path, :id => "delete_users" do
+				%table.table.table-hover.datatable.show_group_students
+					%thead
 						%tr
-							%td.p-t-15.p-b-15
-								= user.id
-							%td.p-t-15.p-b-15
-								= user.name
-							%td.p-t-15.p-b-15
-								= user.email
-							%td.p-t-15.p-b-15
-								= user.phone_number
-							%td.p-t-15.p-b-15
-								%input{type: "hidden", id: "user_key_#{user.id}", value: user.id}
-								%form{:action => students_users_path, 'data-remote': "true", method: :post, id: "edit_student_link_#{user.id}"}
-									%input{type: "checkbox", id: "unlinking_student_#{user.id}", name: "student_stat[checked]"}
-									%label.p-l-5{:for => "unlinking_student_#{user.id}"} Desvincular alumno
-								%script{ :type => 'text/javascript' }
-									$(document).ready(function(){
-									$("#unlinking_student_#{user.id}).change(function(){
-									var src = $(this).val();
-									var src2 = $("#user_key_" + #{user.id}).val();
-									$.ajax({
-									type: "post",
-									url: "/unlink_group_student", 
-									data: {src, src2},
-									success: function(data){
-									data.parents('form:first').submit();
-									}});
-									$("#alert-ra").css('display','block');setTimeout(function(){$("#alert-ra").css('display','none');},3000);
-									});
-									});
+							%th ID
+							%th Nombre
+							%th Correo
+							%th Teléfono
+							%th Eliminar vinculación
+					%tbody
+						- @group.students.each_with_index do |user, index|
+							%tr
+								%td.p-t-15.p-b-15
+									= user.id
+								%td.p-t-15.p-b-15
+									= user.name
+								%td.p-t-15.p-b-15
+									= user.email
+								%td.p-t-15.p-b-15
+									= user.phone_number
+								%td.p-t-15.p-b-15	
+									= check_box_tag "users_ids[]", user.id 
+									%span.p-l-5.text-complete
+										= label_tag	"users_ids[]", "Desvincular alumno"	
+
+			.row.m-b-10.m-t-20
+				.col-sm-8.pull-right
+					.pull-right
+						%button.btn.btn-danger{:type => "submit", :form => "delete_users"}
+							%i.fa.fa-times
+							Eliminar alumnos
+
 
 	.panel.panel-default#add_students
 		.panel-heading
@@ -65,4 +58,12 @@
 			= bootstrap_form_for @group do |f|
 				= f.select :student_ids, User.active_users.collect{|u| [u.email, u.id]}, {include_blank: false, label: 'Estudiantes'}, multiple: 'multiple'
 				.center{:style => "display: table; margin: 0 auto;"}
-					= f.submit 'Actualizar alumnos', :class => "btn btn-success btn-lg"
+					= f.submit 'Actualizar alumnos', :class => "btn btn-success btn-lg", :source => "add_students"
+
+%script{:type=>"text/javascript"}
+	$('.slow_scroll').click(function(){
+	$('html, body').animate({
+	scrollTop: $( $(this).attr('href') ).offset().top
+	}, 500);
+	return false;
+	});
