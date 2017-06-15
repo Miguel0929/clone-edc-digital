@@ -61,17 +61,10 @@ class GroupsController < ApplicationController
     before_update_ids = @group.programs.pluck(:id)
     if @group.update(group_params)
       NewProgramNotificationJob.perform_async(before_update_ids, @group.programs.pluck(:id))
-<<<<<<< HEAD
       if source == '/groups/' + @group.id.to_s + '/student_control'
         redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
       else
         redirect_to groups_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
-=======
-      if params[:source] == 'add_students'
-        redirect_to groups_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
-      else
-        redirect_to student_control_group_path(@group), notice: "Se actualizó exitosamente el grupo #{@group.name}"
->>>>>>> Eliminar alumnos
       end
     else
       render :edit
@@ -127,7 +120,7 @@ class GroupsController < ApplicationController
       end
     end
 
-    redirect_to student_control_group_path(@group)
+    redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
   end
 
   private
