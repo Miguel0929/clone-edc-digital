@@ -56,14 +56,15 @@ class GroupsController < ApplicationController
   def update
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{edit_group_path(@group)}'>#{@group.name}</a>".html_safe
-    
+    source = URI(request.referer).path
+
     before_update_ids = @group.programs.pluck(:id)
     if @group.update(group_params)
       NewProgramNotificationJob.perform_async(before_update_ids, @group.programs.pluck(:id))
-      if params[:source] == 'add_students'
-        redirect_to groups_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
+      if source == '/groups/' + @group.id.to_s + '/student_control'
+        redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
       else
-        redirect_to student_control_group_path(@group), notice: "Se actualizó exitosamente el grupo #{@group.name}"
+        redirect_to groups_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
       end
     else
       render :edit
@@ -103,7 +104,7 @@ class GroupsController < ApplicationController
       end
     end
 
-    redirect_to student_control_group_path(@group)
+    redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
   end
 
   private
