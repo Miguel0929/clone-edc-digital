@@ -47,23 +47,27 @@
               %label{for: "radio_excelent_#{index}"}
                 %strong Exelente:
                 #{evaluation.excelent}
+              %i= evaluation_pointed?(evaluation, 100)
 
             .radio
               %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_good_#{index}", value: '75', checked: evaluation_pointed?(evaluation, 75), disabled: true}
               %label{for: "radio_good_#{index}"}
                 %strong Bueno:
                 #{evaluation.good}
+              %i= evaluation_pointed?(evaluation, 75)
             .radio
               %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_regular_#{index}", value: '50', checked: evaluation_pointed?(evaluation, 50), disabled: true}
               %label{for: "radio_regular_#{index}"}
                 %strong Regular:
                 #{evaluation.regular}
+              %i= evaluation_pointed?(evaluation, 50)
 
             .radio
               %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_bad_#{index}", value: '25', checked: evaluation_pointed?(evaluation, 25), disabled: true}
               %label{for: "radio_bad_#{index}"}
                 %strong Malo:
                 #{evaluation.bad}
+              %i= evaluation_pointed?(evaluation, 25)
 
 #answer-comments.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
   .modal-dialog
