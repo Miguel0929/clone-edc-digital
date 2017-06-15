@@ -41,7 +41,7 @@ $(document).on('turbolinks:load', function(){
           }
       };
 
-      if(table.hasClass('show_group_students')){settings.pageLength = 10};
+      if(table.hasClass('show_group_students')){settings.pageLength = 100};
 
       table.dataTable(settings);
 
