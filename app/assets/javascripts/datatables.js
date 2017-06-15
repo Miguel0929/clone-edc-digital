@@ -41,11 +41,14 @@ $(document).on('turbolinks:load', function(){
           }
       };
 
+      if(table.hasClass('show_group_students')){settings.pageLength = 100};
+
       table.dataTable(settings);
 
       $('#search-table').keyup(function() {
           table.fnFilter($(this).val());
       });
     }
+
   });
 });

@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort, :student_control, :unlink_student]
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -56,14 +56,16 @@ class GroupsController < ApplicationController
   def update
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{edit_group_path(@group)}'>#{@group.name}</a>".html_safe
+    source = URI(request.referer).path
 
-    puts "perrin"
-    puts group_params[:student_ids]
-    
     before_update_ids = @group.programs.pluck(:id)
     if @group.update(group_params)
       NewProgramNotificationJob.perform_async(before_update_ids, @group.programs.pluck(:id))
-      redirect_to groups_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
+      if source == '/groups/' + @group.id.to_s + '/student_control'
+        redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
+      else
+        redirect_to groups_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
+      end
     else
       render :edit
     end
@@ -87,6 +89,23 @@ class GroupsController < ApplicationController
     end
     render nothing: true
   end  
+
+  def student_control
+    add_breadcrumb "Grupos", :groups_path
+    add_breadcrumb "<a class='active' href='#{student_control_group_path(@group)}'>#{@group.name}</a>".html_safe
+  end
+
+  def unlink_student
+    users = params[:users_ids]
+    if !users.nil?
+      users.each do |user|
+        thisuser = User.find(user)
+        thisuser.update(group_id: nil)
+      end
+    end
+
+    redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
+  end
 
   private
   def set_group
