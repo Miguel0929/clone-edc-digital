@@ -3,13 +3,9 @@ class ApplicationController < ActionController::Base
   skip_before_filter :verify_authenticity_token, if: -> { controller_name == 'sessions' && action_name == 'create' }
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :set_breadcrumb, if: :devise_controller?
+  before_filter :banned?
   layout :layout_by_resource
   helper_method :xeditable?
-
-
-  def xeditable? object = nil
-    true
-  end
 
   protected
   def configure_permitted_parameters
@@ -17,6 +13,18 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:accept_invitation).concat [:first_name, :last_name, :phone_number, :agreement]
     devise_parameter_sanitizer.for(:invite).concat [:role, :group_id]
     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :phone_number, :email, :password, :password_confirmation, :gender, :bio, :state, :city, :profile_picture, :industry_id])
+  end
+  
+  def banned?
+    if current_user.present? && current_user.banned?
+      sign_out current_user
+      flash[:alert] = "Lo sentimos tu cuenta ha sido bloqueada por favor comunicate con el administrador para mas informacion"
+      redirect_to new_user_session_path
+    end
+  end
+
+  def xeditable? object = nil
+    true
   end
 
   def require_admin

@@ -4,6 +4,9 @@
     - if current_user.admin?
       = link_to edit_user_path(@user) do
         %span.glyphicon.glyphicon-edit
+      - color = @user.banned? ? "btn-success" : "btn-danger"
+      = link_to change_state_user_path(@user), class: "btn #{color}  pull-right" do
+        - @user.banned? ? "Desbloquear usuario" :  "Bloquear usuario"    
   .panel.panel-default
     .panel-body
       .row
