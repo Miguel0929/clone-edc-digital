@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170613184926) do
+ActiveRecord::Schema.define(version: 20170614202156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -308,6 +308,16 @@ ActiveRecord::Schema.define(version: 20170613184926) do
 
   add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
 
+  create_table "panel_notifications", force: :cascade do |t|
+    t.integer  "notification"
+    t.integer  "user_id"
+    t.boolean  "status"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "panel_notifications", ["user_id"], name: "index_panel_notifications_on_user_id", using: :btree
+
   create_table "program_notifications", force: :cascade do |t|
     t.integer "program_id"
     t.integer "notification_type"
@@ -597,6 +607,7 @@ ActiveRecord::Schema.define(version: 20170613184926) do
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
+  add_foreign_key "panel_notifications", "users"
   add_foreign_key "program_stats", "programs"
   add_foreign_key "program_stats", "users"
   add_foreign_key "quiz_answers", "quiz_questions"

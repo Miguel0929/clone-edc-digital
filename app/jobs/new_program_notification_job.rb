@@ -1,6 +1,5 @@
 class NewProgramNotificationJob < ActiveJob::Base
   include SuckerPunch::Job
-
   def perform(before_update_ids, after_update_ids)
     programs_before_update = Program.find(before_update_ids)
     programs_after_update = Program.find(after_update_ids)
@@ -15,6 +14,7 @@ class NewProgramNotificationJob < ActiveJob::Base
     program.groups.each do |group|
       group.students.each do |student|
         student.program_notifications.create(program: program, notification_type: 'new_program')
+        Programs.new_program(program, student, dashboard_program_path(program))
       end
     end
   end

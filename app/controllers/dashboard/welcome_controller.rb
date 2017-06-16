@@ -62,4 +62,19 @@ class Dashboard::WelcomeController < ApplicationController
 
     redirect_to dashboard_support_path, flash_message
   end
+  def notifications_panel
+    add_breadcrumb "<a class='active' href='#{dashboard_notifications_panel_path}'>Panel de notificaciones</a>".html_safe
+    @noti=PanelNotification.where(user: current_user)
+  end
+  def store_notifications_panel
+    @notification=PanelNotification.where(user: current_user, notification: params[:notification]).first
+    if @notification.nil?
+      p "nuevo"
+      nt=PanelNotification.create(status: false, user: current_user, notification: params[:notification].to_i)
+    else
+      p "edit"
+      @notification.update(status: !@notification.status)
+    end  
+    render json:{col: params[:notification], nt: @notification}
+  end  
 end

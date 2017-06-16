@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
   has_many :quiz_answers
   has_many :program_stats
   belongs_to :industry
+  has_many :panel_notifications
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 
