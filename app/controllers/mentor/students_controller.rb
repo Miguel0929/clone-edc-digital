@@ -126,6 +126,17 @@ class Mentor::StudentsController < ApplicationController
     ProgramStat.where(user_id: user.id, program_id: program.id).last
   end
 
+  def update
+    respond_to do |format|
+      @user = User.find(params[:id])
+      if @user.update(student_params)
+        format.json { render json: @user, status: :ok }
+      else
+        format.json {render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
   def percentage_condition(percentage, count)
     case count
@@ -150,5 +161,9 @@ class Mentor::StudentsController < ApplicationController
       when 100
         percentage >= 91 && percentage <=100
     end
+  end
+
+  def student_params
+    params.require('user').permit(:evaluation_status)
   end
 end

@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   enum role: [ :student, :mentor, :admin, :staff ]
   enum gender: [ :male, :female ]
+  enum evaluation_status: [:evaluado, :'sin evaluar']
 
   has_many :answers
   has_many :group_users
@@ -265,6 +266,14 @@ class User < ActiveRecord::Base
       end
     end
     return active_users_list
+  end
+
+  def bann!
+    update({banned: true})
+  end
+
+  def unbann!
+    update({banned: false})
   end
 
   private
