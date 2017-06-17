@@ -74,7 +74,8 @@ Rails.application.routes.draw do
     get 'confidencialidad-y-propiedad-industrial', to: 'welcome#service', as: :service
     get 'ruta',                   to: 'welcome#pathway', as: :pathway
     get 'ruta-aprendizaje',       to: 'welcome#learning_path', as: :learning_path
-
+    get 'calculator',       to: 'welcome#calculator', as: :calculator
+    get 'calculator_method',       to: 'welcome#calculator_method', as: :calculator_method
     resources :users, only: [:show]
 
     resources :notifications, only: [:index, :show] do
