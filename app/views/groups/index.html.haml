@@ -1,15 +1,15 @@
-.container-fluid.container-fixed-lg.bg-white
-  .panel
+.container-fluid.container-fixed-lg
+  .panel.panel-default
     .panel-heading
       .pull-right
-        .col-xs-12
-          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
-      .pull-left
         .col-xs-12.no-opacity
           = link_to new_group_path do
             .btn.btn-success
               %i.fa.fa-plus
               Crear grupo
+      .pull-left
+        .col-xs-12
+          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       .clearfix
     .panel-body
       %table.table.table-hover.datatable
@@ -60,6 +60,10 @@
                     = link_to edit_group_path(group) do
                       %i.fa.fa-edit
                       Editar
+                  %li
+                    = link_to student_control_group_path(group) do
+                      %i.fa.fa-user
+                      Vincular estudiantes
                   %li
                     = link_to sort_route_group_path(group) do
                       %i.fa.fa-map-signs
