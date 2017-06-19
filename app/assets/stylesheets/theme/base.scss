@@ -6030,6 +6030,7 @@ fieldset[disabled] .form-control {
   border-radius: 99px;
   -webkit-transition: border 0.3s 0s cubic-bezier(0.455, 0.03, 0.215, 1.33);
   transition: border 0.3s 0s cubic-bezier(0.455, 0.03, 0.215, 1.33);
+  top: 2.5px;
 }
 .radio input[type=radio]:checked + label:before {
   border-width: 5px;
