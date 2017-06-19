@@ -11,12 +11,12 @@
 						.timeline-content
 							.card.share.share-other{"data-social" => "item"}
 								.card-content
-									.col-md-6
+									.col-md-6.p-r-0-image
 										%a{:href => dashboard_program_path(p.program)}
 											= image_tag(p.program.cover.url, class: "img-rounded learning-img")
-									.col-md-6		
+									.col-md-6
 										%a{:href => dashboard_program_path(p.program)}
-											.card-header
+											.card-header.p-l-0-card
 												%h5
 													= p.program.name
 												%h6
