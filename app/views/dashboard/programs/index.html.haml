@@ -50,6 +50,8 @@
                             .no-margin.pull-left{:style => "color: #5B4D91;"}
                               Curso no contestado
                         - else @current_user.percentage_questions_answered_for(program) > 0 && @current_user.percentage_content_visited_for(program) > 0
+                          .progress.m-b-5
+                            .progress-bar.progress-bar-primary{:style => "width:#{@current_user.percentage_questions_answered_for(program)}%"}
                           .p-b-10.p-r-15.p-l-15.m-b-10.m-t-5
                             .no-margin.pull-right{:style => "color: #ada4d1;"}
                               #{@current_user.percentage_content_visited_for(program)}% visto
