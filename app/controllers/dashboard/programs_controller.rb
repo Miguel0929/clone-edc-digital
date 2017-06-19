@@ -1,6 +1,5 @@
 class Dashboard::ProgramsController < ApplicationController
   before_action :authenticate_user!
-  before_action :redirect_when_is_not_student
   add_breadcrumb "EDCDIGITAL", :root_path
 
   def index
@@ -85,12 +84,4 @@ class Dashboard::ProgramsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{resume_dashboard_program_path @program}'>Rúbrica de evaluación</a>".html_safe
   end
 
-  private
-  def redirect_when_is_not_student
-    if current_user.admin?
-      redirect_to students_users_path
-    elsif current_user.staff?
-      redirect_to students_users_path
-    end
-  end
 end
