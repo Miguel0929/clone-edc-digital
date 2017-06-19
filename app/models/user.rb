@@ -261,7 +261,6 @@ class User < ActiveRecord::Base
         .gsub('and', 'y')
   end
 
-<<<<<<< HEAD
   def self.active_users
     active_users_list = []
     User.students.each do |student|
