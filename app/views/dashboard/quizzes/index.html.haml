@@ -21,11 +21,18 @@
             %tbody
               - @quizzes.each do |quiz|
                 %tr
-                  %td= quiz.name
-                  %td= quiz.answered(current_user) > 0 ? 'Contestado' : 'No contestado'
-                  %td= quiz.answered(current_user) > 0 ? quiz.average(current_user) : 'No disponible'
-                  %td 
+                  %td.p-t-15.p-b-15
+                    = quiz.name
+                  %td.p-t-15.p-b-15{:class => "#{(quiz.answered(current_user) > 0) ? 'text-primary' : 'text-danger'}"}
+                    = quiz.answered(current_user) > 0 ? 'Contestado' : 'No contestado'
+                  %td.p-t-15.p-b-15{:class => "#{(quiz.answered(current_user) > 0) ? 'text-primary' : 'text-danger'}"}
+                    = quiz.answered(current_user) > 0 ? quiz.average(current_user) : 'No disponible'
+                  %td.p-t-15.p-b-15 
                     -if quiz.answered(current_user) > 0  
-                      = link_to 'Ver resultados', dashboard_quiz_path(quiz)
+                      = link_to dashboard_quiz_path(quiz) do
+                        %i.fa.fa-eye
+                        Ver resultados
                     -else
-                      = link_to 'contestar', apply_dashboard_quiz_path(quiz)
+                      = link_to apply_dashboard_quiz_path(quiz) do
+                        %i.fa.fa-edit
+                        Contestar
