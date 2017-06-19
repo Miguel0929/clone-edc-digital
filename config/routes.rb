@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   get "/404", :to => "errors#not_found"
   get "/500", :to => "errors#internal_error"
 
+  resources :control_panel, only: [:index]
+
   resources :programs do
     collection do
       post :sort
