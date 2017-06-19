@@ -24,7 +24,25 @@ class Session < ActiveRecord::Base
         .gsub('and', 'y')
     end
   end
+
   def minutes
     TimeDifference.between(start, finish).in_minutes
+  end
+
+  def self.average
+    total = 0
+    all.each do |visit|
+      total += visit.minutes
+    end
+    total / (self.count == 0 ? 1 : count)
+  end
+
+  def self.today
+    total = 0
+    visits = where(start: 1.day.ago...Time.now)
+    visits.each do |visit|
+      total += visit.minutes
+    end
+    total / (visits.count == 0 ? 1 : visits.count)
   end
 end
