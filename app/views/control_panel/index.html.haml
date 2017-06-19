@@ -28,6 +28,7 @@
                           = @users.students.count
                         %p.small.hint-text.m-t-5
                           %span.label.font-montserrat.m-r-5
+
                             = @users.students.where(invitation_accepted_at: today.beginning_of_day...Time.now).count
                           Activados hoy
         .col-md-3.m-b-10
