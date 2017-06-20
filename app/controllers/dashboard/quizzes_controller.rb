@@ -35,6 +35,12 @@ class Dashboard::QuizzesController < ApplicationController
   end
 
   def right_answer(question)
-    QuizQuestion.find(question).answer_options
+    options = QuizQuestion.find(question).answer_options.split /[\r\n]+/
+    righty = [];
+
+    options.each do |option|
+      if option.include? "~ correcta" then righty << option.chomp(" ~ correcta") end
+    end
+    return righty
   end
 end

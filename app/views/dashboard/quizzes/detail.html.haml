@@ -1,7 +1,7 @@
 .container-fluid.container-fixed-lg
   = form_tag dashboard_quiz_answers_path do  
     -@answers.each_with_index do |answer, index|
-      = right_answer(answer.quiz_question.id)
+      - rightone, yours = right_answer(answer.quiz_question.id).last, answer.answer_text
       = fields_for "answers[#{index}]", answer do |f| 
         .panel.panel-default
           .panel-heading
@@ -9,9 +9,15 @@
               = @quiz.name
           .panel-body
             .row
-              .col-md-10.col-md-offset-1
+              .col-md-7
                 .padding-30.m-t-50.p-b-100
                   %i.fa.fa-tasks.fa-2x.hint-text
                   %h2
                     = answer.quiz_question.question_text
                   = render partial: "/dashboard/quiz_answers/inputs/#{answer.quiz_question.question_type}", locals: { disabled: true, f: f, question: answer.quiz_question, answers: answer, i: index, detail: true}
+              .col-md-5
+                .padding-30.m-t-50.p-b-100
+                  - if rightone == yours
+                    %span.text-success Respuesta correcta
+                  - else
+                    %span.text-danger Respuesta equivocada
