@@ -16,6 +16,7 @@
                   = f.hidden_field :user_id
                   = f.hidden_field :quiz_question_id
                   = render partial: "/dashboard/quiz_answers/inputs/#{answer.quiz_question.question_type}", locals: { disabled: false, f: f, question: answer.quiz_question, answers: answer, i: index, detail: false}
+                  
     .form-group
       .row
         .pull-right.m-l-30
