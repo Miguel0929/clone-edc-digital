@@ -77,3 +77,13 @@ a.pump-link:hover {
 }
 .programs-filter-btn{
 }
+.heading-right-answer{
+	background-color: #33ada1 !important;
+}
+.heading-wrong-answer{
+	background-color: rgba(197,96,93, 0.8) !important;
+}
+.container-minus-30{
+	position: relative;
+	top: -30px;
+}

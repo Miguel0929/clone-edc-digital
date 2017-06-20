@@ -30,9 +30,11 @@
                   %td.p-t-15.p-b-15 
                     -if quiz.answered(current_user) > 0  
                       = link_to dashboard_quiz_path(quiz) do
-                        %i.fa.fa-eye
-                        Ver resultados
+                        %button.btn.btn-sm.btn-complete
+                          %i.fa.fa-eye
+                          Ver mis resultados
                     -else
                       = link_to apply_dashboard_quiz_path(quiz) do
-                        %i.fa.fa-edit
-                        Contestar
+                        %button.btn.btn-sm.btn-primary
+                          %i.fa.fa-edit
+                          Contestar examen
