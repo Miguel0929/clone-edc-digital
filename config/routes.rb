@@ -153,6 +153,10 @@ Rails.application.routes.draw do
       get :sort_route
         post :sort
     end
+    member do
+      get :student_control
+      post :unlink_student
+    end
   end
 
   resources :exporters, only: [:show]

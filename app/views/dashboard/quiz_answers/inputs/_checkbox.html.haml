@@ -1,10 +1,10 @@
-- answer_to_array(question).each_with_index do |answer, index|
+- answer_to_select(question, detail).each_with_index do |answer, index|
   .row
     .col-md-4
       .checkbox.check-success
-        = check_box_tag "answers[#{i}][answer_text][]", answer, quiz_answer_selected?(answers, answer.split('~')[0]), id: "check_#{answers.quiz_question_id}_#{index}", disabled: disabled, multiple: true
+        = check_box_tag "answers[#{i}][answer_text][]", answer[1], quiz_answer_selected?(answers, answer[0].split('~')[0]), id: "check_#{answers.quiz_question_id}_#{index}", disabled: disabled, multiple: true
         %label{:for => "check_#{answers.quiz_question_id}_#{index}" }
           - if detail
-            = "#{answer.split('~')[0]} #{answer.split('~')[1]}"
+            = "#{answer[0].split('~')[0]} #{answer[0].split('~')[1]}"
           - else
-            = answer.split('~')[0]
+            = answer[0].split('~')[0]
