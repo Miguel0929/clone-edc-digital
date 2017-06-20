@@ -48,8 +48,16 @@ class Chapter < ActiveRecord::Base
     total_viewed = viewed.size
     record_ones = record.count(1)
     viewed_ones = viewed.count(1)
-    percentage_done = (record_ones.to_f / total_record.to_f * 100).round(0)
-    percentage_viewed = (viewed_ones.to_f / total_viewed.to_f * 100).round(0)
+    if total_record > 0
+      percentage_done = (record_ones.to_f / total_record.to_f * 100).round(0)
+    else
+      percentage_done = 0 
+    end
+    if total_viewed > 0
+      percentage_viewed = (viewed_ones.to_f / total_viewed.to_f * 100).round(0)
+    else
+      percentage_viewed = 0
+    end
     #Etiquetar cada chapter como completo, incompleto o en progreso
     if record.detect {|i| i == 0}.nil? #si no hay ningún cero en el arreglo @record
       status = "complete"
