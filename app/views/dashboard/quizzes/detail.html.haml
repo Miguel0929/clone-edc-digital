@@ -1,6 +1,7 @@
 .container-fluid.container-fixed-lg
   = form_tag dashboard_quiz_answers_path do  
     -@answers.each_with_index do |answer, index|
+      = right_answer(answer.quiz_question.id)
       = fields_for "answers[#{index}]", answer do |f| 
         .panel.panel-default
           .panel-heading

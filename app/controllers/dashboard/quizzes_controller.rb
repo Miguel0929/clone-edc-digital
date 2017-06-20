@@ -1,6 +1,7 @@
 class Dashboard::QuizzesController < ApplicationController
   before_action :authenticate_user!
   add_breadcrumb "EDCDIGITAL", :root_path
+  helper_method :right_answer
 
   def index
     add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path}'>Exámenes</a>".html_safe
@@ -31,5 +32,9 @@ class Dashboard::QuizzesController < ApplicationController
     add_breadcrumb "<a href='#{dashboard_quizzes_path}'>Exámenes</a>".html_safe    
     add_breadcrumb "<a class='active' href='#{dashboard_quiz_path(@quiz)}'>#{@quiz.name}</a>".html_safe
     redirect_to dashboard_quizzes_path if @quiz.answered(current_user) > 0
+  end
+
+  def right_answer(question)
+    QuizQuestion.find(question).answer_options
   end
 end
