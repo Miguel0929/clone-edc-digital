@@ -1,5 +1,8 @@
 class ConversationsController < ApplicationController
   before_action :authenticate_user!
+
+  add_breadcrumb "EDCDIGITAL", :root_path
+
   def new
     if current_user.mentor?
       ids=[]
@@ -22,6 +25,8 @@ class ConversationsController < ApplicationController
   def show
     @receipts= conversation.receipts_for(current_user).order(:created_at)
     conversation.mark_as_read(current_user)
+    add_breadcrumb "<a href='#{mailbox_inbox_path}'>Mensajes</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{conversation_path}'>#{@receipts.first.message.subject}</a>".html_safe
   end
   def create
     recipients=User.where(id: conversation_params[:recipients])
