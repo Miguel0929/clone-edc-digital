@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 - today = Date.today
-=======
->>>>>>> admin dashboard
 .container-fluid.container-fixed-lg.bg-white
   .panel.panel-transparent
     .panel-heading
@@ -82,6 +79,7 @@
                         %p.small.hint-text.m-t-5
                           %span.label.font-montserrat.m-r-5
                             = @massages.where(created_at: today.beginning_of_day...Time.now).count
+                          enviados hoy
         .col-md-3.m-b-10
           .widget-8.panel.no-border.bg-complete.no-margin.widget-loader-bar
             .container-xs-height.full-height
@@ -301,14 +299,11 @@
         %h2.text-center
           Dispositivos
         = pie_chart @visits.group(:device_type).count
-
       .col-md-6
         %h2.text-center
           Sistema operativo
         = pie_chart @visits.group(:os).count
-
       .col-md-6
         %h2.text-center
           Región
-
         = geo_chart @visits.group(:region).count, library: {region: 'MX', resolution: 'provinces'}
