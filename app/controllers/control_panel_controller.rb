@@ -11,5 +11,10 @@ class ControlPanelController < ApplicationController
     @shared_attachments = SharedAttachment.all
     @attachments = Attachment.all
     @reports = Report.all
+    
+    @promedio_sessiones = []
+    Session.where( start: 30.day.ago...Time.now).group_by(&:day).each do |day, session|
+      @promedio_sessiones << [day, session.time]
+    end
   end
 end
