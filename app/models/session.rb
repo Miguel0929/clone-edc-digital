@@ -30,7 +30,7 @@ class Session < ActiveRecord::Base
   end
 
   def day
-    self.start.strftime('%W')
+    self.start.strftime('%Y-%m-%d')
   end
 
   def minutes
