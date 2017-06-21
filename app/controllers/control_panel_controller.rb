@@ -4,6 +4,7 @@ class ControlPanelController < ApplicationController
 
   def index
     @users = User.all
+    @mentor_messages = MentorHelp.all
     @massages = Mailboxer::Message.all
     @groups = Group.all
     @programs = Program.all
