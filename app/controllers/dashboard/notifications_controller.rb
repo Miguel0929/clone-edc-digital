@@ -34,6 +34,12 @@ class Dashboard::NotificationsController < ApplicationController
       when 'ReportNotification'
         notification.update(read: true) unless notification.read
         reports_path
+      when 'LearningPathNotification'
+        notification.update(read: true) unless notification.read
+        dashboard_learning_path_path
+      when 'SharedGroupAttachmentNotification'
+        notification.update(read: true) unless notification.read
+        dashboard_attachments_path   
     end
 
     redirect_to path

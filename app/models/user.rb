@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   has_many :notifications
   has_many :comment_notifications, :through => :notifications, :source => :notificable, :source_type => 'CommentNotification'
   has_many :program_notifications, :through => :notifications, :source => :notificable, :source_type => 'ProgramNotification'
+  has_many :shared_group_attachment_notifications, :through => :notifications, :source => :notificable, :source_type => 'SharedGroupAttachmentNotification'
+  has_many :learning_path_notifications, :through => :notifications, :source => :notificable, :source_type => 'LearningPathNotification'
   has_many :visits
   has_many :events, class_name: 'Ahoy::Event'
   has_many :comments

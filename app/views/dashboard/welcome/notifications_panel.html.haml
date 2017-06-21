@@ -51,30 +51,13 @@
                       %label.switch
                         %input{type: "checkbox", checked: if @noti.up_ruta.first.nil? then true else @noti.up_ruta.first.status end, value: "4"}/
                         .slider.round
-          .row
-            .col-md-8.col-md-offset-2
-              %table.table.table-hover
-                %thead
-                  %tr
-                    %th.text-center
-                      Mensajes
-                    %th.text-center
-                      Off/On e-mails  
-                %tbody
                   %tr.text-center
                     %td
-                      Nuevo mensaje recibido
+                      Has sido evaluado
                     %td
                       %label.switch
-                        %input{:type => "checkbox", checked: if @noti.send_mess.first.nil? then true else @noti.send_mess.first.status end,value: "5"}/
-                        .slider.round
-                  %tr.text-center      
-                    %td
-                      Respuestas a mensajes
-                    %td
-                      %label.switch
-                        %input{:type => "checkbox", checked: if @noti.reply_mess.first.nil? then true else @noti.reply_mess.first.status end,value: "6"}/
-                        .slider.round 
+                        %input{type: "checkbox", checked: if @noti.up_evaluation.first.nil? then true else @noti.up_evaluation.first.status end, value: "7"}/
+                        .slider.round      
 :javascript
   $(document).on('turbolinks:load', function(){
     $(":checkbox").click(function() {

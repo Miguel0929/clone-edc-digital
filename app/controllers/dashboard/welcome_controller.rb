@@ -69,10 +69,8 @@ class Dashboard::WelcomeController < ApplicationController
   def store_notifications_panel
     @notification=PanelNotification.where(user: current_user, notification: params[:notification]).first
     if @notification.nil?
-      p "nuevo"
       nt=PanelNotification.create(status: false, user: current_user, notification: params[:notification].to_i)
     else
-      p "edit"
       @notification.update(status: !@notification.status)
     end  
     render json:{col: params[:notification], nt: @notification}

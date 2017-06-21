@@ -14,7 +14,9 @@ class NewProgramNotificationJob < ActiveJob::Base
     program.groups.each do |group|
       group.students.each do |student|
         student.program_notifications.create(program: program, notification_type: 'new_program')
-        Programs.new_program(program, student, dashboard_program_path(program))
+        if student.panel_notifications.new_program.first.nil? || student.panel_notifications.new_program.first.status
+          Programs.new_program(program, student, dashboard_program_path(program))
+        end  
       end
     end
   end

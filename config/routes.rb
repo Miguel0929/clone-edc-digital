@@ -151,7 +151,8 @@ Rails.application.routes.draw do
   resources :groups do
     member do
       get :sort_route
-        post :sort
+      post :sort
+      post :notification_route
     end
   end
 
