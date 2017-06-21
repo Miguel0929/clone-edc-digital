@@ -143,6 +143,11 @@
                       %span.bold Visto:
                     %li.inline 
                     #{user.content_visited_percentage rescue 0}%
+                  %ul.p-l-0.m-b-0
+                    %li.inline
+                      %span.bold Status de evaluación:
+                    %li.inline 
+                    #{user.evaluation_status}
                 %td
                   - unless user.group.nil?
                     %ul.unstyled.no-style
