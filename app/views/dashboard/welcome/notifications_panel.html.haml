@@ -1,0 +1,81 @@
+.container-fluid.container-fixed-lg
+  .row
+    .col-md-12
+      .panel.panel-transparent
+        .panel-heading
+          .panel-title
+            Panel de notificaciones
+        .panel-body
+          .row
+            .col-md-8.col-md-offset-2
+              %table.table.table-hover
+                %thead
+                  %tr
+                    %th.text-center
+                      Notificación
+                    %th.text-center
+                      Off/On e-mails	
+                %tbody
+                  %tr.text-center
+                    %td
+                      Nuevo programa de aprendizaje
+                    %td
+                      %label.switch
+                        %input#new_program{:type => "checkbox", checked: if @noti.new_program.first.nil? then true else @noti.new_program.first.status end, value: "0"}/
+                        .slider.round
+                  %tr.text-center
+                    %td
+                      Contenido nuevo en un programa de aprendizaje
+                    %td
+                      %label.switch
+                        %input#up_program{:type => "checkbox", checked: if @noti.up_program.first.nil? then true else @noti.up_program.first.status end, value: "1"}/
+                        .slider.round
+                  %tr.text-center
+                    %td
+                      Rúbrica de evaluacion actualizada
+                    %td
+                      %label.switch
+                        %input{:type => "checkbox", checked: if @noti.up_rubric.first.nil? then true else @noti.up_rubric.first.status end, value: "2"}/
+                        .slider.round 
+                  %tr.text-center
+                    %td.text-center
+                      Nuevo archivo compartido
+                    %td
+                      %label.switch
+                        %input{:type => "checkbox", checked: if @noti.shared_file.first.nil? then true else @noti.shared_file.first.status end, value: "3"}/
+                        .slider.round
+                  %tr.text-center
+                    %td
+                      Ruta de aprendizaje 
+                    %td
+                      %label.switch
+                        %input{type: "checkbox", checked: if @noti.up_ruta.first.nil? then true else @noti.up_ruta.first.status end, value: "4"}/
+                        .slider.round
+                  %tr.text-center
+                    %td
+                      Has sido evaluado
+                    %td
+                      %label.switch
+                        %input{type: "checkbox", checked: if @noti.up_evaluation.first.nil? then true else @noti.up_evaluation.first.status end, value: "7"}/
+                        .slider.round      
+:javascript
+  $(document).on('turbolinks:load', function(){
+    $(":checkbox").click(function() {
+      $.ajax({
+        type: "post", url: "/dashboard/store-notifications-panel",
+        data: { 
+          'notification': $(this).prop("value"), 
+          'status': 'false' 
+        },
+        success: function (data, text) {
+          console.log(data);
+        },
+        error: function (data) {
+          console.log(data);
+        }
+      });
+
+    });
+  });
+
+      

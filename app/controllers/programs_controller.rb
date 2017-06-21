@@ -30,6 +30,7 @@ class ProgramsController < ApplicationController
     @program = Program.new(program_params)
 
     if @program.save
+      NewProgramNotificationProgJob.perform_async(@program, dashboard_program_url(@program))
       redirect_to @program, notice: "Se creo exitosamente el programa #{@program.name}"
     else
       render :new
