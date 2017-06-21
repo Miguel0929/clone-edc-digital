@@ -2,21 +2,19 @@
 	Calculadora - EDCdigital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
-	%section.demo-bg-section.p-b-35.p-t-30
+	%section.demo-bg-section.p-b-25.p-t-25.panel-title-recursos
 		.container
 			.md-p-l-20.md-p-r-20.xs-no-padding
-				.row
-					.col-sm-12.col-md-12.no-padding.xs-p-l-15.xs-p-r-15.text-white
-						.col-sm-5
-							%h2.pull-left.text-white
-								%i.fa.fa-calculator
-								Calculadora de muestras
-						.col-sm-7.m-t-15
-							= bootstrap_form_for :calculator, url: dashboard_calculator_method_path, method: :get do |f|
-								.col-sm-12
-									= f.number_field :population, step: "any", label: 'Introduce la población total (usa dígitos):', :required => true
-									.pull-right
-										= f.submit 'Calcular estadísticos', :class => "btn btn-success"
+				.row.col-md-12
+					.col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+						%h2.text-white 
+							Calculadora de muestras
+					.col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+						= bootstrap_form_for :calculator, url: dashboard_calculator_method_path, method: :get do |f|
+							.col-sm-12.text-white
+								= f.number_field :population, step: "any", label: 'Introduce la población total (escríbelo en dígitos):', :required => true
+								.pull-right
+									= f.submit 'Calcular estadísticos', :class => "btn"
 
 .container-fluid.container-fixed-lg
 	.panel.panel-default
@@ -27,7 +25,7 @@
 						%span.hint-text Población total: 
 						%span #{number_with_delimiter(@population.to_i, :delimiter => ',')}
 			.panel-heading
-				.panel-title.text-success{:style => "font-size: 1.2em;"}
+				.panel-title{:style => "font-size: 1.2em; color: #2b303b"}
 					Incluyendo muestreo
 			.panel-body
 				.container-sm-height
@@ -52,7 +50,7 @@
 							%h4.no-margin.text-white #{'%.2f' % @eighty_s_y}
 
 			.panel-heading
-				.panel-title.text-success{:style => "font-size: 1.2em;"}
+				.panel-title{:style => "font-size: 1.2em; color: #2b303b"}
 					Sin considerar el muestreo
 			.panel-body
 				.container-sm-height
@@ -87,5 +85,5 @@
 									#{'%.2f' % @eighty_n_y}
 		- else
 			.panel-heading
-				.panel-title.text-success{:style => "font-size: 1.2em;"}
+				.panel-title{:style => "font-size: 1.2em; color: #2b303b"}
 					Calcula tus estadísticos usando el formulario de arriba
