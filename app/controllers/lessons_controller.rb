@@ -26,7 +26,7 @@ class LessonsController < ApplicationController
 
     if @lesson.save
       @chapter.lessons << @lesson
-      NewContentNotificationJob.perform_async(@chapter.program)
+      NewContentNotificationJob.perform_async(@chapter.program,  dashboard_program_url(@chapter.program))
       redirect_to @chapter.program, notice: "Se creo exitosamente el contenido #{@lesson.identifier}"
     else
       render :new

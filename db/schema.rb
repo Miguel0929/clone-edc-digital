@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170613214742) do
+ActiveRecord::Schema.define(version: 20170620230057) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -226,6 +227,14 @@ ActiveRecord::Schema.define(version: 20170613214742) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "learning_path_notifications", force: :cascade do |t|
+    t.integer  "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "learning_path_notifications", ["group_id"], name: "index_learning_path_notifications_on_group_id", using: :btree
+
   create_table "lessons", force: :cascade do |t|
     t.string   "identifier"
     t.text     "content"
@@ -307,6 +316,16 @@ ActiveRecord::Schema.define(version: 20170613214742) do
   end
 
   add_index "notifications", ["user_id"], name: "index_notifications_on_user_id", using: :btree
+
+  create_table "panel_notifications", force: :cascade do |t|
+    t.integer  "notification"
+    t.integer  "user_id"
+    t.boolean  "status"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "panel_notifications", ["user_id"], name: "index_panel_notifications_on_user_id", using: :btree
 
   create_table "program_notifications", force: :cascade do |t|
     t.integer "program_id"
@@ -470,6 +489,14 @@ ActiveRecord::Schema.define(version: 20170613214742) do
     t.integer "group_id"
   end
 
+  create_table "shared_group_attachment_notifications", force: :cascade do |t|
+    t.integer  "shared_group_attachment_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "shared_group_attachment_notifications", ["shared_group_attachment_id"], name: "index_share_group_attachment_notifications", using: :btree
+
   create_table "shared_group_attachments", force: :cascade do |t|
     t.string   "file"
     t.string   "label"
@@ -595,9 +622,11 @@ ActiveRecord::Schema.define(version: 20170613214742) do
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"
   add_foreign_key "groups", "universities"
+  add_foreign_key "learning_path_notifications", "groups"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
+  add_foreign_key "panel_notifications", "users"
   add_foreign_key "program_stats", "programs"
   add_foreign_key "program_stats", "users"
   add_foreign_key "quiz_answers", "quiz_questions"
@@ -606,6 +635,7 @@ ActiveRecord::Schema.define(version: 20170613214742) do
   add_foreign_key "ratings", "users"
   add_foreign_key "report_notifications", "reports"
   add_foreign_key "reports", "users"
+  add_foreign_key "shared_group_attachment_notifications", "shared_group_attachments"
   add_foreign_key "universities", "states"
   add_foreign_key "users", "industries"
 end
