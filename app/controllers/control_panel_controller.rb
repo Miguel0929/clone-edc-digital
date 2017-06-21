@@ -13,10 +13,10 @@ class ControlPanelController < ApplicationController
     @reports = Report.all
     
     @promedio_sessiones = []
-    Session.where( start: 30.day.ago...Time.now).group_by(&:day).each do |day, session|
+    Session.where( start: 30.day.ago...Time.now).group_by_day(:start).each do |day, session|
       tiempo = 0
       session.each do |s|
-        tiempo += s.time
+        tiempo += s.time.to_i
       end
       @promedio_sessiones << [day, tiempo]
     end
