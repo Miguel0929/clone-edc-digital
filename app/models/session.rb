@@ -29,6 +29,10 @@ class Session < ActiveRecord::Base
     self.start.strftime('%Y-%m-%d')
   end
 
+  def day
+    self.start.strftime('%W')
+  end
+
   def minutes
     TimeDifference.between(start, finish).in_minutes
   end
