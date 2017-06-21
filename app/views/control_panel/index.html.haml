@@ -280,7 +280,7 @@
       .panel-heading
         %h2 Sessiones
       .panel-body
-        = column_chart [{ name: "Sessiones por dia", data: Session.where( start: 30.day.ago...Time.now).group_by_day('start').count }], colors: ["#F55753"]
+        = column_chart [{ name: "Sessiones por dia", data: Session.where( start: 30.day.ago...Time.now).group_by_day('start').count }, { name: "Tiempo promedio", data: @promedio_sessiones}], colors: ["#F55753"]
 
   .row
     .panel.panel-transparent
