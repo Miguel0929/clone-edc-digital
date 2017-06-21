@@ -9,10 +9,15 @@ class StudentsExporterJob
     progress = job.progress
     csv_string = CSV.generate(encoding: "UTF-8") do |csv|
       if fast
-        csv << ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance']
+        header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance']
       else
-        csv << ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', 'Programas inscrito']
+        header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance']
+        Program.all.each do |program|
+          header << "#{program.name} CONTESTADO:"
+          header << "#{program.name} VISTO:"
+        end
       end
+      csv << header
 
       students.each do |student|
         progress = progress + 1
@@ -31,11 +36,11 @@ class StudentsExporterJob
           unless student.group.nil?
             Program.all.each do |program|
               if student.group.programs.exists?(program)
-                content << "#{ program.name }.\nCONTESTADO: #{student.percentage_questions_answered_for(program)}%"
-                content << "#{ program.name }.\nVISTO: #{student.content_visted_for(program)}%"
+                content << "#{student.percentage_questions_answered_for(program)}%"
+                content << "#{student.content_visted_for(program)}%"
               else
-                content << "#{program.name}.\nCONTESTADO: N/A"
-                content << "#{program.name}.\nVISTO: N/A"
+                content << "N/A"
+                content << "N/A"
               end
             end
           end
