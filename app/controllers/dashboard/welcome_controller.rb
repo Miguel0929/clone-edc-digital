@@ -41,6 +41,7 @@ class Dashboard::WelcomeController < ApplicationController
     elsif params[:urgency] == 'none' || params[:matter] == 'none'
       flash_message = { alert: 'ERROR: Recuerda seleccionar urgencia y clasificación.'}
     else
+      MentorHelp.create
       unless params[:file].nil?
         uploaded_io=params[:file][:attachment]
         p uploaded_io.content_type
