@@ -24,7 +24,8 @@ class QuestionsController < ApplicationController
 
     if @question.save
       @chapter.questions << @question
-      NewContentNotificationJob.perform_async(@chapter.program)
+      NewContentNotificationJob.perform_async(@chapter.program, dashboard_program_url(@chapter.program))
+      p "=================================================================="
       redirect_to @chapter.program, notice: "Se creo exitosamente la pregunta #{@question.question_text}"
     else
       render :new

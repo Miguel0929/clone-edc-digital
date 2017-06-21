@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort, :student_control, :unlink_student]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort, :student_control, :unlink_student,  :notification_route]
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -88,6 +88,11 @@ class GroupsController < ApplicationController
       @group.group_programs.where(program_id: id).first.update_attributes({position: index + 1})
     end
     render nothing: true
+  end
+
+  def notification_route
+    LearningPathNotificationJob.perform_async(@group,dashboard_learning_path_url)
+    redirect_to sort_route_group_path, notice: "Notificaciones enviadas al grupo #{@group.name}"
   end  
 
   def student_control
