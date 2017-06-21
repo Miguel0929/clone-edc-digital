@@ -1,5 +1,5 @@
 .container-fluid.container-fixed-lg.top-container-padding.m-b-25
-  %section.demo-bg-section.p-b-0.p-t-75
+  %section.demo-bg-section.p-b-0.p-t-75.panel-title-emprendimiento-dark
     .container
       .md-p-l-20.md-p-r-20.xs-no-padding
         %h5.block-title.hint-text.no-margin.text-white Programa de Aprendizaje
@@ -23,7 +23,7 @@
                   %i.fa.fa-file-excel-o
                   Descargar mi compilación de resultados en Excel
         - if @current_user.percentage_questions_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) == 0
-          %section.col-md-12.demo-bg-section.p-b-20.p-t-65
+          %section.col-md-12.demo-bg-section.m-b-10.m-t-65
           .row.col-sm-6
             .pull-left.p-b-10
               %span.m-r-20{:style => "color: #48B0F7; font-size:"}
@@ -32,7 +32,7 @@
             .clearfix
         - elsif @current_user.percentage_questions_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) > 0
           .row.col-sm-12
-            %section.demo-bg-section.p-b-10.p-t-65
+            %section.demo-bg-section.m-b-10.m-t-65
               .progress.m-b-5{:style => "background-color: #eef5fb;"}
                 .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.percentage_questions_answered_for(@program)}%"}
           .row.col-sm-6
@@ -46,7 +46,7 @@
             .clearfix
         - else
           .row.col-sm-12
-            %section.demo-bg-section.p-b-10.p-t-65
+            %section.demo-bg-section.m-b-10.m-t-65
               .progress.m-b-5{:style => "background-color: #eef5fb;"}
                 .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.percentage_questions_answered_for(@program)}%"}
           .row.col-md-6

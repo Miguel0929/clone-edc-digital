@@ -1,14 +1,21 @@
 - content_for :title  do
 	Mis archivos - EDCdigital
 
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+	%section.demo-bg-section.p-b-15.p-t-15.panel-title-emprendimiento
+		.container
+			.md-p-l-20.md-p-r-20.xs-no-padding
+				.row
+					.col-sm-12.col-md-12.no-padding.xs-p-l-15.xs-p-r-15
+						%h2.text-white 
+							Mis archivos
+
 .container-fluid.container-fixed-lg
 	.row
 		.col-md-12
 			.panel.panel-default
 				.panel-heading
-					.panel-title.pull-left
-						Mis archivos
-					.pull-right.m-r-20.m-t-40
+					.pull-right.m-r-20.m-t-20
 						= link_to 'SUBIR ARCHIVO', new_dashboard_attachment_path, class: 'btn btn-lg btn-success'
 				.panel-body
 

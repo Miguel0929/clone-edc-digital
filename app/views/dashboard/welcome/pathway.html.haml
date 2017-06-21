@@ -1,37 +1,46 @@
 - content_for :title do
 	Inicio - EDCdigital
+
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+	%section.demo-bg-section.p-b-15.p-t-15.panel-title-emprendimiento
+		.container
+			.md-p-l-20.md-p-r-20.xs-no-padding
+				.row
+					.col-sm-12.col-md-12.no-padding.xs-p-l-15.xs-p-r-15
+						%h2.text-white 
+							Mi ruta de emprendimiento
+
 .container-fluid.container-fixed-lg
 	.row
 		.col-sm-12
 			.panel.panel-transparent
-				.panel-heading.clearfix
-					.panel-title.pull-left
-						Mi ruta de emprendimiento
-					- if current_user.admin?
-						.pull-right
-							- if @texts.exists?
-								=link_to edit_route_text_path(@last_text), {:style => 'opacity:1;'} do
-									%button.btn.btn-complete.m-l-10
-										%i.fa.fa-edit
-										Editar Texto
-							- else
-								=link_to new_route_text_path, {:style => 'opacity:1;'} do
-									%button.btn.btn-info.m-l-10
-										%i.fa.fa-plus
-										Redactar texto
-							- if @covers.exists?
-								=link_to edit_route_cover_path(@last_cover), {:style => 'opacity:1;'} do
-									%button.btn.btn-complete.m-l-10
-										%i.fa.fa-image
-										Editar Imagen
-							- else
-								=link_to new_route_cover_path, {:style => 'opacity:1;'} do
-									%button.btn.btn-info.m-l-10
-										%i.fa.fa-plus
-										Subir imagen
+				- if current_user.admin?
+					.panel-heading.clearfix
+						.panel-title.pull-left
+							.pull-right
+								- if @texts.exists?
+									=link_to edit_route_text_path(@last_text), {:style => 'opacity:1;'} do
+										%button.btn.btn-complete.m-l-10
+											%i.fa.fa-edit
+											Editar Texto
+								- else
+									=link_to new_route_text_path, {:style => 'opacity:1;'} do
+										%button.btn.btn-info.m-l-10
+											%i.fa.fa-plus
+											Redactar texto
+								- if @covers.exists?
+									=link_to edit_route_cover_path(@last_cover), {:style => 'opacity:1;'} do
+										%button.btn.btn-complete.m-l-10
+											%i.fa.fa-image
+											Editar Imagen
+								- else
+									=link_to new_route_cover_path, {:style => 'opacity:1;'} do
+										%button.btn.btn-info.m-l-10
+											%i.fa.fa-plus
+											Subir imagen
 					
 				.panel-body
-					%div.m-b-30
+					%div.m-b-40
 						- if @texts.exists?
 							= raw @last_text.redaction
 						- else
