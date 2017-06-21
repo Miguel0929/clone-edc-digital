@@ -29,6 +29,6 @@
                 = link_to 'Eliminar', program_path(program), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
                 = link_to 'Ver Ratings', rating_program_path(program), class: 'btn btn-default'
               %td 
-                =program.rating 
+                = program.rating.round(2)  
 
       = link_to 'Crear programa', new_program_path, class: 'btn btn-default'

@@ -41,6 +41,7 @@ class Dashboard::WelcomeController < ApplicationController
     elsif params[:urgency] == 'none' || params[:matter] == 'none'
       flash_message = { alert: 'ERROR: Recuerda seleccionar urgencia y clasificación.'}
     else
+      MentorHelp.create
       unless params[:file].nil?
         uploaded_io=params[:file][:attachment]
         p uploaded_io.content_type
@@ -62,7 +63,6 @@ class Dashboard::WelcomeController < ApplicationController
 
     redirect_to dashboard_support_path, flash_message
   end
-
   def calculator
     add_breadcrumb "<a class='active' href='#{dashboard_calculator_path}'>Calculadora de tamaño de muestra</a>".html_safe
     
@@ -89,4 +89,17 @@ class Dashboard::WelcomeController < ApplicationController
 
     redirect_to dashboard_calculator_path(:param_result => [sample_size, eighty_s, innovators_s, eighty_s_innovators, inn_early_s, eighty_s_y, innovators_n, eighty_n, inn_early_n, eighty_n_y, population])#(:param_result => sample_size)
   end
+  def notifications_panel
+    add_breadcrumb "<a class='active' href='#{dashboard_notifications_panel_path}'>Panel de notificaciones</a>".html_safe
+    @noti=PanelNotification.where(user: current_user)
+  end
+  def store_notifications_panel
+    @notification=PanelNotification.where(user: current_user, notification: params[:notification]).first
+    if @notification.nil?
+      nt=PanelNotification.create(status: false, user: current_user, notification: params[:notification].to_i)
+    else
+      @notification.update(status: !@notification.status)
+    end  
+    render json:{col: params[:notification], nt: @notification}
+  end  
 end

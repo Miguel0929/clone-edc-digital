@@ -9,7 +9,7 @@
             = @program.name
           .pull-right
             Rating: 
-            = @program.rating  
+            = @program.rating.round(2)  
         .panel-body
           - @program.chapters.each do |chapter|
             #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist", id: "chapter_#{chapter.id}"}
@@ -40,7 +40,7 @@
                             %td.text-center
                               = content.rating_count
                             %td.text-center
-                              = content.rating
+                              = content.rating.round(2)
                             %td.text-center
                               = link_to "Ver contenido", dashboard_chapter_content_path(content), class: "btn btn-default"   
                         

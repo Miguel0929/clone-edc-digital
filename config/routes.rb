@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   get "/404", :to => "errors#not_found"
   get "/500", :to => "errors#internal_error"
 
+  resources :control_panel, only: [:index]
+
   resources :programs do
     collection do
       post :sort
@@ -76,6 +78,8 @@ Rails.application.routes.draw do
     get 'ruta-aprendizaje',       to: 'welcome#learning_path', as: :learning_path
     get 'calculator',       to: 'welcome#calculator', as: :calculator
     get 'calculator_method',       to: 'welcome#calculator_method', as: :calculator_method
+    get 'notifications-panel',        to: 'welcome#notifications_panel', as: :notifications_panel
+    post 'store-notifications-panel',        to: 'welcome#store_notifications_panel', as: :store_notifications_panel
     resources :users, only: [:show]
 
     resources :notifications, only: [:index, :show] do
@@ -150,7 +154,8 @@ Rails.application.routes.draw do
   resources :groups do
     member do
       get :sort_route
-        post :sort
+      post :sort
+      post :notification_route
     end
     member do
       get :student_control
