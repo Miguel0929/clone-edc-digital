@@ -12,7 +12,7 @@
 					.col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
 						= bootstrap_form_for :calculator, url: dashboard_calculator_method_path, method: :get do |f|
 							.col-sm-12.text-white
-								= f.number_field :population, step: "any", label: 'Introduce la población total (escríbelo en dígitos):', :required => true
+								= f.number_field :population, step: "any", label: 'Introduce la población total (escríbelo con dígitos):', :required => true
 								.pull-right
 									= f.submit 'Calcular estadísticos', :class => "btn"
 
@@ -85,5 +85,5 @@
 									#{'%.2f' % @eighty_n_y}
 		- else
 			.panel-heading
-				.panel-title{:style => "font-size: 1.2em; color: #2b303b"}
+				.panel-title{:style => "font-size: 1em; color: #2b303b"}
 					Calcula tus estadísticos usando el formulario de arriba

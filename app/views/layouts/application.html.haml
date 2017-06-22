@@ -58,14 +58,7 @@
 
           - if current_user.student?
 
-            %li.m-t-30
-              %a.detailed.redirector{:href => dashboard_about_path }
-                %span.title Acerca de EDC
-                %span.details ¿Qué es EDCdigital?
-              %span.icon-thumbnail
-                %i.fa.fa-institution
-
-            %li.extra-bottom-4
+            %li.extra-bottom-4.m-t-30
               %a{:href => "javascript:;"}
                 %span.title Mi emprendimiento
                 %span.arrow
@@ -82,11 +75,11 @@
                   %a{:href => dashboard_pathway_path} Mi ruta
                   %span.icon-thumbnail Ru
                 %li
-                  %a{:href => dashboard_attachments_path} Mis archivos
-                  %span.icon-thumbnail Ma
-                %li
                   %a{:href => dashboard_learning_path_path} Ruta de aprendizaje
                   %span.icon-thumbnail Ra
+                %li
+                  %a{:href => dashboard_attachments_path} Mis archivos
+                  %span.icon-thumbnail Ma
 
             %li.extra-bottom-4
               %a{:href => "javascript:;"}
@@ -104,13 +97,16 @@
                 %li
                   %a{:href => frequent_questions_path} Preguntas frecuentes
                   %span.icon-thumbnail Pf
+                %li
+                  %a{:href => glossary_categories_path} Glosario EDC
+                  %span.icon-thumbnail Gl
 
             %li.extra-bottom-4
               %a{:href => "javascript:;"}
-                %span.title Configuración
+                %span.title Mi perfil
                 %span.arrow
               %span.icon-thumbnail
-                %i.fa.fa-gears
+                %i.fa.fa-user
               %ul.sub-menu
                 %li
                   %a{:href => dashboard_user_path(current_user)} Ver perfil
@@ -134,11 +130,34 @@
                   %a{:href => "https://www.edc-megatendencias.com/", :target => "_blank"} EDC Megatendencias
                   %span.icon-thumbnail Mg
                 %li
-                  %a{:href => glossary_categories_path} Glosario EDC
-                  %span.icon-thumbnail Gl
+                  %a{:href => "http://edc-ideador.com/", :target => "_blank"} EDC Ideador
+                  %span.icon-thumbnail Id
                 %li
-                  %a{:href => dashboard_calculator_path} Calculadora (muestras)
+                  %a{:href => "https://www.edc-financiero.com/", :target => "_blank"} EDC Financiero
+                  %span.icon-thumbnail Fn
+                %li
+                  %a{:href => dashboard_calculator_path} Calculadora de muestras
                   %span.icon-thumbnail Cm
+
+            %li.extra-bottom-4
+              %a{:href => "javascript:;"}
+                %span.title Acerca
+                %span.arrow
+              %span.icon-thumbnail
+                %i.fa.fa-institution
+              %ul.sub-menu
+                %li
+                  %a{:href => dashboard_about_path } EDC Digital
+                  %span.icon-thumbnail Di
+                %li
+                  %a{:href =>  dashboard_terms_path} Términos de servicio
+                  %span.icon-thumbnail Te
+                %li
+                  %a{:href =>  dashboard_privacy_path} Política de privacidad
+                  %span.icon-thumbnail Pr
+                %li
+                  %a{:href =>   dashboard_service_path } Confidencialidad y Propiedad
+                  %span.icon-thumbnail Cp
 
           - if current_user.admin?
             %li
