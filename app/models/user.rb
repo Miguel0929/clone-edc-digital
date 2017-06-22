@@ -276,6 +276,10 @@ class User < ActiveRecord::Base
     update({banned: false})
   end
 
+  def day
+    self.invitation_created_at.strftime('%Y-%m-%d')
+  end
+
   private
 
   def set_origin
