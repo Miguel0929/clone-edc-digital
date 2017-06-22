@@ -24,7 +24,10 @@
                   = p.program.name
                 %td
                   = link_to 'Ver', program_path(p.program), class: 'btn btn-default'
-                  = link_to 'Editar', edit_program_path(p.program), class: 'btn btn-default'              
+                  = link_to 'Editar', edit_program_path(p.program), class: 'btn btn-default'
+  =link_to 'Notificar cambio de ruta', notification_route_group_path,:method => 'post', class: 'btn btn-primary pull-right'
+  %br
+  %br                                
 #alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
     #al.alert.alert-info

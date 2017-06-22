@@ -173,6 +173,11 @@
                       = l user.visits.last.started_at, format: :short_special
                     - else
                       %span.text-danger Ninguna
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %span.bold Industria:
+                  %li.inline 
+                    = if user.industry.nil? then "No seleccionado" else user.industry.name end     
               - if current_user.admin?
                 %td
                   %ul.p-l-0.m-b-0

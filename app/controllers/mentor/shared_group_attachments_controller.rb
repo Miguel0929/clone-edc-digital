@@ -15,6 +15,7 @@ class Mentor::SharedGroupAttachmentsController < ApplicationController
     @attachment = SharedGroupAttachment.new(attachment_params)
 
     if @attachment.save
+      SharedGroupAttachmentNotificationJob.perform_async(@attachment, dashboard_attachments_url)
       redirect_to mentor_shared_group_attachments_path
     else
       render :new

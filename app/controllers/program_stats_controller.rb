@@ -7,6 +7,11 @@ class ProgramStatsController < ApplicationController
     program = params[:src3]
     @current_stats = ProgramStat.where(user_id: user, program_id: program).last
     user.program_notifications.create({program_id: program, notification_type: 3})
+    
+    if user.panel_notifications.up_evaluation.first.nil? || user.panel_notifications.up_evaluation.first.status
+      Programs.up_evaluation(Program.find(program),user,dashboard_evaluations_url(program_id: program))
+    end
+    
     if @current_stats.nil?
       @new_stats = ProgramStat.create(user_id: user.id, program_id: program, checked: 1)
     else
