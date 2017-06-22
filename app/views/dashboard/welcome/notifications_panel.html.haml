@@ -1,60 +1,71 @@
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-perfil
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Panel de notificaciones
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Opciones de notificación.
+            %p.m-b-25.text-white
+              Utiliza este panel para modificar las opciones de notificación. Esto te permite personalizar la cantidad y tipo de e-mails que llega a tu dirección de correo vinculada a EDC digital.
+
 .container-fluid.container-fixed-lg
   .row
     .col-md-12
       .panel.panel-transparent
-        .panel-heading
-          .panel-title
-            Panel de notificaciones
         .panel-body
           .row
             .col-md-8.col-md-offset-2
               %table.table.table-hover
                 %thead
                   %tr
-                    %th.text-center
+                    %th
                       Notificación
                     %th.text-center
                       Off/On e-mails	
                 %tbody
-                  %tr.text-center
+                  %tr
                     %td
                       Nuevo programa de aprendizaje
-                    %td
+                    %td.text-center
                       %label.switch
                         %input#new_program{:type => "checkbox", checked: if @noti.new_program.first.nil? then true else @noti.new_program.first.status end, value: "0"}/
                         .slider.round
-                  %tr.text-center
+                  %tr
                     %td
                       Contenido nuevo en un programa de aprendizaje
-                    %td
+                    %td.text-center
                       %label.switch
                         %input#up_program{:type => "checkbox", checked: if @noti.up_program.first.nil? then true else @noti.up_program.first.status end, value: "1"}/
                         .slider.round
-                  %tr.text-center
+                  %tr
                     %td
                       Rúbrica de evaluacion actualizada
-                    %td
+                    %td.text-center
                       %label.switch
                         %input{:type => "checkbox", checked: if @noti.up_rubric.first.nil? then true else @noti.up_rubric.first.status end, value: "2"}/
                         .slider.round 
-                  %tr.text-center
-                    %td.text-center
-                      Nuevo archivo compartido
+                  %tr
                     %td
+                      Nuevo archivo compartido
+                    %td.text-center
                       %label.switch
                         %input{:type => "checkbox", checked: if @noti.shared_file.first.nil? then true else @noti.shared_file.first.status end, value: "3"}/
                         .slider.round
-                  %tr.text-center
+                  %tr
                     %td
                       Ruta de aprendizaje 
-                    %td
+                    %td.text-center
                       %label.switch
                         %input{type: "checkbox", checked: if @noti.up_ruta.first.nil? then true else @noti.up_ruta.first.status end, value: "4"}/
                         .slider.round
-                  %tr.text-center
+                  %tr
                     %td
                       Has sido evaluado
-                    %td
+                    %td.text-center
                       %label.switch
                         %input{type: "checkbox", checked: if @noti.up_evaluation.first.nil? then true else @noti.up_evaluation.first.status end, value: "7"}/
                         .slider.round      
