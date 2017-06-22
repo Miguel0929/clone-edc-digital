@@ -57,59 +57,110 @@
           = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]})
 
           - if current_user.student?
-            = display_navbar_link({css: ['m-t-30'], link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, icon: 'fa pg-layouts', role: [:student]})
-            = display_navbar_link({link: 'Examenes', details: 'Examenes en EDCdigital', path: dashboard_quizzes_path, icon: 'fa fa-question-circle', role: [:student]})
-            = display_navbar_link({css: [''], link: 'Mi ruta', details: 'Ruta de emprendimiento' ,path: dashboard_pathway_path, icon: 'fa fa-map-o', role: [:student]})
-            = display_navbar_link({css: [''], link: 'Ruta de aprendizaje', details: 'Ruta de apendizaje' ,path: dashboard_learning_path_path, icon: 'fa fa-map-signs', role: [:student]})
-            = display_navbar_link({css: [''], link: 'Mis archivos', details: 'Archivos digitales' ,path: dashboard_attachments_path, icon: 'fa fa-file', role: [:student]})
 
-            %li
-              %a.detailed.redirector{:href => dashboard_support_path}
-                %span.title Ayuda de mentores
-                %span.details Solicita apoyo de mentores
+            %li.extra-bottom-4.m-t-30
+              %a{:href => "javascript:;"}
+                %span.title Mi emprendimiento
+                %span.arrow
               %span.icon-thumbnail
-                %i.fa.fa-info-circle
-
-            = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:student]})
-
-            %li
-              %a.detailed{:href => "https://www.edc-megatendencias.com/", :target => "_blank" }
-                %span.title EDC Megatendencias
-                %span.details Ir a EDC Megatendencias
-              %span.icon-thumbnail
-                %i.fa.fa-line-chart
-
-            %li
-              %a.detailed.redirector{:href => dashboard_about_path }
-                %span.title Acerca de
-                %span.details ¿Qué es EDCdigital?
-              %span.icon-thumbnail
-                %i.pg-map
+                %i.fa.fa-rocket
+              %ul.sub-menu
+                %li
+                  %a{:href => dashboard_programs_path} Programas
+                  %span.icon-thumbnail Pg
+                %li
+                  %a{:href => dashboard_quizzes_path} Exámenes
+                  %span.icon-thumbnail Ex
+                %li
+                  %a{:href => dashboard_pathway_path} Mi ruta
+                  %span.icon-thumbnail Ru
+                %li
+                  %a{:href => dashboard_learning_path_path} Ruta de aprendizaje
+                  %span.icon-thumbnail Ra
+                %li
+                  %a{:href => dashboard_attachments_path} Mis archivos
+                  %span.icon-thumbnail Ma
 
             %li.extra-bottom-4
               %a{:href => "javascript:;"}
-                %span.title Configuración
+                %span.title Ayuda
                 %span.arrow
               %span.icon-thumbnail
-                %i.pg-settings
+                %i.fa.fa-comment
               %ul.sub-menu
                 %li
-                  %a{:href => edit_user_registration_path} Perfil
+                  %a{:href => mailbox_inbox_path} Mensajes
+                  %span.icon-thumbnail Mn
+                %li
+                  %a{:href => dashboard_support_path} Ayuda de mentores
+                  %span.icon-thumbnail Am
+                %li
+                  %a{:href => frequent_questions_path} Preguntas frecuentes
                   %span.icon-thumbnail Pf
                 %li
+                  %a{:href => glossary_categories_path} Glosario EDC
+                  %span.icon-thumbnail Gl
+
+            %li.extra-bottom-4
+              %a{:href => "javascript:;"}
+                %span.title Mi perfil
+                %span.arrow
+              %span.icon-thumbnail
+                %i.fa.fa-user
+              %ul.sub-menu
+                %li
+                  %a{:href => dashboard_user_path(current_user)} Ver perfil
+                  %span.icon-thumbnail Pf
+                %li
+                  %a{:href => edit_user_registration_path} Editar perfil
+                  %span.icon-thumbnail Ed
+                %li
                   %a{:href => dashboard_notifications_panel_path} Panel de notificaciones
-                  %span.icon-thumbnail Pn  
+                  %span.icon-thumbnail Pn 
                 %li
                   = link_to destroy_user_session_path, method: :delete do
                     Cerrar sesión
                   %span.icon-thumbnail Cs
 
-            %li
-              %a.detailed.redirector{:href => glossary_categories_path }
-                %span.title Glosario de EDC
-                %span.details Realiza una búsqueda
+            %li.extra-bottom-4
+              %a{:href => "javascript:;"}
+                %span.title Recursos
+                %span.arrow
               %span.icon-thumbnail
-                %i.fa.fa-book
+                %i.fa.fa-diamond
+              %ul.sub-menu
+                %li
+                  %a{:href => "https://www.edc-megatendencias.com/", :target => "_blank"} EDC Megatendencias
+                  %span.icon-thumbnail Mg
+                %li
+                  %a{:href => "http://edc-ideador.com/", :target => "_blank"} EDC Ideador
+                  %span.icon-thumbnail Id
+                %li
+                  %a{:href => "https://www.edc-financiero.com/", :target => "_blank"} EDC Financiero
+                  %span.icon-thumbnail Fn
+                %li
+                  %a{:href => dashboard_calculator_path} Calculadora de muestras
+                  %span.icon-thumbnail Cm
+
+            %li.extra-bottom-4
+              %a{:href => "javascript:;"}
+                %span.title Acerca
+                %span.arrow
+              %span.icon-thumbnail
+                %i.fa.fa-institution
+              %ul.sub-menu
+                %li
+                  %a{:href => dashboard_about_path } EDC Digital
+                  %span.icon-thumbnail Di
+                %li
+                  %a{:href =>  dashboard_terms_path} Términos de servicio
+                  %span.icon-thumbnail Te
+                %li
+                  %a{:href =>  dashboard_privacy_path} Política de privacidad
+                  %span.icon-thumbnail Pr
+                %li
+                  %a{:href =>   dashboard_service_path } Confidencialidad y Propiedad
+                  %span.icon-thumbnail Cp
 
           - if current_user.admin?
             %li
@@ -276,20 +327,3 @@
             $.post("#{track_sessions_path}")
           }, 10000)
         });
-
-          /Esto de abajo es el elemento del menú para ver los comentarios, que actualmente fueron deshabilitados
-          /- if current_user.mentor?
-          /  %li
-          /    %a{:href => "javascript:;"}
-          /      %span.title Comentarios
-          /      %span.arrow
-          /    %span.icon-thumbnail
-          /      %i.fa.fa-comments
-          /    %ul.sub-menu
-          /      %li
-          /        %a{:href => mentor_comments_path } Todos
-          /      %li
-          /        %a{:href => news_mentor_comments_path } Nuevos
-          /      %li
-          /        %a{:href => archived_mentor_comments_path } Archivados
-          /    = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]})
