@@ -101,6 +101,9 @@ a.pump-link:hover {
 	background-image: linear-gradient(15deg, #3D4E81 0%, #5753C9 48%, #6E7FF3 100%) !important;
 }
 .panel-title-recursos{
+	background-image: linear-gradient(15deg, #3D4E81 0%, #412896 48%, #6552EF 100%) !important;
+}
+.panel-title-acerca{
 	background-image: linear-gradient(15deg, #22E1FF 0%, #1D8FE1 48%, #625EB1 100%) !important;
 }
 @media (min-width: 768px) {
