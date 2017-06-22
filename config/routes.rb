@@ -80,6 +80,7 @@ Rails.application.routes.draw do
     get 'calculator_method',       to: 'welcome#calculator_method', as: :calculator_method
     get 'notifications-panel',        to: 'welcome#notifications_panel', as: :notifications_panel
     post 'store-notifications-panel',        to: 'welcome#store_notifications_panel', as: :store_notifications_panel
+
     resources :users, only: [:show]
 
     resources :notifications, only: [:index, :show] do

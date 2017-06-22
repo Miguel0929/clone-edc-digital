@@ -5,6 +5,6 @@
         = check_box_tag "answers[#{i}][answer_text][]", answer[1], quiz_answer_selected?(answers, answer[0].split('~')[0]), id: "check_#{answers.quiz_question_id}_#{index}", disabled: disabled, multiple: true
         %label{:for => "check_#{answers.quiz_question_id}_#{index}" }
           - if detail
-            = "#{answer[0].split('~')[0]} #{answer[0].split('~')[1]}"
+            = "#{answer[0].split('~')[0]}" #= "#{answer[0].split('~')[0]} #{answer[0].split('~')[1]}"
           - else
             = answer[0].split('~')[0]
