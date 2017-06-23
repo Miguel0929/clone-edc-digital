@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'group_stats/post'
+
   post 'ratings/vote_chapter_content'
   post 'ratings/vote_program'
   get 'rating/program/:id', to: "ratings#show", as: "rating_program"
