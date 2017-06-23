@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170620230057) do
+ActiveRecord::Schema.define(version: 20170621010843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,10 +41,12 @@ ActiveRecord::Schema.define(version: 20170620230057) do
   add_index "ahoy_events", ["visit_id", "name"], name: "index_ahoy_events_on_visit_id_and_name", using: :btree
 
   create_table "answers", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "question_id"
-    t.text    "answer_text"
-    t.integer "rubric_id"
+    t.integer  "user_id"
+    t.integer  "question_id"
+    t.text     "answer_text"
+    t.integer  "rubric_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "answers", ["answer_text"], name: "index_answers_on_answer_text", using: :btree
@@ -304,6 +306,11 @@ ActiveRecord::Schema.define(version: 20170620230057) do
 
   add_index "mailboxer_receipts", ["notification_id"], name: "index_mailboxer_receipts_on_notification_id", using: :btree
   add_index "mailboxer_receipts", ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type", using: :btree
+
+  create_table "mentor_helps", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "notifications", force: :cascade do |t|
     t.integer  "user_id"

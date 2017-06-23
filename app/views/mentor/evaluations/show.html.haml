@@ -83,9 +83,10 @@
                           - @chapter.evaluations.each_with_index do |evaluation, index|
                             .tab-pane.padding-20.slide-left{:id => "tab#{index}", :class => "#{index==0 ? 'active' : ''}"}
                               .row.row-same-height
-                                = evaluation.name
-                                %em{:style => "font-size:0.9em;"}
-                                  (#{evaluation.points} pts o #{evaluation.points * 100 / @totaleval}%)
+                                %h5
+                                  = evaluation.name
+                                  %em{:style => "font-size:0.9em;"}
+                                    (#{evaluation.points} pts o #{evaluation.points * 100 / @totaleval}%)
                                 %input{type: 'hidden', name: "evaluation[#{index}][evaluation]", value: evaluation.id}
                                 .radio.radio-success
                                   %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_excelent_#{index}", value: '100', checked: evaluation_pointed?(evaluation, 100)}

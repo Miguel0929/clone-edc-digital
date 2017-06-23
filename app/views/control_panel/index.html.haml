@@ -1,0 +1,309 @@
+- today = Date.today
+.container-fluid.container-fixed-lg.bg-white
+  .panel.panel-transparent
+    .panel-heading
+      %h2 Estadisticas generales
+    .panel-body
+      .row
+        .col-md-3.m-b-10
+          .widget-8.panel.no-border.bg-success.no-margin.widget-loader-bar
+            .container-xs-height.full-height
+              .row-xs-height
+                .col-xs-height.col-top
+                  .panel-heading.top-left.top-right
+                    %span.font-montserrat.fs-11.all-caps
+                      total de estudiantes
+                      %i.fa.fa-chevron-right
+                    .panel-controls
+                      %ul
+                        %li
+                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
+                            %i.portlet-icon.portlet-icon-refresh
+              .row-xs-height 
+                .col-xs-height.col-top.relative
+                  .row
+                    .col-sm-6
+                      .p-l-20
+                        %h3.no-margin.p-b-5.text-white
+                          = @users.students.count
+                        %p.small.hint-text.m-t-5
+                          %span.label.font-montserrat.m-r-5
+                            = @users.students.where(invitation_accepted_at: today.beginning_of_day...Time.now).count
+                          Activados hoy
+        .col-md-3.m-b-10
+          .widget-8.panel.bg-warning.no-margin.widget-loader-bar
+            .container-xs-height.full-height
+              .row-xs-height
+                .col-xs-height.col-top
+                  .panel-heading.top-left.top-right
+                    %span.font-montserrat.fs-11.all-caps
+                      Mensajes a mentores
+                      %i.fa.fa-chevron-right
+                    .panel-controls
+                      %ul
+                        %li
+                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
+                            %i.portlet-icon.portlet-icon-refresh
+              .row-xs-height 
+                .col-xs-height.col-top.relative
+                  .row
+                    .col-sm-6
+                      .p-l-20
+                        %h3.no-margin.p-b-5.text-white
+                          = @mentor_messages.count
+                        %p.small.hint-text.m-t-5
+                          %span.label.font-montserrat.m-r-5
+                            = @mentor_messages.where(created_at: today.beginning_of_day...Time.now).count
+                          Enviados hoy
+        .col-md-3.m-b-10
+          .widget-8.panel.no-border.bg-primary.no-margin.widget-loader-bar
+            .container-xs-height.full-height
+              .row-xs-height
+                .col-xs-height.col-top
+                  .panel-heading.top-left.top-right
+                    %span.font-montserrat.fs-11.all-caps
+                      Mensajes en el chat
+                      %i.fa.fa-chevron-right
+                    .panel-controls
+                      %ul
+                        %li
+                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
+                            %i.portlet-icon.portlet-icon-refresh
+              .row-xs-height 
+                .col-xs-height.col-top.relative
+                  .row
+                    .col-sm-6
+                      .p-l-20
+                        %h3.no-margin.p-b-5.text-white
+                          = @massages.count
+                        %p.small.hint-text.m-t-5
+                          %span.label.font-montserrat.m-r-5
+                            = @massages.where(created_at: today.beginning_of_day...Time.now).count
+                          enviados hoy
+        .col-md-3.m-b-10
+          .widget-8.panel.no-border.bg-complete.no-margin.widget-loader-bar
+            .container-xs-height.full-height
+              .row-xs-height
+                .col-xs-height.col-top
+                  .panel-heading.top-left.top-right
+                    %span.font-montserrat.fs-11.all-caps
+                      total de grupos
+                      %i.fa.fa-chevron-right
+                    .panel-controls
+                      %ul
+                        %li
+                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
+                            %i.portlet-icon.portlet-icon-refresh
+              .row-xs-height 
+                .col-xs-height.col-top.relative
+                  .row
+                    .col-sm-6
+                      .p-l-20
+                        %h3.no-margin.p-b-5.text-white
+                          = @groups.count
+                        %p.small.hint-text.m-t-5
+                          %span.label.font-montserrat.m-r-5
+                            = @groups.where(updated_at: 7.day.ago...Time.now).count
+                          Actualizados recientemente
+
+      .row
+        .col-md-3.m-b-10
+          .widget-8.panel.no-border.bg-warning.no-margin.widget-loader-bar
+            .container-xs-height.full-height
+              .row-xs-height
+                .col-xs-height.col-top
+                  .panel-heading.top-left.top-right
+                    %span.font-montserrat.fs-11.all-caps
+                      total de mentores
+                      %i.fa.fa-chevron-right
+                    .panel-controls
+                      %ul
+                        %li
+                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
+                            %i.portlet-icon.portlet-icon-refresh
+              .row-xs-height 
+                .col-xs-height.col-top.relative
+                  .row
+                    .col-sm-6
+                      .p-l-20
+                        %h3.no-margin.p-b-5.text-white
+                          = @users.mentors.count
+                        %p.small.hint-text.m-t-5
+                          %span.label.font-montserrat.m-r-5
+                            = @users.mentors.where(invitation_accepted_at: today.beginning_of_day...Time.now).count
+                          Activados hoy
+        .col-md-3.m-b-10
+          .widget-8.panel.bg-primary.no-margin.widget-loader-bar
+            .container-xs-height.full-height
+              .row-xs-height
+                .col-xs-height.col-top
+                  .panel-heading.top-left.top-right
+                    %span.font-montserrat.fs-11.all-caps
+                      total de programas
+                      %i.fa.fa-chevron-right
+                    .panel-controls
+                      %ul
+                        %li
+                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
+                            %i.portlet-icon.portlet-icon-refresh
+              .row-xs-height 
+                .col-xs-height.col-top.relative
+                  .row
+                    .col-sm-6
+                      .p-l-20
+                        %h3.no-margin.p-b-5.text-white
+                          = @programs.count
+                        %p.small.hint-text.m-t-5
+                          %span.label.font-montserrat.m-r-5
+                            = @programs.where(updated_at: 7.days.ago...Time.now).count
+                          actualizados recientemente
+        .col-md-3.m-b-10
+          .widget-8.panel.no-border.bg-complete.no-margin.widget-loader-bar
+            .container-xs-height.full-height
+              .row-xs-height
+                .col-xs-height.col-top
+                  .panel-heading.top-left.top-right
+                    %span.font-montserrat.fs-11.all-caps
+                      Sesiones de usuarios 
+                      %i.fa.fa-chevron-right
+                    .panel-controls
+                      %ul
+                        %li
+                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
+                            %i.portlet-icon.portlet-icon-refresh
+              .row-xs-height 
+                .col-xs-height.col-top.relative
+                  .row
+                    .col-sm-6
+                      .p-l-20
+                        %h3.no-margin.p-b-5.text-white
+                          = Session.average.round(2) 
+                          min.
+                        %p.small.hint-text.m-t-5
+                          %span.label.font-montserrat.m-r-5
+                            = Session.today
+                          min. hoy.
+        .col-md-3.m-b-10
+          .widget-8.panel.no-border.bg-success.no-margin.widget-loader-bar
+            .container-xs-height.full-height
+              .row-xs-height
+                .col-xs-height.col-top
+                  .panel-heading.top-left.top-right
+                    %span.font-montserrat.fs-11.all-caps
+                      Archivos
+                      %i.fa.fa-chevron-right
+                    .panel-controls
+                      %ul
+                        %li
+                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
+                            %i.portlet-icon.portlet-icon-refresh
+              .row-xs-height 
+                .col-xs-height.col-top.relative
+                  .row
+                    .col-sm-6
+                      .p-l-20
+                        %h3.no-margin.p-b-5.text-white
+                          = @shared_attachments.count + @attachments.count
+                          total
+                        %p.small.hint-text.m-t-5
+                          %span.label.font-montserrat.m-r-5
+                            = @shared_attachments.where(created_at: today.beginning_of_day...Time.now).count + @attachments.where(created_at: today.beginning_of_day...Time.now).count
+                          Subidos hoy
+
+      .row
+        .col-md-3.m-b-10
+          .widget-8.panel.no-border.bg-primary.no-margin.widget-loader-bar
+            .container-xs-height.full-height
+              .row-xs-height
+                .col-xs-height.col-top
+                  .panel-heading.top-left.top-right
+                    %span.font-montserrat.fs-11.all-caps
+                      total de invitaciones
+                      %i.fa.fa-chevron-right
+                    .panel-controls
+                      %ul
+                        %li
+                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
+                            %i.portlet-icon.portlet-icon-refresh
+              .row-xs-height 
+                .col-xs-height.col-top.relative
+                  .row
+                    .col-sm-6
+                      .p-l-20
+                        %h3.no-margin.p-b-5.text-white
+                          = @users.mentors.count + @users.students.count + @users.staff.count
+                        %p.small.hint-text.m-t-5
+                          %span.label.font-montserrat.m-r-5
+                            = @users.where(invitation_created_at: today.beginning_of_day...Time.now).count
+                          Enviadas hoy
+        .col-md-3.m-b-10
+          .widget-8.panel.bg-complete.no-margin.widget-loader-bar
+            .container-xs-height.full-height
+              .row-xs-height
+                .col-xs-height.col-top
+                  .panel-heading.top-left.top-right
+                    %span.font-montserrat.fs-11.all-caps
+                      total reportes contenido dañado
+                      %i.fa.fa-chevron-right
+                    .panel-controls
+                      %ul
+                        %li
+                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
+                            %i.portlet-icon.portlet-icon-refresh
+              .row-xs-height 
+                .col-xs-height.col-top.relative
+                  .row
+                    .col-sm-6
+                      .p-l-20
+                        %h3.no-margin.p-b-5.text-white
+                          = @reports.count
+                        %p.small.hint-text.m-t-5
+                          %span.label.font-montserrat.m-r-5
+                            = @reports.where(created_at: 1.days.ago...Time.now).count
+                          reportados hoy
+  .row
+    .panel.panel-transparent
+      .panel-heading
+        %h2 Usuarios nuevos
+      .panel-body
+        = area_chart [{name: "usuarios activados", data: @activados}, {name: "usuarios inactivos", data: @inactivos}], colors: ["#10CFBD", "#F8D053"], stacked: true
+
+  .row
+    .panel.panel-transparent
+      .panel-heading
+        %h2 Contenidos
+      .panel-body
+        = column_chart [ {name: "Contenido visto", data: Ahoy::Event.where(name: "Viewed content", time: 30.day.ago...Time.now).group_by_day(:time).count }, {name: "Preguntas contestadas", data: Answer.where(created_at: 60.day.ago...Time.now).group_by_day(:created_at).count }], colors: ["#6D5CAE", "#48B0F7"]
+  .row
+    .panel.panel-transparent
+      .panel-heading
+        %h2 Sessiones
+      .panel-body
+        = column_chart [{ name: "Sessiones por dia", data: Session.where( start: 30.day.ago...Time.now).group_by_day('start').count }, { name: "Tiempo promedio", data: @promedio_sessiones}], colors: ["#F55753"]
+
+  .row
+    .panel.panel-transparent
+      .panel-heading
+        %h2 Actividad de usuarios
+      .panel-body
+        = area_chart [name: "Actividad de usuarios", data: @visits.group_by_day(:started_at).count], colors: ['#6D5CAE']
+  .row
+    .panel.panel-transparent
+      .col-md-6
+        %h2.text-center
+          Navegadores
+        = pie_chart @visits.group(:browser).count
+      .col-md-6
+        %h2.text-center
+          Dispositivos
+        = pie_chart @visits.group(:device_type).count
+
+      .col-md-6
+        %h2.text-center
+          Sistema operativo
+        = pie_chart @visits.group(:os).count
+
+      .col-md-6
+        %h2.text-center
+          Región
+        = geo_chart @visits.group(:region).count, library: {region: 'MX', resolution: 'provinces'}
