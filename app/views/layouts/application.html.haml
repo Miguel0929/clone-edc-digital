@@ -57,6 +57,29 @@
           = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]})
 
           - if current_user.student?
+<<<<<<< HEAD
+=======
+            %li.extra-bottom-4.m-t-30
+              %a{:href => "javascript:;"}
+                %span.title Programas
+                %span.arrow
+              %span.icon-thumbnail
+                %i.pg-layouts
+              %ul.sub-menu
+                %li
+                  %a{:href => dashboard_programs_path} Todos
+                  %span.icon-thumbnail Ts
+                %li
+                  %a{:href => dashboard_programs_path(tipo: "elearning")} e-Learning
+                  %span.icon-thumbnail eL
+                %li
+                  %a{:href => dashboard_programs_path(tipo: "construccion")} Construcción
+                  %span.icon-thumbnail Co     
+            = display_navbar_link({link: 'Examenes', details: 'Examenes en EDCdigital', path: dashboard_quizzes_path, icon: 'fa fa-question-circle', role: [:student]})
+            = display_navbar_link({css: [''], link: 'Mi ruta', details: 'Ruta de emprendimiento' ,path: dashboard_pathway_path, icon: 'fa fa-map-o', role: [:student]})
+            = display_navbar_link({css: [''], link: 'Ruta de aprendizaje', details: 'Ruta de apendizaje' ,path: dashboard_learning_path_path, icon: 'fa fa-map-signs', role: [:student]})
+            = display_navbar_link({css: [''], link: 'Mis archivos', details: 'Archivos digitales' ,path: dashboard_attachments_path, icon: 'fa fa-file', role: [:student]})
+>>>>>>> feature/programs-menu-classification
 
             %li.extra-bottom-4.m-t-30
               %a{:href => "javascript:;"}
