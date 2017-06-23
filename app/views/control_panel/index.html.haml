@@ -287,7 +287,6 @@
         %h2 Actividad de usuarios
       .panel-body
         = area_chart [name: "Actividad de usuarios", data: @visits.group_by_day(:started_at).count], colors: ['#6D5CAE']
-        
   .row
     .panel.panel-transparent
       .col-md-6
