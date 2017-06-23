@@ -11,7 +11,6 @@ class ControlPanelController < ApplicationController
     @shared_attachments = SharedAttachment.all
     @attachments = Attachment.all
     @reports = Report.all
-<<<<<<< HEAD
     @visits = Visit.where(started_at: 60.day.ago...Time.now)
     @total_activados = @users.where(invitation_created_at: @users.second.invitation_created_at...Time.now, 
                                   invitation_accepted_at: @users.second.invitation_created_at...Time.now).count - 
@@ -42,7 +41,5 @@ class ControlPanelController < ApplicationController
       end       
       @promedio_sessiones << [day, tiempo]     
     end
-=======
->>>>>>> Revert "Merge branch 'feture/admin-dashboard' into development"
   end
 end
