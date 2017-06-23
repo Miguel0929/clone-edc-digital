@@ -266,8 +266,8 @@
       .panel-heading
         %h2 Usuarios nuevos
       .panel-body
-        = column_chart [ {name: "Invitados", data: @users.where(invitation_created_at: 30.day.ago...Time.now).group_by_day(:invitation_created_at).count }, {name: "Activados", data: @users.where(invitation_accepted_at: 30.day.ago...Time.now).group_by_day(:invitation_accepted_at).count}], colors: ["#10CFBD", "#F8D053"], stacked: true
-  
+        = area_chart [{name: "usuarios activados", data: @activados}, {name: "usuarios inactivos", data: @inactivos}], colors: ["#10CFBD", "#F8D053"], stacked: true
+
   .row
     .panel.panel-transparent
       .panel-heading
@@ -287,26 +287,26 @@
       .panel-heading
         %h2 Actividad de usuarios
       .panel-body
-        = line_chart Visit.group_by_day(:started_at).count
+        = area_chart [name: "Actividad de usuarios", data: @visits.group_by_day(:started_at).count], colors: ['#6D5CAE']
         
   .row
     .panel.panel-transparent
       .col-md-6
         %h2.text-center
           Navegadores
-        = pie_chart Visit.group(:browser).count
+        = pie_chart @visits.group(:browser).count
       .col-md-6
         %h2.text-center
           Dispositivos
-        = pie_chart Visit.group(:device_type).count
+        = pie_chart @visits.group(:device_type).count
 
       .col-md-6
         %h2.text-center
           Sistema operativo
-        = pie_chart Visit.group(:os).count
+        = pie_chart @visits.group(:os).count
 
       .col-md-6
         %h2.text-center
           Región
 
-        = geo_chart Visit.group(:region).count, library: {region: 'MX', resolution: 'provinces'}
+        = geo_chart @visits.group(:region).count, library: {region: 'MX', resolution: 'provinces'}

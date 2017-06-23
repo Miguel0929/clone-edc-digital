@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 
   enum role: [ :student, :mentor, :admin, :staff ]
   enum gender: [ :male, :female ]
-  enum evaluation_status: [:evaluado, :'sin evaluar']
+  enum evaluation_status: [:'sin evaluar', :evaluad]
 
   has_many :answers
   has_many :group_users
@@ -277,6 +277,10 @@ class User < ActiveRecord::Base
 
   def unbann!
     update({banned: false})
+  end
+
+  def day
+    self.invitation_created_at.strftime('%Y-%m-%d')
   end
 
   private
