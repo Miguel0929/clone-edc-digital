@@ -75,6 +75,20 @@ a.pump-link:hover {
 	padding: 6px 12px;
 	border-radius: 4px;
 }
+a.seen-link {
+	color: #0DAD9E;
+}
+a.seen-link:hover {
+	//text-decoration: underline;
+	color: #40D9CA;
+}
+a.unseen-link {
+	color: #957D32;
+}
+a.unseen-link:hover {
+	//text-decoration: underline;
+	color: #F8D053;
+}
 .programs-filter-btn{
 }
 @media (min-width: 990px) {
