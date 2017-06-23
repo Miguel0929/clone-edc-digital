@@ -2,7 +2,11 @@ class ReportsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin, only: [:index,:destroy,:visto]
   before_action :set_report, only: [:destroy, :visto]
+
+  add_breadcrumb "EDCDIGITAL", :root_path
+
   def index
+    add_breadcrumb "<a class='active' href='#{reports_path}'>Reportes de contenido</a>".html_safe
   	@reports=Report.order(:created_at).page(params[:page]).per(20)
   end 
   def create
