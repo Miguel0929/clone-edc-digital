@@ -5,6 +5,13 @@ a.pump-link:hover {
 	//text-decoration: underline;
 	color: #48b0f7;
 }
+a.redish-link {
+	color: #CD4945;
+}
+a.redish-link:hover {
+	//text-decoration: underline;
+	color: #F77975;
+}
 .p-r-17 {
 	padding-right: 17.5px;
 }
@@ -16,6 +23,9 @@ a.pump-link:hover {
 }
 .p-l-8 {
 	padding-left: 7.5px;
+}
+.m-t-18 {
+  margin-top: 18px;
 }
 .subtitle-module-text {
   opacity: .7;
