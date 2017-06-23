@@ -2,61 +2,60 @@
 	Preguntas frecuentes - EDCdigital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
-	%section.demo-bg-section.p-b-15.p-t-15.m-b-30
+	%section.demo-bg-section.p-b-30.p-t-15.panel-title-ayuda
 		.container
 			.md-p-l-20.md-p-r-20.xs-no-padding
-				.row
-					.col-sm-12.col-md-12.no-padding.xs-p-l-15.xs-p-r-15
-						.col-md-8
-							%h5
-								%span.hint-text.text-white
-									BÚSQUEDA:
-								%span.text-white
-									= @search_term		
-						.col-md-4{:style =>"margin-top:8.5px; margin-bottom:8.5px;"}
-							.input-group.transparent.center-margin
-								= form_tag(frequents_path, method: :get) do
-									= text_field_tag :term, params[:term]
-									= submit_tag 'Buscar', class: "boton-buscar"
+				.row.col-md-12
+					.col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+						%h3.text-white 
+							Preguntas frecuentes
+					.col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+						%h5.text-white
+							Búsqueda:
+						.input-group.transparent
+							= form_tag(frequents_path, method: :get) do
+								= text_field_tag :term, params[:term]
+								= submit_tag 'Buscar', class: "boton-buscar" 
 
-	.col-md-12
-		.panel.panel-transparent.m-b-0
-			.panel-heading
-				.panel-title
-					Los resultados de tu búsqueda:
-			.panel-body
-				.table-responsive
-					%table.col-md-12.table.table-hover.table-condensed.dataTable.no-footer{:role => "grid"}
-						%tbody
-						- if @frequentsearch.exists?
-							- @frequentsearch.each do |frequentsearch|
+	.m-t-30
+		.col-md-12
+			.panel.panel-transparent.m-b-0
+				.panel-heading
+					.panel-title
+						Los resultados de tu búsqueda:
+				.panel-body
+					.table-responsive
+						%table.col-md-12.table.table-hover.table-condensed.dataTable.no-footer{:role => "grid"}
+							%tbody
+							- if @frequentsearch.exists?
+								- @frequentsearch.each do |frequentsearch|
+									%tr{:role => "row"}
+										%td.v-align-middle.bold{:width => "75%", :style => "line-height: 3;"} 
+											= link_to frequentsearch.name, frequentsearch
+										- if current_user.admin?
+											%td
+												.center
+													= link_to edit_frequent_path(frequentsearch) do
+														%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar"}
+															%i.fa.fa-edit{:style => "font-size:18px;"}
+											%td
+												.center
+													= link_to frequent_path(frequentsearch), method: :delete, data: { confirm: '¿Estás seguro?' } do
+														%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar"}
+															%i.fa.fa-times{:style => "font-size:18px;"}
+							- else
 								%tr{:role => "row"}
 									%td.v-align-middle.bold{:width => "75%", :style => "line-height: 3;"} 
-										= link_to frequentsearch.name, frequentsearch
-									- if current_user.admin?
-										%td
-											.center
-												= link_to edit_frequent_path(frequentsearch) do
-													%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar"}
-														%i.fa.fa-edit{:style => "font-size:18px;"}
-										%td
-											.center
-												= link_to frequent_path(frequentsearch), method: :delete, data: { confirm: '¿Estás seguro?' } do
-													%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar"}
-														%i.fa.fa-times{:style => "font-size:18px;"}
-						- else
-							%tr{:role => "row"}
-								%td.v-align-middle.bold{:width => "75%", :style => "line-height: 3;"} 
-									.text-center
-										No se encontraron coincidencias
-						
-
-	.pull-right
-		= link_to frequent_categories_path do
-			%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.m-r-20
-				%i.fa.fa-mail-reply
-				Regresar a preguntas frecuentes
-
+										.text-center
+											No se encontraron coincidencias
 							
+
+		.pull-right
+			= link_to frequent_categories_path do
+				%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.m-r-20
+					%i.fa.fa-mail-reply
+					Regresar a preguntas frecuentes
+
+								
 
 
