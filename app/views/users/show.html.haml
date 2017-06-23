@@ -140,9 +140,9 @@
                     %li
                       = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: program) do
                         - if chapter.questions.count == 0
-                          .label.label-info.p-sides-14
+                          .label.label-success
                             M-#{index + 1}
-                            %i.fa
+                            %i.fa.fa-check
                         - else
                           - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions.count.to_f).ceil
                           - checked = chapter.chapter_checked?(chapter.id, @user.id)
