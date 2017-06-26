@@ -2,8 +2,6 @@ class Mentor::GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_mentor
 
-  helper_method :get_group_stat
-
   add_breadcrumb "EDCDIGITAL", :root_path
 
   def index
@@ -23,9 +21,5 @@ class Mentor::GroupsController < ApplicationController
       format.html
       format.xlsx{response.headers['Content-Disposition']='attachment; filename="students_list.xlsx"'}
     end
-  end
-
-  def get_group_stat(group)
-    GroupStat.where(group_id: group.id).last
   end
 end

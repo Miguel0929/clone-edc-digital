@@ -25,4 +25,8 @@ class Group < ActiveRecord::Base
     active_students.where('lower(users.first_name) LIKE lower(?) OR lower(users.last_name) LIKE lower(?) OR lower(users.email) LIKE lower(?)',
                          "%#{query}%", "%#{query}%", "%#{query}%") 
   end
+
+  def get_group_stat(group)
+    GroupStat.where(group_id: group.id).last
+  end
 end

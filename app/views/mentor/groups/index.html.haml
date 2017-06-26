@@ -43,7 +43,7 @@
                       = user.name
               %td.p-b-20
                 %ul.unstyled.no-style
-                  - current_stats = get_group_stat(group)
+                  - current_stats = group.get_group_stat(group)
                   - if !current_stats.nil?
                     %li
                       %ul.p-l-5.m-b-0
