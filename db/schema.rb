@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170621010843) do
+ActiveRecord::Schema.define(version: 20170623194041) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -210,6 +210,19 @@ ActiveRecord::Schema.define(version: 20170621010843) do
 
   add_index "group_quizzes", ["group_id"], name: "index_group_quizzes_on_group_id", using: :btree
   add_index "group_quizzes", ["quiz_id"], name: "index_group_quizzes_on_quiz_id", using: :btree
+
+  create_table "group_stats", force: :cascade do |t|
+    t.integer  "group_students"
+    t.float    "average_progress"
+    t.float    "average_seen"
+    t.integer  "evaluated_students"
+    t.integer  "unevaluated_studets"
+    t.integer  "group_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "group_stats", ["group_id"], name: "index_group_stats_on_group_id", using: :btree
 
   create_table "group_users", force: :cascade do |t|
     t.integer "group_id"
@@ -640,6 +653,7 @@ ActiveRecord::Schema.define(version: 20170621010843) do
   add_foreign_key "glossaries", "glossary_categories"
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"
+  add_foreign_key "group_stats", "groups"
   add_foreign_key "groups", "universities"
   add_foreign_key "learning_path_notifications", "groups"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
