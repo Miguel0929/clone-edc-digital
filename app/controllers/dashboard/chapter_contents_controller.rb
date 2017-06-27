@@ -1,6 +1,7 @@
 class Dashboard::ChapterContentsController < ApplicationController
   before_action :authenticate_user!
   before_action :track_chapter_content, only: [:show]
+  after_action :update_program_stats, only: [:show]
 
   def show
     rank= Rating.where(ratingable_type: "ChapterContent", ratingable_id: @chapter_content.id, user_id: current_user.id).first
@@ -52,5 +53,19 @@ class Dashboard::ChapterContentsController < ApplicationController
     end
 
     ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
+  end
+
+  def update_program_stats
+    #program = Program.joins(:chapters => :chapter_contents).where(chapter_contents: {id: @chapter_content.id}).last
+    program = program = @chapter_content.chapter.program
+    program_stat = ProgramStat.where(user_id: @current_user.id, program_id: program.id).last
+    progress = @current_user.percentage_questions_answered_for(program)
+    seen = @current_user.percentage_content_visited_for(program)
+
+    if program_stat.nil?
+      new_stat = ProgramStat.create(user_id: @current_user.id, program_id: program.id, program_progress: progress, program_seen: seen)
+    else
+      program_stat.update(program_progress: progress, program_seen: seen)
+    end
   end
 end

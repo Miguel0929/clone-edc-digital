@@ -3,6 +3,7 @@ class Dashboard::AnswersController < ApplicationController
   before_action :set_chapter_content
   before_action :validate_coursable_type
   before_action :build_question
+  after_action :update_program_stats, only: [:create, :update]
 
   add_breadcrumb "EDCDIGITAL", :root_path
   add_breadcrumb "programas", :dashboard_programs_path
@@ -99,6 +100,20 @@ class Dashboard::AnswersController < ApplicationController
       redirect_to dashboard_chapter_content_path(@chapter_content.chapter.program.next_chapter(@chapter_content.chapter).chapter_contents.first), notice: "Cambios guardados con éxito"
     else
       redirect_to dashboard_program_path(@chapter_content.chapter.program), notice: "Cambios guardados con éxito"
+    end
+  end
+
+  def update_program_stats
+    #program = Program.joins(:chapters => :chapter_contents).where(chapter_contents: {id: @chapter_content.id}).last
+    program = @chapter_content.chapter.program
+    program_stat = ProgramStat.where(user_id: @current_user.id, program_id: program.id).last
+    progress = @current_user.percentage_questions_answered_for(program)
+    seen = @current_user.percentage_content_visited_for(program)
+
+    if program_stat.nil?
+      new_stat = ProgramStat.create(user_id: @current_user.id, program_id: program.id, program_progress: progress, program_seen: seen)
+    else
+      program_stat.update(program_progress: progress, program_seen: seen)
     end
   end
 end
