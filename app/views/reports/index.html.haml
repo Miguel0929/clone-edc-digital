@@ -1,59 +1,88 @@
-.container-fluid.container-fixed-lg.bg-white
-	.panel.panel-transparent
+.container-fluid.container-fixed-lg
+	.panel.panel-default
 		.panel-heading
 			.clearfix
 		.panel-body
-			%table.table.table-hover.text-center
+			%table.table.table-hover
 				%thead
 					%tr
-						%th.text-center
-						%th.text-center
+						%th
 							Id
-						%th.text-center
-							Causa
-						%th.text-center
-							Usuario	
-						%th.text-center
-							Programa
-						%th.text-center
-							Capitulo
-						%th.text-center
-							Contenido		
-						%th.text-center
-							Fecha
-						%th.text-center
+						%th
+							Datos de usuario
+						%th
+							Causa del reporte	
+						%th
+							Ubicación
+						%th
 							Opciones
 				%tbody
 					- @reports.each do |report|
 						%tr.default-leido
-							%td
-								- if report.status
-									=link_to visto_report_path(report.id), method: "post" do
-										%i.fa.fa-eye-slash 
-								- else
-									=link_to visto_report_path(report.id), method: "post" do
-										%i.fa.fa-eye
-							%td
-								= report.id			
-							%td
-								= report.cause
-							%td
-								- if report.user.nil?
-									N/A
-								- else	
-									= report.user.name	
-							%td
-								= report.model.chapter.program.name
-							%td
-								= report.model.chapter.name
-							%td
-								= report.model.model.identifier		
-							%td
-								= report.created_at.strftime("%d/%m/%Y %H:%M:%S")
-							%td
-								=link_to "Eliminar reporte",report_path(report.id), data: { confirm: '¿Estás seguro?' }, method: "delete", class: "btn btn-default"
-								- if report.reportable_type=="ChapterContent"
-									=link_to "Ver",dashboard_chapter_content_path(report.reportable_id), class: "btn btn-default"
+							%td.p-b-15
+								= report.id
+							%td.p-b-15
+								%ul.p-l-0.m-b-0
+									%li.inline 
+										%i.fa.fa-user
+									%li.inline 
+										- if report.user.nil?
+											N/A
+										- else	
+											= report.user.name
+								%ul.p-l-0.m-b-0
+									%li.inline 
+										%i.fa.fa-envelope
+									%li.inline 
+										- if report.user.nil?
+											N/A
+										- else	
+											= report.user.email
+								%ul.p-l-0.m-b-0
+									%li.inline 
+										%i.fa.fa-clock-o
+									%li.inline
+										= report.created_at.strftime("%d/%m/%Y %H:%M:%S")
+							%td.p-b-15
+								.m-b-0
+									= report.cause
+							%td.p-b-15
+								%ul.p-l-0.m-b-0
+									%li.inline 
+										%span.bold Programa: 
+									%li.inline 
+										= report.model.chapter.program.name
+								%ul.p-l-0.m-b-0
+									%li.inline 
+										%span.bold Capítulo: 
+									%li.inline 
+										= report.model.chapter.name
+								%ul.p-l-0.m-b-0
+									%li.inline 
+										%span.bold Contenido: 
+									%li.inline 
+										= report.model.model.identifier
+							%td.p-b-15
+								%ul.unstyled.list-unstyled.p-l-0.m-b-0
+									%li
+										- if report.reportable_type=="ChapterContent"
+											=link_to dashboard_chapter_content_path(report.reportable_id) do
+												%i.fa.fa-window-maximize
+												Ver contenido reportado
+									%li
+										=link_to report_path(report.id), data: { confirm: '¿Estás seguro?' }, method: "delete" do
+											%i.fa.fa-times
+											Eliminar reporte
+									%li
+										- if report.status
+											=link_to visto_report_path(report.id), method: "post", class: "unseen-link" do
+												%i.fa.fa-eye-slash 
+												Reporte no visto
+										- else
+											=link_to visto_report_path(report.id), method: "post", class: "seen-link" do
+												%i.fa.fa-eye
+												Reporte visto
+							
 			%center						
 				= paginate @reports 	
-                
+								
