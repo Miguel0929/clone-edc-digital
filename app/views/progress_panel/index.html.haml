@@ -1,0 +1,78 @@
+.container-fluid.container-fixed-lg
+	.panel.panel-default
+		.panel-heading
+			.row
+				.col-sm-12
+					.panel-title
+						Progreso general de EDC Digital
+		.panel-body
+			.row.m-b-40.m-t-10
+				.col-sm-12
+					.pull-left
+						= form_tag(progress_panel_index_path, method: :get) do
+							= select_tag :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "form-control" }
+							= submit_tag 'Filtrar por grupo', class: "btn btn-success"  
+					.pull-right
+						= link_to massive_program_progress_path do
+							.btn.btn-info
+								%i.fa.fa-refresh
+								Actualizar datos
+						= link_to progress_panel_groups_path do
+							.btn.btn-info
+								%i.fa.fa-group
+								Ver progreso por grupos
+			.row.m-b-80
+				.col-sm-4
+					%h3.p-b-20 Alumos de EDC
+					= pie_chart [["Alumnos activos", @active_users], ["Alumnos inactivos", @inactive_users]]
+				.col-sm-8
+					%h3.p-b-20 Distribución general de avances de alumnos	
+					- total_sum = @hundred + @seventy + @fifty + @thirty
+					= column_chart [["0% a 29%", ((@thirty.to_f / total_sum) * 100).round(1)], ["30% a 49%", ((@fifty.to_f / total_sum) * 100).round(1)], ["50% a 69%", ((@seventy.to_f / total_sum) * 100).round(1)], ["70% a 100%", ((@hundred.to_f / total_sum) * 100).round(1)]], colors: ["#6D5CAE"]
+			.row.m-b-80
+				.col-sm-12
+					%h3.p-b-10 Distribución de avances por programa
+					%table.table.table-striped
+						%thead
+							%tr
+								%th
+									Programa
+								%th.text-center
+									0% a 29%
+								%th.text-center
+									30% a 49%
+								%th.text-center
+									50% a 69%
+								%th.text-center
+									70% a 100%
+						%tbody
+							- @programs.each do |program|
+								%tr
+									- program_stat = get_program_progress_strata(program)
+									- hundred, seventy, fifty, thirty, sumatory = program_stat[0], program_stat[1], program_stat[2], program_stat[3], program_stat.inject(0){|sum,x| sum + x } 
+									%td.p-b-15
+										= Program.find(program.id).name
+									%td.text-center.p-b-15
+										= ((thirty.to_f / sumatory) * 100).round(1)
+									%td.text-center.p-b-15
+										= ((fifty.to_f / sumatory) * 100).round(1)
+									%td.text-center.p-b-15
+										= ((seventy.to_f / sumatory) * 100).round(1)
+									%td.text-center.p-b-15
+										= ((hundred.to_f / sumatory) * 100).round(1)
+			.row.m-b-40
+				%h3.p-b-10.p-l-15 Distribución de avances por programa
+				- @programs.each do |program|
+					.col-sm-6
+						%h4
+							= truncate(Program.find(program.id).name, :length => 50, :separator => ' ')
+						.padding-30
+							- program_stat = get_program_progress_strata(program)
+							- hundred, seventy, fifty, thirty, sumatory = program_stat[0], program_stat[1], program_stat[2], program_stat[3], program_stat.inject(0){|sum,x| sum + x }
+							= bar_chart [["0% a 29%", ((thirty.to_f / sumatory) * 100).round(1)], ["30% a 49%", ((fifty.to_f / sumatory) * 100).round(1)], ["50% a 69%", ((seventy.to_f / sumatory) * 100).round(1)], ["70% a 100%", ((hundred.to_f / sumatory) * 100).round(1)]]
+
+
+
+
+
+
