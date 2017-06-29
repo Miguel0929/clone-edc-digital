@@ -68,7 +68,15 @@
                     %td.text-center
                       %label.switch
                         %input{type: "checkbox", checked: if @noti.up_evaluation.first.nil? then true else @noti.up_evaluation.first.status end, value: "7"}/
-                        .slider.round      
+                        .slider.round
+#alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-info
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      #alert_text  
+                                       
 :javascript
   $(document).on('turbolinks:load', function(){
     $(":checkbox").click(function() {
@@ -79,7 +87,13 @@
           'status': 'false' 
         },
         success: function (data, text) {
-          console.log(data);
+          if (data.nt.status){
+            $("#alert_text").text("Notificacion via email activada");
+          }else{
+            $("#alert_text").text("Notificacion via email desactivada");
+          }
+          $("#alert-ra").css('display','block');
+          setTimeout(function(){$("#alert-ra").css('display','none');},3000); 
         },
         error: function (data) {
           console.log(data);
