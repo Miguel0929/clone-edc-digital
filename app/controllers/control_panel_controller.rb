@@ -22,13 +22,13 @@ class ControlPanelController < ApplicationController
                                @users.where(invitation_created_at: 30.day.ago...Time.now, 
                                           invitation_accepted_at: nil).count
     total_activos = @total_activados
-    @activados = (60.day.ago.to_date...Date.today).map do |date| 
+    @activados = (30.day.ago.to_date...Date.today).map do |date| 
       total_activos += @users.where(invitation_accepted_at: date.beginning_of_day...date.end_of_day).count
       [date.strftime('%Y-%m-%d'), total_activos] 
     end
 
     total_inactivos = @total_creados
-    @inactivos = (60.day.ago.to_date...Date.today).map do |date|
+    @inactivos = (30.day.ago.to_date...Date.today).map do |date|
       total_inactivos += @users.where(invitation_created_at: 30.day.ago...date.end_of_day, invitation_accepted_at: nil).count
       [date.strftime('%Y-%m-%d'), total_inactivos]
     end
