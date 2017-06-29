@@ -72,13 +72,12 @@
                   %span.icon-thumbnail eL
                 %li
                   %a{:href => dashboard_programs_path(tipo: "construccion")} Construcción
-                  %span.icon-thumbnail Co     
-            = display_navbar_link({link: 'Examenes', details: 'Examenes en EDCdigital', path: dashboard_quizzes_path, icon: 'fa fa-question-circle', role: [:student]})
-            = display_navbar_link({css: [''], link: 'Mi ruta', details: 'Ruta de emprendimiento' ,path: dashboard_pathway_path, icon: 'fa fa-map-o', role: [:student]})
-            = display_navbar_link({css: [''], link: 'Ruta de aprendizaje', details: 'Ruta de apendizaje' ,path: dashboard_learning_path_path, icon: 'fa fa-map-signs', role: [:student]})
-            = display_navbar_link({css: [''], link: 'Mis archivos', details: 'Archivos digitales' ,path: dashboard_attachments_path, icon: 'fa fa-file', role: [:student]})
+                  %span.icon-thumbnail Co   
+                %li
+                  %a{:href => dashboard_learning_path_path} Ruta de aprendizaje
+                  %span.icon-thumbnail Ra  
 
-            %li.extra-bottom-4.m-t-30
+            %li.extra-bottom-4
               %a{:href => "javascript:;"}
                 %span.title Mi emprendimiento
                 %span.arrow
@@ -86,17 +85,11 @@
                 %i.fa.fa-rocket
               %ul.sub-menu
                 %li
-                  %a{:href => dashboard_programs_path} Programas
-                  %span.icon-thumbnail Pg
-                %li
-                  %a{:href => dashboard_quizzes_path} Exámenes
-                  %span.icon-thumbnail Ex
-                %li
                   %a{:href => dashboard_pathway_path} Mi ruta
                   %span.icon-thumbnail Ru
                 %li
-                  %a{:href => dashboard_learning_path_path} Ruta de aprendizaje
-                  %span.icon-thumbnail Ra
+                  %a{:href => dashboard_quizzes_path} Exámenes
+                  %span.icon-thumbnail Ex
                 %li
                   %a{:href => dashboard_attachments_path} Mis archivos
                   %span.icon-thumbnail Ma
@@ -136,7 +129,7 @@
                   %span.icon-thumbnail Ed
                 %li
                   %a{:href => dashboard_notifications_panel_path} Panel de notificaciones
-                  %span.icon-thumbnail Pn 
+                  %span.icon-thumbnail Pn  
                 %li
                   = link_to destroy_user_session_path, method: :delete do
                     Cerrar sesión
