@@ -247,21 +247,23 @@ class User < ActiveRecord::Base
 
   def last_time
     return 'El usuario no ha iniciado sesión' if sessions.last.nil?
-    TimeDifference.between(sessions.last.finish, Time.now)
-        .humanize
-        .gsub('Years', 'Año')
-        .gsub('Months', 'Meses')
-        .gsub('Month', 'Mes')
-        .gsub('Weeks', 'Semanas')
-        .gsub('Week', 'Semana')
-        .gsub('Days', 'Días')
-        .gsub('Day', 'Día')
-        .gsub('Hours', 'Horas')
-        .gsub('Hour', 'Hora')
-        .gsub('Minutes', 'Minutos')
-        .gsub('Minute', 'Minuto')
-        .gsub('Seconds', 'Segundos')
-        .gsub('and', 'y')
+    
+    if TimeDifference.between(sessions.last.finish, Time.now).humanize.nil?
+      "Menos de 1 segundo"
+    else
+      TimeDifference.between(sessions.last.finish, Time.now)
+          .humanize
+          .gsub('Years', 'Año')
+          .gsub('Months', 'Meses')
+          .gsub('Weeks', 'Semanas')
+          .gsub('Week', 'Semana')
+          .gsub('Days', 'Dias')
+          .gsub('Hours', 'Horas')
+          .gsub('Minutes', 'Minutos')
+          .gsub('Minute', 'Minuto')
+          .gsub('Seconds', 'Segundos')
+          .gsub('and', 'y')
+    end
   end
 
   def self.active_users
