@@ -13,10 +13,11 @@
 							= select_tag :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "form-control" }
 							= submit_tag 'Filtrar por grupo', class: "btn btn-success"  
 					.pull-right
-						= link_to massive_program_progress_path do
-							.btn.btn-info
-								%i.fa.fa-refresh
-								Actualizar datos
+						- if current_user.admin?
+							= link_to massive_program_progress_path do
+								.btn.btn-info
+									%i.fa.fa-refresh
+									Actualizar datos
 						= link_to progress_panel_groups_path do
 							.btn.btn-info
 								%i.fa.fa-group
