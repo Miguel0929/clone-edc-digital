@@ -40,25 +40,26 @@
                   %tr
                     %th Pregunta
                     %th Respuesta
-                    %th Revisada
-                    %th Valor
-                    %th Obtenido
+                    %th.text-center Evaluación
+                    %th.text-center Valor
+                    %th.text-center Obtenido
                 - @quiz.quiz_questions.each do |question|
                   %tr
                     %td
                       = link_to "#", class: "btn btn-success btn-rounded" do
-                        %i.fa.fa-tasks 
-                      = question.question_text
+                        %i.fa.fa-tasks
+                      %span.m-l-10{style: "position: relative; top: -8px;"} 
+                        = question.question_text
                       - answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: current_user.id)
                     %td= QuizAnswer.respuesta(question.id, current_user.id)
-                    %td
+                    %td.text-center
                       = answer.nil? ? "Sin contestar" : QuizAnswer.revisada(question.id, current_user.id).html_safe
-                    %td= answer.quiz_question.points
-                    %td
+                    %td.text-center= answer.quiz_question.points
+                    %td.text-center
                       %strong
                         = points_quiz_question(question, current_user)
                 %tr
                   %td{colspan: '4'}
-                    %h5.pull-right Total
+                    %h5.pull-right Total:
                   %td
                     %h5= @quiz.average(current_user)
