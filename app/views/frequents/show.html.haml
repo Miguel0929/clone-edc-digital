@@ -2,14 +2,17 @@
 	Preguntas frecuentes - EDCdigital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
-	%section.demo-bg-section.p-b-15.p-t-15.m-b-30
+	%section.demo-bg-section.p-b-15.p-t-30.m-b-30.panel-title-ayuda
 		.container
 			.md-p-l-20.md-p-r-20.xs-no-padding
-				.row
-					.col-sm-12.col-md-12.no-padding.xs-p-l-15.xs-p-r-15
-						%h5.hint-text.text-white
-							PREGUNTA:
-						%h4.text-white.col-md-10.offset-md-2
+				.row.col-md-12
+					.col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+						%h3.text-white 
+							Preguntas frecuentes
+					.col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+						%h5.text-white
+							Pregunta:
+						%h3.m-b-20.text-white
 							= @frequent.name
 
 	.raw.col-md-12

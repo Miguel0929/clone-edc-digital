@@ -63,10 +63,12 @@ class Dashboard::WelcomeController < ApplicationController
 
     redirect_to dashboard_support_path, flash_message
   end
+
   def notifications_panel
     add_breadcrumb "<a class='active' href='#{dashboard_notifications_panel_path}'>Panel de notificaciones</a>".html_safe
     @noti=PanelNotification.where(user: current_user)
   end
+
   def store_notifications_panel
     @notification=PanelNotification.where(user: current_user, notification: params[:notification]).first
     if @notification.nil?
@@ -76,4 +78,31 @@ class Dashboard::WelcomeController < ApplicationController
     end  
     render json:{col: params[:notification], nt: @notification}
   end  
+
+  def calculator
+    add_breadcrumb "<a class='active' href='#{dashboard_calculator_path}'>Calculadora de tamaño de muestra</a>".html_safe
+    
+    if !params[:param_result].nil?
+      @sample_size, @eighty_s, @innovators_s, @eighty_s_innovators, @inn_early_s  = params[:param_result][0], params[:param_result][1], params[:param_result][2], params[:param_result][3], params[:param_result][4]
+      @eighty_s_y, @innovators_n, @eighty_n, @inn_early_n, @eighty_n_y, @population = params[:param_result][5], params[:param_result][6], params[:param_result][7], params[:param_result][8], params[:param_result][9], params[:param_result][10]
+    end
+  end
+
+  def calculator_method
+    population = params[:calculator][:population].to_f
+    truster, success, failure, presicion, z, early, innovators = 0.95, 0.5, 0.5, 0.05, 1.96, 0.135, 0.025
+
+    sample_size = (z**2 * success * failure * population) / ((population * presicion**2) + (z**2 * success * failure))
+    eighty_s = sample_size * 0.8
+    innovators_s = sample_size * innovators
+    eighty_s_innovators = innovators_s * 0.8
+    inn_early_s = (sample_size * early) + (sample_size * innovators)
+    eighty_s_y = inn_early_s * 0.8
+    innovators_n = population * innovators
+    eighty_n = innovators_n * 0.8
+    inn_early_n = (early + innovators) * population
+    eighty_n_y = inn_early_n * 0.8
+
+    redirect_to dashboard_calculator_path(:param_result => [sample_size, eighty_s, innovators_s, eighty_s_innovators, inn_early_s, eighty_s_y, innovators_n, eighty_n, inn_early_n, eighty_n_y, population])#(:param_result => sample_size)
+  end
 end

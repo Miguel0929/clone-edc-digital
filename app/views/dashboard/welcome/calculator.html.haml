@@ -1,0 +1,89 @@
+- content_for :title  do
+	Calculadora - EDCdigital
+
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+	%section.demo-bg-section.p-b-25.p-t-25.panel-title-recursos
+		.container
+			.md-p-l-20.md-p-r-20.xs-no-padding
+				.row.col-md-12
+					.col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+						%h2.text-white 
+							Calculadora de muestras
+					.col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+						= bootstrap_form_for :calculator, url: dashboard_calculator_method_path, method: :get do |f|
+							.col-sm-12.text-white
+								= f.number_field :population, step: "any", label: 'Introduce la población total (escríbelo en dígitos):', :required => true
+								.pull-right
+									= f.submit 'Calcular estadísticos', :class => "btn"
+
+.container-fluid.container-fixed-lg
+	.panel.panel-default
+		- if !@population.nil?
+			.padding-30
+				.pull-right.sm-m-t-20
+					%h4.font-montserrat.all-caps
+						%span.hint-text Población total: 
+						%span #{number_with_delimiter(@population.to_i, :delimiter => ',')}
+			.panel-heading
+				.panel-title{:style => "font-size: 1.2em; color: #2b303b"}
+					Incluyendo muestreo
+			.panel-body
+				.container-sm-height
+					.row.row-sm-height.b-a.b-grey
+						.col-sm-2.col-sm-height.col-middle.p-l-25.sm-p-t-15.sm-p-l-15.clearfix.sm-p-b-15
+							%h5.font-montserrat.all-caps.small.no-margin.hint-text.bold Muestra:
+							%h4.no-margin #{'%.2f' % @sample_size}
+						.col-sm-2.col-sm-height.col-middle.clearfix.sm-p-b-15
+							%h5.font-montserrat.all-caps.small.no-margin.hint-text.bold 80 / 20:
+							%h4.no-margin #{'%.2f' % @eighty_s}
+						.col-sm-2.col-sm-height.col-middle.p-l-25.sm-p-t-15.sm-p-l-15.clearfix.sm-p-b-15
+							%h5.font-montserrat.all-caps.small.no-margin.hint-text.bold Innovadores:
+							%h4.no-margin #{'%.2f' % @innovators_s}
+						.col-sm-2.col-sm-height.col-middle.clearfix.sm-p-b-15
+							%h5.font-montserrat.all-caps.small.no-margin.hint-text.bold 80 / 20:
+							%h4.no-margin #{'%.2f' % @eighty_s_innovators}
+						.col-sm-2.text-right.bg-menu.col-sm-height.padding-15
+							%h5.font-montserrat.all-caps.small.no-margin.hint-text.text-white.bold Innovadores + Early adopters:
+							%h4.no-margin.text-white #{'%.2f' % @inn_early_s}
+						.col-sm-2.text-right.bg-menu.col-sm-height.padding-15
+							%h5.font-montserrat.all-caps.small.no-margin.hint-text.text-white.bold 80 / 20:
+							%h4.no-margin.text-white #{'%.2f' % @eighty_s_y}
+
+			.panel-heading
+				.panel-title{:style => "font-size: 1.2em; color: #2b303b"}
+					Sin considerar el muestreo
+			.panel-body
+				.container-sm-height
+					.row.row-sm-height.b-a.b-grey
+						.col-sm-4.col-sm-height.col-middle.p-l-25.sm-p-t-15.sm-p-l-15.clearfix.sm-p-b-15
+							%h5.font-montserrat.all-caps.small.no-margin.hint-text.bold Innovadores:
+							%h4.no-margin 
+								- if @innovators_n.to_f > 1000
+									= number_with_delimiter(@innovators_n.to_i, :delimiter => ',')
+								- else
+									#{'%.2f' % @innovators_n}
+						.col-sm-4.col-sm-height.col-middle.clearfix.sm-p-b-15
+							%h5.font-montserrat.all-caps.small.no-margin.hint-text.bold 80 / 20:
+							%h4.no-margin 
+								- if @eighty_n.to_f > 1000
+									= number_with_delimiter(@eighty_n.to_i, :delimiter => ',')
+								- else
+									#{'%.2f' % @eighty_n}
+						.col-sm-2.text-right.bg-menu.col-sm-height.padding-15
+							%h5.font-montserrat.all-caps.small.no-margin.hint-text.text-white.bold Innovadores + Early adopters:
+							%h4.no-margin.text-white
+								- if @inn_early_n.to_f > 1000
+									= number_with_delimiter(@inn_early_n.to_i, :delimiter => ',')
+								- else
+									#{'%.2f' % @inn_early_n}
+						.col-sm-2.text-right.bg-menu.col-sm-height.padding-15
+							%h5.font-montserrat.all-caps.small.no-margin.hint-text.text-white.bold 80 / 20:
+							%h4.no-margin.text-white 
+								- if @eighty_n_y.to_f > 1000
+									= number_with_delimiter(@eighty_n_y.to_i, :delimiter => ',')
+								- else
+									#{'%.2f' % @eighty_n_y}
+		- else
+			.panel-heading
+				.panel-title{:style => "font-size: 1.2em; color: #2b303b"}
+					Calcula tus estadísticos usando el formulario de arriba
