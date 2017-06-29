@@ -103,6 +103,6 @@ class Dashboard::WelcomeController < ApplicationController
     else
       @notification.update(status: !@notification.status)
     end  
-    render json:{col: params[:notification], nt: @notification}
+    render json:{nt: @notification}
   end  
 end
