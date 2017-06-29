@@ -43,10 +43,18 @@ class ProgramsController < ApplicationController
   end
 
   def update
+    groups=[]
     add_breadcrumb "Programas", :programs_path
     add_breadcrumb "<a class='active' href='#{edit_program_path(@program)}'>#{@program.name}</a>".html_safe
-
+    before = @program.groups.map{|g| g.id}
     if @program.update(program_params)
+      after = @program.groups.map{|g| g.id}
+      after.each do |g|
+        unless before.include?(g)
+          groups.push(g)
+        end  
+      end
+      NewProgramNotificationEditJob.perform_async(Group.where(id: groups), @program, dashboard_program_url(@program)) 
       redirect_to @program, notice: "Se actualizó exitosamente el programa #{@program.name}"
     else
       render :edit
