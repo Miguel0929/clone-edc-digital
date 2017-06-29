@@ -69,7 +69,7 @@ class Mentor::EvaluationsController < ApplicationController
     else
       if params[:path] == "store"
         @user.program_notifications.create({ program_id: @program.id, notification_type: 0 })
-        
+
         if @user.panel_notifications.up_rubric.first.nil? || @user.panel_notifications.up_rubric.first.status
           Programs.up_rubric(@program, @user, resume_dashboard_program_url(@program))
         end

@@ -98,6 +98,20 @@ class GroupsController < ApplicationController
   def student_control
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{student_control_group_path(@group)}'>#{@group.name}</a>".html_safe
+
+  end
+
+  def unlink_student
+    users = params[:users_ids]
+    if !users.nil?
+      users.each do |user|
+        thisuser = User.find(user)
+        thisuser.update(group_id: nil)
+      end
+    end
+
+    redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
+    add_breadcrumb "<a class='active' href='#{edit_group_path(@group)}'>#{@group.name}</a>".html_safe
   end
 
   def unlink_student

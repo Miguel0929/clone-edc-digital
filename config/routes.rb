@@ -76,10 +76,10 @@ Rails.application.routes.draw do
     get 'confidencialidad-y-propiedad-industrial', to: 'welcome#service', as: :service
     get 'ruta',                   to: 'welcome#pathway', as: :pathway
     get 'ruta-aprendizaje',       to: 'welcome#learning_path', as: :learning_path
-    get 'notifications-panel',        to: 'welcome#notifications_panel', as: :notifications_panel
-    post 'store-notifications-panel',        to: 'welcome#store_notifications_panel', as: :store_notifications_panel
     get 'calculator',       to: 'welcome#calculator', as: :calculator
     get 'calculator_method',       to: 'welcome#calculator_method', as: :calculator_method
+    get 'notifications-panel',        to: 'welcome#notifications_panel', as: :notifications_panel
+    post 'store-notifications-panel',        to: 'welcome#store_notifications_panel', as: :store_notifications_panel
 
     resources :users, only: [:show]
 
@@ -161,6 +161,7 @@ Rails.application.routes.draw do
     member do
       get :student_control
       post :unlink_student
+      post '/unlink_group_student' => 'groups#unlink_student'
     end
   end
 
