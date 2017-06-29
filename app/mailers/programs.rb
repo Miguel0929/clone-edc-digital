@@ -35,7 +35,7 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email: "donpancholin50@hotmail.com" } ],
+          to: [ { email: user.email } ],
           substitutions: {
             "-raw_subject-" => "Se ha actualizado tu curso \"#{program.name}\" en EDCdigital",
             "-content-" => "El programa \"#{program.name}\" tiene nuevo contenido diponible para ti en EDCdigital",
@@ -65,7 +65,7 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email: "donpancholin50@hotmail.com" } ],
+          to: [ { email: user.email } ],
           substitutions: {
             "-raw_subject-" => "Se ha actualizado tu rúbrica de evaluación en EDCdigital",
             "-content-" => "Tu rúbrica de evaluación en el programa \"#{program.name}\" ha sido actualizada recientemente",
@@ -95,7 +95,7 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email: "donpancholin50@hotmail.com" } ],
+          to: [ { email: user.email } ],
           substitutions: {
             "-raw_subject-" => "Has sido evaluado en el programa \"#{program.name}\"",
             "-content-" => "Has sido evaluado en el programa \"#{program.name}\" en EDCdigital",
