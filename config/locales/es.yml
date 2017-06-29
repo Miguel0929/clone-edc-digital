@@ -226,6 +226,7 @@ es:
       short: "%d de %b %H:%M"
       special: "%d %B %Y, %H:%M %p"
       short_special: "%d de %b %Y %H:%M %p"
+      short_no_year: "%d / %B / %Y"
     pm: pm
 
   views:

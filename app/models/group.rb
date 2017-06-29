@@ -11,6 +11,7 @@ class Group < ActiveRecord::Base
   has_many :active_students, -> { where('invitation_accepted_at IS NOT NULL and role = 0')}, class_name: 'User', foreign_key: 'group_id'
   has_many :shared_group_attachment_groups
   has_many :shared_group_attachments, through: :shared_group_attachment_groups
+  has_one :group_stats
 
   validates_presence_of :name, :key
   validates_uniqueness_of :key
@@ -23,5 +24,9 @@ class Group < ActiveRecord::Base
   def student_search(query) 
     active_students.where('lower(users.first_name) LIKE lower(?) OR lower(users.last_name) LIKE lower(?) OR lower(users.email) LIKE lower(?)',
                          "%#{query}%", "%#{query}%", "%#{query}%") 
+  end
+
+  def get_group_stat(group)
+    GroupStat.where(group_id: group.id).last
   end
 end

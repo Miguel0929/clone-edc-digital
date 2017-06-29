@@ -257,6 +257,7 @@ Rails.application.routes.draw do
   resources :group_invitations, only: [:new, :create, :show]
   resources :program_stats
   post '/save_program_stats' => 'program_stats#post'
+  get '/generate_group_stats/:id' => 'group_stats#post', as: :generate_group_stats
   
   resources :universities do
     collection do
