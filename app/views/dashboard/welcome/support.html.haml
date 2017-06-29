@@ -1,20 +1,27 @@
 - content_for :title do
   Ayuda - EDCdigital
 
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-ayuda
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Ayuda de mentores
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Solicita ayuda de nuestro equipo de mentores.
+            %p.m-b-25.text-white
+              Utiliza esta forma de contacto para solicitar apoyo en áreas de mentoría para tu idea de negocio. 
+              %span
+                %strong Recuerda completar con toda la información relevante para que los mentores puedan apoyarte.
+
 .container-fluid.container-fixed-lg
   .panel.panel-transparent
     .panel-body.p-t-0
       .row
         .col-sm-10
-          %h3
-          .row-xs-height
-            .col-xs-height
-              %h3.no-margin Solicita ayuda de nuestro equipo de mentores
-              %p.hint-text.m-t-5
-                Utiliza esta forma de contacto para solicitar apoyo en áreas de mentoría para tu idea de negocio. 
-                %span
-                  %strong Recuerda completar con toda la información relevante para que los mentores puedan apoyarte.
-
           = form_tag(dashboard_send_support_email_path, class: 'form-horizontal', multipart: true, onsubmit: "return validar()") do
             .form-group
               %label.col-sm-3.control-label{:for => "raw_subject"} Asunto

@@ -1,19 +1,25 @@
 - content_for :title  do
   Programas - EDCdigital
 
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Programas de Aprendizaje
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Es tiempo de construir y validar tu idea de negocio...
+            %p.m-b-25.text-white
+              Utiliza estos cursos de e-learning para capacitarte en términos y conceptos que te permitirán construir una idea de negocio viable en lo comercial, digital, técnico y financiero. ¡Empecemos tu emprendimiento!
+
 .container-fluid.container-fixed-lg
   .row
     .col-md-12
       .panel.panel-transparent
-        .panel-heading
-          .panel-title
-            Programas de Aprendizaje
         .panel-body   
-          %h5
-            Es tiempo de construir y validar tu idea de negocio...
-          %p.m-b-25
-            Utiliza estos cursos de e-learning para capacitarte en términos y conceptos que te permitirán construir una idea de negocio viable en lo comercial, digital, técnico y financiero. ¡Empecemos tu emprendimiento!
-
           = bootstrap_form_tag(url: dashboard_programs_path, method: :get) do |f|
             .row
               .col-md-2
@@ -50,6 +56,8 @@
                             .no-margin.pull-left{:style => "color: #5B4D91;"}
                               Curso no contestado
                         - else @current_user.percentage_questions_answered_for(program) > 0 && @current_user.percentage_content_visited_for(program) > 0
+                          .progress.m-b-5
+                            .progress-bar.progress-bar-primary{:style => "width:#{@current_user.percentage_questions_answered_for(program)}%"}
                           .p-b-10.p-r-15.p-l-15.m-b-10.m-t-5
                             .no-margin.pull-right{:style => "color: #ada4d1;"}
                               #{@current_user.percentage_content_visited_for(program)}% visto

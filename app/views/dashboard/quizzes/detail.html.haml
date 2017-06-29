@@ -1,16 +1,47 @@
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-5.col-md-5.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Detalle de tus resultados
+          .col-sm-7.col-md-7.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Examen:
+            %h3.text-white
+              #{@quiz.name}
+              
 .container-fluid.container-fixed-lg
   = form_tag dashboard_quiz_answers_path do  
     -@answers.each_with_index do |answer, index|
+      - rightones, yours = right_answer(answer.quiz_question.id), answer.answer_text
+      - evaluation = evaluating_quiz(rightones, yours)      
       = fields_for "answers[#{index}]", answer do |f| 
         .panel.panel-default
-          .panel-heading
-            .panel-title.question-title
+          .panel-heading.p-t-10.p-b-5{class: "#{(evaluation == true)? 'heading-right-answer' : 'heading-wrong-answer'}"}
+            .panel-title.question-title.text-white
               = @quiz.name
           .panel-body
             .row
-              .col-md-10.col-md-offset-1
+              .col-md-7
                 .padding-30.m-t-50.p-b-100
                   %i.fa.fa-tasks.fa-2x.hint-text
                   %h2
                     = answer.quiz_question.question_text
                   = render partial: "/dashboard/quiz_answers/inputs/#{answer.quiz_question.question_type}", locals: { disabled: true, f: f, question: answer.quiz_question, answers: answer, i: index, detail: true}
+              .col-md-5
+                .padding-30.m-t-50.p-b-100
+                  - if evaluation == true
+                    %i.fa.fa-check.fa-2x.text-success
+                    %h3.text-primary !Bien hecho!
+                  - else
+                    %i.fa.fa-times.fa-2x.text-danger
+                    %h5.text-primary 
+                      Ups, respuesta equivocada. #{(rightones.count > 1) ? "Las respuestas correctas son:" : "La respuesta correcta es:"} 
+                    %h4
+                      %ul.no-style.unstyle.text-primary
+                        - rightones.each do |rightone|
+                          %li.p-b-10
+                            %i.fa.fa-chevron-right
+                            = rightone

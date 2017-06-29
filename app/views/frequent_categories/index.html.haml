@@ -2,7 +2,7 @@
 	Preguntas frecuentes - EDCdigital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
-	%section.demo-bg-section.p-b-65.p-t-60.m-b-40
+	%section.demo-bg-section.p-b-55.p-t-40.m-b-40.panel-title-ayuda
 		.container
 			.md-p-l-20.md-p-r-20.xs-no-padding
 				- if current_user.admin?			
@@ -14,7 +14,9 @@
 									Crear nueva pregunta
 				.row
 					.col-sm-12.col-md-12.no-padding.xs-p-l-15.xs-p-r-15.text-white
-						%h2.text-center.text-white
+						%h4.text-center.text-white.m-b-0
+							Preguntas frecuentes:
+						%h3.text-center.text-white.m-t-0
 							¿Cómo podemos ayudarte hoy?
 			.input-group.transparent.center-margin
 				= form_tag(frequents_path, method: :get) do

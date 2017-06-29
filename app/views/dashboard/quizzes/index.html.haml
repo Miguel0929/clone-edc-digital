@@ -1,16 +1,28 @@
 - content_for :title  do
   Exámenes - EDCdigital
 
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Exámenes de evaluación
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Es importante evaluar tu conocimiento.
+            %p.m-b-25.text-white
+              En esta sección podrás realizar todos los exámenes que pondrán a prueba tu conocimiento y habilidad obtenidos a través de la plataforma de EDC-digital. !Evalúa tus aptitudes y mejora tu emprendimiento!
+
 .container-fluid.container-fixed-lg
   .row
     .col-md-12
       .panel.panel-transparent
-        .panel-heading
-          .panel-title
-            Exámenes de evaluación
-        .panel-body
+        .panel-heading.p-t-10
           %h5
-            Contesta las evaluaciones y mide tu progreso  
+            Contesta las evaluaciones y mide tu progreso. 
+        .panel-body
           %table.table.table-hover
             %thead
               %tr
@@ -21,11 +33,20 @@
             %tbody
               - @quizzes.each do |quiz|
                 %tr
-                  %td= quiz.name
-                  %td= quiz.answered(current_user) > 0 ? 'Contestado' : 'No contestado'
-                  %td= quiz.answered(current_user) > 0 ? quiz.average(current_user) : 'No disponible'
-                  %td 
+                  %td.p-t-15.p-b-15
+                    = quiz.name
+                  %td.p-t-15.p-b-15{:class => "#{(quiz.answered(current_user) > 0) ? 'text-primary' : 'text-danger'}"}
+                    = quiz.answered(current_user) > 0 ? 'Contestado' : 'No contestado'
+                  %td.p-t-15.p-b-15{:class => "#{(quiz.answered(current_user) > 0) ? 'text-primary' : 'text-danger'}"}
+                    = quiz.answered(current_user) > 0 ? quiz.average(current_user) : 'No disponible'
+                  %td.p-t-15.p-b-15 
                     -if quiz.answered(current_user) > 0  
-                      = link_to 'Ver resultados', dashboard_quiz_path(quiz)
+                      = link_to dashboard_quiz_path(quiz) do
+                        %button.btn.btn-sm.btn-complete
+                          %i.fa.fa-eye
+                          Ver mis resultados
                     -else
-                      = link_to 'contestar', apply_dashboard_quiz_path(quiz)
+                      = link_to apply_dashboard_quiz_path(quiz) do
+                        %button.btn.btn-sm.btn-primary
+                          %i.fa.fa-edit
+                          Contestar examen

@@ -5,6 +5,13 @@ a.pump-link:hover {
 	//text-decoration: underline;
 	color: #48b0f7;
 }
+a.redish-link {
+	color: #CD4945;
+}
+a.redish-link:hover {
+	//text-decoration: underline;
+	color: #F77975;
+}
 .p-r-17 {
 	padding-right: 17.5px;
 }
@@ -16,6 +23,9 @@ a.pump-link:hover {
 }
 .p-l-8 {
 	padding-left: 7.5px;
+}
+.m-t-18 {
+  margin-top: 18px;
 }
 .subtitle-module-text {
   opacity: .7;
@@ -75,6 +85,68 @@ a.pump-link:hover {
 	padding: 6px 12px;
 	border-radius: 4px;
 }
-
+a.seen-link {
+	color: #0DAD9E;
+}
+a.seen-link:hover {
+	//text-decoration: underline;
+	color: #40D9CA;
+}
+a.unseen-link {
+	color: #957D32;
+}
+a.unseen-link:hover {
+	//text-decoration: underline;
+	color: #F8D053;
+}
 .programs-filter-btn{
+}
+
+.heading-right-answer{
+	background-color: #33ada1 !important;
+}
+.heading-wrong-answer{
+	background-color: rgba(197,96,93, 0.8) !important;
+}
+.container-minus-30{
+	position: relative;
+	top: -30px;
+}
+
+.panel-title-emprendimiento{
+	background-image: linear-gradient(15deg, #69225C 0%, #B32769 100%) !important;
+}
+.panel-title-emprendimiento-dark{
+	background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898 !important;
+	background-blend-mode: multiply !important;
+	background-image: linear-gradient(15deg, #69225C 0%, #B32769 100%) !important;
+}
+.panel-title-ayuda{
+	background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%) !important;
+}
+.panel-title-perfil{
+	background-image: linear-gradient(15deg, #3D4E81 0%, #5753C9 48%, #6E7FF3 100%) !important;
+}
+.panel-title-recursos{
+	background-image: linear-gradient(15deg, #3D4E81 0%, #412896 48%, #6552EF 100%) !important;
+}
+.panel-title-acerca{
+	background-image: linear-gradient(15deg, #22E1FF 0%, #1D8FE1 48%, #625EB1 100%) !important;
+}
+@media (min-width: 768px) {
+	.resp-p-l-50{
+		padding-left: 50px !important;
+	}
+	.resp-p-l-25{
+		padding-left: 25px !important;
+	}
+      }
+@media (min-width: 990px) {
+  .p-l-0-card {
+    /*background-color: red !important;*/
+    padding-left: 0px !important;
+  }
+  .p-r-0-image {
+  	padding-right: 0px !important;
+  }
 }

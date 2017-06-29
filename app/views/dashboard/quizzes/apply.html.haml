@@ -1,3 +1,16 @@
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-15.panel-title-emprendimiento
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-6.col-md-6.no-padding.xs-p-l-15.xs-p-r-15
+            %h5.block-title.hint-text.no-margin.text-white Examen
+            %h3.text-white 
+              #{@quiz.name}
+          .col-sm-6.col-md-6.no-padding.resp-p-l-25.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Abajo encontrarás una serie de preguntas concernientes al tópico de este examen. Léelas atentamente y una vez que las hayas contestado todas envía tus respuestas para obtener tu evaluación.
+
 .container-fluid.container-fixed-lg
   = form_tag dashboard_quiz_answers_path do  
     -@answers.each_with_index do |answer, index|
@@ -9,7 +22,7 @@
           .panel-body
             .row
               .col-md-10.col-md-offset-1
-                .padding-30.m-t-50.p-b-100
+                .padding-30.m-t-15.p-b-50
                   %i.fa.fa-tasks.fa-2x.hint-text
                   %h2
                     = answer.quiz_question.question_text
@@ -18,7 +31,7 @@
                   = render partial: "/dashboard/quiz_answers/inputs/#{answer.quiz_question.question_type}", locals: { disabled: false, f: f, question: answer.quiz_question, answers: answer, i: index, detail: false}
                   
     .form-group
-      .row
-        .pull-right.m-l-30
+      .row.m-b-30.m-t-20
+        .col-sm-1.col-sm-offset-5
           = hidden_field_tag :quiz_id, @quiz.id
-          = submit_tag "Guardar", class: "btn btn-default btn-lg"
+          = submit_tag "Guardar respuestas", class: "btn btn-success btn-lg"

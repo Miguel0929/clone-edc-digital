@@ -16,7 +16,8 @@
         %thead
           %tr
             %th Nombre
-            %th Números del grupo
+            %th Currículum
+            %th Estadísticos
             %th Acciones
 
         %tbody
@@ -47,13 +48,57 @@
                       %span Programas:
                   %li.inline 
                     = group.programs.count
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %strong
-                      %i.fa.fa-angle-right
-                      %span Estudiantes:
-                  %li.inline 
-                    = group.active_students.count
+              %td.p-b-15
+                %ul.unstyled.no-style
+                  - current_stats = group.get_group_stat(group)
+                  - if !current_stats.nil?
+                    %li
+                      %ul.p-l-5.m-b-0
+                        %li.inline.p-l-0
+                          %i.fa.fa-angle-right
+                        %li.inline 
+                          Alumnos del grupo: 
+                          %strong #{current_stats.group_students}
+                      %ul.p-l-5.m-b-0
+                        %li.inline.p-l-0
+                          %i.fa.fa-angle-right
+                        %li.inline 
+                          Alumnos evaluados: 
+                          %strong #{current_stats.evaluated_students}
+                      %ul.p-l-5.m-b-0
+                        %li.inline.p-l-0
+                          %i.fa.fa-angle-right
+                        %li.inline 
+                          Promedio visto:  
+                          %strong
+                            #{current_stats.average_seen.ceil}%
+                      %ul.p-l-5.m-b-0
+                        %li.inline.p-l-0
+                          %i.fa.fa-angle-right
+                        %li.inline 
+                          Promedio contestado: 
+                          %strong
+                            #{current_stats.average_progress.ceil}%
+                    %li.m-t-15
+                      = link_to generate_group_stats_path(group) do
+                        %ul.p-l-5.m-b-0
+                          %li.inline.p-l-0
+                            %i.fa.fa-rotate-right
+                          %li.inline 
+                            Actualizar estadísticos
+                        %ul.p-l-20.m-b-0{:style => "font-size: 0.8em;"}
+                          %li.inline 
+                            * Última vez: 
+                            = l current_stats.updated_at, format: :short_no_year
+                  - else
+                    %li.m-t-15
+                      = link_to generate_group_stats_path(group) do
+                        %ul.p-l-5.m-b-0
+                          %li.inline.p-l-0
+                            %i.fa.fa-line-chart
+                          %li.inline 
+                            Generar estadísticos
+
               %td.p-b-15
                 %ul.unstyled.list-unstyled.p-l-0.m-b-0
                   %li

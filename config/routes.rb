@@ -83,6 +83,8 @@ Rails.application.routes.draw do
     get 'ruta-aprendizaje',       to: 'welcome#learning_path', as: :learning_path
     get 'notifications-panel',        to: 'welcome#notifications_panel', as: :notifications_panel
     post 'store-notifications-panel',        to: 'welcome#store_notifications_panel', as: :store_notifications_panel
+    get 'calculator',       to: 'welcome#calculator', as: :calculator
+    get 'calculator_method',       to: 'welcome#calculator_method', as: :calculator_method
 
     resources :users, only: [:show]
 
@@ -259,6 +261,7 @@ Rails.application.routes.draw do
   resources :group_invitations, only: [:new, :create, :show]
   resources :program_stats
   post '/save_program_stats' => 'program_stats#post'
+  get '/generate_group_stats/:id' => 'group_stats#post', as: :generate_group_stats
   
   resources :universities do
     collection do
