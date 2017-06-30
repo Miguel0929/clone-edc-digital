@@ -268,6 +268,16 @@ class UsersController < ApplicationController
     redirect_to @user
   end
 
+  def change_evaluation
+    user = User.find(params[:user_id].to_i)
+    if user.evaluation_status == "evaluado"
+      to_nonevaluated = user.update(evaluation_status: "sin evaluar")
+    else
+      to_evaluated = user.update(evaluation_status: "evaluado")
+    end
+    render json: {eval: to_evaluated, not_eval: to_nonevaluated}
+  end
+
   private
   def set_user
     @user = User.find(params[:id])

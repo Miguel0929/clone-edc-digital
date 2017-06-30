@@ -149,6 +149,7 @@ Rails.application.routes.draw do
       resources :answers, only: [:index, :edit, :update]
     end
   end
+  post 'change_evaluation', to: 'users#change_evaluation', as: :change_evaluation_panel
 
   resources :mentors, except: [:create] do
     member do
