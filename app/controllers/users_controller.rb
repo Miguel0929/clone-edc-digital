@@ -141,100 +141,108 @@ class UsersController < ApplicationController
   end
 
   def students
-    respond_to do |format|
-      format.html do
-        ids=[]
-        @users = User.students.includes(:group)
-        uni= Group.where.not(university_id: nil)
-        uni.each do |u|
-          unless ids.include?(u.university_id)
-            ids.push(u.university_id)
-          end  
-        end
-        @universities=University.where(id: ids) 
+    ids=[]
+    @users = User.students.includes(:group)
+    uni= Group.where.not(university_id: nil)
+    uni.each do |u|
+      unless ids.include?(u.university_id)
+        ids.push(u.university_id)
+      end  
+    end
+    @universities=University.where(id: ids) 
 
-        if params[:status].present?
-          case params[:status]
-            when 'active'
-              @users = @users.where.not(invitation_accepted_at: nil)
-              @allusers = User.students.where.not(invitation_accepted_at: nil)
-            when 'inactive'
-              @users = @users.where(invitation_accepted_at: nil)
-              @allusers = User.students.where(invitation_accepted_at: nil)
-          end
-        end
+    if params[:status].present?
+      case params[:status]
+        when 'active'
+          @users = @users.where.not(invitation_accepted_at: nil)
+          @allusers = User.students.where.not(invitation_accepted_at: nil)
+        when 'inactive'
+          @users = @users.where(invitation_accepted_at: nil)
+          @allusers = User.students.where(invitation_accepted_at: nil)
+      end
+    end
 
-        if params[:group].present? && params[:status].present?
-          case params[:status]
-            when 'active'
-              @users = @users.where(group: params[:group]).where.not(invitation_accepted_at: nil)
-              @allusers = User.students.where(group: params[:group]).where.not(invitation_accepted_at: nil)
-            when 'inactive'
-              @users = @users.where(group: params[:group], invitation_accepted_at: nil)
-              @allusers = User.students.where(group: params[:group], invitation_accepted_at: nil)
-          end
-          @group = Group.find(params[:group])
-        elsif params[:group].present? && !params[:status].present?
-          @users = @users.where(group: params[:group])
-          @allusers = User.students.where(group: params[:group])
-          @group = Group.find(params[:group])
-        end
+    if params[:group].present? && params[:status].present?
+      case params[:status]
+        when 'active'
+          @users = @users.where(group: params[:group]).where.not(invitation_accepted_at: nil)
+          @allusers = User.students.where(group: params[:group]).where.not(invitation_accepted_at: nil)
+        when 'inactive'
+          @users = @users.where(group: params[:group], invitation_accepted_at: nil)
+          @allusers = User.students.where(group: params[:group], invitation_accepted_at: nil)
+      end
+      @group = Group.find(params[:group])
+    elsif params[:group].present? && !params[:status].present?
+      @users = @users.where(group: params[:group])
+      @allusers = User.students.where(group: params[:group])
+      @group = Group.find(params[:group])
+    end
 
-        if params[:university].present?
-          @users = @users.joins(:group).where(groups: {university_id: params[:university]})
+    if params[:university].present?
+      @users = @users.joins(:group).where(groups: {university_id: params[:university]})
+    end 
+
+    if params[:state].present?
+      @users = @users.joins(:group).where(groups: {state_id: params[:state]})
+    end
+
+    if params[:tipo].present?
+      @users = @users.joins(:group_).where(groups: {category: params[:tipo]})
+    end
+
+    if params[:industria].present?
+      @users = @users.where(industry_id: params[:industria])
+    end
+    ids=[]
+    if params[:answered].present? && params[:program].length==0
+      @users.each do |user|
+        percentage = user.answered_questions_percentage rescue 0
+        if params[:answered].to_i >= percentage && params[:answered].to_i-10 < percentage
+          ids.push(user.id)
         end 
-
-        if params[:state].present?
-          @users = @users.joins(:group).where(groups: {state_id: params[:state]})
+      end
+      @users=@users.where(id: ids)
+    elsif params[:answered].present? && params[:program].length > 0
+      @users.each do |user|
+        percentage = user.percentage_questions_answered_for(Program.find(params[:program])) rescue 0
+        if params[:answered].to_i >= percentage && params[:answered].to_i-10 < percentage
+          ids.push(user.id)
         end
-
-        if params[:tipo].present?
-          @users = @users.joins(:group_).where(groups: {category: params[:tipo]})
+      end
+      @users=@users.where(id: ids)   
+    end
+    ids=[]
+    if params[:visited].present? && params[:program].length==0 
+      @users.each do |user|
+        percentage = user.content_visited_percentage rescue 0
+        if params[:visited].to_i >= percentage && params[:visited].to_i-10 < percentage
+          ids.push(user.id)
+        end 
+      end
+      @users=@users.where(id: ids)
+    elsif params[:visited].present? && params[:program].length > 0 
+      @users.each do |user|
+        percentage = user.percentage_content_visited_for(Program.find(params[:program])) rescue 0
+        if params[:visited].to_i >= percentage && params[:visited].to_i-10 < percentage
+          ids.push(user.id)
         end
+      end
+      @users=@users.where(id: ids)    
+    end
 
-        if params[:industria].present?
-          @users = @users.where(industry_id: params[:industria])
-        end
-        ids=[]
-        if params[:answered].present? && params[:program].length==0
-          @users.each do |user|
-            percentage = user.answered_questions_percentage rescue 0
-            if params[:answered].to_i >= percentage && params[:answered].to_i-10 < percentage
-              ids.push(user.id)
-            end 
-          end
-          @users=@users.where(id: ids)
-        elsif params[:answered].present? && params[:program].length > 0
-          @users.each do |user|
-            percentage = user.percentage_questions_answered_for(Program.find(params[:program])) rescue 0
-            if params[:answered].to_i >= percentage && params[:answered].to_i-10 < percentage
-              ids.push(user.id)
-            end
-          end
-          @users=@users.where(id: ids)   
-        end
-        ids=[]
-        if params[:visited].present? && params[:program].length==0 
-          @users.each do |user|
-            percentage = user.content_visited_percentage rescue 0
-            if params[:visited].to_i >= percentage && params[:visited].to_i-10 < percentage
-              ids.push(user.id)
-            end 
-          end
-          @users=@users.where(id: ids)
-        elsif params[:visited].present? && params[:program].length > 0 
-          @users.each do |user|
-            percentage = user.percentage_content_visited_for(Program.find(params[:program])) rescue 0
-            if params[:visited].to_i >= percentage && params[:visited].to_i-10 < percentage
-              ids.push(user.id)
-            end
-          end
-          @users=@users.where(id: ids)    
-        end
+    @users = @users.search(params[:query]) if params[:query].present?
 
-        @users = @users.search(params[:query]) if params[:query].present?
-
-        @users = @users.page(params[:page]).per(100)
+    @users = @users.page(params[:page]).per(100)
+    respond_to do |format|
+      format.html
+      format.xls do
+        fast = params[:fast] == 'true' ? true : false
+        @job = AsyncJob.create({title: 'Exporting csv', progress: 0, total: @users.count})
+        exporter = Exporter.new
+        exporter.file = Pathname('public/system/export.csv').open
+        exporter.save
+        StudentsExporterJob.perform_async(@job.id, @users, exporter, fast)
+        redirect_to exporter_path(@job)
       end
       format.xlsx do
         fast = params[:fast] == 'true' ? true : false

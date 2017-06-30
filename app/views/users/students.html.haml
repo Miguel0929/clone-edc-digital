@@ -75,6 +75,16 @@
             %br
             %br                    
             .col-md-12     
+              - if !params['utf8'].nil?
+                .btn-group
+                  %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button" }
+                    Exportar Elementos Filtrados
+                    %span.caret
+                  %ul.dropdown-menu
+                    %li
+                      = link_to 'Formato rápido', students_users_path(format: :xls, status: params[:status], group: params[:group], university: params[:university], state: params[:state], tipo: params[:tipo], industria: params[:industria], answered: params[:answered], visited: params[:visited], program: params[:program], fast: true)
+                    %li
+                      = link_to 'Formato completo', students_users_path(format: :xls, status: params[:status], group: params[:group], university: params[:university], state: params[:state], tipo: params[:tipo], industria: params[:industria], answered: params[:answered], visited: params[:visited], program: params[:program], fast: false)
               .btn-group
                 %button.btn.btn-success.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button" }
                   Exportar Lista
