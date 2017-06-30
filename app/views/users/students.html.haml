@@ -179,8 +179,8 @@
                   %li.inline 
                     %span.bold Última sesión:
                   %li.inline 
-                    - if !user.visits.last.nil?
-                      = l user.visits.last.started_at, format: :short_special
+                    - if !user.sessions.last.nil?
+                      = l user.sessions.last.start, format: :short_special
                     - else
                       %span.text-danger Ninguna
                 %ul.p-l-0.m-b-0
