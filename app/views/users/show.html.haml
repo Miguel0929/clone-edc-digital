@@ -1,16 +1,25 @@
 .container-fluid.container-fixed-lg
   .row
-    .col-sm-6
-      %h3
-        Detalles del Alumno: #{@user.name}
-    .col-sm-6
+    .col-sm-5
+      %h4
+        #{@user.name}
+    .col-sm-7
       - if current_user.admin?
         - color = @user.banned? ? "btn-success" : "btn-danger"
-        = link_to change_state_user_path(@user), class: "btn #{color}  pull-right m-l-10" do
-          - @user.banned? ? "<i class= 'fa fa-check'></i> Desbloquear usuario" :  "<i class= 'fa fa-times'></i> Bloquear usuario"  
-        = link_to edit_user_path(@user), class: "btn btn-primary pull-right m-l-10" do
-          %span.glyphicon.glyphicon-edit
-          Editar perfil de usuario
+        .pull-right  
+          = link_to change_state_user_path(@user), class: "btn #{color}  pull-right m-l-10" do
+            - @user.banned? ? "<i class= 'fa fa-check'></i> Desbloquear usuario" :  "<i class= 'fa fa-times'></i> Bloquear usuario"  
+        .pull-right  
+          = link_to edit_user_path(@user), class: "btn btn-primary pull-right m-l-10" do
+            %span.glyphicon.glyphicon-edit
+            Editar perfil de usuario
+        .btn-like-switch.pull-right
+          %label.switch
+            %input{type: "hidden", id: "user_id", value: @user.id}
+            %input#student_evaluation{{:type => "checkbox"}, @user.evaluation_status == 'evaluado' ? {checked: 1, value: 1} : {value: 0}}/
+            .slider.round
+          .label-for-switch.p-l-5
+            Edo. de evaluación
   .panel.panel-default
     .panel-body
       .row
@@ -53,18 +62,18 @@
                 %td{:width => "25%"} Nombre
                 %td
                   = @user.name
-              - if current_user.admin?
-                %tr.odd.gradeX
-                  %td{:width => "25%"} Estatus de evaluación
-                  %td
-                    = editable @user, :evaluation_status, source: [:evaluado, :'sin evaluar'], type: :select
-                    %a{href: '#', title: 'Haz clic para editar la información'}
-                      %i.fa.fa-edit
-              - else
-                %tr.odd.gradeX
-                  %td{:width => "25%"} Estatus de evaluación
-                  %td
-                    = @user.evaluation_status
+              /- if current_user.admin?
+              /  %tr.odd.gradeX
+              /    %td{:width => "25%"} Estatus de evaluación
+              /    %td
+              /      = editable @user, :evaluation_status, source: [:evaluado, :'sin evaluar'], type: :select
+              /      %a{href: '#', title: 'Haz clic para editar la información'}
+              /        %i.fa.fa-edit
+              /- else
+              /  %tr.odd.gradeX
+              /    %td{:width => "25%"} Estatus de evaluación
+              /    %td
+              /      = @user.evaluation_status
 
               %tr.odd.gradeX
                 %td Correo electrónico
@@ -273,3 +282,37 @@
                     = l visit.finish, format: :special unless visit.finish.nil?
                   %td
                     = visit.time
+
+#alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-info
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      #alert_text 
+
+:javascript
+  $(document).on('turbolinks:load', function(){
+    $("#student_evaluation").click(function() {
+      console.log($(this).val());
+      var this_user = $("#user_id").val();
+      $.ajax({
+        type: "post", url: "/change_evaluation",
+        data: { 
+          'user_id': this_user
+        },
+        success: function (data, text) {
+          if (data.eval){
+            $("#alert_text").text("El alumno ha sido marcado como evaluado");
+          }else{
+            $("#alert_text").text("El alumno dejó de estar marcado como evaluado");
+          }
+          $("#alert-ra").css('display','block');
+          setTimeout(function(){$("#alert-ra").css('display','none');},4000); 
+        },
+        error: function (data) {
+          console.log(data);
+        }
+      });
+    });
+  });
