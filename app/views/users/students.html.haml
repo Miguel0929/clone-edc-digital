@@ -87,7 +87,7 @@
                       = link_to 'Formato completo', students_users_path(format: :xls, status: params[:status], group: params[:group], university: params[:university], state: params[:state], tipo: params[:tipo], industria: params[:industria], answered: params[:answered], visited: params[:visited], program: params[:program], fast: false)
               .btn-group
                 %button.btn.btn-success.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", type: "button" }
-                  Exportar Lista
+                  Exportar Lista Completa
                   %span.caret
                 = submit_tag 'Filtrar', class: "btn btn-default"   
                 %ul.dropdown-menu
