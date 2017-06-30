@@ -231,7 +231,7 @@ class UsersController < ApplicationController
     end
 
     @users = @users.search(params[:query]) if params[:query].present?
-
+    
     @users = @users.page(params[:page]).per(100)
     respond_to do |format|
       format.html
