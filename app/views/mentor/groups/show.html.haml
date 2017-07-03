@@ -22,40 +22,6 @@
                 %i.fa.fa-angle-right
                 = user.name
         .col-md-3
-          /%h5
-          /  Estadísticas de grupo
-          /%ul.unstyled.no-style
-          /  - seen, ave = [], [] 
-          /  - @students.each do |student|
-          /    - seen << student.content_visited_percentage
-          /    - ave << student.answered_questions_percentage
-          /  %li
-          /    %ul.p-l-5.m-b-0
-          /      %li.inline.p-l-0
-          /        %i.fa.fa-user 
-          /      %li.inline 
-          /        Alumnos del grupo: 
-          /        %strong #{@students.count}
-          /    %ul.p-l-5.m-b-0
-          /      %li.inline.p-l-0
-          /        %i.fa.fa-eye 
-          /      %li.inline 
-          /        Promedio visto:  
-          /        %strong
-          /          - if !seen.empty?
-          /            #{(seen.inject{ |sum, el| sum + el }.to_f / seen.size).ceil}%
-          /          - else
-          /            N/A
-          /    %ul.p-l-5.m-b-0
-          /      %li.inline.p-l-0
-          /        %i.fa.fa-rocket
-          /      %li.inline 
-          /        Promedio contestado: 
-          /        %strong
-          /          - if !ave.empty?
-          /            #{(ave.inject{ |sum, el| sum + el }.to_f / ave.size).ceil}%
-          /          - else
-          /            N/A
           %h5
             Estadísticas de grupo
           %ul.unstyled.no-style
@@ -121,12 +87,14 @@
       .table-responsive   
         %table.table.table-striped
           %thead
-            %th{width: "30%"}
+            %th{width: "27%"}
               Datos del alumno
-            %th{width: "30%"}
+            %th{width: "23%"}
               Avances del alumno
             %th
               Programas inscritos
+            %th
+              Estado de evaluación
           %tbody
             - @students.each_with_index do |student, index|
               %tr
@@ -162,4 +130,43 @@
                             .label{:class => "#{(progress_percentage > 0) ? 'label-warning' : ''} #{review ? '' : 'p-sides-14-2'}"}
                               = program.alias
                               %i.fa{:class => "#{review ? 'fa-check' : ''}"}
+                %td.text-center
+                  %input{type: "hidden", id: "student_key_#{student.id}", value: student.id}
+                  - student_eval = (student.evaluation_status == 'evaluado') ? 1 : 0
+                  %label.switch
+                    - if student_eval == 1
+                      %input{type: "checkbox", id: "checking_eval_#{student.id}", value: student_eval, name: "student_eval[checked]", checked: :true}
+                    - else
+                      %input{type: "checkbox", id: "checking_eval_#{student.id}", value: student_eval, name: "student_eval[checked]"}
+                    .slider.round
+                  :javascript
+                    $(document).ready(function(){
+                      $("#checking_eval_" + #{student.id}).change(function(){
+                        var user_id = $("#student_key_" + #{student.id}).val();
+                        $.ajax({
+                          type: "post",
+                          url: "/change_evaluation", 
+                          data: {user_id},
+                          success: function(data){
+                            if (data.eval){
+                              $("#alert_text").text("El alumno ha sido marcado como evaluado");
+                            }else{
+                              $("#alert_text").text("El alumno dejó de estar marcado como evaluado");
+                            }
+                            $("#alert-ra").css('display','block');
+                            setTimeout(function(){$("#alert-ra").css('display','none');},4000);
+                          },
+                          error: function (data) {
+                            console.log(data);
+                          } 
+                        });
+                      });
+                    });
+#alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-info
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      #alert_text
                   
