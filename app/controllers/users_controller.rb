@@ -232,9 +232,10 @@ class UsersController < ApplicationController
 
     @users = @users.search(params[:query]) if params[:query].present?
     
-    @users = @users.page(params[:page]).per(100)
     respond_to do |format|
-      format.html
+      format.html do
+        @users = @users.page(params[:page]).per(100)
+      end
       format.xls do
         fast = params[:fast] == 'true' ? true : false
         @job = AsyncJob.create({title: 'Exporting csv', progress: 0, total: @users.count})
