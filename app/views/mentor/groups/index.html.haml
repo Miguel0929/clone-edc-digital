@@ -23,12 +23,17 @@
               %td
                 .m-b-10
                   = link_to group.name, mentor_group_path(group)
-                %ul.p-l-0.m-b-0
+                %ul.p-l-0.m-b-10
                   %li.inline 
                     Clave: 
                   %li.inline 
                     %strong
                       = group.key
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    = link_to progress_panel_path(group) do
+                      %i.fa.fa-line-chart
+                      Ver progreso de grupo
               %td.p-b-20
                 %ol.p-l-20
                   - group.programs.each do |program|

@@ -43,11 +43,15 @@
 									%td.p-b-15
 										= link_to group.name, progress_panel_path(group)
 									%td.text-center.p-b-15
-										#{((thirty.to_f / sumatory) * 100).round(1)}%
+										= #{((thirty.to_f / sumatory) * 100).round(1)}
+										= thirty
 									%td.text-center.p-b-15
-										#{((fifty.to_f / sumatory) * 100).round(1)}%
+										= #{((fifty.to_f / sumatory) * 100).round(1)}
+										= fifty
 									%td.text-center.p-b-15
-										#{((seventy.to_f / sumatory) * 100).round(1)}%
+										= #{((seventy.to_f / sumatory) * 100).round(1)}
+										= seventy
 									%td.text-center.p-b-15
-										#{((hundred.to_f / sumatory) * 100).round(1)}%
+										= #{((hundred.to_f / sumatory) * 100).round(1)}
+										= hundred
 
