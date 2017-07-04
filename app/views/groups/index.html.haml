@@ -71,14 +71,14 @@
                         %li.inline 
                           Promedio visto:  
                           %strong
-                            #{current_stats.average_seen.ceil}%
+                            #{ current_stats.average_seen.nil? ? 0 : current_stats.average_seen.ceil }%
                       %ul.p-l-5.m-b-0
                         %li.inline.p-l-0
                           %i.fa.fa-angle-right
                         %li.inline 
                           Promedio contestado: 
                           %strong
-                            #{current_stats.average_progress.ceil}%
+                            #{ current_stats.average_progress.nil? ? 0 : current_stats.average_progress.ceil }%
                     %li.m-t-15
                       = link_to generate_group_stats_path(group) do
                         %ul.p-l-5.m-b-0
