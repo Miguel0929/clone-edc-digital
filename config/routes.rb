@@ -216,6 +216,8 @@ Rails.application.routes.draw do
       namespace :dashboard do
         resources :programs, only: [:index]
       end
+
+      resources :users, only: [:index]
     end
   end
 
@@ -262,10 +264,10 @@ Rails.application.routes.draw do
   resources :program_stats
   post '/save_program_stats' => 'program_stats#post'
   get '/generate_group_stats/:id' => 'group_stats#post', as: :generate_group_stats
-  
+
   resources :universities do
     collection do
       get :state
-    end  
+    end
   end
 end
