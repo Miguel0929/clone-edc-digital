@@ -37,6 +37,7 @@
 //= stub landings/velocity.ui
 //= require editable/bootstrap-editable
 //= require editable/rails
+//= require typeahead.js.js
 
 $(document).on('turbolinks:load', function(){
   $('.editable').editable();
