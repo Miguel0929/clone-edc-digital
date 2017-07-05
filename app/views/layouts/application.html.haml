@@ -73,10 +73,10 @@
                   %span.icon-thumbnail eL
                 %li
                   %a{:href => dashboard_programs_path(tipo: "construccion")} Construcción
-                  %span.icon-thumbnail Co   
+                  %span.icon-thumbnail Co
                 %li
                   %a{:href => dashboard_learning_path_path} Ruta de aprendizaje
-                  %span.icon-thumbnail Ra  
+                  %span.icon-thumbnail Ra
 
             %li.extra-bottom-4
               %a{:href => "javascript:;"}
@@ -130,7 +130,7 @@
                   %span.icon-thumbnail Ed
                 %li
                   %a{:href => dashboard_notifications_panel_path} Panel de notificaciones
-                  %span.icon-thumbnail Pn  
+                  %span.icon-thumbnail Pn
                 %li
                   = link_to destroy_user_session_path, method: :delete do
                     Cerrar sesión
@@ -261,6 +261,12 @@
               %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-30.p-r-20
                 %li.p-r-15.inline
                   #notification-center.fa.fa-question-circle{:style => "font-size:18px;"}
+
+            - if current_user.admin? || current_user.mentor?
+              %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-30.p-r-20
+                %li.p-r-15.inline
+                  %form.navbar-form{:role => "search", action: root_path}
+                    %input.form-control.typehead.typehead-entries{placeholder: 'Buscar contactos', name: 'search', value: params[:search], style: 'width:400px;'}
 
 
 
