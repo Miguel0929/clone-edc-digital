@@ -5,6 +5,9 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   private
   def search_users
+
+    logger.info "Retrieveing users for #{current_user.role}"
+
     case current_user.role
     when 'admin'
       User.search(params[:search])

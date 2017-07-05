@@ -15,8 +15,4 @@ class Api::V1::BaseController < ApplicationController
       render json: { error: 'invalid credentials' }, status: 401
     end
   end
-
-  def current_user
-    @current_user ||= User.find_by(authentication_token: request.headers["X-User-Token"])
-  end
 end
