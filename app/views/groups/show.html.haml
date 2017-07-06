@@ -22,40 +22,6 @@
                 %i.fa.fa-angle-right
                 = user.name
         .col-md-3
-          /%h5
-          /  Estadísticas de grupo
-          /%ul.unstyled.no-style
-          /  - seen, ave = [], [] #vectores-contadores globales a y b
-          /  - @students.each do |student|
-          /    - seen << student.content_visited_percentage
-          /    - ave << student.answered_questions_percentage
-          /  %li
-          /    %ul.p-l-5.m-b-0
-          /      %li.inline.p-l-0
-          /        %i.fa.fa-user 
-          /      %li.inline 
-          /        Alumnos del grupo: 
-          /        %strong #{@students.count}
-          /    %ul.p-l-5.m-b-0
-          /      %li.inline.p-l-0
-          /        %i.fa.fa-eye 
-          /      %li.inline 
-          /        Promedio visto:  
-          /        %strong
-          /          - if !seen.empty?
-          /            #{(seen.inject{ |sum, el| sum + el }.to_f / seen.size).ceil}%
-          /          - else
-          /            N/A
-          /    %ul.p-l-5.m-b-0
-          /      %li.inline.p-l-0
-          /        %i.fa.fa-rocket
-          /      %li.inline 
-          /        Promedio contestado: 
-          /        %strong 
-          /          - if !ave.empty?
-          /            #{(ave.inject{ |sum, el| sum + el }.to_f / ave.size).ceil}%
-          /          - else
-          /            N/A
           %h5
             Estadísticas de grupo
           %ul.unstyled.no-style
@@ -128,12 +94,14 @@
       .table-responsive   
         %table.table.table-striped
           %thead
-            %th{width: "30%"}
+            %th{width: "27%"}
               Datos del alumno
-            %th{width: "30%"}
+            %th{width: "23%"}
               Avances del alumno
             %th
               Programas inscritos
+            %th{width: ""}
+              Estado de evaluación
           %tbody
             - @students.each_with_index do |student, index|
               %tr
@@ -169,3 +137,30 @@
                             .label{:class => "#{(progress_percentage > 0) ? 'label-warning' : ''} #{review ? '' : 'p-sides-14-2'}"}
                               P-#{index + 1}
                               %i.fa{:class => "#{review ? 'fa-check' : ''}"}
+                %td.text-center
+                  %input{type: "hidden", id: "student_key_#{student.id}", value: student.id}
+                  - student_eval = (student.evaluation_status == 'evaluado') ? 1 : 0
+                  %label.switch{id: "switch_#{student.id}"}
+                    - if student_eval == 1
+                      %input{type: "checkbox", id: "checking_eval_#{student.id}", value: student_eval, name: "student_eval[checked]", checked: :true, disabled: true}
+                    - else
+                      %input{type: "checkbox", id: "checking_eval_#{student.id}", value: student_eval, name: "student_eval[checked]", disabled: true}
+                    .slider.round
+                  :javascript
+                    $(document).ready(function(){
+                      $("#checking_eval_" + #{student.id}).each(function() {
+                        $('#switch_' + #{student.id}).append('<div class="disabledClick" style="position:absolute;top:0px;left:0px;width:62px;height:36px;background:transparent;cursor:pointer;"></div>');
+                      });
+                      $(".disabledClick").click(function() {
+                        $("#alert_text_warning").text("Ups, es tarea de los mentores evaluar a sus alumnos");
+                        $("#alert-ra-warning").css('display','block');
+                        setTimeout(function(){$("#alert-ra-warning").css('display','none');},4000);
+                      });
+                    });
+#alert-ra-warning.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-warning
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      #alert_text_warning
