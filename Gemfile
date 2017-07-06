@@ -50,10 +50,13 @@ gem 'rollbar'
 gem 'sendgrid-ruby'
 gem 'sucker_punch', '~> 2.0'
 gem 'x-editable-rails'
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
 
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
+  gem 'rails-assets-typeahead.js'
 end
 
 group :development, :test do

@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'soporte-edcdigital@distritoemprendedor.com'
+  default from: 'soporte@edc-digital.com'
   layout 'mailer'
 end

@@ -1,4 +1,8 @@
+
 class User < ActiveRecord::Base
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+
   attr_accessor :agreement
   acts_as_paranoid
   mount_uploader :profile_picture, ProfilePictureUploader
@@ -38,7 +42,7 @@ class User < ActiveRecord::Base
   scope :mentors, -> { where(role: 1) }
   scope :staffs, -> { where(role: 3) }
   scope :invitation_accepted, -> { where.not('invitation_accepted_at' => nil) }
-  scope :search, -> (query) {
+  scope :search_query, -> (query) {
     where('lower(users.first_name) LIKE lower(?) OR lower(users.last_name) LIKE lower(?) OR lower(users.email) LIKE lower(?)',
          "%#{query}%", "%#{query}%", "%#{query}%")
   }
@@ -186,7 +190,7 @@ class User < ActiveRecord::Base
 
   def answered_questions_percentage
     return 0 if group.nil?
-    
+
     total_of_answers = group.programs.joins(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
     total_of_questions = group.programs.joins(chapters: [:questions]).select('questions.*').count
 
@@ -247,7 +251,7 @@ class User < ActiveRecord::Base
 
   def last_time
     return 'El usuario no ha iniciado sesión' if sessions.last.nil?
-    
+
     if TimeDifference.between(sessions.last.finish, Time.now).humanize.nil?
       "Menos de 1 segundo"
     else
