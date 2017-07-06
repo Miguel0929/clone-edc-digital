@@ -271,4 +271,8 @@ Rails.application.routes.draw do
       get :state
     end
   end
+
+  namespace :search do
+    resources :users, only: [:index]
+  end
 end
