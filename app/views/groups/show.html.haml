@@ -140,39 +140,27 @@
                 %td.text-center
                   %input{type: "hidden", id: "student_key_#{student.id}", value: student.id}
                   - student_eval = (student.evaluation_status == 'evaluado') ? 1 : 0
-                  %label.switch
+                  %label.switch{id: "switch_#{student.id}"}
                     - if student_eval == 1
-                      %input{type: "checkbox", id: "checking_eval_#{student.id}", value: student_eval, name: "student_eval[checked]", checked: :true}
+                      %input{type: "checkbox", id: "checking_eval_#{student.id}", value: student_eval, name: "student_eval[checked]", checked: :true, disabled: true}
                     - else
-                      %input{type: "checkbox", id: "checking_eval_#{student.id}", value: student_eval, name: "student_eval[checked]"}
+                      %input{type: "checkbox", id: "checking_eval_#{student.id}", value: student_eval, name: "student_eval[checked]", disabled: true}
                     .slider.round
                   :javascript
                     $(document).ready(function(){
-                      $("#checking_eval_" + #{student.id}).change(function(){
-                        var user_id = $("#student_key_" + #{student.id}).val();
-                        $.ajax({
-                          type: "post",
-                          url: "/change_evaluation", 
-                          data: {user_id},
-                          success: function(data){
-                            if (data.eval){
-                              $("#alert_text").text("El alumno ha sido marcado como evaluado");
-                            }else{
-                              $("#alert_text").text("El alumno dejó de estar marcado como evaluado");
-                            }
-                            $("#alert-ra").css('display','block');
-                            setTimeout(function(){$("#alert-ra").css('display','none');},4000);
-                          },
-                          error: function (data) {
-                            console.log(data);
-                          } 
-                        });
+                      $("#checking_eval_" + #{student.id}).each(function() {
+                        $('#switch_' + #{student.id}).append('<div class="disabledClick" style="position:absolute;top:0px;left:0px;width:62px;height:36px;background:transparent;cursor:pointer;"></div>');
+                      });
+                      $(".disabledClick").click(function() {
+                        $("#alert_text_warning").text("Ups, es tarea de los mentores evaluar a sus alumnos");
+                        $("#alert-ra-warning").css('display','block');
+                        setTimeout(function(){$("#alert-ra-warning").css('display','none');},4000);
                       });
                     });
-#alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+#alert-ra-warning.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
-    #al.alert.alert-info
+    #al.alert.alert-warning
       %button.close{"data-dismiss" => "alert", :type => "button"}>
         %span{"aria-hidden" => "true"} ×
         %span.sr-only Close
-      #alert_text
+      #alert_text_warning

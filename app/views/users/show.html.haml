@@ -13,6 +13,13 @@
           = link_to edit_user_path(@user), class: "btn btn-primary pull-right m-l-10" do
             %span.glyphicon.glyphicon-edit
             Editar perfil de usuario
+        .btn-like-switch.pull-right
+          %label.switch#switch-eval
+            %input{type: "hidden", id: "user_id", value: @user.id}
+            %input#student_evaluation{{:type => "checkbox"}, @user.evaluation_status == 'evaluado' ? {checked: 1, value: 1} : {value: 0}, {disabled: true}}
+            .slider.round
+          .label-for-switch.p-l-5
+            Edo. de evaluación
   .panel.panel-default
     .panel-body
       .row
@@ -276,36 +283,21 @@
                   %td
                     = visit.time
 
-#alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+#alert-ra-warning.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
-    #al.alert.alert-info
+    #al.alert.alert-warning
       %button.close{"data-dismiss" => "alert", :type => "button"}>
         %span{"aria-hidden" => "true"} ×
         %span.sr-only Close
-      #alert_text 
-
+      #alert_text_warning
 :javascript
-  $(document).on('turbolinks:load', function(){
-    $("#student_evaluation").click(function() {
-      console.log($(this).val());
-      var this_user = $("#user_id").val();
-      $.ajax({
-        type: "post", url: "/change_evaluation",
-        data: { 
-          'user_id': this_user
-        },
-        success: function (data, text) {
-          if (data.eval){
-            $("#alert_text").text("El alumno ha sido marcado como evaluado");
-          }else{
-            $("#alert_text").text("El alumno dejó de estar marcado como evaluado");
-          }
-          $("#alert-ra").css('display','block');
-          setTimeout(function(){$("#alert-ra").css('display','none');},4000); 
-        },
-        error: function (data) {
-          console.log(data);
-        }
-      });
+  $(document).ready(function(){
+    $("#student_evaluation").each(function() {
+      $('#switch-eval').append('<div class="disabledClick" style="position:absolute;top:0px;left:0px;width:62px;height:36px;background:transparent;cursor:pointer;"></div>');
+    });
+    $(".disabledClick").click(function() {
+      $("#alert_text_warning").text("Ups, es tarea de los mentores evaluar a sus alumnos");
+      $("#alert-ra-warning").css('display','block');
+      setTimeout(function(){$("#alert-ra-warning").css('display','none');},4000);
     });
   });
