@@ -1,7 +1,7 @@
 = form_for :conversation , url: :conversations, html: { class: "",:onsubmit => "return validar()"  } do |f|
 	.form-group
-		= f.label :contactos
-		= f.select(:recipients, @contacts.collect {|p|[p.name, p.id]},{include_blank:"Contactos..."},{class: "form-control js-example-basic-single", required: true })  
+		= f.label current_user.mentor? ? 'Mis estudiantes' : 'Mis Profesores'
+		= f.select(:recipients, @contacts.collect {|p|[p.name, p.id]},{include_blank:"contactos..."},{class: "form-control js-example-basic-single", required: true })  
 	.form-group
 		= f.label :asunto
 		= f.text_field :subject, class: "form-control", required: true 
