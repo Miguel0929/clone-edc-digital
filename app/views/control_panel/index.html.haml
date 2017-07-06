@@ -297,12 +297,10 @@
         %h2.text-center
           Dispositivos
         = pie_chart @visits.group(:device_type).count
-
       .col-md-6
         %h2.text-center
           Sistema operativo
         = pie_chart @visits.group(:os).count
-
       .col-md-6
         %h2.text-center
           Región
