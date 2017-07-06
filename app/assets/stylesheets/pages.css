@@ -126,6 +126,10 @@ h1 { font-size: 1.5em; margin: 10px; }
   width: 60px;
   height: 34px;
 }
+.switch-small{
+  width: 45px !important;
+  height: 24px !important;
+}
 
 /* Hide default HTML checkbox */
 .switch input {display:none;}
@@ -155,6 +159,11 @@ h1 { font-size: 1.5em; margin: 10px; }
   transition: .4s;
 }
 
+.slider-small:before {
+  height: 17px !important;
+  width: 17px !important;
+}
+
 input:checked + .slider {
   background-color: #2196F3;
 }
@@ -167,6 +176,12 @@ input:checked + .slider:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
+}
+
+input:checked + .slider.slider-small:before {
+  -webkit-transform: translateX(20px) !important;
+  -ms-transform: translateX(20px) !important;
+  transform: translateX(20px) !important;
 }
 
 /* Rounded sliders */

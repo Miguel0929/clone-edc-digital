@@ -84,18 +84,8 @@ class Program < ActiveRecord::Base
       end
     end
     return status
-    #tracker = []
-    #Program.find(program.id).chapters.each do |chapter|
-    #  if chapter.chapter_checked?(chapter, user)
-    #    event = 1
-    #  else
-    #    event = 0
-    #  end
-    #  tracker << event
-    #end
-    #status = tracker.detect {|i| i == 0}.nil? #si no hay ningún cero en el arreglo @tracker es TRUE
-    #return status
   end
+  
   def alias
     arr=self.name.split(" ") 
     return self.name[0,3]+"."+arr[1][0].capitalize+"."+self.id.to_s
