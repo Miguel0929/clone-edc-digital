@@ -1,16 +1,25 @@
 .container-fluid.container-fixed-lg
   .row
-    .col-sm-6
-      %h3
-        Detalles del Alumno: #{@user.name}
-    .col-sm-6
+    .col-sm-5
+      %h4
+        #{@user.name}
+    .col-sm-7
       - if current_user.admin?
         - color = @user.banned? ? "btn-success" : "btn-danger"
-        = link_to change_state_user_path(@user), class: "btn #{color}  pull-right m-l-10" do
-          - @user.banned? ? "<i class= 'fa fa-check'></i> Desbloquear usuario" :  "<i class= 'fa fa-times'></i> Bloquear usuario"  
-        = link_to edit_user_path(@user), class: "btn btn-primary pull-right m-l-10" do
-          %span.glyphicon.glyphicon-edit
-          Editar perfil de usuario
+        .pull-right  
+          = link_to change_state_user_path(@user), class: "btn #{color}  pull-right m-l-10" do
+            - @user.banned? ? "<i class= 'fa fa-check'></i> Desbloquear usuario" :  "<i class= 'fa fa-times'></i> Bloquear usuario"  
+        .pull-right  
+          = link_to edit_user_path(@user), class: "btn btn-primary pull-right m-l-10" do
+            %span.glyphicon.glyphicon-edit
+            Editar perfil de usuario
+        .btn-like-switch.pull-right
+          %label.switch#switch-eval
+            %input{type: "hidden", id: "user_id", value: @user.id}
+            %input#student_evaluation{{:type => "checkbox"}, @user.evaluation_status == 'evaluado' ? {checked: 1, value: 1} : {value: 0}, {disabled: true}}
+            .slider.round
+          .label-for-switch.p-l-5
+            Edo. de evaluación
   .panel.panel-default
     .panel-body
       .row
@@ -53,18 +62,18 @@
                 %td{:width => "25%"} Nombre
                 %td
                   = @user.name
-              - if current_user.admin?
-                %tr.odd.gradeX
-                  %td{:width => "25%"} Estatus de evaluación
-                  %td
-                    = editable @user, :evaluation_status, source: [:evaluado, :'sin evaluar'], type: :select
-                    %a{href: '#', title: 'Haz clic para editar la información'}
-                      %i.fa.fa-edit
-              - else
-                %tr.odd.gradeX
-                  %td{:width => "25%"} Estatus de evaluación
-                  %td
-                    = @user.evaluation_status
+              /- if current_user.admin?
+              /  %tr.odd.gradeX
+              /    %td{:width => "25%"} Estatus de evaluación
+              /    %td
+              /      = editable @user, :evaluation_status, source: [:evaluado, :'sin evaluar'], type: :select
+              /      %a{href: '#', title: 'Haz clic para editar la información'}
+              /        %i.fa.fa-edit
+              /- else
+              /  %tr.odd.gradeX
+              /    %td{:width => "25%"} Estatus de evaluación
+              /    %td
+              /      = @user.evaluation_status
 
               %tr.odd.gradeX
                 %td Correo electrónico
@@ -273,3 +282,22 @@
                     = l visit.finish, format: :special unless visit.finish.nil?
                   %td
                     = visit.time
+
+#alert-ra-warning.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-warning
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      #alert_text_warning
+:javascript
+  $(document).ready(function(){
+    $("#student_evaluation").each(function() {
+      $('#switch-eval').append('<div class="disabledClick" style="position:absolute;top:0px;left:0px;width:62px;height:36px;background:transparent;cursor:pointer;"></div>');
+    });
+    $(".disabledClick").click(function() {
+      $("#alert_text_warning").text("Ups, es tarea de los mentores evaluar a sus alumnos");
+      $("#alert-ra-warning").css('display','block');
+      setTimeout(function(){$("#alert-ra-warning").css('display','none');},4000);
+    });
+  });

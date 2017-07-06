@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin, except: [:students, :show]
+  before_action :require_admin, except: [:students, :show, :change_evaluation]
   before_action :require_creator, only: [:students, :show]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state]
 
@@ -266,6 +266,16 @@ class UsersController < ApplicationController
     end
 
     redirect_to @user
+  end
+
+  def change_evaluation
+    user = User.find(params[:user_id].to_i)
+    if user.evaluation_status == "evaluado"
+      to_nonevaluated = user.update(evaluation_status: "sin evaluar")
+    else
+      to_evaluated = user.update(evaluation_status: "evaluado")
+    end
+    render json: {eval: to_evaluated, not_eval: to_nonevaluated}
   end
 
   private
