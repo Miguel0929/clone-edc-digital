@@ -571,9 +571,3 @@ DEPENDENCIES
   web-console (~> 2.0)
   x-editable-rails
   xray-rails
-
-RUBY VERSION
-   ruby 2.2.1p85
-
-BUNDLED WITH
-   1.15.0
