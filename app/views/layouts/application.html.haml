@@ -265,7 +265,7 @@
             - if current_user.admin? || current_user.mentor?
               %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-30.p-r-20
                 %li.p-r-15.inline
-                  %form.navbar-form{:role => "search", action: root_path}
+                  %form.navbar-form{:role => "search", action: search_users_path}
                     %input.form-control.typehead.typehead-entries{placeholder: 'Buscar contactos', name: 'search', value: params[:search], style: 'width:400px;'}
 
 
