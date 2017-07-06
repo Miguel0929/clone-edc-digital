@@ -211,7 +211,7 @@
             .brand.inline
               %a.redirector{href: root_path}
                 = image_tag('logo-edc-color-horizontal.png', height: 40)
-            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-l.b-r.no-style.p-l-30.p-r-20
+            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-l.b-r.no-style.p-l-10.p-r-10
               %li.p-r-15.inline
                 .dropdown
                   %a#notification-center.icon-set.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
@@ -235,7 +235,7 @@
                         %a{:href => dashboard_notifications_path} Ver todas las notificaciones
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
                           %i.pg-refresh_new
-            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-30.p-r-20
+            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-10.p-r-10
               %li.p-r-15.inline
                 .dropdown
                   %a#notification-center.icon-set-2.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
@@ -261,15 +261,15 @@
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
                           %i.pg-refresh_new
             %a{:href => frequent_questions_path, :target => "blank"}
-              %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-30.p-r-20
+              %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-10.p-r-10
                 %li.p-r-15.inline
                   #notification-center.fa.fa-question-circle{:style => "font-size:18px;"}
 
             - if current_user.admin? || current_user.mentor?
-              %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-30.p-r-20
+              %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.no-style.p-l-10.p-r-10
                 %li.p-r-15.inline
                   %form.navbar-form{:role => "search", action: search_users_path}
-                    %input.form-control.typehead.typehead-entries{placeholder: 'Buscar contactos', name: 'search', value: params[:search], style: 'width:400px;'}
+                    %input.form-control.typehead.typehead-entries{placeholder: 'Buscar contactos', name: 'search', value: params[:search], style: 'width:350px; bottom:5px;'}
 
 
 
