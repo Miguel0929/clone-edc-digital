@@ -6,9 +6,9 @@ class StudentsExporterJob
 
   def perform(job_id, students, exporter, fast)
     redis = Redis.new
-    job = JSON.parse(redis.get(job_id})) unless redis.get(job_id).nil?
+    job = JSON.parse(redis.get(job_id)) unless redis.get(job_id).nil?
 
-    progress = job.progress
+
     csv_string = CSV.generate(encoding: "UTF-8") do |csv|
       if fast
         header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance']
@@ -22,7 +22,6 @@ class StudentsExporterJob
       csv << header
 
       students.each do |student|
-        progress = progress + 1
         content = [
           student.id,
           student.name,

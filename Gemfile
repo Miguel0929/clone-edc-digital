@@ -52,6 +52,7 @@ gem 'sucker_punch', '~> 2.0'
 gem 'x-editable-rails'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
+gem 'redis', '~>3.2'
 
 
 source 'https://rails-assets.org' do
