@@ -1,3 +1,6 @@
+- content_for :title  do
+	Ruta de aprendizaje - EDCdigital
+
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
 	%section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
 		.container
@@ -35,16 +38,30 @@
 													= p.program.description
 									.col-md-12			
 										.p-b-10
-											-if @current_user.percentage_questions_answered_for(p.program) == 0
-												.p-b-10.p-r-15.m-b-10.m-t-5
-													.no-margin.pull-right{:style => "color: #3C93CE;"}
-														Curso no iniciado
-											-elsif
+											- seen_progress = @current_user.percentage_content_visited_for(p.program)
+											- answered_progress = @current_user.percentage_questions_answered_for(p.program)
+											- if answered_progress == 0 && seen_progress == 0
 												.progress
-													.progress-bar.progress-bar-primary{:style => "width:#{@current_user.percentage_questions_answered_for(p.program)}%"}
+													.progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
 												.p-b-10.p-r-15.m-b-10.m-t-5
-													.no-margin.pull-right{:style => "color: #3C93CE;"}
-														#{@current_user.percentage_questions_answered_for(p.program)}% de progreso
+													.no-margin.pull-left{:style => "color: #5B4D91;"}
+														Curso no iniciado
+											- elsif answered_progress == 0 && seen_progress > 0
+												.progress
+													.progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
+												.p-b-10.p-r-15.m-b-10.m-t-5
+													.no-margin.pull-left{:style => "color: #5B4D91;"}
+														Curso no contestado
+													.no-margin.pull-right{:style => "color: #ada4d1;"}
+														#{seen_progress}% visto
+											- else
+												.progress
+													.progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
+												.p-b-10.p-r-15.m-b-10.m-t-5
+													.no-margin.pull-left{:style => "color: #5B4D91;"}
+														#{answered_progress}% de progreso
+													.no-margin.pull-right{:style => "color: #ada4d1;"}
+														#{seen_progress}% visto
 							.event-date
 								%h6.font-montserrat.all-caps.hint-text.m-t-0 
 								%small.fs-12.hint-text											

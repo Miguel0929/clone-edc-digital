@@ -1,3 +1,6 @@
+- content_for :title  do
+  Información de perfil - EDCdigital
+
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-30.panel-title-perfil
     .container
@@ -20,7 +23,7 @@
     .col-md-6
       %h4.pull-right.m-t-18
         - if current_user.id == @user.id
-          = link_to edit_user_registration_path, class: "redish-link" do
+          = link_to edit_user_registration_path, class: "btn btn-primary pull-right m-l-10" do
             %span.glyphicon.glyphicon-edit
             Editar perfil de usuario
   .panel.panel-default

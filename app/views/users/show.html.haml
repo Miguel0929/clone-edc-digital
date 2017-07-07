@@ -1,3 +1,6 @@
+- content_for :title  do
+  Usuario - EDCdigital
+
 .container-fluid.container-fixed-lg
   .row
     .col-sm-5
@@ -149,23 +152,22 @@
                   %strong (#{@user.percentage_content_visited_for(program)}%)
               %td.p-b-15
                 %ul.list-inline.no-style.unstyled
+                  - counter = 0
                   - program.chapters.each_with_index do |chapter, index|
-                    %li
-                      = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: program) do
-                        - if chapter.questions.count == 0
-                          .label.label-success
-                            M-#{index + 1}
-                            %i.fa.fa-check
-                        - else
+                    - if chapter.questions.count == 0
+                      - counter += 1
+                    - else
+                      %li
+                        = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: program) do
                           - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions.count.to_f).ceil
                           - checked = chapter.chapter_checked?(chapter.id, @user.id)
                           - if answered_percentage > 95
                             .label.label-success{:class => "#{checked ? '' : 'p-sides-14'}"}
-                              M-#{index + 1}
+                              M-#{index + 1 - counter}
                               %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
                           - else
                             .label{:class => "#{(answered_percentage > 0) ? 'label-warning' : ''} #{checked ? '' : 'p-sides-14'}"}
-                              M-#{index + 1}
+                              M-#{index + 1 - counter}
                               %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
               - if current_user.admin?
                 %td.p-b-15
