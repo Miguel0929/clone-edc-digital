@@ -1,6 +1,9 @@
 class Api::V1::AsyncJobsController < ApplicationController
   def show
-    @job = AsyncJob.find(params[:id])
-    render json: @job
+    if redis.get("job_#{params[:id]}").nil?
+      render json: {}, status: 404
+    else
+      render json: JSON.parse(redis.get("job_#{params[:id]}"))
+    end
   end
 end

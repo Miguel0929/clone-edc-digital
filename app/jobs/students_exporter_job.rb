@@ -2,10 +2,12 @@ require 'csv'
 
 class StudentsExporterJob
   include SuckerPunch::Job
+  workers 1
 
   def perform(job_id, students, exporter, fast)
-    job = AsyncJob.find(job_id)
-    
+    redis = Redis.new
+    job = JSON.parse(redis.get(job_id})) unless redis.get(job_id).nil?
+
     progress = job.progress
     csv_string = CSV.generate(encoding: "UTF-8") do |csv|
       if fast
@@ -46,13 +48,13 @@ class StudentsExporterJob
           end
         end
         csv << content
-        job.update({progress: progress})
+        job["progress"] = job["progress"] + 1;
+        redis.set(job_id, job.to_json)
       end
     end
     File.open('public/system/export.csv', 'w'){ |f| f.write(csv_string) }
     exporter.file = Pathname('public/system/export.csv').open
     exporter.save
     File.open('public/system/export.csv', 'w'){ |f| f.write('') }
-    job.destroy
   end
 end
