@@ -9,7 +9,7 @@
             = @program.name
           .pull-right
             Rating: 
-            = @program.rating  
+            = @program.rating.round(2)
         .panel-body
           .sortable{'data-update-url'=> url_prod_helper(sort_program_chapters_url(@program))}
             - @program.chapters.each do |chapter|
@@ -26,7 +26,6 @@
 
                     = link_to clone_program_chapter_path(@program, chapter), method: :post, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Clonar módulo' do
                       %span.glyphicon.glyphicon-list
-
 
                     %h3.panel-title
                       %a{"aria-controls" => "collapse_#{chapter.id}", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse_#{chapter.id}"}
