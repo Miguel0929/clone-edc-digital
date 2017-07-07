@@ -36,6 +36,8 @@
 									.col-md-12			
 										.p-b-10
 											-if @current_user.percentage_questions_answered_for(p.program) == 0
+												.progress
+													.progress-bar.progress-bar-primary{:style => "width:#{@current_user.percentage_questions_answered_for(p.program)}%"}
 												.p-b-10.p-r-15.m-b-10.m-t-5
 													.no-margin.pull-right{:style => "color: #3C93CE;"}
 														Curso no iniciado
