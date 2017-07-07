@@ -1,3 +1,6 @@
+- content_for :title  do
+  Detalle de resultados - EDCdigital
+
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
     .container
@@ -7,10 +10,15 @@
             %h2.text-white 
               Detalle de tus resultados
           .col-sm-7.col-md-7.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
-            %h5.text-white
-              Examen:
             %h3.text-white
-              #{@quiz.name}
+              %span.p-r-10{style: "font-size:16px !important;"}
+                Examen:
+              %span
+                #{@quiz.name}
+            = link_to dashboard_quizzes_path, class: 'btn btn-sm btn-primary btn-cons m-b-10' do
+              %i.fa.fa-reply
+              %span.bold Regresar a mis exámenes
+
               
 .container-fluid.container-fixed-lg
   = form_tag dashboard_quiz_answers_path do  
@@ -45,3 +53,7 @@
                           %li.p-b-10
                             %i.fa.fa-chevron-right
                             = rightone
+  .text-center
+    = link_to dashboard_quizzes_path, class: 'btn btn-sm btn-primary btn-cons m-b-10' do
+      %i.fa.fa-reply
+      %span.bold Regresar a mis exámenes

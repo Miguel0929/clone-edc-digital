@@ -13,7 +13,7 @@
             %h5.text-white
               Es importante evaluar tu conocimiento.
             %p.m-b-25.text-white
-              En esta sección podrás realizar todos los exámenes que pondrán a prueba tu conocimiento y habilidad obtenidos a través de la plataforma de EDC-digital. !Evalúa tus aptitudes y mejora tu emprendimiento!
+              En esta sección podrás realizar todos los exámenes que pondrán a prueba tu conocimiento y habilidad obtenidos a través de la plataforma de EDC-digital. ¡Evalúa tus aptitudes y mejora tu emprendimiento!
 
 .container-fluid.container-fixed-lg
   .row
@@ -27,17 +27,19 @@
             %thead
               %tr
                 %th Examen
-                %th Status
-                %th Calificación
+                %th 
+                  %span.p-l-15 Status
+                %th.text-center Calificación
                 %th 
             %tbody
               - @quizzes.each do |quiz|
                 %tr
                   %td.p-t-15.p-b-15
                     = quiz.name
-                  %td.p-t-15.p-b-15{:class => "#{(quiz.answered(current_user) > 0) ? 'text-primary' : 'text-danger'}"}
-                    = quiz.answered(current_user) > 0 ? 'Contestado' : 'No contestado'
-                  %td.p-t-15.p-b-15{:class => "#{(quiz.answered(current_user) > 0) ? 'text-primary' : 'text-danger'}"}
+                  %td.p-t-15.p-b-15
+                    %span.label{:class => "#{(quiz.answered(current_user) > 0) ? 'label-success' : 'label-warning'}", style: "font-size:1em;"}
+                      = quiz.answered(current_user) > 0 ? 'Contestado' : 'No contestado'
+                  %td.text-center.p-t-15.p-b-15{:class => "#{(quiz.answered(current_user) > 0) ? 'text-primary' : 'text-danger'}"}
                     = quiz.answered(current_user) > 0 ? quiz.average(current_user) : 'No disponible'
                   %td.p-t-15.p-b-15 
                     -if quiz.answered(current_user) > 0  
