@@ -48,7 +48,7 @@
                                   = content.model.identifier
                                 %span.pull-right
                                   Rating:
-                                  = content.rating 
+                                  = content.rating.round(2)
 
                             - elsif content.coursable_type == 'Question'
                               .well{id: "chapter_content_#{content.id}"}
