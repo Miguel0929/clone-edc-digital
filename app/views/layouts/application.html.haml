@@ -55,7 +55,7 @@
           = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: [''], icon: 'fa fa-users', role: [:mentor]})
           = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
           = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: mentor_shared_group_attachments_path, icon: 'fa fa-file', role: [:mentor]})
-          = display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]})
+          = display_navbar_link({css: [], link: 'Mensajes', details: 'Mensajes con estudiantes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]})
 
           - if current_user.student?
             %li.extra-bottom-4.m-t-30
@@ -103,10 +103,12 @@
                 %i.fa.fa-comment
               %ul.sub-menu
                 %li
-                  %a{:href => mailbox_inbox_path} Mensajes
-                  %span.icon-thumbnail Mn
+                  %a{:href => mailbox_inbox_path}
+                    =current_user.mentor? ? 'Mensajes con estudiantes' : 'Mensajes con profesores'
+                  %span.icon-thumbnail 
+                    =current_user.mentor? ? 'Me' : 'Mp'
                 %li
-                  %a{:href => dashboard_support_path} Ayuda de mentores
+                  %a{:href => dashboard_support_path} Ayuda de mentores EDC
                   %span.icon-thumbnail Am
                 %li
                   %a{:href => frequent_questions_path} Preguntas frecuentes
@@ -209,7 +211,7 @@
             .brand.inline
               %a.redirector{href: root_path}
                 = image_tag('logo-edc-color-horizontal.png', height: 40)
-            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-l.b-r.no-style.p-l-30.p-r-20
+            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-l.b-r.no-style.p-l-10.p-r-10
               %li.p-r-15.inline
                 .dropdown
                   %a#notification-center.icon-set.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
@@ -233,7 +235,7 @@
                         %a{:href => dashboard_notifications_path} Ver todas las notificaciones
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
                           %i.pg-refresh_new
-            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-30.p-r-20
+            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-10.p-r-10
               %li.p-r-15.inline
                 .dropdown
                   %a#notification-center.icon-set-2.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
@@ -254,19 +256,20 @@
                       .notification-body.scrollable
                         = render partial: "mailbox/notification", collection: mailbox.inbox.limit(3).order(created_at: :desc), as: :item
                       .notification-footer.text-center
-                        %a{:href => mailbox_inbox_path} Ver todos los mensajes
+                        %a{:href => mailbox_inbox_path} 
+                          =current_user.mentor? ? 'Ver mensajes con tus estudiantes' : 'Ver mensajes con tus profesores'
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
                           %i.pg-refresh_new
             %a{:href => frequent_questions_path, :target => "blank"}
-              %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-30.p-r-20
+              %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-10.p-r-10
                 %li.p-r-15.inline
                   #notification-center.fa.fa-question-circle{:style => "font-size:18px;"}
 
             - if current_user.admin? || current_user.mentor?
-              %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-30.p-r-20
+              %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.no-style.p-l-10.p-r-10
                 %li.p-r-15.inline
                   %form.navbar-form{:role => "search", action: search_users_path}
-                    %input.form-control.typehead.typehead-entries{placeholder: 'Buscar contactos', name: 'search', value: params[:search], style: 'width:400px;'}
+                    %input.form-control.typehead.typehead-entries{placeholder: 'Buscar contactos', name: 'search', value: params[:search], style: 'width:350px; bottom:5px;'}
 
 
 

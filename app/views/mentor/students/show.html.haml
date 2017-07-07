@@ -1,13 +1,21 @@
 .container-fluid.container-fixed-lg
   .row
-    .col-sm-9
+    .col-sm-6
       %h3
-        Detalles del Alumno: #{@user.name}
-    .col-sm-3
-      = link_to mentor_group_path(@user.group.id), class: "pull-right" do
-        %button.btn.btn-info.btn-sm.m-t-10.m-b-10
+        #{@user.name}
+    .col-sm-6
+      .pull-right  
+        = link_to mentor_group_path(@user.group.id), class: "btn btn-info btn-sm m-t-10 m-b-10" do
           %i.fa.fa-reply
           Regresar a grupo
+      .btn-like-switch.pull-right.m-t-10.m-r-10
+        %label.switch
+          %input{type: "hidden", id: "student_ready", value: @user.ready_to_check?.to_s}
+          %input{type: "hidden", id: "user_id", value: @user.id}
+          %input#student_evaluation_mentor{{:type => "checkbox"}, @user.evaluation_status == 'evaluado' ? {checked: 1, value: 1} : {value: 0}, @user.ready_to_check? ? {} : { disabled: true }}
+          .slider.round
+        .label-for-switch.p-l-5
+          Estado de evaluación
   .panel.panel-default
     .panel-body
       .row
@@ -50,12 +58,12 @@
                 %td{:width => "25%"} Nombre
                 %td
                   = @user.name
-              %tr.odd.gradeX
-                %td{:width => "25%"} Estatus de evaluación
-                %td
-                  = editable @user, :evaluation_status, source: [:evaluado, :'sin evaluar'], type: :select, url: mentor_student_path(@user)
-                  %a{href: '#', title: 'Haz clic para editar la información'}
-                    %i.fa.fa-edit
+              /%tr.odd.gradeX
+              /%td{:width => "25%"} Estatus de evaluación
+              /%td
+              /  = editable @user, :evaluation_status, source: [:evaluado, :'sin evaluar'], type: :select, url: mentor_student_path(@user)
+              /  %a{href: '#', title: 'Haz clic para editar la información'}
+              /    %i.fa.fa-edit
               %tr.odd.gradeX
                 %td Correo electrónico
                 %td
@@ -158,22 +166,23 @@
                     = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx) do
                       %i.fa.fa-file-excel-o
                       Descargar Excel 
-                  %li.p-l-0{:style => 'color: #3a8fc8;'}
+                  %li.p-l-0.m-t-10
                     %input{type: "hidden", id: "user_key_#{@user.id}", value: @user.id}
                     %input{type: "hidden", id: "program_key_#{program.id}", value: program.id}
-
-                    %form{:action => program_stats_path, 'data-remote': "true", method: :post, id: "edit_program_stat_#{program.id}"}
-                      - if get_program_stat(@user, program).nil?
-                        %input{type: "checkbox", id: "checking_program_#{program.id}", name: "program_stat[checked]"}
-                        %label.p-l-5{:for => "checking_program_#{program.id}"} Marcar como evaluado
-                      - else 
-                        - program_stats = get_program_stat(@user, program)
-                        - if program_stats.checked == 1
-                          %input{type: "checkbox", id: "checking_program_#{program.id}", value: program_stats.checked, name: "program_stat[checked]", checked: :true}
-                        - else
-                          %input{type: "checkbox", id: "checking_program_#{program.id}", value: program_stats.checked, name: "program_stat[checked]"}
-                        %label.p-l-5{:for => "checking_program_#{program.id}"}
-                          = (program_stats.checked == 1) ? "Programa evaluado" : "Marcar como evaluado"
+                    .btn-like-switch.btn-like-switch-small
+                      %label.switch.switch-small
+                        %form{:action => program_stats_path, 'data-remote': "true", method: :post, id: "edit_program_stat_#{program.id}"}
+                          - if get_program_stat(@user, program).nil?
+                            %input{type: "checkbox", id: "checking_program_#{program.id}", name: "program_stat[checked]"}
+                          - else 
+                            - program_stats = get_program_stat(@user, program)
+                            - if program_stats.checked == 1
+                              %input{type: "checkbox", id: "checking_program_#{program.id}", value: program_stats.checked, name: "program_stat[checked]", checked: :true}
+                            - else
+                              %input{type: "checkbox", id: "checking_program_#{program.id}", value: program_stats.checked, name: "program_stat[checked]"}
+                          .slider.slider-small.round
+                      .label-for-switch.label-for-switch-small.p-l-5
+                        Estado de evaluación
                     %script{ :type => 'text/javascript' }
                       $(document).ready(function(){
                       $("#checking_program_" + #{program.id}).change(function(){
@@ -193,7 +202,6 @@
 
   %h3
     Estadísticas generales de exámenes
-
   .panel.panel-default
     .panel-body
       .table-responsive
@@ -219,7 +227,6 @@
                 %td= link_to "Ver detalle", analytics_quiz_mentor_student_path(@user, quiz_id: quiz)
   %h3
     Archivos del usuario
-
   .panel.panel-default
     .panel-body.table-responsive
       %table.table.table-hover
@@ -251,7 +258,6 @@
 
   %h3
     Archivos compartidos con el usuario
-
   .panel.panel-default
     .panel-body.table-responsive
       %table.table.table-hover
@@ -296,8 +302,53 @@
       %button.close{"data-dismiss" => "alert", :type => "button"}>
         %span{"aria-hidden" => "true"} ×
         %span.sr-only Close
-      Estado de evaluación modificado      
+      #program_evaluation_text
+        Estado de evaluación modificado      
+      #alert_text 
+#alert-ra-error.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-error
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      #alert_text_error
+/$(document).on('turbolinks:load', function(){
+:javascript
+  $(document).ready(function(){
 
-  /%h3
-  /  Revisión de comentarios (Todos)
-  /= render partial: 'mentor/comments/comments', locals: { comments: @comments }
+    if ($("#student_ready").val() == "false") {
+      $("#student_evaluation_mentor").each(function() {
+        $('.switch').append('<div id="disabledClick" style="position:absolute;top:0px;left:0px;width:62px;height:36px;background:transparent;cursor:pointer;"></div>');
+      });
+      $("#disabledClick").click(function() {
+        $("#alert_text_error").text("El alumno debe tener todos los programas evaluados (refresca la página si ya lo hiciste)");
+        $("#alert-ra-error").css('display','block');
+        setTimeout(function(){$("#alert-ra-error").css('display','none');},5000);
+      });
+
+    } else {
+      $("#student_evaluation_mentor").click(function() {
+        var this_user = $("#user_id").val();
+        $.ajax({
+          type: "post", url: "/change_evaluation",
+          data: { 
+            'user_id': this_user
+          },
+          success: function (data, text) {
+            if (data.eval){
+              $("#program_evaluation_text").addClass('hidden');
+              $("#alert_text").text("El alumno ha sido marcado como evaluado");
+            }else{
+              $("#program_evaluation_text").addClass('hidden');
+              $("#alert_text").text("El alumno dejó de estar marcado como evaluado");
+            }
+            $("#alert-ra").css('display','block');
+            setTimeout(function(){$("#alert-ra").css('display','none');},4000); 
+          },
+          error: function (data) {
+            console.log(data);
+          }
+        });
+      });
+    }
+  });

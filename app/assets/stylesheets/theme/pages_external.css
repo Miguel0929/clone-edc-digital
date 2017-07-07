@@ -85,6 +85,39 @@ a.redish-link:hover {
 	padding: 6px 12px;
 	border-radius: 4px;
 }
+.btn-like-switch{
+	display: inline-block;
+	min-width: 120px;
+	font-size: 14px;
+	color: #111;
+	background-color: transparent;
+	border-color: #E6E6E6;
+	line-height: 21px;
+	padding-top: 1px;
+	padding-right: 10px;
+	padding-left: 0;
+	position: relative;
+	border-radius: 4px;
+	max-height: 36px;
+}
+.btn-like-switch-small{
+	display: inline-block;
+	font-size: 12.5px !important;
+	color: #3a8fc8 !important;
+	line-height: 21px !important;
+	padding-right: 10px;
+}
+.label-for-switch{
+	display: inline-block;
+	position: relative;
+	top: -12px;
+	height: 36px;
+	font-family: "Montserrat", Arial, sans-serif;
+}
+.label-for-switch-small{
+	top: -8px !important;
+	height: 22px !important;
+}
 a.seen-link {
 	color: #0DAD9E;
 }

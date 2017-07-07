@@ -54,7 +54,8 @@
                     %td= QuizAnswer.respuesta(question.id, current_user.id)
                     %td.text-center
                       = answer.nil? ? "Sin contestar" : QuizAnswer.revisada(question.id, current_user.id).html_safe
-                    %td.text-center= answer.quiz_question.points
+                    %td.text-center
+                      = answer.nil? ? "No hay puntos" : answer.quiz_question.points
                     %td.text-center
                       %strong
                         = points_quiz_question(question, current_user)

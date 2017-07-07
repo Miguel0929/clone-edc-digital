@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin, except: [:students, :show]
+  before_action :require_admin, except: [:students, :show, :change_evaluation]
   before_action :require_creator, only: [:students, :show]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state]
 
@@ -238,22 +238,30 @@ class UsersController < ApplicationController
       end
       format.xls do
         fast = params[:fast] == 'true' ? true : false
-        @job = AsyncJob.create({title: 'Exporting csv', progress: 0, total: @users.count})
+
+        timestamp = Time.current.to_i
+        redis = Redis.new
+        redis.set("job_#{timestamp}", { total: @users.count, progress: 0 }.to_json)
+
         exporter = Exporter.new
         exporter.file = Pathname('public/system/export.csv').open
         exporter.save
-        StudentsExporterJob.perform_async(@job.id, @users, exporter, fast)
-        redirect_to exporter_path(@job)
+        StudentsExporterJob.perform_async("job_#{timestamp}", @users, exporter, fast)
+        redirect_to exporter_path(timestamp)
       end
       format.xlsx do
         fast = params[:fast] == 'true' ? true : false
         @users = User.students.includes(:group)
-        @job = AsyncJob.create({title: 'Exporting csv', progress: 0, total: @users.count})
+
+        timestamp = Time.current.to_i
+        redis = Redis.new
+        redis.set("job_#{timestamp}", { total: @users.count, progress: 0 }.to_json)
+
         exporter = Exporter.new
         exporter.file = Pathname('public/system/export.csv').open
         exporter.save
-        StudentsExporterJob.perform_async(@job.id, @users, exporter, fast)
-        redirect_to exporter_path(@job)
+        StudentsExporterJob.perform_async("job_#{timestamp}", @users, exporter, fast)
+        redirect_to exporter_path(timestamp)
       end
     end
   end
@@ -266,6 +274,16 @@ class UsersController < ApplicationController
     end
 
     redirect_to @user
+  end
+
+  def change_evaluation
+    user = User.find(params[:user_id].to_i)
+    if user.evaluation_status == "evaluado"
+      to_nonevaluated = user.update(evaluation_status: "sin evaluar")
+    else
+      to_evaluated = user.update(evaluation_status: "evaluado")
+    end
+    render json: {eval: to_evaluated, not_eval: to_nonevaluated}
   end
 
   private
