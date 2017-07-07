@@ -133,10 +133,6 @@
                 %li
                   %a{:href => dashboard_notifications_panel_path} Panel de notificaciones
                   %span.icon-thumbnail Pn
-                %li
-                  = link_to destroy_user_session_path, method: :delete do
-                    Cerrar sesión
-                  %span.icon-thumbnail Cs
 
             %li.extra-bottom-4
               %a{:href => "javascript:;"}
@@ -192,6 +188,13 @@
                 %span.details Editar glosario
               %span.icon-thumbnail
                 %i.fa.fa-book
+
+          - if current_user.mentor? || current_user.admin? || current_user.student?
+            %li.extra-bottom-4
+              %a.detailed.redirector{:href => destroy_user_session_path, method: :delete }
+                %span.title Cerrar sesión
+              %span.icon-thumbnail
+                %i.fa.fa-power-off
 
         .clearfix
     .page-container
