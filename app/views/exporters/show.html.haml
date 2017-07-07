@@ -9,7 +9,7 @@
               0%
           .progress
             .progress-bar.progress-bar-success.progress-bar-striped{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "40", :role => "progres    sbar", :style => "width:0%"}
-              
+
         .download-section.hidden
           %h3
             Descargar Archivo
@@ -21,8 +21,14 @@
       $.get("/api/v1/async_jobs/#{@job_id}")
       .done(function(job){
         var progress = parseInt((job.progress * 100) / job.total);
-        $('.job-progress').html(progress + '%');
-        $('.progress-bar').css('width', progress + '%');
+        if(progress == 100) {
+          $('.progress-section').addClass('hidden');
+          $('.download-section').removeClass('hidden');
+        }
+        else {
+          $('.job-progress').html(progress + '%');
+          $('.progress-bar').css('width', progress + '%');
+        }
       })
       .fail(clean)
     }, 1000);
