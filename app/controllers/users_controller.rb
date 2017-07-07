@@ -238,22 +238,30 @@ class UsersController < ApplicationController
       end
       format.xls do
         fast = params[:fast] == 'true' ? true : false
-        @job = AsyncJob.create({title: 'Exporting csv', progress: 0, total: @users.count})
+
+        timestamp = Time.current.to_i
+        redis = Redis.new
+        redis.set("job_#{timestamp}", { total: @users.count, progress: 0 }.to_json)
+
         exporter = Exporter.new
         exporter.file = Pathname('public/system/export.csv').open
         exporter.save
-        StudentsExporterJob.perform_async(@job.id, @users, exporter, fast)
-        redirect_to exporter_path(@job)
+        StudentsExporterJob.perform_async("job_#{timestamp}", @users, exporter, fast)
+        redirect_to exporter_path(timestamp)
       end
       format.xlsx do
         fast = params[:fast] == 'true' ? true : false
         @users = User.students.includes(:group)
-        @job = AsyncJob.create({title: 'Exporting csv', progress: 0, total: @users.count})
+
+        timestamp = Time.current.to_i
+        redis = Redis.new
+        redis.set("job_#{timestamp}", { total: @users.count, progress: 0 }.to_json)
+
         exporter = Exporter.new
         exporter.file = Pathname('public/system/export.csv').open
         exporter.save
-        StudentsExporterJob.perform_async(@job.id, @users, exporter, fast)
-        redirect_to exporter_path(@job)
+        StudentsExporterJob.perform_async("job_#{timestamp}", @users, exporter, fast)
+        redirect_to exporter_path(timestamp)
       end
     end
   end
