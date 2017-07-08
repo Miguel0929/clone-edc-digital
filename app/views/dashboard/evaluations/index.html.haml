@@ -1,8 +1,8 @@
 - content_for :title  do
   Evaluaciones - EDCdigital
 
-.container-fluid.container-fixed-lg.bg-white
-  .panel.panel-transparent
+.container-fluid.container-fixed-lg
+  .panel.panel-default
     .panel-heading
       %h2
         Evaluación de programas
@@ -34,7 +34,7 @@
               %td
                 #{(((chapter.evaluation_points * 100) / chapter.total_evaluations_points rescue 0) * chapter.points / 100)} %
               %td
-                = link_to 'Ver evaluación', dashboard_evaluation_path(chapter, program_id: @program)
+                /= link_to 'Ver evaluación', dashboard_evaluation_path(chapter, program_id: @program)
           %tr
             %th
               Total
