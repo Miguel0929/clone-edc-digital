@@ -1084,6 +1084,7 @@ body.rtl [class*="col-"] {
   border: none;
   text-transform: uppercase;
   display: block;
+  padding-bottom: 0 !important;
 }
 .breadcrumb a {
   margin-left: 5px;

@@ -3,7 +3,6 @@ class UsersController < ApplicationController
   before_action :require_admin, except: [:students, :show, :change_evaluation]
   before_action :require_creator, only: [:students, :show]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state]
-
   add_breadcrumb "EDCDIGITAL", :root_path
 
   def index
@@ -92,18 +91,18 @@ class UsersController < ApplicationController
   end
 
   def show
-    add_breadcrumb "Estudiantes", :users_path
+    add_breadcrumb "Estudiantes", :students_users_path
     add_breadcrumb "<a class='active' href='#{user_path(@user)}'>#{@user.email}</a>".html_safe
   end
 
   def edit
-    add_breadcrumb "Estudiantes", :users_path
+    add_breadcrumb "Estudiantes", :students_users_path
     add_breadcrumb @user.email, user_path(@user)
     add_breadcrumb "<a class='active' href='#{edit_user_path(@user)}'>Editar información</a>".html_safe
   end
 
   def update
-    add_breadcrumb "Estudiantes", :users_path
+    add_breadcrumb "Estudiantes", :students_users_path
     add_breadcrumb @user.email, user_path(@user)
     add_breadcrumb "<a class='active' href='#{edit_user_path(@user)}'>Editar información</a>".html_safe
 
@@ -128,19 +127,20 @@ class UsersController < ApplicationController
     @program = Program.find(params[:program_id])
     @chapter_contents = ChapterContent.joins(chapter: [:program]).where('programs.id = ?', @program.id).order(position: :asc)
 
-    add_breadcrumb "Estudiantes", :users_path
+    add_breadcrumb "Estudiantes", :students_users_path
     add_breadcrumb @user.email, user_path(@user)
     add_breadcrumb "<a class='active' href='#{analytics_program_user_path(@user, program_id: @program)}'>Detalles de programa</a>".html_safe
   end
 
   def analytics_quiz
     @quiz = Quiz.find(params[:quiz_id])
-    add_breadcrumb "Estudiantes", :users_path
+    add_breadcrumb "Estudiantes", :students_users_path
     add_breadcrumb @user.email, user_path(@user)
     add_breadcrumb "<a class='active' href='#{analytics_quiz_user_path(@user, quiz_id: @quiz)}'>Detalles del exámen</a>".html_safe
   end
 
   def students
+    add_breadcrumb "<a class='active' href='#{students_users_path}'>Estudiantes</a>".html_safe
     ids=[]
     @users = User.students.includes(:group)
     uni= Group.where.not(university_id: nil)
