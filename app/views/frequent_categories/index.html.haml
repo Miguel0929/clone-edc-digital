@@ -1,78 +1,80 @@
 - content_for :title  do
-	Preguntas frecuentes - EDCdigital
+  Preguntas frecuentes - EDCdigital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
-	%section.demo-bg-section.p-b-55.p-t-40.m-b-40.panel-title-ayuda
-		.container
-			.md-p-l-20.md-p-r-20.xs-no-padding
-				- if current_user.admin?			
-					.row-clearfix
-						.pull-right
-							= link_to new_frequent_path do
-								%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.m-r-20
-									%i.fa.fa-plus-circle
-									Crear nueva pregunta
-				.row
-					.col-sm-12.col-md-12.no-padding.xs-p-l-15.xs-p-r-15.text-white
-						%h4.text-center.text-white.m-b-0
-							Preguntas frecuentes:
-						%h3.text-center.text-white.m-t-0
-							¿Cómo podemos ayudarte hoy?
-			.input-group.transparent.center-margin
-				= form_tag(frequents_path, method: :get) do
-					= text_field_tag :term, params[:term]
-					= submit_tag 'Buscar', class: "boton-buscar"
+  %section.demo-bg-section.p-b-55.p-t-40.m-b-40.panel-title-ayuda
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        - if current_user.admin?      
+          .row-clearfix
+            .pull-right
+              = link_to new_frequent_path do
+                %button.btn.btn-tag.btn-tag-light.btn-tag-rounded.m-r-20
+                  %i.fa.fa-plus-circle
+                  Crear nueva pregunta
+        .row
+          .col-sm-12.col-md-12.no-padding.xs-p-l-15.xs-p-r-15.text-white
+            %h4.text-center.text-white.m-b-0
+              Preguntas frecuentes:
+            %h3.text-center.text-white.m-t-0
+              ¿Cómo podemos ayudarte hoy?
+      .input-group.transparent.center-margin
+        = form_tag(frequents_path, method: :get) do
+          = text_field_tag :term, params[:term]
+          = submit_tag 'Buscar', class: "boton-buscar"
 
 
-	- if @categories.exists?					
-		- @categories.each do |category|
-			.col-md-6
-				.card.share{"data-social" => "item"}
-					- if current_user.admin?
-						.pull-right.p-t-10.p-r-15.p-l-10.clearfix
-							= link_to edit_frequent_category_path(category) do
-								%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar"}
-									%i.fa.fa-edit
-							= link_to frequent_category_path(category), method: :delete, data: { confirm: '¿Estás seguro?' } do
-								%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar"}
-									%i.fa.fa-times
-					.card-header.clearfix 
-						%h5   
-							= link_to category.name, category, :style => "color: black;"
-							(#{category.frequents.count})
+  - if @categories.exists?        
+    - @categories.each do |category|
+      .col-md-6
+        .card.share{"data-social" => "item"}
+          - if current_user.admin?
+            .pull-right.p-t-10.p-r-15.p-l-10.clearfix
+              = link_to edit_frequent_category_path(category) do
+                %button.btn.btn-tag.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar"}
+                  %i.fa.fa-edit
+              = link_to frequent_category_path(category), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                %button.btn.btn-tag.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar"}
+                  %i.fa.fa-times
+          .card-header.clearfix 
+            %h5   
+              = link_to category.name, category, :style => "color: black;"
+              (#{category.frequents.count})
 
-					.card-description.p-b-0
-						-if category.frequents.exists?
-							- category.frequents.first(5).each do |frequent|
-								%ul.list-unstyled
-									%li 
-										= link_to frequent.name, frequent
-										-if current_user.admin?
-											= link_to edit_frequent_path(frequent) do
-												%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-20.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar"}
-													%i.fa.fa-edit{:style => "font-size:18px;"}
-											= link_to frequent_path(frequent), method: :delete, data: { confirm: '¿Estás seguro?' } do
-												%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar"}
-													%i.fa.fa-times-circle{:style => "font-size:18px;"}
-						-elsif
-							%center.p-b-10
-								Aún no hay preguntas para esta categoría
-					- if category.frequents.count > 3
-						.card-footer.clearfix
-							.pull-left
-								= link_to frequent_category_path(category) do
-									.btn-tag.btn-tag-light.btn-tag-rounded.m-l-10
-										%i.fa.fa-eye
-										Ver todas las preguntas (#{category.frequents.count})
-	
-	- elsif
-		.row.col-md-12
-			.card.share{"data-social" => "item"}
-				.card-header
-					%h5.text-center 
-						No se ha creado ninguna pregunta todavía. 
-					- if current_user.admin?	
-						%h5.text-center
-							= link_to '>> Crear la primer pregunta.', new_frequent_path 
+          .card-description.p-b-0
+            -if category.frequents.exists?
+              - category.frequents.first(5).each do |frequent|
+                %ul.list-unstyled
+                  %li 
+                    = link_to frequent.name, frequent
+                    -if current_user.admin?
+                      = link_to edit_frequent_path(frequent) do
+                        %span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-20.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar"}
+                          %i.fa.fa-edit{:style => "font-size:18px;"}
+                      = link_to frequent_path(frequent), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                        %span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar"}
+                          %i.fa.fa-times-circle{:style => "font-size:18px;"}
+            -elsif
+              %center.p-b-10
+                Aún no hay preguntas para esta categoría
+          - if category.frequents.count > 3
+            .card-footer.clearfix
+              .pull-left
+                = link_to frequent_category_path(category) do
+                  .btn-tag.btn-tag-light.btn-tag-rounded.m-l-10
+                    %i.fa.fa-eye
+                    Ver todas las preguntas (#{category.frequents.count})
+  
+  - elsif
+    .container-fluid.container-fixed-lg
+      .row
+        .panel.panel-default
+          .card.share{"data-social" => "item"}
+            .card-header
+              %h5.text-center 
+                No se ha creado ninguna pregunta todavía. 
+              - if current_user.admin?  
+                %h5.text-center
+                  = link_to '>> Crear la primer pregunta.', new_frequent_path 
 
 
