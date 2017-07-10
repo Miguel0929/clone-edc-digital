@@ -183,3 +183,7 @@ a.unseen-link:hover {
   	padding-right: 0px !important;
   }
 }
+.squized-li{
+	padding-right: 1px !important;
+	padding-left: 0px !important;
+}

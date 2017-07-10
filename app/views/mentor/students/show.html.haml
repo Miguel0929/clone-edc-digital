@@ -114,21 +114,37 @@
       %table.table.table-hover
         %thead
           %tr
-            %th{:width => '22%'}
+            %th{:width => '50%'}
               Curso inscrito
-            %th{:width => '23%'}
+            %th{:width => '25%'}
               Avances del alumno
-            %th.text-center{:width => '26%'}
-              Módulos del curso
-            %th.text-center{:width => '8%'}
-              Disponible (estudiante)
             %th.text-center
               Acciones
         %tbody
           - Program.all.each do |program|
             %tr
-              %td.p-b-35{:style => "font-size: 1em;"}
-                = link_to program.name, mentor_evaluations_path(user_id: @user, program_id: program)
+              %td.p-b-35
+                %div
+                  = link_to program.name, mentor_evaluations_path(user_id: @user, program_id: program), :style => "font-size: 17px;"
+                %p.hint-text.m-t-5.m-b-5 Módulos del programa:
+                %ul.list-inline.no-style.unstyled
+                  - counter = 0
+                  - program.chapters.each_with_index do |chapter, index|
+                    - if chapter.questions.count == 0
+                      - counter += 1
+                    - else
+                      %li.squized-li
+                        = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: program) do
+                          - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions.count.to_f).ceil
+                          - checked = chapter.chapter_checked?(chapter.id, @user.id)
+                          - if answered_percentage > 95
+                            .label.label-success{:class => "#{checked ? '' : 'p-sides-14'}"}
+                              M-#{index + 1 - counter}
+                              %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
+                          - else
+                            .label{:class => "#{(answered_percentage > 0) ? 'label-warning' : ''} #{checked ? '' : 'p-sides-14'}"}
+                              M#{index + 1 - counter}
+                              %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
               %td
                 .m-b-10
                   %i.fa.fa-edit
@@ -140,28 +156,6 @@
                   #{@user.content_visted_for(program)} 
                   %span contenidos vistos
                   %strong (#{@user.percentage_content_visited_for(program)}%)
-              %td
-                %ul.list-inline.no-style.unstyled
-                  - counter = 0
-                  - program.chapters.each_with_index do |chapter, index|
-                    - if chapter.questions.count == 0
-                      - counter += 1
-                    - else
-                      %li
-                        = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: program) do
-                          - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions.count.to_f).ceil
-                          - checked = chapter.chapter_checked?(chapter.id, @user.id)
-                          - if answered_percentage > 95
-                            .label.label-success{:class => "#{checked ? '' : 'p-sides-14'}"}
-                              M-#{index + 1 - counter}
-                              %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
-                          - else
-                            .label{:class => "#{(answered_percentage > 0) ? 'label-warning' : ''} #{checked ? '' : 'p-sides-14'}"}
-                              M-#{index + 1 - counter}
-                              %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
-              %td.text-center 
-                %strong{:class => "#{(!@user.group.programs.exists?(program)) ? 'text-danger' : 'text-success'}"}
-                  #{(!@user.group.programs.exists?(program)) ? 'No' : 'Sí'}
               %td.p-r-0
                 %ul.unstyled.no-style.p-l-0
                   %li.p-l-0
