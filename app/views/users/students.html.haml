@@ -34,8 +34,8 @@
           = form_tag(students_users_path, method: :get) do
             %a#collap
               #headingfiltros.panel-heading.font-search
-                %h4.panel-title.search-title.text-white.icon__filtro
-                  Ver Filtros de búsqueda :
+                %h4.panel-title.search-title.text-white.ver
+                  Ocultar Filtros de búsqueda :
             #ver_collap
               .col-md-12.col-sm-12.col-xs-12.learning-img
                 %aside.sidebar-menu
@@ -260,8 +260,17 @@
         = page_entries_info @users
 
 :javascript
+  var x = true;
   $( "a#collap" ).click(function() {
     $( "#ver_collap" ).toggle("slow");
+    x = !x;
+    if(x){
+      $(".ver").text("Ocultar Filtros de búsqueda :");
+    } else {
+      $(".ver").text("Ver Filtros de búsqueda :");
+    }
+    console.log(x);
   });
+ 
 
 
