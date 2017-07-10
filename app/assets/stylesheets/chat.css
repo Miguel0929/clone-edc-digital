@@ -614,3 +614,29 @@ p.mensaje{
     margin-top: -40%;
   }
 }
+.color__icon{
+  color: #B32769;
+  font-size: 13px;
+}
+.color__icon_program{
+  color: #B32769;
+  font-size: 11px; 
+}
+.font-search{
+  background-color: #B32769 !important;
+}
+
+#wrapper {
+  /*background: #69225C;*/
+  overflow: hidden;
+  transition: height 200ms cubic-bezier(0.2, 0.4, 0.7, 0.8);
+}
+.inline-block{
+  display: inline-block;
+}
+#collap{
+  cursor: pointer;
+}
+#ver_collap{
+
+}
