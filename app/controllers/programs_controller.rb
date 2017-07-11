@@ -111,7 +111,7 @@ class ProgramsController < ApplicationController
 
   private
   def program_params
-    params.require(:program).permit(:name, :description, :cover, :small_cover, :category, :objetive, :curriculum, :icon, :video, :color, :tipo, :level, :content_type, group_ids: [])
+    params.require(:program).permit(:name, :short_name, :description, :cover, :small_cover, :category, :objetive, :curriculum, :icon, :video, :color, :tipo, :level, :content_type, group_ids: [])
   end
 
   def set_program

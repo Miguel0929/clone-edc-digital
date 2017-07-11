@@ -187,3 +187,9 @@ a.unseen-link:hover {
 	padding-right: 1px !important;
 	padding-left: 0px !important;
 }
+.program-labels{
+	display: inline-block;
+	width: 58px;
+	height: 21px;
+	padding-top: 5px;
+}
