@@ -1,8 +1,10 @@
 class ControlPanelController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
+  add_breadcrumb "EDCDIGITAL", :root_path
 
   def index
+    add_breadcrumb "<a class='active' href='#{}'>Estadisticas generales</a>".html_safe
     @users = User.all
     @mentor_messages = MentorHelp.all
     @massages = Mailboxer::Message.all
