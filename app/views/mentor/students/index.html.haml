@@ -7,76 +7,88 @@
       .pull-right
         .col-xs-12
           /%input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
-          %input#mentor_students.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          .form-group
+            %div.input-group
+              %input#mentor_students.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
+              %span.input-group-addon.font-search
+                %i.fa.fa-search.text-white
       .clearfix
     .panel-body
-      = form_tag(mentor_students_path, method: :get) do
-        .col-md-12.col-sm-12.col-xs-12
-          %aside.sidebar-menu
-            %h4.search-title Filtrar búsqueda:
-            .search-group
-              .col-md-2.col-sm-4.col-xs-12
-                .s-s-title
-                  %i.fa.fa-check-square-o
-                  Status:
-                = select_tag :status, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:status]), {include_blank: "Filtra por status", class: "form-control"} 
-            .search-group
-              .col-md-2.col-sm-4.col-xs-12
-                .s-s-title
-                  %i.fa.fa-users
-                  Grupo:
-                = select_tag :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "form-control" }
-            .search-group
-              .col-md-2.col-sm-4.col-xs-12
-                .s-s-title
-                  %i.fa.fa-university
-                  Universidad:
-                = select_tag :university, options_from_collection_for_select(@universities, :id, :name, params[:university]), {include_blank: "Filtra por universidad", class: "col-md-12" } 
-            .search-group
-              .col-md-2.col-sm-4.col-xs-12
-                .s-s-title
-                  %i.fa.fa-map-marker
-                  Estado:
-                = select_tag :state, options_from_collection_for_select(State.all, :id, :name, params[:state]), {include_blank: "Filtra por estado", class: "col-md-12" }
-            .search-group
-              .col-md-2.col-sm-4.col-xs-12
-                .s-s-title
-                  %i.fa.fa-graduation-cap
-                  Tipo de grupo:
-                = select_tag :tipo,  options_for_select(['Escolarizado', ' Autodidacta digital', 'Presencial', 'Experiemental'], params[:tipo]), {include_blank: "Filtra por tipo de grupo", class: "form-control" }
-            .search-group
-              .col-md-2.col-sm-4.col-xs-12
-                .s-s-title
-                  %i.fa.fa-industry
-                  Industria:
-                = select_tag :industria, options_from_collection_for_select(Industry.all,:id,:name, params[:industria]), {include_blank: "Filtra por industria en la que emprendes", class: "form-control" }
-        .col-md-12        
-          .search-group
-            .col-md-3.col-sm-6.col-xs-12
-              .s-s-title
-                %i.fa.fa-check-circle
-                Porcentaje contestado  
-              = select_tag :answered, options_for_select(OptionsRange.percentages, params[:answered]), {include_blank: "Filtra por porcentaje contestado", class: "form-control" }
-          .search-group
-            .col-md-3.col-sm-6.col-xs-12
-              .s-s-title
-                %i.fa.fa-eye
-                Porcentaje visto
-              = select_tag :visited, options_for_select(OptionsRange.percentages, params[:visited]), {include_blank: "Filtra por porcentaje visto", class: "form-control" }
-          .search-group
-            .col-md-3.col-sm-6.col-xs-12
-              .s-s-title
-                %i.fa.fa-book
-                Programa (*)  
-              = select_tag :program, options_from_collection_for_select(Program.all,:id, :name, params[:program]), {include_blank: "Seleccionar programa", class: "form-control" }
-        .col-md-12      
-          %i.row
-            (*) Selecciona un programa para filtrar por el porcentaje de contenido contestado/visto   
-        %br
-        %br
-        .col-md-12
-          = submit_tag 'Filtrar', class: "btn btn-default"
-          = link_to "Exportar a excel", exports_mentor_students_path(format: :xlsx), class: "btn btn-success"
+      .row.inline-block
+        = form_tag(mentor_students_path, method: :get) do
+          %a#collap
+            #headingfiltros.panel-heading.font-search
+              %h4.panel-title.search-title.text-white.ver
+                Ocultar Filtros de búsqueda :
+          #ver_collap
+            .col-md-12.col-sm-12.col-xs-12.learning-img
+              %aside.sidebar-menu
+                /%h4.search-title Filtrar búsqueda:
+                .search-group
+                  .col-md-2.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-check-square-o
+                      Status:
+                    = select_tag :status, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:status]), {include_blank: "Filtra por status", class: "form-control"} 
+                .search-group
+                  .col-md-2.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-users
+                      Grupo:
+                    = select_tag :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "form-control" }
+                .search-group
+                  .col-md-2.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-university
+                      Universidad:
+                    = select_tag :university, options_from_collection_for_select(@universities, :id, :name, params[:university]), {include_blank: "Filtra por universidad", class: "col-md-12" } 
+                .search-group
+                  .col-md-2.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-map-marker
+                      Estado:
+                    = select_tag :state, options_from_collection_for_select(State.all, :id, :name, params[:state]), {include_blank: "Filtra por estado", class: "col-md-12" }
+                .search-group
+                  .col-md-2.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-graduation-cap
+                      Tipo de grupo:
+                    = select_tag :tipo,  options_for_select(['Escolarizado', ' Autodidacta digital', 'Presencial', 'Experiemental'], params[:tipo]), {include_blank: "Filtra por tipo de grupo", class: "form-control" }
+                .search-group
+                  .col-md-2.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-industry
+                      Industria:
+                    = select_tag :industria, options_from_collection_for_select(Industry.all,:id,:name, params[:industria]), {include_blank: "Filtra por industria en la que emprendes", class: "form-control" }
+            .col-md-12        
+              .search-group
+                .col-md-3.col-sm-6.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-check-circle
+                    Porcentaje contestado  
+                  = select_tag :answered, options_for_select(OptionsRange.percentages, params[:answered]), {include_blank: "Filtra por porcentaje contestado", class: "form-control" }
+              .search-group
+                .col-md-3.col-sm-6.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-eye
+                    Porcentaje visto
+                  = select_tag :visited, options_for_select(OptionsRange.percentages, params[:visited]), {include_blank: "Filtra por porcentaje visto", class: "form-control" }
+              .search-group
+                .col-md-3.col-sm-6.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-book
+                    Programa
+                    %i.fa.fa-asterisk.color__icon_program
+                  = select_tag :program, options_from_collection_for_select(Program.all,:id, :name, params[:program]), {include_blank: "Seleccionar programa", class: "form-control" }
+            .col-md-12.m-t-15.m-l-10
+              %i.row
+                %i.fa.fa-asterisk.color__icon
+                Selecciona un programa para filtrar por el porcentaje de contenido contestado/visto    
+            %br
+            %br
+            .col-md-12
+              = submit_tag 'Filtrar', class: "btn btn-default"
+              = link_to "Exportar a excel", exports_mentor_students_path(format: :xlsx), class: "btn btn-success"
 
     .table-responsive
       %table.table.table-hover
@@ -169,3 +181,16 @@
       = paginate @users
       %br
       %span.text-center= page_entries_info @users
+
+:javascript
+  var x = true;
+  $( "a#collap" ).click(function() {
+    $( "#ver_collap" ).toggle("slow");
+    x = !x;
+    if(x){
+      $(".ver").text("Ocultar Filtros de búsqueda :");
+    } else {
+      $(".ver").text("Ver Filtros de búsqueda :");
+    }
+    console.log(x);
+  });
