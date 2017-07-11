@@ -6,17 +6,10 @@ class Dashboard::ProgramsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{dashboard_programs_path}'>Programas</a>".html_safe
     #@programs = current_user.group.programs.order(position: :asc) rescue []
     
-    $redis.del "user_programs_#{current_user.id}" if params[:borrar_cache].present?
     ids=[]
     if current_user.student?
       unless current_user.group.nil? 
-        programs = $redis.get("user_programs_#{current_user.id}")
-        if programs.nil?
-          programs = current_user.group.programs.to_json
-          $redis.set("user_programs_#{current_user.id}", programs)
-          $redis.expire("user_programs_#{current_user.id}", 60.minutes.to_i)
-        end
-        @programs = JSON.load programs
+        @programs = current_user.group.programs
       end  
     elsif current_user.mentor?
       current_user.groups.each do |g|
@@ -26,13 +19,7 @@ class Dashboard::ProgramsController < ApplicationController
           end
         end  
       end
-      programs = $redis.get("user_programs_#{current_user.id}")
-      if programs.nil
-        programs = Program.where(id: ids).to_json
-        $redis.set("user_programs_#{current_user.id}", programs)
-        $redis.expire("user_programs_#{current_user.id}", 60.minutes.to_i)
-      end
-      @programs = JSON.load programs
+      @programs = Program.where(id: ids)
     end  
     
     if params[:tipo]=="elearning"
