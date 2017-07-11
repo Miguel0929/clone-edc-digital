@@ -4,6 +4,8 @@ class ConversationsController < ApplicationController
   add_breadcrumb "EDCDIGITAL", :root_path
 
   def new
+    add_breadcrumb "<a href='#{mailbox_inbox_path}'>Mensajes</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{}'>Nuevo mensaje</a>".html_safe
     if current_user.mentor?
       ids=[]
       @contacts=[]
