@@ -358,6 +358,10 @@ GEM
     rack (1.6.4)
     rack-attack (5.0.1)
       rack
+    rack-cache (1.6.1)
+      rack (>= 0.4)
+    rack-mini-profiler (0.10.5)
+      rack (>= 1.2.0)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
@@ -402,6 +406,27 @@ GEM
     rdoc (4.2.2)
       json (~> 1.4)
     redis (3.3.3)
+    redis-actionpack (5.0.1)
+      actionpack (>= 4.0, < 6)
+      redis-rack (>= 1, < 3)
+      redis-store (>= 1.1.0, < 1.4.0)
+    redis-activesupport (5.0.3)
+      activesupport (>= 3, < 6)
+      redis-store (~> 1.3.0)
+    redis-namespace (1.5.3)
+      redis (~> 3.0, >= 3.0.4)
+    redis-rack (2.0.2)
+      rack (>= 1.5, < 3)
+      redis-store (>= 1.2, < 1.4)
+    redis-rack-cache (2.0.1)
+      rack-cache (~> 1.6.0)
+      redis-store (~> 1.3.0)
+    redis-rails (5.0.2)
+      redis-actionpack (>= 5.0, < 6)
+      redis-activesupport (>= 5.0, < 6)
+      redis-store (>= 1.2, < 2)
+    redis-store (1.3.0)
+      redis (>= 2.2)
     referer-parser (0.3.0)
     request_store (1.3.1)
     responders (2.2.0)
@@ -552,11 +577,15 @@ DEPENDENCIES
   paranoia (~> 2.0)
   pg (~> 0.15)
   pry-rails
+  rack-mini-profiler
   rails (= 4.2.6)
   rails-assets-bootstrap!
   rails-assets-typeahead.js!
   rails-i18n
   redis (~> 3.2)
+  redis-namespace
+  redis-rack-cache
+  redis-rails
   rollbar
   rspec-rails
   sass-rails (~> 5.0)
@@ -573,3 +602,9 @@ DEPENDENCIES
   web-console (~> 2.0)
   x-editable-rails
   xray-rails
+
+RUBY VERSION
+   ruby 2.2.1p85
+
+BUNDLED WITH
+   1.15.0

@@ -32,7 +32,8 @@
                 = f.submit 'Filtrar programas', :class => 'btn btn-sm btn-primary programs-filter-btn' 
           %br
           - unless @programs.nil?    
-            - @programs.each do |program|
+            - @programs.each do |programa|
+              - program = Program.new(ActiveSupport::JSON.decode(programa.to_json))
               .col-md-4.col-sm-6.col-xs-12.tarjeta-programa
                 .card.share.share-other{"data-social" => "item"}
                   .card-content

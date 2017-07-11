@@ -9,7 +9,7 @@
           %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       .clearfix
     .panel-body
-      %table.table.table-hover.datatable
+      %table.table.table-hover
         %thead
           %tr
             %th
@@ -26,8 +26,7 @@
           - @visits.each do |visit|
             %tr
               %td
-                - unless visit.user.nil?
-                  = visit.user.email
+                = visit.user.email
               %td
                 = visit.browser
               %td
@@ -36,6 +35,10 @@
                 = visit.os
               %td
                 = l visit.started_at, format: :special
+      .row
+        .pull-right
+          %p= page_entries_info @visits
+          %p= paginate @visits
 
       .row
         %h2.text-center

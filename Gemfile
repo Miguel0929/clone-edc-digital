@@ -53,6 +53,9 @@ gem 'x-editable-rails'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 gem 'redis', '~>3.2'
+gem 'redis-namespace'
+gem 'redis-rails'
+gem 'redis-rack-cache'
 
 
 source 'https://rails-assets.org' do
@@ -71,6 +74,7 @@ group :development do
   gem 'spring'
   gem 'bullet'
   gem 'xray-rails'
+  gem 'rack-mini-profiler'
 end
 
 group :test do
