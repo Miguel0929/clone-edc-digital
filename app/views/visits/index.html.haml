@@ -36,7 +36,9 @@
               %td
                 = l visit.started_at, format: :special
       .row
-        %p.pull-rigth= paginate @visits
+        .pull-right
+          %p= page_entries_info @visits
+          %p= paginate @visits
 
       .row
         %h2.text-center
