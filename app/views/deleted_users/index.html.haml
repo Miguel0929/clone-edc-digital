@@ -43,7 +43,7 @@
               %td
                 = user.huminize_role
               %td
-                = user.group.name
+                = user.group.name if !user.group.nil?
               %td
                 .btn-group
                   %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
