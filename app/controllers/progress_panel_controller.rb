@@ -32,7 +32,8 @@ class ProgressPanelController < ApplicationController
       average = 0
       userstat = ProgramStat.where(user_id: active.id)
       userstat.each do |stat|
-        sum << stat.program_progress
+        current_progress = stat.program_progress
+        if !current_progress.nil? then sum << current_progress end
       end
       average = sum.inject(0.0) { |adding, el| adding + el }.to_f / sum.size
       if average >= 70.0
@@ -88,7 +89,8 @@ class ProgressPanelController < ApplicationController
       average = 0
       userstats = ProgramStat.where(user_id: active.id)
       userstats.each do |stat|
-        sum << stat.program_progress
+        current_progress = stat.program_progress
+        if !current_progress.nil? then sum << current_progress end
       end
       average = sum.inject(0.0) { |adding, el| adding + el }.to_f / sum.size
       if average >= 70.0
@@ -124,19 +126,26 @@ class ProgressPanelController < ApplicationController
 
   private
   def get_program_progress_strata(program)
+    groups = Group.joins(:programs).where(:programs => {id: program.id})
+    studets_count = 0;
+    groups.each do |group|
+      studets_count += group.students.count
+    end
   	stats = ProgramStat.where(program_id: program)
   	hundred, seventy, fifty, thirty = 0, 0, 0, 0
   	stats.each do |stat|
-  		if stat.program_progress >= 70.0
-  			hundred += 1
-  		elsif stat.program_progress >= 50.0
-  			seventy += 1
-  		elsif stat.program_progress >= 30.0
-  			fifty += 1
-  		else
-  			thirty += 1
-  		end		
+      current_progress = stat.program_progress
+      if !current_progress.nil?
+    		if stat.program_progress >= 70.0
+    			hundred += 1
+    		elsif stat.program_progress >= 50.0
+    			seventy += 1
+    		elsif stat.program_progress >= 30.0
+    			fifty += 1
+    		end
+      end	
   	end
+    thirty = studets_count - fifty - seventy - hundred
   	return hundred, seventy, fifty, thirty
   end
 
@@ -145,16 +154,20 @@ class ProgressPanelController < ApplicationController
       students = group.students.all
       students.each do |student|
         stat = ProgramStat.where(program_id: program.id, user_id: student.id).last
-        if stat.program_progress >= 70.0
-		  		hundred += 1
-		  	elsif stat.program_progress >= 50.0
-		  		seventy += 1
-		  	elsif stat.program_progress >= 30.0
-		  		fifty += 1
-		  	else
-		  		thirty += 1
-		  	end	
+        if !stat.nil?
+          current_progress = stat.program_progress
+          if !current_progress.nil?
+            if current_progress >= 70.0
+    		  		hundred += 1
+    		  	elsif current_progress >= 50.0
+    		  		seventy += 1
+    		  	elsif current_progress >= 30.0
+    		  		fifty += 1
+    		  	end	
+          end
+        end
       end
+      thirty = students.count - hundred - seventy - fifty
       return hundred, seventy, fifty, thirty
   end
 
@@ -166,7 +179,11 @@ class ProgressPanelController < ApplicationController
         student_stats = []
         average = 0
         programs.each do |program|
-          student_stats << ProgramStat.where(program_id: program.id, user_id: student.id).last.program_progress
+          current_stat = ProgramStat.where(program_id: program.id, user_id: student.id).last
+          if !current_stat.nil?
+            current_progress = current_stat.program_progress 
+            if !current_progress.nil? then student_stats << current_progress end 
+          end
         end
         average = student_stats.inject(0.0) { |adding, el| adding + el }.to_f / student_stats.size
         if average >= 70.0
