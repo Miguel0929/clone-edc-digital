@@ -276,4 +276,6 @@ Rails.application.routes.draw do
   namespace :search do
     resources :users, only: [:index]
   end
+
+  resources :delireverable_packages
 end
