@@ -1,20 +1,15 @@
-<<<<<<< HEAD
 - content_for :title  do
   Registro de visitas - EDCdigital
 
-.container-fluid.container-fixed-lg.bg-white
-  .panel.panel-transparent
-=======
 .container-fluid.container-fixed-lg
   .panel.panel-default
->>>>>>> hotfix/cajas_de_contenidos_despegadas-de-orillas
     .panel-heading
       .pull-right
         .col-xs-12
           %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
       .clearfix
     .panel-body
-      %table.table.table-hover.datatable
+      %table.table.table-hover
         %thead
           %tr
             %th
@@ -31,8 +26,7 @@
           - @visits.each do |visit|
             %tr
               %td
-                - unless visit.user.nil?
-                  = visit.user.email
+                = visit.user.email
               %td
                 = visit.browser
               %td
@@ -41,6 +35,10 @@
                 = visit.os
               %td
                 = l visit.started_at, format: :special
+      .row
+        .pull-right
+          %p= page_entries_info @visits
+          %p= paginate @visits
 
       .row
         %h2.text-center

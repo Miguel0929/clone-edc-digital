@@ -5,7 +5,7 @@ class Dashboard::ProgramsController < ApplicationController
   def index
     add_breadcrumb "<a class='active' href='#{dashboard_programs_path}'>Programas</a>".html_safe
     #@programs = current_user.group.programs.order(position: :asc) rescue []
-
+    
     ids=[]
     if current_user.student?
       unless current_user.group.nil? 
@@ -19,7 +19,7 @@ class Dashboard::ProgramsController < ApplicationController
           end
         end  
       end
-      @programs=Program.where(id: ids)
+      @programs = Program.where(id: ids)
     end  
     
     if params[:tipo]=="elearning"
