@@ -7,14 +7,14 @@
 			.md-p-l-20.md-p-r-20.xs-no-padding
 				.row.col-md-12
 					.col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
-						%h2.text-white 
-							Calculadora de muestras
+						%h3.text-white 
+							Estimación del número de encuestas a aplicar
 					.col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
 						= bootstrap_form_for :calculator, url: dashboard_calculator_method_path, method: :get do |f|
 							.col-sm-12.text-white
-								= f.number_field :population, step: "any", label: 'Introduce la población total (escríbelo con dígitos):', :required => true
+								= f.number_field :population, step: "any", label: 'Introduce la Población Total previamente determinada con el uso de herramientas digitales II:', :required => true
 								.pull-right
-									= f.submit 'Calcular estadísticos', :class => "btn"
+									= f.submit 'Calcular', :class => "btn"
 
 .container-fluid.container-fixed-lg
 	.panel.panel-default
@@ -26,64 +26,103 @@
 						%span #{number_with_delimiter(@population.to_i, :delimiter => ',')}
 			.panel-heading
 				.panel-title{:style => "font-size: 1.2em; color: #2b303b"}
-					Incluyendo muestreo
+					Tamaño de la muestra
 			.panel-body
 				.container-sm-height
 					.row.row-sm-height.b-a.b-grey
-						.col-sm-2.col-sm-height.col-middle.p-l-25.sm-p-t-15.sm-p-l-15.clearfix.sm-p-b-15
-							%h5.font-montserrat.all-caps.small.no-margin.hint-text.bold Muestra:
-							%h4.no-margin #{'%.2f' % @sample_size}
-						.col-sm-2.col-sm-height.col-middle.clearfix.sm-p-b-15
-							%h5.font-montserrat.all-caps.small.no-margin.hint-text.bold 80 / 20:
-							%h4.no-margin #{'%.2f' % @eighty_s}
-						.col-sm-2.col-sm-height.col-middle.p-l-25.sm-p-t-15.sm-p-l-15.clearfix.sm-p-b-15
-							%h5.font-montserrat.all-caps.small.no-margin.hint-text.bold Innovadores:
-							%h4.no-margin #{'%.2f' % @innovators_s}
-						.col-sm-2.col-sm-height.col-middle.clearfix.sm-p-b-15
-							%h5.font-montserrat.all-caps.small.no-margin.hint-text.bold 80 / 20:
-							%h4.no-margin #{'%.2f' % @eighty_s_innovators}
-						.col-sm-2.text-right.bg-menu.col-sm-height.padding-15
-							%h5.font-montserrat.all-caps.small.no-margin.hint-text.text-white.bold Innovadores + Early adopters:
+						/ .col-sm-2.col-sm-height.col-middle.p-l-25.sm-p-t-15.sm-p-l-15.clearfix.sm-p-b-15
+						/ %h5.font-montserrat.all-caps.small.no-margin.hint-text.bold Muestra:
+						/ %h4.no-margin #{'%.2f' % @sample_size}
+						/ %button#btnToggleSlideUp2Size.btn.btn-green.btn-lg.pull-right.bottom-right.activeModalBtn{:value => "sample"} 
+						/ ?
+						.col-sm-2.text-left.bg-menu.col-sm-height.padding-15
+							%h5.font-montserrat.all-caps.small.no-margin.hint-text.text-white.bold Muestra resultante:
+							%h4.no-margin.text-white #{'%.2f' % @sample_size}
+						.col-sm-2.text-left.bg-menu.col-sm-height.padding-15
+							%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.p-l-12.p-r-12.activeModalBtn{:value => "sample"} 
+								?
+						.col-sm-3.text-left.bg-menu.col-sm-height.padding-15
+							%h5.font-montserrat.all-caps.small.no-margin.hint-text.text-white.bold Innovadores + Adoptadores tempranos:
 							%h4.no-margin.text-white #{'%.2f' % @inn_early_s}
-						.col-sm-2.text-right.bg-menu.col-sm-height.padding-15
-							%h5.font-montserrat.all-caps.small.no-margin.hint-text.text-white.bold 80 / 20:
+						.col-sm-1.text-left.bg-menu.col-sm-height.padding-15
+							%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.p-l-12.p-r-12.activeModalBtn{:value => "early"} 
+								?
+						.col-sm-3.text-left.bg-menu.col-sm-height.padding-15
+							%h5.font-montserrat.all-caps.small.no-margin.hint-text.text-white.bold Cantidad de personas que validen los resultados:
 							%h4.no-margin.text-white #{'%.2f' % @eighty_s_y}
-
-			.panel-heading
-				.panel-title{:style => "font-size: 1.2em; color: #2b303b"}
-					Sin considerar el muestreo
-			.panel-body
-				.container-sm-height
-					.row.row-sm-height.b-a.b-grey
-						.col-sm-4.col-sm-height.col-middle.p-l-25.sm-p-t-15.sm-p-l-15.clearfix.sm-p-b-15
-							%h5.font-montserrat.all-caps.small.no-margin.hint-text.bold Innovadores:
-							%h4.no-margin 
-								- if @innovators_n.to_f > 1000
-									= number_with_delimiter(@innovators_n.to_i, :delimiter => ',')
-								- else
-									#{'%.2f' % @innovators_n}
-						.col-sm-4.col-sm-height.col-middle.clearfix.sm-p-b-15
-							%h5.font-montserrat.all-caps.small.no-margin.hint-text.bold 80 / 20:
-							%h4.no-margin 
-								- if @eighty_n.to_f > 1000
-									= number_with_delimiter(@eighty_n.to_i, :delimiter => ',')
-								- else
-									#{'%.2f' % @eighty_n}
-						.col-sm-2.text-right.bg-menu.col-sm-height.padding-15
-							%h5.font-montserrat.all-caps.small.no-margin.hint-text.text-white.bold Innovadores + Early adopters:
-							%h4.no-margin.text-white
-								- if @inn_early_n.to_f > 1000
-									= number_with_delimiter(@inn_early_n.to_i, :delimiter => ',')
-								- else
-									#{'%.2f' % @inn_early_n}
-						.col-sm-2.text-right.bg-menu.col-sm-height.padding-15
-							%h5.font-montserrat.all-caps.small.no-margin.hint-text.text-white.bold 80 / 20:
-							%h4.no-margin.text-white 
-								- if @eighty_n_y.to_f > 1000
-									= number_with_delimiter(@eighty_n_y.to_i, :delimiter => ',')
-								- else
-									#{'%.2f' % @eighty_n_y}
+						.col-sm-1.text-left.bg-menu.col-sm-height.padding-15
+							%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.p-l-12.p-r-12.activeModalBtn{:value => "validation"}
+								?
 		- else
 			.panel-heading
 				.panel-title{:style => "font-size: 1em; color: #2b303b"}
-					Calcula tus estadísticos usando el formulario de arriba
+					Aproxima el número de personas que deberías encuestar de acuerdo a la población objetivo
+
+- if !@population.nil?
+	.container-fluid.container-fixed-lg
+		.panel.panel-default
+			.panel-heading.m-t-10
+				.panel-title
+					¿Cómo utilizar estos datos?
+			.panel-body
+				%p
+					El número de 
+					%strong 
+						"Innovadores + Adoptadores tempranos" 
+					%span 
+						será el número de encuestas que deberás aplicar a personas que cumplan con el perfil de cliente (arquetipo) que definiste anteriormente; mientras que la 
+					%strong
+						"Cantidad de personas que validen los resultados" 
+					%span
+						corresponderá al número de personas que deberán haber validado las hipótesis que planteaste, es decir, si tienen o no el problema, cuánto podrían llegar a gastar, entre otros factores.
+				%p
+					La metodología utilizada para calcular este número fue en función de 2 métodos: el método de muestreo tradicional y el uso de la curva de la difusión de la innovación.
+				%p
+					¿Quieres saber más sobre los métodos utilizados? Da click sobre los símbolos  
+					%span
+						%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.p-l-12.p-r-12
+							?
+					%span que aparecen en la tabla de los resultados.
+
+#activeModalBtnSample.modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1"}
+	.modal-dialog
+		.modal-content-wrapper
+			.modal-content
+				.modal-header.clearfix.text-left
+					%button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
+						%i.pg-close.fs-14
+					%h4.text-primary
+						Muestra resultante
+				.modal-body
+					%p
+						Es una porción extraída, un número de personas que nos permiten considerarlo representativo de una población. El tamaño de la muestra se calcula a partir del tamaño de la población indicada. Calculado a partir del método de cálculo tradicional, con un nivel de confianza del 95%.
+#activeModalBtnEarly.modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1"}
+	.modal-dialog
+		.modal-content-wrapper
+			.modal-content
+				.modal-header.clearfix.text-left
+					%button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
+						%i.pg-close.fs-14
+					%h4.text-primary
+						Innovadores + Adoptadores tempranos
+				.modal-body
+					%h5 Innovadores
+					%p.m-b-25
+						Los innovadores son aquellos individuos que sean los primeros en confiar. Ellos son los que tomarán el riesgo de adquirir tu producto incluso antes de probarlo por completo. La aprobación de este sector aprueba el funcionamiento de tu producto. A menudo adquieren tecnología, simplemente por el placer de explorar las características de un nuevo producto.
+					%h5 Adoptadores tempranos (Early adopters)
+					%p
+						Los early adopters o adoptadores tempranos son los segundos individuos que adoptan la innovación. Al igual que el grupo anterior, éstos adquieren productos en etapas muy tempranas del ciclo de vida del producto,  pero no siempre se basan en las referencias de otros clientes, encuentran fácilmente los beneficios de un nuevo producto, por lo tanto se enfocan en su intuición y visión. Este grupo es la clave para entrar a un mercado más amplio. 
+#activeModalBtnValidation.modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1"}
+	.modal-dialog
+		.modal-content-wrapper
+			.modal-content
+				.modal-header.clearfix.text-left
+					%button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
+						%i.pg-close.fs-14
+					%h4.text-primary
+						Cantidad de personas que validan tus resultados
+				.modal-body
+					%p
+						Para validar los resultados obtenidos en las encuestas, aplicamos el Principio de Pareto (80/20), el cual hace referencia a que la mayoría de las cosas en el mundo no están distribuidas equitativamente. Así que para validar nuestras hipótesis se debe cumplir que el 80% de los encuestados cubran los requisitos evaluados en las encuestas, es decir, que presenten el problema y tengan interés en nuestro producto, entre otros.
+
+

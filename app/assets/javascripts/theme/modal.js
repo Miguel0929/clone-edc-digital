@@ -26,6 +26,17 @@ $(document).on('turbolinks:load', function(){
         }
     });
 
+    $('.activeModalBtn').click(function() {
+        var trigger = $(this).val();
+        if (trigger == "sample") {
+            $('#activeModalBtnSample').modal('show')
+        } else if (trigger == "early") {
+            $('#activeModalBtnEarly').modal('show')
+        } else {
+            $('#activeModalBtnValidation').modal('show')
+        }
+    });
+
     $('#btnStickUpSizeToggler').click(function() {
         var size = $('input[name=stickup_toggler]:checked').val()
         var modalElem = $('#myModal');

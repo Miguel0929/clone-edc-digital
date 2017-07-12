@@ -1,6 +1,7 @@
 .well
 	= bootstrap_form_for(@program) do |f|
 		= f.text_field :name, label: 'Nombre del programa'
+		= f.text_field :short_name, label: 'Clave del programa (usa tres caracteres en mayúsculas)', maxlength: 3
 		= f.select(:category, Program.category_type_options, {:label => 'Categoría'}, {:class => 'minimal'})
 		= f.select(:tipo, Program.tipo_type_options, {:label => 'Tipo de programa', :class => 'minimal', :include_blank => "Selecciona un tipo"}) 
 		= f.select( :level, Program.level_type_options,{:label => 'Nivel de dificultad', :class=>'minimal', :include_blank => "Selecciona el nivel de dificultad"})
