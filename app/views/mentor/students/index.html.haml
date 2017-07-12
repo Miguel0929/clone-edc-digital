@@ -33,67 +33,68 @@
           %a#collap
             #headingfiltros.panel-heading.font-search
               %h4.panel-title.search-title.text-white.ver
-                Ocultar Filtros de búsqueda :
+                Ver Filtros de búsqueda :
           #ver_collap
-            .col-md-12.col-sm-12.col-xs-12.learning-img
+            .col-md-12.learning-img
               %aside.sidebar-menu
                 /%h4.search-title Filtrar búsqueda:
                 .search-group
-                  .col-md-2.col-sm-4.col-xs-12
+                  .col-md-3.col-sm-4.col-xs-12
                     .s-s-title
                       %i.fa.fa-check-square-o
                       Status:
-                    = select_tag :status, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:status]), {include_blank: "Filtra por status", class: "form-control"} 
+                    = select_tag :status, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:status]), {include_blank: "Filtra por status", :style => "width: 150px;"} 
                 .search-group
-                  .col-md-2.col-sm-4.col-xs-12
+                  .col-md-3.col-sm-4.col-xs-12
                     .s-s-title
                       %i.fa.fa-users
                       Grupo:
-                    = select_tag :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "form-control" }
+                    = select_tag :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "" }
                 .search-group
-                  .col-md-2.col-sm-4.col-xs-12
+                  .col-md-3.col-sm-4.col-xs-12
                     .s-s-title
                       %i.fa.fa-university
                       Universidad:
-                    = select_tag :university, options_from_collection_for_select(@universities, :id, :name, params[:university]), {include_blank: "Filtra por universidad", class: "col-md-12" } 
+                    = select_tag :university, options_from_collection_for_select(@universities, :id, :name, params[:university]), {include_blank: "Filtra por universidad", class: "" } 
                 .search-group
-                  .col-md-2.col-sm-4.col-xs-12
+                  .col-md-3.col-sm-4.col-xs-12
                     .s-s-title
                       %i.fa.fa-map-marker
                       Estado:
-                    = select_tag :state, options_from_collection_for_select(State.all, :id, :name, params[:state]), {include_blank: "Filtra por estado", class: "col-md-12" }
-                .search-group
-                  .col-md-2.col-sm-4.col-xs-12
-                    .s-s-title
-                      %i.fa.fa-graduation-cap
-                      Tipo de grupo:
-                    = select_tag :tipo,  options_for_select(['Escolarizado', ' Autodidacta digital', 'Presencial', 'Experiemental'], params[:tipo]), {include_blank: "Filtra por tipo de grupo", class: "form-control" }
-                .search-group
-                  .col-md-2.col-sm-4.col-xs-12
-                    .s-s-title
-                      %i.fa.fa-industry
-                      Industria:
-                    = select_tag :industria, options_from_collection_for_select(Industry.all,:id,:name, params[:industria]), {include_blank: "Filtra por industria en la que emprendes", class: "form-control" }
-            .col-md-12        
+                    = select_tag :state, options_from_collection_for_select(State.all, :id, :name, params[:state]), {include_blank: "Filtra por estado", class: "" }
+            .col-md-12
+              .search-group
+                .col-md-3.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-graduation-cap
+                    Tipo de grupo:
+                  = select_tag :tipo,  options_for_select(['Escolarizado', ' Autodidacta digital', 'Presencial', 'Experiemental'], params[:tipo]), {include_blank: "Filtra por tipo de grupo", class: "" }
+              .search-group
+                .col-md-3.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-industry
+                    Industria:
+                  = select_tag :industria, options_from_collection_for_select(Industry.all,:id,:name, params[:industria]), {include_blank: "Filtra por industria en la que emprendes", :style => "width: 200px;" }
               .search-group
                 .col-md-3.col-sm-6.col-xs-12
                   .s-s-title
                     %i.fa.fa-check-circle
                     Porcentaje contestado  
-                  = select_tag :answered, options_for_select(OptionsRange.percentages, params[:answered]), {include_blank: "Filtra por porcentaje contestado", class: "form-control" }
+                  = select_tag :answered, options_for_select(OptionsRange.percentages, params[:answered]), {include_blank: "Filtra por porcentaje contestado", :style => "width: 200px;" }
               .search-group
                 .col-md-3.col-sm-6.col-xs-12
                   .s-s-title
                     %i.fa.fa-eye
                     Porcentaje visto
-                  = select_tag :visited, options_for_select(OptionsRange.percentages, params[:visited]), {include_blank: "Filtra por porcentaje visto", class: "form-control" }
+                  = select_tag :visited, options_for_select(OptionsRange.percentages, params[:visited]), {include_blank: "Filtra por porcentaje visto", :style => "width: 200px;" }
+            .col-md-12.m-t-15        
               .search-group
                 .col-md-3.col-sm-6.col-xs-12
                   .s-s-title
                     %i.fa.fa-book
                     Programa
                     %i.fa.fa-asterisk.color__icon_program
-                  = select_tag :program, options_from_collection_for_select(Program.all,:id, :name, params[:program]), {include_blank: "Seleccionar programa", class: "form-control" }
+                  = select_tag :program, options_from_collection_for_select(Program.all,:id, :name, params[:program]), {include_blank: "Seleccionar programa", class: "" }
             .col-md-12.m-t-15.m-l-10
               %i.row
                 %i.fa.fa-asterisk.color__icon
@@ -202,9 +203,9 @@
     $( "#ver_collap" ).toggle("slow");
     x = !x;
     if(x){
-      $(".ver").text("Ocultar Filtros de búsqueda :");
-    } else {
       $(".ver").text("Ver Filtros de búsqueda :");
+    } else {
+      $(".ver").text("Ocultar Filtros de búsqueda :");
     }
     console.log(x);
   });

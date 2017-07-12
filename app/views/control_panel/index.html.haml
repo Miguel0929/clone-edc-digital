@@ -265,46 +265,47 @@
                             = @reports.where(created_at: 1.days.ago...Time.now).count
                           reportados hoy
   .row
-    .panel.panel-transparent
+    .panel.panel-default
       .panel-heading
         %h2 Usuarios nuevos
       .panel-body
         = area_chart [{name: "usuarios activados", data: @activados}, {name: "usuarios inactivos", data: @inactivos}], colors: ["#10CFBD", "#F8D053"], stacked: true
 
   .row
-    .panel.panel-transparent
+    .panel.panel-default
       .panel-heading
         %h2 Contenidos
       .panel-body
         = column_chart [ {name: "Contenido visto", data: Ahoy::Event.where(name: "Viewed content", time: 30.day.ago...Time.now).group_by_day(:time).count }, {name: "Preguntas contestadas", data: Answer.where(created_at: 30.day.ago...Time.now).group_by_day(:created_at).count }], colors: ["#6D5CAE", "#48B0F7"]
   .row
-    .panel.panel-transparent
+    .panel.panel-default
       .panel-heading
         %h2 Sessiones
       .panel-body
         = column_chart [{ name: "Sessiones por dia", data: Session.where( start: 30.day.ago...Time.now).group_by_day('start').count }, { name: "Tiempo promedio", data: @promedio_sessiones}], colors: ["#F55753"]
 
   .row
-    .panel.panel-transparent
+    .panel.panel-default
       .panel-heading
         %h2 Actividad de usuarios
       .panel-body
         = area_chart [name: "Actividad de usuarios", data: @visits.group_by_day(:started_at).count], colors: ['#6D5CAE']
   .row
-    .panel.panel-transparent
-      .col-md-6
-        %h2.text-center
-          Navegadores
-        = pie_chart @visits.group(:browser).count
-      .col-md-6
-        %h2.text-center
-          Dispositivos
-        = pie_chart @visits.group(:device_type).count
-      .col-md-6
-        %h2.text-center
-          Sistema operativo
-        = pie_chart @visits.group(:os).count
-      .col-md-6
-        %h2.text-center
-          Región
-        = geo_chart @visits.group(:region).count, library: {region: 'MX', resolution: 'provinces'}
+    .panel.panel-default
+      .panel-body
+        .col-md-6
+          %h2.text-center
+            Navegadores
+          = pie_chart @visits.group(:browser).count
+        .col-md-6
+          %h2.text-center
+            Dispositivos
+          = pie_chart @visits.group(:device_type).count
+        .col-md-6
+          %h2.text-center
+            Sistema operativo
+          = pie_chart @visits.group(:os).count
+        .col-md-6
+          %h2.text-center
+            Región
+          = geo_chart @visits.group(:region).count, library: {region: 'MX', resolution: 'provinces'}
