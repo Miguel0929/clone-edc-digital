@@ -638,5 +638,8 @@ p.mensaje{
   cursor: pointer;
 }
 #ver_collap{
-
+  display: none;
+}
+.ver{
+  text-align: center;
 }
