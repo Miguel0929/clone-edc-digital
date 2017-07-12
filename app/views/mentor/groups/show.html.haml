@@ -99,7 +99,11 @@
             Exportar a Excel 
             %i.fa.fa-file-excel-o
         .col-md-2
-          %input#group_student.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          .form-group
+            %div.input-group
+              %input#group_student.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
+              %span.input-group-addon.font-search
+                %i.fa.fa-search.text-white
       
       .table-responsive   
         %table.table.table-striped
