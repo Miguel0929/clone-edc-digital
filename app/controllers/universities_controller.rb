@@ -22,14 +22,14 @@ class UniversitiesController < ApplicationController
 	def create
 		@university = University.new(university_params)
     if @university.save
-      redirect_to state_universities_path+"?state="+@university.to_s, notice: "Se creo exitosamente el programa #{@university.name}"
+      redirect_to state_universities_path(state: @university.state_id), notice: "Se creo exitosamente la universidad #{@university.name}"
     else
       render :new
     end
 	end	
 	def state
 		add_breadcrumb "Universidades", :universities_path
-    add_breadcrumb "<a class='active' href='#{state_universities_path+"?state="+params[:state].to_s}'>#{State.find(params[:state]).name}</a>".html_safe
+    	add_breadcrumb "<a class='active' href='#{state_universities_path(state: params[:state].to_s)}'>#{State.find(params[:state]).name}</a>".html_safe
 		@states=State.all
 		if params[:state].present?
 			@universities=University.where(state_id: params[:state]).order(:name).page(params[:page]).per(50)
