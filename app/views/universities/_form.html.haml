@@ -3,5 +3,5 @@
 		= bootstrap_form_for(@university) do |f|
 			= f.text_field :name, label: 'Nombre del programa'
 			= f.collection_select(:state_id, State.all, :id, :name, label: 'Estado', include_blank: true)
-			= link_to 'Cancelar', programs_path, class: 'btn btn-danger'
+			= link_to 'Cancelar', universities_path, class: 'btn btn-danger'
 			= f.submit 'Aceptar' , class: "btn btn-default"
