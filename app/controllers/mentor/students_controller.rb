@@ -4,6 +4,7 @@ class Mentor::StudentsController < ApplicationController
 
   add_breadcrumb "EDCDIGITAL", :root_path
   helper_method :get_program_stat
+  helper_method :chapter_have_questions?
 
   def index
     add_breadcrumb "<a class='active' href='#{mentor_students_path}'>Estudiantes</a>".html_safe
@@ -104,7 +105,7 @@ class Mentor::StudentsController < ApplicationController
     .joins("INNER JOIN chapters on chapter_contents.chapter_id = chapters.id")
     .joins("INNER JOIN programs on programs.id = chapters.program_id")
     .where("users.id = ?", @user.id)
-    .order(created_at: :desc)
+    .order(created_at: :desc)    
   end
 
   def exports
@@ -135,6 +136,18 @@ class Mentor::StudentsController < ApplicationController
         format.json {render json: @user.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def chapter_have_questions?(program)
+    with_questions, no_questions = [], []
+    program.chapters.each do |chapter|
+      if chapter.questions.count > 0
+        with_questions << chapter
+      else
+        no_questions << chapter
+      end
+    end
+    return with_questions, no_questions
   end
 
   private

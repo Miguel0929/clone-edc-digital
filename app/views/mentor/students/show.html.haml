@@ -108,7 +108,7 @@
                 %td
                   - @user.group.programs.each do |program|
                     \-
-                    = link_to program.name, user_program_answers_path(@user, program)
+                    = link_to program.name, mentor_evaluations_path(user_id: @user, program_id: program)
                     %br
   .row
     .col-sm-9
@@ -137,7 +137,7 @@
               %td.p-b-35
                 %div
                   = link_to program.name, mentor_evaluations_path(user_id: @user, program_id: program), :style => "font-size: 17px;"
-                %p.hint-text.m-t-5.m-b-5 Módulos del programa:
+                %p.hint-text.m-t-5.m-b-5 Módulos con preguntas:
                 %ul.list-inline.no-style.unstyled
                   - counter = 0
                   - program.chapters.each_with_index do |chapter, index|
@@ -156,6 +156,32 @@
                             .label{:class => "#{(answered_percentage > 0) ? 'label-warning' : ''} #{checked ? '' : 'p-sides-14'}"}
                               M#{index + 1 - counter}
                               %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
+
+          - Program.all.each do |program|
+            %tr
+              %td.p-b-35
+                %div
+                  = link_to program.name, mentor_evaluations_path(user_id: @user, program_id: program), :style => "font-size: 17px;"
+                %p.hint-text.m-t-5.m-b-5 Módulos con preguntas:
+                  - chapter_have_questions?(program)[0].each do |chapter, index|
+                    %li.squized-li
+                      = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: program) do
+                        - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions.count.to_f).ceil
+                        - checked = chapter.chapter_checked?(chapter.id, @user.id)
+                        - if answered_percentage > 95
+                          .label.label-success{:class => "#{checked ? '' : 'p-sides-14'}"}
+                            M-#{index + 1 - counter}
+                            %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
+                        - else
+                          .label{:class => "#{(answered_percentage > 0) ? 'label-warning' : ''} #{checked ? '' : 'p-sides-14'}"}
+                            M#{index + 1 - counter}
+                            %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
+                %p.hint-text.m-t-5.m-b-5 Módulos con preguntas:
+                  - chapter_have_questions?(program)[1].each do |chapter, index|
+                    %li.squized-li
+                      = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: program) do
+                        - seen_percentage = 
+
               %td
                 .m-b-10
                   %i.fa.fa-edit
