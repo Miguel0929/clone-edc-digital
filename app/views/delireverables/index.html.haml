@@ -1,0 +1,42 @@
+- content_for :title  do
+  Paquete de Entregables - EDCdigital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .pull-right
+        .col-xs-12
+          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+      .clearfix
+    .panel-body
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+            %th
+              Nombre
+            %th
+              Descripción
+            %th
+              Archivo
+            %th
+              Acciones
+        %tbody.sortable{'data-update-url'=> url_prod_helper(sort_delireverable_package_delireverables_path(@delireverable_package))}
+          - @delireverables.each do |delireverable|
+            %tr{id: "delireverable_#{delireverable.id}"}
+              %td.handle-sort
+                [mover]
+              %td
+                = delireverable.name
+              %td
+                = delireverable.description
+              %td
+                = link_to 'Descargar', delireverable.file.url, target: '_blank'
+              %td
+                %p
+                  = link_to 'Editar', edit_delireverable_package_delireverable_path(@delireverable_package, delireverable)
+                %p
+                  = link_to 'Eliminar', delireverable_package_delireverable_path(@delireverable_package, delireverable), method: :delete, data: { confirm: '¿Estás seguro?' }
+
+
+      = link_to 'Agregar entregable', new_delireverable_package_delireverable_path(@delireverable_package), class: 'btn btn-default'

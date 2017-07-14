@@ -277,5 +277,11 @@ Rails.application.routes.draw do
     resources :users, only: [:index]
   end
 
-  resources :delireverable_packages
+  resources :delireverable_packages do
+    resources :delireverables do
+      collection do
+        post :sort
+      end
+    end
+  end
 end
