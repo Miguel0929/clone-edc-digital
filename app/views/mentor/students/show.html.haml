@@ -42,61 +42,67 @@
                 = image_tag(@user.profile_picture.url, width: "170") #Se puede agregar -> class: 'img-responsive'
 
           .m-b-10
-            .widget-9.panel.no-border.bg-primary.no-margin.widget-loader-bar{:style => "height: 115px !important;"}
+            .widget-9.panel.no-border.bg-grey.no-margin.widget-loader-bar{:style => "height: 115px !important;"}
               .container-xs-height
                 .row-xs-height
                   .col-xs-height.col-top
                     .panel-heading.top-left.top-right
-                      .panel-title.text-white
+                      .panel-title
                         %span.font-montserrat.fs-11.all-caps
                           Porcentaje contestado
                           %i.fa.fa-chevron-right
                 %div
                   .p-l-20.p-t-15.m-b-15
-                    %h3.no-margin.p-b-5.text-white  #{@user.answered_questions_percentage}%
+                    %h3.no-margin.p-b-5.text-primary  #{@user.answered_questions_percentage}%
                 .row-xs-height
                   .col-xs-height.col-bottom
                     .progress.progress-small.m-b-20
-                      .progress-bar.progress-bar-white{:style => "width:#{@user.answered_questions_percentage}%"}
+                      .progress-bar.progress-bar-primary{:style => "width:#{@user.answered_questions_percentage}%"}
           .m-b-10
-            .widget-9.panel.no-border.bg-primary.no-margin.widget-loader-bar{:style => "height: 115px !important;"}
+            .widget-9.panel.no-border.bg-grey.no-margin.widget-loader-bar{:style => "height: 115px !important;"}
               .container-xs-height
                 .row-xs-height
                   .col-xs-height.col-top
                     .panel-heading.top-left.top-right
-                      .panel-title.text-white
+                      .panel-title
                         %span.font-montserrat.fs-11.all-caps
                           Porcentaje visto
                           %i.fa.fa-chevron-right
                 %div
                   .p-l-20.p-t-15.m-b-15
-                    %h3.no-margin.p-b-5.text-white  #{@user.content_visited_percentage} %
+                    %h3.no-margin.p-b-5.text-primary  #{@user.content_visited_percentage} %
                 .row-xs-height
                   .col-xs-height.col-bottom
                     .progress.progress-small.m-b-20
-                      .progress-bar.progress-bar-white{:style => "width:#{@user.content_visited_percentage}%"}
+                      .progress-bar.progress-bar-primary{:style => "width:#{@user.content_visited_percentage}%"}
           .m-b-10  
-            .widget-9.panel.no-border.bg-primary.no-margin.widget-loader-bar{:style => "height: 120px !important;"}
+            .widget-9.panel.no-border.bg-grey.no-margin.widget-loader-bar{:style => "height: 120px !important;"}
               .container-xs-height.full-height
                 .row-xs-height
                   .col-xs-height.col-top
                     .panel-heading.top-left.top-right
-                      .panel-title.text-white
+                      .panel-title
                         %span.font-montserrat.fs-11.all-caps
                           Conexiones de usuario
                           %i.fa.fa-chevron-right
                 .row-xs-height
                   .col-xs-height.col-top
                     .p-l-20.p-t-15.m-t-10
-                      .small.text-white
-                        %i.fa.fa-clock-o.p-r-5
-                        %span.small-text.hint-text Última vez: #{ @user.last_time }
-                      .small.text-white
-                        %i.fa.fa-clock-o.p-r-5
-                        %span.small-text.hint-text Promedio de uso: #{ @user.time_average.round(2) } minutos
-                      .small.text-white
-                        %i.fa.fa-clock-o.p-r-5
-                        %span.small-text.hint-text Uso total: #{ @user.total_time.round(2) } minutos
+                      .small
+                        %span.hint-text
+                          %i.fa.fa-clock-o.p-r-5
+                          Última vez:
+                        %span.small-text.text-primary #{ @user.last_time }
+                      .small
+                        %span.hint-text
+                          %i.fa.fa-clock-o.p-r-5
+                          Promedio de uso: 
+                        %span.small-text.text-primary #{ @user.time_average.round(2) } minutos
+                      .small
+                        %span.hint-text
+                          %i.fa.fa-clock-o.p-r-5
+                          Uso total: 
+                        %span.small-text.text-primary #{ @user.total_time.round(2) } minutos
 
         .col-md-9
           %table.table.resumen-table.table-striped.table-top-border.perfil-table
