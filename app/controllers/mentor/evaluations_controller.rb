@@ -7,6 +7,7 @@ class Mentor::EvaluationsController < ApplicationController
   helper_method :evaluation_pointed?
   helper_method :evaluation_result
   helper_method :evaluation_checked?
+  include EvaluationHelper
 
   add_breadcrumb "EDCDIGITAL", :root_path
   add_breadcrumb "Estudiantes", :mentor_students_path
@@ -24,6 +25,15 @@ class Mentor::EvaluationsController < ApplicationController
       "(select COALESCE(SUM(user_evaluations.points), 0)  from user_evaluations where user_evaluations.user_id = #{@user.id}  and user_evaluations.evaluation_id in (select id from evaluations where evaluations.chapter_id = chapters.id) ) as evaluation_points,"\
       "((select COUNT(*) from evaluations where evaluations.chapter_id = chapters.id) * 100) as total_evaluations_points"
     )
+    @answers_total, @rubrics_checked = 0, 0
+    @chapters.each do |chapter|
+      if chapter.questions.count > 0 then @answers_total += answered_questions(chapter, @user) end
+      if chapter.evaluations.exists?
+        chapter.evaluations.each do |evaluation|
+          if evaluation_checked?(@user, evaluation) == true then @rubrics_checked += 1 end
+        end
+      end
+    end
     respond_to do |format|
       format.html
       format.xlsx{response.headers['Content-Disposition']='attachment; filename="evaluar_modulo.xlsx"'}
