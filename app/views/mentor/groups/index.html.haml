@@ -51,9 +51,7 @@
                       Ver progreso de grupo
               %td.p-b-20
                 %ol.p-l-0.p-t-5
-                  - group.programs.each do |program|
-                    /%li
-                    /  = program.name
+                  - group.programs.each_with_index do |program, index|
                     .label.program-labels{"data-toggle": "tooltip", "data-original-title": "#{program.name}"}
                       = !program.short_name.nil? ? program.short_name : "P-#{index}"
               %td.p-b-20

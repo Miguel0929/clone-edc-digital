@@ -19,88 +19,123 @@
               %i.fa.fa-reply
               %span.bold Regresar a mis grupos
 
+- current_stats = @group.get_group_stat(@group)
+.container-fluid.container-fixed-lg
+  - if !current_stats.nil?
+    .panel.panel-transparent
+      .col-sm-4.p-l-0
+        .panel.panel-default
+          .widget-10.panel.no-border.bg-white.no-margin.widget-loader-bar{style: "height: 120px; !important;"}
+            .panel-heading.top-left.top-right
+              .panel-title.text-black.hint-text
+                %span.font-montserrat.fs-11.all-caps
+                  Alumnos de grupo
+                  %i.fa.fa-chevron-right
+            .panel-body.p-t-40
+              .row
+                .col-sm-12
+                  %h4.no-margin.p-b-5.text-success.semi-bold #{current_stats.group_students} alumnos
+                  .pull-left.small
+                    %span 
+                      = link_to generate_group_stats_path(@group) do
+                        %i.fa.fa-rotate-right
+                        Actualizar estadísticos
+                    %span.text-success.font-montserrat
+                      %i.fa.fa-caret-up.m-l-10
+                      Última vez:
+                      = l current_stats.updated_at, format: :short_no_year
+                  .clearfix
+      .col-sm-4
+        .panel.panel-default
+          .widget-10.panel.no-border.bg-white.no-margin.widget-loader-bar{style: "height: 120px; !important;"}
+            .panel-heading.top-left.top-right
+              .panel-title.text-black.hint-text
+                %span.font-montserrat.fs-11.all-caps
+                  Alumnos evaluados
+                  %i.fa.fa-chevron-right
+            .panel-body.p-t-40
+              .row
+                .col-sm-12
+                  %h4.no-margin.p-b-5.text-success.semi-bold #{current_stats.evaluated_students} alumno(s)
+                  .pull-left.small
+                    %span ESTADO:
+                    %span.text-danger.font-montserrat.small-text
+                      #{((current_stats.evaluated_students.to_f / current_stats.group_students)*100).ceil}% 
+                    %span de los alumnos han sido evaluados
+                  .clearfix
+      .col-sm-4.p-r-0
+        .panel.panel-default
+          .widget-10.panel.no-border.bg-white.no-margin.widget-loader-bar{style: "height: 120px; !important;"}
+            .panel-heading.top-left.top-right
+              .panel-title.text-black.hint-text
+                %span.font-montserrat.fs-11.all-caps
+                  Avances de grupo
+                  %i.fa.fa-chevron-right
+            .panel-body.p-t-40
+              .row.p-t-5
+                .col-sm-11
+                  .small.p-b-5
+                    %span.small-text Promedio visto: 
+                    %span.text-success.font-montserrat.small-text #{current_stats.average_seen.ceil}%
+                  .progress.progress-small.m-b-5
+                    .progress-bar.progress-bar-primary{:style => "width: #{current_stats.average_seen.ceil}%"}
+                .col-sm-11
+                  .small.p-b-5
+                    %span.small-text Promedio contestado: 
+                    %span.text-success.font-montserrat.small-text #{current_stats.average_progress.ceil}%
+                  .progress.progress-small.m-b-5
+                    .progress-bar.progress-bar-primary{:style => "width: #{current_stats.average_progress.ceil}%"}
+  - else 
+    .panel.panel-default
+      .panel-body
+        .col-md-5
+          %h4 Este grupo no tiene estadísticas aún...
+        .col-md-7
+          = link_to generate_group_stats_path(@group), class: 'btn btn-sm btn-complete btn-cons m-t-10' do
+            %i.fa.fa-line-chart
+            Generar estadísticos
+
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
-      .row
-        .col-md-5
+      .row.m-b-20
+        .col-md-12
           %h5
-            Programas habilitados para este grupo
-          %ol
-            - @group.programs.each do |program|
-              %li
-                = program.name
-        .col-md-4
+            Programas habilitados
+            %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
+              (#{@group.programs.count} programas)
+          .m-t-10.p-l-20
+            - @group.programs.each_with_index do |program, index|
+              .label.program-labels{"data-toggle": "tooltip", "data-original-title": "#{program.name}"}
+                = !program.short_name.nil? ? program.short_name : "P-#{index}"
+      .row.m-b-20
+        .col-md-12
           %h5
-            Profesores vinculados a este grupo
-          %ul.unstyled.no-style
-            - @group.users.each do |user|
-              %li 
-                %i.fa.fa-angle-right
-                = user.name
-        .col-md-3
-          %h5
-            Estadísticas de grupo
-          %ul.unstyled.no-style
-            - current_stats = @group.get_group_stat(@group)
-            - if !current_stats.nil?
-              %li
-                %ul.p-l-5.m-b-0
-                  %li.inline.p-l-0
-                    %i.fa.fa-user 
-                  %li.inline 
-                    Alumnos del grupo: 
-                    %strong #{current_stats.group_students}
-                %ul.p-l-5.m-b-0
-                  %li.inline.p-l-0
-                    %i.fa.fa-check-square-o
-                  %li.inline 
-                    Alumnos evaluados: 
-                    %strong #{current_stats.evaluated_students}
-                %ul.p-l-5.m-b-0
-                  %li.inline.p-l-0
-                    %i.fa.fa-eye 
-                  %li.inline 
-                    Promedio visto:  
-                    %strong
-                      #{current_stats.average_seen.ceil}%
-                %ul.p-l-5.m-b-0
-                  %li.inline.p-l-0
-                    %i.fa.fa-rocket
-                  %li.inline 
-                    Promedio contestado: 
-                    %strong
-                      #{current_stats.average_progress.ceil}%
-              %li.m-t-15
-                = link_to generate_group_stats_path(@group) do
-                  %ul.p-l-5.m-b-0
-                    %li.inline.p-l-0
-                      %i.fa.fa-rotate-right
-                    %li.inline 
-                      Actualizar estadísticos
-                  %ul.p-l-20.m-b-0{:style => "font-size: 0.8em;"}
-                    %li.inline 
-                      * Última vez: 
-                      = l current_stats.updated_at, format: :short_no_year
-            - else
-              %li.m-t-15
-                = link_to generate_group_stats_path(@group) do
-                  %ul.p-l-5.m-b-0
-                    %li.inline.p-l-0
-                      %i.fa.fa-line-chart
-                    %li.inline 
-                      Generar estadísticos
+            Profesores vinculados
+            %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
+              (#{@group.users.count} profesores)
+          .m-t-10.p-l-20
+            - @group.users.each_with_index do |user, index|
+              %span.m-l-5.text-success
+                #{ (index != 0) ? "/ " : ""} 
+              %span.m-l-5
+                #{user.name}
 
-      %h4
-        Lista de alumnos
-      .row
-        .col-md-10
-          = link_to mentor_group_path(@group, format: :xlsx), class: "btn btn-success pull-left" do
-            Exportar a Excel 
-            %i.fa.fa-file-excel-o
-        .col-md-2
-          %input#group_student.form-control.pull-right{:placeholder => "Search", :type => "text"}/
-      
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      .row.m-b-20
+        .col-sm-6
+          %h4
+            Lista de alumnos
+        .col-sm-6
+          .pull-right.m-t-10
+            .col-sm-6
+              %input#group_student.form-control.pull-right{:placeholder => "Search", :type => "text"}/ 
+            .col-sm-6
+              = link_to mentor_group_path(@group, format: :xlsx), class: "btn btn-success pull-left" do
+                Exportar a Excel 
+                %i.fa.fa-file-excel-o
       .table-responsive   
         %table.table.table-striped
           %thead
@@ -137,21 +172,27 @@
                     - @group.programs.each_with_index do |program, index|
                       %li
                         - review = program.program_checked?(program, student)
-                        - progress_percentage =  student.percentage_questions_answered_for(program)
-                        = link_to mentor_evaluations_path(user_id: student, program_id: program) do
-                          - if progress_percentage > 95
-                            .label.label-success.program-labels{:class => "#{review ? '' : 'p-sides-14-2'}", "data-toggle": "tooltip", "data-original-title": "#{program.name}"}
-                              = !program.short_name.nil? ? program.short_name : "P-#{index}"
-                              %i.fa{:class => "#{review ? 'fa-check' : ''}"}
-                          - else
-                            .label.program-labels{:class => "#{(progress_percentage > 0) ? 'label-warning' : ''} #{review ? '' : 'p-sides-14-2'}", "data-toggle": "tooltip", "data-original-title": "#{program.name}"}
-                              = !program.short_name.nil? ? program.short_name : "P-#{index}"
-                              %i.fa{:class => "#{review ? 'fa-check' : ''}"}
+                        /- progress_percentage =  student.percentage_questions_answered_for(program)
+                        - progress_percentage = ProgramStat.where(user_id: student.id, program_id: program.id).last.program_progress
+                        - if !progress_percentage.nil?
+                          = link_to mentor_evaluations_path(user_id: student, program_id: program) do
+                            - if progress_percentage > 95
+                              .label.label-success.program-labels{:class => "#{review ? '' : 'p-sides-14-2'}", "data-toggle": "tooltip", "data-original-title": "#{program.name}"}
+                                = !program.short_name.nil? ? program.short_name : "P-#{index}"
+                                %i.fa{:class => "#{review ? 'fa-check' : ''}"}
+                            - else
+                              .label.program-labels{:class => "#{(progress_percentage > 0) ? 'label-warning' : ''} #{review ? '' : 'p-sides-14-2'}", "data-toggle": "tooltip", "data-original-title": "#{program.name}"}
+                                = !program.short_name.nil? ? program.short_name : "P-#{index}"
+                                %i.fa{:class => "#{review ? 'fa-check' : ''}"}
+                        - else
+                          = link_to mentor_evaluations_path(user_id: student, program_id: program) do
+                            .label.program-labels{"data-toggle": "tooltip", "data-original-title": "Programa sin estadísticos"}
+                              ???
                 %td.text-center
                   %input{type: "hidden", id: "student_ready_#{student.id}", value: student.ready_to_check?.to_s}
                   %input{type: "hidden", id: "student_key_#{student.id}", value: student.id}
                   - student_eval = (student.evaluation_status == 'evaluado') ? 1 : 0
-                  %label.switch{id: "switch_#{student.id}"}
+                  %label.switch{{id: "switch_#{student.id}"}, {"data-toggle": "tooltip"}, (student_eval==0) ? {"data-original-title": "Marcar alumno como evaluado"} : {"data-original-title": "Remover marca de evaluado"}}
                     - if student_eval == 1
                       %input{{type: "checkbox"}, {id: "checking_eval_#{student.id}"}, {value: student_eval}, {name: "student_eval[checked]"}, {checked: :true}, student.ready_to_check? ? {} : { disabled: true }}
                     - else

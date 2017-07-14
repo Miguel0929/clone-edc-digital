@@ -4,10 +4,10 @@ wb.styles do |style|
   content_cell = style.add_style(bg_color: "4bdff9")
 
   wb.add_worksheet(name: "Evaluaciones") do |sheet|
-    sheet.add_row ["Nombre del Alumno", "Correo electrónico", "Porcentaje contestado", "Porcentaje avance", "Total de comentarios"], style: [header_cell, header_cell, header_cell, header_cell, header_cell]
+    sheet.add_row ["Nombre del Alumno", "Correo electrónico", "Porcentaje contestado", "Porcentaje avance"], style: [header_cell, header_cell, header_cell, header_cell]
 
     @group.active_students.each do |student|
-      sheet.add_row [student.name, student.email, student.answered_questions_percentage, student.content_visited_percentage, student.comments.count], style: [content_cell, content_cell, content_cell, content_cell, content_cell]
+      sheet.add_row [student.name, student.email, student.answered_questions_percentage, student.content_visited_percentage], style: [content_cell, content_cell, content_cell, content_cell]
     end
   end
 end
