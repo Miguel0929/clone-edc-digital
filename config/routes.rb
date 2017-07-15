@@ -127,6 +127,10 @@ Rails.application.routes.draw do
     end
 
     resources :quiz_answers, only: [:show, :new, :create, :update, :edit]
+
+    resources :delireverables, only: [:index] do
+      resources :delireverable_users, only: [:new, :create]
+    end
   end
 
 

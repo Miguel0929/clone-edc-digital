@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170714204337) do
+ActiveRecord::Schema.define(version: 20170715032133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,6 +138,19 @@ ActiveRecord::Schema.define(version: 20170714204337) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "delireverable_users", force: :cascade do |t|
+    t.integer  "delireverable_id"
+    t.integer  "user_id"
+    t.string   "file"
+    t.text     "comments"
+    t.integer  "status",           default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delireverable_users", ["delireverable_id"], name: "index_delireverable_users_on_delireverable_id", using: :btree
+  add_index "delireverable_users", ["user_id"], name: "index_delireverable_users_on_user_id", using: :btree
 
   create_table "delireverables", force: :cascade do |t|
     t.integer  "delireverable_package_id"
