@@ -173,6 +173,7 @@ Rails.application.routes.draw do
       post :unlink_student
       post '/unlink_group_student' => 'groups#unlink_student'
     end
+
   end
 
   resources :exporters, only: [:show]
@@ -191,6 +192,8 @@ Rails.application.routes.draw do
       member do
         get :analytics_quiz
       end
+      
+      resources :delireverable_users, only: [:edit, :update]
     end
     resources :comments, only: [:index, :create, :update] do
       collection do
@@ -211,6 +214,7 @@ Rails.application.routes.draw do
         end
       end
     end
+
   end
 
   namespace :api do

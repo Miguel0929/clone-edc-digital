@@ -7,7 +7,7 @@
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
           .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
-            %h2.text-white 
+            %h2.text-white
               Detalle de estudiante
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h3.text-white
@@ -52,17 +52,17 @@
                   %span
                     %i.fa.fa-line-chart
                     Porcentaje de avance #{@user.content_visited_percentage} %
-                %p.small.hint-text.m-t-5 
+                %p.small.hint-text.m-t-5
                   %i.fa.fa-history
                   Ultima vez:
                   %span
                     #{ @user.last_time }
-                %p.small.hint-text.m-t-5 
+                %p.small.hint-text.m-t-5
                   Promedio de uso:
                   %span
                     #{ @user.time_average.round(2) } minutos.
-                %p.small.hint-text.m-t-5 
-                  Total de uso 
+                %p.small.hint-text.m-t-5
+                  Total de uso
                   %span
                     #{ @user.total_time.round(2) } minutos.
         .col-md-10
@@ -89,7 +89,7 @@
               %tr.odd.gradeX
                 %td Industria
                 %td
-                  = unless @user.industry.nil? then @user.industry.name else 'N/A' end    
+                  = unless @user.industry.nil? then @user.industry.name else 'N/A' end
               %tr.odd.gradeX
                 %td Ubicación
                 %td #{@user.state}, #{@user.city}
@@ -138,6 +138,20 @@
                 %div
                   = link_to program.name, mentor_evaluations_path(user_id: @user, program_id: program), :style => "font-size: 17px;"
                 %p.hint-text.m-t-5.m-b-5 Módulos del programa:
+              %td.p-b-35{:style => "font-size: 1em;"}
+                = link_to program.name, mentor_evaluations_path(user_id: @user, program_id: program)
+              %td
+                .m-b-10
+                  %i.fa.fa-edit
+                  #{@user.questions_answered_for(program)}
+                  %span preguntas contestadas
+                  %strong (#{@user.percentage_questions_answered_for(program)}%)
+                .m-b-10
+                  %i.fa.fa-eye
+                  #{@user.content_visted_for(program)}
+                  %span contenidos vistos
+                  %strong (#{@user.percentage_content_visited_for(program)}%)
+              %td
                 %ul.list-inline.no-style.unstyled
                   - counter = 0
                   - program.chapters.each_with_index do |chapter, index|
@@ -159,20 +173,23 @@
               %td
                 .m-b-10
                   %i.fa.fa-edit
-                  #{@user.questions_answered_for(program)} 
+                  #{@user.questions_answered_for(program)}
                   %span preguntas contestadas
                   %strong (#{@user.percentage_questions_answered_for(program)}%)
                 .m-b-10
                   %i.fa.fa-eye
-                  #{@user.content_visted_for(program)} 
+                  #{@user.content_visted_for(program)}
                   %span contenidos vistos
                   %strong (#{@user.percentage_content_visited_for(program)}%)
+              %td.text-center
+                %strong{:class => "#{(!@user.group.programs.exists?(program)) ? 'text-danger' : 'text-success'}"}
+                  #{(!@user.group.programs.exists?(program)) ? 'No' : 'Sí'}
               %td.p-r-0
                 %ul.unstyled.no-style.p-l-0
                   %li.p-l-0
                     = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx) do
                       %i.fa.fa-file-excel-o
-                      Descargar Excel 
+                      Descargar Excel
                   %li.p-l-0.m-t-10
                     %input{type: "hidden", id: "user_key_#{@user.id}", value: @user.id}
                     %input{type: "hidden", id: "program_key_#{program.id}", value: program.id}
@@ -181,7 +198,7 @@
                         %form{:action => program_stats_path, 'data-remote': "true", method: :post, id: "edit_program_stat_#{program.id}"}
                           - if get_program_stat(@user, program).nil?
                             %input{type: "checkbox", id: "checking_program_#{program.id}", name: "program_stat[checked]"}
-                          - else 
+                          - else
                             - program_stats = get_program_stat(@user, program)
                             - if program_stats.checked == 1
                               %input{type: "checkbox", id: "checking_program_#{program.id}", value: program_stats.checked, name: "program_stat[checked]", checked: :true}
@@ -198,7 +215,7 @@
                       var src3 = $("#program_key_" + #{program.id}).val();
                       $.ajax({
                       type: "post",
-                      url: "/save_program_stats", 
+                      url: "/save_program_stats",
                       data: {src, src2, src3},
                       success: function(data){
                       data.parents('form:first').submit();
@@ -264,6 +281,53 @@
                 = l attachment.updated_at, format: :special
 
   %h3
+    Entregables
+  .panel.panel-default
+    .panel-body.table-responsive
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+              Nombre
+            %th
+              Archivo de ejemplo
+            %th
+              Tu entregable
+            %th
+              Estatus
+            %th
+              Comentarios
+            %th
+              Acciones
+        %tbody
+          - @delireverables.each do |delireverable|
+            - user_delireverable = delireverable.delireverable_users.find_by(user: @user)
+            %tr
+              %td
+                = delireverable.name
+              %td
+                = link_to 'Descargar', delireverable.file.url, target: '_blank'
+              %td
+                - if user_delireverable
+                  = link_to 'Descargar', user_delireverable.file.url, target: '_blank'
+                - else
+                  N/A
+              %td
+                - if user_delireverable
+                  = user_delireverable.huminize_status
+                - else
+                  Sin entregar
+              %td
+                - if user_delireverable
+                  = user_delireverable.comments ? user_delireverable.comments : "N/A"
+                - else
+                  N/A
+              %td
+                - if user_delireverable
+                  %p
+                    = link_to 'Editar', edit_mentor_student_delireverable_user_path(@user, user_delireverable)
+
+  %h3
     Archivos compartidos con el usuario
   .panel.panel-default
     .panel-body.table-responsive
@@ -297,7 +361,7 @@
               %th
                 = link_to 'Editar', edit_mentor_student_shared_attachment_path(@user, attachment), class: 'btn btn-default'
                 = link_to 'Eliminar', mentor_student_shared_attachment_path(@user, attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
-  
+
   .pull-right
     = link_to new_mentor_student_shared_attachment_path(@user), class: 'btn btn-primary btn-lg m-b-50 m-r-30' do
       %i.fa.fa-upload
@@ -310,8 +374,8 @@
         %span{"aria-hidden" => "true"} ×
         %span.sr-only Close
       #program_evaluation_text
-        Estado de evaluación modificado      
-      #alert_text 
+        Estado de evaluación modificado
+      #alert_text
 #alert-ra-error.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
     #al.alert.alert-error
@@ -338,7 +402,7 @@
         var this_user = $("#user_id").val();
         $.ajax({
           type: "post", url: "/change_evaluation",
-          data: { 
+          data: {
             'user_id': this_user
           },
           success: function (data, text) {
@@ -350,7 +414,7 @@
               $("#alert_text").text("El alumno dejó de estar marcado como evaluado");
             }
             $("#alert-ra").css('display','block');
-            setTimeout(function(){$("#alert-ra").css('display','none');},4000); 
+            setTimeout(function(){$("#alert-ra").css('display','none');},4000);
           },
           error: function (data) {
             console.log(data);
