@@ -1,0 +1,5 @@
+= bootstrap_form_for([@delireverable_package, @delireverable]) do |f|
+  = f.text_field :name, label: 'Nombre'
+  = f.text_area :description, label: 'Descripción'
+  = f.file_field :file, label: 'Archivo de ejemplo'
+  = f.submit 'Guardar'
