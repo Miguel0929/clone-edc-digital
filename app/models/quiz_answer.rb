@@ -4,8 +4,17 @@ class QuizAnswer < ActiveRecord::Base
 
   def self.respuesta(quiz_question, user)
     respuesta = '' 
-    where(quiz_question_id: quiz_question, user_id: user).each do |answers|
-      respuesta += answers.answer_text + " "
+    my_answers = where(quiz_question_id: quiz_question, user_id: user)
+    my_answers.each_with_index do |answers, index|
+      if my_answers.count == 1
+        respuesta += answers.answer_text + " "
+      elsif my_answers.count > 1
+        if index < my_answers.count-1 
+          respuesta += answers.answer_text + " / "
+        else
+          respuesta += answers.answer_text + " "
+        end
+      end   
     end
     respuesta == '' ? 'Sin respuesta' : respuesta
   end
