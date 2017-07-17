@@ -127,6 +127,10 @@ Rails.application.routes.draw do
     end
 
     resources :quiz_answers, only: [:show, :new, :create, :update, :edit]
+
+    resources :delireverables, only: [:index] do
+      resources :delireverable_users, only: [:new, :create]
+    end
   end
 
 
@@ -169,6 +173,7 @@ Rails.application.routes.draw do
       post :unlink_student
       post '/unlink_group_student' => 'groups#unlink_student'
     end
+
   end
 
   resources :exporters, only: [:show]
@@ -187,6 +192,8 @@ Rails.application.routes.draw do
       member do
         get :analytics_quiz
       end
+      
+      resources :delireverable_users, only: [:edit, :update]
     end
     resources :comments, only: [:index, :create, :update] do
       collection do
@@ -207,6 +214,7 @@ Rails.application.routes.draw do
         end
       end
     end
+
   end
 
   namespace :api do
@@ -275,5 +283,13 @@ Rails.application.routes.draw do
 
   namespace :search do
     resources :users, only: [:index]
+  end
+
+  resources :delireverable_packages do
+    resources :delireverables do
+      collection do
+        post :sort
+      end
+    end
   end
 end

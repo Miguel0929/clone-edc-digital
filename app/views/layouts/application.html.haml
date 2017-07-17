@@ -126,6 +126,10 @@
                 %li
                   %a{:href => shared_group_attachments_path} Archivos compartidos
                   %span.icon-thumbnail Ac
+                %li
+                  %a{:href => delireverable_packages_path} Paquetes de entregables
+                  %span.icon-thumbnail PE
+
 
             %li.extra-bottom-4
               %a{:href => "javascript:;"}
@@ -196,6 +200,9 @@
                 %li
                   %a{:href => dashboard_attachments_path} Mis archivos
                   %span.icon-thumbnail Ma
+                %li
+                  %a{:href => dashboard_delireverables_path} Mis entregables
+                  %span.icon-thumbnail Me
 
             %li.extra-bottom-4
               %a{:href => "javascript:;"}
@@ -207,7 +214,7 @@
                 %li
                   %a{:href => mailbox_inbox_path}
                     =current_user.mentor? ? 'Mensajes con estudiantes' : 'Mensajes con profesores'
-                  %span.icon-thumbnail 
+                  %span.icon-thumbnail
                     =current_user.mentor? ? 'Me' : 'Mp'
                 %li
                   %a{:href => dashboard_support_path} Ayuda de mentores EDC
@@ -346,7 +353,7 @@
                       .notification-body.scrollable
                         = render partial: "mailbox/notification", collection: mailbox.inbox.limit(3).order(created_at: :desc), as: :item
                       .notification-footer.text-center
-                        %a{:href => mailbox_inbox_path} 
+                        %a{:href => mailbox_inbox_path}
                           =current_user.mentor? ? 'Ver mensajes con tus estudiantes' : 'Ver mensajes con tus profesores'
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
                           %i.pg-refresh_new

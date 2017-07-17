@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170711171333) do
+ActiveRecord::Schema.define(version: 20170715032133) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,6 +132,36 @@ ActiveRecord::Schema.define(version: 20170711171333) do
     t.integer  "owner_id"
   end
 
+  create_table "delireverable_packages", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "delireverable_users", force: :cascade do |t|
+    t.integer  "delireverable_id"
+    t.integer  "user_id"
+    t.string   "file"
+    t.text     "comments"
+    t.integer  "status",           default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delireverable_users", ["delireverable_id"], name: "index_delireverable_users_on_delireverable_id", using: :btree
+  add_index "delireverable_users", ["user_id"], name: "index_delireverable_users_on_user_id", using: :btree
+
+  create_table "delireverables", force: :cascade do |t|
+    t.integer  "delireverable_package_id"
+    t.string   "name"
+    t.text     "description"
+    t.string   "file"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "evaluations", force: :cascade do |t|
     t.integer "chapter_id"
     t.string  "name"
@@ -180,6 +210,14 @@ ActiveRecord::Schema.define(version: 20170711171333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "group_delireverable_packages", force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "delireverable_package_id"
+  end
+
+  add_index "group_delireverable_packages", ["delireverable_package_id"], name: "index_group_delireverable_packages_on_delireverable_package_id", using: :btree
+  add_index "group_delireverable_packages", ["group_id"], name: "index_group_delireverable_packages_on_group_id", using: :btree
 
   create_table "group_programs", force: :cascade do |t|
     t.integer "group_id"
