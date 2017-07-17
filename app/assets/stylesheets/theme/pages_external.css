@@ -12,6 +12,12 @@ a.redish-link:hover {
 	//text-decoration: underline;
 	color: #F77975;
 }
+a.evaluation-nav-link {
+	color: #fff;
+}
+a.evaluation-nav-link:hover {
+	color: #6DC0F9;
+}
 .p-r-12 {
 	padding-right: 12px;
 }
@@ -161,7 +167,10 @@ a.unseen-link:hover {
 	position: relative;
 	top: -30px;
 }
-
+.container-minus-40{
+	position: relative;
+	top: -40px;
+}
 .panel-title-emprendimiento{
 	background-image: linear-gradient(15deg, #69225C 0%, #B32769 100%) !important;
 }
@@ -208,4 +217,22 @@ a.unseen-link:hover {
 	width: 58px;
 	height: 21px;
 	padding-top: 5px;
+}
+.evaluation-nav-menu{
+	display: inline-block;
+	border-right: 1px solid white;
+	border-left: 1px solid white;
+}
+.evaluation-ul-menu{
+	font-size: 0;
+	padding: 7px 0px 0px 0px;
+}
+.evaluation-ul-menu li{
+	display: inline-block;
+	font-size: 12px;
+	line-height: 15px;
+}
+.evaluation-nav-active{
+	color: #6DC0F9 !important;
+	font-size: 16px !important;
 }
