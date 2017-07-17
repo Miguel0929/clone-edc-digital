@@ -3,6 +3,7 @@ class Mentor::EvaluationsController < ApplicationController
   before_action :require_admin_or_mentor
   before_action :set_user
   before_action :set_program
+  before_action :set_chapters
 
   helper_method :evaluation_pointed?
   helper_method :evaluation_result
@@ -20,11 +21,6 @@ class Mentor::EvaluationsController < ApplicationController
     end
     add_breadcrumb "<a class='active' href='#{mentor_evaluations_path(program_id: @program, user_id: @user)}'>Evaluación de programa</a>".html_safe
 
-    @chapters = @program.chapters.select(
-      "chapters.*,"\
-      "(select COALESCE(SUM(user_evaluations.points), 0)  from user_evaluations where user_evaluations.user_id = #{@user.id}  and user_evaluations.evaluation_id in (select id from evaluations where evaluations.chapter_id = chapters.id) ) as evaluation_points,"\
-      "((select COUNT(*) from evaluations where evaluations.chapter_id = chapters.id) * 100) as total_evaluations_points"
-    )
     @answers_total, @rubrics_checked = 0, 0
     @chapters.each do |chapter|
       if chapter.questions.count > 0 then @answers_total += answered_questions(chapter, @user) end
@@ -59,6 +55,20 @@ class Mentor::EvaluationsController < ApplicationController
     .group('questions.id')
     .group('chapter_contents.position')
     .order('chapter_contents.position asc')
+    
+    @chapters_w_questions = []
+    @chapters.all.map { |chap| if (chap.questions.count >0) then @chapters_w_questions << chap end}
+    @chapters_w_questions.each_with_index do |chapter, index|
+      if chapter.id == @chapter.id
+        if index == 0 
+          @prev_chapter, @next_chapter = @chapter, @chapters_w_questions[index+1] 
+        elsif index == (@chapters_w_questions.count - 1)
+          @prev_chapter, @next_chapter = @chapters_w_questions[index-1], @chapters_w_questions[@chapters_w_questions.count - 1]  
+        else 
+          @prev_chapter, @next_chapter = @chapters_w_questions[index-1], @chapters_w_questions[index+1] 
+        end
+      end
+    end
 
     if current_user.admin?
       add_breadcrumb @user.email, user_path(@user)
@@ -116,5 +126,13 @@ class Mentor::EvaluationsController < ApplicationController
 
   def set_program
     @program = Program.includes(:chapters).find(params[:program_id])
+  end
+
+  def set_chapters
+    @chapters = @program.chapters.select(
+      "chapters.*,"\
+      "(select COALESCE(SUM(user_evaluations.points), 0)  from user_evaluations where user_evaluations.user_id = #{@user.id}  and user_evaluations.evaluation_id in (select id from evaluations where evaluations.chapter_id = chapters.id) ) as evaluation_points,"\
+      "((select COUNT(*) from evaluations where evaluations.chapter_id = chapters.id) * 100) as total_evaluations_points"
+    )
   end
 end

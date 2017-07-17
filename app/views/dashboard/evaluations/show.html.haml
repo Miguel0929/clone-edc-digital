@@ -77,22 +77,22 @@
                   = evaluation.name
                 - if evaluation_pointed?(evaluation, 100)
                   %td.p-b-15.text-center.p-t-10
-                    = image_tag "excellent.jpg", size: "40"
+                    = image_tag "excellent.png", size: "40"
                   %td.p-b-15
                     = evaluation.excelent
                 - elsif evaluation_pointed?(evaluation, 75)
                   %td.p-b-15.text-center.p-t-10
-                    = image_tag "good.jpg", size: "40"
+                    = image_tag "good.png", size: "40"
                   %td.p-b-15
                     = evaluation.good
                 - elsif evaluation_pointed?(evaluation, 50)
                   %td.p-b-15.text-center.p-t-10
-                    = image_tag "regular.jpg", size: "40"
+                    = image_tag "regular.png", size: "40"
                   %td.p-b-15
                     = evaluation.regular
                 - else
                   %td.p-b-15.text-center.p-t-10
-                    = image_tag "bad.jpg", size: "40"
+                    = image_tag "bad.png", size: "40"
                   %td.p-b-15
                     = evaluation.bad
       - elsif !@evals_ary.detect {|x| x == 0}.nil? && !@ans_ary.detect {|j| j == 0}.nil?

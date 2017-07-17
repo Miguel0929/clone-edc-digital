@@ -44,21 +44,22 @@
               %table.table.table-hover
                 %thead
                   %tr
-                    %th Pregunta
-                    %th Respuesta
-                    %th.text-center Evaluación
+                    %th{width: "35%"} Pregunta
+                    %th{width: "30%"} Respuesta
+                    %th.text-center{width: "20%"} Evaluación
                     %th.text-center Valor
                     %th.text-center Obtenido
                 - @quiz.quiz_questions.each do |question|
                   %tr
-                    %td
+                    %td.p-b-15
                       = link_to "#", class: "btn btn-success btn-rounded" do
                         %i.fa.fa-tasks
                       %span.m-l-10{style: "position: relative; top: -8px;"} 
                         = question.question_text
                       - answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: current_user.id)
-                    %td= QuizAnswer.respuesta(question.id, current_user.id)
-                    %td.text-center
+                    %td.p-b-15
+                      = QuizAnswer.respuesta(question.id, current_user.id)
+                    %td.text-center.p-b-15
                       = answer.nil? ? "Sin contestar" : QuizAnswer.revisada(question.id, current_user.id).html_safe
                     %td.text-center
                       = answer.nil? ? "No hay puntos" : answer.quiz_question.points
