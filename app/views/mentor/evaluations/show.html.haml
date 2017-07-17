@@ -23,14 +23,14 @@
 .bg-info.container-minus-40
   %ul.evaluation-ul-menu
     = link_to mentor_evaluation_path(@prev_chapter, program_id: @program, user_id: @user), class: 'evaluation-nav-link' do
-      %li.text-center{style: "width: #{chaps_width}%;"}
+      %li.text-center{style: "width: #{chaps_width}%;", "data-placement": "bottom", "data-toggle": "tooltip", "data-original-title": "#{@prev_chapter.name}"}
         #{@prev_chapter.id == @chapter.id ? "Primero" : "Anterior"}
     - @chapters_w_questions.each_with_index do |chapter, index|
       = link_to mentor_evaluation_path(chapter, program_id: @program, user_id: @user), class: 'evaluation-nav-link' do
-        %li.text-center{style: "width: #{chaps_width}%; border-right: 1px dotted #3C93CE; #{(index==0) ? 'border-left: 1px dotted #3C93CE;' : ''}", class: "#{(chapter.id == @chapter.id) ? 'evaluation-nav-active' : ''}"}
+        %li.text-center{style: "width: #{chaps_width}%; border-right: 1px dotted #3C93CE; #{(index==0) ? 'border-left: 1px dotted #3C93CE;' : ''}", class: "#{(chapter.id == @chapter.id) ? 'evaluation-nav-active' : ''}", "data-placement": "bottom", "data-toggle": "tooltip", "data-original-title": "#{chapter.name}"}
           #{index+1}
     = link_to mentor_evaluation_path(@next_chapter, program_id: @program, user_id: @user), class: 'evaluation-nav-link' do
-      %li.text-center{style: "width: #{chaps_width}%;"}
+      %li.text-center{style: "width: #{chaps_width}%;", "data-placement": "bottom", "data-toggle": "tooltip", "data-original-title": "#{@next_chapter.name}"}
         #{@next_chapter.id == @chapter.id ? "Último" : "Siguiente"}
 
 .container-fluid.container-fixed-lg.bg-transparent.container-minus-30
