@@ -12,6 +12,8 @@ class Group < ActiveRecord::Base
   has_many :shared_group_attachment_groups
   has_many :shared_group_attachments, through: :shared_group_attachment_groups
   has_one :group_stats
+  belongs_to :state
+  belongs_to :university
 
   validates_presence_of :name, :key
   validates_uniqueness_of :key

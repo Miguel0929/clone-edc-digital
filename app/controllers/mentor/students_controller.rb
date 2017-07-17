@@ -105,7 +105,11 @@ class Mentor::StudentsController < ApplicationController
     .joins("INNER JOIN chapters on chapter_contents.chapter_id = chapters.id")
     .joins("INNER JOIN programs on programs.id = chapters.program_id")
     .where("users.id = ?", @user.id)
-    .order(created_at: :desc)    
+    .order(created_at: :desc)
+
+    @delireverables = Delireverable.joins(delireverable_package: [:groups])
+                                    .where('groups.id = ?', @user.group.id)
+                                    .order(position: :asc)
   end
 
   def exports

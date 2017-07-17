@@ -93,6 +93,10 @@ class UsersController < ApplicationController
   def show
     add_breadcrumb "Estudiantes", :students_users_path
     add_breadcrumb "<a class='active' href='#{user_path(@user)}'>#{@user.email}</a>".html_safe
+
+    @delireverables = Delireverable.joins(delireverable_package: [:groups])
+                                    .where('groups.id = ?', @user.group.id)
+                                    .order(position: :asc) rescue []
   end
 
   def edit

@@ -1,0 +1,49 @@
+- content_for :title  do
+  Mis entregables - EDCdigital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      %h2
+        Mis entregables
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+              Nombre
+            %th
+              Archivo de ejemplo
+            %th
+              Tu entregable
+            %th
+              Estatus
+            %th
+              Comentarios
+            %th
+              Acciones
+        %tbody
+          - @delireverables.each do |delireverable|
+            - user_delireverable = delireverable.delireverable_users.find_by(user: current_user)
+            %tr
+              %td
+                = delireverable.name
+              %td
+                = link_to 'Descargar', delireverable.file.url, target: '_blank'
+              %td
+                - if user_delireverable
+                  = link_to 'Descargar', user_delireverable.file.url, target: '_blank'
+                - else
+                  N/A
+              %td
+                - if user_delireverable
+                  = user_delireverable.huminize_status
+                - else
+                  Sin entregar
+              %td
+                - if user_delireverable
+                  = user_delireverable.comments ? user_delireverable.comments : "N/A"
+                - else
+                  N/A
+              %td
+                %p
+                  = link_to 'Subir entregable', new_dashboard_delireverable_delireverable_user_path(delireverable)

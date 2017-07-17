@@ -7,7 +7,7 @@
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
           .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
-            %h2.text-white 
+            %h2.text-white
               Detalle de estudiante
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h3.text-white
@@ -40,7 +40,6 @@
                 = image_tag('person-1-square.jpg', width: "170") #Se puede agregar -> class: 'img-responsive'
               - else
                 = image_tag(@user.profile_picture.url, width: "170") #Se puede agregar -> class: 'img-responsive'
-
           .m-b-10
             .widget-9.panel.no-border.bg-grey.no-margin.widget-loader-bar{:style => "height: 115px !important;"}
               .container-xs-height
@@ -103,7 +102,6 @@
                           %i.fa.fa-clock-o.p-r-5
                           Uso total: 
                         %span.small-text.text-primary #{ @user.total_time.round(2) } minutos
-
         .col-md-9
           %table.table.resumen-table.table-striped.table-top-border.perfil-table
             %tbody
@@ -128,7 +126,7 @@
               %tr.odd.gradeX
                 %td Industria
                 %td
-                  = unless @user.industry.nil? then @user.industry.name else 'N/A' end    
+                  = unless @user.industry.nil? then @user.industry.name else 'N/A' end
               %tr.odd.gradeX
                 %td Ubicación
                 %td #{@user.state}, #{@user.city}
@@ -319,6 +317,53 @@
                 = l attachment.updated_at, format: :special
 
   %h3
+    Entregables
+  .panel.panel-default
+    .panel-body.table-responsive
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+              Nombre
+            %th
+              Archivo de ejemplo
+            %th
+              Tu entregable
+            %th
+              Estatus
+            %th
+              Comentarios
+            %th
+              Acciones
+        %tbody
+          - @delireverables.each do |delireverable|
+            - user_delireverable = delireverable.delireverable_users.find_by(user: @user)
+            %tr
+              %td
+                = delireverable.name
+              %td
+                = link_to 'Descargar', delireverable.file.url, target: '_blank'
+              %td
+                - if user_delireverable
+                  = link_to 'Descargar', user_delireverable.file.url, target: '_blank'
+                - else
+                  N/A
+              %td
+                - if user_delireverable
+                  = user_delireverable.huminize_status
+                - else
+                  Sin entregar
+              %td
+                - if user_delireverable
+                  = user_delireverable.comments ? user_delireverable.comments : "N/A"
+                - else
+                  N/A
+              %td
+                - if user_delireverable
+                  %p
+                    = link_to 'Editar', edit_mentor_student_delireverable_user_path(@user, user_delireverable)
+
+  %h3
     Archivos compartidos con el usuario
   .panel.panel-default
     .panel-body.table-responsive
@@ -352,7 +397,7 @@
               %th
                 = link_to 'Editar', edit_mentor_student_shared_attachment_path(@user, attachment), class: 'btn btn-default'
                 = link_to 'Eliminar', mentor_student_shared_attachment_path(@user, attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
-  
+
   .pull-right
     = link_to new_mentor_student_shared_attachment_path(@user), class: 'btn btn-primary btn-lg m-b-50 m-r-30' do
       %i.fa.fa-upload
@@ -365,8 +410,8 @@
         %span{"aria-hidden" => "true"} ×
         %span.sr-only Close
       #program_evaluation_text
-        Estado de evaluación modificado      
-      #alert_text 
+        Estado de evaluación modificado
+      #alert_text
 #alert-ra-error.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
     #al.alert.alert-error
@@ -393,7 +438,7 @@
         var this_user = $("#user_id").val();
         $.ajax({
           type: "post", url: "/change_evaluation",
-          data: { 
+          data: {
             'user_id': this_user
           },
           success: function (data, text) {
@@ -405,7 +450,7 @@
               $("#alert_text").text("El alumno dejó de estar marcado como evaluado");
             }
             $("#alert-ra").css('display','block');
-            setTimeout(function(){$("#alert-ra").css('display','none');},4000); 
+            setTimeout(function(){$("#alert-ra").css('display','none');},4000);
           },
           error: function (data) {
             console.log(data);

@@ -12,7 +12,11 @@
               Crear grupo
       .pull-left
         .col-xs-12
-          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          .form-group
+            %div.input-group
+              %input#search-table.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
+              %span.input-group-addon.font-search
+                %i.fa.fa-search.text-white
       .clearfix
     .panel-body
       %table.table.table-hover.datatable
@@ -51,6 +55,27 @@
                       %span Programas:
                   %li.inline 
                     = group.programs.count
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %strong
+                      %i.fa.fa-angle-right
+                      %span Estado:
+                  %li.inline 
+                    = unless  group.state.nil? then group.state.name else "Selecciona tu estado" end
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %strong
+                      %i.fa.fa-angle-right
+                      %span Universidad:
+                  %li.inline 
+                    = unless  group.university.nil? then group.university.name else "Selecciona tu universidad" end
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %strong
+                      %i.fa.fa-angle-right
+                      %span Tipo de grupo:
+                  %li.inline 
+                    = group.category
               %td.p-b-15
                 %ul.unstyled.no-style
                   - current_stats = group.get_group_stat(group)

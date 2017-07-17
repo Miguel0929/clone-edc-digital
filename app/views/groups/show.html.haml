@@ -92,7 +92,11 @@
         Lista de alumnos
       .row
         .col-md-2.col-md-offset-10
-          %input#group_student.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          .form-group
+            %div.input-group
+              %input#group_student.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
+              %span.input-group-addon.font-search
+                %i.fa.fa-search.text-white
       
       .table-responsive   
         %table.table.table-striped
@@ -133,12 +137,12 @@
                         - progress_percentage =  student.percentage_questions_answered_for(program)
                         = link_to mentor_evaluations_path(user_id: student, program_id: program) do
                           - if progress_percentage > 95
-                            .label.label-success.program-labels{:class => "#{review ? '' : 'p-sides-14-2'}", "data-toggle": "tooltip", "data-original-title": "#{program.name}"}
-                              = !program.short_name.nil? ? program.short_name : "P-#{index}"
+                            .label.label-success{:class => "#{review ? '' : 'p-sides-14-2'}"}
+                              P-#{index + 1}
                               %i.fa{:class => "#{review ? 'fa-check' : ''}"}
                           - else
-                            .label.program-labels{:class => "#{(progress_percentage > 0) ? 'label-warning' : ''} #{review ? '' : 'p-sides-14-2'}", "data-toggle": "tooltip", "data-original-title": "#{program.name}"}
-                              = !program.short_name.nil? ? program.short_name : "P-#{index}"
+                            .label{:class => "#{(progress_percentage > 0) ? 'label-warning' : ''} #{review ? '' : 'p-sides-14-2'}"}
+                              P-#{index + 1}
                               %i.fa{:class => "#{review ? 'fa-check' : ''}"}
                 %td.text-center
                   %input{type: "hidden", id: "student_key_#{student.id}", value: student.id}

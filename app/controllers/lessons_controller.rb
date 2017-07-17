@@ -55,6 +55,10 @@ class LessonsController < ApplicationController
     ActiveRecord::Base.transaction do
       ChapterContent.where({coursable_type: 'Lesson', coursable_id: @lesson.id}).delete_all
       @lesson.destroy
+      chapter_contents = @chapter.chapter_contents.map{ |cp| cp.id }
+      chapter_contents.each_with_index do |id, index|
+        ChapterContent.find(id).update_attributes({position: index + 1})
+      end
     end
 
     redirect_to @chapter.program, notice: "Se eliminó exitosamente el contenido #{@lesson.identifier}"
