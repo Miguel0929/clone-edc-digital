@@ -105,7 +105,7 @@
                 %td #{l @user.invitation_accepted_at, format: :special unless @user.invitation_accepted_at.nil?}
               %tr.odd.gradeX
                 %td Cursos inscritos
-                - if current_user.admin?
+                - if current_user.admin? && !@user.group.nil?
                   %td
                     - @user.group.programs.each do |program|
                       \-
