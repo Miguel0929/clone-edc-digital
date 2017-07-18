@@ -718,3 +718,6 @@ h6.cabecera_card-programas {
   background-position-y: center !important;
   background-size: cover !important; 
 }
+.text-color-dificultad{
+  color: #B32768;
+}
