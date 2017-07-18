@@ -625,7 +625,26 @@ p.mensaje{
 .font-search{
   background-color: #B32769 !important;
 }
-
+.text_ultimos_avances{
+  color: #B32769 !important;
+}
+.opacity1{
+  opacity: 0.4;
+  font-size: 11px;
+  margin-left: 10px;
+}
+.opacity2{
+  opacity: 0.6;
+  font-size: 11px;
+}
+.opacity3{
+  opacity: 0.8;
+  font-size: 11px;
+}
+.opacity4{
+  opacity: 1;
+  font-size: 11px;
+}
 #wrapper {
   /*background: #69225C;*/
   overflow: hidden;
@@ -642,4 +661,60 @@ p.mensaje{
 }
 .ver{
   text-align: center;
+}
+.card.share .cabecera_card-programas h5 {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0;
+  line-height: 22.7px;
+  font-family: arial;
+  letter-spacing: -0.006em;
+  margin-top: -3px;
+}
+h6.cabecera_card-programas {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0;
+  font-family: arial;
+  letter-spacing: -0.006em;
+  margin-top: -3px;
+}
+.cabecera_card-programas{
+  padding: 15px 15px 12px;
+}
+.card_height{
+  height: 210px;
+}
+.color_naranja{
+  background-color: #ED9C54;
+}
+.none-width{
+  width: 0px !important;
+  padding: 0px !important;
+}
+.m-t-name_card{
+  margin-top: 120px !important;
+}
+.text-top-name_card{
+  font-style: italic;
+  font-size: 20px;
+}
+.p-m_style{
+  padding-left: 14px !important;
+}
+.min-height{
+  min-height: 10px;
+}
+.text_mostrar-ocultar_info{
+  font-style: italic;
+  font-size: 10px;
+}
+.font-size-play{
+  font-size: 10px;
+}
+.style_img_card{
+  background-repeat: no-repeat  !important;
+  background-position-x: center !important;
+  background-position-y: center !important;
+  background-size: cover !important; 
 }

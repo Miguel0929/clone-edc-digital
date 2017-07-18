@@ -2,6 +2,8 @@ class Dashboard::ProgramsController < ApplicationController
   before_action :authenticate_user!
   add_breadcrumb "EDCDIGITAL", :root_path
 
+  helper_method :last_moved_program
+
   def index
     add_breadcrumb "<a class='active' href='#{dashboard_programs_path}'>Programas</a>".html_safe
     #@programs = current_user.group.programs.order(position: :asc) rescue []
@@ -10,6 +12,7 @@ class Dashboard::ProgramsController < ApplicationController
     if current_user.student?
       unless current_user.group.nil? 
         @programs = current_user.group.programs
+        @activo = ['active', '','']
       end  
     elsif current_user.mentor?
       current_user.groups.each do |g|
@@ -20,12 +23,15 @@ class Dashboard::ProgramsController < ApplicationController
         end  
       end
       @programs = Program.where(id: ids)
+
     end  
     
     if params[:tipo]=="elearning"
       @programs=@programs.where(tipo: 0)
+      @activo = ['', '','active']
     elsif params[:tipo]=="construccion"
       @programs=@programs.where(tipo: 1)
+      @activo = ['', 'active','']
     end
 
     if params[:level]=="basico"
@@ -56,18 +62,7 @@ class Dashboard::ProgramsController < ApplicationController
       @rank=rank.rank
     end 
 
-    @last_moved_content = @program.get_last_move(@program, current_user)
-    if !@last_moved_content.nil?
-      @last_move = @last_moved_content.chapter_content_id
-      @last_time = @last_moved_content.updated_at
-      last_content = ChapterContent.find(@last_moved_content.chapter_content_id)
-      
-      if last_content.coursable_type == "Lesson"
-        @last_text = last_content.model.identifier
-      else
-        @last_text = last_content.model.question_text
-      end
-    end
+    #
 
     add_breadcrumb "Programas", :dashboard_programs_path
     add_breadcrumb "<a class='active' href='#{dashboard_program_path @program}'>#{@program.name}</a>".html_safe
@@ -82,6 +77,23 @@ class Dashboard::ProgramsController < ApplicationController
     add_breadcrumb "programas", :dashboard_programs_path
     add_breadcrumb @program.name, dashboard_program_path(@program)
     add_breadcrumb "<a class='active' href='#{resume_dashboard_program_path @program}'>Rúbrica de evaluación</a>".html_safe
+  end
+
+  private
+  def last_moved_program(program)
+     last_moved_content = program.get_last_move(program, current_user)
+    if !last_moved_content.nil?
+      last_move = last_moved_content.chapter_content_id
+      last_time = last_moved_content.updated_at
+      last_content = ChapterContent.find(last_moved_content.chapter_content_id)
+      
+      if last_content.coursable_type == "Lesson"
+        last_text = last_content.model.identifier
+      else
+        last_text = last_content.model.question_text
+      end
+    end
+    return last_move, last_time, last_content, last_text, last_moved_content
   end
 
 end
