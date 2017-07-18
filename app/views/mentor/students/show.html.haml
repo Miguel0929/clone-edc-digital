@@ -40,42 +40,32 @@
                 = image_tag('person-1-square.jpg', width: "170") #Se puede agregar -> class: 'img-responsive'
               - else
                 = image_tag(@user.profile_picture.url, width: "170") #Se puede agregar -> class: 'img-responsive'
-          .m-b-10
-            .widget-9.panel.no-border.bg-grey.no-margin.widget-loader-bar{:style => "height: 115px !important;"}
+          .m-b-10.panel.panel-default
+            .widget-9.panel.no-border.bg-grey.no-margin.widget-loader-bar{:style => "height: 125px !important;"}
               .container-xs-height
                 .row-xs-height
                   .col-xs-height.col-top
                     .panel-heading.top-left.top-right
                       .panel-title
                         %span.font-montserrat.fs-11.all-caps
-                          Porcentaje contestado
+                          Avances de estudiante
                           %i.fa.fa-chevron-right
-                %div
-                  .p-l-20.p-t-15.m-b-15
-                    %h3.no-margin.p-b-5.text-primary  #{@user.answered_questions_percentage}%
-                .row-xs-height
-                  .col-xs-height.col-bottom
-                    .progress.progress-small.m-b-20
-                      .progress-bar.progress-bar-primary{:style => "width:#{@user.answered_questions_percentage}%"}
-          .m-b-10
-            .widget-9.panel.no-border.bg-grey.no-margin.widget-loader-bar{:style => "height: 115px !important;"}
-              .container-xs-height
-                .row-xs-height
-                  .col-xs-height.col-top
-                    .panel-heading.top-left.top-right
-                      .panel-title
-                        %span.font-montserrat.fs-11.all-caps
-                          Porcentaje visto
-                          %i.fa.fa-chevron-right
-                %div
-                  .p-l-20.p-t-15.m-b-15
-                    %h3.no-margin.p-b-5.text-primary  #{@user.content_visited_percentage} %
-                .row-xs-height
-                  .col-xs-height.col-bottom
-                    .progress.progress-small.m-b-20
-                      .progress-bar.progress-bar-primary{:style => "width:#{@user.content_visited_percentage}%"}
-          .m-b-10  
-            .widget-9.panel.no-border.bg-grey.no-margin.widget-loader-bar{:style => "height: 120px !important;"}
+                      .panel-body.padding-5
+                        .row
+                          .col-sm-12
+                            .small.p-b-5
+                              %span.small-text Porcentaje contestado: 
+                              %span.text-success.font-montserrat.small-text #{@user.answered_questions_percentage}%
+                            .progress.progress-small.m-b-5
+                              .progress-bar.progress-bar-primary{:style => "width: #{@user.answered_questions_percentage}%"}
+                          .col-sm-12
+                            .small.p-b-5
+                              %span.small-text Porcentaje visto: 
+                              %span.text-success.font-montserrat.small-text #{@user.content_visited_percentage}%
+                            .progress.progress-small.m-b-5
+                              .progress-bar.progress-bar-primary{:style => "width: #{@user.content_visited_percentage}%"}
+          .m-b-10.panel.panel-default
+            .widget-9.panel.no-border.bg-grey.no-margin.widget-loader-bar{:style => "height: 125px !important;"}
               .container-xs-height.full-height
                 .row-xs-height
                   .col-xs-height.col-top
