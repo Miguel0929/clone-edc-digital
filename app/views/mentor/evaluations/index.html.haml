@@ -26,86 +26,90 @@
 
 .container-fluid.container-fixed-lg.m-b-20
   .col-md-3.m-b-10
-    .widget-9.panel.no-border.bg-primary.no-margin.widget-loader-bar
-      .container-xs-height.full-height
-        .row-xs-height
-          .col-xs-height.col-top
-            .panel-heading.top-left.top-right
-              .panel-title.text-black
-                %span.font-montserrat.fs-11.all-caps
-                  Alumno evaluado
-                  %i.fa.fa-chevron-right
-        .row-xs-height
-          .col-xs-height.col-top
-            .p-l-20.p-t-25
-              %h3.no-margin.p-b-5.text-white #{@user.name} 
+    .panel.panel-default.no-margin
+      .widget-9.panel.no-border.bg-white.no-margin.widget-loader-bar
+        .container-xs-height.full-height
+          .row-xs-height
+            .col-xs-height.col-top
+              .panel-heading.top-left.top-right
+                .panel-title.text-black.hint-text
+                  %span.font-montserrat.fs-11.all-caps
+                    Alumno evaluado
+                    %i.fa.fa-chevron-right
+          .row-xs-height
+            .col-xs-height.col-top
+              .p-l-20.p-t-25
+                %h3.no-margin.p-b-5.text-primary #{@user.name} 
               
   .col-md-3.m-b-10
-    .widget-9.panel.no-border.bg-primary.no-margin.widget-loader-bar
-      .container-xs-height.full-height
-        .row-xs-height
-          .col-xs-height.col-top
-            .panel-heading.top-left.top-right
-              .panel-title.text-black
-                %span.font-montserrat.fs-11.all-caps
-                  Preguntas contestadas
-                  %i.fa.fa-chevron-right
-        .row-xs-height
-          .col-xs-height.col-top
-            .p-l-20.p-t-15
-              %h3.no-margin.p-b-5.text-white #{@answers_total} preguntas
-              %span.small.text-white
-                %i.fa.fa-edit.p-r-5
-              %span.small.hint-text #{@answers_total} de #{total_questions} han sido contestadas 
-        .row-xs-height
-          .col-xs-height.col-bottom
-            .progress.progress-small.m-b-20
-              - if total_questions > 0
-                .progress-bar.progress-bar-white{:style => "width:#{((@answers_total.to_f/total_questions.to_f)*100).ceil}%"}
+    .panel.panel-default.no-margin
+      .widget-9.panel.no-border.bg-white.no-margin.widget-loader-bar
+        .container-xs-height.full-height
+          .row-xs-height
+            .col-xs-height.col-top
+              .panel-heading.top-left.top-right
+                .panel-title.text-black.hint-text
+                  %span.font-montserrat.fs-11.all-caps
+                    Preguntas contestadas
+                    %i.fa.fa-chevron-right
+          .row-xs-height
+            .col-xs-height.col-top
+              .p-l-20.p-t-15
+                %h3.no-margin.p-b-5.text-primary #{@answers_total} preguntas
+                %span.small.hint-text
+                  %i.fa.fa-edit.p-r-5
+                %span.small.hint-text #{@answers_total} de #{total_questions} han sido contestadas 
+          .row-xs-height
+            .col-xs-height.col-bottom
+              .progress.progress-small.m-b-20
+                - if total_questions > 0
+                  .progress-bar.progress-bar-primary{:style => "width:#{((@answers_total.to_f/total_questions.to_f)*100).ceil}%"}
   .col-md-3.m-b-10
-    .widget-9.panel.no-border.bg-primary.no-margin.widget-loader-bar
-      .container-xs-height.full-height
-        .row-xs-height
-          .col-xs-height.col-top
-            .panel-heading.top-left.top-right
-              .panel-title.text-black
-                %span.font-montserrat.fs-11.all-caps
-                  Rúbricas evaluadas
-                  %i.fa.fa-chevron-right
-        .row-xs-height
-          .col-xs-height.col-top
-            .p-l-20.p-t-15
-              %h3.no-margin.p-b-5.text-white #{@rubrics_checked} rúbricas
-              %span.small.text-white
-                %i.fa.fa-check-square-o.p-r-5
-              %span.small.hint-text #{@rubrics_checked} de #{total_rubrics} han sido evaluadas
-        .row-xs-height
-          .col-xs-height.col-bottom
-            .progress.progress-small.m-b-20
-              -if total_rubrics > 0
-                .progress-bar.progress-bar-white{:style => "width:#{((@rubrics_checked.to_f/total_rubrics.to_f)*100).ceil}%"}
+    .panel.panel-default.no-margin
+      .widget-9.panel.no-border.bg-white.no-margin.widget-loader-bar.panel.panel-default
+        .container-xs-height.full-height
+          .row-xs-height
+            .col-xs-height.col-top
+              .panel-heading.top-left.top-right
+                .panel-title.text-black.hint-text
+                  %span.font-montserrat.fs-11.all-caps
+                    Rúbricas evaluadas
+                    %i.fa.fa-chevron-right
+          .row-xs-height
+            .col-xs-height.col-top
+              .p-l-20.p-t-15
+                %h3.no-margin.p-b-5.text-primary #{@rubrics_checked} rúbricas
+                %span.small.hint-text
+                  %i.fa.fa-check-square-o.p-r-5
+                %span.small.hint-text #{@rubrics_checked} de #{total_rubrics} han sido evaluadas
+          .row-xs-height
+            .col-xs-height.col-bottom
+              .progress.progress-small.m-b-20
+                -if total_rubrics > 0
+                  .progress-bar.progress-bar-primary{:style => "width:#{((@rubrics_checked.to_f/total_rubrics.to_f)*100).ceil}%"}
   .col-md-3.m-b-10
-    .widget-9.panel.no-border.bg-primary.no-margin.widget-loader-bar
-      .container-xs-height.full-height
-        .row-xs-height
-          .col-xs-height.col-top
-            .panel-heading.top-left.top-right
-              .panel-title.text-black
-                %span.font-montserrat.fs-11.all-caps
-                  Puntos totales
-                  %i.fa.fa-chevron-right
-        .row-xs-height
-          .col-xs-height.col-top
-            .p-l-20.p-t-15
-              %h3.no-margin.p-b-5.text-white #{obtained_points} puntos
-              %span.small.text-white
-                %i.fa.fa-dashboard.p-r-5
-              %span.small.hint-text #{obtained_points} de #{total_points} obtenidos
-        .row-xs-height
-          .col-xs-height.col-bottom
-            .progress.progress-small.m-b-20
-              - if total_points > 0
-                .progress-bar.progress-bar-white{:style => "width:#{((obtained_points.to_f/total_points.to_f)*100).ceil}%"}
+    .panel.panel-default.no-margin
+      .widget-9.panel.no-border.bg-white.no-margin.widget-loader-bar.panel.panel-default
+        .container-xs-height.full-height
+          .row-xs-height
+            .col-xs-height.col-top
+              .panel-heading.top-left.top-right
+                .panel-title.text-black.hint-text
+                  %span.font-montserrat.fs-11.all-caps
+                    Puntos totales
+                    %i.fa.fa-chevron-right
+          .row-xs-height
+            .col-xs-height.col-top
+              .p-l-20.p-t-15
+                %h3.no-margin.p-b-5.text-primary #{obtained_points} puntos
+                %span.small.hint-text
+                  %i.fa.fa-dashboard.p-r-5
+                %span.small.hint-text #{obtained_points} de #{total_points} obtenidos
+          .row-xs-height
+            .col-xs-height.col-bottom
+              .progress.progress-small.m-b-20
+                - if total_points > 0
+                  .progress-bar.progress-bar-primary{:style => "width:#{((obtained_points.to_f/total_points.to_f)*100).ceil}%"}
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
