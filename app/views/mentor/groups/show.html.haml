@@ -173,7 +173,8 @@
                       %li
                         - review = program.program_checked?(program, student)
                         /- progress_percentage =  student.percentage_questions_answered_for(program)
-                        - progress_percentage = ProgramStat.where(user_id: student.id, program_id: program.id).last.program_progress
+                        - program_stat = ProgramStat.where(user_id: student.id, program_id: program.id).last
+                        - progress_percentage = (!program_stat.nil?) ? program_stat.program_progress : nil
                         - if !progress_percentage.nil?
                           = link_to mentor_evaluations_path(user_id: student, program_id: program) do
                             - if progress_percentage > 95
