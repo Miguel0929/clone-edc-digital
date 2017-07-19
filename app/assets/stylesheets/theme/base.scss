@@ -10042,6 +10042,20 @@ Main components
   margin-top: 14px;
   width: 12px;
 }
+.timeline-point.large {
+  height: 60px;
+  width: 60px;
+  top: -30px;
+  margin-left: -10px;
+}
+.timeline-point.large-transparent{
+  background-color: transparent;
+  position: relative;
+  height: 60px;
+  width: 60px;
+  top: -1px;
+  margin-left: -2px;
+}
 .timeline-point i {
   color: #fff;
   font-size: 14px;
@@ -10076,6 +10090,12 @@ Main components
     /* Force Hardware Acceleration in WebKit */
     -webkit-transform: translateZ(0);
     -webkit-backface-visibility: hidden;
+  }
+  .timeline-container:not(.left) .timeline .timeline-point.large {
+    margin-left: -31px;
+  }
+  .timeline-container:not(.left) .timeline .timeline-point.large-transparent {
+    margin-left: -54px;
   }
   .timeline-container:not(.left) .timeline .timeline-point.is-hidden {
     visibility: hidden;
@@ -10200,6 +10220,7 @@ Main components
   .timeline-container:not(.left) .timeline .timeline-content .event-date h6 + small {
     margin-top: 0;
   }
+  /* Siguientes líneas: cambiar de even a odd y odd a even para invertir lados (invertir polaridad) */
   .timeline-container:not(.left) .timeline .timeline-block:nth-child(odd) .timeline-content .card {
     float: right;
   }
@@ -10390,6 +10411,7 @@ Main components
 .timeline-container.center .timeline .timeline-content .event-date h6 + small {
   margin-top: 0;
 }
+/* Siguientes líneas: cambiar de even a odd y odd a even para invertir lados (invertir polaridad) */
 .timeline-container.center .timeline .timeline-block:nth-child(odd) .timeline-content .card {
   float: right;
 }
