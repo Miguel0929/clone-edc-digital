@@ -1,5 +1,7 @@
 class Dashboard::WelcomeController < ApplicationController
   before_action :authenticate_user!
+  after_action :change_video_trigger, only: [:learning_path]
+
   add_breadcrumb "EDCDIGITAL", :root_path
 
   def index
@@ -29,9 +31,10 @@ class Dashboard::WelcomeController < ApplicationController
     @texts = RouteText.all
     @covers = RouteCover.all
   end
+
   def learning_path
     @group_programs=current_user.group.group_programs.order(:position)
-    add_breadcrumb "<a class='active' href='#{dashboard_learning_path_path}'>Ruta de aprendizaje</a>".html_safe
+    @modal_trigger = current_user.video_trigger
   end  
 
   def send_support_email
@@ -105,4 +108,11 @@ class Dashboard::WelcomeController < ApplicationController
     end  
     render json:{nt: @notification}
   end  
+
+  private
+  def change_video_trigger
+    if current_user.video_trigger
+      current_user.update(video_trigger: false)
+    end
+  end
 end

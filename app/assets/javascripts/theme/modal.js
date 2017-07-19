@@ -26,6 +26,19 @@ $(document).on('turbolinks:load', function(){
         }
     });
 
+    var learning_route_video_trigger = $('input[name=modal_trigger]:checked').val();
+    if (learning_route_video_trigger == 'true') {
+        $('#modalSlideUpLearning').modal('show')
+    }
+
+    $('#btnToggleSlideUpSizeLearning').click(function() {
+        $('#modalSlideUpLearning').modal('show')
+    });
+
+    $('#close-learning-message').click(function() {
+        $('#learning-video-message').css({display: "none"});
+    });
+
     $('.activeModalBtn').click(function() {
         var trigger = $(this).val();
         if (trigger == "sample") {

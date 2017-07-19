@@ -8,16 +8,25 @@
 				.row.col-md-12
 					.col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
 						%h2.text-white 
-							Ruta de Aprendizaje
+							¡Bienvenido a EDC-Digital!
 					.col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
 						%h5.text-white
-							Tu propio camino
+							Esta es tu ruta de aprendizaje
 						%p.m-b-25.text-white
-							Aquí podrás ver tu ruta de aprendizaje, una selección de cursos diseñada especialmente para ti, justo en el orden óptimo de acuerdo a tu perfil, para que cumplas tus objetivos como emprendedor.
+							Aquí podrás ver los cursos que te han sido asignados por nuestro equipo de expertos. Esta selección de programas fue diseñada en el orden óptimo para que realices tu viaje a través nuestra plataforma. Cada curso de tu ruta mostrará el porcentaje de progreso, de modo que siempre podrás tener una visión general de tus avances. ¿Estás listo para continuar?
 
 .container-fluid.sm-p-l-5
 	.timeline-container.top-circle
 		%section.timeline
+			.timeline-point.large.info.m-t-30
+				%button.timeline-point.large-transparent#btnToggleSlideUpSizeLearning{"data-toggle": "tooltip", "data-original-title": "Video introductorio"}
+					%i.fa.fa-play-circle{"aria-hidden"=>"true", style: "font-size: 24px; margin-left: -11px; margin-top: -12.5px;"}
+			.m-l-80.p-l-20#learning-video-message{style: "#{@modal_trigger ? '' : 'display: none;'}"}
+				.pull-right
+					%a.close-message-type#close-learning-message{href: "#", onclick: "return false;"} 
+						×
+				Aquí estará disponible el video introductorio siempre que lo necesites
+				.triangle-left
 			- @group_programs.each do |p|
 				- unless p.program.nil?
 					.timeline-block
@@ -64,4 +73,17 @@
 														#{seen_progress}% visto
 							.event-date
 								%h6.font-montserrat.all-caps.hint-text.m-t-0 
-								%small.fs-12.hint-text											
+								%small.fs-12.hint-text
+%input{type: "radio", value: @modal_trigger.to_s, name: "modal_trigger", checked: true, hidden: true}
+#modalSlideUpLearning.modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1"}		
+	.modal-dialog.modal-lg{style: "width: 900px;"}
+		.modal-content-wrapper
+			.modal-content
+				.modal-header.clearfix.text-left
+					%button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
+						%i.pg-close.fs-14
+					%h3.text-primary.text-center
+						¡Bienvenido a EDC-Digital!
+				.modal-body
+					.embed-responsive.embed-responsive-16by9
+						%iframe.embed-responsive-item{:src => "https://player.vimeo.com/video/188382978"}
