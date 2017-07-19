@@ -105,18 +105,19 @@
                 %td #{l @user.invitation_accepted_at, format: :special unless @user.invitation_accepted_at.nil?}
               %tr.odd.gradeX
                 %td Cursos inscritos
-                - if current_user.admin?
+                - if current_user.admin? && !@user.group.nil?
                   %td
                     - @user.group.programs.each do |program|
                       \-
                       = link_to program.name, user_program_answers_path(@user, program)
                       %br
                 - else
-                  %td
-                    - @user.group.programs.each do |program|
-                      \-
-                      = program.name
-                      %br
+                  - if !@user.group.nil?
+                    %td
+                      - @user.group.programs.each do |program|
+                        \-
+                        = program.name
+                        %br
   %h3
     Estadísticas generales de programas inscritos
 
