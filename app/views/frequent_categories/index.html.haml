@@ -23,9 +23,10 @@
                 = submit_tag 'Buscar', class: "boton-buscar"
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
-              No te quedes con la duda
+              =current_user.mentor? ? '' : 'No te quedes con la duda'
             %p.m-b-25.text-white
-              ¿Cuánto dura el curso?, ¿cómo recupero mi contraseña? Como nos hacen mucho estas preguntas y otras más, las hemos recopilado y ordenado especialmente para ti. Si tu duda es común, búscala en esta sección, probablemente aquí esté la respuesta.
+              =current_user.mentor? ? 'Encuentra la respuesta a las preguntas más frecuentes hechas por los usuarios sobre el uso de la plataforma EDC-Digital. Como profesor te será útil saber todos los detalles.' : '¿Cuánto dura el curso?, ¿cómo recupero mi contraseña? Como nos hacen mucho estas preguntas y otras más, las hemos recopilado y ordenado especialmente para ti. Si tu duda es común, búscala en esta sección, probablemente aquí esté la respuesta.'
+              
 
 
   - if @categories.exists?        

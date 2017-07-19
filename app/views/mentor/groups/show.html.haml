@@ -7,14 +7,13 @@
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
           .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
-            %h2.text-white 
+            %h5.text-white.m-b-0 
               Detalle de grupo
+            %h2.text-white.m-t-0
+              #{@group.name}
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
-            %h3.text-white
-              %span.p-r-10{style: "font-size:16px !important;"}
-                Nombre:
-              %span
-                #{@group.name}
+            %h5.text-white
+              Monitorea el avance de los grupos a los que estás vinculado, así como el avance de cada alumno. 
             = link_to  mentor_groups_path, class: 'btn btn-sm btn-complete btn-cons m-b-10' do
               %i.fa.fa-reply
               %span.bold Regresar a mis grupos
