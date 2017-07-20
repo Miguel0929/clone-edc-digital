@@ -9,7 +9,7 @@ class Dashboard::ProgramsController < ApplicationController
     ids=[]
     if current_user.student?
       unless current_user.group.nil? 
-        @programs = current_user.group.programs
+        @programs = current_user.group.programs.order(:position)
       end  
     elsif current_user.mentor?
       current_user.groups.each do |g|
@@ -19,21 +19,21 @@ class Dashboard::ProgramsController < ApplicationController
           end
         end  
       end
-      @programs = Program.where(id: ids)
+      @programs = Program.where(id: ids).order(:position)
     end  
     
     if params[:tipo]=="elearning"
-      @programs=@programs.where(tipo: 0)
+      @programs=@programs.where(tipo: 0).order(:position)
     elsif params[:tipo]=="construccion"
-      @programs=@programs.where(tipo: 1)
+      @programs=@programs.where(tipo: 1).order(:position)
     end
 
     if params[:level]=="basico"
-      @programs=@programs.where(level: 0)
+      @programs=@programs.where(level: 0).order(:position)
     elsif params[:level]=="intermedio"
-      @programs=@programs.where(level: 1)
+      @programs=@programs.where(level: 1).order(:position)
     elsif params[:level]=="avanzado"  
-      @programs=@programs.where(level: 2)
+      @programs=@programs.where(level: 2).order(:position)
     end
 
     if params[:orden]=="tipo"
