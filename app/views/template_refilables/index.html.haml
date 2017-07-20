@@ -1,0 +1,38 @@
+- content_for :title  do
+  Rellenables - EDCdigital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      %h2 Rellenables
+
+      %table.table.table-hover
+        %thead
+          %tr
+            %th Nombre
+            %th Descripción
+            %th Grupos
+            %th Acciones
+
+        %tbody
+          - @template_refilables.each do |template_refilable|
+            %tr
+              %td
+                = template_refilable.name
+              %td
+                = template_refilable.description
+              %td
+                - template_refilable.groups.each do |group|
+                  %p
+                    = group.name
+              %td
+                %p
+                  = link_to 'Ver', template_refilable
+                %p
+                  = link_to 'Editar', edit_template_refilable_path(template_refilable)
+                %p
+                  = link_to 'Eliminar', template_refilable, :method => :delete, :data => { :confirm => '¿Estás seguro?' }
+
+      %br
+
+      = link_to 'Nuevo rellenable', new_template_refilable_path

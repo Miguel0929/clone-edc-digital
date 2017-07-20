@@ -192,7 +192,7 @@ Rails.application.routes.draw do
       member do
         get :analytics_quiz
       end
-      
+
       resources :delireverable_users, only: [:edit, :update]
     end
     resources :comments, only: [:index, :create, :update] do
@@ -292,4 +292,6 @@ Rails.application.routes.draw do
       end
     end
   end
+  
+  resources :template_refilables
 end

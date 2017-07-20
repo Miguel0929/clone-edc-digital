@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170718225927) do
+ActiveRecord::Schema.define(version: 20170720015958) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -250,6 +250,14 @@ ActiveRecord::Schema.define(version: 20170718225927) do
   end
 
   add_index "group_stats", ["group_id"], name: "index_group_stats_on_group_id", using: :btree
+
+  create_table "group_template_refilables", force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "template_refilable_id"
+  end
+
+  add_index "group_template_refilables", ["group_id"], name: "index_group_template_refilables_on_group_id", using: :btree
+  add_index "group_template_refilables", ["template_refilable_id"], name: "index_group_template_refilables_on_template_refilable_id", using: :btree
 
   create_table "group_users", force: :cascade do |t|
     t.integer "group_id"
@@ -569,6 +577,14 @@ ActiveRecord::Schema.define(version: 20170718225927) do
 
   create_table "states", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "template_refilables", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "trackers", force: :cascade do |t|

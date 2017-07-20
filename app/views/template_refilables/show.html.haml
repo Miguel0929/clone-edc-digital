@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @template_refilable.name
+%p
+  %b Description:
+  = @template_refilable.description
+%p
+  %b Content:
+  = @template_refilable.content
+
+= link_to 'Edit', edit_template_refilable_path(@template_refilable)
+\|
+= link_to 'Back', template_refilables_path
