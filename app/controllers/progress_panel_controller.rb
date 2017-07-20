@@ -14,9 +14,8 @@ class ProgressPanelController < ApplicationController
   	if params[:group].present?
   		redirect_to progress_panel_path(params[:group].to_i)
   	end
-  	@users = User.students.all
+    @users = User.students.all
   	@programs = Program.all
-  	stats = ProgramStat.all
   	@hundred, @seventy, @fifty, @thirty = 0, 0, 0, 0
     @active_users, @inactive_users = [], 0
   	# Para este punto los stats solo se han generado para usuarios activos en StudentsProgressJob
@@ -46,7 +45,7 @@ class ProgressPanelController < ApplicationController
         @thirty = @thirty + 1
       end 
     end
-  	#stats.each do |stat|
+  	#stats.each do |stat|  /* donde [stats = ProgramStat.all] */
   	#	if stat.program_progress >= 70.0
   	#		@hundred = @hundred + 1
   	#	elsif stat.program_progress >= 50.0
@@ -110,6 +109,41 @@ class ProgressPanelController < ApplicationController
   	@groups = Group.all
   end
 
+  def program_detail
+    @users = User.joins(:program_stats).where(program_stats: {program_id: params[:requested_program]})
+    @programs = Program.all
+    @groups = Group.all
+    @hundred, @seventy, @fifty, @thirty = 0, 0, 0, 0
+    @active_users, @inactive_users = [], 0
+    # Para este punto los stats solo se han generado para usuarios activos en StudentsProgressJob
+    @users.each do |user|
+      if user.status == 'Activo'
+        @active_users << user
+      elsif user.status == 'Inactivo'
+        @inactive_users = @inactive_users + 1
+      end
+    end
+    @active_users.each do |active|
+      sum = []
+      average = 0
+      userstat = ProgramStat.where(user_id: active.id)
+      userstat.each do |stat|
+        current_progress = stat.program_progress
+        if !current_progress.nil? then sum << current_progress end
+      end
+      average = sum.inject(0.0) { |adding, el| adding + el }.to_f / sum.size
+      if average >= 70.0
+        @hundred = @hundred + 1
+      elsif average >= 50.0
+        @seventy = @seventy + 1
+      elsif average >= 30.0
+        @fifty = @fifty + 1
+      else
+        @thirty = @thirty + 1
+      end 
+    end
+  end
+
   def massive_program_progress
   	#@users = User.students.joins(:group)
   	total_jobs = 0
@@ -126,12 +160,12 @@ class ProgressPanelController < ApplicationController
 
   private
   def get_program_progress_strata(program)
+    stats = ProgramStat.where(program_id: program)
     groups = Group.joins(:programs).where(:programs => {id: program.id})
     studets_count = 0;
     groups.each do |group|
       studets_count += group.students.count
     end
-  	stats = ProgramStat.where(program_id: program)
   	hundred, seventy, fifty, thirty = 0, 0, 0, 0
   	stats.each do |stat|
       current_progress = stat.program_progress
@@ -171,9 +205,13 @@ class ProgressPanelController < ApplicationController
       return hundred, seventy, fifty, thirty
   end
 
-  def get_all_group_progress_strata(group)
+  def get_all_group_progress_strata(group, selected_program)
+    if selected_program == 0
+      programs = group.programs.all
+    else
+      programs = Program.where(id: selected_program)
+    end
     students = group.students.all
-    programs = group.programs.all
     hundred, seventy, fifty, thirty = 0, 0, 0, 0
       students.each do |student|
         student_stats = []

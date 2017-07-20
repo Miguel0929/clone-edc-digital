@@ -41,7 +41,7 @@
 						%tbody
 							- @groups.each do |group|
 								%tr
-									- group_stat = get_all_group_progress_strata(group)
+									- group_stat = get_all_group_progress_strata(group, 0)
 									- hundred, seventy, fifty, thirty, sumatory = group_stat[0], group_stat[1], group_stat[2], group_stat[3], group_stat.inject(0){|sum,x| sum + x } 
 									%td.p-b-15
 										= link_to group.name, progress_panel_path(group)
