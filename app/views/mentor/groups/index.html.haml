@@ -8,10 +8,10 @@
         .row.col-md-12
           .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
             %h2.text-white 
-              Grupos a los que tienes acceso
+              Tus grupos
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
-              Tus grupos son la estructura de tu trabajo...
+              Monitorea tus grupos asignados
             %p.m-b-25.text-white
               En esta sección encontrarás los grupos que están inscritos bajo tu mentoría, así como sus programas y estadísticas vinculadas a ellos. ¡No olvides revisarlos constantemente!
 
@@ -36,23 +36,24 @@
             %tr
               %td
                 .m-b-10
-                  = link_to group.name, mentor_group_path(group)
+                  %h5
+                    = link_to group.name, mentor_group_path(group)
+                  - group.key
                 %ul.p-l-0.m-b-10
                   %li.inline 
-                    Clave: 
-                  %li.inline 
-                    %strong
-                      = group.key
-                %ul.p-l-0.m-b-0
+                    = link_to mentor_group_path(group) do
+                      %i.fa.fa-eye
+                      Ir a detalle de grupo
+                %ul.p-l-0.m-b-10
                   %li.inline 
                     = link_to progress_panel_path(group) do
                       %i.fa.fa-line-chart
                       Ver progreso de grupo
               %td.p-b-20
-                %ol.p-l-20
-                  - group.programs.each do |program|
-                    %li
-                      = program.name
+                %ol.p-l-0.p-t-5
+                  - group.programs.each_with_index do |program, index|
+                    .label.program-labels{"data-toggle": "tooltip", "data-original-title": "#{program.name}"}
+                      = !program.short_name.nil? ? program.short_name : "P-#{index}"
               %td.p-b-20
                 - group.users.each do |user|
                   %ul.p-l-10.m-b-0

@@ -65,7 +65,11 @@ class Dashboard::ChapterContentsController < ApplicationController
     if program_stat.nil?
       new_stat = ProgramStat.create(user_id: @current_user.id, program_id: program.id, program_progress: progress, program_seen: seen)
     else
-      program_stat.update(program_progress: progress, program_seen: seen)
+      if progress == program_stat.program_progress || seen == program_stat.seen
+        program_stat.touch
+      else
+        program_stat.update(program_progress: progress, program_seen: seen)
+      end
     end
   end
 end

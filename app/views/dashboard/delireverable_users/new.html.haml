@@ -1,0 +1,22 @@
+- content_for :title  do
+  Mis entregables - EDCdigital
+
+.container-fluid.container-fixed-lg
+  .row.panel.panel-default
+    .p-t-50
+      .col-md-4
+        .panel-heading
+          .panel-title
+            Subir Archivo
+          .panel-body
+            %i.fa.fa-upload.fa-2x.hint-text.m-t-40
+              .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+                Usa este formulario para subir tus entrgables
+
+      .col-md-8
+        .m-r-40.m-l-40
+          = bootstrap_form_for([:dashboard, @delireverable, @delireverable_user], url: dashboard_delireverable_delireverable_users_path(@delireverable), method: :post) do |f|
+            .dropzone
+              = f.file_field :file, label: 'Entregable'
+              = f.hidden_field :delireverable_id
+            = f.submit 'Subir archivo', class: 'btn btn-lg btn-success'

@@ -1,0 +1,39 @@
+- content_for :title  do
+  Paquete de Entregables - EDCdigital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+            %th
+              Nombre
+            %th
+              Descripción
+            %th
+              Grupos
+            %th
+              Acciones
+        %tbody
+          - @delireverable_packages.each do |package|
+            %tr
+              %td
+              %td
+                = package.name
+              %td
+                = package.description
+              %td
+                - package.groups.each do |group|
+                  %p
+                    = group.name
+              %td
+                %p
+                  = link_to 'Agregar entregables', delireverable_package_delireverables_path(package)
+                %p
+                  = link_to 'Editar', edit_delireverable_package_path(package)
+                %p
+                  = link_to 'Eliminar', delireverable_package_path(package), method: :delete, data: { confirm: '¿Estás seguro?' }
+
+      = link_to 'Agregar paquete', new_delireverable_package_path, class: 'btn btn-default'

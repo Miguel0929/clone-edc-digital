@@ -51,7 +51,7 @@ class Chapter < ActiveRecord::Base
     if total_record > 0
       percentage_done = (record_ones.to_f / total_record.to_f * 100).round(0)
     else
-      percentage_done = 0 
+      percentage_done = 0
     end
     if total_viewed > 0
       percentage_viewed = (viewed_ones.to_f / total_viewed.to_f * 100).round(0)

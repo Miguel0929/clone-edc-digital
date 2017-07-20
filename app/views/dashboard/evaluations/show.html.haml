@@ -1,95 +1,111 @@
 - content_for :title  do
   Evaluaciones - EDCdigital
 
-.container-fluid.container-fixed-lg.bg-white
-  .panel.panel-transparent
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Evaluación de módulo
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h3.text-white
+              %span.p-r-10{style: "font-size:16px !important;"}
+                Módulo:
+              %span
+                #{@chapter.name}
+            = link_to dashboard_evaluations_path(program_id: @program.id), class: 'btn btn-sm btn-default btn-cons m-b-10' do
+              %i.fa.fa-reply
+              %span.bold Regresar a evaluación de programa
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
     .panel-heading
-      %h2
-        Evaluación de módulos
-      .row
-        .col-md-12
-          %p
-            %strong
-              Programa a evaluar:
-            = @program.name
+      .panel-title
+        Tus preguntas y respuestas para este módulo
     .panel-body
-      %h4
-        Módulo: #{@chapter.name}
-      %table.table.table-striped
-        %thead
-          %tr
-            %th
-              Pregunta
-            %th
-              Respuesta
-            %th
-              Comentarios
-        %tbody
+      %ol.p-l-10
+        - if @answers.exists?
           - @answers.each do |answer|
-            %tr
-              %td
+            %li.m-b-30
+              %h5.m-b-10
                 = answer.question_text
-              %td
-                = answer.answer_text
-              %td
-                %a.comments-count{href: '#', 'data-answer'=> answer.id, 'data-user'=> answer.user_id, 'data-total'=> answer.comments_count, 'data-content'=> answer.chapter_content_id}
-                  = answer.comments_count
-      %h4
-        Rubrica de evaluación
-      .row
-        - @chapter.evaluations.each_with_index do |evaluation, index|
-          .col-md-6
-            %h4
-              = evaluation.name
-              (#{evaluation.points}%)
+              - if !answer.answer_text.nil?
+                %p.answer-lead
+                  = answer.answer_text
+              - else
+                %p.answer-lead-red
+                  No has respondido esta pregunta
+        - else
+          %label.label-danger.padding-5.m-b-10
+            No hay preguntas en este módulo
 
-            %input{type: 'hidden', name: "evaluation[#{index}][evaluation]", value: evaluation.id}
-
-            .radio
-              %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_excelent_#{index}", value: '100', checked: evaluation_pointed?(evaluation, 100), disabled: true}
-              %label{for: "radio_excelent_#{index}"}
-                %strong Exelente:
-                #{evaluation.excelent}
-
-            .radio
-              %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_good_#{index}", value: '75', checked: evaluation_pointed?(evaluation, 75), disabled: true}
-              %label{for: "radio_good_#{index}"}
-                %strong Bueno:
-                #{evaluation.good}
-            .radio
-              %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_regular_#{index}", value: '50', checked: evaluation_pointed?(evaluation, 50), disabled: true}
-              %label{for: "radio_regular_#{index}"}
-                %strong Regular:
-                #{evaluation.regular}
-
-            .radio
-              %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_bad_#{index}", value: '25', checked: evaluation_pointed?(evaluation, 25), disabled: true}
-              %label{for: "radio_bad_#{index}"}
-                %strong Malo:
-                #{evaluation.bad}
-
-#answer-comments.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
-  .modal-dialog
-    .modal-content
-      .modal-header
-        %button.close{"data-dismiss" => "modal", :type => "button"}
-          %span{"aria-hidden" => "true"} &times;
-          %span.sr-only Close
-        %h4.modal-title Comentarios
-      .modal-body
-        .timeline-container.top-circle.answer-comments-body
-        .text-center
-          %a.btn.btn-default.answer-comment-link
-            Ir a la pregunta
-
-%script{:type => "text/template", id: 'answer-comment-template'}
-  .panel.panel-transparent
-    .timeline-point.warning.pl10
-      %i.pg-social
-    .timeline-content
-      %h5.answer-comment-user
-        {{user}}
-      %h6.answer-comment-date
-        {{date}}
-      %p.answer-comment-content
-        {{content}}
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .col-sm-6.p-l-0
+        .pull-left
+          .panel-title
+            Tu rúbrica de evaluación
+      .col-sm-6
+        .pull-right.m-r-15
+          .panel-title
+            Puntaje: 
+            %success.text-success.p-l-10
+              = evaluation_result(@chapter)
+              de
+              = @chapter.points
+              puntos
+    .panel-body
+      - if !@chapter.evaluations.exists?
+        %p.answer-lead-red.m-l-15
+          Aún no hay rúbricas para este módulo
+      - elsif @evals_ary.detect {|x| x == 0}.nil?
+        %table.table.table-striped
+          %thead
+            %tr
+              %th{width: "50%"}
+                Parámetro de rúbrica
+              %th.text-center{width: "10%"}
+                Evaluación
+              %th
+          %tbody
+            - @chapter.evaluations.each_with_index do |evaluation, index|
+              %tr
+                %td.p-b-15
+                  = evaluation.name
+                - if evaluation_pointed?(evaluation, 100)
+                  %td.p-b-15.text-center.p-t-10
+                    %div{"data-toggle": "tooltip", "data-original-title": "Excelente"}
+                      = image_tag "excellent.png", size: "40"
+                  %td.p-b-15
+                    %strong ¡Excelente!
+                    = evaluation.excelent
+                - elsif evaluation_pointed?(evaluation, 75)
+                  %td.p-b-15.text-center.p-t-10
+                    %div{"data-toggle": "tooltip", "data-original-title": "Bueno"}
+                      = image_tag "good.png", size: "40"
+                  %td.p-b-15
+                    %strong Muy bien.
+                    = evaluation.good
+                - elsif evaluation_pointed?(evaluation, 50)
+                  %td.p-b-15.text-center.p-t-10
+                    %div{"data-toggle": "tooltip", "data-original-title": "Regular"}
+                      = image_tag "regular.png", size: "40"
+                  %td.p-b-15
+                    %strong Puede mejorar.
+                    = evaluation.regular
+                - else
+                  %td.p-b-15.text-center.p-t-10
+                    %div{"data-toggle": "tooltip", "data-original-title": "Malo"}
+                      = image_tag "bad.png", size: "40"
+                  %td.p-b-15
+                    %strong Ups...
+                    = evaluation.bad
+      - elsif !@evals_ary.detect {|x| x == 0}.nil? && !@ans_ary.detect {|j| j == 0}.nil?
+        %p.answer-lead-red.m-l-15
+          Aún no has contestado todas las preguntas de este módulo
+      - elsif !@evals_ary.detect {|x| x == 0}.nil?
+        %p.answer-lead-red.m-l-15
+          Aún no has sido evaluado

@@ -11,11 +11,9 @@
               Ayuda de mentores de Distrito Emprendedor
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
-              Solicita ayuda de nuestro equipo de mentores.
+              ¿Requieres ayuda de los expertos de EDC?.
             %p.m-b-25.text-white
-              Utiliza esta forma de contacto para solicitar apoyo en áreas de mentoría para tu idea de negocio. 
-              %span
-                %strong Recuerda completar con toda la información relevante para que los mentores puedan apoyarte.
+              Utiliza este formulario para solicitar ayuda directa a nuestro equipo especializado de Distrito Emprendedor. Aquí podrás detallar tu solicitud para ayudarnos a darte apoyo de la manera más efectiva posible. Aunque recuerda, quizás tu duda se resuelve en nuestra sección de preguntas frecuentes. 
 
 .container-fluid.container-fixed-lg
   .panel.panel-transparent
@@ -53,12 +51,20 @@
               .col-sm-9
                 %textarea.form-control{:rows => "8", :placeholder => "Describe aquí el problema o lo que estás enfrentando", name: 'message', :required => ""}
             .form-group
+              %label.col-sm-3.control-label{:for => "program"} Programa
+              .col-sm-9
+                %select.full-width.form-control.minimal{name: 'program', :required => ""}
+                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} ¿Tu duda o comentario es sobre algún programa en particular? Especifícalo aquí
+                  - current_user.programs.each do |program|
+                    %option{:value => "#{program.name}"} #{program.name}
+            .form-group
               %label.col-sm-3.control-label{:for => "message"} Adjunta archivos
               .col-sm-9
                 .m-b-10
                   ¿Requieres adjuntar un archivo para ilustrar tu mensaje? Puedes hacerlo aquí:
                 .m-b-10
                   = file_field(:file,:attachment)
+            %input{:name => "last_content", value: @last_content_title, hidden: true}
 
             .clearfix
             .row.m-t-15
@@ -84,7 +90,7 @@
    
         if(fsize>10485760) //do something if file size more than 10 mb (1048576)
         {
-            alert("Archivo muy grande, el tamaño maximo permitido es de 10MB");
+            alert("El archivo es muy grande, el tamaño maximo permitido es de 10MB");
             return false;
         }
     }else{

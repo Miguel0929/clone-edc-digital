@@ -308,6 +308,11 @@ class User < ActiveRecord::Base
     return last_content 
   end
 
+  def get_last_program
+    last_stat = self.program_stats.sort_by{ |stat| [stat.updated_at].max}.last
+    last_program = Program.where(id: last_stat.program_id).last
+  end
+
   private
 
   def set_origin
