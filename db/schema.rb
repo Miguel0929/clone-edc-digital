@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170720015958) do
+ActiveRecord::Schema.define(version: 20170720032720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -488,6 +488,17 @@ ActiveRecord::Schema.define(version: 20170720015958) do
 
   add_index "ratings", ["ratingable_type", "ratingable_id"], name: "index_ratings_on_ratingable_type_and_ratingable_id", using: :btree
   add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
+
+  create_table "refilables", force: :cascade do |t|
+    t.integer  "template_refilable_id"
+    t.integer  "user_id"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "refilables", ["template_refilable_id"], name: "index_refilables_on_template_refilable_id", using: :btree
+  add_index "refilables", ["user_id"], name: "index_refilables_on_user_id", using: :btree
 
   create_table "report_notifications", force: :cascade do |t|
     t.integer  "report_id"

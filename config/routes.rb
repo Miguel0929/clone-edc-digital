@@ -131,6 +131,10 @@ Rails.application.routes.draw do
     resources :delireverables, only: [:index] do
       resources :delireverable_users, only: [:new, :create]
     end
+
+    resources :template_refilables, only: [:index] do
+      resources :refilable_users, only: [:new, :create, :show, :edit, :update,]
+    end
   end
 
 
@@ -292,6 +296,6 @@ Rails.application.routes.draw do
       end
     end
   end
-  
+
   resources :template_refilables
 end
