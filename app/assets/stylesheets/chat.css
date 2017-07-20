@@ -685,15 +685,12 @@ h6.cabecera_card-programas {
 .card_height{
   height: 210px;
 }
-.color_naranja{
-  background-color: #ED9C54;
-}
 .none-width{
   width: 0px !important;
   padding: 0px !important;
 }
 .m-t-name_card{
-  margin-top: 120px !important;
+  margin-top: 110px !important;
 }
 .text-top-name_card{
   font-style: italic;
@@ -720,4 +717,29 @@ h6.cabecera_card-programas {
 }
 .text-color-dificultad{
   color: #B32768;
+}
+.m-t--card{
+  margin-top: 80px;
+}
+.m-b-3{
+  margin-bottom: 3px;
+}
+.m-t--10{
+  position: relative;
+  margin-top: -26px;
+}
+.super-card-container {
+  min-height: 450px;
+}
+.super-card-container_0 {
+  min-height: 0px;
+}
+.m-b-14{
+  margin-bottom: 14px;
+}
+.m-t-3{
+  margin-top: -15px;
+}
+.opacity_05{
+  opacity: 0.5;
 }

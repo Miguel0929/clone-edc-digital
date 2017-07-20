@@ -301,6 +301,13 @@ class User < ActiveRecord::Base
     return control
   end
 
+  def get_update_move
+    program_update = ProgramStat.where(user_id: self.id)
+    last_content = program_update.sort_by{|m| [m.updated_at].max}.last(2)
+    program_up = Program.where(id: id)
+    return last_content 
+  end
+
   private
 
   def set_origin

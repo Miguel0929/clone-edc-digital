@@ -29,46 +29,44 @@
             %li{'class'=>@activo[2]}
               %a{"aria-expanded" => "false", :href => dashboard_programs_path(tipo: "elearning"), class: "bold"} e-Learning
       .col-md-3
-.row
-  .col-md-4
-  .col-md-5
-    #accordion.panel.panel-group.panel-transparent{"data-toggle" => "collapse"}
-      .panel.panel-default.b-rad-sm
-        .panel-heading
-          %h4.panel-title
-            %a.collapsed.b-b{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseOne"} 
-              .text_ultimos_avances 
-                Tus últimos avances
-                %i.fa.fa-circle.opacity1
-                %i.fa.fa-circle.opacity2
-                %i.fa.fa-circle.opacity3
-                %i.fa.fa-circle.opacity4
-        #collapseOne.panel-collapse.collapse
-          .panel-body.p-t-0
-            .row
-              .col-md-12.p-b-10.b-b
-                - last_parameters = last_moved_program(@programs[0])
-                - if !last_parameters[4].nil?
-                  %small.m-t-0.m-b-0
-                    = distance_of_time_in_words(last_parameters[1].to_i, Time.now.to_i)
-                    = truncate(last_parameters[3], length: 60, separator: ' ')
-                  %h4.bold.m-t-0.m-b-0
-                    D7. Emprendiendo en Megatendencias
-                  %small.text_ultimos_avances.m-t-0.m-b-0
-                    Curso: Emprendiendo en Megatendencias
-                  %small.block.p-t-10
-                    %button.btn.btn-success.btn-cons Resumir (56%)  
-            .row
-              .col-md-12.p-t-10
-                %small.m-t-0.m-b-0
-                  Hace 15 días
-                %h4.bold.m-t-0.m-b-0
-                  D7. Emprendiendo en Megatendencias
-                %small.text_ultimos_avances.m-t-0.m-b-0 
-                  Curso: Emprendiendo en Megatendencias
-                %small.block.p-t-10
-                  %button.btn.btn-success.btn-cons Resumir (56%)
-  .col-md-3
+.container-fluid
+  .row
+    .col-md-4
+    .col-md-5
+      #accordion.panel.panel-group.panel-transparent
+        .panel.panel-default.b-rad-sm
+          .panel-heading
+            %h4.panel-title
+              %a.collapsed.b-b{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseOne"} 
+                .text_ultimos_avances 
+                  Tus últimos avances
+                  %i.fa.fa-circle.opacity1
+                  %i.fa.fa-circle.opacity2
+                  %i.fa.fa-circle.opacity3
+                  %i.fa.fa-circle.opacity4
+          #collapseOne.panel-collapse.collapse
+            .panel-body.p-t-0
+              /= current_user.name
+              - current_user.get_update_move.each do |stat|
+                .row
+                  .panel-body
+                    .col-md-12.p-b-10.b-b
+                      %small.m-t-0.m-b-0
+                        - last_parameters = last_moved_program(stat.program)
+                        - if !last_parameters[4].nil?
+                          = distance_of_time_in_words(last_parameters[1].to_i, Time.now.to_i)
+                      %h4.bold.m-t-0.m-b-0
+                        = truncate(last_parameters[3], length: 60, separator: ' ')
+                      %small.text_ultimos_avances.m-t-0.m-b-0
+                        .bold
+                          Curso : 
+                          = stat.program.name
+                      %small.block.p-t-10
+                        = link_to dashboard_chapter_content_path(last_parameters[0]) do
+                          %button.btn.btn-sm.btn-success.btn-cons.m-b-10{:type => "button"}
+                            %i.fa.fa-play
+                            %span.bold Reanudar mis avances
+    .col-md-3
 .container-fluid.container-fixed-lg
   .row
     .col-md-12
@@ -76,94 +74,93 @@
         .panel-body
           .tab-content.m-b-30
             #tabTodos.tab-pane.active
-              .row
-                - unless @programs.nil?    
-                  - @programs.each do |program|
-                    .col-md-4.col-sm-6.col-xs-12.p-l-0
-                      .card.share.share-other.row{"data-social" => "item"}
-                        %a{:href => dashboard_program_path(program)}
-                          .card-header.card_height.text-white{ :style => "background: url(#{program.cover.url});" , class: "style_img_card" }
-                            %h5.text-complete.pull-left.fs-12.demo-fs-23
-                              .text-white.bold{id: "program_id#{program.id}"}
-                                = program.id
-                            .pull-right.small.hint-text
-                              .text-white.bold
-                                = program.rating
-                                %i.fa.fa-star
-                            .clearfix
-                            %h6.m-t-name_card
-                              %h6.text-top-name_card.b-b.text-white
-                                - if program.tipo == "construccion"
-                                  Construcción
-                                -elsif program.tipo == "elearning"
-                                  e-learning
-                                -elsif program.tipo.nil?
-                                  Emprendimiento
-                              = program.name
-                        %a{:href => dashboard_program_path(program)}
-                        - @current_user.programs.each do |personal|
-                          - if program.name == personal.name
-                            - seen_progress = @current_user.percentage_content_visited_for(program)
-                            - answered_progress = @current_user.percentage_questions_answered_for(program)
-                            .min-height
-                              - if
-                                #accordion.panel.panel-group.panel-transparent{"data-toggle" => "collapse"}
-                                  .panel
-                                    .panel-heading.p-m_style.p-b-0
-                                      %h4.panel-title.none-width
-                                        %a.collapsed{"data-caja" => "#{program.id}", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{program.id}"}
-                                      %button.btn.btn-success
-                                        -if seen_progress == 0 
-                                          Comenzar
-                                          %i.fa.fa-play.font-size-play
-                                        -elsif seen_progress > 0 && seen_progress < 100
-                                          Continuar
-                                          (#{seen_progress}%)
-                                        -elsif seen_progress == 100 && answered_progress < 100
-                                          Continuar
-                                          (#{answered_progress}%)
-                                        -elsif seen_progress == 100 && answered_progress == 100
-                                          Completado
-                                      .ver.inline-block.bold.text_mostrar-ocultar_info.m-l-50
-                                        Más información
-                                    .panel-collapse.collapse{:id => "collapsee#{program.id}"}
-                                      .panel-body
-                                        .text-color-dificultad.bold
-                                          - if program.level == "basico"
-                                            Basico
-                                          -elsif program.level == "intermedio"
-                                            Intermedio
-                                          -elsif program.level == "avanzado"
-                                            Avanzado
-                                          -elsif program.level.nil?
-                                            No especificado
-                                        .b-t.p-t-5
-                                          = program.description
-                                        .pull-left
-                                          .m-t-10.bold
-                                            #{answered_progress}% contestado
-                                          .progress.m-b-5
+              - unless @programs.nil?    
+                - @programs.each_slice(3) do |slice|
+                  .row
+                    - slice.each do |program|
+                      .col-md-4.col-sm-6.col-xs-12.p-l-0.p_phone
+                        /.super-card-container
+                        .card.share.share-other{"data-social" => "item"}
+                          %a{:href => dashboard_program_path(program)}
+                            .card-header.card_height.text-white{ :style => "background: url(#{program.cover.url});" , class: "style_img_card" }
+                              %h5.text-complete.pull-left.fs-12.demo-fs-23
+                                .text-white.bold{id: "program_id#{program.id}"}
+                                  = program.id
+                              .pull-right.small.hint-text
+                                .text-white.bold
+                                  = program.rating
+                                  %i.fa.fa-star
+                              .clearfix
+                              %h6.m-t-name_card
+                                %h6.text-top-name_card.b-b.text-white
+                                  - if program.tipo == "construccion"
+                                    Construcción
+                                  -elsif program.tipo == "elearning"
+                                    e-learning
+                                  -elsif program.tipo.nil?
+                                    Emprendimiento
+                                = program.name
+                          %a{:href => dashboard_program_path(program)}
+                          - @current_user.programs.each do |personal|
+                            - if program.name == personal.name
+                              - seen_progress = @current_user.percentage_content_visited_for(program)
+                              - answered_progress = @current_user.percentage_questions_answered_for(program)
+                              .min-height
+                                - if
+                                  #accordion.panel.panel-group.panel-transparent.m-b-0{"data-toggle" => "collapse"}
+                                    .panel
+                                      .panel-heading.p-m_style.p-b-0.m-b-14.m-b-3
+                                        %h4.panel-title.none-width
+                                          %a.collapsed{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{program.id}", id: "collap#{program.id}"}
+                                          %a.newlink.collapsed{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{program.id}", id: "collap#{program.id}"}
+                                        %button.btn.btn-success.m-t--10
+                                          -if seen_progress == 0 
+                                            Comenzar
+                                            %i.fa.fa-play.font-size-play
+                                          -elsif seen_progress > 0 && seen_progress < 100
+                                            Continuar
+                                            (#{seen_progress}%)
+                                          -elsif seen_progress == 100 && answered_progress < 100
+                                            Continuar
+                                            (#{answered_progress}%)
+                                          -elsif seen_progress == 100 && answered_progress == 100
+                                            Completado
+                                      .panel-collapse.collapse{:id => "collapsee#{program.id}"}
+                                        .panel-body.m-t-3
+                                          .text-color-dificultad.bold
+                                            - if program.level == "basico"
+                                              Basico
+                                            -elsif program.level == "intermedio"
+                                              Intermedio
+                                            -elsif program.level == "avanzado"
+                                              Avanzado
+                                            -elsif program.level.nil?
+                                              No especificado
+                                          .b-t.p-t-5
+                                            = truncate(program.description, length: 80, separator: ' ')
+                                          .row
+                                            .pull-left.m-l-15
+                                              .m-t-10.bold
+                                                #{answered_progress}% contestado
+                                            .pull-right.m-r-15
+                                              .m-t-10.bold.opacity_05
+                                                (#{seen_progress}%) visto
+                                          .progress.m-b-5.m-t-5
                                             .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
-                                        .pull-right
-                                          .m-t-10.bold
-                                            (#{seen_progress}%) visto
-
-
-                              
+                                  :javascript
+                                    var y = true;
+                                    $("#collap" + #{program.id}).click(function() {
+                                      y = !y;
+                                      if(y){
+                                        $("#ver" + #{program.id}).text("Más información");
+                                      } else {
+                                        $("#ver" + #{program.id}).text("Ocultar información");
+                                      }
+                                    });
+                         
             #tabConstruccion.tab-pane
               .p 
                 Construcción                     
             #tab-e-learning.tab-pane
               .p e-Learning
-:javascript
-  var y = true;
-  $( "a.collapsed" ).click(function() {
-    console.log($(this).data("caja"))
-    y = !y;
-    if(y){
-      $(".ver").text("Más información");
-    } else {
-      $(".ver").text("Ocultar información");
-    }
-  });
 
