@@ -18,6 +18,13 @@ class Dashboard::WelcomeController < ApplicationController
 
   def support
     add_breadcrumb "<a class='active' href='#{dashboard_support_path}'>Ayuda</a>".html_safe
+    last_program = current_user.get_last_program
+    last_content = ChapterContent.find(last_program.get_last_move(last_program, current_user).chapter_content_id)
+    if last_content.coursable_type == "Lesson"
+        @last_content_title = last_content.model.identifier
+      else
+        @last_content_title = last_content.model.question_text
+    end
   end
 
   def service
@@ -40,9 +47,9 @@ class Dashboard::WelcomeController < ApplicationController
   def send_support_email
 
     if params[:raw_subject].present? == false || params[:message].present? == false
-      flash_message = { alert: 'ERROR: No olvides escribir asunto y mensaje.'}
+      flash_message = { alert: 'No olvides escribir asunto y mensaje.'}
     elsif params[:urgency] == 'none' || params[:matter] == 'none'
-      flash_message = { alert: 'ERROR: Recuerda seleccionar urgencia y clasificación.'}
+      flash_message = { alert: 'Recuerda seleccionar urgencia y clasificación.'}
     else
       MentorHelp.create
       unless params[:file].nil?
@@ -54,7 +61,7 @@ class Dashboard::WelcomeController < ApplicationController
       @recipients.each do |recipient, index|
         if recipient[:type] == 'soporte'
           subject = "Solicitud de soporte EDC-Digital: " + params[:raw_subject]
-          Support.contact(subject, params[:message], params[:urgency], params[:matter], current_user, chapter, params[:signature], recipient[:adress],uploaded_io).deliver_now
+          Support.contact(subject, params[:message], params[:urgency], params[:matter], current_user, chapter, params[:signature], recipient[:adress], params[:program], params[:last_content], uploaded_io).deliver_now
           flash_message = { notice: 'Su mensaje ha sido enviado.'}
         else
           subject = "Recibimos tu mensaje: " + params[:raw_subject]
