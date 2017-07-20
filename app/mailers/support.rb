@@ -2,7 +2,7 @@ class Support
 
   FROM = "soporte-edcdigital@distritoemprendedor.com"
 
-  def self.contact(subject, message, urgency, matter, user, chapter, signature, recipient,attachment)
+  def self.contact(subject, message, urgency, matter, user, chapter, signature, recipient, program, chaptercontent, attachment)
     require "base64"
     if attachment.nil?  
       data = {
@@ -17,6 +17,8 @@ class Support
               "-urgency-" => urgency,
               "-matter-" => matter,
               "-message-" => message,
+              "-program-" => program,
+              "-last_content-" => chaptercontent
             },
             subject: subject
           },
