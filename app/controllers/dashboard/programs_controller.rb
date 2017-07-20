@@ -11,12 +11,9 @@ class Dashboard::ProgramsController < ApplicationController
     ids=[]
     if current_user.student?
       unless current_user.group.nil? 
-<<<<<<< HEAD
         @programs = current_user.group.programs
         @activo = ['active', '','']
-=======
         @programs = current_user.group.programs.order(:position)
->>>>>>> development
       end  
     elsif current_user.mentor?
       current_user.groups.each do |g|
@@ -26,9 +23,7 @@ class Dashboard::ProgramsController < ApplicationController
           end
         end  
       end
-<<<<<<< HEAD
       @programs = Program.where(id: ids)
-
     end  
     
     if params[:tipo]=="elearning"
@@ -37,7 +32,6 @@ class Dashboard::ProgramsController < ApplicationController
     elsif params[:tipo]=="construccion"
       @programs=@programs.where(tipo: 1)
       @activo = ['', 'active','']
-=======
       @programs = Program.where(id: ids).order(:position)
     end  
     
@@ -45,7 +39,6 @@ class Dashboard::ProgramsController < ApplicationController
       @programs=@programs.where(tipo: 0).order(:position)
     elsif params[:tipo]=="construccion"
       @programs=@programs.where(tipo: 1).order(:position)
->>>>>>> development
     end
 
     if params[:level]=="basico"
