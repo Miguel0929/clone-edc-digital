@@ -1,0 +1,30 @@
+= bootstrap_form_for @template_refilable do |f|
+  = f.text_field :name, label: 'Nombre'
+  = f.text_area :description, label: 'Descripción'
+
+  %button.btn.btn-default#addRefilable
+    Agregar rellenable
+  = f.text_area :content, ckeditor: { language: 'es'}, id: 'ckeditor', label: 'Contenido'
+
+  = f.select :group_ids,  Group.all.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Grupos'}, multiple: 'multiple'
+  .actions
+    = f.submit 'Guardar'
+
+:javascript
+  $( document ).on('turbolinks:load', function() {
+
+    var editor = CKEDITOR.replace('ckeditor')
+    console.log(editor)
+
+
+    editor.addCommand("AddRefilable", {
+      exec: function(edt) {
+        edt.insertHtml("{{rellenable}}")
+      }
+    });
+
+    $('#addRefilable').click(function(e){
+      e.preventDefault();
+      editor.execCommand( 'AddRefilable' );
+    })
+  });
