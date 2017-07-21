@@ -198,6 +198,7 @@ Rails.application.routes.draw do
       end
 
       resources :delireverable_users, only: [:edit, :update]
+      resources :refilables, only: [:show, :edit, :update]
     end
     resources :comments, only: [:index, :create, :update] do
       collection do
