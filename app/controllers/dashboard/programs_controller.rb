@@ -11,9 +11,9 @@ class Dashboard::ProgramsController < ApplicationController
     ids=[]
     if current_user.student?
       unless current_user.group.nil? 
-        @group_programs = current_user.group.group_programs.order(:position)
+        @programs = current_user.group.group_programs.order(:position)
         @activo = ['active', '','']
-      end  
+      end
     elsif current_user.mentor?
       current_user.groups.each do |g|
         g.programs.each do |p|
@@ -22,39 +22,34 @@ class Dashboard::ProgramsController < ApplicationController
           end
         end  
       end
-      @programs = Program.where(id: ids)
-    end  
-    
-    if params[:tipo]=="elearning"
-      @programs=@programs.where(tipo: 0)
-      @activo = ['', '','active']
-    elsif params[:tipo]=="construccion"
-      @programs=@programs.where(tipo: 1)
-      @activo = ['', 'active','']
       @programs = Program.where(id: ids).order(:position)
     end  
     
     if params[:tipo]=="elearning"
-      @programs=@programs.where(tipo: 0).order(:position)
+      @programs = current_user.group.group_programs.joins(:program).where(programs: { tipo: "0"}).order(:position)
+      @activo = ['', '','active']
     elsif params[:tipo]=="construccion"
-      @programs=@programs.where(tipo: 1).order(:position)
+      @programs = current_user.group.group_programs.joins(:program).where(programs: { tipo: "1"}).order(:position)
+      @activo = ['', 'active','']
     end
 
     if params[:level]=="basico"
-      @programs=@programs.where(level: 0).order(:position)
+      @programs = current_user.group.group_programs.joins(:program).where(programs: { level: "0"}).order(:position)
     elsif params[:level]=="intermedio"
-      @programs=@programs.where(level: 1).order(:position)
+      @programs = current_user.group.group_programs.joins(:program).where(programs: { level: "1"}).order(:position)
     elsif params[:level]=="avanzado"  
-      @programs=@programs.where(level: 2).order(:position)
+      @programs = current_user.group.group_programs.joins(:program).where(programs: { level: "2"}).order(:position)
     end
 
     if params[:orden]=="tipo"
-      @programs=@programs.order(:tipo)
+      userprograms = current_user.group.programs.order(:tipo)
+      @programs = userprograms.map { |p| p.group_programs.find_by(group_id: current_user.group.id) }
     elsif params[:orden]=="ruta"
-      @programs=@programs.order("group_programs.position")  
+      @programs = current_user.group.group_programs.order(:position)
     elsif params[:orden]=="abc"
-      @programs=@programs.order(name: :asc) 
-    end  
+      userprograms = current_user.group.programs.order(name: :asc)
+      @programs = userprograms.map { |p| p.group_programs.find_by(group_id: current_user.group.id) }
+    end 
 
   end
 

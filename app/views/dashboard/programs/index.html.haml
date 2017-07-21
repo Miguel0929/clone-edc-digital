@@ -17,7 +17,7 @@
                
 
 
-  .panel
+  .panel.container-fluid
     .row
       .col-md-4
       .col-md-5
@@ -75,7 +75,7 @@
         .panel-body
           .tab-content.m-b-30
             #tabTodos.tab-pane.active
-              - @group_programs.each do |p|
+              - @programs.each do |p|
                 - unless p.program.nil?    
                   .col-md-4.col-sm-6.col-xs-12.p-l-0.p_phone
                     .super-card-container
@@ -115,7 +115,7 @@
                                       - last_parameters = last_moved_program(p.program)
                                       - if !last_parameters[4].nil?
                                         = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
-                                          %button.btn.btn-success.m-t--10.opacity__1
+                                          %button.btn.btn-success.m-t--10.opacity__1.p-l-10.p-r-10
                                             -if seen_progress == 0 
                                               Comenzar
                                               %i.fa.fa-play.font-size-play
