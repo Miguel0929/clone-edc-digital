@@ -32,23 +32,23 @@
               .col-md-2.col-md-offset-1{:style =>"position: relative; top:20px;"}
                 = f.submit 'Filtrar programas', :class => 'btn btn-sm btn-primary programs-filter-btn' 
           %br
-          - unless @programs.nil?    
-            - @programs.each do |program|
+          - @programs.each do |p|
+            - unless p.program.nil?
               .col-md-4.col-sm-6.col-xs-12.tarjeta-programa
                 .card.share.share-other{"data-social" => "item"}
                   .card-content
-                    %a{:href => dashboard_program_path(program)}
-                      = image_tag(program.cover.url)
-                    %a{:href => dashboard_program_path(program)}
+                    %a{:href => dashboard_program_path(p.program)}
+                      = image_tag(p.program.cover.url)
+                    %a{:href => dashboard_program_path(p.program)}
                       .card-header.clearfix
                         %h5
-                          = program.name
+                          = p.program.name
                         %h6
-                          = program.description
+                          = p.program.description
                   - @current_user.programs.each do |personal|
-                    - if program.name == personal.name
-                      - seen_progress = @current_user.percentage_content_visited_for(program)
-                      - answered_progress = @current_user.percentage_questions_answered_for(program)
+                    - if p.program.name == personal.name
+                      - seen_progress = @current_user.percentage_content_visited_for(p.program)
+                      - answered_progress = @current_user.percentage_questions_answered_for(p.program)
                       .p-b-10
                         - if answered_progress == 0 && seen_progress == 0
                           .progress.m-b-5

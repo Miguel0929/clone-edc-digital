@@ -9,8 +9,8 @@ class Dashboard::ProgramsController < ApplicationController
     ids=[]
     if current_user.student?
       unless current_user.group.nil? 
-        @programs = current_user.group.programs.order(:position)
-      end  
+        @programs = current_user.group.group_programs.order(:position)
+      end
     elsif current_user.mentor?
       current_user.groups.each do |g|
         g.programs.each do |p|
@@ -23,25 +23,33 @@ class Dashboard::ProgramsController < ApplicationController
     end  
     
     if params[:tipo]=="elearning"
-      @programs=@programs.where(tipo: 0).order(:position)
+      #@programs=@programs.where(tipo: 0).order(:position)
+      @programs = GroupProgram.joins(:program).where(programs: { tipo: "0"}).order(:position)
     elsif params[:tipo]=="construccion"
-      @programs=@programs.where(tipo: 1).order(:position)
+      #@programs=@programs.where(tipo: 1).order(:position)
+      @programs = GroupProgram.joins(:program).where(programs: { tipo: "1"}).order(:position)
     end
 
     if params[:level]=="basico"
-      @programs=@programs.where(level: 0).order(:position)
+      #@programs=@programs.where(level: 0).order(:position)
+      @programs = GroupProgram.joins(:program).where(programs: { level: "0"}).order(:position)
     elsif params[:level]=="intermedio"
-      @programs=@programs.where(level: 1).order(:position)
+      #@programs=@programs.where(level: 1).order(:position)
+      @programs = GroupProgram.joins(:program).where(programs: { level: "1"}).order(:position)
     elsif params[:level]=="avanzado"  
-      @programs=@programs.where(level: 2).order(:position)
+      #@programs=@programs.where(level: 2).order(:position)
+      @programs = GroupProgram.joins(:program).where(programs: { level: "2"}).order(:position)
     end
 
     if params[:orden]=="tipo"
-      @programs=@programs.order(:tipo)
+      #@programs=@programs.order(:tipo)
+      @programs=current_user.group.group_programs.order(:tipo)
     elsif params[:orden]=="ruta"
-      @programs=@programs.order("group_programs.position")  
+      #@programs=@programs.order("group_programs.position")  
+      @programs=current_user.group.group_programs.order(:tipo)
     elsif params[:orden]=="abc"
-      @programs=@programs.order(name: :asc) 
+      #@programs=@programs.order(name: :asc) 
+      @programs=current_user.group.group_programs.order(name: :asc)
     end  
 
   end
