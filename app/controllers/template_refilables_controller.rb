@@ -38,6 +38,15 @@ class TemplateRefilablesController < ApplicationController
     redirect_to template_refilables_path, notice: 'Rellenable eliminado'
   end
 
+  def sort
+    params[:template_refilable].each_with_index do |id, index|
+      TemplateRefilable.find(id).update_attributes({position: index + 1})
+    end
+
+    render nothing: true
+  end
+
+
   private
     def set_template_refilable
       @template_refilable = TemplateRefilable.find(params[:id])

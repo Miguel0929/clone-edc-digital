@@ -493,6 +493,7 @@ ActiveRecord::Schema.define(version: 20170720032720) do
     t.integer  "template_refilable_id"
     t.integer  "user_id"
     t.text     "content"
+    t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -594,6 +595,7 @@ ActiveRecord::Schema.define(version: 20170720032720) do
     t.string   "name"
     t.text     "description"
     t.text     "content"
+    t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

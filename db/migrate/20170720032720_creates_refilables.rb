@@ -4,6 +4,7 @@ class CreatesRefilables < ActiveRecord::Migration
       t.integer :template_refilable_id, index: true
       t.integer :user_id, index: true
       t.text :content
+      t.text :comments
 
       t.timestamps
     end

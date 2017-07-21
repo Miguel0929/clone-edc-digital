@@ -29,11 +29,19 @@
                 = refilable.description
               %td
                 - if user_refilable
+                  = user_refilable.status
                 - else
                   No contestado
               %td
                 - if user_refilable
+                  = user_refilable.comments ? user_refilable.comments : "N/A"
                 - else
                   N/A
               %td
-              %td
+                - if user_refilable
+                  %p
+                    = link_to 'Ver', dashboard_template_refilable_refilable_path(refilable, user_refilable)
+                  %p
+                    = link_to 'Editar', edit_dashboard_template_refilable_refilable_path(refilable, user_refilable)
+                - else
+                  = link_to 'Contestar', new_dashboard_template_refilable_refilable_path(refilable)

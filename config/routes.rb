@@ -133,7 +133,7 @@ Rails.application.routes.draw do
     end
 
     resources :template_refilables, only: [:index] do
-      resources :refilable_users, only: [:new, :create, :show, :edit, :update,]
+      resources :refilables, only: [:new, :create, :show, :edit, :update,]
     end
   end
 
@@ -297,5 +297,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :template_refilables
+  resources :template_refilables do
+    collection do
+      post :sort
+    end
+  end
 end

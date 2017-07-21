@@ -9,14 +9,17 @@
       %table.table.table-hover
         %thead
           %tr
+            %th
             %th Nombre
             %th Descripción
             %th Grupos
             %th Acciones
 
-        %tbody
+        %tbody.sortable{'data-update-url'=> url_prod_helper(sort_template_refilables_path())}
           - @template_refilables.each do |template_refilable|
-            %tr
+            %tr{id: "template_refilable_#{template_refilable.id}"}
+              %td.handle-sort
+                [mover]
               %td
                 = template_refilable.name
               %td

@@ -4,6 +4,7 @@ class CreatesTemplteRefillables < ActiveRecord::Migration
       t.string :name
       t.text :description
       t.text :content
+      t.integer :position
 
       t.timestamps
     end

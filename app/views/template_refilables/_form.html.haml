@@ -4,7 +4,7 @@
 
   %button.btn.btn-default#addRefilable
     Agregar rellenable
-  = f.text_area :content, label: 'Contenido', class: 'ckeditor'
+  = f.text_area :content, ckeditor: { language: 'es'}, id: 'ckeditor', label: 'Contenido'
 
   = f.select :group_ids,  Group.all.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Grupos'}, multiple: 'multiple'
   .actions
@@ -13,19 +13,18 @@
 :javascript
   $( document ).on('turbolinks:load', function() {
 
-    CKEDITOR.on('instanceReady', function() {
-      var editor = CKEDITOR.instances.template_refilable_content
+    var editor = CKEDITOR.replace('ckeditor')
+    console.log(editor)
 
-      editor.addCommand("AddRefilable", {
-        exec: function(edt) {
-          edt.insertHtml("{{rellenable}}")
-        }
-      });
+
+    editor.addCommand("AddRefilable", {
+      exec: function(edt) {
+        edt.insertHtml("{{rellenable}}")
+      }
     });
 
     $('#addRefilable').click(function(e){
       e.preventDefault();
-      var editor = CKEDITOR.instances.template_refilable_content
       editor.execCommand( 'AddRefilable' );
     })
   });
