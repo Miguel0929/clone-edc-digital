@@ -728,11 +728,10 @@ h6.cabecera_card-programas {
   position: relative;
   margin-top: -26px;
 }
-.super-card-container {
-  height: 450px;
-}
-.super-card-container_0 {
-  height: 0px;
+@media (min-width: 769px){
+  .super-card-container {
+    height: 450px;
+  }
 }
 .m-b-14{
   margin-bottom: 14px;
@@ -742,4 +741,7 @@ h6.cabecera_card-programas {
 }
 .opacity_05{
   opacity: 0.5;
+}
+.m-h-50{
+  min-height: 50px;
 }
