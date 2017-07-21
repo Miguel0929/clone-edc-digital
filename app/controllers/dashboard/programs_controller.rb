@@ -11,9 +11,8 @@ class Dashboard::ProgramsController < ApplicationController
     ids=[]
     if current_user.student?
       unless current_user.group.nil? 
-        @programs = current_user.group.programs
+        @group_programs = current_user.group.group_programs.order(:position)
         @activo = ['active', '','']
-        @programs = current_user.group.programs.order(:position)
       end  
     elsif current_user.mentor?
       current_user.groups.each do |g|
