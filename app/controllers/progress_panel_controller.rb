@@ -111,8 +111,7 @@ class ProgressPanelController < ApplicationController
 
   def program_detail
     @users = User.joins(:program_stats).where(program_stats: {program_id: params[:requested_program]})
-    @programs = Program.all
-    @groups = Group.all
+    @groups = @users.map{ |user| user.group}.uniq
     @hundred, @seventy, @fifty, @thirty = 0, 0, 0, 0
     @active_users, @inactive_users = [], 0
     # Para este punto los stats solo se han generado para usuarios activos en StudentsProgressJob
