@@ -1,9 +1,12 @@
 class  Dashboard::RefilablesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_template_refilable
+
   add_breadcrumb "EDCDIGITAL", :root_path
 
   def new
+    add_breadcrumb "Mis rellenables", dashboard_template_refilables_path
+    add_breadcrumb "<a class='active' href='#{new_dashboard_template_refilable_refilable_path(@template)}'>#{@template.name}</a>".html_safe
   end
 
   def create
@@ -16,10 +19,16 @@ class  Dashboard::RefilablesController < ApplicationController
 
   def show
     @refilable = Refilable.find(params[:id])
+
+    add_breadcrumb "Mis rellenables", dashboard_template_refilables_path
+    add_breadcrumb "<a class='active' href='#{dashboard_template_refilable_refilable_path(@template,  @refilable)}'>#{@template.name}</a>".html_safe
   end
 
   def edit
     @refilable = Refilable.find(params[:id])
+
+    add_breadcrumb "Mis rellenables", dashboard_template_refilables_path
+    add_breadcrumb "<a class='active' href='#{edit_dashboard_template_refilable_refilable_path(@template,  @refilable)}'>#{@template.name}</a>".html_safe
   end
 
   def update

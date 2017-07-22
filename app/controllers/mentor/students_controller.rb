@@ -110,6 +110,10 @@ class Mentor::StudentsController < ApplicationController
     @delireverables = Delireverable.joins(delireverable_package: [:groups])
                                     .where('groups.id = ?', @user.group.id)
                                     .order(position: :asc)
+
+    @refilables = TemplateRefilable.joins(:groups)
+                                    .where('groups.id = ?', @user.group.id)
+                                    .order(position: :asc)
   end
 
   def exports
