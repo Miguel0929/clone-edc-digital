@@ -12,8 +12,8 @@
 					.pull-right
 						= link_to progress_panel_index_path do
 							.btn.btn-info
-								%i.fa.fa-reply
-								Regresar a panel de avances por programa
+								%i.fa.fa-globe
+								Regresar a progreso general de EDC
 		.panel-body
 			.panel-heading
 				.pull-left
@@ -38,6 +38,8 @@
 									50% a 69%
 								%th.text-center
 									70% a 100%
+								%th.text-center{width: "10%"}
+									Total
 						%tbody
 							- @groups.each do |group|
 								%tr
@@ -57,4 +59,6 @@
 									%td.text-center.p-b-15
 										= #{((hundred.to_f / sumatory) * 100).round(1)}
 										= hundred
+									%td.text-center.p-b-15
+										= sumatory
 

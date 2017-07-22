@@ -70,11 +70,13 @@
 									50% a 69%
 								%th.text-center
 									70% a 100%
+								%th.text-center{width: "10%"}
+									Total
 						%tbody
 							- @programs.each do |program|
 								%tr
 									- program_stat = get_program_progress_strata(program)
-									- hundred, seventy, fifty, thirty, sumatory = program_stat[0], program_stat[1], program_stat[2], program_stat[3]#, program_stat.inject(0){|sum,x| sum + x } 
+									- hundred, seventy, fifty, thirty, sumatory = program_stat[0], program_stat[1], program_stat[2], program_stat[3], program_stat.inject(0){|sum,x| sum + x } 
 									%td.p-b-15
 										= link_to Program.find(program.id).name, {:controller => "progress_panel", :action => "program_detail", :requested_program => program.id }
 									%td.text-center.p-b-15
@@ -89,6 +91,8 @@
 									%td.text-center.p-b-15
 										= #((hundred.to_f / sumatory) * 100).round(1)
 										= hundred
+									%td.text-center.p-b-15
+										= sumatory
 			.row.m-b-40
 				%h3.p-b-10.p-l-15 Distribución de avances por programa
 				- @programs.each do |program|

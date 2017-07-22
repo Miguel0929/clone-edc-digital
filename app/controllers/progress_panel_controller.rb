@@ -110,6 +110,7 @@ class ProgressPanelController < ApplicationController
   end
 
   def program_detail
+    add_breadcrumb "<a class='active' href='#{ progress_per_program_path }'>Panel de progreso de programa</a>".html_safe
     @users = User.joins(:program_stats).where(program_stats: {program_id: params[:requested_program]})
     @groups = @users.map{ |user| user.group}.uniq
     @hundred, @seventy, @fifty, @thirty = 0, 0, 0, 0
@@ -125,17 +126,17 @@ class ProgressPanelController < ApplicationController
     @active_users.each do |active|
       sum = []
       average = 0
-      userstat = ProgramStat.where(user_id: active.id)
-      userstat.each do |stat|
-        current_progress = stat.program_progress
-        if !current_progress.nil? then sum << current_progress end
-      end
-      average = sum.inject(0.0) { |adding, el| adding + el }.to_f / sum.size
-      if average >= 70.0
+      userstat = ProgramStat.find_by(user_id: active.id, program_id: params[:requested_program]).program_progress
+      #userstat.each do |stat|
+      #  current_progress = stat.program_progress
+      #  if !current_progress.nil? then sum << current_progress end
+      #end
+      #average = sum.inject(0.0) { |adding, el| adding + el }.to_f / sum.size
+      if userstat >= 70.0
         @hundred = @hundred + 1
-      elsif average >= 50.0
+      elsif userstat >= 50.0
         @seventy = @seventy + 1
-      elsif average >= 30.0
+      elsif userstat >= 30.0
         @fifty = @fifty + 1
       else
         @thirty = @thirty + 1
