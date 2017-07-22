@@ -15,7 +15,7 @@ class Mentor::RefilablesController < ApplicationController
 
   def update
     add_breadcrumb "<a class='active' href='#{edit_mentor_student_refilable_path(@user, @refilable)}'>#{@refilable.template_refilable.name}</a>".html_safe
-    
+
     @refilable.update(refilable_params)
 
     redirect_to mentor_student_path(@user), notice: 'Rellenable actualizado'
