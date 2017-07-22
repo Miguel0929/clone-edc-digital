@@ -683,14 +683,14 @@ h6.cabecera_card-programas {
   padding: 15px 15px 12px;
 }
 .card_height{
-  height: 210px;
+  height: 200px;
 }
 .none-width{
   width: 0px !important;
   padding: 0px !important;
 }
 .m-t-name_card{
-  margin-top: 110px !important;
+  margin-top: 115px !important;
 }
 .text-top-name_card{
   font-style: italic;
@@ -728,20 +728,28 @@ h6.cabecera_card-programas {
   position: relative;
   margin-top: -26px;
 }
-@media (min-width: 769px){
-  .super-card-container {
-    height: 450px;
-  }
+.super-card-container {
+  height: 330px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .m-b-14{
   margin-bottom: 14px;
 }
 .m-t-3{
   margin-top: -15px;
+  padding-left: 30px !important;
+  padding-right: 30px !important;
 }
 .opacity_05{
   opacity: 0.5;
 }
 .m-h-50{
   min-height: 50px;
+}
+
+.panel-heading.p-m_style.p-b-0.m-b-14.m-b-3.new-margin {
+  padding-top: 8px;
+  margin-bottom: 10px;
 }

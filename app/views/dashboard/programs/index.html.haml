@@ -75,40 +75,42 @@
         .panel-body
           .tab-content.m-b-30
             #tabTodos.tab-pane.active
-              - @programs.each do |p|
-                - unless p.program.nil?
-                  .col-md-4.col-sm-6.col-xs-12.p-l-0.p_phone
-                    .super-card-container
-                      .card.share.share-other{"data-social" => "item"}
-                        %a{:href => dashboard_program_path(p.program)}
-                          .card-header.card_height.text-white{ :style => "background: url(#{p.program.cover.url});" , class: "style_img_card" }
-                            %h5.text-complete.pull-left.fs-12.demo-fs-23
-                              .text-white.bold{id: "program_id#{p.program.id}"}
-                                = p.position
-                            .pull-right.small.hint-text
-                              .text-white.bold
-                                = p.program.rating
-                                %i.fa.fa-star
-                            .clearfix
-                            %h6.m-t-name_card
-                              %h6.text-top-name_card.b-b.text-white
-                                - if p.program.tipo == "construccion"
-                                  Construcción
-                                -elsif p.program.tipo == "elearning"
-                                  e-learning
-                                -elsif p.program.tipo.nil?
-                                  Emprendimiento
-                              = p.program.name
-                        %a{:href => dashboard_program_path(p.program)}
-                        - @current_user.programs.each do |personal|
-                          - if p.program.name == personal.name
+              - @programs.each_slice(2) do |p|
+                .row
+                  - p.each do |p|
+                    - unless p.program.nil?
+                      .col-md-6.col-sm-6.col-xs-12.p-l-0.p_phone
+                        .super-card-container
+                          .card.share.share-other{"data-social" => "item"}
+                            %a{:href => dashboard_program_path(p.program)}
+                              .card-header.card_height.text-white{ :style => "background: url(#{p.program.cover.url});" , class: "style_img_card" }
+                                %h5.text-complete.pull-left.fs-12.demo-fs-23
+                                  .text-white.bold{id: "program_id#{p.program.id}"}
+                                    = p.position
+                                .pull-right.small.hint-text
+                                  .text-white.bold
+                                    = p.program.rating
+                                    %i.fa.fa-star
+                                .clearfix
+                                %h6.m-t-name_card
+                                  %h6.text-top-name_card.b-b.text-white
+                                    - if p.program.tipo == "construccion"
+                                      Construcción
+                                    -elsif p.program.tipo == "elearning"
+                                      e-learning
+                                    -elsif p.program.tipo.nil?
+                                      Emprendimiento
+                                  = truncate(p.program.name, length: 50, separator: ' ')
+                            /%a{:href => dashboard_program_path(p.program)}
+                            /- @current_user.programs.each do |personal|
+                            /- if p.program.name == personal.name
                             - seen_progress = @current_user.percentage_content_visited_for(p.program)
                             - answered_progress = @current_user.percentage_questions_answered_for(p.program)
                             .min-height
                               - if
                                 #accordion.panel.panel-group.panel-transparent.m-b-0
                                   .panel
-                                    .panel-heading.p-m_style.p-b-0.m-b-14.m-b-3
+                                    .panel-heading.p-m_style.p-b-0.m-b-14.m-b-3.new-margin
                                       %h4.panel-title.none-width
                                         %a.collapsed.collap{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{p.program.id}", id: "collap#{p.program.id}"}
                                         %a.newlink.collapsed{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{p.program.id}", id: "collap#{p.program.id}"}
@@ -178,9 +180,4 @@
                                     }
                                   });
                            
-            #tabConstruccion.tab-pane
-              .p 
-                Construcción                     
-            #tab-e-learning.tab-pane
-              .p e-Learning
 
