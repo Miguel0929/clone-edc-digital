@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170718225927) do
+ActiveRecord::Schema.define(version: 20170722170955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,17 @@ ActiveRecord::Schema.define(version: 20170718225927) do
     t.string  "coursable_type"
     t.integer "position"
   end
+
+  create_table "chapter_stats", force: :cascade do |t|
+    t.integer  "checked",    default: 0
+    t.integer  "user_id"
+    t.integer  "chapter_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "chapter_stats", ["chapter_id"], name: "index_chapter_stats_on_chapter_id", using: :btree
+  add_index "chapter_stats", ["user_id"], name: "index_chapter_stats_on_user_id", using: :btree
 
   create_table "chapters", force: :cascade do |t|
     t.string   "name"
@@ -635,6 +646,8 @@ ActiveRecord::Schema.define(version: 20170718225927) do
     t.integer  "evaluation_status",                 default: 0
     t.boolean  "banned",                            default: false
     t.boolean  "video_trigger",                     default: true
+    t.float    "user_progress",                     default: 0.0
+    t.float    "user_seen",                         default: 0.0
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
@@ -679,6 +692,8 @@ ActiveRecord::Schema.define(version: 20170718225927) do
   add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
   add_index "visits", ["visit_token"], name: "index_visits_on_visit_token", unique: true, using: :btree
 
+  add_foreign_key "chapter_stats", "chapters"
+  add_foreign_key "chapter_stats", "users"
   add_foreign_key "glossaries", "glossary_categories"
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"

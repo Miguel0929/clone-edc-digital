@@ -55,13 +55,13 @@
                           .col-sm-12
                             .small.p-b-5
                               %span.small-text Porcentaje contestado: 
-                              %span.text-success.font-montserrat.small-text #{@user.answered_questions_percentage}%
+                              %span.text-success.font-montserrat.small-text #{@user.user_progress.ceil}%
                             .progress.progress-small.m-b-5
                               .progress-bar.progress-bar-primary{:style => "width: #{@user.answered_questions_percentage}%"}
                           .col-sm-12
                             .small.p-b-5
                               %span.small-text Porcentaje visto: 
-                              %span.text-success.font-montserrat.small-text #{@user.content_visited_percentage}%
+                              %span.text-success.font-montserrat.small-text #{@user.user_seen.ceil}%
                             .progress.progress-small.m-b-5
                               .progress-bar.progress-bar-primary{:style => "width: #{@user.content_visited_percentage}%"}
           .m-b-10.panel.panel-default

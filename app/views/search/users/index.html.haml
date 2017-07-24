@@ -24,7 +24,10 @@
                 = user.id
               %td.p-b-15
                 .m-t-0
-                  = link_to user.name,  mentor_path(user)
+                  - if current_user.admin?
+                    = link_to user.name, user_path(user)
+                  - else
+                    = link_to user.name, mentor_student_path(user)
                 %ul.p-l-0.m-b-0
                   %li.inline
                     %i.fa.fa-envelope
@@ -63,24 +66,31 @@
                       = link_to mentor_path(user) do
                         %i.fa.fa-eye
                         Ver información
-                    %li
-                      = link_to edit_mentor_path(user) do
-                        %i.fa.fa-edit
-                        Editar
-                    %li
-                      = link_to mentor_path(user), method: :delete, data: { confirm: '¿Estás seguro?' } do
-                        %i.fa.fa-times
-                        Eliminar
+                    - if current_user.admin?
+                      %li
+                        = link_to edit_mentor_path(user) do
+                          %i.fa.fa-edit
+                          Editar
+                      %li
+                        = link_to mentor_path(user), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                          %i.fa.fa-times
+                          Eliminar
                   - elsif user.student?
-                    %li
-                      = link_to user_path(user) do
-                        %i.fa.fa-eye
-                        Ver información
-                    %li
-                      = link_to edit_user_path(user) do
-                        %i.fa.fa-edit
-                        Editar
-                    %li
-                      = link_to user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' } do
-                        %i.fa.fa-times
-                        Eliminar
+                    %li                        
+                      - if current_user.admin?
+                        = link_to user_path(user) do
+                          %i.fa.fa-eye
+                          Ver información
+                      - else
+                        = link_to mentor_student_path(user) do
+                          %i.fa.fa-eye
+                          Ver información
+                    - if current_user.admin?
+                      %li
+                        = link_to edit_user_path(user) do
+                          %i.fa.fa-edit
+                          Editar
+                      %li
+                        = link_to user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                          %i.fa.fa-times
+                          Eliminar

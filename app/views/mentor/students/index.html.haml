@@ -23,17 +23,17 @@
           /%input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
           .form-group
             %div.input-group
-              %input#mentor_students.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
-              %span.input-group-addon.font-search
+              %input#mentor_students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+              %span.input-group-addon.panel-title-recursos
                 %i.fa.fa-search.text-white
       .clearfix
     .panel-body
       .row.inline-block
         = form_tag(mentor_students_path, method: :get) do
           %a#collap
-            #headingfiltros.panel-heading.font-search
+            #headingfiltros.panel-heading.panel-title-recursos
               %h4.panel-title.search-title.text-white.ver
-                Ver Filtros de búsqueda :
+                Ver Filtros de búsqueda
           #ver_collap
             .col-md-12.learning-img
               %aside.sidebar-menu
@@ -93,11 +93,11 @@
                   .s-s-title
                     %i.fa.fa-book
                     Programa
-                    %i.fa.fa-asterisk.color__icon_program
+                    %i.fa.fa-asterisk.text-primary
                   = select_tag :program, options_from_collection_for_select(Program.all,:id, :name, params[:program]), {include_blank: "Seleccionar programa", class: "" }
             .col-md-12.m-t-15.m-l-10
               %i.row
-                %i.fa.fa-asterisk.color__icon
+                %i.fa.fa-asterisk.text-primary
                 Selecciona un programa para filtrar por el porcentaje de contenido contestado/visto    
             %br
             %br
@@ -167,12 +167,12 @@
                     %li.inline
                       %span.bold Contestado:
                     %li.inline 
-                      #{user.answered_questions_percentage rescue 0}%
+                      #{user.user_progress.ceil}%
                   %ul.p-l-0.m-b-0
                     %li.inline
                       %span.bold Visto:
                     %li.inline 
-                    #{user.content_visited_percentage rescue 0}%
+                    #{user.user_seen.ceil}%
                   %ul.p-l-0.m-b-0
                     %li.inline
                       %span.bold Status de evaluación:
@@ -203,9 +203,9 @@
     $( "#ver_collap" ).toggle("slow");
     x = !x;
     if(x){
-      $(".ver").text("Ver Filtros de búsqueda :");
+      $(".ver").text("Ver Filtros de búsqueda");
     } else {
-      $(".ver").text("Ocultar Filtros de búsqueda :");
+      $(".ver").text("Ocultar Filtros de búsqueda");
     }
     console.log(x);
   });
