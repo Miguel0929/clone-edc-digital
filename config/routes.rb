@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resources :progress_updater, only: [:show]
   get '/massive_program_progress', to: 'progress_panel#massive_program_progress', as: :massive_program_progress
   get '/progress_panel_groups', to: 'progress_panel#progress_groups', as: :progress_panel_groups
+  get '/progress_per_program', to: 'progress_panel#program_detail', as: :progress_per_program
 
   resources :programs do
     collection do

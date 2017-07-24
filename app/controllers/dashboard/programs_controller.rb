@@ -19,7 +19,8 @@ class Dashboard::ProgramsController < ApplicationController
           end
         end  
       end
-      @programs = Program.where(id: ids).order(:position)
+      userprograms = Program.where(id: ids).order(:position)
+      @programs = userprograms.map { |p| p.group_programs.first }
     end  
     
     if params[:tipo]=="elearning"

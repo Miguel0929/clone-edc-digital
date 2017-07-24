@@ -16,6 +16,9 @@ class StudentsProgressJob
           progress = progress + 1
           
           if student.status == 'Activo'
+            student_progress = student.answered_questions_percentage
+            student_seen = student.content_visited_percentage
+            student.update(user_progress: student_progress, user_seen: student_seen)
             prog_progress =  student.percentage_questions_answered_for(program)
             prog_seen =  student.percentage_content_visited_for(program)
             stat = ProgramStat.where(program_id: program.id, user_id: student.id).last

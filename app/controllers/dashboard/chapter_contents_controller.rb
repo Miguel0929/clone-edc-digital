@@ -59,17 +59,22 @@ class Dashboard::ChapterContentsController < ApplicationController
     #program = Program.joins(:chapters => :chapter_contents).where(chapter_contents: {id: @chapter_content.id}).last
     program = @chapter_content.chapter.program
     program_stat = ProgramStat.where(user_id: @current_user.id, program_id: program.id).last
-    progress = @current_user.percentage_questions_answered_for(program)
-    seen = @current_user.percentage_content_visited_for(program)
+    prog_progress = @current_user.percentage_questions_answered_for(program)
+    prog_seen = @current_user.percentage_content_visited_for(program)
+    user_stats = @current_user.program_stats
 
     if program_stat.nil?
-      new_stat = ProgramStat.create(user_id: @current_user.id, program_id: program.id, program_progress: progress, program_seen: seen)
+      new_stat = ProgramStat.create(user_id: @current_user.id, program_id: program.id, program_progress: prog_progress, program_seen: prog_seen)
     else
-      if progress == program_stat.program_progress || seen == program_stat.seen
+      if prog_progress == program_stat.program_progress || prog_seen == program_stat.seen
         program_stat.touch
       else
-        program_stat.update(program_progress: progress, program_seen: seen)
+        program_stat.update(program_progress: prog_progress, program_seen: prog_seen)
       end
     end
+
+    student_progress = @current_user.answered_questions_percentage
+    student_seen = @current_user.content_visited_percentage
+    @current_user.update(user_progress: student_progress, user_seen: student_seen)
   end
 end
