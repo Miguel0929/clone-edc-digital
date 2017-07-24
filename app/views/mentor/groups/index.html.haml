@@ -52,7 +52,7 @@
               %td.p-b-20
                 %ol.p-l-0.p-t-5
                   - group.programs.each_with_index do |program, index|
-                    .label.program-labels{"data-toggle": "tooltip", "data-original-title": "#{program.name}"}
+                    .label.m-b-5.program-labels{"data-toggle": "tooltip", "data-original-title": "#{program.name}"}
                       = !program.short_name.nil? ? program.short_name : "P-#{index}"
               %td.p-b-20
                 - group.users.each do |user|

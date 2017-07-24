@@ -78,6 +78,17 @@ ActiveRecord::Schema.define(version: 20170720032720) do
     t.integer "position"
   end
 
+  create_table "chapter_stats", force: :cascade do |t|
+    t.integer  "checked",    default: 0
+    t.integer  "user_id"
+    t.integer  "chapter_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "chapter_stats", ["chapter_id"], name: "index_chapter_stats_on_chapter_id", using: :btree
+  add_index "chapter_stats", ["user_id"], name: "index_chapter_stats_on_user_id", using: :btree
+
   create_table "chapters", force: :cascade do |t|
     t.string   "name"
     t.integer  "program_id"
@@ -664,6 +675,8 @@ ActiveRecord::Schema.define(version: 20170720032720) do
     t.integer  "evaluation_status",                 default: 0
     t.boolean  "banned",                            default: false
     t.boolean  "video_trigger",                     default: true
+    t.float    "user_progress",                     default: 0.0
+    t.float    "user_seen",                         default: 0.0
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
@@ -708,6 +721,8 @@ ActiveRecord::Schema.define(version: 20170720032720) do
   add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
   add_index "visits", ["visit_token"], name: "index_visits_on_visit_token", unique: true, using: :btree
 
+  add_foreign_key "chapter_stats", "chapters"
+  add_foreign_key "chapter_stats", "users"
   add_foreign_key "glossaries", "glossary_categories"
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"

@@ -194,7 +194,7 @@ class User < ActiveRecord::Base
     total_of_answers = group.programs.joins(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
     total_of_questions = group.programs.joins(chapters: [:questions]).select('questions.*').count
 
-    (total_of_answers * 100) / total_of_questions rescue 0
+    ((total_of_answers.to_f * 100) / total_of_questions.to_f).round(2) rescue 0
   end
 
   def content_visited_percentage
@@ -203,7 +203,7 @@ class User < ActiveRecord::Base
     total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id in (?)", group.programs.pluck(:id)).count
     total_of_contents = group.programs.joins(chapters: [:chapter_contents]).where("chapter_contents.coursable_type = 'Lesson'").count
 
-    (total_of_visited_contents * 100) / total_of_contents rescue 0
+    ((total_of_visited_contents.to_f * 100) / total_of_contents.to_f).round(2) rescue 0
   end
 
   def total_views_of_content(chapter_content)

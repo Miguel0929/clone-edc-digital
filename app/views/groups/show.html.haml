@@ -94,7 +94,7 @@
         .col-md-2.col-md-offset-10
           .form-group
             %div.input-group
-              %input#group_student.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
+              %input#group_student.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
               %span.input-group-addon.font-search
                 %i.fa.fa-search.text-white
       
@@ -124,11 +124,11 @@
                   .m-b-10
                     %i.fa.fa-edit
                     %span Preguntas contestadas:
-                    %strong #{student.content_visited_percentage}%
+                    %strong #{student.user_progress.ceil}%
                   .m-b-10
                     %i.fa.fa-eye
                     %span Contenido visto:
-                    %strong #{student.answered_questions_percentage}%
+                    %strong #{student.user_seen.ceil}%
                 %td
                   %ul.list-inline.no-style.unstyled
                     - @group.programs.each_with_index do |program, index|

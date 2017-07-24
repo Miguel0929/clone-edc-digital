@@ -40,11 +40,11 @@
                 %p.small.hint-text.m-t-5
                   %span
                     %i.fa.fa-line-chart
-                    Porcentaje contestado #{@user.answered_questions_percentage} %
+                    Porcentaje contestado #{@user.user_progress.ceil} %
                   %br
                   %span
                     %i.fa.fa-line-chart
-                    Porcentaje de avance #{@user.content_visited_percentage} %
+                    Porcentaje de avance #{@user.user_seen.ceil} %
                 %p.small.hint-text.m-t-5
                   %i.fa.fa-history
                   Ultima vez:
