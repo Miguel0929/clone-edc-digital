@@ -1,0 +1,47 @@
+- content_for :title  do
+  Mis rellenables - EDCdigital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      %h2
+        Mis rellenables
+      %table.table.table-hover
+        %thead
+          %tr
+            %th
+              Nombre
+            %th
+              Descripción
+            %th
+              Estatus
+            %th
+              Comentarios
+            %th
+              Acciones
+        %tbody
+          - @refilables.each do |refilable|
+            - user_refilable = refilable.refilables.find_by(user: current_user)
+            %tr
+              %td
+                = refilable.name
+              %td
+                = refilable.description
+              %td
+                - if user_refilable
+                  = user_refilable.status
+                - else
+                  No contestado
+              %td
+                - if user_refilable
+                  = user_refilable.comments ? user_refilable.comments : "N/A"
+                - else
+                  N/A
+              %td
+                - if user_refilable
+                  %p
+                    = link_to 'Ver', dashboard_template_refilable_refilable_path(refilable, user_refilable)
+                  %p
+                    = link_to 'Editar', edit_dashboard_template_refilable_refilable_path(refilable, user_refilable)
+                - else
+                  = link_to 'Contestar', new_dashboard_template_refilable_refilable_path(refilable)

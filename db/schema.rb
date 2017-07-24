@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170718225927) do
+ActiveRecord::Schema.define(version: 20170720032720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -251,6 +251,14 @@ ActiveRecord::Schema.define(version: 20170718225927) do
 
   add_index "group_stats", ["group_id"], name: "index_group_stats_on_group_id", using: :btree
 
+  create_table "group_template_refilables", force: :cascade do |t|
+    t.integer "group_id"
+    t.integer "template_refilable_id"
+  end
+
+  add_index "group_template_refilables", ["group_id"], name: "index_group_template_refilables_on_group_id", using: :btree
+  add_index "group_template_refilables", ["template_refilable_id"], name: "index_group_template_refilables_on_template_refilable_id", using: :btree
+
   create_table "group_users", force: :cascade do |t|
     t.integer "group_id"
     t.integer "user_id"
@@ -481,6 +489,18 @@ ActiveRecord::Schema.define(version: 20170718225927) do
   add_index "ratings", ["ratingable_type", "ratingable_id"], name: "index_ratings_on_ratingable_type_and_ratingable_id", using: :btree
   add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
 
+  create_table "refilables", force: :cascade do |t|
+    t.integer  "template_refilable_id"
+    t.integer  "user_id"
+    t.text     "content"
+    t.text     "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "refilables", ["template_refilable_id"], name: "index_refilables_on_template_refilable_id", using: :btree
+  add_index "refilables", ["user_id"], name: "index_refilables_on_user_id", using: :btree
+
   create_table "report_notifications", force: :cascade do |t|
     t.integer  "report_id"
     t.datetime "created_at", null: false
@@ -569,6 +589,15 @@ ActiveRecord::Schema.define(version: 20170718225927) do
 
   create_table "states", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "template_refilables", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.text     "content"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "trackers", force: :cascade do |t|

@@ -1,0 +1,34 @@
+- content_for :title  do
+  Mis rellenables - EDCdigital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      %h2
+        = @template.name
+      %p
+        = @template.description
+
+      .col-md-10.col-md-offset-1.well
+        #refilable-content-template
+          = raw replace_fillable(@refilable.content)
+
+        .refilable-form
+          = form_for([:dashboard, @template, @refilable]) do |f|
+            = f.hidden_field :content
+
+  %button.btn.btn-primary#send-refilable
+    Actualizar
+
+:javascript
+  $(document).on('turbolinks:load', function(){
+    $('.refilable-edit').editable();
+
+    $('#send-refilable').click(function() {
+      var $form = $('.edit_refilable');
+      var $template_content = $('#refilable-content-template');
+      $('#refilable_content').val($template_content.html());
+
+      $form.submit();
+    })
+  });

@@ -54,13 +54,13 @@
                         .row
                           .col-sm-12
                             .small.p-b-5
-                              %span.small-text Porcentaje contestado: 
+                              %span.small-text Porcentaje contestado:
                               %span.text-success.font-montserrat.small-text #{@user.answered_questions_percentage}%
                             .progress.progress-small.m-b-5
                               .progress-bar.progress-bar-primary{:style => "width: #{@user.answered_questions_percentage}%"}
                           .col-sm-12
                             .small.p-b-5
-                              %span.small-text Porcentaje visto: 
+                              %span.small-text Porcentaje visto:
                               %span.text-success.font-montserrat.small-text #{@user.content_visited_percentage}%
                             .progress.progress-small.m-b-5
                               .progress-bar.progress-bar-primary{:style => "width: #{@user.content_visited_percentage}%"}
@@ -85,12 +85,12 @@
                       .small
                         %span.hint-text
                           %i.fa.fa-clock-o.p-r-5
-                          Promedio de uso: 
+                          Promedio de uso:
                         %span.small-text.text-primary #{ @user.time_average.round(2) } minutos
                       .small
                         %span.hint-text
                           %i.fa.fa-clock-o.p-r-5
-                          Uso total: 
+                          Uso total:
                         %span.small-text.text-primary #{ @user.total_time.round(2) } minutos
         .col-md-9
           %table.table.resumen-table.table-striped.table-top-border.perfil-table
@@ -166,7 +166,7 @@
                   %div
                     = link_to program.name, mentor_evaluations_path(user_id: @user, program_id: program), :style => "font-size: 17px;"
                   - with_questions, without_questions = chapter_have_questions?(program)[0], chapter_have_questions?(program)[1]
-                  - if with_questions.count > 0 
+                  - if with_questions.count > 0
                     %p.hint-text.m-t-5.m-b-5 Módulos con preguntas:
                     %ul.list-inline.no-style.unstyled
                       - with_questions.each_with_index do |chapter, index|
@@ -198,12 +198,12 @@
                 %td.p-t-25
                   .m-b-10
                     %i.fa.fa-edit
-                    #{@user.questions_answered_for(program)} 
+                    #{@user.questions_answered_for(program)}
                     %span preguntas contestadas
                     %strong (#{@user.percentage_questions_answered_for(program)}%)
                   .m-b-10
                     %i.fa.fa-eye
-                    #{@user.content_visted_for(program)} 
+                    #{@user.content_visted_for(program)}
                     %span contenidos vistos
                     %strong (#{@user.percentage_content_visited_for(program)}%)
                 %td.p-r-0
@@ -215,7 +215,7 @@
                     %li.p-l-0.m-t-10
                       = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx) do
                         %i.fa.fa-file-excel-o
-                        Descargar Excel 
+                        Descargar Excel
                     %li.p-l-0.m-t-10
                       %input{type: "hidden", id: "user_key_#{@user.id}", value: @user.id}
                       %input{type: "hidden", id: "program_key_#{program.id}", value: program.id}
@@ -224,7 +224,7 @@
                           %form{:action => program_stats_path, 'data-remote': "true", method: :post, id: "edit_program_stat_#{program.id}"}
                             - if get_program_stat(@user, program).nil?
                               %input{type: "checkbox", id: "checking_program_#{program.id}", name: "program_stat[checked]"}
-                            - else 
+                            - else
                               - program_stats = get_program_stat(@user, program)
                               - if program_stats.checked == 1
                                 %input{type: "checkbox", id: "checking_program_#{program.id}", value: program_stats.checked, name: "program_stat[checked]", checked: :true}
@@ -241,7 +241,7 @@
                         var src3 = $("#program_key_" + #{program.id}).val();
                         $.ajax({
                         type: "post",
-                        url: "/save_program_stats", 
+                        url: "/save_program_stats",
                         data: {src, src2, src3},
                         success: function(data){
                         data.parents('form:first').submit();
@@ -352,6 +352,43 @@
                 - if user_delireverable
                   %p
                     = link_to 'Editar', edit_mentor_student_delireverable_user_path(@user, user_delireverable)
+
+  %h3
+    Entregables
+  .panel.panel-default
+    .panel-body.table-responsive
+      %table.table.table-hover
+        %thead
+          %tr
+            %th Nombre
+            %th Descripción
+            %th Estatus
+            %th Comentarios
+            %th Acciones
+        %tbody
+          - @refilables.each do |refilable|
+            - user_refilable = refilable.refilables.find_by(user: @user)
+            %tr
+              %td
+                = refilable.name
+              %td
+                = refilable.description
+              %td
+                - if user_refilable
+                  = user_refilable.status
+                - else
+                  No contestado
+              %td
+                - if user_refilable
+                  = user_refilable.comments ? user_refilable.comments : "N/A"
+                - else
+                  N/A
+              %td
+                - if user_refilable
+                  %p
+                  = link_to 'Ver', mentor_student_refilable_path(@user, user_refilable)
+                  %p
+                    = link_to 'Comentar', edit_mentor_student_refilable_path(@user, user_refilable)
 
   %h3
     Archivos compartidos con el usuario
