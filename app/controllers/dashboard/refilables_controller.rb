@@ -33,6 +33,10 @@ class  Dashboard::RefilablesController < ApplicationController
 
   def update
     @refilable = Refilable.find(params[:id])
+
+    @refilable.update(refilable_params)
+
+    redirect_to dashboard_template_refilable_refilable_path(@template,  @refilable)
   end
 
   private
