@@ -1,5 +1,5 @@
 - content_for :title  do
-	Panel de progreso - EDCdigital
+	Progreso de programa - EDCdigital
 
 .container-fluid.container-fixed-lg
 	.panel.panel-default
@@ -7,7 +7,9 @@
 			.row
 				.col-sm-12
 					.panel-title
-						Progreso general de EDC Digital
+						Progreso de programa: 
+						%span.text-primary
+							#{Program.find_by(id: params[:requested_program]).name}
 		.panel-body
 			.row.m-b-40.m-t-10
 				.col-sm-12
@@ -21,19 +23,14 @@
 								.btn.btn-info
 									%i.fa.fa-refresh
 									Actualizar datos
-						= link_to progress_panel_groups_path do
+						= link_to progress_panel_index_path do
 							.btn.btn-info
-								%i.fa.fa-group
-								Ver progreso por grupos
-						- if current_user.mentor?
-							= link_to mentor_groups_path do
-								.btn.btn-info
-									%i.fa.fa-reply
-									Regresar a mis grupos
+								%i.fa.fa-globe
+								Regresar a progreso general de EDC
 			.row.m-b-80
 				.col-sm-4
 					.col-sm-12
-						%h3.p-b-20 Alumos de EDC
+						%h3.p-b-20 Alumos del programa
 						= pie_chart [["Alumnos activos", @active_users.count], ["Alumnos inactivos", @inactive_users]]
 					.col-sm-12.text-center.p-t-15
 						%span.text-primary Alumnos activos: 
@@ -56,12 +53,12 @@
 						#{@hundred}
 			.row.m-b-80
 				.col-sm-12
-					%h3.p-b-10 Distribución de avances por programa
-					%table.table.table-striped
+					%h3.p-b-10 Distribución de avances del programa por grupos
+					%table.table.table-hover.datatable
 						%thead
 							%tr
 								%th
-									Programa
+									Grupo
 								%th.text-center
 									0% a 29%
 								%th.text-center
@@ -73,37 +70,23 @@
 								%th.text-center{width: "10%"}
 									Total
 						%tbody
-							- @progress_per_program.each do |program|
+							- @groups.each do |group|
 								%tr
+									- group_stat = get_program_group_progress_strata(group, params[:requested_program])
+									- hundred, seventy, fifty, thirty, sumatory = group_stat[0], group_stat[1], group_stat[2], group_stat[3], group_stat.inject(0){|sum,x| sum + x } 
 									%td.p-b-15
-										= link_to program[:name], {:controller => "progress_panel", :action => "program_detail", :requested_program => program[:id] }
+										= link_to group.name, progress_panel_path(group)
 									%td.text-center.p-b-15
-										= #((thirty.to_f / sumatory) * 100).round(1)
-										= program[:thirty]
+										= #{((thirty.to_f / sumatory) * 100).round(1)}
+										= thirty
 									%td.text-center.p-b-15
-										= #((fifty.to_f / sumatory) * 100).round(1)
-										= program[:fifty]
+										= #{((fifty.to_f / sumatory) * 100).round(1)}
+										= fifty
 									%td.text-center.p-b-15
-										= #((seventy.to_f / sumatory) * 100).round(1)
-										= program[:seventy]
+										= #{((seventy.to_f / sumatory) * 100).round(1)}
+										= seventy
 									%td.text-center.p-b-15
-										= #((hundred.to_f / sumatory) * 100).round(1)
-										= program[:hundred]
+										= #{((hundred.to_f / sumatory) * 100).round(1)}
+										= hundred
 									%td.text-center.p-b-15
-										= program[:sumatory]
-
-			.row.m-b-40
-				%h3.p-b-10.p-l-15 Distribución de avances por programa
-				- @progress_per_program.each do |program|
-					.col-sm-6
-						%h4
-							= truncate(program[:name], :length => 45, :separator => ' ')
-							(#{program[:sumatory]})
-						.padding-30
-							= bar_chart [ ["0% a 29%", program[:thirty]], ["30% a 49%", program[:fifty]], ["50% a 69%", program[:seventy]], ["70% a 100%", program[:hundred]] ]
-
-
-
-
-
-
+										= sumatory

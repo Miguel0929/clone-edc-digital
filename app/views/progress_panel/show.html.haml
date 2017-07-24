@@ -21,12 +21,8 @@
 						= link_to progress_panel_index_path do
 							.btn.btn-info
 								%i.fa.fa-globe
-								Ver progreso general de EDC
-						- if current_user.mentor?
-							= link_to mentor_groups_path do
-								.btn.btn-info
-									%i.fa.fa-group
-									Regresar a mis grupos
+								Regresar a progreso general de EDC
+
 			.row.m-b-80
 				.col-sm-4
 					.col-sm-12
@@ -55,6 +51,8 @@
 									50% a 69%
 								%th.text-center
 									70% a 100%
+								%th.text-center{width: "10%"}
+									Total
 						%tbody
 							- @progress_per_program_per_group.each do |program|
 								%tr
@@ -72,6 +70,8 @@
 									%td.text-center.p-b-15
 										=# ((hundred.to_f / sumatory) * 100).round(1)
 										= program[:hundred]
+									%td.text-center.p-b-15
+										= program[:sumatory]
 			.row.m-b-40
 				%h3.p-b-10.p-l-15 Distribución de avances por programa
 				- @progress_per_program_per_group.each do |program|
