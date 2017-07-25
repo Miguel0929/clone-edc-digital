@@ -103,7 +103,7 @@ class Dashboard::WelcomeController < ApplicationController
 
     redirect_to dashboard_calculator_path(:param_result => [sample_size, eighty_s, innovators_s, eighty_s_innovators, inn_early_s, eighty_s_y, innovators_n, eighty_n, inn_early_n, eighty_n_y, population])#(:param_result => sample_size)
   end
-  
+
   def notifications_panel
     add_breadcrumb "<a class='active' href='#{dashboard_notifications_panel_path}'>Panel de notificaciones</a>".html_safe
     @noti=PanelNotification.where(user: current_user)

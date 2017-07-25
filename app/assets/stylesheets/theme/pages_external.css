@@ -147,6 +147,16 @@ a.unseen-link:hover {
 .programs-filter-btn{
 }
 
+@media (min-width: 990px) {
+  .p-l-0-card {
+    /*background-color: red !important;*/
+    padding-left: 0px !important;
+  }
+  .p-r-0-image {
+  	padding-right: 0px !important;
+  }
+}
+
 .heading-right-answer{
 	background-color: #33ada1 !important;
 }
