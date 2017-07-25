@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
   layout :layout_by_resource
   helper_method :xeditable?
 
+  def xeditable? object = nil
+    true
+  end
+
   protected
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :phone_number, :email, :industry_id,:password, :password_confirmation, :agreement])

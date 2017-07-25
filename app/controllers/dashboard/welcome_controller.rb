@@ -19,12 +19,15 @@ class Dashboard::WelcomeController < ApplicationController
   def support
     add_breadcrumb "<a class='active' href='#{dashboard_support_path}'>Ayuda</a>".html_safe
     last_program = current_user.get_last_program
-    last_content = ChapterContent.find(last_program.get_last_move(last_program, current_user).chapter_content_id)
+    last_tracker = last_program.get_last_move(last_program, current_user)
+    last_chapter = last_tracker.chapter_content.chapter
+    last_content = last_tracker.chapter_content
     if last_content.coursable_type == "Lesson"
-        @last_content_title = last_content.model.identifier
+        last_content_title = last_content.model.identifier
       else
-        @last_content_title = last_content.model.question_text
+        last_content_title = last_content.model.question_text
     end
+    @last_content_address = "Programa: #{last_program.name} / Módulo: #{last_chapter.name} / Contenido: #{last_content_title}"
   end
 
   def service
@@ -100,7 +103,7 @@ class Dashboard::WelcomeController < ApplicationController
 
     redirect_to dashboard_calculator_path(:param_result => [sample_size, eighty_s, innovators_s, eighty_s_innovators, inn_early_s, eighty_s_y, innovators_n, eighty_n, inn_early_n, eighty_n_y, population])#(:param_result => sample_size)
   end
-  
+
   def notifications_panel
     add_breadcrumb "<a class='active' href='#{dashboard_notifications_panel_path}'>Panel de notificaciones</a>".html_safe
     @noti=PanelNotification.where(user: current_user)

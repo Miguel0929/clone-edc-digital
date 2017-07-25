@@ -7,5 +7,6 @@ class Dashboard::TemplateRefilablesController < ApplicationController
 
     @refilables = TemplateRefilable.joins(:groups)
                                     .where('groups.id = ?', current_user.group.id)
+                                    .order(position: :asc)
   end
 end
