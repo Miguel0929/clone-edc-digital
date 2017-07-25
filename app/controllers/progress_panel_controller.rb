@@ -129,15 +129,19 @@ class ProgressPanelController < ApplicationController
       #  if !current_progress.nil? then sum << current_progress end
       #end
       #average = sum.inject(0.0) { |adding, el| adding + el }.to_f / sum.size
-      if userstat >= 70.0
-        @hundred = @hundred + 1
-      elsif userstat >= 50.0
-        @seventy = @seventy + 1
-      elsif userstat >= 30.0
-        @fifty = @fifty + 1
-      else
+      if !userstat.nil?
+        if userstat >= 70.0
+          @hundred = @hundred + 1
+        elsif userstat >= 50.0
+          @seventy = @seventy + 1
+        elsif userstat >= 30.0
+          @fifty = @fifty + 1
+        else
+          @thirty = @thirty + 1
+        end
+      else 
         @thirty = @thirty + 1
-      end 
+      end
     end
   end
 
