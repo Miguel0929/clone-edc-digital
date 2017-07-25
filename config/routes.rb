@@ -132,6 +132,10 @@ Rails.application.routes.draw do
     resources :delireverables, only: [:index] do
       resources :delireverable_users, only: [:new, :create]
     end
+
+    resources :template_refilables, only: [:index] do
+      resources :refilables, only: [:new, :create, :show, :edit, :update,]
+    end
   end
 
 
@@ -193,8 +197,9 @@ Rails.application.routes.draw do
       member do
         get :analytics_quiz
       end
-      
+
       resources :delireverable_users, only: [:edit, :update]
+      resources :refilables, only: [:show, :edit, :update]
     end
     resources :comments, only: [:index, :create, :update] do
       collection do
@@ -291,6 +296,12 @@ Rails.application.routes.draw do
       collection do
         post :sort
       end
+    end
+  end
+
+  resources :template_refilables do
+    collection do
+      post :sort
     end
   end
 end
