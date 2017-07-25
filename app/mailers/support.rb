@@ -45,6 +45,8 @@ class Support
               "-urgency-" => urgency,
               "-matter-" => matter,
               "-message-" => message,
+              "-program-" => program,
+              "-last_content-" => chaptercontent
             },
             subject: subject
           },
