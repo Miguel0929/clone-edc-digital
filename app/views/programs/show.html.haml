@@ -62,4 +62,9 @@
                         = link_to 'Agregar pregunta', new_chapter_question_path(chapter), class: 'btn btn-primary'
 
             .text-center
-              = link_to 'Agregar módulo', new_program_chapter_path(@program), class: 'btn btn-primary'
+              = link_to  notify_changes_program_path,:method => 'post', class: 'btn btn-success pull-right m-l-10' do
+                %i.fa.fa-send
+                %span Notificar cambios de programa
+              = link_to new_program_chapter_path(@program), class: 'btn btn-primary pull-right' do
+                %i.fa.fa-plus
+                %span Agregar módulo

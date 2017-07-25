@@ -1,6 +1,6 @@
 class ProgramsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_program, only: [:show, :edit, :update, :destroy, :clone]
+  before_action :set_program, only: [:show, :edit, :update, :destroy, :clone, :notify_changes]
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -107,6 +107,11 @@ class ProgramsController < ApplicationController
     end
 
     render nothing: true
+  end
+
+  def notify_changes
+    NewContentNotificationJob.perform_async(@program, dashboard_program_url(@program))
+    redirect_to program_path(@program), notice: "Se notificó el cambio sobre el programa #{@program.name}"
   end
 
   private

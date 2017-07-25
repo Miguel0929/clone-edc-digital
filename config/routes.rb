@@ -45,6 +45,7 @@ Rails.application.routes.draw do
 
     member do
       post :clone
+      post :notify_changes
     end
   end
 
