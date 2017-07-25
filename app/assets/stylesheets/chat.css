@@ -643,3 +643,26 @@ p.mensaje{
 .ver{
   text-align: center;
 }
+
+/* <<<<< RUTA DE APRENDIZAJE >>>>>> */
+.timeline::before{
+  background: #757575 !important;
+}
+.none-width{
+  width: 0px !important;
+}
+.text-tipo-card-ruta{
+  color: #B32768;
+  font-style: italic;
+}
+.text-name-ruta{
+  color: #B32769;
+  line-height: 1;
+}
+.height-img{
+  height: 185px !important;
+  background-repeat: no-repeat  !important;
+  background-position-x: center !important;
+  background-position-y: center !important;
+  background-size: cover !important; 
+}

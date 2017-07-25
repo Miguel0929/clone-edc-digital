@@ -1,89 +1,139 @@
 - content_for :title  do
-	Ruta de aprendizaje - EDCdigital
+  Ruta de aprendizaje - EDCdigital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
-	%section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
-		.container
-			.md-p-l-20.md-p-r-20.xs-no-padding
-				.row.col-md-12
-					.col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
-						%h2.text-white 
-							¡Bienvenido a EDC-Digital!
-					.col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
-						%h5.text-white
-							Esta es tu ruta de aprendizaje
-						%p.m-b-25.text-white
-							Aquí podrás ver los cursos que te han sido asignados por nuestro equipo de expertos. Esta selección de programas fue diseñada en el orden óptimo para que realices tu viaje a través nuestra plataforma. Cada curso de tu ruta mostrará el porcentaje de progreso, de modo que siempre podrás tener una visión general de tus avances. ¿Estás listo para continuar?
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              ¡Bienvenido a EDC-Digital!
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Esta es tu ruta de aprendizaje
+            %p.m-b-25.text-white
+              Aquí podrás ver los cursos que te han sido asignados por nuestro equipo de expertos. Esta selección de programas fue diseñada en el orden óptimo para que realices tu viaje a través nuestra plataforma. Cada curso de tu ruta mostrará el porcentaje de progreso, de modo que siempre podrás tener una visión general de tus avances. ¿Estás listo para continuar?
 
 .container-fluid.sm-p-l-5
-	.timeline-container.top-circle
-		%section.timeline
-			.timeline-point.large.info.m-t-30
-				%button.timeline-point.large-transparent#btnToggleSlideUpSizeLearning{"data-toggle": "tooltip", "data-original-title": "Video introductorio"}
-					%i.fa.fa-play-circle{"aria-hidden"=>"true", style: "font-size: 24px; margin-left: -11px; margin-top: -12.5px;"}
-			.m-l-80.p-l-20#learning-video-message{style: "#{@modal_trigger ? '' : 'display: none;'}"}
-				.pull-right
-					%a.close-message-type#close-learning-message{href: "#", onclick: "return false;"} 
-						×
-				Aquí estará disponible el video introductorio siempre que lo necesites
-				.triangle-left
-			- @group_programs.each do |p|
-				- unless p.program.nil?
-					.timeline-block
-						.timeline-point.success
-							%i.pg-map{"aria-hidden"=>"true"}
-						.timeline-content
-							.card.share.share-other{"data-social" => "item"}
-								.card-content
-									.col-md-6.p-r-0-image
-										%a{:href => dashboard_program_path(p.program)}
-											= image_tag(p.program.cover.url, class: "img-rounded learning-img")
-									.col-md-6
-										%a{:href => dashboard_program_path(p.program)}
-											.card-header.p-l-0-card
-												%h5
-													= p.program.name
-												%h6
-													= p.program.description
-									.col-md-12			
-										.p-b-10
-											- seen_progress = @current_user.percentage_content_visited_for(p.program)
-											- answered_progress = @current_user.percentage_questions_answered_for(p.program)
-											- if answered_progress == 0 && seen_progress == 0
-												.progress
-													.progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
-												.p-b-10.p-r-15.m-b-10.m-t-5
-													.no-margin.pull-left{:style => "color: #5B4D91;"}
-														Curso no iniciado
-											- elsif answered_progress == 0 && seen_progress > 0
-												.progress
-													.progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
-												.p-b-10.p-r-15.m-b-10.m-t-5
-													.no-margin.pull-left{:style => "color: #5B4D91;"}
-														Curso no contestado
-													.no-margin.pull-right{:style => "color: #ada4d1;"}
-														#{seen_progress}% visto
-											- else
-												.progress
-													.progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
-												.p-b-10.p-r-15.m-b-10.m-t-5
-													.no-margin.pull-left{:style => "color: #5B4D91;"}
-														#{answered_progress}% de progreso
-													.no-margin.pull-right{:style => "color: #ada4d1;"}
-														#{seen_progress}% visto
-							.event-date
-								%h6.font-montserrat.all-caps.hint-text.m-t-0 
-								%small.fs-12.hint-text
+  .timeline-container.top-circle
+    %section.timeline
+      .timeline-point.large.info.m-t-30
+        %button.timeline-point.large-transparent#btnToggleSlideUpSizeLearning{"data-toggle": "tooltip", "data-original-title": "Video introductorio"}
+          %i.fa.fa-play-circle{"aria-hidden"=>"true", style: "font-size: 24px; margin-left: -11px; margin-top: -12.5px;"}
+      .m-l-80.p-l-20#learning-video-message{style: "#{@modal_trigger ? '' : 'display: none;'}"}
+        .pull-right
+          %a.close-message-type#close-learning-message{href: "#", onclick: "return false;"} 
+            ×
+        Aquí estará disponible el video introductorio siempre que lo necesites
+        .triangle-left
+      - @group_programs.each do |p|
+        - unless p.program.nil?
+          .timeline-block
+            .timeline-point.panel-title-emprendimiento
+              /%i.pg-map{"aria-hidden"=>"true"}
+            .timeline-content
+              .card.share.share-other{"data-social" => "item"}
+                .card-content
+                  %a{:href => dashboard_program_path(p.program)}
+                    .col-md-6.p-l-0.p-r-0{ :style => "background: url(#{p.program.cover.url});" , class: "height-img" }
+                  .col-md-6
+                    %a{:href => dashboard_program_path(p.program)}
+                      %h6.text-tipo-card-ruta.b-b
+                        - if p.program.tipo == "construccion"
+                          Construcción
+                        -elsif p.program.tipo == "elearning"
+                          e-learning
+                        -elsif p.program.tipo.nil?
+                          Emprendimiento
+                      %h5.text-name-ruta.bold
+                        = p.program.name
+                      - seen_progress = @current_user.percentage_content_visited_for(p.program)
+                      - answered_progress = @current_user.percentage_questions_answered_for(p.program)
+                      - last_parameters = last_moved_program(p.program)
+                      .text-black
+                        - if !last_parameters[4].nil?
+                          -if seen_progress == 0 
+                            No haz iniciado este curso.
+                          -elsif seen_progress > 0 && seen_progress < 49
+                            Vas bien, sigue así.
+                          -elsif seen_progress > 0 && seen_progress < 99
+                            ¡Excelente!, Ya casi terminas.
+                          -elsif seen_progress > 0 && seen_progress == 100
+                            Genial, has completado este curso.
+                          -elsif seen_progress == 100 && answered_progress == 0
+                            Genial, has completado este curso.
+                          -elsif seen_progress == 100 && answered_progress < 49
+                            Vas bien, sigue así.
+                          -elsif seen_progress == 100 && answered_progress < 99
+                            ¡Excelente!, Ya casi terminas
+                          -elsif seen_progress == 100 && answered_progress == 100
+                            Genial, has completado este curso.
+                        - elsif
+                          -if seen_progress == 0 
+                            No haz iniciado este curso.
+                      .m-t-30
+                        - if !last_parameters[4].nil?
+                          -if seen_progress == 0 
+                            = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10.opacity__1
+                                Comenzar
+                                %i.fa.fa-play.font-size-play
+                          -elsif seen_progress > 0 && seen_progress < 100
+                            = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10.opacity__1
+                                Continuar
+                                %span
+                                  (#{seen_progress}%)
+                          -elsif seen_progress == 100 && answered_progress == 0
+                            = link_to dashboard_program_path(p.program), class: "opacity__1" do
+                              %button.btn.btn-success.m-t--10.opacity__1
+                                Completado
+                          -elsif seen_progress == 100 && answered_progress < 100
+                            = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10.opacity__1
+                                Continuar
+                                %span
+                                  (#{seen_progress}%)
+                          -elsif seen_progress == 100 && answered_progress == 100
+                            = link_to dashboard_program_path(p.program), class: "opacity__1" do
+                              %button.btn.btn-success.m-t--10.opacity__1
+                                Completado
+                        - elsif
+                          = link_to dashboard_program_path(p.program), class: "opacity__1" do
+                            %button.btn.btn-complete.m-t--10.opacity__1
+                              -if seen_progress == 0 
+                                Comenzar
+                                %i.fa.fa-play.font-size-play
+                        - seen_progress = @current_user.percentage_content_visited_for(p.program)
+                        - answered_progress = @current_user.percentage_questions_answered_for(p.program)
+                        .min-height{ :style => "display:inline-block;"}
+                          - if
+                            #accordion.panel.panel-group.panel-transparent.m-b-0{ :style => "display:inline-block;"}
+                              .panel
+                                .panel-heading.p-m_style.p-b-0.m-b-14.m-b-3.new-margin
+                                  %h4.panel-title.none-width
+                                    %a.collapsed.collap{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{p.program.id}", id: "collap#{p.program.id}"}
+                  .panel-collapse.collapse{:id => "collapsee#{p.program.id}"}
+                    .m-t-3.padding-15
+                      .text-color-dificultad.bold
+                        Descripción
+                      .b-t.p-t-5.m-h-50
+                        = truncate(p.program.description, length: 80, separator: ' ')
+                      
+              .event-date
+                %h6.font-montserrat.all-caps.hint-text.m-t-0 
+                %small.fs-12.hint-text
 %input{type: "radio", value: @modal_trigger.to_s, name: "modal_trigger", checked: true, hidden: true}
-#modalSlideUpLearning.modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1"}		
-	.modal-dialog.modal-lg{style: "width: 900px;"}
-		.modal-content-wrapper
-			.modal-content
-				.modal-header.clearfix.text-left
-					%button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
-						%i.pg-close.fs-14
-					%h3.text-primary.text-center
-						¡Bienvenido a EDC-Digital!
-				.modal-body
-					.embed-responsive.embed-responsive-16by9
-						%iframe.embed-responsive-item{:src => "https://player.vimeo.com/video/188382978"}
+#modalSlideUpLearning.modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1"}    
+  .modal-dialog.modal-lg{style: "width: 900px;"}
+    .modal-content-wrapper
+      .modal-content
+        .modal-header.clearfix.text-left
+          %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
+            %i.pg-close.fs-14
+          %h3.text-primary.text-center
+            ¡Bienvenido a EDC-Digital!
+        .modal-body
+          .embed-responsive.embed-responsive-16by9
+            %iframe.embed-responsive-item{:src => "https://player.vimeo.com/video/188382978"}
