@@ -22,24 +22,24 @@
         .col-sm-10
           = form_tag(dashboard_send_support_email_path, class: 'form-horizontal', multipart: true, onsubmit: "return validar()") do
             .form-group
-              %label.col-sm-3.control-label{:for => "raw_subject"} Asunto
+              %label.col-sm-3.control-label{:for => "raw_subject"} Asunto *
               .col-sm-9
                 %input#correo.form-control{:name => "raw_subject", :placeholder => "Aquí va tu asunto", :required => "", :type => "text"}/
             .form-group
-              %label.col-sm-3.control-label{:for => "urgency"} Nivel de urgencia
+              %label.col-sm-3.control-label{:for => "urgency"} Nivel de urgencia *
               .col-sm-9
                 %select.full-width.form-control.minimal{name: 'urgency', :required => ""}
-                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Por favor selecciona que la urgencia de tu mensaje
+                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Selecciona el nivel de urgencia de tu mensaje
                   %option{:value => "Esto es solo un mensaje"} Esto es solo un mensaje
                   %option{:value => "Estaré bien, pero por favor arreglen esto"} Estaré bien, pero por favor arreglen esto
                   %option{:value => "Estoy atorado, nada de lo que hago funciona"} Estoy atorado, nada de lo que hago funciona
                   %option{:value => "Esto me está matando"} Esto me está matando
                   %option{:value => "Emergencia: Esto es crítico"} Emergencia: Esto es crítico
             .form-group
-              %label.col-sm-3.control-label{:for => "matter"} Clasificación
+              %label.col-sm-3.control-label{:for => "matter"} Clasificación *
               .col-sm-9
                 %select.full-width.form-control.minimal{name: 'matter', :required => ""}
-                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Por favor clasifica tu mensaje
+                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Clasifica tu mensaje
                   %option{:value => "Comentario"} Comentario
                   %option{:value => "Sugerencia"} Sugerencia
                   %option{:value => "Duda sobre el contenido"} Tengo una duda sobre el contenido
@@ -47,7 +47,7 @@
                   %option{:value => "Duda sobre mi idea de negocio"} Tengo una duda sobre mi idea de negocio
                   %option{:value => "Retroalimentación sobre mi idea de negocio"} Me gustaría recibir retroalimentación sobre mi idea de negocio
             .form-group
-              %label.col-sm-3.control-label{:for => "message"} Descripción detallada de tu mensaje o problema
+              %label.col-sm-3.control-label{:for => "message"} Descripción detallada de tu mensaje o problema *
               .col-sm-9
                 %textarea.form-control{:rows => "8", :placeholder => "Describe aquí el problema o lo que estás enfrentando", name: 'message', :required => ""}
             .form-group
@@ -64,7 +64,7 @@
                   ¿Requieres adjuntar un archivo para ilustrar tu mensaje? Puedes hacerlo aquí:
                 .m-b-10
                   = file_field(:file,:attachment)
-            %input{:name => "last_content", value: @last_content_title, hidden: true}
+            %input{:name => "last_content", value: @last_content_address, hidden: true}
 
             .clearfix
             .row.m-t-15
