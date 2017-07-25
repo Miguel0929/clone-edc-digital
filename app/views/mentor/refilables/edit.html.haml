@@ -1,0 +1,8 @@
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      %h2.text-center
+        Agregar comentarios
+      = bootstrap_form_for([:mentor, @user, @refilable], url: mentor_student_refilable_path(@user, @refilable), method: :put) do |f|
+        = f.text_area :comments, label: 'Comentarios', rows: 5
+        = f.submit 'Guardar'
