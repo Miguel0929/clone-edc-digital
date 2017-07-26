@@ -1,6 +1,7 @@
 class ProgramsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_program, only: [:show, :edit, :update, :destroy, :clone, :notify_changes]
+  before_action :set_program, only: [:show, :edit, :update, :destroy, :clone, :notify_changes, :notify_null]
+  before_action :set_pending_content_notifications, only: [:show, :notify_changes, :notify_null]
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -13,7 +14,6 @@ class ProgramsController < ApplicationController
   def show
     add_breadcrumb "Programas", :programs_path
     add_breadcrumb "<a class='active' href='#{program_path(@program)}'>#{@program.name}</a>".html_safe
-
   end
 
   def new
@@ -110,8 +110,14 @@ class ProgramsController < ApplicationController
   end
 
   def notify_changes
+    @pending_content_notifications.map{|queue| queue.update(sent: true)}
     NewContentNotificationJob.perform_async(@program, dashboard_program_url(@program))
     redirect_to program_path(@program), notice: "Se notificó el cambio sobre el programa #{@program.name}"
+  end
+
+  def notify_null
+    @pending_content_notifications.delete_all
+    redirect_to program_path(@program), notice: "Se eliminaron las notificaciones pendientes"
   end
 
   private
@@ -121,5 +127,9 @@ class ProgramsController < ApplicationController
 
   def set_program
     @program = Program.find(params[:id])
+  end
+
+  def set_pending_content_notifications
+    @pending_content_notifications = QueueNotification.where(program: @program.id, category: [0, 1, 2, 3], sent: false)
   end
 end

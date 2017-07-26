@@ -25,6 +25,7 @@ class QuestionsController < ApplicationController
     if @question.save
       @chapter.questions << @question
       #NewContentNotificationJob.perform_async(@chapter.program, dashboard_program_url(@chapter.program)) #Se llevó a método program#notify_changes
+      QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "up-question-#{@question.id}")
       redirect_to @chapter.program, notice: "Se creo exitosamente la pregunta #{@question.question_text}"
     else
       render :new
@@ -41,6 +42,7 @@ class QuestionsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{edit_chapter_question_path(@chapter, @question)}'>#{@question.question_text}</a>".html_safe
 
     if @question.update_attributes(question_params)
+      QueueNotification.create(category: 3, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "edit-question-#{@question.id}")
       redirect_to @chapter.program, notice: "Se actualizó exitosamente la pregunta  #{@question.question_text}"
     else
       render :edit
@@ -51,6 +53,13 @@ class QuestionsController < ApplicationController
     ActiveRecord::Base.transaction do
       ChapterContent.where({coursable_type: 'Question', coursable_id: @question.id}).delete_all
       @question.destroy
+    end
+
+    up_notification = QueueNotification.find_by(category: 2, detail: "up-question-#{@question.id}", sent: false)
+    if !up_notification.nil?
+      up_notification.destroy
+    else
+      QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "down-question-#{@question.id}")
     end
 
     redirect_to @chapter.program, notice: "Se eliminó exitosamente la pregunta #{@question.question_text}"

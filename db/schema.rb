@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170722170955) do
+ActiveRecord::Schema.define(version: 20170725222220) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -453,6 +453,15 @@ ActiveRecord::Schema.define(version: 20170722170955) do
     t.text     "support_text"
     t.integer  "points"
     t.string   "support_image"
+  end
+
+  create_table "queue_notifications", force: :cascade do |t|
+    t.integer "category"
+    t.integer "program"
+    t.text    "groups"
+    t.string  "url"
+    t.string  "detail"
+    t.boolean "sent",     default: false
   end
 
   create_table "quiz_answers", force: :cascade do |t|
