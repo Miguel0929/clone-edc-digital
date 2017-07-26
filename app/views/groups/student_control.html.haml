@@ -22,7 +22,7 @@
 							%button.btn.btn-primary.no-opacity
 								%i.fa.fa-plus
 								Agregar alumnos
-						%button.btn.btn-danger{:type => "submit", :form => "delete_users"}
+						%button.btn.btn-danger{:type => "submit", :form => "delete_users", data: { confirm: '¿Estás seguro?' }}
 							%i.fa.fa-times
 							Eliminar alumnos
 			.clearfix
@@ -48,14 +48,14 @@
 								%td.p-t-15.p-b-15
 									= user.phone_number
 								%td.p-t-15.p-b-15	
-									= check_box_tag "users_ids[]", user.id 
+									= check_box_tag "users_ids[]", user.id
 									%span.p-l-5.text-complete
-										= label_tag	"users_ids[]", "Desvincular alumno"	
+										= "Desvincular alumno"	
 
 			.row.m-b-10.m-t-20
 				.col-sm-8.pull-right
 					.pull-right
-						%button.btn.btn-danger{:type => "submit", :form => "delete_users"}
+						%button.btn.btn-danger{:type => "submit", :form => "delete_users", data: { confirm: '¿Estás seguro?' }}
 							%i.fa.fa-times
 							Eliminar alumnos
 

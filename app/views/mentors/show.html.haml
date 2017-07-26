@@ -8,7 +8,7 @@
       %span.glyphicon.glyphicon-edit
     - if current_user.admin?
       - color = @user.banned? ? "btn-success" : "btn-danger"
-      = link_to change_state_mentor_path(@user), class: "btn #{color}  pull-right" do
+      = link_to change_state_mentor_path(@user), class: "btn #{color}  pull-right", data: { confirm: '¿Estás seguro?' } do
         - @user.banned? ? "Desbloquear usuario" :  "Bloquear usuario"    
   .panel.panel-default
     .panel-body

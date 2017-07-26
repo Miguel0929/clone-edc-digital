@@ -10,7 +10,7 @@
       - if current_user.admin?
         - color = @user.banned? ? "btn-success" : "btn-danger"
         .pull-right
-          = link_to change_state_user_path(@user), class: "btn #{color}  pull-right m-l-10" do
+          = link_to change_state_user_path(@user), class: "btn #{color}  pull-right m-l-10", data: { confirm: '¿Estás seguro?' } do
             - @user.banned? ? "<i class= 'fa fa-check'></i> Desbloquear usuario" :  "<i class= 'fa fa-times'></i> Bloquear usuario"
         .pull-right
           = link_to edit_user_path(@user), class: "btn btn-primary pull-right m-l-10" do
@@ -169,7 +169,7 @@
                   #{@user.content_visted_for(program)}
                   %span contenidos vistos
                   %strong (#{@user.percentage_content_visited_for(program)}%)
-              - if current_user.admin?
+              - if current_user.admin? && !@user.group.nil?
                 %td.p-b-15
                   = !@user.group.programs.exists?(program) ? "No disponible" : "Disponible"
                 %td.p-b-15
@@ -205,13 +205,14 @@
                 Calificación
               %th
           %tbody
-            - @user.group.quizzes.each do |quiz|
-              %tr
-                %td= quiz.name
-                %td= quiz.quiz_questions.count
-                %td= quiz.answered(@user)
-                %td= quiz.average(@user)
-                %td= link_to "Ver detalle", analytics_quiz_user_path(@user, quiz_id: quiz)
+            - unless @user.group.nil? 
+              - @user.group.quizzes.each do |quiz|
+                %tr
+                  %td= quiz.name
+                  %td= quiz.quiz_questions.count
+                  %td= quiz.answered(@user)
+                  %td= quiz.average(@user)
+                  %td= link_to "Ver detalle", analytics_quiz_user_path(@user, quiz_id: quiz)
 
 
   - if current_user.admin?
