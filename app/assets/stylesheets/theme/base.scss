@@ -10265,6 +10265,64 @@ Main components
     right: 118%;
     text-align: right;
   }
+  .timeline-container:not(.left) .timeline .timeline-block:nth-child(odd) .timeline-content .card::after{
+    left: 100%;
+    top: 12%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(136, 183, 213, 0);
+    border-left-color: #757575;
+    border-width: 15px;
+    margin-top: -15px;
+  }
+  .timeline-container:not(.left) .timeline .timeline-block:nth-child(even) .timeline-content::before{
+    right: 100%;
+    top: 12%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(136, 183, 213, 0);
+    border-right-color: #757575;
+    border-width: 15px;
+    margin-top: -15px;
+  }
+}
+@media only screen and (max-width: 900px){
+  .timeline-container:not(.left) .timeline .timeline-block:nth-child(even) .timeline-content::before{
+    right: 100%;
+    top: 12%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(136, 183, 213, 0);
+    border-right-color: #757575;
+    border-width: 15px;
+    margin-top: -15px;
+  }
+  .timeline-container:not(.left) .timeline .timeline-block:nth-child(odd) .timeline-content .card::after{
+    right: 100%;
+    top: 12%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(136, 183, 213, 0);
+    border-right-color: #757575;
+    border-width: 15px;
+    margin-top: -15px;
+  }
 }
 @media only screen and (min-width: 900px) {
   /* inverse bounce effect on even content blocks */

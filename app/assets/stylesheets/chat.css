@@ -659,15 +659,25 @@ p.mensaje{
   color: #B32769;
   line-height: 1;
 }
+.height-0{
+  height: 0 !important;
+  min-height: 0 !important;
+}
+.inline-i{
+  display: initial !important;
+}
+.new-width-card{
+  width: 108% !important;
+}
 .height-img{
-  height: 185px !important;
+  height: 195px !important;
   background-repeat: no-repeat  !important;
   background-position-x: center !important;
   background-position-y: center !important;
   background-size: cover !important; 
 }
 .height-col-md-6{
-  height: 185px !important;
+  height: 195px !important;
 }
 .m-l-24{
   margin-left: 24px !important;
@@ -699,4 +709,20 @@ p.mensaje{
 .line-horizontal::after {
     right: -60px;
 }
+
+.arrow_box:after {
+  left: 100%;
+  top: 12%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-color: rgba(136, 183, 213, 0);
+  border-left-color: #757575;
+  border-width: 15px;
+  margin-top: -15px;
+}
+
 

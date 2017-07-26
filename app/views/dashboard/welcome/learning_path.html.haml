@@ -33,7 +33,7 @@
             .timeline-point.panel-title-emprendimiento
               /%i.pg-map{"aria-hidden"=>"true"}
             .timeline-content
-              .card.share.share-other.m-r-0{"data-social" => "item"}
+              .card.share.share-other.m-r-0.new-width-card{"data-social" => "item"}
                 .card-content
                   %a{:href => dashboard_program_path(p.program)}
                     .col-md-6.p-l-0.p-r-0{ :style => "background: url(#{p.program.cover.url});" , class: "height-img" }
@@ -76,42 +76,42 @@
                       - if !last_parameters[4].nil?
                         -if seen_progress == 0 
                           = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
-                            %button.btn.btn-complete.m-t--10.opacity__1
+                            %button.btn.btn-complete.btn-xs.m-t--10.opacity__1
                               Comenzar
                               %i.fa.fa-play.font-size-play
                         -elsif seen_progress > 0 && seen_progress < 100
                           = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
-                            %button.btn.btn-complete.m-t--10.opacity__1
+                            %button.btn.btn-complete.btn-xs.m-t--10.opacity__1
                               Continuar
                               %span
                                 (#{seen_progress}%)
                         -elsif seen_progress == 100 && answered_progress == 0
                           = link_to dashboard_program_path(p.program), class: "opacity__1" do
-                            %button.btn.btn-success.m-t--10.opacity__1
+                            %button.btn.btn-success.btn-xs.m-t--10.opacity__1
                               Completado
                         -elsif seen_progress == 100 && answered_progress < 100
                           = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
-                            %button.btn.btn-complete.m-t--10.opacity__1
+                            %button.btn.btn-complete.btn-xs.m-t--10.opacity__1
                               Continuar
                               %span
                                 (#{seen_progress}%)
                         -elsif seen_progress == 100 && answered_progress == 100
                           = link_to dashboard_program_path(p.program), class: "opacity__1" do
-                            %button.btn.btn-success.m-t--10.opacity__1
+                            %button.btn.btn-success.btn-xs.m-t--10.opacity__1
                               Completado
                       - elsif
                         = link_to dashboard_program_path(p.program), class: "opacity__1" do
-                          %button.btn.btn-complete.m-t--10.opacity__1
+                          %button.btn.btn-complete.btn-xs.m-t--10.opacity__1
                             -if seen_progress == 0 
                               Comenzar
                               %i.fa.fa-play.font-size-play
                       - seen_progress = @current_user.percentage_content_visited_for(p.program)
                       - answered_progress = @current_user.percentage_questions_answered_for(p.program)
-                    .min-height.inline-block.float-right.m-t-25
+                    .float-right.m-t-10
                       - if
                         #accordion.panel.panel-group.panel-transparent.m-b-0
-                          .panel
-                            .panel-heading.p-m_style.p-b-0.m-b-14.m-b-3.new-margin
+                          .panel.inline-i
+                            .panel-heading.p-b-0.height-0
                               %h4.panel-title.none-width
                                 %a.ruta.collapsed.collap{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{p.program.id}", id: "collap#{p.program.id}"}
                 .panel-collapse.collapse{:id => "collapsee#{p.program.id}"}
@@ -120,6 +120,15 @@
                       Descripción
                     .b-t.p-t-5.m-h-50
                       = truncate(p.program.description, length: 80, separator: ' ')
+                    .row
+                      .pull-left.m-l-15
+                        .m-t-10.bold
+                          #{answered_progress}% contestado
+                      .pull-right.m-r-15
+                        .m-t-10.bold.opacity_05
+                          (#{seen_progress}%) visto
+                    .progress.m-b-5.m-t-5
+                      .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
                       
               .event-date
                 %h6.font-montserrat.all-caps.hint-text.m-t-0 
