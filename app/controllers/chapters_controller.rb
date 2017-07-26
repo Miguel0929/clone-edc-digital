@@ -20,6 +20,7 @@ class ChaptersController < ApplicationController
     @chapter = @program.chapters.new(chapter_params)
 
     if @chapter.save
+      QueueNotification.create(category: 0, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "up-chapter-#{@chapter.id}")
       redirect_to @program, notice: "Se creo exitosamente el módulo #{@chapter.name}"
     else
       render :new
@@ -36,6 +37,7 @@ class ChaptersController < ApplicationController
     add_breadcrumb "<a class='active' href='#{program_chapter_path(@program, @chapter)}'>#{@chapter.name}</a>".html_safe
 
     if @chapter.update(chapter_params)
+      QueueNotification.create(category: 1, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "edit-chapter-#{@chapter.id}")
       redirect_to @program, notice: "Se actualizó exitosamente el módulo #{@chapter.name}"
     else
       render :edit
@@ -44,6 +46,12 @@ class ChaptersController < ApplicationController
 
   def destroy
      @chapter.destroy
+     up_notification = QueueNotification.find_by(category: 0, detail: "up-chapter-#{@chapter.id}", sent: false)
+     if !up_notification.nil?
+       up_notification.destroy
+     else
+       QueueNotification.create(category: 0, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "down-chapter-#{@chapter.id}")
+     end
 
      redirect_to @program, notice: "Se eliminó exitosamente el módulo #{@chapter.name}"
   end
