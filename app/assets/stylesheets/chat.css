@@ -681,3 +681,22 @@ p.mensaje{
 .text-frase{
   line-height: 1;
 }
+
+
+.line-horizontal::after, .line-horizontal::before {
+    border-bottom: 2px solid #757575;
+    bottom: 50%;
+    content: "";
+    margin: 0 10px;
+    position: absolute;
+    width: 100%;
+}
+
+.line-horizontal::before {
+    left: -60px;
+}
+
+.line-horizontal::after {
+    right: -60px;
+}
+
