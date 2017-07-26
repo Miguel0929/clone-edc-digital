@@ -37,89 +37,89 @@
                 .card-content
                   %a{:href => dashboard_program_path(p.program)}
                     .col-md-6.p-l-0.p-r-0{ :style => "background: url(#{p.program.cover.url});" , class: "height-img" }
-                  .col-md-6
-                    %a{:href => dashboard_program_path(p.program)}
-                      %h6.text-tipo-card-ruta.b-b
-                        - if p.program.tipo == "construccion"
-                          Construcción
-                        -elsif p.program.tipo == "elearning"
-                          e-learning
-                        -elsif p.program.tipo.nil?
-                          Emprendimiento
-                      %h5.text-name-ruta.bold
-                        = p.program.name
+                  .col-md-6.height-col-md-6
+                    /%a{:href => dashboard_program_path(p.program)}
+                    %h6.text-tipo-card-ruta.b-b
+                      - if p.program.tipo == "construccion"
+                        Construcción
+                      -elsif p.program.tipo == "elearning"
+                        e-learning
+                      -elsif p.program.tipo.nil?
+                        Emprendimiento
+                    %h5.text-name-ruta.bold
+                      = truncate(p.program.name, length: 45, separator: ' ')
+                    - seen_progress = @current_user.percentage_content_visited_for(p.program)
+                    - answered_progress = @current_user.percentage_questions_answered_for(p.program)
+                    - last_parameters = last_moved_program(p.program)
+                    .text-black.text-frase
+                      - if !last_parameters[4].nil?
+                        -if seen_progress == 0 
+                          No haz iniciado este curso.
+                        -elsif seen_progress > 0 && seen_progress < 49
+                          Vas bien, sigue así.
+                        -elsif seen_progress > 0 && seen_progress < 99
+                          ¡Excelente!, Ya casi terminas.
+                        -elsif seen_progress > 0 && seen_progress == 100
+                          Genial, has completado este curso.
+                        -elsif seen_progress == 100 && answered_progress == 0
+                          Genial, has completado este curso.
+                        -elsif seen_progress == 100 && answered_progress < 49
+                          Vas bien, sigue así.
+                        -elsif seen_progress == 100 && answered_progress < 99
+                          ¡Excelente!, Ya casi terminas
+                        -elsif seen_progress == 100 && answered_progress == 100
+                          Genial, has completado este curso.
+                      - elsif
+                        -if seen_progress == 0 
+                          No haz iniciado este curso.
+                    .float-left.m-t-40
+                      - if !last_parameters[4].nil?
+                        -if seen_progress == 0 
+                          = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                            %button.btn.btn-complete.m-t--10.opacity__1
+                              Comenzar
+                              %i.fa.fa-play.font-size-play
+                        -elsif seen_progress > 0 && seen_progress < 100
+                          = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                            %button.btn.btn-complete.m-t--10.opacity__1
+                              Continuar
+                              %span
+                                (#{seen_progress}%)
+                        -elsif seen_progress == 100 && answered_progress == 0
+                          = link_to dashboard_program_path(p.program), class: "opacity__1" do
+                            %button.btn.btn-success.m-t--10.opacity__1
+                              Completado
+                        -elsif seen_progress == 100 && answered_progress < 100
+                          = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                            %button.btn.btn-complete.m-t--10.opacity__1
+                              Continuar
+                              %span
+                                (#{seen_progress}%)
+                        -elsif seen_progress == 100 && answered_progress == 100
+                          = link_to dashboard_program_path(p.program), class: "opacity__1" do
+                            %button.btn.btn-success.m-t--10.opacity__1
+                              Completado
+                      - elsif
+                        = link_to dashboard_program_path(p.program), class: "opacity__1" do
+                          %button.btn.btn-complete.m-t--10.opacity__1
+                            -if seen_progress == 0 
+                              Comenzar
+                              %i.fa.fa-play.font-size-play
                       - seen_progress = @current_user.percentage_content_visited_for(p.program)
                       - answered_progress = @current_user.percentage_questions_answered_for(p.program)
-                      - last_parameters = last_moved_program(p.program)
-                      .text-black
-                        - if !last_parameters[4].nil?
-                          -if seen_progress == 0 
-                            No haz iniciado este curso.
-                          -elsif seen_progress > 0 && seen_progress < 49
-                            Vas bien, sigue así.
-                          -elsif seen_progress > 0 && seen_progress < 99
-                            ¡Excelente!, Ya casi terminas.
-                          -elsif seen_progress > 0 && seen_progress == 100
-                            Genial, has completado este curso.
-                          -elsif seen_progress == 100 && answered_progress == 0
-                            Genial, has completado este curso.
-                          -elsif seen_progress == 100 && answered_progress < 49
-                            Vas bien, sigue así.
-                          -elsif seen_progress == 100 && answered_progress < 99
-                            ¡Excelente!, Ya casi terminas
-                          -elsif seen_progress == 100 && answered_progress == 100
-                            Genial, has completado este curso.
-                        - elsif
-                          -if seen_progress == 0 
-                            No haz iniciado este curso.
-                      .m-t-30
-                        - if !last_parameters[4].nil?
-                          -if seen_progress == 0 
-                            = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
-                              %button.btn.btn-complete.m-t--10.opacity__1
-                                Comenzar
-                                %i.fa.fa-play.font-size-play
-                          -elsif seen_progress > 0 && seen_progress < 100
-                            = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
-                              %button.btn.btn-complete.m-t--10.opacity__1
-                                Continuar
-                                %span
-                                  (#{seen_progress}%)
-                          -elsif seen_progress == 100 && answered_progress == 0
-                            = link_to dashboard_program_path(p.program), class: "opacity__1" do
-                              %button.btn.btn-success.m-t--10.opacity__1
-                                Completado
-                          -elsif seen_progress == 100 && answered_progress < 100
-                            = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
-                              %button.btn.btn-complete.m-t--10.opacity__1
-                                Continuar
-                                %span
-                                  (#{seen_progress}%)
-                          -elsif seen_progress == 100 && answered_progress == 100
-                            = link_to dashboard_program_path(p.program), class: "opacity__1" do
-                              %button.btn.btn-success.m-t--10.opacity__1
-                                Completado
-                        - elsif
-                          = link_to dashboard_program_path(p.program), class: "opacity__1" do
-                            %button.btn.btn-complete.m-t--10.opacity__1
-                              -if seen_progress == 0 
-                                Comenzar
-                                %i.fa.fa-play.font-size-play
-                        - seen_progress = @current_user.percentage_content_visited_for(p.program)
-                        - answered_progress = @current_user.percentage_questions_answered_for(p.program)
-                        .min-height{ :style => "display:inline-block;"}
-                          - if
-                            #accordion.panel.panel-group.panel-transparent.m-b-0{ :style => "display:inline-block;"}
-                              .panel
-                                .panel-heading.p-m_style.p-b-0.m-b-14.m-b-3.new-margin
-                                  %h4.panel-title.none-width
-                                    %a.collapsed.collap{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{p.program.id}", id: "collap#{p.program.id}"}
-                  .panel-collapse.collapse{:id => "collapsee#{p.program.id}"}
-                    .m-t-3.padding-15
-                      .text-color-dificultad.bold
-                        Descripción
-                      .b-t.p-t-5.m-h-50
-                        = truncate(p.program.description, length: 80, separator: ' ')
+                    .min-height.inline-block.float-right.m-t-25
+                      - if
+                        #accordion.panel.panel-group.panel-transparent.m-b-0
+                          .panel
+                            .panel-heading.p-m_style.p-b-0.m-b-14.m-b-3.new-margin
+                              %h4.panel-title.none-width
+                                %a.ruta.collapsed.collap{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{p.program.id}", id: "collap#{p.program.id}"}
+                .panel-collapse.collapse{:id => "collapsee#{p.program.id}"}
+                  .padding-15
+                    .bold
+                      Descripción
+                    .b-t.p-t-5.m-h-50
+                      = truncate(p.program.description, length: 80, separator: ' ')
                       
               .event-date
                 %h6.font-montserrat.all-caps.hint-text.m-t-0 

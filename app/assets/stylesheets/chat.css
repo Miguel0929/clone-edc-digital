@@ -666,3 +666,18 @@ p.mensaje{
   background-position-y: center !important;
   background-size: cover !important; 
 }
+.height-col-md-6{
+  height: 185px !important;
+}
+.m-l-24{
+  margin-left: 24px !important;
+}
+.float-right{
+  float: right;
+}
+.float-left{
+  float: left;
+}
+.text-frase{
+  line-height: 1;
+}
