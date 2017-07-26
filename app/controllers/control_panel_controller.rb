@@ -14,34 +14,21 @@ class ControlPanelController < ApplicationController
     @attachments = Attachment.all
     @reports = Report.all
     @visits = Visit.where(started_at: 60.day.ago...Time.now)
-    @total_activados = @users.where(invitation_created_at: @users.second.invitation_created_at...Time.now, 
-                                  invitation_accepted_at: @users.second.invitation_created_at...Time.now).count - 
-                                 @users.where(invitation_created_at: 6.month.ago...Time.now, 
-                                            invitation_accepted_at: 6.month.ago...Time.now).count
 
-    @total_creados = @users.where(invitation_created_at: @users.second.invitation_created_at...Time.now, 
-                                invitation_accepted_at: nil).count -  
-                               @users.where(invitation_created_at: 6.month.ago...Time.now, 
-                                          invitation_accepted_at: nil).count
-    total_activos = @total_activados
-    @activados = (6.month.ago.to_date...Date.today).map do |date| 
-      total_activos += @users.where(invitation_accepted_at: date.beginning_of_day...date.end_of_day).count
-      [date.strftime('%Y-%m-%d'), total_activos] 
-    end
+    @activados = User.where(invitation_created_at: 6.months.ago.to_date..Date.today).where.not(invitation_accepted_at: nil).select('invitation_created_at, count(invitation_created_at) as total')
+    .group(:invitation_created_at).map {|user| [user.invitation_created_at.strftime('%Y-%m-%d'), user.total]}
 
-    total_inactivos = @total_creados
-    @inactivos = (6.month.ago.to_date...Date.today).map do |date|
-      total_inactivos += @users.where(invitation_created_at: date.beginning_of_day...date.end_of_day, invitation_accepted_at: nil).count
-      [date.strftime('%Y-%m-%d'), total_inactivos]
-    end
-    
+    @inactivos = User.where(invitation_created_at: 6.months.ago.to_date..Date.today, invitation_accepted_at: nil).select('invitation_created_at, count(invitation_created_at) as total')
+    .group(:invitation_created_at).map {|user| [user.invitation_created_at.strftime('%Y-%m-%d'), user.total]}
+    binding.pry
+
     @promedio_sessiones = []
     Session.where( start:6.month.ago...Time.now).group_by(&:day).each do |day, session|
-      tiempo = 0       
-      session.each do |s|         
-        tiempo += s.time.to_i       
-      end       
-      @promedio_sessiones << [day, tiempo]     
+      tiempo = 0
+      session.each do |s|
+        tiempo += s.time.to_i
+      end
+      @promedio_sessiones << [day, tiempo]
     end
   end
 end
