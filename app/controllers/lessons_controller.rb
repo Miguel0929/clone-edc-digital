@@ -26,7 +26,8 @@ class LessonsController < ApplicationController
 
     if @lesson.save
       @chapter.lessons << @lesson
-      NewContentNotificationJob.perform_async(@chapter.program,  dashboard_program_url(@chapter.program))
+      #NewContentNotificationJob.perform_async(@chapter.program,  dashboard_program_url(@chapter.program)) #Se llevó a método program#notify_changes
+      QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "up-lesson-#{@lesson.id}")
       redirect_to @chapter.program, notice: "Se creo exitosamente el contenido #{@lesson.identifier}"
     else
       render :new
@@ -45,6 +46,7 @@ class LessonsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{edit_chapter_lesson_path(@chapter, @lesson)}'>Editar contenido</a>".html_safe
 
     if @lesson.update_attributes(lesson_params)
+      QueueNotification.create(category: 3, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "edit-lesson-#{@lesson.id}")
       redirect_to @chapter.program, notice: "Se actualizó exitosamente el contenido #{@lesson.identifier}"
     else
       render :edit
@@ -59,6 +61,13 @@ class LessonsController < ApplicationController
       chapter_contents.each_with_index do |id, index|
         ChapterContent.find(id).update_attributes({position: index + 1})
       end
+    end
+
+    up_notification = QueueNotification.find_by(category: 2, detail: "up-lesson-#{@lesson.id}", sent: false)
+    if !up_notification.nil?
+      up_notification.destroy
+    else
+      QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "down-lesson-#{@lesson.id}")
     end
 
     redirect_to @chapter.program, notice: "Se eliminó exitosamente el contenido #{@lesson.identifier}"
