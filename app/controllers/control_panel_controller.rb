@@ -20,7 +20,6 @@ class ControlPanelController < ApplicationController
 
     @inactivos = User.where(invitation_created_at: 6.months.ago.to_date..Date.today, invitation_accepted_at: nil).select('invitation_created_at, count(invitation_created_at) as total')
     .group(:invitation_created_at).map {|user| [user.invitation_created_at.strftime('%Y-%m-%d'), user.total]}
-    binding.pry
 
     @promedio_sessiones = []
     Session.where( start:6.month.ago...Time.now).group_by(&:day).each do |day, session|
