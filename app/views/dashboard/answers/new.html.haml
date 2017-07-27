@@ -1,9 +1,10 @@
 = render partial: '/dashboard/answers/form', locals: { disabled: false}
 
-.row.text-center.m-b-40
-  .col-sm-12
-    %button#btnToggleSlideUpSize.btn.btn-primary.btn-lg{:type => "button"}
-      Enviar duda o comentario
+.container
+  .row.text-center.m-b-40
+    .col-sm-12
+      %button#btnToggleSlideUpSize.btn.btn-primary.btn-lg{:type => "button"}
+        Enviar duda o comentario
 
 #modalSlideUp.modal.fade.slide-up.disable-scroll{"aria-hidden" => "true", :role => "dialog", :style => "display: none;", :tabindex => "-1"}
   .modal-dialog.modal-lg
