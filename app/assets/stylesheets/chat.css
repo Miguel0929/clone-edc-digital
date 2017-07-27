@@ -669,6 +669,11 @@ p.mensaje{
 .new-width-card{
   width: 108% !important;
 }
+@media only screen and (max-width: 360px){
+  .new-width-card{
+    width: 100% !important;
+  }
+}
 .height-img{
   height: 195px !important;
   background-repeat: no-repeat  !important;
@@ -724,11 +729,7 @@ p.mensaje{
   border-width: 15px;
   margin-top: -15px;
 }
-
-
-
-
-@media only screen and (min-width: 1170px) {
+@media only screen and (min-width: 320px) {
 
   .timeline-block .timeline-content.is-hidden {
     visibility: hidden;
