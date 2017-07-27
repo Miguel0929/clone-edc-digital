@@ -659,12 +659,37 @@ p.mensaje{
   color: #B32769;
   line-height: 1;
 }
+.style-icono-collapse{
+  position: absolute;
+  top: 20px;
+  right: -13px;
+}
+@media only screen and (min-width: 400px) and (max-width: 960px){
+ .style-icono-collapse{
+  top: 45px;
+ } 
+}
 .height-0{
   height: 0 !important;
   min-height: 0 !important;
+  top: 45px;
+  right: -13px;
+  padding: 0 !important;
+
+}
+@media only screen and (min-width: 768px) and (max-width: 960px){
+ .height-0{
+  top: 45px;
+ } 
+}
+@media only screen and (min-width: 977px) and (max-width: 986px){
+ .height-0{
+  top: -30px;
+ } 
 }
 .inline-i{
-  display: initial !important;
+  /*display: initial !important;*/
+  
 }
 .new-width-card{
   width: 108% !important;
@@ -684,6 +709,14 @@ p.mensaje{
 .height-col-md-6{
   height: 195px !important;
 }
+.m-t-185{
+  margin-top: 185px !important;
+}
+@media only screen and (max-width: 1000px){
+  .m-t-185{
+    margin-top: 0px !important;
+  }
+}
 .m-l-24{
   margin-left: 24px !important;
 }
@@ -692,6 +725,11 @@ p.mensaje{
 }
 .float-left{
   float: left;
+  position: absolute;
+  top: 145px
+}
+.new-p-b{
+  padding: 5px !important;
 }
 .text-frase{
   line-height: 1;

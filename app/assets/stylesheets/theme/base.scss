@@ -10267,7 +10267,7 @@ Main components
   }
   .timeline-container:not(.left) .timeline .timeline-block:nth-child(odd) .timeline-content .card::after{
     left: 100%;
-    top: 12%;
+    top: 16%;
     border: solid transparent;
     content: " ";
     height: 0;
@@ -10275,13 +10275,13 @@ Main components
     position: absolute;
     pointer-events: none;
     border-color: rgba(136, 183, 213, 0);
-    border-left-color: #757575;
+    border-left-color: #e6e6e6;
     border-width: 15px;
     margin-top: -15px;
   }
   .timeline-container:not(.left) .timeline .timeline-block:nth-child(even) .timeline-content::before{
     right: 100%;
-    top: 12%;
+    top: 16%;
     border: solid transparent;
     content: " ";
     height: 0;
@@ -10289,7 +10289,7 @@ Main components
     position: absolute;
     pointer-events: none;
     border-color: rgba(136, 183, 213, 0);
-    border-right-color: #757575;
+    border-right-color: #e6e6e6;
     border-width: 15px;
     margin-top: -15px;
   }
@@ -10297,7 +10297,7 @@ Main components
 @media only screen and (max-width: 900px){
   .timeline-container:not(.left) .timeline .timeline-block:nth-child(even) .timeline-content::before{
     right: 100%;
-    top: 12%;
+    top: 16%;
     border: solid transparent;
     content: " ";
     height: 0;
@@ -10305,13 +10305,13 @@ Main components
     position: absolute;
     pointer-events: none;
     border-color: rgba(136, 183, 213, 0);
-    border-right-color: #757575;
+    border-right-color: #e6e6e6;
     border-width: 15px;
     margin-top: -15px;
   }
   .timeline-container:not(.left) .timeline .timeline-block:nth-child(odd) .timeline-content .card::after{
     right: 100%;
-    top: 12%;
+    top: 16%;
     border: solid transparent;
     content: " ";
     height: 0;
@@ -10319,7 +10319,7 @@ Main components
     position: absolute;
     pointer-events: none;
     border-color: rgba(136, 183, 213, 0);
-    border-right-color: #757575;
+    border-right-color: #e6e6e6;
     border-width: 15px;
     margin-top: -15px;
   }
