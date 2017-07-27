@@ -20,7 +20,7 @@ class Dashboard::AnswersController < ApplicationController
 
   def show
     @answer = Answer.find(params[:id])
-    @comments = @question.comments.where(owner: current_user).order(created_at: :asc)
+    #@comments = @question.comments.where(owner: current_user).order(created_at: :asc)
     ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
 
     add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
@@ -29,7 +29,7 @@ class Dashboard::AnswersController < ApplicationController
 
   def new
     @answer = build_answer
-    @comments = @question.comments.where(owner: current_user).order(created_at: :asc)
+    #@comments = @question.comments.where(owner: current_user).order(created_at: :asc)
     ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
 
     add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)

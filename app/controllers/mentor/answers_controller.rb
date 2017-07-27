@@ -13,7 +13,7 @@ class Mentor::AnswersController < ApplicationController
 
   def new
     @answer = build_answer
-    @comments = @question.comments.where(owner: current_user).order(created_at: :asc)
+    #@comments = @question.comments.where(owner: current_user).order(created_at: :asc)
 
     add_breadcrumb @chapter_content.chapter.program.name, mentor_program_path(@chapter_content.chapter.program)
     add_breadcrumb "<a class='active' href='#{mentor_chapter_content_path(@chapter_content)}'>#{@question.question_text}</a>".html_safe

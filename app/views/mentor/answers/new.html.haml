@@ -1,26 +1,9 @@
 = render partial: '/mentor/answers/form', locals: { disabled: false}
 
-.timeline-container.top-circle
-  - @comments.each do |comment|
-    .panel.panel-transparent
-      .timeline-point.warning.pl10
-        %i.pg-social
-      .timeline-content
-        .card.share.full-width
-          .card-header.clearfix
-            .user-pic
-              = image_tag('rubensito-01.png', height: 33)
-            %h5
-              = comment.user.name
-            %h6
-              = l comment.created_at, format: :special
-          .card-description
-            %p
-              = comment.content
-  .row.text-center.m-b-40
-    .col-sm-12
-      %button#btnToggleSlideUpSize.btn.btn-primary.btn-lg{:type => "button"}
-        Enviar duda o comentario
+.row.text-center.m-b-40
+  .col-sm-12
+    %button#btnToggleSlideUpSize.btn.btn-primary.btn-lg{:type => "button"}
+      Enviar duda o comentario
 
 #modalSlideUp.modal.fade.slide-up.disable-scroll{"aria-hidden" => "true", :role => "dialog", :style => "display: none;", :tabindex => "-1"}
   .modal-dialog.modal-lg
