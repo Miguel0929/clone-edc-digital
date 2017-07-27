@@ -159,8 +159,9 @@
             %th
               Acciones
         %tbody
-          - Program.all.each do |program|
-            - if @user.group.programs.exists?(program) #hace lo de abajo solo si el programa está DISPONIBLE
+          - if !@user.group.nil?
+            - @user.group.programs.each do |program|
+              /- if @user.group.programs.exists?(program) #hace lo de abajo solo si el programa está DISPONIBLE
               %tr
                 %td.p-b-35
                   %div
