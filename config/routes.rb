@@ -182,6 +182,7 @@ Rails.application.routes.draw do
     end
 
   end
+  post '/no_group_students' => 'groups#no_group_students'
 
   resources :exporters, only: [:show]
   resources :groups
