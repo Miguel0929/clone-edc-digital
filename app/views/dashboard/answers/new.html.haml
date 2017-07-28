@@ -1,22 +1,6 @@
 = render partial: '/dashboard/answers/form', locals: { disabled: false}
 
-.timeline-container.top-circle
-  - @comments.each do |comment|
-    .panel.panel-transparent
-      .timeline-point.warning.pl10
-        %i.pg-social
-      .timeline-content
-        .card.share.full-width
-          .card-header.clearfix
-            .user-pic
-              = image_tag('rubensito-01.png', height: 33)
-            %h5
-              = comment.user.name
-            %h6
-              = l comment.created_at, format: :special
-          .card-description
-            %p
-              = comment.content
+.container
   .row.text-center.m-b-40
     .col-sm-12
       %button#btnToggleSlideUpSize.btn.btn-primary.btn-lg{:type => "button"}
@@ -45,7 +29,7 @@
             .form-group
               %label.col-sm-3.control-label{:for => "urgency"} Nivel de urgencia
               .col-sm-9
-                %select.full-width.form-control.minimal{name: 'urgency', :required => ""}
+                %select.full-width.form-control.minimal{name: 'urgency', :required => "", style: "width: 100%"}
                   %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Por favor selecciona que la urgencia de tu mensaje
                   %option{:value => "Esto es solo un mensaje"} Esto es solo un mensaje
                   %option{:value => "Estaré bien, pero por favor arreglen esto"} Estaré bien, pero por favor arreglen esto
@@ -55,7 +39,7 @@
             .form-group
               %label.col-sm-3.control-label{:for => "matter"} Clasificación
               .col-sm-9
-                %select.full-width.form-control.minimal{name: 'matter', :required => ""}
+                %select.full-width.form-control.minimal{name: 'matter', :required => "", style: "width: 100%"}
                   %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Por favor clasifica tu mensaje
                   %option{:value => "Comentario"} Comentario
                   %option{:value => "Sugerencia"} Sugerencia

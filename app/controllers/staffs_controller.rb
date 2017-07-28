@@ -6,26 +6,26 @@ class StaffsController < ApplicationController
   add_breadcrumb "EDCDIGITAL", :root_path
 
   def index
-    add_breadcrumb "<a class='active' href='#{mentors_path}'>Mentores</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{staffs_path}'>Mentores</a>".html_safe
 
     @users = Staff.all.page(params[:page]).per(50)
   end
 
   def show
     add_breadcrumb "Mentores", :mentors_path
-    add_breadcrumb "<a class='active' href='#{mentor_path(@user)}'>#{@user.email}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{staff_path(@user)}'>#{@user.email}</a>".html_safe
   end
 
   def edit
     add_breadcrumb "Mentores", :mentors_path
     add_breadcrumb @user.email, mentor_path(@user)
-    add_breadcrumb "<a class='active' href='#{edit_mentor_path(@user)}'>Editar información</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{edit_staff_path(@user)}'>Editar información</a>".html_safe
   end
 
   def update
     add_breadcrumb "Mentores", :mentors_path
     add_breadcrumb @user.email, mentor_path(@user)
-    add_breadcrumb "<a class='active' href='#{edit_mentor_path(@user)}'>Editar información</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{edit_staff_path(@user)}'>Editar información</a>".html_safe
 
     if @user.update(user_params)
       redirect_to staffs_path

@@ -1,5 +1,5 @@
 .row.nested-fields.well
-  = link_to_remove_association "Eliminar", f
+  = link_to_remove_association "Eliminar", f, {data: { confirm: '¿Estás seguro?' }}
   .row
     .col-md-8
       = f.text_field :name, label: 'Nombre del elemento'
