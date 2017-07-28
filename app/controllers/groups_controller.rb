@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort, :student_control, :unlink_student, :notification_route]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort, :student_control, :unlink_student, :notification_route, :no_group_students]
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -72,8 +72,14 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    @group.destroy
-    redirect_to groups_path, notice: "Se eliminó el grupo #{@group.name}"
+    if !@group.active_students.empty?
+      redirect_to groups_path, alert: "El grupo debe estar vacío antes de eliminarlo, desvincula a todos sus estudiantes"
+    else
+      groupstat = GroupStat.find_by(group_id: @group.id)
+      if !groupstat.nil? then groupstat.destroy end
+      @group.destroy
+      redirect_to groups_path, notice: "Se eliminó el grupo #{@group.name}"
+    end
   end
 
   def sort_route
@@ -98,7 +104,8 @@ class GroupsController < ApplicationController
   def student_control
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{student_control_group_path(@group)}'>#{@group.name}</a>".html_safe
-
+    @groups = Group.all
+    @students_no_group = User.students.includes(:group).where(groups: {id: nil})
   end
 
   def unlink_student
@@ -124,6 +131,12 @@ class GroupsController < ApplicationController
     end
 
     redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
+  end
+
+  def no_group_students
+    selected_group = Group.find_by(id: params[:group_id])
+    selected_group.update(student_ids: params[:student_ids])
+    redirect_to student_control_group_path(@group), notice: "Los estudiantes han sido asignados a #{selected_group.name}"
   end
 
   private

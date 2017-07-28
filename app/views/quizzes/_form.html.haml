@@ -3,4 +3,6 @@
     = f.text_field :name, label: "Nombre del exámen"
     = f.text_area :description, label: "Descripción"
     = f.select :group_ids, Group.all.collect{|g| [g.name, g.id]}, {include_blank: false, label: 'Grupos' }, multiple: 'multiple'
+
+    = link_to 'Cancelar', quizzes_path, class: 'btn btn-danger'
     = f.submit 'Aceptar'

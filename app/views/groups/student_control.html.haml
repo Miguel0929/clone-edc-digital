@@ -18,11 +18,11 @@
 					%input#search-table.form-control.pull-right{:placeholder => "Buscar", :type => "text"}/
 				.col-sm-8.pull-right
 					.pull-right
-						%a.slow_scroll{href: "#add_students", style: "opacity: 1;"}
+						%a.slow_scroll{href: "#scroll_students", style: "opacity: 1;"}
 							%button.btn.btn-primary.no-opacity
 								%i.fa.fa-plus
 								Agregar alumnos
-						%button.btn.btn-danger{:type => "submit", :form => "delete_users"}
+						%button.btn.btn-danger{:type => "submit", :form => "delete_users", data: { confirm: '¿Estás seguro?' }}
 							%i.fa.fa-times
 							Eliminar alumnos
 			.clearfix
@@ -48,27 +48,41 @@
 								%td.p-t-15.p-b-15
 									= user.phone_number
 								%td.p-t-15.p-b-15	
-									= check_box_tag "users_ids[]", user.id 
+									= check_box_tag "users_ids[]", user.id
 									%span.p-l-5.text-complete
-										= label_tag	"users_ids[]", "Desvincular alumno"	
+										= "Desvincular alumno"	
 
-			.row.m-b-10.m-t-20
+			.row.m-b-10.m-t-20#scroll_students
 				.col-sm-8.pull-right
 					.pull-right
-						%button.btn.btn-danger{:type => "submit", :form => "delete_users"}
+						%button.btn.btn-danger{:type => "submit", :form => "delete_users", data: { confirm: '¿Estás seguro?' }}
 							%i.fa.fa-times
 							Eliminar alumnos
 
-
-	.panel.panel-default#add_students
+	.panel.panel-default
 		.panel-heading
 			%h4
-				Edita aquí los estudiantes vinculados al grupo:
+				Edita aquí los estudiantes vinculados a este grupo:
 		.panel-body
 			= bootstrap_form_for @group do |f|
-				= f.select :student_ids, User.active_users.collect{|u| [u.email, u.id]}, {include_blank: false, label: 'Estudiantes'}, multiple: 'multiple'
-				.center{:style => "display: table; margin: 0 auto;"}
-					= f.submit 'Actualizar alumnos', :class => "btn btn-success btn-lg"
+				= f.select :student_ids, User.active_users.collect{|u| [u.email, u.id]}, {include_blank: false, label: 'Estudiantes de este grupo'}, multiple: 'multiple'
+				.pull-right.pull-right.p-t-20.p-b-20{:style => "display: table; margin: 0 auto;"}
+					= f.submit 'Actualizar alumnos', :class => "btn btn-success"
+
+	.panel.panel-default
+		.panel-body
+			.col-md-3
+				%h4
+					Estudiantes sin grupo
+				%p.hint-text
+					Cuando desvinculas estudiantes de un grupo, probablemente sea buena idea reasignarlos a un grupo diferente. Puedes hacerlo usando este formulario.
+			.col-md-9
+				= bootstrap_form_tag url: '/no_group_students' do |f|
+					= f.hidden_field :id, :value => @group.id
+					= f.select :student_ids, @students_no_group.collect{|u| [u.email, u.id]}, {include_blank: false, label: 'Selecciona uno o más estudiantes sin grupo'}, multiple: 'multiple', required: true
+					= f.select :group_id, @groups.collect{|g| [g.name, g.id]}, {include_blank: "Selecciona un grupo", label: 'Grupo al que serán asignados'}, required: true
+					.pull-right.p-t-20.p-b-20{:style => "display: table; margin: 0 auto;"}
+						= f.submit 'Agregar alumnos', :class => "btn btn-success"
 
 %script{:type=>"text/javascript"}
 	$('.slow_scroll').click(function(){
