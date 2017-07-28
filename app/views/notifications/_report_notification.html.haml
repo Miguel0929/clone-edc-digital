@@ -1,8 +1,13 @@
 %i.fa.fa-calendar-check-o.m-r-10
 %span.fs-12.m-l-10
 	Contenido reportado en el programa
-	- unless notification.model.nil? 
+	- if !notification.model.report.model.nil? 
 		%strong
 			"#{notification.model.report.model.chapter.program.name}"
+		,	Reporte #
+		#{notification.model.report.id}
+	- else
+		%strong
+			"#{notification.model.report.cause}"
 		,	Reporte #
 		#{notification.model.report.id}
