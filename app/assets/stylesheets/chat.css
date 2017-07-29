@@ -651,10 +651,14 @@ p.mensaje{
 .none-width{
   width: 0px !important;
 }
+.new-p-btn{
+  padding-bottom: 3px;
+}
 .contenedor-btn-barra{
-  position:absolute;
-  bottom:3px;
+  position: absolute;
+  bottom: 10px;
   width: 90%;
+
 }
 @media only screen and (max-width: 360px){
   .contenedor-btn-barra{
@@ -669,11 +673,13 @@ p.mensaje{
 .text-tipo-card-ruta{
   color: #B32768;
   font-style: italic;
-  
+  margin-bottom: 0px;
 }
 .text-name-ruta{
   color: #B32769;
-  line-height: 1;
+  line-height: 1.2;
+  font-size: 17px;
+  margin-top: 5px
 }
 .style-icono-collapse{
   position: absolute !important;
