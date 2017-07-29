@@ -135,7 +135,12 @@ class GroupsController < ApplicationController
 
   def no_group_students
     selected_group = Group.find_by(id: params[:group_id])
-    selected_group.update(student_ids: params[:student_ids])
+    old_students = selected_group.students.pluck(:id)
+    new_students = []
+    params[:student_ids].map{ |new| new_students.push(new.to_i)}
+    all_students = old_students + new_students
+    all_students.delete(0)
+    selected_group.update(student_ids: all_students)
     redirect_to student_control_group_path(@group), notice: "Los estudiantes han sido asignados a #{selected_group.name}"
   end
 
