@@ -35,6 +35,13 @@ $(document).on('turbolinks:load', function(){
         $('#modalSlideUpLearning').modal('show')
     });
 
+    $(function(){
+      $('.modal').on('hidden.bs.modal', function (e) {
+        var iframe = $(this).find("iframe");
+        iframe.attr("src", iframe.attr("src"));
+      });
+    });
+
     $('#close-learning-message').click(function() {
         $('#learning-video-message').css({display: "none"});
     });
