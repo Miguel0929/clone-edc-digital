@@ -14,8 +14,13 @@ class ProgressPanelController < ApplicationController
   	add_breadcrumb "<a class='active' href='#{progress_panel_index_path}'>Panel de progreso de EDC Digital</a>".html_safe
   	if params[:group].present?
   		redirect_to progress_panel_path(params[:group].to_i)
-  	end
-  	@users = User.students.all
+    end
+    if params[:category].present?
+      @users =  User.students.joins(:group).where(groups: {category: params[:category]})
+  	else
+      @users = User.students.all
+    end
+
   	programs = Program.all
   	#stats = ProgramStat.all
   	@hundred, @seventy, @fifty, @thirty = 0, 0, 0, 0
@@ -50,9 +55,16 @@ class ProgressPanelController < ApplicationController
     end
     #Obtener "Distribución de avances por programa"
     @progress_per_program = []
-    programs.each do |program|
-      program_stat = get_program_progress_strata(program)
-       @progress_per_program.push({id: program.id, name: program.name, hundred: program_stat[0], seventy: program_stat[1], fifty: program_stat[2], thirty: program_stat[3], sumatory: program_stat.inject(0){|sum,x| sum + x }})
+    if params[:category].present?
+      programs.each do |program|
+        program_stat = get_program_progress_strata(program, params[:category])
+        @progress_per_program.push({id: program.id, name: program.name, hundred: program_stat[0], seventy: program_stat[1], fifty: program_stat[2], thirty: program_stat[3], sumatory: program_stat.inject(0){|sum,x| sum + x }})
+      end
+    else
+      programs.each do |program|
+        program_stat = get_program_progress_strata(program, 0)
+        @progress_per_program.push({id: program.id, name: program.name, hundred: program_stat[0], seventy: program_stat[1], fifty: program_stat[2], thirty: program_stat[3], sumatory: program_stat.inject(0){|sum,x| sum + x }})
+      end
     end
   end
 
@@ -61,6 +73,7 @@ class ProgressPanelController < ApplicationController
   	if params[:group].present?
   		redirect_to progress_panel_path(params[:group].to_i)
   	end
+    
   	@users = @group.students.all
   	#stats = @users.map{|i| i.program_stats.map{|a| a.program_progress}}.flatten
   	@hundred, @seventy, @fifty, @thirty = 0, 0, 0, 0
@@ -160,9 +173,14 @@ class ProgressPanelController < ApplicationController
   end
 
   private
-  def get_program_progress_strata(program)
-    stats = ProgramStat.where(program_id: program)
-    groups = Group.joins(:programs).where(:programs => {id: program.id})
+  def get_program_progress_strata(program, category)
+    if category == 0
+      stats = ProgramStat.where(program_id: program)
+      groups = Group.joins(:programs).where(:programs => {id: program.id})
+    elsif category.is_a? String
+      groups = Group.where(category: category).joins(:programs).where(programs: {id: program.id})
+      stats = groups.map{|group| group.students}.flatten.map{|student| student.program_stats.where(program_id: program.id)}.flatten
+    end
     studets_count = 0;
     groups.each do |group|
       studets_count += group.students.count
