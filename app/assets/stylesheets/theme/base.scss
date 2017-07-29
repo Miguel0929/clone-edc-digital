@@ -5404,6 +5404,32 @@ body > .pgn-wrapper {
 .panel-group .panel-heading .panel-title > a:hover:after {
   color: #626262 !important;
 }
+
+.panel-group .panel-heading .panel-title > a.ruta:hover {
+  //color: #2387cc !important;
+}
+.panel-group .panel-heading .panel-title > a.ruta:hover:after {
+  color: #B32769 !important;
+}
+.panel-group .panel-heading .panel-title > a.ruta:after {
+  font-family: 'FontAwesome';
+  content: "\f139";
+  position: absolute;
+  right: 13px;
+  //top: 36%;
+  color: #B32769;
+  top: 35%;
+  //color: #439fdf;
+  font-size: 25px;
+}
+.panel-group .panel-heading .panel-title > a.ruta.collapsed:after {
+  content: "\f13a";
+  color: #B32769; /*rgba(98, 98, 98, 0.7)*/
+  //color: #439fdf;
+  font-size: 25px;
+}
+
+
 .panel-group .panel-heading .panel-title > a:after {
   font-family: 'FontAwesome';
   content: "\f056";
@@ -10238,6 +10264,64 @@ Main components
     left: auto;
     right: 118%;
     text-align: right;
+  }
+  .timeline-container:not(.left) .timeline .timeline-block:nth-child(odd) .timeline-content .card::after{
+    left: 100%;
+    top: 16%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(136, 183, 213, 0);
+    border-left-color: #e6e6e6;
+    border-width: 15px;
+    margin-top: -15px;
+  }
+  .timeline-container:not(.left) .timeline .timeline-block:nth-child(even) .timeline-content::before{
+    right: 100%;
+    top: 16%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(136, 183, 213, 0);
+    border-right-color: #e6e6e6;
+    border-width: 15px;
+    margin-top: -15px;
+  }
+}
+@media only screen and (max-width: 900px){
+  .timeline-container:not(.left) .timeline .timeline-block:nth-child(even) .timeline-content::before{
+    right: 100%;
+    top: 16%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(136, 183, 213, 0);
+    border-right-color: #e6e6e6;
+    border-width: 15px;
+    margin-top: -15px;
+  }
+  .timeline-container:not(.left) .timeline .timeline-block:nth-child(odd) .timeline-content .card::after{
+    right: 100%;
+    top: 16%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(136, 183, 213, 0);
+    border-right-color: #e6e6e6;
+    border-width: 15px;
+    margin-top: -15px;
   }
 }
 @media only screen and (min-width: 900px) {
