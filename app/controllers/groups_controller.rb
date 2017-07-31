@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort, :student_control, :unlink_student, :notification_route, :no_group_students]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort, :student_control, :reassign_student, :unlink_student, :notification_route, :no_group_students]
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -73,7 +73,7 @@ class GroupsController < ApplicationController
 
   def destroy
     if !@group.active_students.empty?
-      redirect_to groups_path, alert: "El grupo debe estar vacío antes de eliminarlo, desvincula a todos sus estudiantes"
+      redirect_to reassign_student_group_path(@group), alert: "El grupo debe estar vacío antes de eliminarlo, desvincula a todos sus estudiantes aquí"
     else
       groupstat = GroupStat.find_by(group_id: @group.id)
       if !groupstat.nil? then groupstat.destroy end
@@ -108,17 +108,16 @@ class GroupsController < ApplicationController
     @students_no_group = User.students.includes(:group).where(groups: {id: nil})
   end
 
-  def unlink_student
-    users = params[:users_ids]
-    if !users.nil?
-      users.each do |user|
-        thisuser = User.find(user)
-        thisuser.update(group_id: nil)
-      end
+  def reassign_student
+    @groups = Group.all
+    @source = URI(request.referer || "").path
+    if @source == '/groups/' + params[:id] + '/student_control'
+      @return_url = student_control_group_path(@group)
+    else
+      @return_url = groups_path
     end
-
-    redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
-    add_breadcrumb "<a class='active' href='#{edit_group_path(@group)}'>#{@group.name}</a>".html_safe
+    add_breadcrumb "Grupos", :groups_path
+    add_breadcrumb "<a class='active' href='#{reassign_student_group_path(@group)}'> Reasignar estudiantes de grupo: #{@group.name}</a>".html_safe
   end
 
   def unlink_student
@@ -130,7 +129,7 @@ class GroupsController < ApplicationController
       end
     end
 
-    redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
+    redirect_to student_control_group_path(@group), notice: "Desvinculación exitosa, recuerda reasignar a los alumnos eliminados a otro grupo"
   end
 
   def no_group_students
@@ -140,8 +139,25 @@ class GroupsController < ApplicationController
     params[:student_ids].map{ |new| new_students.push(new.to_i)}
     all_students = old_students + new_students
     all_students.delete(0)
-    selected_group.update(student_ids: all_students)
-    redirect_to student_control_group_path(@group), notice: "Los estudiantes han sido asignados a #{selected_group.name}"
+    if selected_group.update(student_ids: all_students)
+      redirect_to student_control_group_path(@group), notice: "Los alumnos han sido asignados a #{selected_group.name}"
+    end
+  end
+
+  def change_group
+    source = params[:source]
+    host_group = Group.find(params[:host_group])
+    old_students = host_group.students.pluck(:id)
+    reassigned_students = params[:student_ids].map{ |num| num.to_i}
+    reassigned_students.delete(0)
+    all_students = old_students + reassigned_students
+    if host_group.update(student_ids: all_students)
+      if source == '/groups/' + params[:id] + '/student_control'
+        redirect_to student_control_group_path(params[:id]), notice: "Los alumnos fueron reasignados exitosamente a #{host_group.name}"
+      else
+        redirect_to groups_path, notice: "Los alumnos fueron reasignados exitosamente a #{host_group.name}"
+      end
+    end
   end
 
   private
