@@ -615,7 +615,7 @@ p.mensaje{
   }
 }
 
-/* card-programs*/
+/* <<<<<< CARDS PROGRAMAS >>>>> */
 .color__icon{
   color: #B32769;
   font-size: 13px;
@@ -759,59 +759,6 @@ h6.cabecera_card-programas {
   margin-bottom: 10px;
 }
 
-
-
-
-
-
-/*.color__icon{
-  color: #B32769;
-  font-size: 13px;
-}
-.color__icon_program{
-  color: #B32769;
-  font-size: 11px; 
-}
-.font-search{
-  background-color: #B32769 !important;
-}
-.text_ultimos_avances{
-  color: #B32769 !important;
-}
-.opacity1{
-  opacity: 0.4;
-  font-size: 11px;
-  margin-left: 10px;
-}
-.opacity2{
-  opacity: 0.6;
-  font-size: 11px;
-}
-.opacity3{
-  opacity: 0.8;
-  font-size: 11px;
-}
-.opacity4{
-  opacity: 1;
-  font-size: 11px;
-}*/
-/*#wrapper {
-  overflow: hidden;
-  transition: height 200ms cubic-bezier(0.2, 0.4, 0.7, 0.8);
-}*//*background: #69225C;*/
-/*.inline-block{
-  display: inline-block;
-}
-#collap{
-  cursor: pointer;
-}
-#ver_collap{
-  display: none;
-}
-.ver{
-  text-align: center;
-}*/
-
 /* <<<<< RUTA DE APRENDIZAJE >>>>>> */
 .timeline::before{
   background: #757575 !important;
@@ -904,6 +851,59 @@ h6.cabecera_card-programas {
 }
 .height-img{
   height: 205px !important;
+  background-repeat: no-repeat  !important;
+  background-position-x: center !important;
+  background-position-y: center !important;
+  background-size: cover !important; 
+}
+.card.share .cabecera_card-programas h5 {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0;
+  line-height: 22.7px;
+  font-family: arial;
+  letter-spacing: -0.006em;
+  margin-top: -3px;
+}
+h6.cabecera_card-programas {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0;
+  font-family: arial;
+  letter-spacing: -0.006em;
+  margin-top: -3px;
+}
+.cabecera_card-programas{
+  padding: 15px 15px 12px;
+}
+.card_height{
+  height: 200px;
+}
+.none-width{
+  width: 0px !important;
+  padding: 0px !important;
+}
+.m-t-name_card{
+  margin-top: 115px !important;
+}
+.text-top-name_card{
+  font-style: italic;
+  font-size: 20px;
+}
+.p-m_style{
+  padding-left: 14px !important;
+}
+.min-height{
+  min-height: 10px;
+}
+.text_mostrar-ocultar_info{
+  font-style: italic;
+  font-size: 10px;
+}
+.font-size-play{
+  font-size: 10px;
+}
+.style_img_card{
   background-repeat: no-repeat  !important;
   background-position-x: center !important;
   background-position-y: center !important;
@@ -1016,4 +1016,3 @@ h6.cabecera_card-programas {
     transform: translateX(0);
   }
 }
-

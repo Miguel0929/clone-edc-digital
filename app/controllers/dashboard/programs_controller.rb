@@ -51,7 +51,6 @@ class Dashboard::ProgramsController < ApplicationController
       userprograms = current_user.group.programs.order(name: :asc)
       @programs = userprograms.map { |p| p.group_programs.find_by(group_id: current_user.group.id) }
     end  
-
   end
 
   def show
