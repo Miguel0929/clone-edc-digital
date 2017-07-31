@@ -28,9 +28,7 @@ class Dashboard::ProgramsController < ApplicationController
     
     if params[:tipo]=="elearning"
       @programs = current_user.group.group_programs.joins(:program).where(programs: { tipo: "0"}).order(:position)
-    elsif params[:tipo]=="construccion"
-      @programs = current_user.group.group_programs.joins(:program).where(programs: { tipo: "1"}).order(:position)
-      @activo = ['', '','active']
+      @activo = ['', '','active'] 
     elsif params[:tipo]=="construccion"
       @programs = current_user.group.group_programs.joins(:program).where(programs: { tipo: "1"}).order(:position)
       @activo = ['', 'active','']

@@ -615,6 +615,7 @@ p.mensaje{
   }
 }
 
+
 /* <<<<<< CARDS PROGRAMAS >>>>> */
 .color__icon{
   color: #B32769;
@@ -684,15 +685,18 @@ h6.cabecera_card-programas {
 .cabecera_card-programas{
   padding: 15px 15px 12px;
 }
-.card_height{
-  height: 200px;
+.card_height-programas{
+  height: 210px;
+}
+.color_naranja{
+  background-color: #ED9C54;
 }
 .none-width{
   width: 0px !important;
   padding: 0px !important;
 }
 .m-t-name_card{
-  margin-top: 115px !important;
+  margin-top: 120px !important;
 }
 .text-top-name_card{
   font-style: italic;
@@ -754,6 +758,7 @@ h6.cabecera_card-programas {
   padding-top: 8px;
   margin-bottom: 10px;
 }
+
 
 /* <<<<< RUTA DE APRENDIZAJE >>>>>> */
 .timeline::before{
