@@ -290,6 +290,7 @@ class UsersController < ApplicationController
     render json: {eval: to_evaluated, not_eval: to_nonevaluated}
   end
 
+
   private
   def set_user
     @user = User.find(params[:id])
