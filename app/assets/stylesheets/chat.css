@@ -625,7 +625,26 @@ p.mensaje{
 .font-search{
   background-color: #B32769 !important;
 }
-
+.text_ultimos_avances{
+  color: #B32769 !important;
+}
+.opacity1{
+  opacity: 0.4;
+  font-size: 11px;
+  margin-left: 10px;
+}
+.opacity2{
+  opacity: 0.6;
+  font-size: 11px;
+}
+.opacity3{
+  opacity: 0.8;
+  font-size: 11px;
+}
+.opacity4{
+  opacity: 1;
+  font-size: 11px;
+}
 #wrapper {
   /*background: #69225C;*/
   overflow: hidden;
@@ -850,5 +869,41 @@ p.mensaje{
 }
 
 
+.text-color-dificultad{
+  color: #B32768;
+}
+.m-t--card{
+  margin-top: 80px;
+}
+.m-b-3{
+  margin-bottom: 3px;
+}
+.m-t--10{
+  position: relative;
+  margin-top: -26px;
+}
+.super-card-container {
+  height: 330px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.m-b-14{
+  margin-bottom: 14px;
+}
+.m-t-3{
+  margin-top: -15px;
+  padding-left: 30px !important;
+  padding-right: 30px !important;
+}
+.opacity_05{
+  opacity: 0.5;
+}
+.m-h-50{
+  min-height: 50px;
+}
 
-
+.panel-heading.p-m_style.p-b-0.m-b-14.m-b-3.new-margin {
+  padding-top: 8px;
+  margin-bottom: 10px;
+}
