@@ -7,7 +7,7 @@
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
           .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
-            %h2.text-white 
+            %h2.text-white
               ¡Bienvenido a EDC-Digital!
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
@@ -23,7 +23,7 @@
           %i.fa.fa-play-circle{"aria-hidden"=>"true", style: "font-size: 24px; margin-left: -11px; margin-top: -12.5px;"}
       .m-l-80.p-l-20#learning-video-message{style: "#{@modal_trigger ? '' : 'display: none;'}"}
         .pull-right
-          %a.close-message-type#close-learning-message{href: "#", onclick: "return false;"} 
+          %a.close-message-type#close-learning-message{href: "#", onclick: "return false;"}
             ×
         Aquí estará disponible el video introductorio siempre que lo necesites
         .triangle-left
@@ -56,7 +56,7 @@
                     .contenedor-btn-barra
                       .col-md-12.p-l-0.text-center.p-t-10.new-p-btn
                         - if !last_parameters[4].nil?
-                          -if seen_progress == 0 
+                          -if seen_progress == 0
                             = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 Comenzar
@@ -86,10 +86,10 @@
                               %button.btn.btn-success.m-t--10
                                 Completado
                                 %i.fa.fa-check.font-size-play
-                        - elsif
+                        - else
                           = link_to dashboard_program_path(p.program), class: "opacity__1" do
                             %button.btn.btn-complete.m-t--10
-                              -if seen_progress == 0 
+                              - if seen_progress == 0
                                 Comenzar
                                 /%i.fa.fa-play.font-size-play
                                 %i.fa.fa-angle-double-right.font-size-play
@@ -102,12 +102,12 @@
                             #{seen_progress}% visto
                       .progress.m-b-5
                         .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
-                      
+
               .event-date
-                %h6.font-montserrat.all-caps.hint-text.m-t-0 
+                %h6.font-montserrat.all-caps.hint-text.m-t-0
                 %small.fs-12.hint-text
 %input{type: "radio", value: @modal_trigger.to_s, name: "modal_trigger", checked: true, hidden: true}
-#modalSlideUpLearning.modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1"}    
+#modalSlideUpLearning.modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-lg{style: "width: 900px;"}
     .modal-content-wrapper
       .modal-content
