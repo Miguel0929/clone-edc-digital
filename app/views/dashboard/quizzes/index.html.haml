@@ -16,6 +16,40 @@
               En esta sección encontrarás las evaluaciones destinadas a medir tu aprendizaje a través de la plataforma. También podrás revisar tus calificaciones obtenidas y el desglose de cada examen. ¡Éxito!
 
 .container-fluid.container-fixed-lg
+  - @quizzes.each do |quiz|
+    .row
+      .col-md-2
+      .col-md-8
+        .container-fluid.container-fixed-lg
+          .card.share.share-other.height-card-quizzes
+            .card-content
+              .panel-body.p-t-0.p-b-0
+                .row
+                  .col-md-9
+                    %h6.b-b{:class => "#{(quiz.answered(current_user) > 0) ? 'text-complete' : 'text-success'}"}
+                      = quiz.answered(current_user) > 0 ? 'Contestado' : 'No contestado'
+                    %h4 
+                      = quiz.name
+                    %h6
+                      = quiz.description
+                    -if quiz.answered(current_user) > 0  
+                      = link_to dashboard_quiz_path(quiz) do
+                        %button.btn.btn-sm.btn-complete
+                          %i.fa.fa-eye
+                          Ver mis resultados
+                    -else
+                      = link_to apply_dashboard_quiz_path(quiz) do
+                        %button.btn.btn-sm.btn-success
+                          %i.fa.fa-edit
+                          Contestar examen
+                  .col-md-3{:class => "#{(quiz.answered(current_user) > 0) ? 'colorsote2' : 'colorsote1'}"}
+                    %input.progress-circle{"data-pages-progress" => "circle", "data-thick" => "true", :type => "hidden", :value => "#{quiz.answered(current_user) > 0 ? quiz.average(current_user) : '0'}", "data-percent" => "#{quiz.answered(current_user) > 0 ? quiz.average(current_user) : ''}" }/
+                    = quiz.answered(current_user) > 0 ? quiz.average(current_user) : ''
+                    
+
+      .col-md-2
+
+.container-fluid.container-fixed-lg
   .row
     .col-md-12
       .panel.panel-transparent
