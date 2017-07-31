@@ -107,7 +107,7 @@
                         .super-card-container
                           .card.share.share-other{"data-social" => "item"}
                             %a{:href => dashboard_program_path(p.program)}
-                              .card-header.card_height.text-white{ :style => "background: url(#{p.program.cover.url});" , class: "style_img_card" }
+                              .card-header.card_height-programas.text-white{ :style => "background: url(#{p.program.cover.url});" , class: "style_img_card" }
                                 %h5.text-complete.pull-left.fs-12.demo-fs-23
                                   .text-white.bold{id: "program_id#{p.program.id}"}
                                     = p.position
