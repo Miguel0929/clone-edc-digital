@@ -615,6 +615,18 @@ p.mensaje{
   }
 }
 
+/* <<<< CARDS QUIZZES >>> */
+.height-card-quizzes{
+  height: 150px;
+}
+.colorsote1{
+  background-color: #10cfbd;
+  height: 150px;
+}
+.colorsote2{
+  background-color: #48b0f7;
+  height: 150px;
+}
 
 /* <<<<<< CARDS PROGRAMAS >>>>> */
 .color__icon{
