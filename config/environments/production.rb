@@ -90,4 +90,6 @@ Rails.application.configure do
     domain:               'gmail.com',
     enable_starttls_auto: true
   }
+
+  config.logger = RemoteSyslogLogger.new('logs6.papertrailapp.com', 40985, :program => "rails-#{RAILS_ENV}")
 end
