@@ -15,60 +15,191 @@
             %p.m-b-25.text-white
               =current_user.mentor? ? 'En esta sección podrás ver el catálogo de cursos que están vinculados a tus grupos de estudiantes. También podrás acceder a los programas como si fueras un alumno. Esto te ayudará a comprender la estructura del contenido de EDC-Digital desde la perspectiva del estudiante.' : 'Bienvenido a nuestro catálogo de cursos. Aquí encontrarás todos los programas asignados para ti por parte del equipo de EDC.'
 
+
+  .panel.container-fluid
+    .row
+      .col-md-4
+      .col-md-5
+        %ul.nav.nav-tabs.nav-tabs-simple.nav-tabs-primary
+          - if current_user.student?
+            %li{'class'=>@activo[0]}
+              %a{"aria-expanded" => "true", :href => dashboard_programs_path, class: "bold"} Todos
+            %li{'class'=>@activo[1]}
+              %a{"aria-expanded" => "false", :href => dashboard_programs_path(tipo: "construccion"), class: "bold"} Construcción
+            %li{'class'=>@activo[2]}
+              %a{"aria-expanded" => "false", :href => dashboard_programs_path(tipo: "elearning"), class: "bold"} e-Learning
+      .col-md-3
+.container-fluid
+  .row
+    .col-md-4
+    .col-md-5
+      #accordion.panel.panel-group.panel-transparent
+        .panel.panel-default.b-rad-sm
+          .panel-heading
+            %h4.panel-title
+              %a.collapsed.b-b{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseOne"} 
+                .text_ultimos_avances 
+                  Tus últimos avances
+                  %i.fa.fa-circle.opacity1
+                  %i.fa.fa-circle.opacity2
+                  %i.fa.fa-circle.opacity3
+                  %i.fa.fa-circle.opacity4
+          #collapseOne.panel-collapse.collapse
+            .panel-body.p-t-0
+              /= current_user.id
+              - current_user.get_update_move.each do |stat|
+                .row
+                  .panel-body
+                    .col-md-12.p-b-10.b-b
+                      %small.m-t-0.m-b-0
+                        - last_parameters = last_moved_program(stat.program)
+                        - if !last_parameters[4].nil?
+                          = distance_of_time_in_words(last_parameters[1].to_i, Time.now.to_i)
+                      %h4.bold.m-t-0.m-b-0
+                        = truncate(last_parameters[3], length: 60, separator: ' ')
+                      %small.text_ultimos_avances.m-t-0.m-b-0
+                        .bold
+                          Curso : 
+                          = stat.program.name
+                      %small.block.p-t-25
+                        - seen_progress = @current_user.percentage_content_visited_for(stat.program)
+                        - answered_progress = @current_user.percentage_questions_answered_for(stat.program)
+                        - last_parameters = last_moved_program(stat.program)
+                        - if !last_parameters[4].nil?
+                          -if seen_progress == 0 
+                            = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10.opacity__1
+                                Comenzar
+                                %i.fa.fa-play.font-size-play
+                          -elsif seen_progress > 0 && seen_progress < 100
+                            = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10.opacity__1
+                                Continuar
+                                %span
+                                  (#{seen_progress}%)
+                          -elsif seen_progress == 100 && answered_progress == 0
+                            = link_to dashboard_program_path(stat.program), class: "opacity__1" do
+                              %button.btn.btn-success.m-t--10.opacity__1
+                                Completado
+                          -elsif seen_progress == 100 && answered_progress < 100
+                            = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10.opacity__1
+                                Continuar
+                                %span
+                                  (#{seen_progress}%)
+                          -elsif seen_progress == 100 && answered_progress == 100
+                            = link_to dashboard_program_path(p.program), class: "opacity__1" do
+                              %button.btn.btn-success.m-t--10.opacity__1
+                                Completado
+    .col-md-3
 .container-fluid.container-fixed-lg
   .row
     .col-md-12
-      .panel.panel-transparent
-        .panel-body   
-          - if current_user.student?
-            = bootstrap_form_tag(url: dashboard_programs_path, method: :get) do |f|
-              .row
-                .col-md-2
-                  = f.select :tipo, options_for_select([['e-learning', 'elearning'], ['Construccion de idea de negocios', 'construccion'], ['Fúsion', 'fusion']], params[:tipo]), {prompt: "Todos", label: 'Tipo: ' }
-                .col-md-2.col-md-offset-1
-                  = f.select :level, options_for_select([['Básico', 'basico'], ['Intermedio', 'intermedio'],['Avanzado', 'avanzado']], params[:level]), {prompt: "Todos", label: 'Nivel de dificultad: ' }  
-                .col-md-2.col-md-offset-1
-                  = f.select :orden, options_for_select([['Tipo de Programa', 'tipo'], ['Ruta de Aprendizaje', 'ruta'],['Orden Alfabético', 'abc']], params[:orden]), {prompt: "Ordena tus programas", label: 'Orden: ' }
-                .col-md-2.col-md-offset-1{:style =>"position: relative; top:20px;"}
-                  = f.submit 'Filtrar programas', :class => 'btn btn-sm btn-primary programs-filter-btn' 
-          %br
-          - @programs.each do |p|
-            - unless p.program.nil?
-              .col-md-4.col-sm-6.col-xs-12.tarjeta-programa
-                .card.share.share-other{"data-social" => "item"}
-                  .card-content
-                    %a{:href => dashboard_program_path(p.program)}
-                      = image_tag(p.program.cover.url)
-                    %a{:href => dashboard_program_path(p.program)}
-                      .card-header.clearfix
-                        %h5
-                          = p.program.name
-                        %h6
-                          = p.program.description
-                  - @current_user.programs.each do |personal|
-                    - if p.program.name == personal.name
-                      - seen_progress = @current_user.percentage_content_visited_for(p.program)
-                      - answered_progress = @current_user.percentage_questions_answered_for(p.program)
-                      .p-b-10
-                        - if answered_progress == 0 && seen_progress == 0
-                          .progress.m-b-5
-                            .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
-                          .p-b-10.p-r-15.p-l-15.m-b-10.m-t-5
-                            .no-margin.pull-left{:style => "color: #5B4D91;"}
-                              Curso no iniciado
-                        - elsif answered_progress == 0 && seen_progress > 0
-                          .progress.m-b-5
-                            .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
-                          .p-b-10.p-r-15.p-l-15.m-b-10.m-t-5
-                            .no-margin.pull-right{:style => "color: #ada4d1;"}
-                              #{seen_progress}% visto
-                            .no-margin.pull-left{:style => "color: #5B4D91;"}
-                              Curso no contestado
-                        - else answered_progress > 0 && seen_progress > 0
-                          .progress.m-b-5
-                            .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
-                          .p-b-10.p-r-15.p-l-15.m-b-10.m-t-5
-                            .no-margin.pull-right{:style => "color: #ada4d1;"}
-                              #{seen_progress}% visto
-                            .no-margin.pull-left{:style => "color: #5B4D91;"}
-                              #{answered_progress}% contestado 
+      .panel.panel-transparent.b-rad-sm
+        .panel-body
+          .tab-content.m-b-30
+            #tabTodos.tab-pane.active
+              - @programs.each_slice(2) do |p|
+                .row
+                  - p.each do |p|
+                    - unless p.program.nil?
+                      .col-md-6.col-sm-6.col-xs-12.p-l-0.p_phone
+                        .super-card-container
+                          .card.share.share-other{"data-social" => "item"}
+                            %a{:href => dashboard_program_path(p.program)}
+                              .card-header.card_height.text-white{ :style => "background: url(#{p.program.cover.url});" , class: "style_img_card" }
+                                %h5.text-complete.pull-left.fs-12.demo-fs-23
+                                  .text-white.bold{id: "program_id#{p.program.id}"}
+                                    = p.position
+                                .pull-right.small.hint-text
+                                  .text-white.bold
+                                    = p.program.rating
+                                    %i.fa.fa-star
+                                .clearfix
+                                %h6.m-t-name_card
+                                  %h6.text-top-name_card.b-b.text-white
+                                    - if p.program.tipo == "construccion"
+                                      Construcción
+                                    -elsif p.program.tipo == "elearning"
+                                      e-learning
+                                    -elsif p.program.tipo.nil?
+                                      Emprendimiento
+                                  = truncate(p.program.name, length: 50, separator: ' ')
+                            /%a{:href => dashboard_program_path(p.program)}
+                            /- @current_user.programs.each do |personal|
+                            /- if p.program.name == personal.name
+                            - seen_progress = @current_user.percentage_content_visited_for(p.program)
+                            - answered_progress = @current_user.percentage_questions_answered_for(p.program)
+                            .min-height
+                              - if
+                                #accordion.panel.panel-group.panel-transparent.m-b-0
+                                  .panel
+                                    .panel-heading.p-m_style.p-b-0.m-b-14.m-b-3.new-margin
+                                      %h4.panel-title.none-width
+                                        %a.collapsed.collap{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{p.program.id}", id: "collap#{p.program.id}"}
+                                        %a.newlink.collapsed{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{p.program.id}", id: "collap#{p.program.id}"}
+                                      - last_parameters = last_moved_program(p.program)
+                                      - if !last_parameters[4].nil?
+                                        -if seen_progress == 0 
+                                          = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                                            %button.btn.btn-complete.m-t--10.opacity__1
+                                              Comenzar
+                                              %i.fa.fa-play.font-size-play
+                                        -elsif seen_progress > 0 && seen_progress < 100
+                                          = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                                            %button.btn.btn-complete.m-t--10.opacity__1
+                                              Continuar
+                                              %span
+                                                (#{seen_progress}%)
+                                        -elsif seen_progress == 100 && answered_progress == 0
+                                          = link_to dashboard_program_path(p.program), class: "opacity__1" do
+                                            %button.btn.btn-success.m-t--10.opacity__1
+                                              Completado
+                                        -elsif seen_progress == 100 && answered_progress < 100
+                                          = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                                            %button.btn.btn-complete.m-t--10.opacity__1
+                                              Continuar
+                                              %span
+                                                (#{seen_progress}%)
+                                        -elsif seen_progress == 100 && answered_progress == 100
+                                          = link_to dashboard_program_path(p.program), class: "opacity__1" do
+                                            %button.btn.btn-success.m-t--10.opacity__1
+                                              Completado
+                                      - elsif
+                                        = link_to dashboard_program_path(p.program), class: "opacity__1" do
+                                          %button.btn.btn-complete.m-t--10.opacity__1
+                                            -if seen_progress == 0 
+                                              Comenzar
+                                              %i.fa.fa-play.font-size-play
+                                    .panel-collapse.collapse.row{:id => "collapsee#{p.program.id}"}
+                                      .panel-body.m-t-3
+                                        .text-color-dificultad.bold
+                                          - if p.program.level == "basico"
+                                            Basico
+                                          -elsif p.program.level == "intermedio"
+                                            Intermedio
+                                          -elsif p.program.level == "avanzado"
+                                            Avanzado
+                                          -elsif p.program.level.nil?
+                                            No especificado
+                                        .b-t.p-t-5.m-h-50
+                                          = truncate(p.program.description, length: 80, separator: ' ')
+                                        .row
+                                          .pull-left.m-l-15
+                                            .m-t-10.bold
+                                              #{answered_progress}% contestado
+                                          .pull-right.m-r-15
+                                            .m-t-10.bold.opacity_05
+                                              (#{seen_progress}%) visto
+                                        .progress.m-b-5.m-t-5
+                                          .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
+                                :javascript
+                                  var y = true;
+                                  $(".collap").click(function() {
+                                    y = !y;
+                                    if(y){
+                                      $("#ver" + #{p.program.id}).text("Más información");
+                                    } else {
+                                      $("#ver" + #{p.program.id}).text("Ocultar información");
+                                    }
+                                  });

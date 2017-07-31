@@ -2,6 +2,7 @@ class Dashboard::WelcomeController < ApplicationController
   before_action :authenticate_user!
   after_action :change_video_trigger, only: [:learning_path]
 
+  helper_method :last_moved_program
   add_breadcrumb "EDCDIGITAL", :root_path
 
   def index
@@ -124,5 +125,20 @@ class Dashboard::WelcomeController < ApplicationController
     if current_user.video_trigger
       current_user.update(video_trigger: false)
     end
+  end
+  def last_moved_program(program)
+     last_moved_content = program.get_last_move(program, current_user)
+    if !last_moved_content.nil?
+      last_move = last_moved_content.chapter_content_id
+      last_time = last_moved_content.updated_at
+      last_content = ChapterContent.find(last_moved_content.chapter_content_id)
+      
+      if last_content.coursable_type == "Lesson"
+        last_text = last_content.model.identifier
+      else
+        last_text = last_content.model.question_text
+      end
+    end
+    return last_move, last_time, last_content, last_text, last_moved_content
   end
 end
