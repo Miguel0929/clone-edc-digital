@@ -91,5 +91,5 @@ Rails.application.configure do
     enable_starttls_auto: true
   }
 
-  config.logger = RemoteSyslogLogger.new('logs6.papertrailapp.com', 40985)
+  config.logger = RemoteSyslogLogger.new('logs6.papertrailapp.com', 40985, :program => "rails")
 end
