@@ -78,15 +78,16 @@
                     = group.category
               %td.p-b-15
                 %ul.unstyled.no-style
+                  %li
+                    %ul.p-l-5.m-b-0
+                      %li.inline.p-l-0
+                        %i.fa.fa-angle-right
+                      %li.inline 
+                        Alumnos del grupo: 
+                        %strong #{group.active_students.count}
                   - current_stats = group.get_group_stat(group)
                   - if !current_stats.nil?
                     %li
-                      %ul.p-l-5.m-b-0
-                        %li.inline.p-l-0
-                          %i.fa.fa-angle-right
-                        %li.inline 
-                          Alumnos del grupo: 
-                          %strong #{current_stats.group_students}
                       %ul.p-l-5.m-b-0
                         %li.inline.p-l-0
                           %i.fa.fa-angle-right

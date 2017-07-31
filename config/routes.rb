@@ -177,11 +177,13 @@ Rails.application.routes.draw do
     end
     member do
       get :student_control
+      get :reassign_student
       post :unlink_student
       post '/unlink_group_student' => 'groups#unlink_student'
     end
 
   end
+  post '/change_group' => 'groups#change_group'
   post '/no_group_students' => 'groups#no_group_students'
 
   resources :exporters, only: [:show]
