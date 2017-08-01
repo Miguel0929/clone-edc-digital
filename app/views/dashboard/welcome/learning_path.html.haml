@@ -28,36 +28,37 @@
         Aquí estará disponible el video introductorio siempre que lo necesites
         .triangle-left
       - @group_programs.each do |p|
-        - unless p.program.nil?
+        - program = p.program
+        - unless program.nil?
           .timeline-block
             .timeline-point.panel-title-emprendimiento
               /%i.pg-map{"aria-hidden"=>"true"}
             .timeline-content
               .card.share.share-other.m-r-0.new-width-card{"data-social" => "item"}
                 .card-content
-                  %a{:href => dashboard_program_path(p.program)}
-                    .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{p.program.cover.url});" , class: "height-img" }
+                  %a{:href => dashboard_program_path(program)}
+                    .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{program.cover.url});" , class: "height-img" }
                   .col-md-7.height-col-md-6
-                    /%a{:href => dashboard_program_path(p.program)}
+                    /%a{:href => dashboard_program_path(program)}
                     %h6.text-tipo-card-ruta.b-b
-                      - if p.program.tipo == "construccion"
+                      - if program.tipo == "construccion"
                         Construcción
-                      -elsif p.program.tipo == "elearning"
+                      -elsif program.tipo == "elearning"
                         e-learning
-                      -elsif p.program.tipo.nil?
+                      -elsif program.tipo.nil?
                         Emprendimiento
                     %h5.text-name-ruta.m-b-5
-                      = truncate(p.program.name, length: 40, separator: ' ')
-                    - stats = @current_user.program_stats.find_by(program_id: p.program)
+                      = truncate(program.name, length: 40, separator: ' ')
+                    - stats = @current_user.program_stats.find_by(program_id: program)
                     - seen_progress = (!stats.nil? ? stats.program_seen.ceil : 0)
-                    /@current_user.percentage_content_visited_for(p.program)
+                    /@current_user.percentage_content_visited_for(program)
                     - answered_progress = (!stats.nil? ? stats.program_progress.ceil : 0)
-                    /@current_user.percentage_questions_answered_for(p.program)
-                    - last_tracker = p.program.get_last_move(@current_user)
+                    /@current_user.percentage_questions_answered_for(program)
+                    - last_tracker = program.get_last_move(@current_user)
                     /- last_content = (!last_tracker.nil? ? last_tracker.chapter_content : nil)
-                    - last_content = last_visited_content(p.program, stats)
+                    - last_content = last_visited_content(program, stats)
                     .text-black.text-frase
-                      = truncate(p.program.description, length: 60, separator: ' ')
+                      = truncate(program.description, length: 60, separator: ' ')
                     .contenedor-btn-barra
                       .col-md-12.p-l-0.text-center.p-t-10.new-p-btn
                         - if !last_content.nil?
@@ -75,7 +76,7 @@
                                   #{answered_progress}%
                                 %i.fa.fa-angle-double-right.font-size-play
                           -elsif seen_progress == 100 && answered_progress == 0
-                            = link_to dashboard_program_path(p.program), class: "opacity__1" do
+                            = link_to dashboard_program_path(program), class: "opacity__1" do
                               %button.btn.btn-success.m-t--10
                                 Completado
                                 %i.fa.fa-check.font-size-play
@@ -87,12 +88,12 @@
                                   #{answered_progress}%
                                 %i.fa.fa-angle-double-right.font-size-play
                           -elsif seen_progress == 100 && answered_progress == 100
-                            = link_to dashboard_program_path(p.program), class: "opacity__1" do
+                            = link_to dashboard_program_path(program), class: "opacity__1" do
                               %button.btn.btn-success.m-t--10
                                 Completado
                                 %i.fa.fa-check.font-size-play
                         - else
-                          = link_to dashboard_program_path(p.program), class: "opacity__1" do
+                          = link_to dashboard_program_path(program), class: "opacity__1" do
                             %button.btn.btn-complete.m-t--10
                               #{(answered_progress > 0) ? "Continuar " + answered_progress.to_s + "%": "Comenzar"}
                               %i.fa.fa-angle-double-right.font-size-play
