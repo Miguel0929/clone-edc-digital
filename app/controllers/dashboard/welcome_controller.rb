@@ -3,6 +3,7 @@ class Dashboard::WelcomeController < ApplicationController
   after_action :change_video_trigger, only: [:learning_path]
 
   helper_method :last_moved_program
+  helper_method :last_visited_content
   add_breadcrumb "EDCDIGITAL", :root_path
 
   def index
@@ -141,6 +142,15 @@ class Dashboard::WelcomeController < ApplicationController
       end
     end
     return last_move, last_time, last_content, last_text, last_moved_content
+  end
+
+  def last_visited_content(program, stats)
+    if stats != nil
+      last = ( !stats.last_content.nil? ? stats.last_content : nil)
+      return last
+    else
+      return nil
+    end
   end
 
 end
