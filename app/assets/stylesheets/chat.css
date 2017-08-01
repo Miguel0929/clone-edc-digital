@@ -630,6 +630,24 @@ p.mensaje{
 .m-t-menos{
   margin-top: -5px !important;
 }
+.bot-left { 
+  position: relative; 
+} 
+.bot-left:before, .bot-left:after { 
+  bottom: -3px; 
+  content: ""; 
+  left: -3px; 
+  position: absolute; 
+} 
+.bot-left:after { 
+  right: -3px; 
+  height: 1px; 
+  background-image: -webkit-gradient(linear, 0 0, 100% 0, from(#000), to(transparent)); 
+  background-image: -webkit-linear-gradient(left, #000, transparent); 
+  background-image: -moz-linear-gradient(left, #000, transparent); 
+  background-image: -o-linear-gradient(left, #000, transparent); 
+}
+
 /* <<<<<< CARDS PROGRAMAS >>>>> */
 .color__icon{
   color: #B32769;
