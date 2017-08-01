@@ -13,7 +13,7 @@
             %h5.text-white
               Esta es tu ruta de aprendizaje
             %p.m-b-25.text-white
-              Aquí podrás ver los cursos que te han sido asignados por nuestro equipo de expertos. Esta selección de programas fue diseñada en el orden óptimo para que realices tu viaje a través nuestra plataforma. Cada curso de tu ruta mostrará el porcentaje de progreso, de modo que siempre podrás tener una visión general de tus avances. ¿Estás listo para continuar?
+              Aquí podrás ver los cursos que te han sido asignados por nuestro equipo de expertos. Esta selección de programas fue diseñada en el orden óptimo para que realices tu viaje a través de nuestra plataforma. Cada curso de tu ruta mostrará el porcentaje de progreso, de modo que siempre podrás tener una visión general de tus avances. ¿Estás listo para continuar?
 
 .container-fluid.sm-p-l-5
   .timeline-container.top-circle
@@ -36,7 +36,7 @@
               .card.share.share-other.m-r-0.new-width-card{"data-social" => "item"}
                 .card-content
                   %a{:href => dashboard_program_path(p.program)}
-                    .col-md-5.p-l-0.p-r-0{ :style => "background: url(#{p.program.cover.url});" , class: "height-img" }
+                    .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{p.program.cover.url});" , class: "height-img" }
                   .col-md-7.height-col-md-6
                     /%a{:href => dashboard_program_path(p.program)}
                     %h6.text-tipo-card-ruta.b-b
@@ -48,26 +48,31 @@
                         Emprendimiento
                     %h5.text-name-ruta.m-b-5
                       = truncate(p.program.name, length: 40, separator: ' ')
-                    - seen_progress = @current_user.percentage_content_visited_for(p.program)
-                    - answered_progress = @current_user.percentage_questions_answered_for(p.program)
-                    - last_parameters = last_moved_program(p.program)
+                    - stats = @current_user.program_stats.find_by(program_id: p.program)
+                    - seen_progress = (!stats.nil? ? stats.program_seen.ceil : 0)
+                    /@current_user.percentage_content_visited_for(p.program)
+                    - answered_progress = (!stats.nil? ? stats.program_progress.ceil : 0)
+                    /@current_user.percentage_questions_answered_for(p.program)
+                    - last_tracker = p.program.get_last_move(@current_user)
+                    /- last_content = (!last_tracker.nil? ? last_tracker.chapter_content : nil)
+                    - last_content = last_visited_content(p.program, stats)
                     .text-black.text-frase
                       = truncate(p.program.description, length: 60, separator: ' ')
                     .contenedor-btn-barra
                       .col-md-12.p-l-0.text-center.p-t-10.new-p-btn
-                        - if !last_parameters[4].nil?
+                        - if !last_content.nil?
                           -if seen_progress == 0
-                            = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 Comenzar
                                 /%i.fa.fa-play.font-size-play
                                 %i.fa.fa-angle-double-right.font-size-play
                           -elsif seen_progress > 0 && seen_progress < 100
-                            = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 Continuar
                                 %span
-                                  #{seen_progress}%
+                                  #{answered_progress}%
                                 %i.fa.fa-angle-double-right.font-size-play
                           -elsif seen_progress == 100 && answered_progress == 0
                             = link_to dashboard_program_path(p.program), class: "opacity__1" do
@@ -75,11 +80,11 @@
                                 Completado
                                 %i.fa.fa-check.font-size-play
                           -elsif seen_progress == 100 && answered_progress < 100
-                            = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 Continuar
                                 %span
-                                  #{seen_progress}%
+                                  #{answered_progress}%
                                 %i.fa.fa-angle-double-right.font-size-play
                           -elsif seen_progress == 100 && answered_progress == 100
                             = link_to dashboard_program_path(p.program), class: "opacity__1" do
@@ -89,10 +94,8 @@
                         - else
                           = link_to dashboard_program_path(p.program), class: "opacity__1" do
                             %button.btn.btn-complete.m-t--10
-                              - if seen_progress == 0
-                                Comenzar
-                                /%i.fa.fa-play.font-size-play
-                                %i.fa.fa-angle-double-right.font-size-play
+                              #{(answered_progress > 0) ? "Continuar " + answered_progress.to_s + "%": "Comenzar"}
+                              %i.fa.fa-angle-double-right.font-size-play
                       .row
                         .pull-left.m-l-15
                           .m-t-5.bold.text-contestado

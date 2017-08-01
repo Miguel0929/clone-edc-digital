@@ -18,12 +18,13 @@ module EvaluationHelper
   end
 
   def seen_percentage_chapter(chapter, user)
-    viewed = []
-    chapter.chapter_contents.each do |content|
-      viewed << !user.trackers.find_by(chapter_content_id: content).nil?
-    end
+    viewed = chapter.chapter_contents.map{|content| !content.trackers.find_by(user_id: user).nil?}.flatten
     ones = viewed.count(true)
-    percentage = ((ones.to_f / viewed.size.to_f) * 100).ceil
+    if viewed.size > 0
+      percentage = ((ones.to_f / viewed.size.to_f) * 100).ceil
+    else
+      percentage = 0.0
+    end
     return percentage
   end
 end
