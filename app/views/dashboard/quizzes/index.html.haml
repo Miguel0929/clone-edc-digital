@@ -26,7 +26,7 @@
               .panel-body.p-t-0.p-b-0
                 .row
                   .col-md-9
-                    %h6.b-b{:class => "#{(quiz.answered(current_user) > 0) ? 'text-complete' : 'text-success'}"}
+                    %h6.bot-left{:class => "#{(quiz.answered(current_user) > 0) ? 'text-complete' : 'text-success'}"}
                       = quiz.answered(current_user) > 0 ? 'Contestado' : 'No contestado'
                     %h4 
                       = quiz.name
@@ -47,7 +47,7 @@
                       .panel
                         .panel-heading
                           %h4.panel-title
-                            %a.collapsed.collap{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{quiz.id}", id: "collap#{quiz.id}"}
+                            %a.collapsed.collap{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{quiz.id}", id: "collap#{quiz.id}", class: "#{(quiz.answered(current_user) > 0) ? 'quizze-contestado' : 'quizze-no-contestado'}"}
                   .col-md-3{:class => "#{(quiz.answered(current_user) > 0) ? 'colorsote2' : 'colorsote1'}"}
                     %input.progress-circle{"data-pages-progress" => "circle", "data-thick" => "true", :type => "hidden", :value => "#{quiz.answered(current_user) > 0 ? quiz.average(current_user) : '0'}"}/
                     .shadow
