@@ -3,6 +3,7 @@ class Dashboard::ProgramsController < ApplicationController
   add_breadcrumb "EDCDIGITAL", :root_path
 
   helper_method :last_moved_program
+  helper_method :last_visited_content
 
   def index
     add_breadcrumb "<a class='active' href='#{dashboard_programs_path}'>Programas</a>".html_safe
@@ -95,6 +96,15 @@ class Dashboard::ProgramsController < ApplicationController
       end
     end
     return last_move, last_time, last_content, last_text, last_moved_content
+  end
+
+  def last_visited_content(program, stats)
+    if stats != nil
+      last = ( !stats.last_content.nil? ? stats.last_content : nil)
+      return last
+    else
+      return nil
+    end
   end
 
 end
