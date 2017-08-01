@@ -13,7 +13,7 @@
             %h5.text-white
               Esta es tu ruta de aprendizaje
             %p.m-b-25.text-white
-              Aquí podrás ver los cursos que te han sido asignados por nuestro equipo de expertos. Esta selección de programas fue diseñada en el orden óptimo para que realices tu viaje a través nuestra plataforma. Cada curso de tu ruta mostrará el porcentaje de progreso, de modo que siempre podrás tener una visión general de tus avances. ¿Estás listo para continuar?
+              Aquí podrás ver los cursos que te han sido asignados por nuestro equipo de expertos. Esta selección de programas fue diseñada en el orden óptimo para que realices tu viaje a través de nuestra plataforma. Cada curso de tu ruta mostrará el porcentaje de progreso, de modo que siempre podrás tener una visión general de tus avances. ¿Estás listo para continuar?
 
 .container-fluid.sm-p-l-5
   .timeline-container.top-circle
@@ -54,7 +54,8 @@
                     - answered_progress = (!stats.nil? ? stats.program_progress.ceil : 0)
                     /@current_user.percentage_questions_answered_for(p.program)
                     - last_tracker = p.program.get_last_move(@current_user)
-                    - last_content = (!last_tracker.nil? ? last_tracker.chapter_content : nil)
+                    /- last_content = (!last_tracker.nil? ? last_tracker.chapter_content : nil)
+                    - last_content = last_visited_content(p.program, stats)
                     .text-black.text-frase
                       = truncate(p.program.description, length: 60, separator: ' ')
                     .contenedor-btn-barra
@@ -71,7 +72,7 @@
                               %button.btn.btn-complete.m-t--10
                                 Continuar
                                 %span
-                                  #{seen_progress}%
+                                  #{answered_progress}%
                                 %i.fa.fa-angle-double-right.font-size-play
                           -elsif seen_progress == 100 && answered_progress == 0
                             = link_to dashboard_program_path(p.program), class: "opacity__1" do
@@ -83,7 +84,7 @@
                               %button.btn.btn-complete.m-t--10
                                 Continuar
                                 %span
-                                  #{seen_progress}%
+                                  #{answered_progress}%
                                 %i.fa.fa-angle-double-right.font-size-play
                           -elsif seen_progress == 100 && answered_progress == 100
                             = link_to dashboard_program_path(p.program), class: "opacity__1" do
@@ -93,10 +94,8 @@
                         - else
                           = link_to dashboard_program_path(p.program), class: "opacity__1" do
                             %button.btn.btn-complete.m-t--10
-                              - if seen_progress == 0
-                                Comenzar
-                                /%i.fa.fa-play.font-size-play
-                                %i.fa.fa-angle-double-right.font-size-play
+                              #{(answered_progress > 0) ? "Continuar " + answered_progress.to_s + "%": "Comenzar"}
+                              %i.fa.fa-angle-double-right.font-size-play
                       .row
                         .pull-left.m-l-15
                           .m-t-5.bold.text-contestado
