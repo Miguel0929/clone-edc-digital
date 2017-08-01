@@ -31,20 +31,30 @@
                     %h4 
                       = quiz.name
                     %h6
-                      = quiz.description
+                      -if quiz.answered(current_user) > 0  
+                        ¡Bien hecho!
+                      -else
+                        Sabemos que lo harás bien.
                     -if quiz.answered(current_user) > 0  
                       = link_to dashboard_quiz_path(quiz) do
-                        %button.btn.btn-sm.btn-complete
-                          %i.fa.fa-eye
-                          Ver mis resultados
+                        %button.btn.btn-sm.btn-complete.bold.m-b-10
+                          Ver exámen
                     -else
                       = link_to apply_dashboard_quiz_path(quiz) do
-                        %button.btn.btn-sm.btn-success
-                          %i.fa.fa-edit
-                          Contestar examen
+                        %button.btn.btn-sm.btn-success.bold.m-b-10
+                          Contestar
+                    .pull-right#accordion.panel.panel-group.panel-transparent.m-b-0.inline-block.m-t-menos
+                      .panel
+                        .panel-heading
+                          %h4.panel-title
+                            %a.collapsed.collap{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{quiz.id}", id: "collap#{quiz.id}"}
                   .col-md-3{:class => "#{(quiz.answered(current_user) > 0) ? 'colorsote2' : 'colorsote1'}"}
-                    %input.progress-circle{"data-pages-progress" => "circle", "data-thick" => "true", :type => "hidden", :value => "#{quiz.answered(current_user) > 0 ? quiz.average(current_user) : '0'}", "data-percent" => "#{quiz.answered(current_user) > 0 ? quiz.average(current_user) : ''}" }/
-                    = quiz.answered(current_user) > 0 ? quiz.average(current_user) : ''
+                    %input.progress-circle{"data-pages-progress" => "circle", "data-thick" => "true", :type => "hidden", :value => "#{quiz.answered(current_user) > 0 ? quiz.average(current_user) : '0'}"}/
+                    .shadow
+                      = quiz.answered(current_user) > 0 ? quiz.average(current_user) : ''
+                .panel-collapse.collapse.row{:id => "collapsee#{quiz.id}"}
+                  .panel-body
+                    = quiz.description
                     
 
       .col-md-2
