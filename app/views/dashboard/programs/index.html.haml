@@ -166,7 +166,7 @@
                                           = link_to dashboard_program_path(p.program), class: "opacity__1" do
                                             %button.btn.btn-success.m-t--10.opacity__1
                                               Completado
-                                      - elsif
+                                      - else
                                         = link_to dashboard_program_path(p.program), class: "opacity__1" do
                                           %button.btn.btn-complete.m-t--10.opacity__1
                                             -if seen_progress == 0 
