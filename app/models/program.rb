@@ -55,19 +55,8 @@ class Program < ActiveRecord::Base
     [['Ruta EDC', 'ruta'], ['Complementario', 'complementario'], ['Powered by ( Brindado por terceros)','powered']]
   end  
 
-  def get_last_move(thisprogram, current_user)
-    current_program = Program.where(id: thisprogram.id).last
-    tracker_list = []
-    current_program.chapters.each do |chapter|
-      chapter.chapter_contents.each do |content|
-        content.trackers.each do |tracker|
-          if tracker.user_id == current_user.id
-            event = tracker
-            tracker_list << event
-          end
-        end
-      end
-    end
+  def get_last_move(current_user)
+    tracker_list = self.chapters.map{|chap| chap.chapter_contents}.flatten.map{|cont| cont.trackers.where(user_id: current_user)}.flatten
     last_content = tracker_list.sort_by{|m| [m.updated_at].max}.last
     return last_content
   end

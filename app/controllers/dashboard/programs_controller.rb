@@ -82,7 +82,7 @@ class Dashboard::ProgramsController < ApplicationController
 
   private
   def last_moved_program(program)
-     last_moved_content = program.get_last_move(program, current_user)
+     last_moved_content = program.get_last_move(current_user)
     if !last_moved_content.nil?
       last_move = last_moved_content.chapter_content_id
       last_time = last_moved_content.updated_at
