@@ -20,7 +20,7 @@ class Dashboard::WelcomeController < ApplicationController
   def support
     add_breadcrumb "<a class='active' href='#{dashboard_support_path}'>Ayuda</a>".html_safe
     last_program = current_user.get_last_program
-    last_tracker = last_program.get_last_move(last_program, current_user)
+    last_tracker = last_program.get_last_move(current_user)
     last_chapter = last_tracker.chapter_content.chapter
     last_content = last_tracker.chapter_content
     if last_content.coursable_type == "Lesson"
@@ -44,7 +44,7 @@ class Dashboard::WelcomeController < ApplicationController
   end
 
   def learning_path
-    @group_programs=current_user.group.group_programs.order(:position)
+    @group_programs = current_user.group.group_programs.order(:position)
     @modal_trigger = current_user.video_trigger
   end  
 
@@ -126,12 +126,13 @@ class Dashboard::WelcomeController < ApplicationController
       current_user.update(video_trigger: false)
     end
   end
+
   def last_moved_program(program)
-     last_moved_content = program.get_last_move(program, current_user)
+     last_moved_content = program.get_last_move(current_user)
     if !last_moved_content.nil?
       last_move = last_moved_content.chapter_content_id
       last_time = last_moved_content.updated_at
-      last_content = ChapterContent.find(last_moved_content.chapter_content_id)
+      last_content = last_moved_content.chapter_content
       
       if last_content.coursable_type == "Lesson"
         last_text = last_content.model.identifier
@@ -141,4 +142,5 @@ class Dashboard::WelcomeController < ApplicationController
     end
     return last_move, last_time, last_content, last_text, last_moved_content
   end
+
 end
