@@ -63,8 +63,8 @@
                           = stat.program.name
                       %small.block.p-t-25
                         - stats = @current_user.program_stats.find_by(program_id: stat.program)
-                        - seen_progress = (!stats.nil? ? stats.program_seen.ceil : 0)
-                        - answered_progress = (!stats.nil? ? stats.program_progress.ceil : 0)
+                        - seen_progress = ( (!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
+                        - answered_progress = ( (!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
                         - if !last_parameters[4].nil?
                           -if seen_progress == 0 
                             = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
@@ -130,8 +130,8 @@
                             /- @current_user.programs.each do |personal|
                             /- if program.name == personal.name
                             - stats = @current_user.program_stats.find_by(program_id: program)
-                            - seen_progress = (!stats.nil? ? stats.program_seen.ceil : 0)
-                            - answered_progress = (!stats.nil? ? stats.program_progress.ceil : 0)
+                            - seen_progress = ( (!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
+                            - answered_progress = ( (!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
                             - last_content = last_visited_content(program, stats)
                             /- last_parameters = last_moved_program(program)
                             .min-height
