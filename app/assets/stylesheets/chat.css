@@ -1691,7 +1691,7 @@ p.mensaje{
 }
 
 .c100.white {
-  background-color: #fefe;
+  background-color: rgba(255,255,255,0.5)
 }
 .c100.white .bar,
 .c100.white .fill {
