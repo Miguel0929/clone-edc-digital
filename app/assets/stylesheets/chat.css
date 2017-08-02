@@ -622,12 +622,10 @@ p.mensaje{
 .colorsote1{
   background-color: #10cfbd;
   height: 150px;
-  
 }
 .colorsote2{
   background-color: #48b0f7;
-  height: 150px;
-  
+  height: 150px;  
 }
 .new-font-size{
   font-size: 100px !important;
@@ -648,6 +646,11 @@ p.mensaje{
 }
 .m-t-menos{
   margin-top: -5px !important;
+}
+.text_descripcion_quiz{
+  font-size: 11px;
+  font-style: italic;
+  margin-top: -26px;
 }
 .bot-left { 
   position: relative; 
@@ -907,9 +910,20 @@ p.mensaje{
   -moz-box-sizing: content-box;
   box-sizing: content-box;
 }
+.pos-relative-quiz{
+  position: relative !important;
+}
 .c100.center {
-  float: none;
-  margin: 0 auto;
+  /*
+  float:none;
+  margin:0 auto;
+  */
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
 }
 .c100.big {
   font-size: 240px;
@@ -1675,12 +1689,25 @@ p.mensaje{
 .c100:hover {
   cursor: default;
 }
+
+.c100.white {
+  background-color: #fefe;
+}
+.c100.white .bar,
+.c100.white .fill {
+  border-color: #fff !important;
+}
+.c100.white > span {
+  color: #777777;
+}
+
+
 .c100.dark {
-  background-color: #fefe;/*#777777*/
+  background-color: #777777;
 }
 .c100.dark .bar,
 .c100.dark .fill {
-  border-color: #fff !important; /*#c6ff00*/
+  border-color: #c6ff00 !important;
 }
 .c100.dark > span {
   color: #777777;
@@ -1711,13 +1738,6 @@ p.mensaje{
 }
 .c100.orange:hover > span {
   color: #dd9d22;
-}
-.c100.white .bar,
-.c100.white .fill {
-  border-color: #fff !important;
-}
-.c100.white:hover > span {
-  color: #fff;
 }
 .c100.orange.dark .bar,
 .c100.orange.dark .fill {
