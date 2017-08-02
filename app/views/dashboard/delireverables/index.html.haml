@@ -47,3 +47,43 @@
               %td
                 %p
                   = link_to 'Subir entregable', new_dashboard_delireverable_delireverable_user_path(delireverable)
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      .tab-content
+        #tab1.tab-pane.padding-20.sm-no-padding.active.slide-left
+          .row.row-same-height
+            .col-md-6.b-r.b-dashed.b-grey.sm-b-b
+              .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
+                %h3 
+                  %i.fa.fa-clock-o.hint-text
+                  Entregables pendientes
+                %p Aquí puedes ver aquellos entregables que te son asignados por nuestro equipo de mentores. Recuerda siempre mantenerte al tanto de ellos.
+
+                .card.social-card.share{"data-social" => "item"}
+                  .card-header
+                    %h5.text-complete.pull-left.fs-12
+                      News
+                      %i.fa.fa-circle.text-complete.fs-11
+                    .pull-right.small.hint-text
+                      5,345
+                      %i.fa.fa-comment-o
+                    .clearfix
+                  .card-description
+                    %h4 Ebola outbreak 
+                    %p Clinical drug trials to start next month as death toll mounts
+                  .card-footer.clearfix
+                    .pull-left
+                      Apr 23
+                    .pull-right.hint-text
+                      = link_to search_users_path, class: "btn btn-success btn-sm" do
+                        Descargar ejemplo
+                    .clearfix
+
+            .col-md-6
+              .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
+                %h3 
+                  %i.fa.fa-check-square-o.hint-text
+                  Entregables cumplidos
+                %p Una vez que hayas subido tus entregables podrás verlos en esta columna. Podrás editarlos aunque estén clasificados como complidos. 
