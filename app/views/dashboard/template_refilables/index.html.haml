@@ -1,47 +1,90 @@
 - content_for :title  do
   Mis rellenables - EDCdigital
 
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Mis rellenables
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Probando tu conocimiento
+            %p.m-b-25.text-white
+              En esta sección verás los rellenables que se te asignen durante tu avance en los cursos de la plataforma. ¡Usa tus conocimientos adquiridos para contestarlos! 
+
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
-      %h2
-        Mis rellenables
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Nombre
-            %th
-              Descripción
-            %th
-              Estatus
-            %th
-              Comentarios
-            %th
-              Acciones
-        %tbody
-          - @refilables.each do |refilable|
-            - user_refilable = refilable.refilables.find_by(user: current_user)
-            %tr
-              %td
-                = refilable.name
-              %td
-                = refilable.description
-              %td
-                - if user_refilable
-                  = user_refilable.status
+      .tab-content
+        #tab1.tab-pane.padding-20.sm-no-padding.active.slide-left
+          .row.row-same-height
+            .col-md-6.b-r.b-dashed.b-grey.sm-b-b
+              .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
+                %h3 
+                  %i.fa.fa-edit.hint-text
+                  Rellenables pendientes
+                %p.m-b-30 Aquí puedes ver aquellos rellenables que te son asignados por nuestro equipo de mentores. Recuerda siempre mantenerte al tanto de ellos.
+
+                - if @undone_refilables.count > 0
+                  - @undone_refilables.each do |refilable|
+                    .card.social-card.share.m-b-30{"data-social" => "item"}
+                      .card-header{style: "border-bottom: none"}
+                        %h5.text-complete.pull-left.fs-12
+                          No contestado
+                        .pull-right.small.hint-text
+                          = l refilable.updated_at, format: :short_no_year
+                          %i.fa.fa-calendar-o
+                        .clearfix
+                      .card-description{style: "background-color: #fafafa"}
+                        %h4 #{refilable.name} 
+                        %p #{refilable.description}
+                      .card-footer.clearfix
+                        .pull-right.hint-text
+                          = link_to new_dashboard_template_refilable_refilable_path(refilable), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
+                            Contestar
+                        .clearfix
                 - else
-                  No contestado
-              %td
-                - if user_refilable
-                  = user_refilable.comments ? user_refilable.comments : "N/A"
+                  %h4.text-complete
+                    Por el momento no tienes rellenables pendientes.
+                
+
+            .col-md-6
+              .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
+                %h3 
+                  %i.fa.fa-check-square-o.hint-text
+                  Rellenables cumplidos
+                %p.m-b-30 Una vez que hayas contestado tus rellenables podrás verlos en esta columna. Podrás editarlos aunque estén clasificados como complidos. 
+
+                - if @done_refilables.count > 0
+                  - @done_refilables.each do |refilable|
+                    - user_refilable = refilable.refilables.find_by(user: current_user)
+                    .card.social-card.share.m-b-30{"data-social" => "item"}
+                      .card-header{style: "border-bottom: none"}
+                        %h5.text-complete.pull-left.fs-12
+                          #{user_refilable.status}
+                        .pull-right.small.hint-text
+                          = l user_refilable.updated_at, format: :short_no_year
+                          %i.fa.fa-calendar-o
+                        .clearfix
+                      .card-description{style: "background-color: #fafafa"}
+                        %h4 #{refilable.name} 
+                        %p #{refilable.description}
+                        - if user_refilable
+                          - if user_refilable.comments
+                            %p.m-t-15
+                              %span.text-primary Comentarios: 
+                              %span.hint-text #{user_refilable.comments}
+                      .card-footer.clearfix
+                        .pull-right.hint-text
+                          = link_to edit_dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
+                            Editar
+                        .pull-right.hint-text
+                          = link_to dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-dark btn-tag-rounded m-l-5" do
+                            Ver
+                        .clearfix
                 - else
-                  N/A
-              %td
-                - if user_refilable
-                  %p
-                    = link_to 'Ver', dashboard_template_refilable_refilable_path(refilable, user_refilable)
-                  %p
-                    = link_to 'Editar', edit_dashboard_template_refilable_refilable_path(refilable, user_refilable)
-                - else
-                  = link_to 'Contestar', new_dashboard_template_refilable_refilable_path(refilable)
+                  %h4.text-complete
+                    Por el momento no tienes rellenables cumplidos.
