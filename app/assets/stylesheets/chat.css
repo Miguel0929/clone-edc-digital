@@ -632,11 +632,19 @@ p.mensaje{
 .new-font-size{
   font-size: 100px !important;
 }
-#color-circle2{
-  background-color: #59b8f9 !important;
+#color-circle2:after{
+  background-color: #48b0f7 !important;
 }
-#color-circle1{
-  background-color: #1ae7d3 !important;
+#color-circle1:after{
+  background-color: #10cfbd !important;
+}
+@media only screen and (max-width: 360px) {
+  .new-padding-phone{
+    padding: 15px !important;
+  }  
+}
+.new-top-collapse-quiz::after{
+  top: 13% !important;
 }
 .m-t-menos{
   margin-top: -5px !important;
@@ -764,7 +772,7 @@ p.mensaje{
 .c100.p99 .fill,
 .c100.p100 .fill {
   position: absolute;
-  border: 0.08em solid #fff; /*#307bbb*/
+  border: 0.08em solid #fff;
   width: 0.84em;
   height: 0.84em;
   clip: rect(0em, 0.5em, 1em, 0em);
@@ -890,7 +898,7 @@ p.mensaje{
   border-radius: 50%;
   float: left;
   margin: 0 0.1em 0.1em 0;
-  background-color: #cccccc;
+  /*background-color: #cccccc;*/
 }
 .c100 *,
 .c100 *:before,
@@ -942,7 +950,7 @@ p.mensaje{
   display: block;
   content: " ";
   border-radius: 50%;
-  /*background-color: #f5f5f5;*/
+  /*background-color: #fff;*/
   width: 0.84em;
   height: 0.84em;
   -webkit-transition-property: all;
@@ -1667,30 +1675,18 @@ p.mensaje{
 .c100:hover {
   cursor: default;
 }
-/*.c100:hover > span {
-  width: 3.33em;
-  line-height: 3.33em;
-  font-size: 0.3em;
-  color: #307bbb;
-}
-.c100:hover:after {
-  top: 0.04em;
-  left: 0.04em;
-  width: 0.92em;
-  height: 0.92em;
-}*/
 .c100.dark {
-  background-color: #777777;
+  background-color: #fefe;/*#777777*/
 }
 .c100.dark .bar,
 .c100.dark .fill {
-  border-color: #c6ff00 !important;
+  border-color: #fff !important; /*#c6ff00*/
 }
 .c100.dark > span {
   color: #777777;
 }
 .c100.dark:after {
-  background-color: #666666;
+  /*background-color: #666666;*/
 }
 .c100.dark:hover > span {
   color: #c6ff00;
@@ -1715,6 +1711,13 @@ p.mensaje{
 }
 .c100.orange:hover > span {
   color: #dd9d22;
+}
+.c100.white .bar,
+.c100.white .fill {
+  border-color: #fff !important;
+}
+.c100.white:hover > span {
+  color: #fff;
 }
 .c100.orange.dark .bar,
 .c100.orange.dark .fill {
