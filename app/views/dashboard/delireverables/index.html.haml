@@ -1,49 +1,103 @@
 - content_for :title  do
   Mis entregables - EDCdigital
 
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Mis entregables
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Cumpliendo con el deber
+            %p.m-b-25.text-white
+              Aquí encontrarás las peticiones de archivos que debes entregar a lo largo de tu avance por la plataforma de EDC Digital. ¡Toma la iniciativa y constúyelos! 
+
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
-      %h2
-        Mis entregables
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Nombre
-            %th
-              Archivo de ejemplo
-            %th
-              Tu entregable
-            %th
-              Estatus
-            %th
-              Comentarios
-            %th
-              Acciones
-        %tbody
-          - @delireverables.each do |delireverable|
-            - user_delireverable = delireverable.delireverable_users.find_by(user: current_user)
-            %tr
-              %td
-                = delireverable.name
-              %td
-                = link_to 'Descargar', delireverable.file.url, target: '_blank'
-              %td
-                - if user_delireverable
-                  = link_to 'Descargar', user_delireverable.file.url, target: '_blank'
+      .tab-content
+        #tab1.tab-pane.padding-20.sm-no-padding.active.slide-left
+          .row.row-same-height
+            .col-md-6.b-r.b-dashed.b-grey.sm-b-b
+              .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
+                %h3 
+                  %i.fa.fa-clock-o.hint-text
+                  Entregables pendientes
+                %p.m-b-30 Aquí puedes ver aquellos entregables que te son asignados por nuestro equipo de mentores. Recuerda siempre mantenerte al tanto de ellos.
+
+                - if @undone_delireverables.count > 0
+                  - @undone_delireverables.each do |deliv|
+                    - package = deliv.delireverable_package
+                    .card.social-card.share.m-b-30{"data-social" => "item"}
+                      .card-header{style: "border-bottom: none"}
+                        %h5.text-complete.pull-left.fs-12
+                          = package.name
+                          /%i.fa.fa-circle.text-complete.fs-11
+                        .pull-right.small.hint-text
+                          = l package.updated_at, format: :short_no_year
+                          %i.fa.fa-calendar-o
+                        .clearfix
+                      .card-description{style: "background-color: #fafafa"}
+                        %h4 #{deliv.name} 
+                        %p #{deliv.description}
+                      .card-footer.clearfix
+                        .pull-right.hint-text
+                          = link_to new_dashboard_delireverable_delireverable_user_path(deliv), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-10" do
+                            Subir entregable
+                        .pull-right.hint-text
+                          = link_to deliv.file.url, target: '_blank', class: "btn btn-tag btn-tag-dark btn-tag-rounded m-l-10" do
+                            Ver ejemplo
+                        .clearfix
                 - else
-                  N/A
-              %td
-                - if user_delireverable
-                  = user_delireverable.huminize_status
+                  %h4.text-complete
+                    Por el momento no tienes entregables pendientes.
+
+            .col-md-6
+              .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
+                %h3 
+                  %i.fa.fa-check-square-o.hint-text
+                  Entregables cumplidos
+                %p.m-b-30 Una vez que hayas subido tus entregables podrás verlos en esta columna. Podrás editarlos aunque estén clasificados como complidos. 
+
+                - if @done_delireverables.count > 0
+                  - @done_delireverables.each do |deliv|
+                    - user_delireverable = deliv.delireverable_users.find_by(user: current_user)
+                    - package = deliv.delireverable_package
+                    .card.social-card.share.m-b-30{"data-social" => "item"}
+                      .card-header{style: "border-bottom: none"}
+                        %h5.text-complete.pull-left.fs-12
+                          = package.name
+                          /%i.fa.fa-circle.text-complete.fs-11
+                        .pull-right.small.hint-text
+                          = l user_delireverable.updated_at, format: :short_no_year
+                          %i.fa.fa-calendar-o
+                        .clearfix
+                      .card-description{style: "background-color: #fafafa"}
+                        .row
+                          .col-sm-6
+                            %h4 #{deliv.name} 
+                          .col-sm-6
+                            .pull-right.m-t-15.p-r-10
+                              = link_to user_delireverable.file.url, target: '_blank' do
+                                Ver mi entregable
+                                %i.fa.fa-angle-double-right
+                        %p #{deliv.description}
+                        - if user_delireverable
+                          - if user_delireverable.comments
+                            %p.m-t-15
+                              %span.text-primary Comentarios: 
+                              %span.hint-text #{user_delireverable.comments}
+                      .card-footer.clearfix
+                        .pull-right.hint-text
+                          = link_to new_dashboard_delireverable_delireverable_user_path(deliv), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
+                            Editar entregable
+                        .pull-right.hint-text
+                          = link_to deliv.file.url, target: '_blank', class: "btn btn-tag btn-tag-dark btn-tag-rounded m-l-5" do
+                            Ver ejemplo
+                        .clearfix
                 - else
-                  Sin entregar
-              %td
-                - if user_delireverable
-                  = user_delireverable.comments ? user_delireverable.comments : "N/A"
-                - else
-                  N/A
-              %td
-                %p
-                  = link_to 'Subir entregable', new_dashboard_delireverable_delireverable_user_path(delireverable)
+                  %h4.text-complete
+                    Por el momento no tienes entregables cumplidos.
