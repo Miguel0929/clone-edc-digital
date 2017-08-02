@@ -50,9 +50,9 @@
                     %h5.text-name-ruta.m-b-5
                       = truncate(program.name, length: 40, separator: ' ')
                     - stats = @current_user.program_stats.find_by(program_id: program)
-                    - seen_progress = (!stats.nil? ? stats.program_seen.ceil : 0)
+                    - seen_progress = ((!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
                     /@current_user.percentage_content_visited_for(program)
-                    - answered_progress = (!stats.nil? ? stats.program_progress.ceil : 0)
+                    - answered_progress = ((!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
                     /@current_user.percentage_questions_answered_for(program)
                     - last_tracker = program.get_last_move(@current_user)
                     /- last_content = (!last_tracker.nil? ? last_tracker.chapter_content : nil)
