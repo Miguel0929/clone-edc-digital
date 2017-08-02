@@ -61,8 +61,10 @@
                           .panel-heading
                             %h4.panel-title
                               %a.collapsed.collap.new-top-collapse-quiz{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{quiz.id}", id: "collap#{quiz.id}", class: "#{(quiz.answered(current_user) > 0) ? 'quizze-contestado' : 'quizze-no-contestado'}"}
-                    .col-md-3{:class => "#{(quiz.answered(current_user) > 0) ? 'colorsote2' : 'colorsote1'}"}
-                      .c100.center.dark.new-font-size{:class=> "p"+quiz.average(current_user).to_s, :id => "#{(quiz.answered(current_user) > 0) ? 'color-circle2' : 'color-circle1'}"}
+                            .m-r-20.text_descripcion_quiz
+                              Descripción
+                    .col-md-3.pos-relative-quiz{:class => "#{(quiz.answered(current_user) > 0) ? 'colorsote2' : 'colorsote1'}"}
+                      .c100.center.white.new-font-size{:class=> "p"+quiz.average(current_user).to_s, :id => "#{(quiz.answered(current_user) > 0) ? 'color-circle2' : 'color-circle1'}"}
                         %span.bold{:class => "#{(quiz.answered(current_user) > 0) ? 'text-white' : 'text-white'}"}
                           = quiz.answered(current_user) > 0 ? quiz.average(current_user).to_s + ' %' : '0%'
                         .slice
