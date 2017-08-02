@@ -9,7 +9,7 @@ class Program < ActiveRecord::Base
   has_many :group_programs
   has_many :groups, through: :group_programs
   has_many :program_notifications, dependent: :destroy
-  has_many :ratings, as: :ratingable 
+  has_many :ratings, as: :ratingable
   has_many :program_stats
 
   enum tipo: [ :elearning, :construccion, :fusion ]
@@ -36,8 +36,8 @@ class Program < ActiveRecord::Base
       return 0.0
     else
       return r
-    end 
-  end 
+    end
+  end
 
   def self.category_type_options
     [['Selecciona una categoría', 'none'], ['Cursos principales', 'main'], ['Cursos adicionales', 'additional'], ['Cursos externos', 'external']]
@@ -53,12 +53,10 @@ class Program < ActiveRecord::Base
   end
   def self.content_type_options
     [['Ruta EDC', 'ruta'], ['Complementario', 'complementario'], ['Powered by ( Brindado por terceros)','powered']]
-  end  
+  end
 
   def get_last_move(current_user)
-    tracker_list = self.chapters.map{|chap| chap.chapter_contents}.flatten.map{|cont| cont.trackers.where(user_id: current_user)}.flatten
-    last_content = tracker_list.sort_by{|m| [m.updated_at].max}.last
-    return last_content
+    Tracker.where(chapter_content_id: ChapterContent.where(chapter_id: chapters.pluck(:id)).pluck(:id)).where(user_id: current_user).order(updated_at: :asc).last
   end
 
   def program_checked?(program, user)
@@ -74,9 +72,9 @@ class Program < ActiveRecord::Base
     end
     return status
   end
-  
+
   def alias
-    arr=self.name.split(" ") 
+    arr=self.name.split(" ")
     return self.name[0,3]+"."+arr[1][0].capitalize+"."+self.id.to_s
   end
 
