@@ -724,6 +724,7 @@ h6.cabecera_card-programas {
 .text-color-dificultad{
   color: #B32768;
 }
+
 .m-t--card{
   margin-top: 80px;
 }
@@ -852,6 +853,10 @@ h6.cabecera_card-programas {
 }
 .height-img{
   height: 205px !important;
+  background-repeat: no-repeat  !important;
+  background-position-x: center !important;
+  background-position-y: center !important;
+  background-size: cover !important; 
 }
 .card.share .cabecera_card-programas h5 {
   font-weight: bold;
