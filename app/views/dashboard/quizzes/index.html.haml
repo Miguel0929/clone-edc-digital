@@ -33,7 +33,7 @@
       .row
         .col-md-2
         .col-md-8
-          .container-fluid.container-fixed-lg
+          .container-fluid.container-fixed-lg.new-padding-phone
             .card.share.share-other.height-card-quizzes
               .card-content
                 .panel-body.p-t-0.p-b-0
@@ -60,55 +60,15 @@
                         .panel
                           .panel-heading
                             %h4.panel-title
-                              %a.collapsed.collap{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{quiz.id}", id: "collap#{quiz.id}", class: "#{(quiz.answered(current_user) > 0) ? 'quizze-contestado' : 'quizze-no-contestado'}"}
+                              %a.collapsed.collap.new-top-collapse-quiz{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{quiz.id}", id: "collap#{quiz.id}", class: "#{(quiz.answered(current_user) > 0) ? 'quizze-contestado' : 'quizze-no-contestado'}"}
                     .col-md-3{:class => "#{(quiz.answered(current_user) > 0) ? 'colorsote2' : 'colorsote1'}"}
-                      .c100.white.new-font-size{:class=> "p"+quiz.average(current_user).to_s, :id => "#{(quiz.answered(current_user) > 0) ? 'color-circle2' : 'color-circle1'}"}
-                        %span
+                      .c100.center.dark.new-font-size{:class=> "p"+quiz.average(current_user).to_s, :id => "#{(quiz.answered(current_user) > 0) ? 'color-circle2' : 'color-circle1'}"}
+                        %span.bold{:class => "#{(quiz.answered(current_user) > 0) ? 'text-white' : 'text-white'}"}
                           = quiz.answered(current_user) > 0 ? quiz.average(current_user).to_s + ' %' : '0%'
                         .slice
                           .bar
                           .fill
-                      /%input.progress-circle{"data-pages-progress" => "circle", "data-thick" => "true", :type => "hidden", :value => "#{quiz.answered(current_user) > 0 ? quiz.average(current_user) : '0'}"}/
-                      /= quiz.answered(current_user) > 0 ? quiz.average(current_user) : ''
                   .panel-collapse.collapse.row{:id => "collapsee#{quiz.id}"}
                     .panel-body
-                      = quiz.description
+                      = truncate(quiz.description, length: 100, separator: ' ')
         .col-md-2
-
-.container-fluid.container-fixed-lg
-  .row
-    .col-md-12
-      .panel.panel-transparent
-        .panel-heading.p-t-10
-          %h5
-            Contesta las evaluaciones y mide tu progreso. 
-        .panel-body
-          %table.table.table-hover
-            %thead
-              %tr
-                %th Examen
-                %th 
-                  %span.p-l-15 Status
-                %th.text-center Calificación
-                %th 
-            %tbody
-              - @quizzes.each do |quiz|
-                %tr
-                  %td.p-t-15.p-b-15
-                    = quiz.name
-                  %td.p-t-15.p-b-15
-                    %span.label{:class => "#{(quiz.answered(current_user) > 0) ? 'label-success' : 'label-warning'}", style: "font-size:1em;"}
-                      = quiz.answered(current_user) > 0 ? 'Contestado' : 'No contestado'
-                  %td.text-center.p-t-15.p-b-15{:class => "#{(quiz.answered(current_user) > 0) ? 'text-primary' : 'text-danger'}"}
-                    = quiz.answered(current_user) > 0 ? quiz.average(current_user) : 'No disponible'
-                  %td.p-t-15.p-b-15 
-                    -if quiz.answered(current_user) > 0  
-                      = link_to dashboard_quiz_path(quiz) do
-                        %button.btn.btn-sm.btn-complete
-                          %i.fa.fa-eye
-                          Ver mis resultados
-                    -else
-                      = link_to apply_dashboard_quiz_path(quiz) do
-                        %button.btn.btn-sm.btn-primary
-                          %i.fa.fa-edit
-                          Contestar examen
