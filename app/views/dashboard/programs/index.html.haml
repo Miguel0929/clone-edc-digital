@@ -146,12 +146,14 @@
                                         = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
                                           %button.btn.btn-complete.m-t--10.opacity__1
                                             Comenzar
+                                            %i.fa.fa-angle-double-right.font-size-play
                                       -elsif seen_progress > 0 && seen_progress < 100
                                         = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
                                           %button.btn.btn-complete.m-t--10.opacity__1
                                             Continuar
                                             %span
                                               (#{answered_progress}%)
+                                            %i.fa.fa-angle-double-right.font-size-play
                                       -elsif seen_progress == 100 && answered_progress == 0
                                         = link_to dashboard_program_path(program), class: "opacity__1" do
                                           %button.btn.btn-success.m-t--10.opacity__1
@@ -162,6 +164,7 @@
                                             Continuar
                                             %span
                                               (#{answered_progress}%)
+                                            %i.fa.fa-angle-double-right.font-size-play
                                       -elsif seen_progress == 100 && answered_progress == 100
                                         = link_to dashboard_program_path(program), class: "opacity__1" do
                                           %button.btn.btn-success.m-t--10.opacity__1
@@ -180,7 +183,6 @@
                                         -else
                                           %button.btn.btn-complete.m-t--10
                                             = "Comenzar"    
-                                  %i.fa.fa-angle-double-right.font-size-play
                                   .panel-collapse.collapse.row{:id => "collapsee#{program.id}"}
                                     .panel-body.m-t-3
                                       .text-color-dificultad.bold
@@ -214,4 +216,3 @@
                                   }
                                 });
                            
->>>>>>> hotfix/new-home-structure
