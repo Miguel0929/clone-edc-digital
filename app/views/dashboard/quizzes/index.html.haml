@@ -16,8 +16,7 @@
               En esta sección encontrarás las evaluaciones destinadas a medir tu aprendizaje a través de la plataforma. También podrás revisar tus calificaciones obtenidas y el desglose de cada examen. ¡Éxito!
   .panel.container-fluid
     .row
-      .col-md-4
-      .col-md-5
+      .col-md-6.col-md-offset-3
         %ul.nav.nav-tabs.nav-tabs-simple.nav-tabs-primary
           - if current_user.student?
             %li{'class'=>params[:tipo].nil? ? 'active' : ''}
