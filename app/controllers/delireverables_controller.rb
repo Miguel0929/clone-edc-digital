@@ -9,7 +9,8 @@ class DelireverablesController < ApplicationController
     add_breadcrumb "Paquetes de entregables", :delireverable_packages_path
     add_breadcrumb "<a class='active' href='#{delireverable_package_delireverables_path(@delireverable_package)}'>#{@delireverable_package.name}</a>".html_safe
 
-    @delireverables =  Delireverable.all
+    #@delireverables =  Delireverable.all
+    @delireverables =  @delireverable_package.delireverables
   end
 
   def new
