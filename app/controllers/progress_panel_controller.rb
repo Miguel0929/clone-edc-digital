@@ -51,7 +51,7 @@ class ProgressPanelController < ApplicationController
         @fifty = @fifty + 1
       else
         @thirty = @thirty + 1
-      end 
+      end
     end
     #Obtener "Distribución de avances por programa"
     @progress_per_program = []
@@ -73,7 +73,7 @@ class ProgressPanelController < ApplicationController
   	if params[:group].present?
   		redirect_to progress_panel_path(params[:group].to_i)
   	end
-    
+
   	@users = @group.students.all
   	#stats = @users.map{|i| i.program_stats.map{|a| a.program_progress}}.flatten
   	@hundred, @seventy, @fifty, @thirty = 0, 0, 0, 0
@@ -104,7 +104,7 @@ class ProgressPanelController < ApplicationController
         @fifty = @fifty + 1
       else
         @thirty = @thirty + 1
-      end 
+      end
     end
     #Obtener "Distribución de avances por programa"
     @progress_per_program_per_group = []
@@ -152,7 +152,7 @@ class ProgressPanelController < ApplicationController
         else
           @thirty = @thirty + 1
         end
-      else 
+      else
         @thirty = @thirty + 1
       end
     end
@@ -162,11 +162,11 @@ class ProgressPanelController < ApplicationController
   	#@users = User.students.joins(:group)
   	total_jobs = 0
   	Group.all.each do |group|
-  		puts total_g = group.students.count 
-  		puts total_p = group.programs.count 
+  		puts total_g = group.students.count
+  		puts total_p = group.programs.count
   		puts total_jobs = (total_p * total_g) + total_jobs
   	end
-  	
+
   	@job = AsyncJob.create({title: 'Actualizando progresos', progress: 0, total: total_jobs})
   	StudentsProgressJob.perform_async(@job.id)
     redirect_to progress_updater_path(@job)
@@ -179,12 +179,11 @@ class ProgressPanelController < ApplicationController
       groups = Group.joins(:programs).where(:programs => {id: program.id})
     elsif category.is_a? String
       groups = Group.where(category: category).joins(:programs).where(programs: {id: program.id})
-      stats = groups.map{|group| group.students}.flatten.map{|student| student.program_stats.where(program_id: program.id)}.flatten
+      stats = ProgramStat.where(user_id: User.where(group_id: groups.pluck(:id)).pluck(:id)).where(program_id: program.id)
     end
-    studets_count = 0;
-    groups.each do |group|
-      studets_count += group.students.count
-    end
+
+    studets_count = User.where(group_id: groups.pluck(:id)).count
+
   	hundred, seventy, fifty, thirty = 0, 0, 0, 0
   	stats.each do |stat|
       current_progress = stat.program_progress
@@ -196,7 +195,7 @@ class ProgressPanelController < ApplicationController
     		elsif stat.program_progress >= 30.0
     			fifty += 1
     		end
-      end	
+      end
   	end
     thirty = studets_count - fifty - seventy - hundred
   	return hundred, seventy, fifty, thirty
@@ -216,7 +215,7 @@ class ProgressPanelController < ApplicationController
     		  		seventy += 1
     		  	elsif current_progress >= 30.0
     		  		fifty += 1
-    		  	end	
+    		  	end
           end
         end
       end
@@ -237,7 +236,7 @@ class ProgressPanelController < ApplicationController
           fifty = fifty + 1
         else
           thirty = thirty + 1
-        end 
+        end
       end
     return hundred, seventy, fifty, thirty
   end
@@ -249,8 +248,8 @@ class ProgressPanelController < ApplicationController
       student_stats = 0.0
       current_stat = ProgramStat.find_by(program_id: selected_program, user_id: student.id)
       if !current_stat.nil?
-        current_progress = current_stat.program_progress 
-        if !current_progress.nil? then student_stats = current_progress end 
+        current_progress = current_stat.program_progress
+        if !current_progress.nil? then student_stats = current_progress end
       end
       if student_stats >= 70.0
         hundred = hundred + 1
@@ -260,7 +259,7 @@ class ProgressPanelController < ApplicationController
         fifty = fifty + 1
       else
         thirty = thirty + 1
-      end 
+      end
     end
     return hundred, seventy, fifty, thirty
   end

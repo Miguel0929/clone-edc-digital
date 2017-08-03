@@ -1,24 +1,67 @@
 - content_for :title  do
   Mis rellenables - EDCdigital
 
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Tus rellenables
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Título:
+            %h3.m-b-20.text-white
+              = @template.name
+
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
-      %h2
-        = @template.name
-      %p
-        = @template.description
+      .tab-content
+        #tab1.tab-pane.padding-20.sm-no-padding.active.slide-left
+          .row.row-same-height
+            .col-md-4.b-r.b-dashed.b-grey.sm-b-b
+              .p-r-30.p-l-30.p-b-30.p-t-15.sm-padding-5.sm-m-t-15
+                %i.fa.fa-edit.fa-2x.hint-text
+                .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+                  = @template.name
+                %p
+                  = @template.description
+            .col-md-7
+              .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
+                .p-b-15
+                  Edita tus respuestas en el siguiente recuadro:
+                .well
+                  #refilable-content-template
+                    = raw replace_fillable(@refilable.content)
+                .refilable-form
+                  = form_for([:dashboard, @template, @refilable]) do |f|
+                    = f.hidden_field :content
+                .pull-right
+                  = link_to dashboard_template_refilables_path, class: "btn btn-danger" do
+                    Cancelar
+                  %button.btn.btn-primary#send-refilable
+                    Actualizar respuestas
 
-      .col-md-10.col-md-offset-1.well
-        #refilable-content-template
-          = raw replace_fillable(@refilable.content)
-
-        .refilable-form
-          = form_for([:dashboard, @template, @refilable]) do |f|
-            = f.hidden_field :content
-
-  %button.btn.btn-primary#send-refilable
-    Actualizar
+/.container-fluid.container-fixed-lg
+/  .panel.panel-default
+/    .panel-body
+/      %h2
+/        = @template.name
+/      %p
+/        = @template.description
+/
+/      .col-md-10.col-md-offset-1.well
+/        #refilable-content-template
+/          = raw replace_fillable(@refilable.content)
+/
+/        .refilable-form
+/          = form_for([:dashboard, @template, @refilable]) do |f|
+/            = f.hidden_field :content
+/
+/  %button.btn.btn-primary#send-refilable
+/    Actualizar
 
 :javascript
   $(document).on('turbolinks:load', function(){
