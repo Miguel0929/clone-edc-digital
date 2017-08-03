@@ -1,19 +1,43 @@
 - content_for :title  do
   Editar Archivo - EDCdigital
 
-.container-fluid.container-fixed-lg
-  .row
-    .col-md-12
-      .panel.panel-default
-        .panel-heading
-          .panel-title
-            Editar Archivo
-        .panel-body
-          = bootstrap_form_for([:mentor, @user, @attachment], url: mentor_student_shared_attachment_path(@user, @attachment), method: :put) do |f|
-            = f.text_field :name, label: 'Renombrar archivo'
-            = f.select :document_type, Attachment.document_type_options, label: 'Tipo de documento'
-            = f.text_field :label, label: 'Detalles / Comentarios'
-            .dropzone
-              = f.file_field :file, label: 'Archivo'
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-recursos
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Editar archivo
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            .m-t-20
+              %span.text-white.flag-text-size.p-r-10
+                Archivo:
+              %span.text-white.name-text-size
+                = @attachment.display_name
 
-            = f.submit 'Actualizar'
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      .tab-content
+        #tab1.tab-pane.padding-20.sm-no-padding.active.slide-left
+          .row.row-same-height
+            .col-md-4.b-r.b-dashed.b-grey.sm-b-b
+              .p-r-30.p-l-30.p-b-30.p-t-15.sm-padding-5.sm-m-t-15
+                %i.fa.fa-edit.fa-2x.hint-text
+                .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+                  Editar archivos compartidos
+                %p
+                  Puedes editar los archivos compartidos con alumnos específicos 
+            .col-md-7
+              .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
+                = bootstrap_form_for([:mentor, @user, @attachment], url: mentor_student_shared_attachment_path(@user, @attachment), method: :put) do |f|
+                  = f.text_field :name, label: 'Renombrar archivo'
+                  = f.select :document_type, Attachment.document_type_options, label: 'Tipo de documento'
+                  = f.text_field :label, label: 'Detalles / Comentarios'
+                  .dropzone
+                    = f.file_field :file, label: 'Archivo'
+                  .m-t-20
+                    = link_to 'Cancelar', mentor_student_path(@user), class: "btn btn-danger"
+                    = f.submit 'Actualizar', class: "btn btn-primary"
+
