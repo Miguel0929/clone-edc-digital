@@ -2,7 +2,12 @@ class Mentor::DelireverableUsersController < ApplicationController
   before_action :set_student
   before_action :set_delireverable_user
 
+  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "Estudiantes", :mentor_students_path
+
   def edit
+    add_breadcrumb "<a href='#{mentor_student_path(@user)}'>#{@user.email}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{edit_mentor_student_delireverable_user_path(@user, params[:id])}'>#{Delireverable.find(params[:id]).name}</a>".html_safe
   end
 
   def update

@@ -39,6 +39,14 @@ a.evaluation-nav-link:hover {
 .m-t-18 {
   margin-top: 18px;
 }
+.p-r-l-20 {
+	padding-right: 20.5px;
+	padding-left: 20.5px;
+}
+.p-r-l-17 {
+	padding-right: 17.5px;
+	padding-left: 17.5px;
+}
 .subtitle-module-text {
   opacity: .7;
     font-size: 12px;
@@ -67,6 +75,12 @@ a.evaluation-nav-link:hover {
 .p-sides-14-2{
 	padding-left: 14.57px;
 	padding-right: 14.57px;
+}
+.flag-text-size{
+	font-size: 1.1em;
+}
+.name-text-size{
+	font-size: 1.6em;
 }
 .text-overflow p{
 	display: none;

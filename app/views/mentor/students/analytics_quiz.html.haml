@@ -1,9 +1,22 @@
 - content_for :title  do
   Detalle de examen - EDCdigital
 
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-recursos
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Detalles de examen
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            .m-t-20
+              %span.text-white.flag-text-size.p-r-10
+                Examen:
+              %span.text-white.name-text-size
+                = @quiz.name
+
 .container-fluid.container-fixed-lg
-  %h3
-    Detalles del examen: #{@quiz.name}
   .panel.panel-default
     .panel-body
       %table.table.table-hover

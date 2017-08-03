@@ -4,7 +4,12 @@ class Mentor::SharedAttachmentsController < ApplicationController
   before_action :find_user
   before_action :set_attachment, only: [:edit, :update, :destroy]
 
+  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "Estudiantes", :mentor_students_path
+
   def new
+    add_breadcrumb "<a href='#{mentor_student_path(@user)}'>#{@user.email}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{new_mentor_student_shared_attachment_path(@user)}'>Nuevo mensaje</a>".html_safe
     @attachment = @user.shared_attachments.new
   end
 
