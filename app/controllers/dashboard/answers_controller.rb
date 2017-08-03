@@ -46,7 +46,7 @@ class Dashboard::AnswersController < ApplicationController
 
     @answer.save
 
-    redirect_to_next_content
+    redirect_to_next_content 
   end
 
   def edit
@@ -94,12 +94,20 @@ class Dashboard::AnswersController < ApplicationController
   end
 
   def redirect_to_next_content
+    mensaje= "Cambios guardados con éxito"
+    if current_user.percentage_questions_answered_for(@chapter_content.chapter.program)>75 && current_user.percentage_questions_answered_for(@chapter_content.chapter.program)<=95
+      mensaje = mensaje + ", haz completado el #{current_user.percentage_questions_answered_for(@chapter_content.chapter.program)}\% del programa, ya mero entras al siguiente curso."
+    elsif current_user.percentage_questions_answered_for(@chapter_content.chapter.program)>95 && current_user.percentage_questions_answered_for(@chapter_content.chapter.program)<100
+      mensaje = mensaje + ", haz completado el #{current_user.percentage_questions_answered_for(@chapter_content.chapter.program)}\% del programa, tienes un nuevo programa disponible."
+    elsif current_user.percentage_questions_answered_for(@chapter_content.chapter.program)==100 
+       mensaje = mensaje + ", haz completado el 100% del curso"    
+    end   
     if @chapter_content.lower_item
-      redirect_to dashboard_chapter_content_path(@chapter_content.lower_item), notice: "Cambios guardados con éxito"
+      redirect_to dashboard_chapter_content_path(@chapter_content.lower_item), notice: mensaje
     elsif @chapter_content.chapter.program.next_chapter(@chapter_content.chapter) && @chapter_content.chapter.program.next_chapter(@chapter_content.chapter).chapter_contents.first
-      redirect_to dashboard_chapter_content_path(@chapter_content.chapter.program.next_chapter(@chapter_content.chapter).chapter_contents.first), notice: "Cambios guardados con éxito"
+      redirect_to dashboard_chapter_content_path(@chapter_content.chapter.program.next_chapter(@chapter_content.chapter).chapter_contents.first), notice: mensaje
     else
-      redirect_to dashboard_program_path(@chapter_content.chapter.program), notice: "Cambios guardados con éxito"
+      redirect_to dashboard_program_path(@chapter_content.chapter.program), notice: mensaje
     end
   end
 

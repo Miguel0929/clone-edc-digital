@@ -46,9 +46,10 @@ class Dashboard::WelcomeController < ApplicationController
 
   def learning_path
     @group_programs = current_user.group.group_programs.order(:position)
+    @c=0   
     @modal_trigger = current_user.video_trigger
   end  
-
+ 
   def send_support_email
 
     if params[:raw_subject].present? == false || params[:message].present? == false
