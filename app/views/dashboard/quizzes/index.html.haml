@@ -16,8 +16,7 @@
               En esta sección encontrarás las evaluaciones destinadas a medir tu aprendizaje a través de la plataforma. También podrás revisar tus calificaciones obtenidas y el desglose de cada examen. ¡Éxito!
   .panel.container-fluid
     .row
-      .col-md-4
-      .col-md-5
+      .col-md-6.col-md-offset-3
         %ul.nav.nav-tabs.nav-tabs-simple.nav-tabs-primary
           - if current_user.student?
             %li{'class'=>params[:tipo].nil? ? 'active' : ''}
@@ -27,6 +26,7 @@
             %li{'class'=>params[:tipo] == "nocontestados" ? 'active' : ''}
               %a{"aria-expanded" => "false", :href => dashboard_quizzes_path(tipo: "nocontestados"), class: "bold"} No contestados
       .col-md-3
+
 .container-fluid.container-fixed-lg
   - @quizzes.each do |quiz|
     -if params[:tipo].nil? || params[:tipo] && params[:tipo] == "contestados" && quiz.answered(current_user) > 0 || params[:tipo] && params[:tipo] == "nocontestados" && quiz.answered(current_user) == 0

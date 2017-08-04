@@ -1,9 +1,11 @@
 class Dashboard::ChapterContentsController < ApplicationController
   before_action :authenticate_user!
   before_action :track_chapter_content, only: [:show]
+  before_action :redirect_to_learning, if: :permiso, only: [:show]
   after_action :update_program_stats, only: [:show]
 
   def show
+  
     rank= Rating.where(ratingable_type: "ChapterContent", ratingable_id: @chapter_content.id, user_id: current_user.id).first
     if rank.nil?
       @rank=0
@@ -16,7 +18,7 @@ class Dashboard::ChapterContentsController < ApplicationController
       add_breadcrumb "EDCDIGITAL", :root_path
       add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
       add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@chapter_content.model.identifier}</a>".html_safe
-    end
+    end 
   end
 
   #Nuevo: datos para el correo
@@ -54,6 +56,32 @@ class Dashboard::ChapterContentsController < ApplicationController
 
     ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
   end
+  def redirect_to_learning
+    redirect_to dashboard_learning_path_path, notice: "Completa el 95% del curso anterior para continuar" 
+  end
+  def permiso
+    program=@chapter_content.chapter.program
+    programas = current_user.group.group_programs.order(:position)
+    if program != programas.first.program
+      anterior=Program.new
+      programas.each do |p|
+        if p.program==program
+          break
+        else
+          anterior=p.program
+        end
+      end
+      programas.each do |p|
+        if p.program == anterior && current_user.percentage_questions_answered_for(anterior) > 95
+          return false     
+        elsif current_user.percentage_questions_answered_for(p.program) < 95 && p.program != anterior
+          return true
+        end  
+      end
+    else
+      return false
+    end      
+  end  
 
   def update_program_stats
     #program = Program.joins(:chapters => :chapter_contents).where(chapter_contents: {id: @chapter_content.id}).last
