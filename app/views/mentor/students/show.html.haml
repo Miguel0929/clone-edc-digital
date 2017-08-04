@@ -259,54 +259,84 @@
         %table.table.table-hover
           %thead
             %tr
-              %th
+              %th{width: "35%"}
                 Examen
-              %th
+              %th{width: "25%"}
                 Preguntas disponibles
-              %th
-                Preguntas contestadas
-              %th
+              %th.text-center{width: "20%"}
                 Calificación
               %th
+                Acciones
           %tbody
-            - @user.group.quizzes.each do |quiz|
+            - if @user.group.quizzes.count == 0
               %tr
-                %td= quiz.name
-                %td= quiz.quiz_questions.count
-                %td= quiz.answered(@user)
-                %td= quiz.average(@user)
-                %td= link_to "Ver detalle", analytics_quiz_mentor_student_path(@user, quiz_id: quiz)
+                %td.p-t-20.p-b-15{colspan: "4"}
+                  .text-primary.bold
+                    No hay exámenes asignados a este estudiante
+            - else
+              - @user.group.quizzes.each do |quiz|
+                - quiz_ques = quiz.quiz_questions.count
+                - answered_ques = quiz.answered(@user)
+                - result = quiz.average(@user)
+                %tr
+                  %td.p-t-20.p-b-15
+                    = quiz.name
+                  %td.p-t-20.p-b-15{style: "color: #{ (quiz_ques <= answered_ques) ? '#10CFBD' : '' };"}
+                    #{answered_ques} contestadas / #{quiz_ques} disponibles
+                  %td.p-t-20.p-b-15.text-center
+                    = result
+                  %td.p-t-20.p-b-15
+                    = link_to analytics_quiz_mentor_student_path(@user, quiz_id: quiz) do
+                      %i.fa.fa-eye
+                      Ver detalle
   %h3
     Archivos del usuario
   .panel.panel-default
-    .panel-body.table-responsive
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Nombre de archivo
-            %th
-              Tipo de archivo
-            %th
-              Comentarios
-            %th
-              Subido en
-            %th
-              Fecha de modificación
-        %tbody
-          - @user.attachments.each do |attachment|
+    .panel-body
+      .table-responsive
+        %table.table.table-hover
+          %thead
             %tr
               %th
-                = link_to attachment.display_name, attachment.file.url, target: :_blank
+                Nombre de archivo
               %th
-                = attachment.humanize_document_type
+                Información de archivo
               %th
-                = attachment.label
-              %th
-                = l attachment.created_at, format: :special
-              %th
-                = l attachment.updated_at, format: :special
-
+                Historial
+          %tbody
+            - if @user.attachments.count == 0
+              %tr
+                %td.p-t-20.p-b-15{colspan: "3"}
+                  .text-primary.bold
+                    No hay archivos cargados por este estudiante
+            - else
+              - @user.attachments.each do |attachment|
+                %tr
+                  %td.p-t-20.p-b-15
+                    = link_to attachment.display_name + ' (ver archivo)', attachment.file.url, target: :_blank
+                  %td.p-t-20.p-b-15
+                    %ul.p-l-0.m-b-10
+                      %li.inline.text-primary.bold
+                        Tipo:  
+                      %li.inline 
+                        = attachment.humanize_document_type
+                    %ul.p-l-0.m-b-0
+                      %li.inline.text-primary.bold
+                        Comentarios:  
+                      %li.inline 
+                        = attachment.label
+                  %td.p-t-20.p-b-15
+                    %ul.p-l-0.m-b-10
+                      %li.inline.text-primary.bold
+                        Creación: 
+                      %li.inline 
+                        = l attachment.created_at, format: :special
+                    %ul.p-l-0.m-b-0
+                      %li.inline.text-primary.bold
+                        Modificación: 
+                      %li.inline 
+                        = l attachment.updated_at, format: :special
+                  
   %h3
     Entregables
   .panel.panel-default
@@ -314,82 +344,123 @@
       %table.table.table-hover
         %thead
           %tr
-            %th
+            %th{width: "25%"}
               Nombre
             %th
-              Archivo de ejemplo
-            %th
-              Tu entregable
-            %th
-              Estatus
-            %th
               Comentarios
-            %th
+            %th.text-center{width: "25%"}
+              Estatus
+            %th{width: "20%"}
               Acciones
         %tbody
-          - @delireverables.each do |delireverable|
-            - user_delireverable = delireverable.delireverable_users.find_by(user: @user)
+          - if @delireverables.count == 0
             %tr
-              %td
-                = delireverable.name
-              %td
-                = link_to 'Descargar', delireverable.file.url, target: '_blank'
-              %td
-                - if user_delireverable
-                  = link_to 'Descargar', user_delireverable.file.url, target: '_blank'
-                - else
-                  N/A
-              %td
-                - if user_delireverable
-                  = user_delireverable.huminize_status
-                - else
-                  Sin entregar
-              %td
-                - if user_delireverable
-                  = user_delireverable.comments ? user_delireverable.comments : "N/A"
-                - else
-                  N/A
-              %td
-                - if user_delireverable
-                  %p
-                    = link_to 'Editar', edit_mentor_student_delireverable_user_path(@user, user_delireverable)
+              %td.p-t-20.p-b-15{colspan: "4"}
+                .text-primary.bold
+                  No hay entregables asignados a este estudiante
+          - else
+            - @delireverables.each do |delireverable|
+              - user_delireverable = delireverable.delireverable_users.find_by(user: @user)
+              %tr
+                %td.p-t-20.p-b-15
+                  = delireverable.name
+                %td.p-t-20.p-b-15
+                  - if user_delireverable
+                    - if user_delireverable.comments
+                      .text-primary
+                        = user_delireverable.comments
+                    - else
+                      No hay comentarios
+                  - else
+                    No hay comentarios
+                %td.p-t-20.p-b-15.text-center
+                  - if user_delireverable
+                    - status = user_delireverable.huminize_status
+                    .label{class: "#{ status == 'Enviado' ? 'label-warning p-r-l-20' : 'label-success p-r-l-17' }"}
+                      = status
+                  - else
+                    .label
+                      Sin entregar
+                %td.p-t-20.p-b-15
+                  %ul.p-l-0.m-b-10
+                    = link_to delireverable.file.url, target: '_blank' do
+                      %li.inline
+                        %i.fa.fa-download
+                      %li.inline 
+                        Descargar ejemplo
+                  - if user_delireverable
+                    %ul.p-l-0.m-b-10
+                      = link_to user_delireverable.file.url, target: '_blank' do
+                        %li.inline
+                          %i.fa.fa-file-o
+                        %li.inline 
+                          Descargar archivo de alumno
+                    %ul.p-l-0.m-b-10
+                      = link_to edit_mentor_student_delireverable_user_path(@user, user_delireverable) do
+                        %li.inline
+                          %i.fa.fa-edit
+                        %li.inline 
+                          Editar registro
 
   %h3
-    Entregables
+    Rellenables
   .panel.panel-default
     .panel-body.table-responsive
       %table.table.table-hover
         %thead
           %tr
-            %th Nombre
+            %th{width: "15%"} Nombre
             %th Descripción
-            %th Estatus
-            %th Comentarios
-            %th Acciones
+            %th.text-center{width: "15%"} Estatus
+            %th{width: "15%"} Acciones
         %tbody
-          - @refilables.each do |refilable|
-            - user_refilable = refilable.refilables.find_by(user: @user)
+          - if @refilables.count == 0
             %tr
-              %td
-                = refilable.name
-              %td
-                = refilable.description
-              %td
-                - if user_refilable
-                  = user_refilable.status
-                - else
-                  No contestado
-              %td
-                - if user_refilable
-                  = user_refilable.comments ? user_refilable.comments : "N/A"
-                - else
-                  N/A
-              %td
-                - if user_refilable
-                  %p
-                  = link_to 'Ver', mentor_student_refilable_path(@user, user_refilable)
-                  %p
-                    = link_to 'Comentar', edit_mentor_student_refilable_path(@user, user_refilable)
+              %td.p-t-20.p-b-15{colspan: "4"}
+                .text-primary.bold
+                  No hay rellenables asignados a este estudiante
+          - else 
+            - @refilables.each do |refilable|
+              - user_refilable = refilable.refilables.find_by(user: @user)
+              %tr
+                %td.p-t-20.p-b-15
+                  = refilable.name
+                %td.p-t-20.p-b-15
+                  %ul.p-l-0.m-b-10
+                    %li.inline.text-primary.bold
+                      Decripción:  
+                    %li.inline 
+                      = refilable.description
+                  %ul.unstyled.no-style.p-l-0.m-b-10
+                    %li.inline.text-primary.bold
+                      Comentarios:  
+                    %li
+                      - if user_refilable
+                        = user_refilable.comments ? user_refilable.comments : "No hay comentarios"
+                      - else
+                        No hay comentarios
+                %td.p-t-20.p-b-15.text-center
+                  - if user_refilable
+                    - status = user_refilable.status
+                    .label{class: "#{ status == 'Contestado' ? 'label-success p-r-l-17' : 'label-warning p-r-l-20'}"}
+                      = status
+                  - else
+                    .label
+                      No contestado
+                %td.p-t-20.p-b-15
+                  - if user_refilable
+                    %ul.p-l-0.m-b-10
+                      = link_to mentor_student_refilable_path(@user, user_refilable) do
+                        %li.inline
+                          %i.fa.fa-eye
+                        %li.inline 
+                          Ver rellenable
+                    %ul.p-l-0
+                      = link_to edit_mentor_student_refilable_path(@user, user_refilable) do
+                        %li.inline
+                          %i.fa.fa-comment-o
+                        %li.inline 
+                          Comentar
 
   %h3
     Archivos compartidos con el usuario
@@ -401,35 +472,62 @@
             %th
               Nombre de archivo
             %th
-              Tipo de archivo
+              Información
             %th
-              Comentarios
+              Historial
             %th
-              Subido en
-            %th
-              Fecha de modificación
-            %th
+              Acciones
         %tbody
-          - @user.shared_attachments.each do |attachment|
+          - if @user.shared_attachments.count == 0
             %tr
-              %th
-                = link_to attachment.display_name, attachment.file.url, target: :_blank
-              %th
-                = attachment.humanize_document_type
-              %th
-                = attachment.label
-              %th
-                = l attachment.created_at, format: :special
-              %th
-                = l attachment.updated_at, format: :special
-              %th
-                = link_to 'Editar', edit_mentor_student_shared_attachment_path(@user, attachment), class: 'btn btn-default'
-                = link_to 'Eliminar', mentor_student_shared_attachment_path(@user, attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
+              %td.p-t-20.p-b-15{colspan: "6"}
+                .text-primary.bold
+                  No hay archivos compartidos con el estudiante
+          - else
+            - @user.shared_attachments.each do |attachment|
+              %tr
+                %td.p-t-20.p-b-15
+                  = link_to attachment.display_name + ' (ver archivo)', attachment.file.url, target: :_blank
+                %td.p-t-20.p-b-15
+                  %ul.p-l-0.m-b-10
+                    %li.inline.text-primary.bold
+                      Tipo:  
+                    %li.inline 
+                      = attachment.humanize_document_type
+                  %ul.p-l-0.m-b-10
+                    %li.inline.text-primary.bold
+                      Comentarios:  
+                    %li.inline
+                      = attachment.label
+                %td.p-t-20.p-b-15
+                  %ul.p-l-0.m-b-10
+                    %li.inline.text-primary.bold
+                      Creación:  
+                    %li.inline
+                      = l attachment.created_at, format: :special
+                  %ul.p-l-0.m-b-10
+                    %li.inline.text-primary.bold
+                      Modificación:  
+                    %li.inline
+                      = l attachment.updated_at, format: :special
+                %td.p-t-20.p-b-15
+                  %ul.p-l-0.m-b-10
+                    = link_to edit_mentor_student_shared_attachment_path(@user, attachment) do
+                      %li.inline
+                        %i.fa.fa-edit 
+                      %li.inline
+                        Editar archivo
+                  %ul.p-l-0.m-b-10
+                    = link_to mentor_student_shared_attachment_path(@user, attachment), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                      %li.inline
+                        %i.fa.fa-times 
+                      %li.inline
+                        Eliminar archivo
 
-  .pull-right
-    = link_to new_mentor_student_shared_attachment_path(@user), class: 'btn btn-primary btn-lg m-b-50 m-r-30' do
-      %i.fa.fa-upload
-      Agregar archivo
+      .pull-right
+        = link_to new_mentor_student_shared_attachment_path(@user), class: 'btn btn-primary btn-lg m-r-30 m-t-20' do
+          %i.fa.fa-upload
+          Compartir archivo
 
 #alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
