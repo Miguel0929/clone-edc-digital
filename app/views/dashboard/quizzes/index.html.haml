@@ -25,6 +25,7 @@
               %a{"aria-expanded" => "false", :href => dashboard_quizzes_path(tipo: "contestados"), class: "bold"} Contestados
             %li{'class'=>params[:tipo] == "nocontestados" ? 'active' : ''}
               %a{"aria-expanded" => "false", :href => dashboard_quizzes_path(tipo: "nocontestados"), class: "bold"} No contestados
+
 .container-fluid.container-fixed-lg
   - @quizzes.each do |quiz|
     -if params[:tipo].nil? || params[:tipo] && params[:tipo] == "contestados" && quiz.answered(current_user) > 0 || params[:tipo] && params[:tipo] == "nocontestados" && quiz.answered(current_user) == 0

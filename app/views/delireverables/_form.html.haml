@@ -2,4 +2,6 @@
   = f.text_field :name, label: 'Nombre'
   = f.text_area :description, label: 'Descripción'
   = f.file_field :file, label: 'Archivo de ejemplo'
-  = f.submit 'Guardar'
+  .m-t-20
+    = link_to 'Cancelar', delireverable_package_delireverables_path(@delireverable_package), class: 'btn btn-danger'
+    = f.submit 'Guardar entregable', class: 'btn btn-primary'
