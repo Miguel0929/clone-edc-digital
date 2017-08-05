@@ -4982,7 +4982,7 @@ body > .pgn-wrapper {
   border-bottom: 0px;
 }
 .nav-tabs-simple:after {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  //border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   width: 100%;
   position: relative;
   bottom: 3px;
@@ -4997,7 +4997,8 @@ body > .pgn-wrapper {
   -webkit-backface-visibility: hidden;
   width: 100%;
   display: block;
-  background-color: #f55753;
+  //background-color: #f55753;
+  background-color: #48B0F7;
   height: 0px;
   content: '';
   z-index: 125;
