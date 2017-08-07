@@ -175,11 +175,11 @@
                                           %button.btn.btn-complete.m-t--10
                                             = "Continuar " + answered_progress.to_s + "%"
                                             %i.fa.fa-angle-double-right.font-size-play
-                                        -elsif current_user.percentage_questions_answered_for(anterior)>=75 && current_user.percentage_questions_answered_for(anterior)<95
-                                          %strong.text-info 
-                                            Completa el 95% del curso 
-                                            %br "#{anterior.name}" 
-                                            para comenzar
+                                          /-elsif current_user.percentage_questions_answered_for(anterior)>=75 && current_user.percentage_questions_answered_for(anterior)<95
+                                          /  %strong.text-info 
+                                          /    Completa el 95% del curso 
+                                          /    %br "#{anterior.name}" 
+                                          /    para comenzar
                                         -else
                                           %button.btn.btn-complete.m-t--10
                                             = "Comenzar"    
