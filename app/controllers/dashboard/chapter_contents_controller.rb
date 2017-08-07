@@ -1,7 +1,7 @@
 class Dashboard::ChapterContentsController < ApplicationController
   before_action :authenticate_user!
   before_action :track_chapter_content, only: [:show]
-  before_action :redirect_to_learning, if: :permiso, only: [:show]
+  #before_action :redirect_to_learning, if: :permiso, only: [:show]
   after_action :update_program_stats, only: [:show]
 
   def show

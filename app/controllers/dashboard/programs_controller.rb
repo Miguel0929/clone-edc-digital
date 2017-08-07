@@ -1,6 +1,6 @@
 class Dashboard::ProgramsController < ApplicationController
   before_action :authenticate_user!
-  before_action :redirect_to_learning, if: :permiso_avance, only: [:show]
+  #before_action :redirect_to_learning, if: :permiso_avance, only: [:show]
   add_breadcrumb "EDCDIGITAL", :root_path
 
   helper_method :last_moved_program
@@ -13,17 +13,17 @@ class Dashboard::ProgramsController < ApplicationController
     ids=[]
     if current_user.student?
       unless current_user.group.nil? 
-        ids=[]
+        #ids=[]
         @programs = current_user.group.group_programs.order(:position)
         @activo = ['active', '','']
-        c=0
-        @programs.each do |p|
-          c+=1
-          if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group))>=75
-            ids.push(p.id)
-          end
-        end
-        @programs=GroupProgram.where(id: ids).order(:position)
+        #c=0
+        #@programs.each do |p|
+       #   c+=1
+       #   if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group))>=75
+       #     ids.push(p.id)
+       #   end
+       # end
+       # @programs=GroupProgram.where(id: ids).order(:position)
       end
     elsif current_user.mentor?
       current_user.groups.each do |g|
@@ -67,6 +67,7 @@ class Dashboard::ProgramsController < ApplicationController
   end
 
   def show
+    @program = Program.find(params[:id])
     rank= Rating.where(ratingable_type: "Program", ratingable_id: @program.id, user_id: current_user.id).first
     if rank.nil?
       @rank=0
