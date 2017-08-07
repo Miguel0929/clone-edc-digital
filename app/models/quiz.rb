@@ -1,5 +1,5 @@
 class Quiz < ActiveRecord::Base
-  has_many :quiz_questions, dependent: :delete_all
+  has_many :quiz_questions, dependent: :destroy
   has_many :group_quizzes, dependent: :nullify
   has_many :groups, through: :group_quizzes, dependent: :nullify
   validates_presence_of :name, :description
