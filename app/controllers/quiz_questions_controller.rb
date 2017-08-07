@@ -33,8 +33,9 @@ class QuizQuestionsController < ApplicationController
   end
 
   def update
+    params[:quiz_question][:points] = '0' if params[:quiz_question][:points].nil? 
     @quiz_question = QuizQuestion.find(params[:id])
-    if (@quiz.quiz_questions.sum(:points) - @quiz_question.points) + params[:quiz_question][:points].to_i <= 100
+    if (@quiz.quiz_questions.sum(:points) - (@quiz_question.points.nil? ? 0 : @quiz_question.poins)) + params[:quiz_question][:points].to_i <= 100
       if @quiz_question.update(quiz_question_params)
         redirect_to @quiz
       else
