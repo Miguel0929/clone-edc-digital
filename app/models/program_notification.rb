@@ -1,5 +1,5 @@
 class ProgramNotification < ActiveRecord::Base
   belongs_to :program
 
-  enum notification_type: [:rubric, :new_content, :new_program, :evaluation]
+  enum notification_type: [:rubric, :new_content, :new_program, :evaluation, :more80, :complete]
 end

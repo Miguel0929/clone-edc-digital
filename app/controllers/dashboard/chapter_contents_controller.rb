@@ -58,7 +58,7 @@ class Dashboard::ChapterContentsController < ApplicationController
     ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
   end
   def redirect_to_learning
-    redirect_to dashboard_learning_path_path, notice: "Completa el 95% del curso anterior para continuar" 
+    redirect_to dashboard_learning_path_path, notice: "Completa el curso anterior para poder acceder al contenido." 
   end
   def permiso
     program=@chapter_content.chapter.program
@@ -73,9 +73,9 @@ class Dashboard::ChapterContentsController < ApplicationController
         end
       end
       programas.each do |p|
-        if p.program == anterior && current_user.percentage_questions_answered_for(anterior) > 95
+        if p.program == anterior && current_user.percentage_questions_answered_for(anterior) == 100
           return false     
-        elsif current_user.percentage_questions_answered_for(p.program) < 95 && p.program != anterior
+        elsif current_user.percentage_questions_answered_for(p.program) < 100 && p.program != anterior
           return true
         end  
       end

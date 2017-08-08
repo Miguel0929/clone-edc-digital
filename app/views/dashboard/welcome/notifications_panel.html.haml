@@ -72,6 +72,20 @@
                       %label.switch
                         %input{type: "checkbox", checked: if @noti.up_evaluation.first.nil? then true else @noti.up_evaluation.first.status end, value: "7"}/
                         .slider.round
+                  %tr
+                    %td
+                      Has completado el 80% del curso
+                    %td.text-center
+                      %label.switch
+                        %input{type: "checkbox", checked: if @noti.more80_student.first.nil? then true else @noti.more80_student.first.status end, value: "8"}/
+                        .slider.round
+                  %tr
+                    %td
+                      Has completado un curso
+                    %td.text-center
+                      %label.switch
+                        %input{type: "checkbox", checked: if @noti.complete_student.first.nil? then true else @noti.complete_student.first.status end, value: "9"}/
+                        .slider.round             
 #alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
     #al.alert.alert-info

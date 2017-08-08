@@ -95,12 +95,30 @@ class Dashboard::AnswersController < ApplicationController
 
   def redirect_to_next_content
     mensaje= "Cambios guardados con éxito"
-    if current_user.percentage_questions_answered_for(@chapter_content.chapter.program)>75 && current_user.percentage_questions_answered_for(@chapter_content.chapter.program)<=95
+    if current_user.percentage_questions_answered_for(@chapter_content.chapter.program)>80 && current_user.percentage_questions_answered_for(@chapter_content.chapter.program)<100
+      if current_user.program_notifications.where(program: @chapter_content.chapter.program).more80.first.nil?
+        current_user.program_notifications.create(program: @chapter_content.chapter.program, notification_type: 'more80')
+        if current_user.panel_notifications.more80_student.first.nil? || current_user.panel_notifications.more80_student.first.status
+          Programs.more80_student(@chapter_content.chapter.program, current_user, dashboard_program_url(@chapter_content.chapter.program))
+        end
+        current_user.group.users.each do |mentor|
+          mentor.mentor_program_notifications.create(program: @chapter_content.chapter.program, user: current_user, notification_type: 'more80')
+          Programs.more80_mentor(@chapter_content.chapter.program, mentor, current_user, mentor_student_url(current_user))  
+        end
+      end  
       mensaje = mensaje + ", haz completado el #{current_user.percentage_questions_answered_for(@chapter_content.chapter.program)}\% del programa, ya mero entras al siguiente curso."
-    elsif current_user.percentage_questions_answered_for(@chapter_content.chapter.program)>95 && current_user.percentage_questions_answered_for(@chapter_content.chapter.program)<100
-      mensaje = mensaje + ", haz completado el #{current_user.percentage_questions_answered_for(@chapter_content.chapter.program)}\% del programa, tienes un nuevo programa disponible."
-    elsif current_user.percentage_questions_answered_for(@chapter_content.chapter.program)==100 
-       mensaje = mensaje + ", haz completado el 100% del curso"    
+    elsif current_user.percentage_questions_answered_for(@chapter_content.chapter.program)==100
+      if current_user.program_notifications.where(program: @chapter_content.chapter.program).complete.first.nil?
+        current_user.program_notifications.create(program: @chapter_content.chapter.program, notification_type: 'complete')
+        if current_user.panel_notifications.complete_student.first.nil? || current_user.panel_notifications.complete_student.first.status
+          Programs.complete_student(@chapter_content.chapter.program, current_user, dashboard_program_url(@chapter_content.chapter.program))
+        end
+        current_user.group.users.each do |mentor|
+          mentor.mentor_program_notifications.create(program: @chapter_content.chapter.program, user: current_user, notification_type: 'complete')
+          Programs.complete_mentor(@chapter_content.chapter.program, mentor, current_user, mentor_student_url(current_user))  
+        end
+      end  
+      mensaje = mensaje + ", haz completado el 100% del curso, se ha desbloqueado un nuevo contenido"    
     end   
     if @chapter_content.lower_item
       redirect_to dashboard_chapter_content_path(@chapter_content.lower_item), notice: mensaje

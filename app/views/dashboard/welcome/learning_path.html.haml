@@ -28,18 +28,17 @@
         Aquí estará disponible el video introductorio siempre que lo necesites
         .triangle-left
       - @group_programs.each do |p|
-        - @c+=1
         - program = p.program
         - anterior = p.anterior(current_user.group)
         - unless program.nil?
-          /-if current_user.percentage_questions_answered_for(anterior)>75 || @c==1 
+          /-if current_user.percentage_questions_answered_for(anterior)>80 || @c==1 
           .timeline-block
             .timeline-point.panel-title-emprendimiento
               /%i.pg-map{"aria-hidden"=>"true"}
             .timeline-content
               .card.share.share-other.m-r-0.new-width-card{"data-social" => "item"}
                 .card-content
-                  %a{:href => dashboard_program_path(program)}
+                  %a{(current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100)? "" : :href => dashboard_program_path(program)}
                     .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{program.cover.url});" , class: "height-img" }
                   .col-md-7.height-col-md-6
                     /%a{:href => dashboard_program_path(program)}
@@ -94,29 +93,30 @@
                               %button.btn.btn-success.m-t--10
                                 Completado
                                 %i.fa.fa-check.font-size-play
-                        - else
-                          = link_to dashboard_program_path(program), class: "opacity__1" do
-                            
-                            -if answered_progress > 0
+                        - else  
+                          -if answered_progress > 0
+                            = link_to dashboard_program_path(program), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 = "Continuar " + answered_progress.to_s + "%"
                                 %i.fa.fa-angle-double-right.font-size-play
-                              /-elsif current_user.percentage_questions_answered_for(anterior)>=75 && current_user.percentage_questions_answered_for(anterior)<95
-                              /  %strong.text-info 
-                              /    Completa el 95% del curso "#{anterior.name}" para comenzar
-                            -else
+                          -elsif current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100
+                            .text-info 
+                              Completa el curso previo para poder acceder a este contenido
+                          -else
+                            = link_to dashboard_program_path(program), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 = "Comenzar"    
                                 %i.fa.fa-angle-double-right.font-size-play
-                      .row
-                        .pull-left.m-l-15
-                          .m-t-5.bold.text-contestado
-                            #{answered_progress}% contestado
-                        .pull-right.m-r-15
-                          .m-t-5.bold.opacity_new
-                            #{seen_progress}% visto
-                      .progress.m-b-5
-                        .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
+                      -unless current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100          
+                        .row
+                          .pull-left.m-l-15
+                            .m-t-5.bold.text-contestado
+                              #{answered_progress}% contestado
+                          .pull-right.m-r-15
+                            .m-t-5.bold.opacity_new
+                              #{seen_progress}% visto
+                        .progress.m-b-5
+                          .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
 
               .event-date
                 %h6.font-montserrat.all-caps.hint-text.m-t-0
