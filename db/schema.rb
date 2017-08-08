@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170801181501) do
+ActiveRecord::Schema.define(version: 20170807200217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,17 +77,6 @@ ActiveRecord::Schema.define(version: 20170801181501) do
     t.string  "coursable_type"
     t.integer "position"
   end
-
-  create_table "chapter_stats", force: :cascade do |t|
-    t.integer  "checked",    default: 0
-    t.integer  "user_id"
-    t.integer  "chapter_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
-
-  add_index "chapter_stats", ["chapter_id"], name: "index_chapter_stats_on_chapter_id", using: :btree
-  add_index "chapter_stats", ["user_id"], name: "index_chapter_stats_on_user_id", using: :btree
 
   create_table "chapters", force: :cascade do |t|
     t.string   "name"
@@ -381,6 +370,17 @@ ActiveRecord::Schema.define(version: 20170801181501) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "mentor_program_notifications", force: :cascade do |t|
+    t.integer  "program_id"
+    t.integer  "user_id"
+    t.integer  "notification_type"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "mentor_program_notifications", ["program_id"], name: "index_mentor_program_notifications_on_program_id", using: :btree
+  add_index "mentor_program_notifications", ["user_id"], name: "index_mentor_program_notifications_on_user_id", using: :btree
 
   create_table "notifications", force: :cascade do |t|
     t.integer  "user_id"
@@ -731,8 +731,6 @@ ActiveRecord::Schema.define(version: 20170801181501) do
   add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
   add_index "visits", ["visit_token"], name: "index_visits_on_visit_token", unique: true, using: :btree
 
-  add_foreign_key "chapter_stats", "chapters"
-  add_foreign_key "chapter_stats", "users"
   add_foreign_key "glossaries", "glossary_categories"
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"
@@ -742,6 +740,8 @@ ActiveRecord::Schema.define(version: 20170801181501) do
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
+  add_foreign_key "mentor_program_notifications", "programs"
+  add_foreign_key "mentor_program_notifications", "users"
   add_foreign_key "panel_notifications", "users"
   add_foreign_key "program_stats", "programs"
   add_foreign_key "program_stats", "users"

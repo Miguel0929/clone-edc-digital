@@ -46,7 +46,18 @@ class Dashboard::WelcomeController < ApplicationController
 
   def learning_path
     @group_programs = current_user.group.group_programs.order(:position)
-    @c=0   
+    c=0 
+    ids=[]
+    @group_programs.each do |p|
+      c+=1
+      anterior = p.anterior(current_user.group)
+      if current_user.percentage_questions_answered_for(anterior)>80 || c==1 
+        ids.push(p.id)
+      else
+        break
+      end
+    end
+    @group_programs=GroupProgram.where(id: ids)     
     @modal_trigger = current_user.video_trigger
   end  
  
