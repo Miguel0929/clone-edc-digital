@@ -23,6 +23,7 @@ class Dashboard::ChapterContentsController < ApplicationController
 
   #Nuevo: datos para el correo
   def mailer_interno
+    require 'pry'; binding.pry
     if params[:raw_subject].present? == false || params[:message].present? == false
       flash_message = { alert: 'ERROR: No olvides escribir asunto y mensaje.'}
     elsif params[:urgency] == 'none' || params[:matter] == 'none'
@@ -32,7 +33,7 @@ class Dashboard::ChapterContentsController < ApplicationController
       @recipients.each do |recipient, index|
         if recipient[:type] == 'soporte'
           subject = "Solicitud de soporte EDC-Digital: " + params[:raw_subject]
-          Support.contact(subject, params[:message], params[:urgency], params[:matter], current_user, params[:chapter],params[:signature], recipient[:adress], nil).deliver_now
+          Support.contact(subject, params[:message], params[:urgency], params[:matter], current_user, params[:chapter], params[:signature], recipient[:adress], params[:signature], params[:chapter], nil).deliver_now
           flash_message = { notice: 'Su mensaje ha sido enviado.'}
         else
           subject = "Recibimos tu mensaje: " + params[:raw_subject]
