@@ -19,8 +19,10 @@ class Dashboard::ProgramsController < ApplicationController
         c=0
         @programs.each do |p|
           c+=1
-          if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group))>=75
+          if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group))>80
             ids.push(p.id)
+          else
+            break
           end
         end
         @programs=GroupProgram.where(id: ids).order(:position)
@@ -74,8 +76,6 @@ class Dashboard::ProgramsController < ApplicationController
       @rank=rank.rank
     end 
 
-    #
-
     add_breadcrumb "Programas", :dashboard_programs_path
     add_breadcrumb "<a class='active' href='#{dashboard_program_path @program}'>#{@program.name}</a>".html_safe
     respond_to do |format|
@@ -117,7 +117,7 @@ class Dashboard::ProgramsController < ApplicationController
     end
   end
   def redirect_to_learning
-    redirect_to dashboard_learning_path_path, notice: "Completa el 95% del curso anterior para continuar" 
+    redirect_to dashboard_learning_path_path, notice: "Completa el curso anterior para poder acceder al contenido." 
   end  
   def permiso_avance
     @program = Program.find(params[:id])
@@ -132,9 +132,9 @@ class Dashboard::ProgramsController < ApplicationController
         end
       end
       programas.each do |p|
-        if p.program == anterior && current_user.percentage_questions_answered_for(anterior) > 95
+        if p.program == anterior && current_user.percentage_questions_answered_for(anterior) == 100
           return false      
-        elsif current_user.percentage_questions_answered_for(p.program) < 95 && p.program != anterior
+        elsif current_user.percentage_questions_answered_for(p.program) < 100 && p.program != anterior
           return true
         end  
       end

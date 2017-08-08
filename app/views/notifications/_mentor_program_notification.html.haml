@@ -1,0 +1,19 @@
+- case notification.model.notification_type
+- when 'more80'
+  %i.fa.fa-calendar-check-o.m-r-10
+  %span.fs-12.m-l-10
+    El alumno
+    %strong
+      #{notification.model.user.name}
+    esta a punto de concluir el programa
+    %strong
+      "#{notification.model.program.name}"
+- when 'complete'
+  %i.fa.fa-refresh.m-r-10
+  %span.fs-12.m-l-10
+    El alumno 
+    %strong
+      #{notification.model.user.name}
+    ha completado el programa
+    %strong
+      "#{notification.model.program.name}"
