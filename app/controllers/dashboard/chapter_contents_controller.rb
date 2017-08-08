@@ -1,7 +1,7 @@
 class Dashboard::ChapterContentsController < ApplicationController
   before_action :authenticate_user!
   before_action :track_chapter_content, only: [:show]
-  before_action :redirect_to_learning, if: :permiso, only: [:show]
+  #before_action :redirect_to_learning, if: :permiso, only: [:show]
   after_action :update_program_stats, only: [:show]
 
   def show
@@ -32,7 +32,7 @@ class Dashboard::ChapterContentsController < ApplicationController
       @recipients.each do |recipient, index|
         if recipient[:type] == 'soporte'
           subject = "Solicitud de soporte EDC-Digital: " + params[:raw_subject]
-          Support.contact(subject, params[:message], params[:urgency], params[:matter], current_user, params[:chapter],params[:signature], recipient[:adress], nil).deliver_now
+          Support.contact(subject, params[:message], params[:urgency], params[:matter], current_user, params[:chapter], params[:signature], recipient[:adress], params[:signature], params[:chapter], nil).deliver_now
           flash_message = { notice: 'Su mensaje ha sido enviado.'}
         else
           subject = "Recibimos tu mensaje: " + params[:raw_subject]
