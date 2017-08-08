@@ -38,6 +38,7 @@
 //= require editable/bootstrap-editable
 //= require editable/rails
 //= require typeahead.js.js
+//= require bootstrap-tour
 
 $(document).on('turbolinks:load', function(){
   $('.editable').editable();
