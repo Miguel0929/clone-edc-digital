@@ -23,7 +23,6 @@ class Dashboard::ChapterContentsController < ApplicationController
 
   #Nuevo: datos para el correo
   def mailer_interno
-    require 'pry'; binding.pry
     if params[:raw_subject].present? == false || params[:message].present? == false
       flash_message = { alert: 'ERROR: No olvides escribir asunto y mensaje.'}
     elsif params[:urgency] == 'none' || params[:matter] == 'none'
