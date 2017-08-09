@@ -42,7 +42,7 @@ class RegistrationsController < Devise::RegistrationsController
 						},
 					],
 					from: {
-						email: "soporte@edc-digital.com"
+						email: "soporte-edcdigital@distritoemprendedor.com"
 					},
 					template_id: "21767291-6af7-411f-8032-fa8d201cc989"
 			}
