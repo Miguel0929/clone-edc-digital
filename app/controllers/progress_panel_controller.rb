@@ -122,7 +122,8 @@ class ProgressPanelController < ApplicationController
   def program_detail
     add_breadcrumb "<a class='active' href='#{ progress_per_program_path }'>Panel de progreso de programa</a>".html_safe
     @users = User.joins(:program_stats).where(program_stats: {program_id: params[:requested_program]})
-    @groups = @users.map{ |user| user.group}.uniq
+    puts "ay wey"
+    @groups = Group.joins(:students => :program_stats).where(program_stats: {program_id: params[:requested_program]}).uniq
     @hundred, @seventy, @fifty, @thirty = 0, 0, 0, 0
     @active_users, @inactive_users = [], 0
     # Para este punto los stats solo se han generado para usuarios activos en StudentsProgressJob
