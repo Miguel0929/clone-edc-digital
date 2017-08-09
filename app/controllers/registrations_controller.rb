@@ -15,9 +15,19 @@ class RegistrationsController < Devise::RegistrationsController
 		end
 
 		if old_ind != @new_ind
-			if old_ind.nil? then old_ind = "Ninguna" end
-			if @new_ind.nil? then @new_ind = "Ninguna" end
 
+			if old_ind.nil? 
+				old_ind = "Ninguna"
+			else
+				old_ind = Industry.find(old_ind).name
+			end
+			if @new_ind.nil? 
+				@new_ind = "Ninguna" 
+			else
+				@new_ind = Industry.find(@new_ind).name
+			end
+			
+			#Esto siguiente fue obtenido de users/invitations_controller.rb
 			data = {
 					personalizations: [
 						{
