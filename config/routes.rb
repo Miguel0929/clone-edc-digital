@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users, sign_out_via: [:get, :delete], :controllers => { :invitations => 'users/invitations', sessions: 'sessions' }
+  devise_for :users, sign_out_via: [:get, :delete], :controllers => { :invitations => 'users/invitations', sessions: 'sessions', :registrations => "registrations" }
 
   #root 'dashboard/programs#index'
   get '/', to: 'landings#index'
