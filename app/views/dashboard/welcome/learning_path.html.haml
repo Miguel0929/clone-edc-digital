@@ -100,7 +100,7 @@
                                 = "Continuar " + answered_progress.to_s + "%"
                                 %i.fa.fa-angle-double-right.font-size-play
                           -elsif current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100
-                            .text-info 
+                            .text-info
                               Completa el curso previo para poder acceder a este contenido
                           -else
                             = link_to dashboard_program_path(program), class: "opacity__1" do
