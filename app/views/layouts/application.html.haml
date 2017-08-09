@@ -451,12 +451,12 @@
     - if flash[:more80]
       :javascript
         $(document).on('turbolinks:load', function(){
-          sweetAlert("Haz completado el 80% del curso, pronto desbloquearas el siguiente contenido!");
+          sweetAlert("¡Haz completado el 80% del curso, pronto desbloquearas el siguiente contenido!");
         });
     - if flash[:complete]
       :javascript
         $(document).on('turbolinks:load', function(){
-          sweetAlert("Haz completado el curso!");
+          sweetAlert("¡Haz completado el curso!");
         });                     
 
     - if current_user && current_user.student?
