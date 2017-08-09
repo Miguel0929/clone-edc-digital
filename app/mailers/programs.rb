@@ -125,7 +125,7 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email: user.email } ],
+          to: [ { email:  user.email } ],
           substitutions: {
             "-raw_subject-" => "El Alumno #{student.name} está a punto de terminar el programa #{program.name}.",
             "-content-" => "El Alumno #{student.name} está a punto de concluir el programa #{program.name}, te invitamos a que revises sus avances y completes la rúbrica de evaluación correspondiente.",
@@ -155,13 +155,13 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email: user.email } ],
+          to: [ { email:  user.email } ],
           substitutions: {
-            "-raw_subject-" => "Estas a punto de terminar el programa \"#{program.name}\"",
-            "-content-" => "Estas a punto de terminar el programa \"#{program.name}\" en EDCdigital",
+            "-raw_subject-" => "Estas a punto de terminar el programa \"#{program.name}\".",
+            "-content-" => "Estas a punto de terminar el programa \"#{program.name}\" en EDCdigital.",
             "-url-" => ruta,
           },
-          subject: "Estas a punto de terminar el programa \"#{program.name}\""
+          subject: "Estas a punto de terminar el programa \"#{program.name}\"."
         },
       ],
       from: {
@@ -185,13 +185,13 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email: user.email } ],
+          to: [ { email:  user.email } ],
           substitutions: {
-            "-raw_subject-" => "El alumno #{student.name} ha terminado el programa \"#{program.name}\"",
-            "-content-" => "El alumno #{student.name} ha terminado el programa \"#{program.name}\", te invitamos a que revises sus avances y completes la rúbrica de evaluación correspondiente",
+            "-raw_subject-" => "El alumno #{student.name} ha terminado el programa \"#{program.name}\".",
+            "-content-" => "El alumno #{student.name} ha terminado el programa \"#{program.name}\", te invitamos a que revises sus avances y completes la rúbrica de evaluación correspondiente.",
             "-url-" => ruta,
           },
-          subject: "El alumno #{student.name} ha terminado el programa \"#{program.name}\""
+          subject: "El alumno #{student.name} ha terminado el programa \"#{program.name}\"."
         },
       ],
       from: {
@@ -215,13 +215,13 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email: user.email } ],
+          to: [ { email:  user.email } ],
           substitutions: {
-            "-raw_subject-" => "Has terminado el programa \"#{program.name}\"",
-            "-content-" => "Has terminado el programa \"#{program.name}\" en EDCdigital",
+            "-raw_subject-" => "Has terminado el programa \"#{program.name}\".",
+            "-content-" => "Has terminado el programa \"#{program.name}\" en EDCdigital.",
             "-url-" => ruta,
           },
-          subject: "Has terminado el programa \"#{program.name}\""
+          subject: "Has terminado el programa \"#{program.name}\"."
         },
       ],
       from: {

@@ -101,10 +101,12 @@ class Dashboard::AnswersController < ApplicationController
         if current_user.panel_notifications.more80_student.first.nil? || current_user.panel_notifications.more80_student.first.status
           Programs.more80_student(@chapter_content.chapter.program, current_user, dashboard_program_url(@chapter_content.chapter.program))
         end
-        current_user.group.users.each do |mentor|
-          mentor.mentor_program_notifications.create(program: @chapter_content.chapter.program, user: current_user, notification_type: 'more80')
-          Programs.more80_mentor(@chapter_content.chapter.program, mentor, current_user, mentor_student_url(current_user))  
-        end
+        #soporte
+        soporte=User.new(email: "soporte@edc-digital.com")
+        Programs.more80_mentor(@chapter_content.chapter.program,soporte,current_user,user_url(current_user))
+        flash[:more80]="Haz completado el 80% del curso, pronto desbloquearas el siguiente contenido"
+        #mentores
+        ProgramMore80NotificationJob.perform_async(@chapter_content.chapter.program,current_user,mentor_student_url(current_user))
       end  
       mensaje = mensaje + ", haz completado el #{current_user.percentage_questions_answered_for(@chapter_content.chapter.program)}\% del programa, ya mero entras al siguiente curso."
     elsif current_user.percentage_questions_answered_for(@chapter_content.chapter.program)==100
@@ -113,10 +115,12 @@ class Dashboard::AnswersController < ApplicationController
         if current_user.panel_notifications.complete_student.first.nil? || current_user.panel_notifications.complete_student.first.status
           Programs.complete_student(@chapter_content.chapter.program, current_user, dashboard_program_url(@chapter_content.chapter.program))
         end
-        current_user.group.users.each do |mentor|
-          mentor.mentor_program_notifications.create(program: @chapter_content.chapter.program, user: current_user, notification_type: 'complete')
-          Programs.complete_mentor(@chapter_content.chapter.program, mentor, current_user, mentor_student_url(current_user))  
-        end
+        #soporte
+        soporte=User.new(email: "soporte@edc-digital.com")
+        Programs.complete_mentor(@chapter_content.chapter.program,soporte,current_user,user_url(current_user))
+        flash[:complete]="Haz completado el curso"
+        #mentores
+        ProgramCompleteNotificationJob.perform_async(@chapter_content.chapter.program,current_user,mentor_student_url(current_user))
       end  
       mensaje = mensaje + ", haz completado el 100% del curso, se ha desbloqueado un nuevo contenido"    
     end   

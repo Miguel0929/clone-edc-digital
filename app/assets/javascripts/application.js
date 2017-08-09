@@ -30,6 +30,7 @@
 //= require Chart.bundle
 //= require chartkick
 //= require jquery-readyselector
+//= require sweetalert
 //= require_tree "."
 //= stub landings/pace.min
 //= stub landings/pages.frontend
