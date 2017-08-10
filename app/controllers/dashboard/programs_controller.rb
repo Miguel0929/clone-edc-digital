@@ -1,6 +1,6 @@
 class Dashboard::ProgramsController < ApplicationController
   before_action :authenticate_user!
-  #before_action :redirect_to_learning, if: :permiso_avance, only: [:show]
+  before_action :redirect_to_learning, if: :permiso_avance, only: [:show]
   add_breadcrumb "EDCDIGITAL", :root_path
 
   helper_method :last_moved_program
@@ -72,7 +72,6 @@ class Dashboard::ProgramsController < ApplicationController
   end
 
   def show
-    @program = Program.find(params[:id])
     rank= Rating.where(ratingable_type: "Program", ratingable_id: @program.id, user_id: current_user.id).first
     if rank.nil?
       @rank=0
