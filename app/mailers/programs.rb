@@ -215,7 +215,7 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email:  user.email } ],
+          to: [ { email:  user.email} ],
           substitutions: {
             "-raw_subject-" => "Has terminado el programa \"#{program.name}\".",
             "-content-" => "Has terminado el programa \"#{program.name}\" en EDCdigital.",

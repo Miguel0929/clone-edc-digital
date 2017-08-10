@@ -45,7 +45,8 @@ class Dashboard::WelcomeController < ApplicationController
   end
 
   def learning_path
-    @group_programs = current_user.group.group_programs.order(:position)
+    ids=current_user.group.programs.ruta.map{|p|p.id}
+    @group_programs=current_user.group.group_programs.where(program_id: ids).order(:position)
     c=0 
     ids=[]
     @group_programs.each do |p|
@@ -57,7 +58,7 @@ class Dashboard::WelcomeController < ApplicationController
         break
       end
     end
-    @group_programs=GroupProgram.where(id: ids)     
+    @group_programs=GroupProgram.where(id: ids).order(:position)     
     @modal_trigger = current_user.video_trigger
   end  
  

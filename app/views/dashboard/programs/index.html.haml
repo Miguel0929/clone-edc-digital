@@ -107,7 +107,7 @@
                       .col-md-6.col-sm-6.col-xs-12.p-l-0.p_phone
                         .super-card-container
                           .card.share.share-other{"data-social" => "item"}
-                            %a{(current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100)? "" : :href => dashboard_program_path(program)}
+                            %a{program.ruta? && (current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100)? "" : :href => dashboard_program_path(program)}
                               .card-header.card_height-programas.text-white{ :style => "background: url(#{program.cover.url});" , class: "style_img_card" }
                                 %h5.text-complete.pull-left.fs-12.demo-fs-23
                                   .text-white.bold{id: "program_id#{program.id}"}
@@ -175,7 +175,7 @@
                                           %button.btn.btn-complete.m-t--10
                                             = "Continuar " + answered_progress.to_s + "%"
                                             %i.fa.fa-angle-double-right.font-size-play
-                                      -elsif current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100
+                                      -elsif program.ruta? && current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100
                                         .text-info.m-t--10 
                                           Completa el curso previo para poder acceder a este contenido
                                       -else

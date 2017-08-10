@@ -95,41 +95,54 @@ class Dashboard::AnswersController < ApplicationController
 
   def redirect_to_next_content
     mensaje= "Cambios guardados con éxito"
-    if current_user.percentage_questions_answered_for(@chapter_content.chapter.program)>80 && current_user.percentage_questions_answered_for(@chapter_content.chapter.program)<100
-      if current_user.program_notifications.where(program: @chapter_content.chapter.program).more80.first.nil?
-        current_user.program_notifications.create(program: @chapter_content.chapter.program, notification_type: 'more80')
+    program=@chapter_content.chapter.program
+    if current_user.percentage_questions_answered_for(program)>80 && current_user.percentage_questions_answered_for(program)<100
+      if current_user.program_notifications.where(program: program).more80.first.nil?
+        current_user.program_notifications.create(program: program, notification_type: 'more80')
         if current_user.panel_notifications.more80_student.first.nil? || current_user.panel_notifications.more80_student.first.status
-          Programs.more80_student(@chapter_content.chapter.program, current_user, dashboard_program_url(@chapter_content.chapter.program))
+          Programs.more80_student(program, current_user, dashboard_program_url(program))
         end
         #soporte
         soporte=User.new(email: "soporte@edc-digital.com")
-        Programs.more80_mentor(@chapter_content.chapter.program,soporte,current_user,user_url(current_user))
-        flash[:more80]="Haz completado el 80% del curso, pronto desbloquearas el siguiente contenido"
+        Programs.more80_mentor(program,soporte,current_user,user_url(current_user))
+        if program.ruta?
+          flash[:more80]="Haz completado el 80% del curso, pronto desbloquearas el siguiente contenido!"
+        else
+          flash[:more80]="Haz completado el 80% del curso!"
+        end    
         #mentores
-        ProgramMore80NotificationJob.perform_async(@chapter_content.chapter.program,current_user,mentor_student_url(current_user))
+        ProgramMore80NotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
+      end
+      if program.ruta?
+        mensaje = mensaje + ", haz completado el #{current_user.percentage_questions_answered_for(program)}\% del programa, ya mero entras al siguiente curso."
+      else
+        mensaje = mensaje + ", haz completado el #{current_user.percentage_questions_answered_for(program)}\% del programa."
       end  
-      mensaje = mensaje + ", haz completado el #{current_user.percentage_questions_answered_for(@chapter_content.chapter.program)}\% del programa, ya mero entras al siguiente curso."
-    elsif current_user.percentage_questions_answered_for(@chapter_content.chapter.program)==100
-      if current_user.program_notifications.where(program: @chapter_content.chapter.program).complete.first.nil?
-        current_user.program_notifications.create(program: @chapter_content.chapter.program, notification_type: 'complete')
+    elsif current_user.percentage_questions_answered_for(program)==100
+      if current_user.program_notifications.where(program: program).complete.first.nil?
+        current_user.program_notifications.create(program: program, notification_type: 'complete')
         if current_user.panel_notifications.complete_student.first.nil? || current_user.panel_notifications.complete_student.first.status
-          Programs.complete_student(@chapter_content.chapter.program, current_user, dashboard_program_url(@chapter_content.chapter.program))
+          Programs.complete_student(program, current_user, dashboard_program_url(program))
         end
         #soporte
         soporte=User.new(email: "soporte@edc-digital.com")
-        Programs.complete_mentor(@chapter_content.chapter.program,soporte,current_user,user_url(current_user))
-        flash[:complete]="Haz completado el curso"
+        Programs.complete_mentor(program,soporte,current_user,user_url(current_user))
+        flash[:complete]="Haz completado el curso!"
         #mentores
-        ProgramCompleteNotificationJob.perform_async(@chapter_content.chapter.program,current_user,mentor_student_url(current_user))
-      end  
-      mensaje = mensaje + ", haz completado el 100% del curso, se ha desbloqueado un nuevo contenido"    
+        ProgramCompleteNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
+      end
+      if program.ruta?  
+        mensaje = mensaje + ", haz completado el 100% del curso, se ha desbloqueado un nuevo contenido."
+      else
+        mensaje = mensaje + ", haz completado el 100% del curso."
+      end      
     end   
     if @chapter_content.lower_item
       redirect_to dashboard_chapter_content_path(@chapter_content.lower_item), notice: mensaje
-    elsif @chapter_content.chapter.program.next_chapter(@chapter_content.chapter) && @chapter_content.chapter.program.next_chapter(@chapter_content.chapter).chapter_contents.first
-      redirect_to dashboard_chapter_content_path(@chapter_content.chapter.program.next_chapter(@chapter_content.chapter).chapter_contents.first), notice: mensaje
+    elsif program.next_chapter(@chapter_content.chapter) && program.next_chapter(@chapter_content.chapter).chapter_contents.first
+      redirect_to dashboard_chapter_content_path(program.next_chapter(@chapter_content.chapter).chapter_contents.first), notice: mensaje
     else
-      redirect_to dashboard_program_path(@chapter_content.chapter.program), notice: mensaje
+      redirect_to dashboard_program_path(program), notice: mensaje
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170807200217) do
+ActiveRecord::Schema.define(version: 20170809212511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -451,7 +451,7 @@ ActiveRecord::Schema.define(version: 20170807200217) do
     t.string   "small_cover"
     t.integer  "level"
     t.integer  "tipo"
-    t.string   "content_type"
+    t.integer  "content_type"
     t.string   "short_name"
   end
 
