@@ -13,9 +13,12 @@ class Dashboard::ProgramsController < ApplicationController
     ids=[]
     if current_user.student?
       unless current_user.group.nil? 
-        ids=[]
-        @programs = current_user.group.group_programs.order(:position)
         @activo = ['active', '','']
+        ids_comp = current_user.group.programs.where(content_type: [1,2]).map{|p|p.id}
+        prog_comp = current_user.group.group_programs.where(program_id: ids_comp).map{|p| p.id}
+        ids_ruta = current_user.group.programs.ruta.map{|p|p.id}
+        @programs = current_user.group.group_programs.where(program_id: ids_ruta).order(:position)
+        #@programs = current_user.group.group_programs.order(:position)
         c=0
         @programs.each do |p|
           c+=1
@@ -25,7 +28,7 @@ class Dashboard::ProgramsController < ApplicationController
             break
           end
         end
-        @programs=GroupProgram.where(id: ids).order(:position)
+        @programs=GroupProgram.where(id: ids.concat(prog_comp)).order(:position)
       end
     elsif current_user.mentor?
       current_user.groups.each do |g|
@@ -122,7 +125,10 @@ class Dashboard::ProgramsController < ApplicationController
   def permiso_avance
     @program = Program.find(params[:id])
     programas = current_user.group.group_programs.order(:position)
-    if @program != programas.first.program
+    if @program.content_type != "ruta" || current_user.mentor?
+      return false
+    end  
+    if @program != programas.first.program  
       anterior=Program.new
       programas.each do |p|
         if p.program==@program
@@ -132,9 +138,9 @@ class Dashboard::ProgramsController < ApplicationController
         end
       end
       programas.each do |p|
-        if p.program == anterior && current_user.percentage_questions_answered_for(anterior) == 100
+        if (p.program == anterior && current_user.percentage_questions_answered_for(anterior) == 100)
           return false      
-        elsif current_user.percentage_questions_answered_for(p.program) < 100 && p.program != anterior
+        elsif (current_user.percentage_questions_answered_for(p.program) < 100 && p.program != anterior) 
           return true
         end  
       end

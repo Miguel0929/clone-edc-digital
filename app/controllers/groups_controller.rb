@@ -85,7 +85,8 @@ class GroupsController < ApplicationController
   def sort_route
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{sort_route_group_path(@group)}'>#{@group.name} - Ruta de aprendizaje</a>".html_safe
-    @programs=@group.group_programs.order(:position)
+    ids=@group.programs.ruta.map{|p|p.id}
+    @programs=@group.group_programs.where(program_id: ids).order(:position)
   end
 
   def sort

@@ -62,6 +62,9 @@ class Dashboard::ChapterContentsController < ApplicationController
   def permiso
     program=@chapter_content.chapter.program
     programas = current_user.group.group_programs.order(:position)
+    if program.content_type != "ruta" || current_user.mentor?
+      return false
+    end 
     if program != programas.first.program
       anterior=Program.new
       programas.each do |p|
