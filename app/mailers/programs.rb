@@ -125,7 +125,7 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email:  "donpancholin50@hotmail.com" } ],
+          to: [ { email:  user.email } ],
           substitutions: {
             "-raw_subject-" => "El Alumno #{student.name} está a punto de terminar el programa #{program.name}.",
             "-content-" => "El Alumno #{student.name} está a punto de concluir el programa #{program.name}, te invitamos a que revises sus avances y completes la rúbrica de evaluación correspondiente.",
@@ -155,7 +155,7 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email:  "donpancholin50@hotmail.com" } ],
+          to: [ { email:  user.email } ],
           substitutions: {
             "-raw_subject-" => "Estas a punto de terminar el programa \"#{program.name}\".",
             "-content-" => "Estas a punto de terminar el programa \"#{program.name}\" en EDCdigital.",
@@ -185,7 +185,7 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email:  "donpancholin50@hotmail.com" } ],
+          to: [ { email:  user.email } ],
           substitutions: {
             "-raw_subject-" => "El alumno #{student.name} ha terminado el programa \"#{program.name}\".",
             "-content-" => "El alumno #{student.name} ha terminado el programa \"#{program.name}\", te invitamos a que revises sus avances y completes la rúbrica de evaluación correspondiente.",
@@ -215,7 +215,7 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email:  "donpancholin50@hotmail.com" } ],
+          to: [ { email:  user.email} ],
           substitutions: {
             "-raw_subject-" => "Has terminado el programa \"#{program.name}\".",
             "-content-" => "Has terminado el programa \"#{program.name}\" en EDCdigital.",
