@@ -18,7 +18,6 @@
 							%i.fa.fa-reply
 							%span.bold Regresar al grupo
 
-- current_stats = @group.get_group_stat(@group)
 .container-fluid.container-fixed-lg
 	.panel.panel-transparent
 		.col-sm-4.p-l-0
@@ -38,58 +37,41 @@
 										%i.fa.fa-users.m-l-10
 										%span.text-danger #{@students.count}
 										estudiantes
-									- if !current_stats.nil?
-										%span.p-l-10.p-r-10 /
-										%span 
-											= link_to generate_group_stats_path(@group) do
-												%i.fa.fa-rotate-right
-												Actualizar estadísticos
 								.clearfix
 		.col-sm-8.p-r-0
-			- if !current_stats.nil?
-				.panel.panel-default
-					.widget-10.panel.no-border.bg-white.no-margin.widget-loader-bar{style: "height: 120px; !important;"}
-						.panel-heading.top-left.top-right
-							.panel-title.text-black.hint-text
-								%span.font-montserrat.fs-11.all-caps
-									Avances del programa
-									%i.fa.fa-chevron-right
-						.col-sm-6.p-l-0
-							.panel-body.p-t-40
-								.row.p-t-5
-									.col-sm-11
-										.small.p-b-5
-											%span.small-text Promedio visto: 
-											%span.text-success.font-montserrat.small-text #{@program_av_seen.ceil}%
-										.progress.progress-small.m-b-5
-											.progress-bar.progress-bar-primary{:style => "width: #{current_stats.average_seen.ceil}%"}
-									.col-sm-11
-										.small.p-b-5
-											%span.small-text Promedio contestado: 
-											%span.text-success.font-montserrat.small-text #{@program_av_progress.ceil}%
-										.progress.progress-small.m-b-5
-											.progress-bar.progress-bar-primary{:style => "width: #{current_stats.average_progress.ceil}%"}
-						.col-sm-6.p-l-0
-							.panel-body.p-t-40
-								.row.p-t-5
-									.col-sm-12
-										%h4.no-margin.p-b-5.text-success.semi-bold #{current_stats.evaluated_students} alumno(s) evaluados
-										.pull-left.small
-											%span ESTADO:
-											%span.text-danger.font-montserrat.small-text
-												#{((current_stats.evaluated_students.to_f / current_stats.group_students)*100).ceil}% 
-											%span de los alumnos han sido evaluados
-										.clearfix
-			- else
-				.panel.panel-default
-					.widget-10.panel.no-border.bg-white.no-margin.widget-loader-bar{style: "height: 120px; !important;"}
-						.panel-body
-							.col-md-5
-								%h4 Este grupo no tiene estadísticas aún...
-							.col-md-7
-								= link_to generate_group_stats_path(@group), class: 'btn btn-sm btn-complete btn-cons m-t-10' do
-									%i.fa.fa-line-chart
-									Generar estadísticos
+			.panel.panel-default
+				.widget-10.panel.no-border.bg-white.no-margin.widget-loader-bar{style: "height: 120px; !important;"}
+					.panel-heading.top-left.top-right
+						.panel-title.text-black.hint-text
+							%span.font-montserrat.fs-11.all-caps
+								Avances del programa en este grupo
+								%i.fa.fa-chevron-right
+					.col-sm-6.p-l-0
+						.panel-body.p-t-40
+							.row.p-t-5
+								.col-sm-11
+									.small.p-b-5
+										%span.small-text Promedio visto: 
+										%span.text-success.font-montserrat.small-text #{@program_av_seen.ceil}%
+									.progress.progress-small.m-b-5
+										.progress-bar.progress-bar-primary{:style => "width: #{@program_av_seen.ceil}%"}
+								.col-sm-11
+									.small.p-b-5
+										%span.small-text Promedio contestado: 
+										%span.text-success.font-montserrat.small-text #{@program_av_progress.ceil}%
+									.progress.progress-small.m-b-5
+										.progress-bar.progress-bar-primary{:style => "width: #{@program_av_progress.ceil}%"}
+					.col-sm-6.p-l-0
+						.panel-body.p-t-40
+							.row.p-t-5
+								.col-sm-12
+									%h4.no-margin.p-b-5.text-success.semi-bold #{@evaluated} alumno(s) evaluados
+									.pull-left.small
+										%span ESTADO:
+										%span.text-danger.font-montserrat.small-text
+											#{((@evaluated.to_f / @students.count)*100).ceil}% 
+										%span de los alumnos han sido evaluados
+									.clearfix
 
 .container-fluid.container-fixed-lg
 	.panel.panel-default

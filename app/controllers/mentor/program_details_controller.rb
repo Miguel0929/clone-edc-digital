@@ -24,6 +24,7 @@ class Mentor::ProgramDetailsController < ApplicationController
 		p_numbers = program_numbers(@students)
 		@program_av_progress = p_numbers[0]
 		@program_av_seen = p_numbers[1]
+		@evaluated = User.joins(:program_stats).where(program_stats: {program_id: @program.id, user_id: @students.pluck(:id), checked: 1}).count
 		add_breadcrumb "<a href='#{mentor_group_path(@group)}'>#{@group.name}</a>".html_safe
 		add_breadcrumb "<a class='active' href='#{mentor_program_details_path(group_id: @group, program_id: @program)}'>Detalles de programa: #{@program.short_name}</a>".html_safe
 	end
