@@ -294,7 +294,7 @@ class User < ActiveRecord::Base
 
   def ready_to_check?
     programs = self.programs
-    stats = ProgramStat.where(user_id: self.id).map { |n| n.checked}
+    stats = ProgramStat.where(user_id: self.id).map { |n| n.checked }
     detection = stats.detect { |i| i == 0}.nil? #Si no halla ningún 0 dará true al preguntar .nil?, o sea que todos los programas de este usuario han sido "checked"
     control = ( detection && programs.count == stats.count ) #Para editar el checked se ocupa que todos los programas del usuario estén revisados y que él no tenga más programas de los que tiene un registro (program_stats)
     if control == false || programs.count > stats.count then self.update(evaluation_status: 0) end

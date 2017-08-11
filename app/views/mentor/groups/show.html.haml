@@ -105,8 +105,9 @@
               (#{@group.programs.count} programas)
           .m-t-10.p-l-20
             - @group.programs.each_with_index do |program, index|
-              .label.program-labels{"data-toggle": "tooltip", "data-original-title": "#{program.name}"}
-                = !program.short_name.nil? ? program.short_name : "P-#{index}"
+              = link_to mentor_program_details_path(group_id: @group, program_id: program) do
+                .label.program-labels{"data-toggle": "tooltip", "data-original-title": "#{program.name}"}
+                  = !program.short_name.nil? ? program.short_name : "P-#{index}"
       .row.m-b-20
         .col-md-12
           %h5
@@ -170,9 +171,8 @@
                   %ul.list-inline.no-style.unstyled
                     - @group.programs.each_with_index do |program, index|
                       %li
-                        - review = program.program_checked?(program, student)
-                        /- progress_percentage =  student.percentage_questions_answered_for(program)
                         - program_stat = ProgramStat.where(user_id: student.id, program_id: program.id).last
+                        - review = (program_stat.nil? || program_stat.checked == 0) ? false : true
                         - progress_percentage = (!program_stat.nil?) ? program_stat.program_progress : nil
                         - if !progress_percentage.nil?
                           = link_to mentor_evaluations_path(user_id: student, program_id: program) do
@@ -189,14 +189,15 @@
                             .label.program-labels{"data-toggle": "tooltip", "data-original-title": "Programa sin estadísticos"}
                               ???
                 %td.text-center
-                  %input{type: "hidden", id: "student_ready_#{student.id}", value: student.ready_to_check?.to_s}
+                  - prepared = student.check_ready.nil? ? student.ready_to_check? : student.check_ready
+                  %input{type: "hidden", id: "student_ready_#{student.id}", value: prepared.to_s}
                   %input{type: "hidden", id: "student_key_#{student.id}", value: student.id}
                   - student_eval = (student.evaluation_status == 'evaluado') ? 1 : 0
                   %label.switch{{id: "switch_#{student.id}"}, {"data-toggle": "tooltip"}, (student_eval==0) ? {"data-original-title": "Marcar alumno como evaluado"} : {"data-original-title": "Remover marca de evaluado"}}
                     - if student_eval == 1
-                      %input{{type: "checkbox"}, {id: "checking_eval_#{student.id}"}, {value: student_eval}, {name: "student_eval[checked]"}, {checked: :true}, student.ready_to_check? ? {} : { disabled: true }}
+                      %input{{type: "checkbox"}, {id: "checking_eval_#{student.id}"}, {value: student_eval}, {name: "student_eval[checked]"}, {checked: :true}, prepared ? {} : { disabled: true }}
                     - else
-                      %input{{type: "checkbox"}, {id: "checking_eval_#{student.id}"}, {value: student_eval}, {name: "student_eval[checked]"}, student.ready_to_check? ? {} : { disabled: true }}
+                      %input{{type: "checkbox"}, {id: "checking_eval_#{student.id}"}, {value: student_eval}, {name: "student_eval[checked]"}, prepared ? {} : { disabled: true }}
                     .slider.round
                   :javascript
                     $(document).ready(function(){

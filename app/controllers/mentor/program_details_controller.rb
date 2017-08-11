@@ -1,0 +1,53 @@
+class Mentor::ProgramDetailsController < ApplicationController
+	before_action :authenticate_user!
+  before_action :require_admin_or_mentor
+	before_action :set_group
+  before_action :set_program
+
+  helper_method :get_program_stat
+  helper_method :chapter_have_questions?
+
+  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "Grupos", :mentor_groups_path
+
+	def index
+		if params[:query].present?
+			@group = Group.find(params[:search_group])
+			@program = Program.find(params[:search_program])
+			@students = @group.student_search(params[:query])
+		else
+			@students = @group.active_students.all.order(:id)
+		end
+		p_chapters = chapter_have_questions?(@program)
+		@questioned_chapters = p_chapters[0]
+		@unquestioned_chapters = p_chapters[1]
+		add_breadcrumb "<a href='#{mentor_group_path(@group)}'>#{@group.name}</a>".html_safe
+		add_breadcrumb "<a class='active' href='#{mentor_program_details_path(group_id: @group, program_id: @program)}'>Detalles de programa: #{@program.short_name}</a>".html_safe
+	end
+
+	private
+	def set_group
+    unless params[:query].present? then @group = Group.find(params[:group_id]) end
+  end
+
+  def set_program
+    unless params[:query].present? then @program = Program.includes(:chapters).find(params[:program_id]) end
+  end
+
+  def get_program_stat(user, program)
+    ProgramStat.where(user_id: user.id, program_id: program.id).last
+  end
+
+  def chapter_have_questions?(program)
+    with_questions, no_questions = [], []
+    program.chapters.each do |chapter|
+      if chapter.questions.count > 0
+        with_questions << chapter
+      else
+        no_questions << chapter
+      end
+    end
+    return with_questions, no_questions
+  end
+
+end
