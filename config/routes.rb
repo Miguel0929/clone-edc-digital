@@ -194,6 +194,7 @@ Rails.application.routes.draw do
   namespace :mentor do
     resources :groups, only: [:index, :show]
     resources :evaluations, only: [:index, :show, :update]
+    resources :program_details, only: [:index]
     resources :students, only: [:index, :show, :update] do
       resources :shared_attachments
       collection do

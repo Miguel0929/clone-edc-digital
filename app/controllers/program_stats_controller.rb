@@ -21,6 +21,10 @@ class ProgramStatsController < ApplicationController
 	      @current_stats.update(checked: 1)
       end
     end
+
+    prepared = user.ready_to_check?
+    user.update(check_ready: prepared)
+
     respond_to do |format|
       #format.html{ redirect_to mentor_student_path(user), notice: "Evaluación actualizada"}
       format.json{ head :ok}
