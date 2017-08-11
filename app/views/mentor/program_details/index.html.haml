@@ -60,13 +60,13 @@
 									.col-sm-11
 										.small.p-b-5
 											%span.small-text Promedio visto: 
-											%span.text-success.font-montserrat.small-text #{current_stats.average_seen.ceil}%
+											%span.text-success.font-montserrat.small-text #{@program_av_seen.ceil}%
 										.progress.progress-small.m-b-5
 											.progress-bar.progress-bar-primary{:style => "width: #{current_stats.average_seen.ceil}%"}
 									.col-sm-11
 										.small.p-b-5
 											%span.small-text Promedio contestado: 
-											%span.text-success.font-montserrat.small-text #{current_stats.average_progress.ceil}%
+											%span.text-success.font-montserrat.small-text #{@program_av_progress.ceil}%
 										.progress.progress-small.m-b-5
 											.progress-bar.progress-bar-primary{:style => "width: #{current_stats.average_progress.ceil}%"}
 						.col-sm-6.p-l-0
