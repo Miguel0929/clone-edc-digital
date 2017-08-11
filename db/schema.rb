@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170809212511) do
+ActiveRecord::Schema.define(version: 20170811192457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -698,6 +698,7 @@ ActiveRecord::Schema.define(version: 20170809212511) do
     t.boolean  "video_trigger",                     default: true
     t.float    "user_progress",                     default: 0.0
     t.float    "user_seen",                         default: 0.0
+    t.boolean  "check_ready"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
