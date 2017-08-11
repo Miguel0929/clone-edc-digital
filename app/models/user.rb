@@ -293,12 +293,11 @@ class User < ActiveRecord::Base
   end
 
   def ready_to_check?
-    programs = self.programs
-    stats = ProgramStat.where(user_id: self.id).map { |n| n.checked }
+    groupstats = self.group.programs.map{ |program| program.program_stats.find_by(user_id: self.id)}
+    stats = groupstats.map{ |n| if !n.nil? then n.checked else 0 end} #Regresa el valor de checked de los programa_stats (1 o 0), si no existe un program_stat (n.nil?) entonces pone 0
     detection = stats.detect { |i| i == 0}.nil? #Si no halla ningún 0 dará true al preguntar .nil?, o sea que todos los programas de este usuario han sido "checked"
-    control = ( detection && programs.count == stats.count ) #Para editar el checked se ocupa que todos los programas del usuario estén revisados y que él no tenga más programas de los que tiene un registro (program_stats)
-    if control == false || programs.count > stats.count then self.update(evaluation_status: 0) end
-    return control
+    if detection == false then self.update(evaluation_status: 0) end #Si detecta algún 0 en 'detection' entonces regresa a 'no evaluado' al usuario
+    return detection
   end
 
   def get_update_move
