@@ -124,7 +124,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
 
-    redirect_to users_path, notice: "Se eliminó exitosamente al usuario #{@user.email}"
+    redirect_to  students_users_path, notice: "Se eliminó exitosamente al usuario #{@user.email}"
   end
 
   def analytics_program
