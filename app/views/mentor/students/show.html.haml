@@ -253,10 +253,13 @@
                                             %input{type: "checkbox", id: "checking_program_active_#{program.id}", value: program_active.status, name: "program_active[checked]"}
                                         .slider.slider-small.round
                                     .label-for-switch.label-for-switch-small.p-l-5{id: "label_bloquear_#{program.id}"}
-                                      - if get_program_active(@user, program).nil? || get_program_active(@user, program).status == true
-                                        Bloquear programa
+                                      - if get_program_active(@user, program).nil? 
+                                        Desbloquear programa
                                       -else
-                                        Desbloquear programa     
+                                        -if get_program_active(@user, program).status == true
+                                          Bloquear programa                                           
+                                        -else
+                                          Desbloquear programa
                                 %script{ :type => 'text/javascript' }
                                   $(document).ready(function(){
                                   $("#checking_program_" + #{program.id}).change(function(){
