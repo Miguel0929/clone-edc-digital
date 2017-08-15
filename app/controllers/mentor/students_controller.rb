@@ -4,6 +4,7 @@ class Mentor::StudentsController < ApplicationController
 
   add_breadcrumb "EDCDIGITAL", :root_path
   helper_method :get_program_stat
+  helper_method :get_program_active
   helper_method :chapter_have_questions?
 
   def index
@@ -129,10 +130,14 @@ class Mentor::StudentsController < ApplicationController
     add_breadcrumb "Estudiantes", :mentor_students_path
     add_breadcrumb "<a href='#{mentor_student_path(@user)}'>#{@user.email}</a>".html_safe
     add_breadcrumb "<a class='active' href='#{analytics_quiz_mentor_student_path(@user, quiz_id: @quiz)}'>Detalles del exámen</a>".html_safe
-  end
+  end  
 
   def get_program_stat(user, program)
     ProgramStat.where(user_id: user.id, program_id: program.id).last
+  end
+
+  def get_program_active(user, program)
+    ProgramActive.where(user_id: user.id, program_id: program.id).first
   end
 
   def update
