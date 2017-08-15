@@ -126,13 +126,13 @@
       %table.table.table-hover
         %thead
           %tr
-            %th{:width => '45%'}
+            %th{:width => '40%'}
               Curso inscrito
             %th{:width => '25%'}
               Avances del alumno
-            %th{:width => '15%'}
+            %th{:width => '13%'}
               Disponible
-            %th
+            %th{:width => '22%'}
               Acciones
         %tbody
           - Program.all.each do |program|
@@ -158,7 +158,7 @@
                             .label{:class => "#{(answered_percentage > 0) ? 'label-warning' : ''} #{checked ? '' : 'p-sides-14'}"}
                               M#{index + 1 - counter}
                               %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
-              %td.p-b-15
+              %td.p-b-15{}
                 .m-b-10
                   %i.fa.fa-edit
                   #{@user.questions_answered_for(program)}
@@ -186,6 +186,53 @@
                       = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx) do
                         %i.fa.fa-file-excel-o
                         Descargar Excel
+                    %li
+                      - if program.content_type!="ruta"
+                        %input{type: "hidden", id: "user_key_#{@user.id}", value: @user.id}
+                        %input{type: "hidden", id: "program_key_#{program.id}", value: program.id}    
+                        .btn-like-switch.btn-like-switch-small
+                          %label.switch.switch-small
+                            %form{:action => program_stats_path, 'data-remote': "true", method: :post, id: "edit_program_active_#{program.id}"}
+                              - if get_program_active(@user, program).nil?
+                                %input{type: "checkbox", id: "checking_program_active_#{program.id}", name: "program_stat[checked]"}
+                              - else
+                                - program_active = get_program_active(@user, program)
+                                - if program_active.status == true
+                                  %input{type: "checkbox", id: "checking_program_active_#{program.id}", value: program_active.status, name: "program_active[checked]", checked: :true}
+                                - else
+                                  %input{type: "checkbox", id: "checking_program_active_#{program.id}", value: program_active.status, name: "program_active[checked]"}
+                              .slider.slider-small.round
+                          .label-for-switch.label-for-switch-small.p-l-5{id: "label_bloquear_#{program.id}"}
+                            - if get_program_active(@user, program).nil? 
+                              Desbloquear programa
+                            -else
+                              -if get_program_active(@user, program).status == true
+                                Bloquear programa                                           
+                              -else
+                                Desbloquear programa 
+                        %script{ :type => 'text/javascript' }
+                          $("#checking_program_active_" + #{program.id}).change(function(){
+                          var status = $(this).val();
+                          var user = $("#user_key_" + #{@user.id}).val();
+                          var program = $("#program_key_" + #{program.id}).val();
+                          $.ajax({
+                          type: "post",
+                          url: "/save_program_active",
+                          data: {status, user, program},
+                          success: function(data){
+                          console.log(data.program_active.status);
+                          if (data.program_active.status){
+                          $("#alert_text").text("Programa desbloqueado");
+                          $("#label_bloquear_" + data.program_active.program_id).text("Bloquear programa");
+                          }else{
+                          $("#alert_text").text("Programa bloqueado");
+                          $("#label_bloquear_"+ data.program_active.program_id).text("Desbloquear Programa");
+                          }
+                          $("#alert-bloquear").css('display','block');
+                          setTimeout(function(){$("#alert-bloquear").css('display','none');},3000);
+                          }
+                          });
+                          });     
   %h3
     Estadísticas generales de exámenes
 
@@ -334,6 +381,15 @@
         %span{"aria-hidden" => "true"} ×
         %span.sr-only Close
       #alert_text_warning
+#alert-bloquear.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-info
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      #alert_text
+
+          
 :javascript
   $(document).ready(function(){
     $("#student_evaluation").each(function() {

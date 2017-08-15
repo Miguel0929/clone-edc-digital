@@ -57,12 +57,13 @@ class Dashboard::ChapterContentsController < ApplicationController
     ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
   end
   def redirect_to_learning
-    redirect_to dashboard_learning_path_path, notice: "Completa el curso anterior para poder acceder al contenido." 
+    redirect_to dashboard_learning_path_path, notice: "Aun no puedes acceder a este contenido." 
   end
   def permiso
     program=@chapter_content.chapter.program
+    active=ProgramActive.where(user: current_user, program: program).first
     programas = current_user.group.group_programs.order(:position)
-    if program.content_type != "ruta" || current_user.mentor?
+    if (program.content_type != "ruta" && active.status) || current_user.mentor?
       return false
     end 
     if program != programas.first.program
