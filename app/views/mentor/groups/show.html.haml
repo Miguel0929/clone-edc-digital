@@ -59,7 +59,10 @@
                   .pull-left.small
                     %span ESTADO:
                     %span.text-danger.font-montserrat.small-text
-                      #{((current_stats.evaluated_students.to_f / current_stats.group_students)*100).ceil}% 
+                      - if current_stats.group_students >= 1
+                        #{((current_stats.evaluated_students.to_f / current_stats.group_students)*100).ceil}% 
+                      - else
+                        0%
                     %span de los alumnos han sido evaluados
                   .clearfix
       .col-sm-4.p-r-0
