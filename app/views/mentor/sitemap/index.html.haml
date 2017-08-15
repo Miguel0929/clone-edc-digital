@@ -77,6 +77,9 @@
 		%h4.text-primary.m-b-0
 			MENÚ LATERAL >
 		.row.p-r-20.p-l-20
+			- group_one = current_user.groups.first
+			- program_one = group_one.programs.first
+			- student_one = group_one.students.first
 			.col-sm-4
 				.row.m-t-40.p-r-40
 					= link_to dashboard_programs_path, class: "pump-link-title" do
@@ -116,12 +119,9 @@
 				.row.p-r-30{style: "position: relative; top: -22px;"}
 					.timeline-container.sitemap.top-circle
 						%section.timeline.sitemap
-							- group_one = current_user.groups.first
-							- program_one = group_one.programs.first
-							- student_one = group_one.students.first
 							.timeline-block
 								.timeline-point.sitemap.success
-									%i.fa.fa-map-o
+									%i.fa.fa-plus-square
 								.timeline-content.sitemap
 									.social-card.share.full-width
 										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
@@ -133,7 +133,7 @@
 												Monitorea el avance de los grupos a los que estás vinculado, así como el avance de cada alumno de tus grupos
 											%p
 												= link_to mentor_group_path(group_one) do
-													Ver primer grupo
+													Ver ejemplo
 													%i.fa.fa-angle-double-right
 							.timeline-block
 								.timeline-point.sitemap.success
@@ -153,282 +153,127 @@
 													%i.fa.fa-angle-double-right
 			.col-sm-4
 				.row.m-t-40.p-r-40
-					.card.social-card.share.full-width.sitemap
-						.card-header.clearfix
-							.user-pic
-								%i.fa.fa-comment
-							%h5 Ayuda
+					= link_to mentor_students_path, class: "pump-link-title" do
+						.card.social-card.share.full-width.sitemap
+							.card-header.clearfix
+								.user-pic
+									%i.fa.fa-book
+								%h5 Estudiantes
 				.row.p-r-30{style: "position: relative; top: -22px;"}
 					.timeline-container.sitemap.top-circle
 						%section.timeline.sitemap
 							.timeline-block
 								.timeline-point.sitemap.success
-									%i.fa.fa-send
+									%i.fa.fa-user{style: "left: 19.5px;"}
+								.timeline-content.sitemap
+									.social-card.share.full-width
+										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
+										.card-header.clearfix
+											= link_to mentor_students_path do
+												%h5 Alumnos bajo tu tutela
+										.card-description
+											%p
+												Accede a la lista completa de los estudiantes que son asesorados por ti. Monitorea los avances totales y específicos de cada curso del estudiante
+											%p
+												= link_to mentor_students_path do
+													Visitar sección
+													%i.fa.fa-angle-double-right
+							.timeline-block
+								.timeline-point.sitemap.success
+									%i.fa.fa-search
+								.timeline-content.sitemap
+									.social-card.share.full-width
+										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
+										.card-header.clearfix
+											= link_to mentor_student_path(student_one.id) do
+												%h5 Detalle de alumno
+										.card-description
+											%p
+												Accede a la información completa de cada alumno. Evalúa su progreso dentro de un programa o un módulo en específico basado en las rúbricas de evaluación
+											%p
+												= link_to mentor_student_path(student_one.id) do
+													Ver ejemplo
+													%i.fa.fa-angle-double-right
+		.row.p-r-20.p-l-20
+			.col-sm-4
+				.row.m-t-40.p-r-40
+					= link_to progress_panel_index_path, class: "pump-link-title" do
+						.card.social-card.share.full-width.sitemap
+							.card-header.clearfix
+								.user-pic
+									%i.fa.fa-line-chart
+								%h5 Panel de progreso
+				.row.p-r-30{style: "position: relative; top: -22px;"}
+					.timeline-container.sitemap.top-circle
+						%section.timeline.sitemap
+							.timeline-block
+								.timeline-point.sitemap.success
+									%i.fa.fa-line-chart{style: "font-weight: bold;"}
+								.timeline-content.sitemap
+									.social-card.share.full-width
+										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
+										.card-header.clearfix
+											= link_to progress_panel_index_path do
+												%h5 Panel de progreso
+										.card-description
+											%p
+												Explora el progreso global de los alumnos en los cursos de la plataforma. Puedes ver la información de avance de grupos y cursos en esta sección
+											%p
+												= link_to progress_panel_index_path do
+													Visitar sección
+													%i.fa.fa-angle-double-right
+			.col-sm-4
+				.row.m-t-40.p-r-40
+					= link_to mentor_shared_group_attachments_path, class: "pump-link-title" do
+						.card.social-card.share.full-width.sitemap
+							.card-header.clearfix
+								.user-pic
+									%i.fa.fa-file
+								%h5 Archivos compartidos
+				.row.p-r-30{style: "position: relative; top: -22px;"}
+					.timeline-container.sitemap.top-circle
+						%section.timeline.sitemap
+							.timeline-block
+								.timeline-point.sitemap.success
+									%i.fa.fa-file{style: "left: 19.5px;"}
+								.timeline-content.sitemap
+									.social-card.share.full-width
+										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
+										.card-header.clearfix
+											= link_to  mentor_shared_group_attachments_path  do
+												%h5 Archivos compartidos
+										.card-description
+											%p
+												Sube y comparte archivos de interés con tus alumnos, asignándolos a los diferentes grupos con los que estás vinculado 
+											%p
+												= link_to mentor_shared_group_attachments_path do
+													Visitar sección
+													%i.fa.fa-angle-double-right
+			.col-sm-4
+				.row.m-t-40.p-r-40
+					= link_to mailbox_inbox_path, class: "pump-link-title" do
+						.card.social-card.share.full-width.sitemap
+							.card-header.clearfix
+								.user-pic
+									%i.fa.fa-comment
+								%h5 Mensajes
+				.row.p-r-30{style: "position: relative; top: -22px;"}
+					.timeline-container.sitemap.top-circle
+						%section.timeline.sitemap
+							.timeline-block
+								.timeline-point.sitemap.success
+									%i.fa.fa-comment
 								.timeline-content.sitemap
 									.social-card.share.full-width
 										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
 										.card-header.clearfix
 											= link_to mailbox_inbox_path do
-												%h5 Mensajes con profesores
+												%h5 Mensajes
 										.card-description
 											%p
-												Envía y recibe mensajes, dudas y archivos con los profesores vinculados a EDC-Digital de tu Universidad
+												Envía y recibe mensajes en contacto con tus estudiantes. Comparte archivos de interés con tus alumnos para mejorar tu comunicación como profesor
 											%p
 												= link_to mailbox_inbox_path do
 													Visitar sección
 													%i.fa.fa-angle-double-right
-							.timeline-block
-								.timeline-point.sitemap.success
-									%i.fa.fa-comments-o
-								.timeline-content.sitemap
-									.social-card.share.full-width
-										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
-										.card-header.clearfix
-											= link_to dashboard_support_path do
-												%h5 Ayuda de mentores de EDC
-										.card-description
-											%p
-												Envía una pregunta al equipo de expertos de Distrito Emprendedor 
-											%p
-												= link_to dashboard_support_path do
-													Visitar sección
-													%i.fa.fa-angle-double-right
-							.timeline-block
-								.timeline-point.sitemap.success
-									%i.fa.fa-question-circle
-								.timeline-content.sitemap
-									.social-card.share.full-width
-										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
-										.card-header.clearfix
-											= link_to frequent_questions_path do
-												%h5 Preguntas frecuentes
-										.card-description
-											%p
-												Encuentra las respuestas a las preguntas más frecuentes hechas por los usuarios sobre el uso de la plataforma EDC-Digital
-											%p
-												= link_to frequent_questions_path do
-													Visitar sección
-													%i.fa.fa-angle-double-right
-							.timeline-block
-								.timeline-point.sitemap.success
-									%i.fa.fa-book
-								.timeline-content.sitemap
-									.social-card.share.full-width
-										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
-										.card-header.clearfix
-											= link_to glossary_categories_path do
-												%h5 Glosario EDC-Digital
-										.card-description
-											%p
-												Busca definiciones sobre conceptos relacionados al mundo de los negocios y megatendencias 
-											%p
-												= link_to glossary_categories_path do
-													Visitar sección
-													%i.fa.fa-angle-double-right
-		.row.p-r-20.p-l-20
-			.col-sm-4
-				.row.m-t-40.p-r-40
-					.card.social-card.share.full-width.sitemap
-						.card-header.clearfix
-							.user-pic
-								%i.fa.fa-user
-							%h5 Mi perfil
-				.row.p-r-30{style: "position: relative; top: -22px;"}
-					.timeline-container.sitemap.top-circle
-						%section.timeline.sitemap
-							.timeline-block
-								.timeline-point.sitemap.success
-									%i.fa.fa-user
-								.timeline-content.sitemap
-									.social-card.share.full-width
-										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
-										.card-header.clearfix
-											= link_to dashboard_user_path(current_user.id) do
-												%h5 Ver mi perfil
-										.card-description
-											%p
-												Revisa tu información general y foto de perfil dentro de la plataforma 
-											%p
-												= link_to dashboard_user_path(current_user.id) do
-													Visitar sección
-													%i.fa.fa-angle-double-right
-							.timeline-block
-								.timeline-point.sitemap.success
-									%i.fa.fa-edit
-								.timeline-content.sitemap
-									.social-card.share.full-width
-										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
-										.card-header.clearfix
-											= link_to edit_user_registration_path do
-												%h5 Editar perfil
-										.card-description
-											%p
-												Configura tu información personal registrada, así como tu foto de perfil
-											%p
-												= link_to edit_user_registration_path do
-													Visitar sección
-													%i.fa.fa-angle-double-right
-							.timeline-block
-								.timeline-point.sitemap.success
-									%i.fa.fa-bookmark
-								.timeline-content.sitemap
-									.social-card.share.full-width
-										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
-										.card-header.clearfix
-											= link_to dashboard_notifications_panel_path do
-												%h5 Panel de notificaciones
-										.card-description
-											%p
-												Configura tu información personal registrada, así como tu foto de perfil
-											%p
-												= link_to dashboard_notifications_panel_path do
-													Visitar sección
-													%i.fa.fa-angle-double-right
-			.col-sm-4
-				.row.m-t-40.p-r-40
-					.card.social-card.share.full-width.sitemap
-						.card-header.clearfix
-							.user-pic
-								%i.fa.fa-diamond
-							%h5 Recursos
-				.row.p-r-30{style: "position: relative; top: -22px;"}
-					.timeline-container.sitemap.top-circle
-						%section.timeline.sitemap
-							.timeline-block
-								.timeline-point.sitemap.success
-									%i.fa.fa-line-chart
-								.timeline-content.sitemap
-									.social-card.share.full-width
-										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
-										.card-header.clearfix
-											= link_to "http://www.edc-megatendencias.com", :target => "_blank" do
-												%h5 EDC Megatendencias
-										.card-description
-											%p
-												Ir a plataforma virtual de vídeos sobre emprendimientos basados en megatendencias y tecnología del momento
-											%p
-												%a{:href => "#"} 
-													Visitar sección
-													%i.fa.fa-angle-double-right
-							.timeline-block
-								.timeline-point.sitemap.success
-									%i.fa.fa-commenting-o
-								.timeline-content.sitemap
-									.social-card.share.full-width
-										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
-										.card-header.clearfix
-											= link_to "http://edc-ideador.com", :target => "_blank" do
-												%h5 EDC Ideador
-										.card-description
-											%p
-												Ir a herramienta de ruedas de combinación de conceptos para generar nuevas ideas de negocio
-											%p
-												= link_to "http://edc-ideador.com", :target => "_blank" do
-													Visitar sección
-													%i.fa.fa-angle-double-right
-							.timeline-block
-								.timeline-point.sitemap.success
-									%i.fa.fa-percent
-								.timeline-content.sitemap
-									.social-card.share.full-width
-										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
-										.card-header.clearfix
-											= link_to "http://www.edc-financiero.com", :target => "_blank" do
-												%h5 EDC Financiero
-										.card-description
-											%p
-												Ir a plataforma EDC-Financiero para evaluar la parte técnica y financiera de la idea de negocio
-											%p
-												= link_to "http://www.edc-financiero.com", :target => "_blank" do
-													Visitar sección
-													%i.fa.fa-angle-double-right
-							.timeline-block
-								.timeline-point.sitemap.success
-									%i.fa.fa-calculator
-								.timeline-content.sitemap
-									.social-card.share.full-width
-										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
-										.card-header.clearfix
-											= link_to dashboard_calculator_path do
-												%h5 Calculadora de muestras
-										.card-description
-											%p
-												Usar herramienta para calcular muestras para entrevistas y encuestas 
-											%p
-												= link_to dashboard_calculator_path do
-													Visitar sección
-													%i.fa.fa-angle-double-right
-			.col-sm-4
-				.row.m-t-40.p-r-40
-					.card.social-card.share.full-width.sitemap
-						.card-header.clearfix
-							.user-pic
-								%i.fa.fa-institution
-							%h5 Acerca
-				.row.p-r-30{style: "position: relative; top: -22px;"}
-					.timeline-container.sitemap.top-circle
-						%section.timeline.sitemap
-							.timeline-block
-								.timeline-point.sitemap.success
-									%i.fa.fa-at{style: "font-weight: bold;"}
-								.timeline-content.sitemap
-									.social-card.share.full-width
-										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
-										.card-header.clearfix
-											= link_to dashboard_about_path do
-												%h5 EDC Digital
-										.card-description
-											%p
-												Ve nuestro video explicativo de introducción a la plataforma EDC-Digital
-											%p
-												= link_to dashboard_about_path do
-													Visitar sección
-													%i.fa.fa-angle-double-right
-							.timeline-block
-								.timeline-point.sitemap.success
-									%i.fa.fa-truck
-								.timeline-content.sitemap
-									.social-card.share.full-width
-										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
-										.card-header.clearfix
-											= link_to dashboard_terms_path do
-												%h5 Términos de servicio
-										.card-description
-											%p
-												Lee todo lo relacionado a los términos de uso y servicio de la plataforma
-											%p
-												= link_to dashboard_terms_path do
-													Visitar sección
-													%i.fa.fa-angle-double-right
-							.timeline-block
-								.timeline-point.sitemap.success
-									%i.fa.fa-quote-right
-								.timeline-content.sitemap
-									.social-card.share.full-width
-										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
-										.card-header.clearfix
-											= link_to dashboard_privacy_path do
-												%h5 Política de privacidad
-										.card-description
-											%p
-												Lee todo lo relacionado a nuestra política de privacidad con nuestros usuarios
-											%p
-												= link_to dashboard_privacy_path do
-													Visitar sección
-													%i.fa.fa-angle-double-right
-							.timeline-block
-								.timeline-point.sitemap.success
-									%i.fa.fa-exclamation-circle
-								.timeline-content.sitemap
-									.social-card.share.full-width
-										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
-										.card-header.clearfix
-											= link_to dashboard_service_path do
-												%h5 Confidencialidad y propiedad
-										.card-description
-											%p
-												Lee todo lo relacionado a tus derechos y obligaciones como usuario de la plataforma
-											%p
-												= link_to dashboard_service_path do
-													Visitar sección
-													%i.fa.fa-angle-double-right
+
