@@ -2,14 +2,18 @@ a.pump-link {
 	color: #626262;
 }
 a.pump-link:hover {
-	//text-decoration: underline;
+	color: #48b0f7;
+}
+a.pump-link-title {
+	color: #2c2c2c;
+}
+a.pump-link-title:hover {
 	color: #48b0f7;
 }
 a.redish-link {
 	color: #CD4945;
 }
 a.redish-link:hover {
-	//text-decoration: underline;
 	color: #F77975;
 }
 a.evaluation-nav-link {
@@ -280,5 +284,10 @@ a.unseen-link:hover {
 	border-right: 20px solid #c2e5fc; 
 	border-bottom: 10px solid transparent; 
 }
-
-
+.card.share.sitemap .card-header {
+  padding: 15px 15px 12px;
+  border-bottom: 0.5px solid #e6e6e6;
+}
+.card.share.sitemap .card-header h5 {
+  margin-top: 0px;
+}
