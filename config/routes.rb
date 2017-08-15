@@ -89,6 +89,8 @@ Rails.application.routes.draw do
     get 'notifications-panel',        to: 'welcome#notifications_panel', as: :notifications_panel
     post 'store-notifications-panel',        to: 'welcome#store_notifications_panel', as: :store_notifications_panel
 
+    resources :sitemap, only: [:index]
+
     resources :users, only: [:show]
 
     resources :notifications, only: [:index, :show] do
@@ -192,6 +194,7 @@ Rails.application.routes.draw do
   resources :deleted_users, only: [:index, :update], path: 'usuarios-desactivados'
 
   namespace :mentor do
+    resources :sitemap, only: [:index]
     resources :groups, only: [:index, :show]
     resources :evaluations, only: [:index, :show, :update]
     resources :program_details, only: [:index]
