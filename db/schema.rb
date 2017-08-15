@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170809212511) do
+ActiveRecord::Schema.define(version: 20170814194038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -403,6 +403,17 @@ ActiveRecord::Schema.define(version: 20170809212511) do
 
   add_index "panel_notifications", ["user_id"], name: "index_panel_notifications_on_user_id", using: :btree
 
+  create_table "program_actives", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "program_id"
+    t.boolean  "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "program_actives", ["program_id"], name: "index_program_actives_on_program_id", using: :btree
+  add_index "program_actives", ["user_id"], name: "index_program_actives_on_user_id", using: :btree
+
   create_table "program_notifications", force: :cascade do |t|
     t.integer "program_id"
     t.integer "notification_type"
@@ -743,6 +754,8 @@ ActiveRecord::Schema.define(version: 20170809212511) do
   add_foreign_key "mentor_program_notifications", "programs"
   add_foreign_key "mentor_program_notifications", "users"
   add_foreign_key "panel_notifications", "users"
+  add_foreign_key "program_actives", "programs"
+  add_foreign_key "program_actives", "users"
   add_foreign_key "program_stats", "programs"
   add_foreign_key "program_stats", "users"
   add_foreign_key "quiz_answers", "quiz_questions"

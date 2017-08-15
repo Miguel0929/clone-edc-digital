@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_action :require_creator, only: [:students, :show]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state]
   add_breadcrumb "EDCDIGITAL", :root_path
+  helper_method :get_program_active
 
   def index
     add_breadcrumb "<a class='active' href='#{users_path}'>Estudiantes</a>".html_safe
@@ -288,6 +289,10 @@ class UsersController < ApplicationController
       to_evaluated = user.update(evaluation_status: "evaluado")
     end
     render json: {eval: to_evaluated, not_eval: to_nonevaluated}
+  end
+
+  def get_program_active(user, program)
+    ProgramActive.where(user_id: user.id, program_id: program.id).first
   end
 
 

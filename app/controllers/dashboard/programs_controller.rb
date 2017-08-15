@@ -12,13 +12,18 @@ class Dashboard::ProgramsController < ApplicationController
     
     ids=[]
     if current_user.student?
-      unless current_user.group.nil? 
+      unless current_user.group.nil?
+        ids_comp=[] 
         @activo = ['active', '','']
-        ids_comp = current_user.group.programs.where(content_type: [1,2]).map{|p|p.id}
+        aux = current_user.group.programs.where.not(content_type: 0).map{|p|p.id}
+        aux.each do |id|
+          if !ProgramActive.where(user: current_user, program_id: id).first.nil? && ProgramActive.where(user: current_user, program_id: id).first.status
+            ids_comp.push(id)
+          end
+        end  
         prog_comp = current_user.group.group_programs.where(program_id: ids_comp).map{|p| p.id}
         ids_ruta = current_user.group.programs.ruta.map{|p|p.id}
         @programs = current_user.group.group_programs.where(program_id: ids_ruta).order(:position)
-        #@programs = current_user.group.group_programs.order(:position)
         c=0
         @programs.each do |p|
           c+=1
@@ -120,12 +125,13 @@ class Dashboard::ProgramsController < ApplicationController
     end
   end
   def redirect_to_learning
-    redirect_to dashboard_learning_path_path, notice: "Completa el curso anterior para poder acceder al contenido." 
+    redirect_to dashboard_learning_path_path, notice: "Aun no puedes acceder a este contenido." 
   end  
   def permiso_avance
     @program = Program.find(params[:id])
+    active=ProgramActive.where(user: current_user, program: @program).first
     programas = current_user.group.group_programs.order(:position)
-    if @program.content_type != "ruta" || current_user.mentor?
+    if (@program.content_type != "ruta" && active.status) || current_user.mentor? 
       return false
     end  
     if @program != programas.first.program  

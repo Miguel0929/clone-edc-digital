@@ -28,8 +28,6 @@
                 Estado de evaluación
 
 .container-fluid.container-fixed-lg
-  /.row
-  /  .col-sm-12
   .panel.panel-default
     .panel-body
       .row
@@ -165,6 +163,9 @@
                 %td.p-b-35
                   %div
                     = link_to program.name, mentor_evaluations_path(user_id: @user, program_id: program), :style => "font-size: 17px;"
+                    .hint-text.m-t-5.m-b-5.pull-right
+                      %strong Tipo de contenido:
+                      = if program.content_type=="ruta" then "Ruta EDC" elsif program.content_type=="complementario" then "Complementario" elsif program.content_type=="powered" then "Powered By" end
                   - with_questions, without_questions = chapter_have_questions?(program)[0], chapter_have_questions?(program)[1]
                   - if with_questions.count > 0
                     %p.hint-text.m-t-5.m-b-5 Módulos con preguntas:
@@ -233,20 +234,57 @@
                             .slider.slider-small.round
                         .label-for-switch.label-for-switch-small.p-l-5
                           Estado de evaluación
+                      - if program.content_type!="ruta"    
+                        .btn-like-switch.btn-like-switch-small
+                          %label.switch.switch-small
+                            %form{:action => program_stats_path, 'data-remote': "true", method: :post, id: "edit_program_active_#{program.id}"}
+                              - if get_program_active(@user, program).nil?
+                                %input{type: "checkbox", id: "checking_program_active_#{program.id}", name: "program_stat[checked]"}
+                              - else
+                                - program_active = get_program_active(@user, program)
+                                - if program_active.status == true
+                                  %input{type: "checkbox", id: "checking_program_active_#{program.id}", value: program_active.status, name: "program_active[checked]", checked: :true}
+                                - else
+                                  %input{type: "checkbox", id: "checking_program_active_#{program.id}", value: program_active.status, name: "program_active[checked]"}
+                              .slider.slider-small.round
+                          .label-for-switch.label-for-switch-small.p-l-5{id: "label_bloquear_#{program.id}"}
+                            - if get_program_active(@user, program).nil? || get_program_active(@user, program).status == true
+                              Bloquear programa
+                            -else
+                              Desbloquear programa 
                       %script{ :type => 'text/javascript' }
                         $(document).ready(function(){
-                        $("#checking_program_" + #{program.id}).change(function(){
-                        var src = $(this).val();
-                        var src2 = $("#user_key_" + #{@user.id}).val();
-                        var src3 = $("#program_key_" + #{program.id}).val();
+                        $("#checking_program_" + #{program.id}).change(function(){                                   
+                        var src = $(this).val();                                   
+                        var src2 = $("#user_key_" + #{@user.id}).val();                                   var src3 = $("#program_key_" + #{program.id}).val();                                   
+                        $.ajax({                                   
+                        type: "post",                                   
+                        url: "/save_program_stats",                                   
+                        data: {src, src2, src3},                                   
+                        success: function(data){                                   data.parents('form:first').submit();                                   }});                                   $("#alert-ra").css('display','block');setTimeout(function(){$("#alert-ra").css('display','none');},3000);                                   
+                        });
+
+                        $("#checking_program_active_" + #{program.id}).change(function(){
+                        var status = $(this).val();
+                        var user = $("#user_key_" + #{@user.id}).val();
+                        var program = $("#program_key_" + #{program.id}).val();
                         $.ajax({
                         type: "post",
-                        url: "/save_program_stats",
-                        data: {src, src2, src3},
+                        url: "/save_program_active",
+                        data: {status, user, program},
                         success: function(data){
-                        data.parents('form:first').submit();
-                        }});
-                        $("#alert-ra").css('display','block');setTimeout(function(){$("#alert-ra").css('display','none');},3000);
+                        console.log(data.program_active.status);
+                        if (data.program_active.status){
+                        $("#alert_text_bl").text("Programa desbloqueado");
+                        $("#label_bloquear_" + data.program_active.program_id).text("Bloquear programa");
+                        }else{
+                        $("#alert_text_bl").text("Programa bloqueado");
+                        $("#label_bloquear_"+ data.program_active.program_id).text("Desbloquear Programa");
+                        }
+                        $("#alert-bloquear").css('display','block');
+                        setTimeout(function(){$("#alert-bloquear").css('display','none');},3000);
+                        }
+                        });
                         });
                         });
 
@@ -446,9 +484,16 @@
         %span{"aria-hidden" => "true"} ×
         %span.sr-only Close
       #alert_text_error
+#alert-bloquear.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-info
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      #alert_text_bl             
 /$(document).on('turbolinks:load', function(){
 :javascript
-  $(document).ready(function(){
+  $(document).ready(function(){ 
 
     if ($("#student_ready").val() == "false") {
       $("#student_evaluation_mentor").each(function() {
