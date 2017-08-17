@@ -1,4 +1,3 @@
-//tour.restart()
 
 var tour = new Tour({
   name: "tour",
@@ -45,7 +44,21 @@ var tour = new Tour({
   afterSetState: function (key, value) {},
   afterRemoveState: function (key, value) {},
   onStart: function (tour) {},
-  onEnd: function (tour) {console.log("Ended tour")},
+  onEnd: function (tour) {
+    $.ajax({
+      type: "post", url: "/dashboard/change_tour_trigger",
+      data: {
+        'position': 1
+      },
+      success: function(data) {
+        console.log("Cambio exitoso en la posición " + data["position"] + " del hash 'tour_trigger'");
+      },
+      error: function(data) {
+        console.log("Hubo un error en el cambio en la posición " + data["position"] + " del hash 'tour_trigger'");
+      }
+    });
+    console.log("Ended tour");
+  },
   onShow: function (tour) {},
   onShown: function (tour) {},
   onHide: function (tour) {},
@@ -65,17 +78,3 @@ tour.start(true);
 
 //tour.restart();
 
-$.ajax({
-  type: "post", url: "/dashboard/change_tour_trigger",
-  data: {
-    'position': 1
-  },
-  success: function(data) {
-    console.log("Cambio exitoso en la posición " + data + " del hash 'tout_trigger'")
-  },
-  error: function(data) {
-    console.log("Hubo un error en el cambio en la posición " + data + " del hash 'tout_trigger'")
-  }
-});
-
-  

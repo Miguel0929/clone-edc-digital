@@ -13,9 +13,23 @@ class Dashboard::UsersController < ApplicationController
   	position = params[:position].to_i
   	trigger = current_user.tour_trigger
   	if position == 1
-  		tested = trigger[:first]
+  		upgrade = {:first => false, :second => trigger[:second], :third => trigger[:third], :fourth => trigger[:fourth], :fifth => trigger[:fifth]}
+  	elsif position == 2
+  		upgrade = {:first => trigger[:first], :second => false, :third => trigger[:third], :fourth => trigger[:fourth], :fifth => trigger[:fifth]}
+  	elsif position == 3
+  		upgrade = {:first => trigger[:first], :second => trigger[:second], :third => false, :fourth => trigger[:fourth], :fifth => trigger[:fifth]}
+  	elsif position == 4
+  		upgrade = {:first => trigger[:first], :second => trigger[:second], :third => trigger[:third], :fourth => false, :fifth => trigger[:fifth]}
+  	else
+  		upgrade = {:first => trigger[:first], :second => trigger[:second], :third => trigger[:third], :fourth => trigger[:fourth], :fifth => false}
   	end
-  	puts tested
-  	render json: { message: "changed" }, status: :ok
+
+  	event = current_user.update(tour_trigger: upgrade)
+  	puts event
+  	if upgrade
+  		render json: { message: event }, status: :ok
+  	else
+  		render json: { errors: event.errors.full_messages }, status: 422
+  	end
   end
 end

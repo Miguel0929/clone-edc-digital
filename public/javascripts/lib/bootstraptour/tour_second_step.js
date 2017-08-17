@@ -1,5 +1,5 @@
-var tour = new Tour({
-  name: "tour",
+var tour2 = new Tour({
+  name: "tour2",
   steps: [
     {
       element: "#tour-5",
@@ -38,7 +38,21 @@ var tour = new Tour({
   afterSetState: function (key, value) {},
   afterRemoveState: function (key, value) {},
   onStart: function (tour) {},
-  onEnd: function (tour) {console.log("Ended tour")},
+  onEnd: function (tour) {
+    $.ajax({
+      type: "post", url: "/dashboard/change_tour_trigger",
+      data: {
+        'position': 2
+      },
+      success: function(data) {
+        console.log("Cambio exitoso en la posición " + data["position"] + " del hash 'tour_trigger'");
+      },
+      error: function(data) {
+        console.log("Hubo un error en el cambio en la posición " + data["position"] + " del hash 'tour_trigger'");
+      }
+    });
+    console.log("Ended tour");
+  },
   onShow: function (tour) {},
   onShown: function (tour) {},
   onHide: function (tour) {},
@@ -51,12 +65,11 @@ var tour = new Tour({
 });
 
 // Initialize the tour
-tour.init();
+tour2.init();
 
 // Start the tour
-tour.start(true);
+tour2.start(true);
 
 //tour.restart();
 
-//console.log(tour._options.steps[1].element);
   
