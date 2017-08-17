@@ -6,7 +6,7 @@
     .container
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
-          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15#tour-3
             %h2.text-white
               ¡Bienvenido a EDC-Digital!
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
@@ -37,8 +37,8 @@
             .timeline-point.panel-title-emprendimiento
               /%i.pg-map{"aria-hidden"=>"true"}
             .timeline-content
-              .card.share.share-other.m-r-0.new-width-card{"data-social" => "item"}
-                .card-content
+              .card.share.share-other.m-r-0.new-width-card{"data-social" => "item", id: "#{ @c == 1 ? "tour-4" : "" }"}
+                .card-content{}
                   %a{:href => dashboard_program_path(program)}
                     .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{program.cover.url});" , class: "height-img" }
                   .col-md-7.height-col-md-6
@@ -134,3 +134,6 @@
         .modal-body
           .embed-responsive.embed-responsive-16by9
             %iframe.embed-responsive-item{:src => "https://player.vimeo.com/video/188382978"}
+
+- if @tour_trigger[:first]
+  = javascript_include_tag '/javascripts/lib/bootstraptour/tour_first_step', 'data-turbolinks-track' => false

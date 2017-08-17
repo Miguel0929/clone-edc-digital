@@ -19,6 +19,7 @@ class Dashboard::AnswersController < ApplicationController
   end
 
   def show
+    @tour_trigger = current_user.tour_trigger
     @answer = Answer.find(params[:id])
     #@comments = @question.comments.where(owner: current_user).order(created_at: :asc)
     ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
@@ -28,6 +29,7 @@ class Dashboard::AnswersController < ApplicationController
   end
 
   def new
+    @tour_trigger = current_user.tour_trigger
     @answer = build_answer
     #@comments = @question.comments.where(owner: current_user).order(created_at: :asc)
     ahoy.track "Viewed content", chapter_content_id: @chapter_content.id

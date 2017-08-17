@@ -2,7 +2,7 @@
   = bootstrap_form_for([:dashboard, @chapter_content, @answer]) do |f|
     .panel.panel-default
       .panel-heading
-        .panel-title.question-title
+        .panel-title.question-title.p-r-15#tour-15
           = @chapter_content.chapter.name
         .panel-title.pull-right
           - unless @answer.rubric.nil?
@@ -17,7 +17,7 @@
                 - unless @question.support_image.nil?
                   = image_tag(@question.support_image.url, class: 'img-responsive')
               .clearfix
-              %h2
+              %h2#tour-16
                 = @question.question_text
               = f.hidden_field :user_id
               = f.hidden_field :question_id

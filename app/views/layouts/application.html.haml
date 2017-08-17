@@ -28,7 +28,7 @@
     = csrf_meta_tags
 
   %body.fixed-header.menu-behind
-    %nav.page-sidebar{"data-pages" => "sidebar"}
+    %nav.page-sidebar#tour-2{"data-pages" => "sidebar"}
       .sidebar-header
         %a.redirector{href: root_path}
           = image_tag('logo-edc-blanco-horizontal.png', height: 40)
@@ -369,6 +369,7 @@
                           =current_user.mentor? ? 'Ver mensajes con tus estudiantes' : 'Ver mensajes con tus profesores'
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
                           %i.pg-refresh_new
+              .red-spot#tour-1{style: "position: absolute"}
             %a{:href => frequent_questions_path, :target => "blank"}
               %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-10.p-r-10
                 %li.p-r-15.inline

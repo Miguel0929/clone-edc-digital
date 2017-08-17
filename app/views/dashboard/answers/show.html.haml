@@ -4,7 +4,7 @@
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-heading
-      .panel-title.question-title
+      .panel-title.question-title.p-r-15#tour-11
         = @chapter_content.chapter.name
       .panel-title.pull-right
         - unless @answer.rubric.nil?
@@ -19,7 +19,7 @@
               - unless @question.support_image.nil?
                 = image_tag(@question.support_image.url, class: 'img-responsive')
             .clearfix
-            %h2
+            %h2#tour-12
               = @question.question_text
             = bootstrap_form_for([:dashboard, @chapter_content, @answer]) do |f|
               = f.hidden_field :user_id
@@ -91,3 +91,6 @@
                 %button.btn.btn-success{:type => "submit"}
                   %i.fa.fa-send-o
                   Enviar
+
+- if @tour_trigger[:fourth]
+  = javascript_include_tag '/javascripts/lib/bootstraptour/tour_fourth_step', 'data-turbolinks-track' => false
