@@ -1,35 +1,34 @@
-
 var tour = new Tour({
   name: "tour",
   steps: [
     {
       element: "#tour-1",
-      title: "Título 1",
-      content: "Las cosas son muy diferentes de entonces, las cosas eran más significativas.",
+      title: "Menú superior",
+      content: "Aquí encontrarás tres elementos de rápido acceso: notificaciones de la plataforma de EDC Digital, mensajes intercambiados con tus mentores y, por último, un enlace para ver preguntas frecuentes. A la derecha, tu foto de perfil te permite entrar a configuraciones y a tu información de perfil.",
       placement: "bottom"
     },
     {
       element: "#tour-2",
-      title: "Título 2",
-      content: "Las cosas son muy diferentes de entonces, las cosas eran más significativas."
+      title: "Menú lateral",
+      content: "Éste es el menú principal. A través de él puedes navegar por las diferentes secciones de la plataforma. En la sección de 'Mapa del sitio' podrás leer los detalles del resto de ellas para conocer su contenido."
     },
     {
       element: "#tour-3",
-      title: "Título 3",
-      content: "Pero las cosas cambian y tenemos dos opciones: cambiar o cambiarlas.",
+      title: "Título de página",
+      content: "Todas las secciones de la plataforma tienen un título, mismo que contiene información sobre la ubicación y contenido de la página. En algunos verás botones para realizar ciertas acciones. ¡Explóralos!",
       placement: "bottom"
     },
      {
       element: "#tour-4",
-      title: "Título 4",
-      content: "Pero las cosas cambian y tenemos dos opciones: cambiar o cambiarlas.",
+      title: "Tarjeta de programa",
+      content: "Las tarjetas de programa indican los cursos (programas) que te han sido habilitados. Además del nombre, muestran información importante como tus porcentajes de avance y un enlace para continuar si el curso ya ha sido iniciado.",
       placement: "bottom"
     }
   ],
   container: "body",
   smartPlacement: true,
   keyboard: true,
-  storage: window.localStorage,
+  storage: false,
   debug: true,
   backdrop: false,
   backdropContainer: 'body',
@@ -52,12 +51,12 @@ var tour = new Tour({
       },
       success: function(data) {
         console.log("Cambio exitoso en la posición " + data["position"] + " del hash 'tour_trigger'");
+        location.reload();
       },
       error: function(data) {
         console.log("Hubo un error en el cambio en la posición " + data["position"] + " del hash 'tour_trigger'");
       }
     });
-    console.log("Ended tour");
   },
   onShow: function (tour) {},
   onShown: function (tour) {},

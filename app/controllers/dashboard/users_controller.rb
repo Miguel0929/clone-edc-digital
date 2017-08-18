@@ -9,7 +9,6 @@ class Dashboard::UsersController < ApplicationController
   end
 
   def change_tour_trigger
-  	puts "ay wey"
   	position = params[:position].to_i
   	trigger = current_user.tour_trigger
   	if position == 1

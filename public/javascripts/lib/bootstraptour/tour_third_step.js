@@ -3,20 +3,20 @@ var tour3 = new Tour({
   steps: [
     {
       element: "#tour-8",
-      title: "Título 8",
-      content: "Las cosas son muy diferentes de entonces, las cosas eran más significativas.",
+      title: "Calificación de contenido",
+      content: "Para nosotros es muy importante tu retroalimentación sobre el contenido de EDC Digital, por lo tanto tu calificación de las lecciones siempre son bienvenidas y te agradecemos mucho por tomarte el tiempo :)",
       placement: "bottom"
     },
     {
       element: "#tour-9",
-      title: "Título 9",
-      content: "Las cosas son muy diferentes de entonces, las cosas eran más significativas.",
+      title: "Contenido de la lección",
+      content: "Aquí verás el contenido de cada lección. Algunas veces verás videos, y otras veces podrás leer textos e infográficos. Independientemente de su formato, está diseñado para transmitirte el conocimiento de la mejor manera.",
       placement: "top"
     },
     {
       element: "#tour-10",
-      title: "Título 10",
-      content: "Pero las cosas cambian y tenemos dos opciones: cambiar o cambiarlas.",
+      title: "Barra de navegación",
+      content: "Esta barra te permitirá navegar a través del contenido de cada módulo de manera consecutiva. También puedes reportar el contenido en caso de que experimentes alguna falla en tu exploración usando el botón rodo de la bandera.",
       placement: "top",
       backdrop: true,
     }
@@ -24,7 +24,7 @@ var tour3 = new Tour({
   container: "body",
   smartPlacement: true,
   keyboard: true,
-  storage: window.localStorage,
+  storage: false,
   debug: false,
   backdrop: false,
   backdropContainer: 'body',
@@ -47,6 +47,7 @@ var tour3 = new Tour({
       },
       success: function(data) {
         console.log("Cambio exitoso en la posición " + data["position"] + " del hash 'tour_trigger'");
+        location.reload();
       },
       error: function(data) {
         console.log("Hubo un error en el cambio en la posición " + data["position"] + " del hash 'tour_trigger'");

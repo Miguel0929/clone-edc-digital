@@ -5,27 +5,27 @@ var tour5 = new Tour({
   steps: [
     {
       element: "#tour-15",
-      title: "Título 15",
-      content: "Las cosas son muy diferentes de entonces, las cosas eran más significativas.",
+      title: "Título del módulo",
+      content: "Una vez dentro del contenido podrás ver el módulo en el que te encuentras para que nunca pierdas de vista tu ubicación.",
       placement: "right"
     },
     {
       element: "#tour-16",
-      title: "Título 16",
-      content: "Las cosas son muy diferentes de entonces, las cosas eran más significativas.",
+      title: "Pregunta",
+      content: "En este panel aparecerá las preguntas que debes contestar para avanzar en tus programas. Recuerda que las preguntas están diseñadas para construir tu conocimiento, no dejes de contestarlas.",
       placement: "top"
     },
     {
       element: "#tour-10",
-      title: "Título 17",
-      content: "Pero las cosas cambian y tenemos dos opciones: cambiar o cambiarlas.",
+      title: "Barra de navegación",
+      content: "Esta barra te permitirá navegar a través del contenido de cada módulo de manera consecutiva y guardar tus respuestas a las preguntas. También puedes reportar el contenido en caso de que experimentes alguna falla en tu exploración usando el botón rodo de la bandera.",
       placement: "top",
       backdrop: true
     },
     {
       element: "#btnToggleSlideUpSize",
-      title: "Título 18",
-      content: "Pero las cosas cambian y tenemos dos opciones: cambiar o cambiarlas.",
+      title: "Enviar dudas o comentarios",
+      content: "Utiliza este botón siempre que necesites aclarar algo sobre una pregunta o bien hacer un comentario. Tu mensaje llegará directamente a tus mentores y ellos atenderán tu petición.",
       placement: "top",
       backdrop: true
     }
@@ -33,7 +33,7 @@ var tour5 = new Tour({
   container: "body",
   smartPlacement: true,
   keyboard: true,
-  storage: window.localStorage,
+  storage: false,
   debug: false,
   backdrop: false,
   backdropContainer: 'body',
@@ -56,6 +56,7 @@ var tour5 = new Tour({
       },
       success: function(data) {
         console.log("Cambio exitoso en la posición " + data["position"] + " del hash 'tour_trigger'");
+        location.reload();
       },
       error: function(data) {
         console.log("Hubo un error en el cambio en la posición " + data["position"] + " del hash 'tour_trigger'");

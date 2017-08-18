@@ -3,27 +3,27 @@ var tour2 = new Tour({
   steps: [
     {
       element: "#tour-5",
-      title: "Título 5",
-      content: "Las cosas son muy diferentes de entonces, las cosas eran más significativas.",
+      title: "Título del programa",
+      content: "Como su nombre lo sugiere, este panel te mostrará el título del programa y una descripción del contenido. Sin embargo, también te muestra tus porcentajes de avances y, en caso de haber sido evaluado, te permitirá ver los detalles de tu evaluación. ¡Mantente atento a esta información!",
       placement: "bottom"
     },
     {
       element: "#tour-6",
-      title: "Título 6",
-      content: "Las cosas son muy diferentes de entonces, las cosas eran más significativas.",
+      title: "Detalles del contenido",
+      content: "Aquí se enlistan todos los módulos de los que está compuesto cada programa. Puedes ver su nombre y la información de tu progreso. Cada uno está dentro de un panel colapsable, un click hará que despliegue su contenido. ",
       placement: "top"
     },
     {
       element: "#tour-7",
-      title: "Título 7",
-      content: "Pero las cosas cambian y tenemos dos opciones: cambiar o cambiarlas.",
+      title: "Páneles de módulos",
+      content: "Una vez abierto al hacer click, verás todo el contenido del módulo. Este contenido se compone de lecciones y preguntas. Las etiquetas de la derecha te permitirán visualizar si ya has visitado cada contenido, y en el caso de las preguntas, si ya han sido contestadas. ¡Pruébalas!",
       placement: "top"
     }
   ],
   container: "body",
   smartPlacement: true,
   keyboard: true,
-  storage: window.localStorage,
+  storage: false,
   debug: false,
   backdrop: false,
   backdropContainer: 'body',
@@ -46,6 +46,7 @@ var tour2 = new Tour({
       },
       success: function(data) {
         console.log("Cambio exitoso en la posición " + data["position"] + " del hash 'tour_trigger'");
+        location.reload();
       },
       error: function(data) {
         console.log("Hubo un error en el cambio en la posición " + data["position"] + " del hash 'tour_trigger'");
