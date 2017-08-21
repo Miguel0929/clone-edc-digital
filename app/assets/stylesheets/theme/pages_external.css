@@ -291,3 +291,9 @@ a.unseen-link:hover {
 .card.share.sitemap .card-header h5 {
   margin-top: 0px;
 }
+.red-spot:before {
+  content: ' \25CF';
+  font-size: 10px;
+  color: transparent;
+}
+

@@ -71,3 +71,5 @@
         /        %button.btn.btn-default
         /          %i.pg-close
         /          Cancelar
+- if @tour_trigger[:fifth]
+  = javascript_include_tag '/javascripts/lib/bootstraptour/tour_fifth_step', 'data-turbolinks-track' => false

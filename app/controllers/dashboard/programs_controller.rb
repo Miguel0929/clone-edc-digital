@@ -84,6 +84,8 @@ class Dashboard::ProgramsController < ApplicationController
       @rank=rank.rank
     end 
 
+    @tour_trigger = current_user.tour_trigger
+
     add_breadcrumb "Programas", :dashboard_programs_path
     add_breadcrumb "<a class='active' href='#{dashboard_program_path @program}'>#{@program.name}</a>".html_safe
     respond_to do |format|

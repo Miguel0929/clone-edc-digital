@@ -60,6 +60,7 @@ class Dashboard::WelcomeController < ApplicationController
     end
     @group_programs=GroupProgram.where(id: ids).order(:position)     
     @modal_trigger = current_user.video_trigger
+    @tour_trigger = current_user.tour_trigger
   end  
  
   def send_support_email

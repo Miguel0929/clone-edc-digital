@@ -5,7 +5,7 @@ class Dashboard::ChapterContentsController < ApplicationController
   after_action :update_program_stats, only: [:show]
 
   def show
-  
+    @tour_trigger = current_user.tour_trigger
     rank= Rating.where(ratingable_type: "ChapterContent", ratingable_id: @chapter_content.id, user_id: current_user.id).first
     if rank.nil?
       @rank=0

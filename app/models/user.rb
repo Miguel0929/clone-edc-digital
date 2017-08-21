@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   enum role: [ :student, :mentor, :admin, :staff ]
   enum gender: [ :male, :female ]
   enum evaluation_status: [:'sin evaluar', :evaluado]
+  serialize :tour_trigger, Hash 
 
   has_many :answers
   has_many :group_users
