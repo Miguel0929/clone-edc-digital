@@ -4,24 +4,24 @@ var tour = new Tour({
     {
       element: "#tour-1",
       title: "Menú superior",
-      content: "Aquí encontrarás tres elementos de rápido acceso: notificaciones de la plataforma de EDC Digital, mensajes intercambiados con tus mentores y, por último, un enlace para ver preguntas frecuentes. A la derecha, tu foto de perfil te permite entrar a configuraciones y a tu información de perfil.",
+      content: "Aquí encontrarás acceso rápido a las siguientes secciones: notificaciones de EDC-digital, mensajes con tus mentores y preguntas frecuentes. A la derecha del menú podrás encontrar tu foto de perfil. Esta te permite acceder a tu información de perfil, así como a las configuraciones de tu cuenta.",
       placement: "bottom"
     },
     {
       element: "#tour-2",
       title: "Menú lateral",
-      content: "Éste es el menú principal. A través de él puedes navegar por las diferentes secciones de la plataforma. En la sección de 'Mapa del sitio' podrás leer los detalles del resto de ellas para conocer su contenido."
+      content: "Este es el menú principal. A través de él puedes navegar por las diferentes secciones de la plataforma. En la sección de ‘Mapa de sitio’ podrás leer los detalles del resto de ellas para conocer su contenido."
     },
     {
       element: "#tour-3",
       title: "Título de página",
-      content: "Todas las secciones de la plataforma tienen un título, mismo que contiene información sobre la ubicación y contenido de la página. En algunos verás botones para realizar ciertas acciones. ¡Explóralos!",
+      content: "Todas las secciones en EDC-digital tienen un título de identificación para saber siempre dónde te encuentras dentro de la plataforma.",
       placement: "bottom"
     },
      {
       element: "#tour-4",
       title: "Tarjeta de programa",
-      content: "Las tarjetas de programa indican los cursos (programas) que te han sido habilitados. Además del nombre, muestran información importante como tus porcentajes de avance y un enlace para continuar si el curso ya ha sido iniciado.",
+      content: "Las tarjetas de programa muestran el nombre, descripción básica y porcentajes de avance de tus cursos asignados. En cada tarjeta también hay un botón de enlace al último contenido del curso que visitaste.",
       placement: "bottom"
     }
   ],

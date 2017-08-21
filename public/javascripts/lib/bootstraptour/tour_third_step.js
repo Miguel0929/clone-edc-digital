@@ -4,7 +4,7 @@ var tour3 = new Tour({
     {
       element: "#tour-8",
       title: "Calificación de contenido",
-      content: "Para nosotros es muy importante tu retroalimentación sobre el contenido de EDC Digital, por lo tanto tu calificación de las lecciones siempre son bienvenidas y te agradecemos mucho por tomarte el tiempo :)",
+      content: "Para nosotros es muy importante tu retroalimentación sobre el contenido de EDC-digital, por lo tanto tu calificación de las lecciones siempre son bienvenidas y te agradecemos mucho por tomarte el tiempo :)",
       placement: "bottom"
     },
     {
@@ -16,7 +16,7 @@ var tour3 = new Tour({
     {
       element: "#tour-10",
       title: "Barra de navegación",
-      content: "Esta barra te permitirá navegar a través del contenido de cada módulo de manera consecutiva. También puedes reportar el contenido en caso de que experimentes alguna falla en tu exploración usando el botón rodo de la bandera.",
+      content: "Esta barra te permitirá navegar a través del contenido de cada módulo de manera consecutiva. También puedes reportar el contenido en caso de que experimentes alguna falla en tu exploración usando el botón rojo con la bandera.",
       placement: "top",
       backdrop: true,
     }

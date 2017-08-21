@@ -12,13 +12,13 @@ var tour5 = new Tour({
     {
       element: "#tour-16",
       title: "Pregunta",
-      content: "En este panel aparecerá las preguntas que debes contestar para avanzar en tus programas. Recuerda que las preguntas están diseñadas para construir tu conocimiento, no dejes de contestarlas.",
+      content: "En este panel aparecerán las preguntas que debes contestar para avanzar en tus programas. Recuerda que las preguntas están diseñadas para construir tu conocimiento, no olvides contestarlas.",
       placement: "top"
     },
     {
       element: "#tour-10",
       title: "Barra de navegación",
-      content: "Esta barra te permitirá navegar a través del contenido de cada módulo de manera consecutiva y guardar tus respuestas a las preguntas. También puedes reportar el contenido en caso de que experimentes alguna falla en tu exploración usando el botón rodo de la bandera.",
+      content: "Esta barra te permitirá navegar a través del contenido de cada módulo de manera consecutiva y guardar tus respuestas a las preguntas. También puedes reportar el contenido en caso de que experimentes alguna falla en tu exploración usando el botón rojo con la bandera.",
       placement: "top",
       backdrop: true
     },

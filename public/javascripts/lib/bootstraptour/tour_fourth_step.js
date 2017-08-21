@@ -16,7 +16,7 @@ var tour4 = new Tour({
     {
       element: "#tour-10",
       title: "Barra de navegación",
-      content: "Esta barra te permitirá navegar a través del contenido de cada módulo de manera consecutiva y editar las respuestas de tus preguntas. También puedes reportar el contenido en caso de que experimentes alguna falla en tu exploración usando el botón rodo de la bandera.",
+      content: "Esta barra te permitirá navegar a través del contenido de cada módulo de manera consecutiva y editar las respuestas de tus preguntas. También puedes reportar el contenido en caso de que experimentes alguna falla en tu exploración usando el botón rojo con la bandera.",
       placement: "top",
       backdrop: true
     },
