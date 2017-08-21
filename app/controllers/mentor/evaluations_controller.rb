@@ -142,17 +142,22 @@ class Mentor::EvaluationsController < ApplicationController
   end
 
   def user_spot
-    ordered_students = @user.group.students.order(:id).pluck(:id)
+    ordered_students = @user.group.active_students.order(:id).pluck(:id)
     current_position = ordered_students.index(@user.id)
-    if current_position == 0
-      prev_student = ordered_students[current_position]
-      next_student = ordered_students[current_position + 1]
-    elsif (current_position + 1) == ordered_students.size
-      prev_student = ordered_students[current_position - 1]
-      next_student = ordered_students[current_position]
+    if ordered_students.count > 1
+      if current_position == 0
+        prev_student = ordered_students[current_position]
+        next_student = ordered_students[current_position + 1]
+      elsif (current_position + 1) == ordered_students.size
+        prev_student = ordered_students[current_position - 1]
+        next_student = ordered_students[current_position]
+      else
+        prev_student = ordered_students[current_position - 1]
+        next_student = ordered_students[current_position + 1]
+      end
     else
-      prev_student = ordered_students[current_position - 1]
-      next_student = ordered_students[current_position + 1]
+      prev_student = ordered_students[current_position]
+      next_student = ordered_students[current_position]
     end
     return prev_student, next_student
   end
