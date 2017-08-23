@@ -27,87 +27,88 @@
             ×
         Aquí estará disponible el video introductorio siempre que lo necesites
         .triangle-left
-      - @group_programs.each do |p|
-        - program = p.program
-        - anterior = p.anterior(current_user.group)
-        - unless program.nil?
-          /-if current_user.percentage_questions_answered_for(anterior)>80 || @c==1 
-          .timeline-block
-            .timeline-point.panel-title-emprendimiento
-              /%i.pg-map{"aria-hidden"=>"true"}
-            .timeline-content
-              .card.share.share-other.m-r-0.new-width-card{"data-social" => "item"}
-                .card-content
-                  %a{(current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100)? "" : :href => dashboard_program_path(program)}
-                    .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{program.cover.url});" , class: "height-img" }
-                  .col-md-7.height-col-md-6
-                    /%a{:href => dashboard_program_path(program)}
-                    %h6.text-tipo-card-ruta.b-b
-                      - if program.tipo == "construccion"
-                        Construcción
-                      -elsif program.tipo == "elearning"
-                        e-learning
-                      -elsif program.tipo.nil?
-                        Emprendimiento 
-                    %h5.text-name-ruta.m-b-5
-                      = truncate(program.name, length: 40, separator: ' ')
-                    - stats = @current_user.program_stats.find_by(program_id: program)
-                    - seen_progress = ((!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
-                    /@current_user.percentage_content_visited_for(program)
-                    - answered_progress = ((!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
-                    /@current_user.percentage_questions_answered_for(program)
-                    - last_tracker = program.get_last_move(@current_user)
-                    /- last_content = (!last_tracker.nil? ? last_tracker.chapter_content : nil)
-                    - last_content = last_visited_content(program, stats)
-                    .text-black.text-frase
-                      = truncate(program.description, length: 60, separator: ' ')
-                    .contenedor-btn-barra
-                      .col-md-12.p-l-0.text-center.p-t-10.new-p-btn
-                        - if !last_content.nil?
-                          -if seen_progress == 0
-                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
-                              %button.btn.btn-complete.m-t--10
-                                Comenzar
-                                %i.fa.fa-angle-double-right.font-size-play      
-                          -elsif seen_progress > 0 && seen_progress < 100
-                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
-                              %button.btn.btn-complete.m-t--10
-                                Continuar
-                                %span
-                                  #{answered_progress}%
-                                %i.fa.fa-angle-double-right.font-size-play
-                          -elsif seen_progress == 100 && answered_progress == 0
-                            = link_to dashboard_program_path(program), class: "opacity__1" do
-                              %button.btn.btn-success.m-t--10
-                                Completado
-                                %i.fa.fa-check.font-size-play
-                          -elsif seen_progress == 100 && answered_progress < 100
-                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
-                              %button.btn.btn-complete.m-t--10
-                                Continuar
-                                %span
-                                  #{answered_progress}%
-                                %i.fa.fa-angle-double-right.font-size-play
-                          -elsif seen_progress == 100 && answered_progress == 100
-                            = link_to dashboard_program_path(program), class: "opacity__1" do
-                              %button.btn.btn-success.m-t--10
-                                Completado
-                                %i.fa.fa-check.font-size-play
-                        - else  
-                          -if answered_progress > 0
-                            = link_to dashboard_program_path(program), class: "opacity__1" do
-                              %button.btn.btn-complete.m-t--10
-                                = "Continuar " + answered_progress.to_s + "%"
-                                %i.fa.fa-angle-double-right.font-size-play
-                          -elsif current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100
-                            .text-info
-                              Completa el curso previo para poder acceder a este contenido
-                          -else
-                            = link_to dashboard_program_path(program), class: "opacity__1" do
-                              %button.btn.btn-complete.m-t--10
-                                = "Comenzar"    
-                                %i.fa.fa-angle-double-right.font-size-play
-                      -unless current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100          
+      - @contents.each do |content|
+        /- co = c.
+        /- anterior = p.anterior(current_user.group)
+        - unless content.nil?
+          - if content.content_type== "Program"
+            -program = content.model
+            .timeline-block
+              .timeline-point.panel-title-emprendimiento
+              .timeline-content
+                .card.share.share-other.m-r-0.new-width-card{"data-social" => "item"}
+                  .card-content
+                    %a{:href => dashboard_program_path(program)}
+                      .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{program.cover.url});" , class: "height-img" }
+                    .col-md-7.height-col-md-6
+                      /%a{:href => dashboard_program_path(program)}
+                      %h6.text-tipo-card-ruta.b-b
+                        - if program.tipo == "construccion"
+                          Construcción
+                        -elsif program.tipo == "elearning"
+                          e-learning
+                        -elsif program.tipo.nil?
+                          Emprendimiento 
+                      %h5.text-name-ruta.m-b-5
+                        = truncate(program.name, length: 40, separator: ' ')
+                      - stats = @current_user.program_stats.find_by(program_id: program)
+                      - seen_progress = ((!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
+                      /@current_user.percentage_content_visited_for(program)
+                      - answered_progress = ((!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
+                      /@current_user.percentage_questions_answered_for(program)
+                      - last_tracker = program.get_last_move(@current_user)
+                      /- last_content = (!last_tracker.nil? ? last_tracker.chapter_content : nil)
+                      - last_content = last_visited_content(program, stats)
+                      .text-black.text-frase
+                        = truncate(program.description, length: 60, separator: ' ')
+                      .contenedor-btn-barra
+                        .col-md-12.p-l-0.text-center.p-t-10.new-p-btn
+                          - if !last_content.nil?
+                            -if seen_progress == 0
+                              = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                                %button.btn.btn-complete.m-t--10
+                                  Comenzar
+                                  %i.fa.fa-angle-double-right.font-size-play      
+                            -elsif seen_progress > 0 && seen_progress < 100
+                              = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                                %button.btn.btn-complete.m-t--10
+                                  Continuar
+                                  %span
+                                    #{answered_progress}%
+                                  %i.fa.fa-angle-double-right.font-size-play
+                            -elsif seen_progress == 100 && answered_progress == 0
+                              = link_to dashboard_program_path(program), class: "opacity__1" do
+                                %button.btn.btn-success.m-t--10
+                                  Completado
+                                  %i.fa.fa-check.font-size-play
+                            -elsif seen_progress == 100 && answered_progress < 100
+                              = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                                %button.btn.btn-complete.m-t--10
+                                  Continuar
+                                  %span
+                                    #{answered_progress}%
+                                  %i.fa.fa-angle-double-right.font-size-play
+                            -elsif seen_progress == 100 && answered_progress == 100
+                              = link_to dashboard_program_path(program), class: "opacity__1" do
+                                %button.btn.btn-success.m-t--10
+                                  Completado
+                                  %i.fa.fa-check.font-size-play
+                          - else  
+                            -if answered_progress > 0
+                              = link_to dashboard_program_path(program), class: "opacity__1" do
+                                %button.btn.btn-complete.m-t--10
+                                  = "Continuar " + answered_progress.to_s + "%"
+                                  %i.fa.fa-angle-double-right.font-size-play
+                                  
+                              /-elsif current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100
+                              /  .text-info
+                              /    Completa el curso previo para poder acceder a este contenido
+                            -else
+                              = link_to dashboard_program_path(program), class: "opacity__1" do
+                                %button.btn.btn-complete.m-t--10
+                                  = "Comenzar"    
+                                  %i.fa.fa-angle-double-right.font-size-play
+                        /-unless current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100          
                         .row
                           .pull-left.m-l-15
                             .m-t-5.bold.text-contestado
@@ -118,9 +119,126 @@
                         .progress.m-b-5
                           .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
 
-              .event-date
-                %h6.font-montserrat.all-caps.hint-text.m-t-0
-                %small.fs-12.hint-text
+                .event-date
+                  %h6.font-montserrat.all-caps.hint-text.m-t-0
+                  %small.fs-12.hint-text
+          - if content.content_type== "Quiz"
+            -quiz = content.model
+            .timeline-block
+              .timeline-point.panel-title-emprendimiento
+              .timeline-content
+                .card.share.share-other.m-r-0.new-width-card{"data-social" => "item"}
+                  .card-content
+                    %a{:href => dashboard_quiz_path(quiz)}
+                      .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url('http://foodstantly.com/blog/wp-content/uploads/2017/07/quiz.jpg');" , class: "height-img" }
+                    .col-md-7.height-col-md-6
+                      /%h6.text-tipo-card-ruta.b-b
+                      /  - if program.tipo == "construccion"
+                      /    Construcción
+                      /  -elsif program.tipo == "elearning"
+                      /    e-learning
+                      /  -elsif program.tipo.nil?
+                      /    Emprendimiento 
+                      %h5.text-name-ruta.m-b-5
+                        = truncate(quiz.name, length: 40, separator: ' ')
+                      .text-black.text-frase
+                        = truncate(quiz.description, length: 60, separator: ' ')
+                      .contenedor-btn-barra
+                        .col-md-12.p-l-0.text-center.p-t-10.new-p-btn
+                          - if quiz.answered(current_user) > 0
+                            = link_to dashboard_quiz_path(quiz), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                = "Completado"    
+                                %i.fa.fa-check.font-size-play
+                          - else  
+                            = link_to dashboard_quiz_path(quiz), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                = "Comenzar"    
+                                %i.fa.fa-angle-double-right.font-size-play         
+                .event-date
+                  %h6.font-montserrat.all-caps.hint-text.m-t-0
+                  %small.fs-12.hint-text
+          - if content.content_type== "TemplateRefilable"
+            -refilable = content.model
+            .timeline-block
+              .timeline-point.panel-title-emprendimiento
+              .timeline-content
+                .card.share.share-other.m-r-0.new-width-card{"data-social" => "item"}
+                  .card-content
+                    - if refilable.refilables.find_by(user: current_user).nil?
+                      %a{  :href => new_dashboard_template_refilable_refilable_path(refilable)}
+                        .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url('https://thumbs.dreamstime.com/z/fill-gaps-puzzle-hole-shortfall-coverage-insufficient-lackin-words-pieces-telling-you-to-complete-full-picture-total-42120179.jpg');" , class: "height-img" }
+                    - else
+                      %a{ :href => dashboard_template_refilable_refilable_path(refilable, refilable.refilables.find_by(user: current_user))}  
+                        .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url('https://thumbs.dreamstime.com/z/fill-gaps-puzzle-hole-shortfall-coverage-insufficient-lackin-words-pieces-telling-you-to-complete-full-picture-total-42120179.jpg');" , class: "height-img" }
+                    .col-md-7.height-col-md-6
+                      /%h6.text-tipo-card-ruta.b-b
+                      /  - if program.tipo == "construccion"
+                      /    Construcción
+                      /  -elsif program.tipo == "elearning"
+                      /    e-learning
+                      /  -elsif program.tipo.nil?
+                      /    Emprendimiento 
+                      %h5.text-name-ruta.m-b-5
+                        = truncate(refilable.name, length: 40, separator: ' ')
+                      .text-black.text-frase
+                        = truncate(refilable.description, length: 60, separator: ' ')
+                      .contenedor-btn-barra
+                        .col-md-12.p-l-0.text-center.p-t-10.new-p-btn
+                          - if refilable.refilables.find_by(user: current_user).nil?
+                            = link_to new_dashboard_template_refilable_refilable_path(refilable), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                = "Comenzar"    
+                                %i.fa.fa-angle-double-right.font-size-play   
+                          - else  
+                            = link_to dashboard_template_refilable_refilable_path(refilable, refilable.refilables.find_by(user: current_user)), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                = "Completado"    
+                                %i.fa.fa-check.font-size-play        
+                .event-date
+                  %h6.font-montserrat.all-caps.hint-text.m-t-0
+                  %small.fs-12.hint-text
+
+          - if content.content_type== "Delireverable"
+            -delireverable = content.model
+            .timeline-block
+              .timeline-point.panel-title-emprendimiento
+              .timeline-content
+                .card.share.share-other.m-r-0.new-width-card{"data-social" => "item"}
+                  .card-content
+                    - if delireverable.delireverable_users.find_by(user: current_user).nil?
+                      %a{  :href =>  new_dashboard_delireverable_delireverable_user_path(delireverable)}
+                        .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url('https://www.evalupyme.com/adjuntos/IconosCAJAS-11.png');" , class: "height-img" }
+                    - else
+                      %a{ :href => dashboard_template_refilable_refilable_path(delireverable, delireverable.delireverable_users.find_by(user: current_user))}  
+                        .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url('https://www.evalupyme.com/adjuntos/IconosCAJAS-11.png');" , class: "height-img" }
+                    .col-md-7.height-col-md-6
+                      /%h6.text-tipo-card-ruta.b-b
+                      /  - if program.tipo == "construccion"
+                      /    Construcción
+                      /  -elsif program.tipo == "elearning"
+                      /    e-learning
+                      /  -elsif program.tipo.nil?
+                      /    Emprendimiento 
+                      %h5.text-name-ruta.m-b-5
+                        = truncate(delireverable.name, length: 40, separator: ' ')
+                      .text-black.text-frase
+                        = truncate(delireverable.description, length: 60, separator: ' ')
+                      .contenedor-btn-barra
+                        .col-md-12.p-l-0.text-center.p-t-10.new-p-btn
+                          - if delireverable.delireverable_users.find_by(user: current_user).nil?
+                            = link_to new_dashboard_delireverable_delireverable_user_path(delireverable), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                = "Comenzar"    
+                                %i.fa.fa-angle-double-right.font-size-play   
+                          - else  
+                            = link_to dashboard_template_refilable_refilable_path(delireverable, delireverable.delireverable_users.find_by(user: current_user)), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                = "Completado"    
+                                %i.fa.fa-check.font-size-play        
+                .event-date
+                  %h6.font-montserrat.all-caps.hint-text.m-t-0
+                  %small.fs-12.hint-text                  
 %input{type: "radio", value: @modal_trigger.to_s, name: "modal_trigger", checked: true, hidden: true}
 #modalSlideUpLearning.modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-lg{style: "width: 900px;"}

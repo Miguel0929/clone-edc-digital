@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170814194038) do
+ActiveRecord::Schema.define(version: 20170823173242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -271,14 +271,16 @@ ActiveRecord::Schema.define(version: 20170814194038) do
     t.string   "name"
     t.string   "key"
     t.datetime "deleted_at"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.integer  "state_id"
     t.string   "category"
     t.integer  "university_id"
+    t.integer  "learning_path_id"
   end
 
   add_index "groups", ["deleted_at"], name: "index_groups_on_deleted_at", using: :btree
+  add_index "groups", ["learning_path_id"], name: "index_groups_on_learning_path_id", using: :btree
   add_index "groups", ["university_id"], name: "index_groups_on_university_id", using: :btree
 
   create_table "industries", force: :cascade do |t|
@@ -287,6 +289,17 @@ ActiveRecord::Schema.define(version: 20170814194038) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "learning_path_contents", force: :cascade do |t|
+    t.integer  "content_id"
+    t.string   "content_type"
+    t.integer  "learning_path_id"
+    t.integer  "position"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "learning_path_contents", ["learning_path_id"], name: "index_learning_path_contents_on_learning_path_id", using: :btree
+
   create_table "learning_path_notifications", force: :cascade do |t|
     t.integer  "group_id"
     t.datetime "created_at", null: false
@@ -294,6 +307,12 @@ ActiveRecord::Schema.define(version: 20170814194038) do
   end
 
   add_index "learning_path_notifications", ["group_id"], name: "index_learning_path_notifications_on_group_id", using: :btree
+
+  create_table "learning_paths", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "lessons", force: :cascade do |t|
     t.string   "identifier"
@@ -698,6 +717,7 @@ ActiveRecord::Schema.define(version: 20170814194038) do
     t.boolean  "video_trigger",                     default: true
     t.float    "user_progress",                     default: 0.0
     t.float    "user_seen",                         default: 0.0
+    t.boolean  "check_ready"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
@@ -746,7 +766,9 @@ ActiveRecord::Schema.define(version: 20170814194038) do
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"
   add_foreign_key "group_stats", "groups"
+  add_foreign_key "groups", "learning_paths"
   add_foreign_key "groups", "universities"
+  add_foreign_key "learning_path_contents", "learning_paths"
   add_foreign_key "learning_path_notifications", "groups"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"

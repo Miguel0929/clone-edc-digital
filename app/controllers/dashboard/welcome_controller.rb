@@ -45,11 +45,12 @@ class Dashboard::WelcomeController < ApplicationController
   end
 
   def learning_path
-    ids=current_user.group.programs.ruta.map{|p|p.id}
-    @group_programs=current_user.group.group_programs.where(program_id: ids).order(:position)
+
+    @contents=current_user.group.learning_path.learning_path_contents.order(:position)
     c=0 
     ids=[]
-    @group_programs.each do |p|
+=begin
+    @contents.each do |p|
       c+=1
       anterior = p.anterior(current_user.group)
       if current_user.percentage_questions_answered_for(anterior)>80 || c==1 
@@ -57,8 +58,9 @@ class Dashboard::WelcomeController < ApplicationController
       else
         break
       end
-    end
+    end    
     @group_programs=GroupProgram.where(id: ids).order(:position)     
+=end    
     @modal_trigger = current_user.video_trigger
   end  
  

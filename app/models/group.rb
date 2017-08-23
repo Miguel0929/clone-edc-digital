@@ -14,6 +14,7 @@ class Group < ActiveRecord::Base
   has_one :group_stats
   belongs_to :state
   belongs_to :university
+  belongs_to :learning_path
 
   validates_presence_of :name, :key
   validates_uniqueness_of :key

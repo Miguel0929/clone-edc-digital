@@ -310,4 +310,13 @@ Rails.application.routes.draw do
       post :sort
     end
   end
+
+  resources :learning_paths do
+    resources :learning_path_contents, except: [:index, :show] do
+      collection do
+        post :sort
+      end
+    end   
+  end
+  post "get_contents" => "learning_path_contents#get_contents"  
 end
