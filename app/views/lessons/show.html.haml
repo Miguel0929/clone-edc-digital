@@ -4,10 +4,29 @@
 .container
   .row
     .col-md-12
-      = link_to 'Atras', program_path(@chapter.program), class: 'btn btn-default'
-      = link_to 'Editar', edit_chapter_lesson_path(@chapter, @lesson), class: 'btn btn-default'
-      = link_to 'Clonar', clone_chapter_lesson_path(@chapter, @lesson), method: :post, data: {confirm: '¿Estás seguro?'}, class: 'btn btn-default'
-      = link_to 'Eliminar', chapter_lesson_path(@chapter, @lesson), method: :delete, data: { confirm: '¿Estás seguro?'}, class: 'btn btn-default'
+      .panel.panel-transparent
+        .panel-heading
+          .pull-left
+            .panel-title
+              Contenido de lección
+          .pull-right
+            %ul.no-style.unstyled.m-b-0.p-l-40.modules-menu-list
+              %li
+                = link_to content_chapter_path(@chapter) do
+                  %i.fa.fa-reply
+                  Regresar
+              %li
+                = link_to edit_chapter_lesson_path(@chapter, @lesson) do
+                  %i.fa.fa-edit
+                  Editar
+              %li
+                = link_to clone_chapter_lesson_path(@chapter, @lesson), method: :post, data: {confirm: '¿Estás seguro?'} do
+                  %i.fa.fa-copy
+                  Clonar 
+              %li
+                = link_to chapter_lesson_path(@chapter, @lesson), method: :delete, data: {confirm: '¿Estás seguro?'} do
+                  %i.fa.fa-times
+                  Eliminar 
 
       %h2.text-center
         = @lesson.identifier

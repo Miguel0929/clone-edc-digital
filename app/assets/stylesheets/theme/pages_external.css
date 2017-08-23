@@ -280,5 +280,21 @@ a.unseen-link:hover {
 	border-right: 20px solid #c2e5fc; 
 	border-bottom: 10px solid transparent; 
 }
-
+.delete-rubrics{
+	position: relative;
+	top: 7px;
+}
+.modules-heading-card{
+	padding: 10px 20px 0px 20px;
+}
+.modules-heading-body{
+	padding: 0px 20px 10px 20px;
+}
+.modules-heading-actions{
+	padding: 10px 10px 10px 10px;
+}
+.modules-menu-list li {
+	display: inline;
+	padding-right: 10px;
+}
 

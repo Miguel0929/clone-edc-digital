@@ -40,6 +40,7 @@ Rails.application.routes.draw do
 
       member do
         post :clone
+        #get :rubrics
       end
     end
 
@@ -65,6 +66,11 @@ Rails.application.routes.draw do
       member do
         post :clone
       end
+    end
+
+    member do
+      get :content
+      get :rubrics
     end
   end
 
