@@ -26,7 +26,7 @@ class QuestionsController < ApplicationController
       @chapter.questions << @question
       #NewContentNotificationJob.perform_async(@chapter.program, dashboard_program_url(@chapter.program)) #Se llevó a método program#notify_changes
       QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "up-question-#{@question.id}")
-      redirect_to @chapter.program, notice: "Se creo exitosamente la pregunta #{@question.question_text}"
+      redirect_to content_chapter_path(@chapter), notice: "Se creo exitosamente la pregunta #{@question.question_text}"
     else
       render :new
     end
@@ -43,7 +43,7 @@ class QuestionsController < ApplicationController
 
     if @question.update_attributes(question_params)
       QueueNotification.create(category: 3, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "edit-question-#{@question.id}")
-      redirect_to @chapter.program, notice: "Se actualizó exitosamente la pregunta  #{@question.question_text}"
+      redirect_to content_chapter_path(@chapter), notice: "Se actualizó exitosamente la pregunta  #{@question.question_text}"
     else
       render :edit
     end
@@ -62,7 +62,7 @@ class QuestionsController < ApplicationController
       QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "down-question-#{@question.id}")
     end
 
-    redirect_to @chapter.program, notice: "Se eliminó exitosamente la pregunta #{@question.question_text}"
+    redirect_to content_chapter_path(@chapter), notice: "Se eliminó exitosamente la pregunta #{@question.question_text}"
   end
 
   def clone
@@ -74,7 +74,7 @@ class QuestionsController < ApplicationController
 
     @chapter.questions << question_clone
 
-    redirect_to @chapter.program, notice: "Se creo exitosamente la pregunta #{question_clone.question_text}"
+    redirect_to content_chapter_path(@chapter), notice: "Se creo exitosamente la pregunta #{question_clone.question_text}"
   end
 
   private

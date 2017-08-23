@@ -1,7 +1,7 @@
 class ChaptersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_program
-  before_action :set_chapter, only: [:edit, :update, :destroy, :clone]
+  before_action :set_program, except: [:content, :rubrics]
+  before_action :set_chapter, only: [:edit, :update, :destroy, :clone, :content, :rubrics]
 
   add_breadcrumb "EDCDIGITAL", :root_path
   add_breadcrumb "Programas", :programs_path
@@ -85,6 +85,20 @@ class ChaptersController < ApplicationController
     clone_chapter.save
 
     redirect_to @program, notice: "Se creo exitosamente el módulo #{clone_chapter.name}"
+  end
+
+  def content
+    program = @chapter.program
+    add_breadcrumb "<a href='#{program_path(program)}'>#{program.name}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{content_chapter_path(@chapter)}'>#{@chapter.name}</a>".html_safe
+    
+  end
+
+  def rubrics
+    @program = @chapter.program
+    add_breadcrumb "<a href='#{program_path(@program)}'>#{@program.name}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{rubrics_chapter_path(@chapter)}'>#{@chapter.name}</a>".html_safe
+    
   end
 
   private
