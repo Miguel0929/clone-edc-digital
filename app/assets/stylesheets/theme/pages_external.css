@@ -280,5 +280,7 @@ a.unseen-link:hover {
 	border-right: 20px solid #c2e5fc; 
 	border-bottom: 10px solid transparent; 
 }
-
+.bottom-line{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
 

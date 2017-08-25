@@ -51,7 +51,11 @@ Rails.application.routes.draw do
   end
 
   resources :quizzes do
-    resources :quiz_questions
+    resources :quiz_questions do
+      member do
+        get :support
+      end
+    end
   end
 
   resources :chapters, only: [] do
