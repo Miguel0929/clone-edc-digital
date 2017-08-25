@@ -78,4 +78,17 @@ class Program < ActiveRecord::Base
     return self.name[0,3]+"."+arr[1][0].capitalize+"."+self.id.to_s
   end
 
+  def anterior(grupo)
+    programas  = grupo.learning_path.learning_path_programs.order(:position)  
+    anterior=Program.new
+
+    programas.each do |p|
+      if p.program==self
+        return anterior
+      else
+        anterior=p.program
+      end
+    end
+  end  
+
 end

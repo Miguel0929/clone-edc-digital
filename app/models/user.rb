@@ -37,6 +37,7 @@ class User < ActiveRecord::Base
   has_many :program_stats, dependent: :destroy
   belongs_to :industry
   has_many :panel_notifications
+  has_many :refilables
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 

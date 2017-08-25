@@ -1,0 +1,9 @@
+= form_tag learning_paths_path do
+  .form-group
+    %label{:for => "name"} Nombre: 
+    = text_field_tag :name , "", class: 'form-control'
+  .form-group
+    %label{:for => "programs"} Programas:   
+    = select_tag "programs[]", options_from_collection_for_select(@programs, "id", "name"), multiple: 'multiple', class: 'form-control'
+  .form-group
+    = submit_tag "Crear Ruta", class: "btn btn-primary"        

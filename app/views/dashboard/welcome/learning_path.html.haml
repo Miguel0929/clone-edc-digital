@@ -15,30 +15,30 @@
             %p.m-b-25.text-white
               Aquí podrás ver los cursos que te han sido asignados por nuestro equipo de expertos. Esta selección de programas fue diseñada en el orden óptimo para que realices tu viaje a través de nuestra plataforma. Cada curso de tu ruta mostrará el porcentaje de progreso, de modo que siempre podrás tener una visión general de tus avances. ¿Estás listo para continuar?
 
-.container-fluid.sm-p-l-5
-  .timeline-container.top-circle
-    %section.timeline.black-line
-      .timeline-point.large.info.m-t-30
-        %button.timeline-point.large-transparent#btnToggleSlideUpSizeLearning{"data-toggle": "tooltip", "data-original-title": "Video introductorio"}
-          %i.fa.fa-play-circle{"aria-hidden"=>"true", style: "font-size: 24px; margin-left: -11px; margin-top: -12.5px;"}
-      .m-l-80.p-l-20#learning-video-message{style: "#{@modal_trigger ? '' : 'display: none;'}"}
-        .pull-right
-          %a.close-message-type#close-learning-message{href: "#", onclick: "return false;"}
-            ×
-        Aquí estará disponible el video introductorio siempre que lo necesites
-        .triangle-left
-      - @group_programs.each do |p|
-        - program = p.program
-        - anterior = p.anterior(current_user.group)
-        - unless program.nil?
-          /-if current_user.percentage_questions_answered_for(anterior)>80 || @c==1 
+- unless current_user.group.learning_path.nil?
+  .container-fluid.sm-p-l-5
+    .timeline-container.top-circle
+      %section.timeline.black-line
+        .timeline-point.large.info.m-t-30
+          %button.timeline-point.large-transparent#btnToggleSlideUpSizeLearning{"data-toggle": "tooltip", "data-original-title": "Video introductorio"}
+            %i.fa.fa-play-circle{"aria-hidden"=>"true", style: "font-size: 24px; margin-left: -11px; margin-top: -12.5px;"}
+        .m-l-80.p-l-20#learning-video-message{style: "#{@modal_trigger ? '' : 'display: none;'}"}
+          .pull-right
+            %a.close-message-type#close-learning-message{href: "#", onclick: "return false;"}
+              ×
+          Aquí estará disponible el video introductorio siempre que lo necesites
+          .triangle-left
+        - @programs.each do |p|
+          - @c+=1         
+          - program = p.program
+          - anterior = p.anterior(current_user.group)
+
           .timeline-block
             .timeline-point.panel-title-emprendimiento
-              /%i.pg-map{"aria-hidden"=>"true"}
             .timeline-content
               .card.share.share-other.m-r-0.new-width-card{"data-social" => "item", id: "#{ @c == 1 ? "tour-4" : "" }"}
                 .card-content
-                  %a{(current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100)? "" : :href => dashboard_program_path(program)}
+                  %a{:href => dashboard_program_path(program)}
                     .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{program.cover.url});" , class: "height-img" }
                   .col-md-7.height-col-md-6
                     /%a{:href => dashboard_program_path(program)}
@@ -99,6 +99,7 @@
                               %button.btn.btn-complete.m-t--10
                                 = "Continuar " + answered_progress.to_s + "%"
                                 %i.fa.fa-angle-double-right.font-size-play
+                                
                           -elsif current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100
                             .text-info
                               Completa el curso previo para poder acceder a este contenido
@@ -117,10 +118,13 @@
                               #{seen_progress}% visto
                         .progress.m-b-5
                           .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
-
               .event-date
                 %h6.font-montserrat.all-caps.hint-text.m-t-0
                 %small.fs-12.hint-text
+-else
+  %center
+    .alert.alert-danger{:role => "alert"}
+      No tienes asignada un ruta de aprendizaje                                  
 %input{type: "radio", value: @modal_trigger.to_s, name: "modal_trigger", checked: true, hidden: true}
 #modalSlideUpLearning.modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1", :style => "z-index: 1105;"}
   .modal-dialog.modal-lg{style: "width: 900px;"}

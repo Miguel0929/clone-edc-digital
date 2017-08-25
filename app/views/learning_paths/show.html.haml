@@ -1,0 +1,106 @@
+- content_for :title  do
+  Ruta de aprendizaje - EDCdigital
+
+.container
+  .row
+    .col-md-12
+      %h2.text-center
+        Diseño de la "Ruta de aprendizaje"
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title
+            = @learning_path.name
+        .panel-body
+          #cont_sortable.sortable{'data-update-url'=> url_prod_helper(sort_learning_path_learning_path_programs_path(@learning_path))}
+            - @learning_path.learning_path_programs.order(:position).each do |program|
+              .panel-group{id: "content_#{program.id}"}
+                .panel.panel-default
+                  .panel-heading
+                    %span.handle-sort
+                      [mover]
+                    .pull-right  
+                      = link_to learning_path_learning_path_program_path(@learning_path, program), method: :delete, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Elimiar' do
+                        %span.glyphicon.glyphicon-remove
+     
+                    %h3.panel-title
+                      = program.program.name
+                      .pull-right
+                        %span.label.label-info
+                          Programa                  
+          %center                
+            %button.btn.btn-primary{"data-target" => "#addProgram", "data-toggle" => "modal", :type => "button"}
+              Agregar Programa      
+ 
+%input{:id => "learning_path_id", :type => "hidden", :value => @learning_path.id}            
+
+#addProgram.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content    
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title Agregar Programa
+      .modal-body
+        %input{:id => "tipo_p", :type => "hidden", :value => "program"}
+        %center
+          .form-group
+            %label{:for => "programs"} Programas: 
+            = select_tag "programs", options_from_collection_for_select(@programs, "id", "name"), prompt: "Selecciona un programa", class: 'form-control col-md-12'         
+      .modal-footer
+        %button.btn.btn-primary{:type => "button", :id => "add_program"} Agregar    
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+
+#alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-info
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      .alert-text  
+        Programa agregado a la ruta          
+                         
+
+
+:javascript
+  $("#add_program").click(function() {
+    id= $("#learning_path_id").val();
+    program=$("#programs").val();
+    $.ajax({
+      type: "POST",  
+      url: "/learning_paths/"+id+"/learning_path_programs",
+      data: { program: program },
+      success: function(data){
+          var str="<div class='panel-group'>"
+            +"<div class='panel panel-default'>"
+            +"<div class='panel-heading'>"
+            +"<span class='handle-sort'>"
+            +"[mover]"
+            +"</span>"
+            +"<div class='pull-right'>"
+            +"<a data-confirm='¿Estás seguro?' data-toggle='tooltip' data-placement='top' title='Eliminar' rel='nofollow' data-method='delete' href='/learning_paths/"+ id +"/learning_path_programs/"+ data.contenido.id +"'><span class='glyphicon glyphicon-remove'></span></a>"
+            +"</div>"
+            +"<h3 class='panel-title'>"
+            +data.programa.name
+            +"<div class='pull-right'>"
+            +"<span class='label label-info'>"
+            +"Programa"
+            +"</span>"
+            +"</div>"
+            +"</h3>"
+            +"</div>"
+            +"</div>"
+            +"</div>"
+          $('#programs').val('');
+          $("#cont_sortable").append(str);
+
+
+          $("#alert-ra").css('display','block');
+          setTimeout(function(){$("#alert-ra").css('display','none');},4000);
+
+          $('#addProgram').modal('hide');         
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) { 
+          alert("Status: " + textStatus); 
+      }       
+    });
+  });
