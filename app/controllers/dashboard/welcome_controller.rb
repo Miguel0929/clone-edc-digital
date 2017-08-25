@@ -45,22 +45,22 @@ class Dashboard::WelcomeController < ApplicationController
   end
 
   def learning_path
-
-    @contents=current_user.group.learning_path.learning_path_contents.order(:position)
-    c=0 
-    ids=[]
-=begin
-    @contents.each do |p|
-      c+=1
-      anterior = p.anterior(current_user.group)
-      if current_user.percentage_questions_answered_for(anterior)>80 || c==1 
-        ids.push(p.id)
-      else
-        break
-      end
-    end    
-    @group_programs=GroupProgram.where(id: ids).order(:position)     
-=end    
+    unless current_user.group.learning_path.nil?    
+      @programs=current_user.group.learning_path.learning_path_programs.order(:position)
+      c=0
+      @c=0 
+      ids=[]
+      @programs.each do |p|
+        c+=1
+        anterior = p.anterior(current_user.group)
+        if current_user.percentage_questions_answered_for(anterior)>80 || c==1 
+          ids.push(p.id)
+        else
+          break
+        end
+      end    
+      @programs=LearningPathProgram.where(id: ids).order(:position)
+    end         
     @modal_trigger = current_user.video_trigger
   end  
  

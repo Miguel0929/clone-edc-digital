@@ -289,17 +289,6 @@ ActiveRecord::Schema.define(version: 20170823173242) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "learning_path_contents", force: :cascade do |t|
-    t.integer  "content_id"
-    t.string   "content_type"
-    t.integer  "learning_path_id"
-    t.integer  "position"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
-
-  add_index "learning_path_contents", ["learning_path_id"], name: "index_learning_path_contents_on_learning_path_id", using: :btree
-
   create_table "learning_path_notifications", force: :cascade do |t|
     t.integer  "group_id"
     t.datetime "created_at", null: false
@@ -307,6 +296,17 @@ ActiveRecord::Schema.define(version: 20170823173242) do
   end
 
   add_index "learning_path_notifications", ["group_id"], name: "index_learning_path_notifications_on_group_id", using: :btree
+
+  create_table "learning_path_programs", force: :cascade do |t|
+    t.integer  "program_id"
+    t.integer  "learning_path_id"
+    t.integer  "position"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "learning_path_programs", ["learning_path_id"], name: "index_learning_path_programs_on_learning_path_id", using: :btree
+  add_index "learning_path_programs", ["program_id"], name: "index_learning_path_programs_on_program_id", using: :btree
 
   create_table "learning_paths", force: :cascade do |t|
     t.string   "name"
@@ -768,8 +768,9 @@ ActiveRecord::Schema.define(version: 20170823173242) do
   add_foreign_key "group_stats", "groups"
   add_foreign_key "groups", "learning_paths"
   add_foreign_key "groups", "universities"
-  add_foreign_key "learning_path_contents", "learning_paths"
   add_foreign_key "learning_path_notifications", "groups"
+  add_foreign_key "learning_path_programs", "learning_paths"
+  add_foreign_key "learning_path_programs", "programs"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"

@@ -1,7 +1,7 @@
 class LearningPathsController < ApplicationController
 	before_action :authenticate_user!
 	before_action :require_admin
-	before_action :set_learning_path, only: [:show, :edit, :update, :destroy]
+	before_action :set_learning_path, only: [:show,:destroy]
 	add_breadcrumb "EDCDIGITAL", :root_path
 	def index
 		add_breadcrumb "<a href='#{learning_paths_path}' class='active'>Rutas de aprendizaje</a>".html_safe
@@ -11,41 +11,18 @@ class LearningPathsController < ApplicationController
 		add_breadcrumb "Ruta de aprendizaje", :learning_paths_path
     	add_breadcrumb '<a class="active">Nueva "Ruta de aprendizaje"</a>'.html_safe
 		@programs = Program.ruta
-		@quizes= Quiz.all
-		@delireverables=Delireverable.all
-    @refilables = TemplateRefilable.all
 	end
 
 	def create
 		@learning_path= LearningPath.new(name: params[:name])
 
-
 		if @learning_path.save
 			if params[:programs]
 				programs=params[:programs]
+				c=0
 				programs.each do |program|
-					LearningPathContent.create(content: Program.find(program),learning_path: @learning_path)
-				end	
-			end
-
-			if params[:quizes]
-				quizes=params[:quizes]
-				quizes.each do |quiz|
-					LearningPathContent.create(content: Quiz.find(quiz),learning_path: @learning_path)
-				end	
-			end
-
-			if params[:delireverables]
-				delireverables=params[:delireverables]
-				delireverables.each do |delireverable|
-					LearningPathContent.create(content: Delireverable.find(delireverable),learning_path: @learning_path)
-				end	
-			end
-
-			if params[:refilables]
-				refilables=params[:refilables]
-				refilables.each do |refilables|
-					LearningPathContent.create(content: TemplateRefilable.find(refilables),learning_path: @learning_path)
+					c+=1
+					LearningPathProgram.create(program_id: program,learning_path: @learning_path, position: c)
 				end	
 			end
 			redirect_to learning_path_path(@learning_path), notice: "Se creó la ruta \"#{@learning_path.name}\" exitosamente"
@@ -55,10 +32,9 @@ class LearningPathsController < ApplicationController
 
 	end
 	def show
+		add_breadcrumb "Rutas de aprendizaje", :learning_paths_path
+    add_breadcrumb "<a class='active' href='#{learning_path_path(@learning_path)}'>#{@learning_path.name}</a>".html_safe
 		@programs = Program.ruta
-		@quizes= Quiz.all
-		@delireverables=Delireverable.all
-    	@refilables = TemplateRefilable.all
 	end
 	def destroy
 		@learning_path.destroy
@@ -70,6 +46,6 @@ class LearningPathsController < ApplicationController
 			@learning_path= LearningPath.find(params[:id])
 		end
 		def learning_path_params
-	    params.permit(:name,programs: [], quizes:[], deliverables:[], refilables:[])
+	    params.permit(:name, programs: [])
 		end	
 end

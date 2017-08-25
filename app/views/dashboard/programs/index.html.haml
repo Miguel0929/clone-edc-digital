@@ -101,8 +101,9 @@
               - @programs.each_slice(2) do |slice|
                 .row
                   - slice.each do |p|
-                    - program = p.program
-                    - anterior = p.anterior(current_user.group)
+                    - program = p
+                    - if program.ruta?
+                      - anterior = p.anterior(current_user.group)
                     - unless program.nil?
                       .col-md-6.col-sm-6.col-xs-12.p-l-0.p_phone
                         .super-card-container
