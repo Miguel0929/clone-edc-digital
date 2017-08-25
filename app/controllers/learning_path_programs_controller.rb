@@ -14,7 +14,8 @@ class LearningPathProgramsController < ApplicationController
 			render :json => {"contenido" => @learning_path_program, "programa"=> @learning_path_program.program}
 		else
 			render :json =>{"Error" => "No se pudo guardar"}
-		end		
+		end
+					
 	end
 	def destroy
 		@learning_path_program.destroy

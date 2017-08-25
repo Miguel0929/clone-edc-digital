@@ -49,6 +49,15 @@
       .modal-footer
         %button.btn.btn-primary{:type => "button", :id => "add_program"} Agregar    
         %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+
+#alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-info
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      .alert-text  
+        Programa agregado a la ruta          
                          
 
 
@@ -61,31 +70,34 @@
       url: "/learning_paths/"+id+"/learning_path_programs",
       data: { program: program },
       success: function(data){
-        console.log(data);
-        var str="<div class='panel-group'>"
-          +"<div class='panel panel-default'>"
-          +"<div class='panel-heading'>"
-          +"<span class='handle-sort'>"
-          +"[mover]"
-          +"</span>"
-          +"<div class='pull-right'>"
-          +"<a data-confirm='¿Estás seguro?' data-toggle='tooltip' data-placement='top' title='Eliminar' rel='nofollow' data-method='delete' href='/learning_paths/"+ id +"/learning_path_programs/"+ data.contenido.id +"'><span class='glyphicon glyphicon-remove'></span></a>"
-          +"</div>"
-          +"<h3 class='panel-title'>"
-          +data.programa.name
-          +"<div class='pull-right'>"
-          +"<span class='label label-info'>"
-          +"Programa"
-          +"</span>"
-          +"</div>"
-          +"</h3>"
-          +"</div>"
-          +"</div>"
-          +"</div>"
-        $('#programs').val('');
-        $("#cont_sortable").append(str);
+          var str="<div class='panel-group'>"
+            +"<div class='panel panel-default'>"
+            +"<div class='panel-heading'>"
+            +"<span class='handle-sort'>"
+            +"[mover]"
+            +"</span>"
+            +"<div class='pull-right'>"
+            +"<a data-confirm='¿Estás seguro?' data-toggle='tooltip' data-placement='top' title='Eliminar' rel='nofollow' data-method='delete' href='/learning_paths/"+ id +"/learning_path_programs/"+ data.contenido.id +"'><span class='glyphicon glyphicon-remove'></span></a>"
+            +"</div>"
+            +"<h3 class='panel-title'>"
+            +data.programa.name
+            +"<div class='pull-right'>"
+            +"<span class='label label-info'>"
+            +"Programa"
+            +"</span>"
+            +"</div>"
+            +"</h3>"
+            +"</div>"
+            +"</div>"
+            +"</div>"
+          $('#programs').val('');
+          $("#cont_sortable").append(str);
 
-        $('#addProgram').modal('hide');         
+
+          $("#alert-ra").css('display','block');
+          setTimeout(function(){$("#alert-ra").css('display','none');},4000);
+
+          $('#addProgram').modal('hide');         
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) { 
           alert("Status: " + textStatus); 
