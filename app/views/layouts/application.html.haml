@@ -162,7 +162,7 @@
                   %span.icon-thumbnail Mn
                 %li
                   %a{:href => learning_paths_path} Rutas de aprendizaje
-                  %span.icon-thumbnail Ra  
+                  %span.icon-thumbnail Ra
 
           = display_navbar_link({link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, css: ['m-t-30'], icon: 'fa pg-layouts', role: [:mentor]})
           = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: [''], icon: 'fa fa-users', role: [:mentor]})
@@ -465,12 +465,12 @@
       :javascript
         $(document).on('turbolinks:load', function(){
           sweetAlert("#{flash[:complete]}");
-        });                     
+        });
 
     - if current_user && current_user.student?
       :javascript
         $(document).on('turbolinks:load', function(){
           setInterval(function() {
             $.post("#{track_sessions_path}")
-          }, 10000)
-        });       
+          }, 60000)
+        });
