@@ -58,6 +58,7 @@ gem 'redis-rails'
 gem 'redis-rack-cache'
 gem 'remote_syslog_logger'
 gem 'sweetalert-rails'
+gem 'whenever', :require => false
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
