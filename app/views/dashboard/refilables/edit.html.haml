@@ -28,7 +28,7 @@
                   = @template.name
                 %p
                   = @template.description
-            .col-md-7
+            .col-md-8
               .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
                 .p-b-15
                   Edita tus respuestas en el siguiente recuadro:
@@ -65,9 +65,23 @@
 
 :javascript
   $(document).on('turbolinks:load', function(){
-    $('.refilable-edit').editable();
+    $('.refilable-edit').editable('toggleDisabled');
+    $('.refilable-edit').attr('contentEditable', true);
+    $('.refilable-edit').removeAttr('style');
+    $('.refilable-edit').addClass('form-control refilable-input');
 
     $('#send-refilable').click(function() {
+
+      $('.refilable-edit').each(function() {
+        if ($(this).text() == "" || $(this).text() == " (sin respuesta) ") {
+          $(this).removeClass('present-answer');
+          $(this).addClass('no-answer');
+        } else {
+          $(this).removeClass('no-answer');
+          $(this).addClass('present-answer');
+        }
+      });
+
       var $form = $('.edit_refilable');
       var $template_content = $('#refilable-content-template');
       $('#refilable_content').val($template_content.html());
