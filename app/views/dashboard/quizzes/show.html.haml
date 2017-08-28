@@ -31,36 +31,27 @@
   .row
     .col-sm-12
       .panel.panel-transparent
-        .panel-heading
-          .panel-title
-            Vista previa del examen
         .panel-body
-          .sm-m-l-5.sm-m-r-5
           .panel.panel-default
-            .panel-heading{:role => "tab", :id=>"heading_#{@quiz.id}"}
-              %h4.panel-title
-                = "#{@quiz.name} (#{@quiz.description})"
             .panel-body
               %table.table.table-hover
                 %thead
                   %tr
                     %th{width: "35%"} Pregunta
-                    %th{width: "30%"} Respuesta
+                    %th{width: "30%"} Respuesta correcta
                     %th.text-center{width: "20%"} Evaluación
                     %th.text-center Valor
                     %th.text-center Obtenido
                 - @quiz.quiz_questions.each do |question|
                   %tr
-                    %td.p-b-15
-                      = link_to "#", class: "btn btn-success btn-rounded" do
-                        %i.fa.fa-tasks
-                      %span.m-l-10{style: "position: relative; top: -8px;"} 
+                    %td.p-b-20
+                      %span
                         = question.question_text
                       - answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: current_user.id)
-                    %td.p-b-15
+                    %td.p-b-20
                       = QuizAnswer.respuesta(question.id, current_user.id)
-                    %td.text-center.p-b-15
-                      = answer.nil? ? "Sin contestar" : QuizAnswer.revisada(question.id, current_user.id).html_safe
+                    %td.text-center.p-b-20
+                      = answer.nil? ? "Sin contestar" : QuizAnswer.proporcion(question.id, current_user.id).html_safe
                     %td.text-center
                       = answer.nil? ? "No hay puntos" : answer.quiz_question.points
                     %td.text-center

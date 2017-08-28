@@ -313,6 +313,9 @@ a.unseen-link:hover {
 	display: inline;
 	padding-right: 10px;
 }
+.bottom-line{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
 .refilable-input{
 	display: inline-block;
 	width: 200px;
