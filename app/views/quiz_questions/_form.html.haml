@@ -1,7 +1,7 @@
 .well
   = bootstrap_form_for([@quiz, @quiz_question]) do |f|
     = f.text_field :question_text, label: "Pregunta"
-    = f.text_area :support_text, label: "Información de apoyo"
+    = f.text_area :support_text, ckeditor: { language: 'es'}, id: 'ckeditor', label: "Información de apoyo"
     = f.select :question_type, QuizQuestion::TYPES, { label: "Tipo de pregunta" }
     = f.text_area :answer_options, hide_label: true, rows: 8, class: 'hide'
     #question-answers
@@ -83,3 +83,4 @@
       $('#quiz_question_answer_options').val(answers.join('\n'));
     }
   });
+  CKEDITOR.replace('ckeditor');

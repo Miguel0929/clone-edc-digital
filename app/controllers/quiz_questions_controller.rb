@@ -1,20 +1,20 @@
 class QuizQuestionsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_quiz, only: [:new, :create, :destroy, :edit, :update]
+  before_action :set_quiz, only: [:new, :create, :destroy, :edit, :update, :support]
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
   def new
-    add_breadcrumb "<a class='active' href='#{quizzes_path}'>Examenes</a>".html_safe
-    add_breadcrumb "<a class='active' href='#{quiz_path(@quiz)}'>#{@quiz.name}</a>".html_safe
+    add_breadcrumb "<a href='#{quizzes_path}'>Examenes</a>".html_safe
+    add_breadcrumb "<a href='#{quiz_path(@quiz)}'>#{@quiz.name}</a>".html_safe
     add_breadcrumb "<a class='active' href='#{quiz_quiz_questions_path}'>Nueva pregunta</a>".html_safe
     @quiz_question = @quiz.quiz_questions.build
   end
 
   def edit
-    add_breadcrumb "<a class='active' href='#{quizzes_path}'>Examenes</a>".html_safe
-    add_breadcrumb "<a class='active' href='#{quiz_path(@quiz)}'>#{@quiz.name}</a>".html_safe
+    add_breadcrumb "<a href='#{quizzes_path}'>Examenes</a>".html_safe
+    add_breadcrumb "<a href='#{quiz_path(@quiz)}'>#{@quiz.name}</a>".html_safe
     @quiz_question = QuizQuestion.find(params[:id])
     add_breadcrumb "<a class='active' href='#{edit_quiz_quiz_question_path(@quiz, @quiz_question)}'>Editar pregunta</a>".html_safe
   end
@@ -50,6 +50,13 @@ class QuizQuestionsController < ApplicationController
     @quiz_question = QuizQuestion.find(params[:id])
     @quiz_question.destroy
     redirect_to @quiz
+  end
+
+  def support
+    add_breadcrumb "<a href='#{quizzes_path}'>Examenes</a>".html_safe
+    add_breadcrumb "<a href='#{quiz_path(@quiz)}'>#{@quiz.name}</a>".html_safe
+    @quiz_question = QuizQuestion.find(params[:id])
+    add_breadcrumb "<a class='active' href='#{ support_quiz_quiz_question_path(@quiz, @quiz_question) }'>Nueva pregunta</a>".html_safe
   end
 
   private

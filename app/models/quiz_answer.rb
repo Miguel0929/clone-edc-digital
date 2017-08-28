@@ -27,6 +27,23 @@ class QuizAnswer < ActiveRecord::Base
     revisada
   end
 
+  def self.proporcion(quiz_question, user)
+    good, total = 0, 0
+    where(quiz_question_id: quiz_question, user_id: user).each do |answers|
+      good += answers.correct == true ? 1 : 0
+      total += 1
+    end
+    if good == total
+      return "<span class='text-success bold'><i class='fa fa-check p-r-5'></i>Correcto</span>"
+    else
+      if total > 1
+        return "<span class='text-primary bold'>#{good} de #{total} aciertos</span>"
+      else
+        return "<span class='text-primary bold'>Incorrecto</span>"
+      end
+    end
+  end
+
   def self.obtenido(quiz_question, user)
     obtenido = 0
     result = where(quiz_queston_id: quiz_question, user_id: user)
