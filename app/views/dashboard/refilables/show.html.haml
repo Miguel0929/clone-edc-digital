@@ -31,7 +31,7 @@
                 %h5
                   = link_to dashboard_template_refilables_path do
                     Regresar a rellenables
-            .col-md-7
+            .col-md-8
               .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
                 .table-responsive.table-invoice
                   %table.table.m-t-0
@@ -40,12 +40,18 @@
                         %th 
                           Texto del rellenable
                           %p.small.hint-text.m-b-0
-                            Tus respuestas están resaltadas en negro.
+                            Tus respuestas están resaltadas en verde.
                     %tbody
                       %tr
                         %td.p-b-30
                           #refilable-content-template
                             = raw remove_class(replace_fillable(@refilable.content))
+
+:javascript
+  $(document).on('turbolinks:load', function(){
+    $('.refilable-edit').removeClass('form-control refilable-input');
+    $('.no-answer').text(' (sin respuesta) ');
+  });
 
 /.container-fluid.container-fixed-lg
 /  .panel.panel-default

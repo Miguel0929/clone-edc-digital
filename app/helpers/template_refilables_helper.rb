@@ -2,7 +2,14 @@ module TemplateRefilablesHelper
   def replace_fillable(content)
     content.gsub(
       "{{rellenable}}",
-      '<span class="refilable-edit" style="font-weight:bold;">_____</span>'
+      '<span class="refilable-edit" style="font-weight:bold;"></span>'
+    )
+  end
+
+  def replace_fillable_admin(content)
+    content.gsub(
+      "{{rellenable}}",
+      '<span class="refilable-edit" style="font-weight:bold;">______</span>'
     )
   end
 
