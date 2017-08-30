@@ -218,7 +218,7 @@
                         %th
                           Acciones
                     %tbody
-                      - if @user.group.quizzes.count == 0
+                      - if @user.group.nil? || @user.group.quizzes.count == 0
                         %tr
                           %td.p-t-20.p-b-15{colspan: "4"}
                             .text-primary.bold
@@ -467,20 +467,26 @@
                       %th
                         Duración de la sesión
                   %tbody
-                    - @user.sessions.each do |visit|
+                    - if @refilables.count == 0
                       %tr
-                        %td
-                          = visit.browser
-                        %td
-                          = visit.device_type
-                        %td
-                          = visit.platform
-                        %td
-                          = l visit.start, format: :special
-                        %td
-                          = l visit.finish, format: :special unless visit.finish.nil?
-                        %td
-                          = visit.time
+                        %td.p-t-20.p-b-15{colspan: "6"}
+                          .text-primary.bold
+                            Este estudiante no ha comenzado ninguna
+                    - elsif
+                      - @user.sessions.each do |visit|
+                        %tr
+                          %td
+                            = visit.browser
+                          %td
+                            = visit.device_type
+                          %td
+                            = visit.platform
+                          %td
+                            = l visit.start, format: :special
+                          %td
+                            = l visit.finish, format: :special unless visit.finish.nil?
+                          %td
+                            = visit.time
 
 
 #alert-ra-warning.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
