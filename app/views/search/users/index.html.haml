@@ -1,8 +1,8 @@
 - content_for :title  do
   Búsqueda de usuarios - EDCdigital
 
-.container-fluid.container-fixed-lg.bg-white
-  .panel.panel-transparent
+.container-fluid.container-fixed-lg
+  .panel.panel-default
     .panel-body
       %h2
         Lista de usuarios
@@ -81,6 +81,9 @@
                         = link_to user_path(user) do
                           %i.fa.fa-eye
                           Ver información
+                        %sup
+                          = link_to summary_user_path(user),class: "p-l-5" do
+                            %i.fa.fa-bolt
                       - else
                         = link_to mentor_student_path(user) do
                           %i.fa.fa-eye

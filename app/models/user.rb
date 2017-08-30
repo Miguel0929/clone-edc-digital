@@ -250,7 +250,7 @@ class User < ActiveRecord::Base
   end
 
   def last_time
-    return 'El usuario no ha iniciado sesión' if sessions.last.nil?
+    return 'No ha iniciado sesión' if sessions.last.nil?
 
     if TimeDifference.between(sessions.last.finish, Time.now).humanize.nil?
       "Menos de 1 segundo"
@@ -309,6 +309,24 @@ class User < ActiveRecord::Base
   def get_last_program
     last_stat = self.program_stats.sort_by{ |stat| [stat.updated_at].max}.last
     last_program = Program.where(id: last_stat.program_id).last
+  end
+
+  def total_quizzes
+    self.group.quizzes.count
+  end
+
+  def answered_quizzes
+    total = 0
+    results = []
+    self.group.quizzes.each do |quiz|
+      if quiz.answered(self) > 0 
+        total += 1
+        results.push( (quiz.average(self).to_f / quiz.total_points.to_f * 100).ceil )
+      end
+    end
+    average = results.inject(0.0) { |sum, el| sum + el } / results.size
+    if average.nan? then average = 0 end
+    return average, total
   end
 
   private

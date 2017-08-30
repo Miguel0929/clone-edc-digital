@@ -158,6 +158,7 @@ Rails.application.routes.draw do
     member do
       get :analytics_quiz
       get :change_state
+      get :summary
     end
 
     resources :programs, only: [] do

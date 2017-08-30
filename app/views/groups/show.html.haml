@@ -113,13 +113,18 @@
             - @students.each_with_index do |student, index|
               %tr
                 %td.p-b-20
-                  .m-b-10
+                  .m-b-5
                     = link_to student.name, user_path(student)
                   %ul.p-l-0.m-b-0
                     %li.inline 
                       %i.fa.fa-envelope
                     %li.inline 
                       = student.email
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      = link_to summary_user_path(student) do
+                        %i.fa.fa-bolt
+                        Ver resumen
                 %td
                   .m-b-10
                     %i.fa.fa-edit

@@ -631,7 +631,15 @@ p.mensaje{
 .new-font-size{
   font-size: 100px !important;
 }
-
+.small-circle{
+  font-size: 70px !important;
+}
+.bg-complete-light:after{
+  background-color: #6DC0F9 !important;
+}
+.bg-success-light:after{
+  background-color: #40D9CA !important;
+}
 #color-circle2:after{
   background-color: #48b0f7 !important;
 }

@@ -1,0 +1,180 @@
+.container-fluid.sm-padding-10.m-b-25
+  .row
+    .col-md-6.col-xlg-5
+      .row
+        .col-md-12.m-b-10
+          .ar-3-2.widget-1-wrapper
+            .widget-1-straight
+              .pull-top
+                .row
+                  .col-md-12.p-b-10
+                    .pull-left
+                      %h4.text-white
+                        = @user.name
+                        %span
+                          = link_to user_path(@user), class: "redish-link m-l-20", style: "font-size: 0.7em;" do
+                            ( Ver perfil completo )
+                .row.text-white
+                  .col-md-12.col-xs-6
+                    .p-t-10.col-md-3
+                      .h5.no-margin.text-complete
+                        = @user.phone_number
+                      .small-text.no-margin
+                        Teléfono
+                    .p-t-10.col-md-3
+                      .h5.no-margin.text-complete
+                        = @user.city
+                      .small-text.no-margin
+                        Ubicación
+                    .p-t-10.col-md-3
+                      .h5.no-margin.text-complete
+                        = @user.email
+                      .small-text.no-margin
+                        Correo
+                  .col-md-12.col-xs-6.p-t-30
+                    .col-md-6
+                      .font-montserrat.bold.fs-11
+                        PORCENTAJE CONTESTADO
+                      .progress.m-t-5.m-b-5
+                        .progress-bar.progress-bar-white{style: "width: #{@user.user_progress}%"}
+                      %h4.text-complete.m-t-0
+                        #{@user.user_progress}%
+                    .col-md-6
+                      .font-montserrat.bold.fs-11
+                        PORCENTAJE VISTO
+                      .progress.m-t-5.m-b-5
+                        .progress-bar.progress-bar-white{style: "width: #{@user.user_seen}%"}
+                      %h4.text-complete.m-t-0
+                        #{@user.user_seen}%
+                .pull-bottom.bottom-left.bottom-right.p-l-30.p-r-30.p-b-30
+                  .col-xs-4
+                    /.font-montserrat.bold.fs-16.text-primary.white-shadow
+                    .label
+                      #{ @user.last_time }
+                    .font-montserrat.bold.fs-11.text-white
+                      ÚLTIMA VEZ
+                  .col-xs-4
+                    /.font-montserrat.bold.fs-16.text-primary.white-shadow
+                    .label
+                      #{ @user.time_average.round(1) } min
+                    .font-montserrat.bold.fs-11.text-white
+                      USO PROMEDIO
+                  .col-xs-4
+                    /.font-montserrat.bold.fs-16.text-primary.white-shadow
+                    .label
+                      #{ @user.total_time.round(1) } min
+                    .font-montserrat.bold.fs-11.text-white
+                      USO TOTAL
+
+      .row
+        .col-sm-6.m-b-10
+          .ar-2-1
+            .widget-4.no-border.no-margin.widget-loader-bar.bg-primary-light
+              .pull-right.pull-top
+                %h4.text-white.p-r-20
+                  %i.fa.fa-envelope
+              .pull-bottom.p-b-30.bottom-right.bottom-left.p-l-20.p-r-20
+                %h3.text-white #{@mentor_messages} mensaje(s)
+                .font-montserrat.bold.fs-11.text-white
+                  AYUDA DE MENTORES
+        .col-sm-6.m-b-10
+          .ar-2-1
+            .widget-4.no-border.no-margin.widget-loader-bar.bg-primary-light
+              .pull-right.pull-top
+                %h4.text-white.p-r-20
+                  %i.fa.fa-comment
+              .pull-bottom.p-b-30.bottom-right.bottom-left.p-l-20.p-r-20
+                %h3.text-white #{@sent_chats} chat(s)
+                .font-montserrat.bold.fs-11.text-white
+                  MENSAJES ENVIADOS EN CHAT
+    .col-md-6.col-xlg-4
+      .row
+        .col-sm-6.m-b-10
+          .ar-1-1
+            .widget-3.no-border.bg-complete-light.no-margin.widget-loader-bar
+              .pull-right.pull-top
+                %h3.text-white.p-r-20
+                  %i.fa.fa-check-square
+              .padding-30
+                .pull-bottom.p-b-20.bottom-right.bottom-left.p-l-30.p-r-30
+                  .row
+                    - exam_results = (@result_exams.nan? ? "0" : @result_exams.ceil.to_s)
+                    .c100.center.white.small-circle.bg-complete-light{:class=> "p" + exam_results, style: "position: relative;"}
+                      %span.bold.text-white
+                        = exam_results + "%"
+                      .slice
+                        .bar
+                        .fill
+                  %h4 Exámenes
+                  %p.no-margin.text-white.hint-text
+                    %span.text-primary.bold #{@answered_quizzes}
+                    de 
+                    %span.text-primary.bold #{@total_quizzes} 
+                    exámenes han sido contestados
+                  %p.p-t-5
+                    %span.text-black Promedio:
+                    %span.m-l-20.hint-text #{@quizzes_average.ceil}
+        .col-sm-6.m-b-10
+          .ar-1-1
+            .widget-3.no-border.bg-success-light.no-margin.widget-loader-bar
+              .pull-right.pull-top
+                %h3.text-white.p-r-20
+                  %i.fa.fa-paperclip
+              .padding-30
+                .pull-bottom.p-b-20.bottom-right.bottom-left.p-l-30.p-r-30
+                  %h4.no-margin.semi-bold.p-b-5 Archivos
+                  %p.no-margin.text-black.hint-text
+                    DEL USUARIO
+                  %h4.semi-bold.text-white.no-margin.p-l-20
+                    %i.fa.fa-sort-up.small.text-white
+                    #{@self_archives} archivo(s)
+                  %p.no-margin.text-black.hint-text
+                    COMPARTIDOS CON ÉL
+                  %h4.semi-bold.text-white.no-margin.p-l-20
+                    %i.fa.fa-sort-up.small.text-white
+                    #{@shared_archives} archivo(s)
+      .row
+        .col-sm-6.m-t-10
+          .ar-1-1
+            .widget-7.no-border.bg-success-light.no-margin
+              .pull-right.pull-top
+                %h3.text-white.p-r-20
+                  %i.fa.fa-file-text
+              .padding-30
+                .pull-bottom.p-b-30.bottom-right.bottom-left.p-l-30.p-r-30
+                  .row
+                    - deliv_results = (@result_delireverables.nan? ? "0" : @result_delireverables.ceil.to_s)
+                    .c100.center.white.small-circle.bg-success-light{:class=> "p" + deliv_results, style: "position: relative;"}
+                      %span.bold.text-white
+                        = deliv_results + "%"
+                      .slice
+                        .bar
+                        .fill
+                  %h4 Entregables
+                  %p.no-margin.text-white.hint-text
+                    %span.text-primary.bold #{@complete_delireverables}
+                    de 
+                    %span.text-primary.bold #{@delireverables} 
+                    entregables han sido completados
+        .col-sm-6.m-t-10
+          .ar-1-1
+            .widget-7.no-border.bg-complete-light.no-margin
+              .pull-right.pull-top
+                %h3.text-white.p-r-20
+                  %i.fa.fa-th-list
+              .padding-30
+                .pull-bottom.p-b-30.bottom-right.bottom-left.p-l-30.p-r-30
+                  .row
+                    - refil_results = (@result_refilables.nan? ? "0" : @result_refilables.ceil.to_s)
+                    .c100.center.white.small-circle.bg-complete-light{:class=> "p" + refil_results, style: "position: relative;"}
+                      %span.bold.text-white
+                        = refil_results + "%"
+                      .slice
+                        .bar
+                        .fill
+                  %h4 Rellenables
+                  %p.no-margin.text-white.hint-text
+                    %span.text-primary.bold #{@complete_refilables} 
+                    de 
+                    %span.text-primary.bold #{@refilables} 
+                    rellenables han sido contestados

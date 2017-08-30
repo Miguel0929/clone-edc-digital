@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170817191946) do
+ActiveRecord::Schema.define(version: 20170829214129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -282,14 +282,16 @@ ActiveRecord::Schema.define(version: 20170817191946) do
     t.string   "name"
     t.string   "key"
     t.datetime "deleted_at"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.integer  "state_id"
     t.string   "category"
     t.integer  "university_id"
+    t.integer  "learning_path_id"
   end
 
   add_index "groups", ["deleted_at"], name: "index_groups_on_deleted_at", using: :btree
+  add_index "groups", ["learning_path_id"], name: "index_groups_on_learning_path_id", using: :btree
   add_index "groups", ["university_id"], name: "index_groups_on_university_id", using: :btree
 
   create_table "industries", force: :cascade do |t|
@@ -305,6 +307,23 @@ ActiveRecord::Schema.define(version: 20170817191946) do
   end
 
   add_index "learning_path_notifications", ["group_id"], name: "index_learning_path_notifications_on_group_id", using: :btree
+
+  create_table "learning_path_programs", force: :cascade do |t|
+    t.integer  "program_id"
+    t.integer  "learning_path_id"
+    t.integer  "position"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "learning_path_programs", ["learning_path_id"], name: "index_learning_path_programs_on_learning_path_id", using: :btree
+  add_index "learning_path_programs", ["program_id"], name: "index_learning_path_programs_on_program_id", using: :btree
+
+  create_table "learning_paths", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "lessons", force: :cascade do |t|
     t.string   "identifier"
@@ -380,6 +399,7 @@ ActiveRecord::Schema.define(version: 20170817191946) do
   create_table "mentor_helps", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "sender"
   end
 
   create_table "mentor_program_notifications", force: :cascade do |t|
@@ -761,8 +781,11 @@ ActiveRecord::Schema.define(version: 20170817191946) do
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"
   add_foreign_key "group_stats", "groups"
+  add_foreign_key "groups", "learning_paths"
   add_foreign_key "groups", "universities"
   add_foreign_key "learning_path_notifications", "groups"
+  add_foreign_key "learning_path_programs", "learning_paths"
+  add_foreign_key "learning_path_programs", "programs"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"

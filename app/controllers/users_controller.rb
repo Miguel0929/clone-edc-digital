@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin, except: [:students, :show, :change_evaluation]
   before_action :require_creator, only: [:students, :show]
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state, :summary]
   add_breadcrumb "EDCDIGITAL", :root_path
 
   def index
@@ -290,6 +290,25 @@ class UsersController < ApplicationController
     render json: {eval: to_evaluated, not_eval: to_nonevaluated}
   end
 
+  def summary
+    add_breadcrumb "<a href='#{students_users_path}'>Estudiantes</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{summary_user_path(@user)}'>Vista rápida: #{@user.email}</a>".html_safe
+    quizzes_results = @user.answered_quizzes
+    @quizzes_average = quizzes_results[0]
+    @answered_quizzes = quizzes_results[1]
+    @total_quizzes = @user.total_quizzes
+    @delireverables = Delireverable.joins(delireverable_package: [:groups]).where('groups.id = ?', @user.group.id).count
+    @refilables = TemplateRefilable.joins(:groups).where('groups.id = ?', @user.group.id).count
+    @complete_delireverables = DelireverableUser.where(user: @user).count
+    @complete_refilables = Refilable.where(user: @user).count
+    @self_archives = @user.attachments.count
+    @shared_archives = @user.shared_attachments.count
+    @sent_chats = Mailboxer::Message.where(sender_id: @user).count
+    @mentor_messages = MentorHelp.where(sender: @user.id).count
+    @result_exams = @answered_quizzes.to_f / @total_quizzes.to_f * 100
+    @result_delireverables = @complete_delireverables.to_f / @delireverables.to_f * 100
+    @result_refilables = @complete_refilables.to_f / @refilables.to_f * 100
+  end
 
   private
   def set_user
