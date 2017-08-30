@@ -29,10 +29,15 @@
                   = @refilable.template_refilable.name
                 %p
                   = @refilable.template_refilable.description
+                - if current_user.admin?
+                  = link_to user_path(@user) do
+                    %i.fa.fa-arrow-left
+                    Regresar al perfil del estudiante
             .col-md-7
               .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
                 = bootstrap_form_for([:mentor, @user, @refilable], url: mentor_student_refilable_path(@user, @refilable), method: :put) do |f|
                   = f.text_area :comments, label: 'Agrega comentarios sobre este rellnable:', rows: 4
-                  = link_to "Cancelar", mentor_student_path(@user), class: "btn btn-danger"
-                  = f.submit 'Guardar', class: "btn btn-primary"
+                  - if current_user.mentor?
+                    = link_to "Cancelar", mentor_student_path(@user), class: "btn btn-danger"
+                    = f.submit 'Guardar', class: "btn btn-primary"
 
