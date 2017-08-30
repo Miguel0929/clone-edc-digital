@@ -15,18 +15,26 @@
             %p.m-b-25.text-white
               En esta sección verás los rellenables que se te asignen durante tu avance en los cursos de la plataforma. ¡Usa tus conocimientos adquiridos para contestarlos! 
 
-.container-fluid.container-fixed-lg
+.container-fluid.container-fixed-lg#pending
   .panel.panel-default
     .panel-body
       .tab-content
         #tab1.tab-pane.padding-20.sm-no-padding.active.slide-left
           .row.row-same-height
-            .col-md-6.b-r.b-dashed.b-grey.sm-b-b
+            .col-md-12
               .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
-                %h3 
-                  %i.fa.fa-edit.hint-text
-                  Rellenables pendientes
-                %p.m-b-30 Aquí puedes ver aquellos rellenables que te son asignados por nuestro equipo de mentores. Recuerda siempre mantenerte al tanto de ellos.
+                .m-b-30.b-b.b-dashed.sm-b-b
+                  .pull-left
+                    %h3.text-primary 
+                      %i.fa.fa-edit.hint-text
+                      Rellenables pendientes
+                  .pull-right
+                    .p-t-15
+                      %a.slow_scroll.small-text{href: "#accomplished", style: "opacity: 1;"}
+                        %i.fa.fa-chevron-circle-down
+                        Rellenables cumplidos
+                  .clearfix
+                  %p.m-b-15 Aquí puedes ver aquellos rellenables que te son asignados por nuestro equipo de mentores. Recuerda siempre mantenerte al tanto de ellos.
 
                 - if @undone_refilables.count > 0
                   - @undone_refilables.each do |refilable|
@@ -50,13 +58,26 @@
                   %h4.text-complete
                     Por el momento no tienes rellenables pendientes.
                 
-
-            .col-md-6
+.container-fluid.container-fixed-lg#accomplished
+  .panel.panel-default
+    .panel-body
+      .tab-content
+        #tab1.tab-pane.padding-20.sm-no-padding.active.slide-left
+          .row.row-same-height
+            .col-md-12
               .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
-                %h3 
-                  %i.fa.fa-check-square-o.hint-text
-                  Rellenables cumplidos
-                %p.m-b-30 Una vez que hayas contestado tus rellenables podrás verlos en esta columna. Podrás editarlos aunque estén clasificados como complidos. 
+                .m-b-30.b-b.b-dashed.sm-b-b
+                  .pull-left
+                    %h3.text-success 
+                      %i.fa.fa-check-square-o.hint-text
+                      Rellenables cumplidos
+                  .pull-right
+                    .p-t-15
+                      %a.slow_scroll.small-text{href: "#pending", style: "opacity: 1;"}
+                        %i.fa.fa-chevron-circle-up
+                        Rellenables pendientes
+                  .clearfix
+                  %p.m-b-15 Una vez que hayas contestado tus rellenables podrás verlos en esta columna. Podrás editarlos aunque estén clasificados como complidos. 
 
                 - if @done_refilables.count > 0
                   - @done_refilables.each do |refilable|
@@ -88,3 +109,11 @@
                 - else
                   %h4.text-complete
                     Por el momento no tienes rellenables cumplidos.
+
+:javascript
+  $('.slow_scroll').click(function(){
+    $('html, body').animate({
+      scrollTop: $( $(this).attr('href') ).offset().top
+    }, 500);
+    return false;
+  });
