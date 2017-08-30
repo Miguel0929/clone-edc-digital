@@ -35,6 +35,10 @@ class Mentor::RefilablesController < ApplicationController
   end
 
   def set_user_breadcrum
-    add_breadcrumb "#{@user.name}", mentor_student_path(@user)
+    if current_user.mentor?
+      add_breadcrumb "#{@user.name}", mentor_student_path(@user)
+    elsif current_user.admin?
+      add_breadcrumb "#{@user.name}", user_path(@user)
+    end  
   end
 end

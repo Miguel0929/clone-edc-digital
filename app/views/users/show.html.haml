@@ -3,329 +3,485 @@
 
 .container-fluid.container-fixed-lg
   .row
-    .col-sm-5
-      %h4
-        #{@user.name}
-    .col-sm-7
-      - if current_user.admin?
-        - color = @user.banned? ? "btn-success" : "btn-danger"
-        .pull-right
-          = link_to change_state_user_path(@user), class: "btn #{color}  pull-right m-l-10", data: { confirm: '¿Estás seguro?' } do
-            - @user.banned? ? "<i class= 'fa fa-check'></i> Desbloquear usuario" :  "<i class= 'fa fa-times'></i> Bloquear usuario"
-        .pull-right
-          = link_to edit_user_path(@user), class: "btn btn-primary pull-right m-l-10" do
-            %span.glyphicon.glyphicon-edit
-            Editar perfil de usuario
-        .btn-like-switch.pull-right
-          %label.switch#switch-eval
-            %input{type: "hidden", id: "user_id", value: @user.id}
-            %input#student_evaluation{{:type => "checkbox"}, @user.evaluation_status == 'evaluado' ? {checked: 1, value: 1} : {value: 0}, {disabled: true}}
-            .slider.round
-          .label-for-switch.p-l-5
-            Edo. de evaluación
-  .panel.panel-default
-    .panel-body
-      .row
-        .col-md-2
-          .share.share-other.m-t-5
-            .card-content
-              - if @user.profile_picture.url.nil?
-                = image_tag('person-1-square.jpg', class: 'img-responsive')
-              - else
-                = image_tag(@user.profile_picture.url, class: 'img-responsive')
-              .card-header.clearfix
-                %h6
-                  = @user.name
-                %p.small.hint-text.m-t-5 #{@user.state}, #{@user.city}
-                %p.small.hint-text.m-t-5
-                  %span
-                    %i.fa.fa-line-chart
-                    Porcentaje contestado #{@user.user_progress.ceil} %
-                  %br
-                  %span
-                    %i.fa.fa-line-chart
-                    Porcentaje de avance #{@user.user_seen.ceil} %
-                %p.small.hint-text.m-t-5
-                  %i.fa.fa-history
-                  Ultima vez:
-                  %span
-                    #{ @user.last_time }
-                %p.small.hint-text.m-t-5
-                  Promedio de uso:
-                  %span
-                    #{ @user.time_average.round(2) } minutos.
-                %p.small.hint-text.m-t-5
-                  Total de uso
-                  %span
-                    #{ @user.total_time.round(2) } munutos.
-        .col-md-10
-          %table.table.resumen-table.table-striped.table-top-border.perfil-table
-            %tbody
-              %tr.odd.gradeX
-                %td{:width => "25%"} Nombre
-                %td
-                  = @user.name
-              /- if current_user.admin?
-              /  %tr.odd.gradeX
-              /    %td{:width => "25%"} Estatus de evaluación
-              /    %td
-              /      = editable @user, :evaluation_status, source: [:evaluado, :'sin evaluar'], type: :select
-              /      %a{href: '#', title: 'Haz clic para editar la información'}
-              /        %i.fa.fa-edit
-              /- else
-              /  %tr.odd.gradeX
-              /    %td{:width => "25%"} Estatus de evaluación
-              /    %td
-              /      = @user.evaluation_status
-
-              %tr.odd.gradeX
-                %td Correo electrónico
-                %td
-                  = @user.email
-              %tr.odd.gradeX
-                %td Teléfono
-                %td
-                  = @user.phone_number
-              %tr.odd.gradeX
-                %td Industria
-                %td
-                  = unless @user.industry.nil? then @user.industry.name else 'N/A' end
-              %tr.odd.gradeX
-                %td Ubicación
-                %td #{@user.state}, #{@user.city}
-              %tr.odd.gradeX
-                %td Grupo
-                %td
-                  = @user.group.name unless @user.group.nil?
-              %tr.odd.gradeX
-                %td Fecha de creación de cuenta
-                %td #{l @user.created_at, format: :special}
-              %tr.odd.gradeX
-                %td Fecha de activación de cuenta
-                %td #{l @user.invitation_accepted_at, format: :special unless @user.invitation_accepted_at.nil?}
-              %tr.odd.gradeX
-                %td Cursos inscritos
-                - if current_user.admin? && !@user.group.nil?
-                  %td
-                    - @user.group.programs.each do |program|
-                      \-
-                      = link_to program.name, user_program_answers_path(@user, program)
-                      %br
-                - else
-                  - if !@user.group.nil?
-                    %td
-                      - @user.group.programs.each do |program|
-                        \-
-                        = program.name
-                        %br
-  %h3
-    Estadísticas generales de programas inscritos
-
-  .panel.panel-default
-    .panel-body.table-responsive
-      %table.table.table-hover
-        %thead
-          %tr
-            %th{:width => '45%'}
-              Curso inscrito
-            %th{:width => '25%'}
-              Avances del alumno
-            %th{:width => '15%'}
-              Disponible
-            %th
-              Acciones
-        %tbody
-          - Program.all.each do |program|
-            %tr
-              %td.p-b-15
-                = link_to program.name, analytics_program_user_path(@user, program_id: program), :style => "font-size: 17px;"
-                %p.hint-text.m-t-5.m-b-5 Módulos del programa:
-                %ul.list-inline.no-style.unstyled
-                  - counter = 0
-                  - program.chapters.each_with_index do |chapter, index|
-                    - if chapter.questions.count == 0
-                      - counter += 1
+    .col-sm-12
+      .card.card-borderless{style: "border: none;"}
+        %ul.nav.nav-tabs.nav-tabs-simple.m-b-10
+          %li.nav-item.tablinks.active{onclick: "openTab(event, 'tabStudent')"}
+            %a{href: "#", onclick: "return false;"} Estudiante
+          %li.nav-item.tablinks{onclick: "openTab(event, 'tabProgram')"}
+            %a{href: "#", onclick: "return false;"} Programas
+          %li.nav-item.tablinks{onclick: "openTab(event, 'tabQuizzes')"}
+            %a{href: "#", onclick: "return false;"} Exámenes
+          %li.nav-item.tablinks{onclick: "openTab(event, 'tabFiles')"}
+            %a{href: "#", onclick: "return false;"} Archivos
+          %li.nav-item.tablinks{onclick: "openTab(event, 'tabDeliverables')"}
+            %a{href: "#", onclick: "return false;"} Entregables
+          %li.nav-item.tablinks{onclick: "openTab(event, 'tabRefilables')"}
+            %a{href: "#", onclick: "return false;"} Rellenables
+          %li.nav-item.tablinks{onclick: "openTab(event, 'tabSessions')"}
+            %a{href: "#", onclick: "return false;"} Sesiones
+        .tab-content.p-b-30
+          #tabStudent.tab-pane.active.tabcontent
+            .row
+              .col-sm-5
+                %h4
+                  #{@user.name}
+              .col-sm-7
+                - if current_user.admin?
+                  - color = @user.banned? ? "btn-success" : "btn-danger"
+                  .pull-right
+                    = link_to change_state_user_path(@user), class: "btn #{color}  pull-right m-l-10", data: { confirm: '¿Estás seguro?' } do
+                      - @user.banned? ? "<i class= 'fa fa-check'></i> Desbloquear usuario" :  "<i class= 'fa fa-times'></i> Bloquear usuario"
+                  .pull-right
+                    = link_to edit_user_path(@user), class: "btn btn-primary pull-right m-l-10" do
+                      %span.glyphicon.glyphicon-edit
+                      Editar perfil de usuario
+                  .btn-like-switch.pull-right
+                    %label.switch#switch-eval
+                      %input{type: "hidden", id: "user_id", value: @user.id}
+                      %input#student_evaluation{{:type => "checkbox"}, @user.evaluation_status == 'evaluado' ? {checked: 1, value: 1} : {value: 0}, {disabled: true}}
+                      .slider.round
+                    .label-for-switch.p-l-5
+                      Edo. de evaluación
+            .row
+              .col-md-2
+                .share.share-other.m-t-5
+                  .card-content
+                    - if @user.profile_picture.url.nil?
+                      = image_tag('person-1-square.jpg', class: 'img-responsive')
                     - else
-                      %li.squized-li
-                        = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: program) do
-                          - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions.count.to_f).ceil
-                          - checked = chapter.chapter_checked?(chapter.id, @user.id)
-                          - if answered_percentage > 95
-                            .label.label-success{:class => "#{checked ? '' : 'p-sides-14'}"}
-                              M-#{index + 1 - counter}
-                              %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
-                          - else
-                            .label{:class => "#{(answered_percentage > 0) ? 'label-warning' : ''} #{checked ? '' : 'p-sides-14'}"}
-                              M#{index + 1 - counter}
-                              %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
-              %td.p-b-15
-                .m-b-10
-                  %i.fa.fa-edit
-                  #{@user.questions_answered_for(program)}
-                  %span preguntas contestadas
-                  %strong (#{@user.percentage_questions_answered_for(program)}%)
-                .m-b-10
-                  %i.fa.fa-eye
-                  #{@user.content_visted_for(program)}
-                  %span contenidos vistos
-                  %strong (#{@user.percentage_content_visited_for(program)}%)
-              - if current_user.admin? && !@user.group.nil?
-                %td.p-b-15
-                  = !@user.group.programs.exists?(program) ? "No disponible" : "Disponible"
-                %td.p-b-15
-                  %ul.unstyled.list-unstyled.p-l-0.m-b-0
-                    %li
-                      = link_to analytics_program_user_path(@user, program_id: program) do
-                        %i.fa.fa-line-chart
-                        Ver analíticos
-                    %li
-                      = link_to mentor_evaluations_path(user_id: @user, program_id: program) do
-                        %i.fa.fa-check-square-o
-                        Ver evaluación
-                    %li
-                      = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx) do
-                        %i.fa.fa-file-excel-o
-                        Descargar Excel
-  %h3
-    Estadísticas generales de exámenes
+                      = image_tag(@user.profile_picture.url, class: 'img-responsive')
+                    .card-header.clearfix
+                      %h6
+                        = @user.name
+                      %p.small.hint-text.m-t-5 #{@user.state}, #{@user.city}
+                      %p.small.hint-text.m-t-5
+                        %span
+                          %i.fa.fa-line-chart
+                          Porcentaje contestado #{@user.user_progress.ceil} %
+                        %br
+                        %span
+                          %i.fa.fa-line-chart
+                          Porcentaje de avance #{@user.user_seen.ceil} %
+                      %p.small.hint-text.m-t-5
+                        %i.fa.fa-history
+                        Ultima vez:
+                        %span
+                          #{ @user.last_time }
+                      %p.small.hint-text.m-t-5
+                        Promedio de uso:
+                        %span
+                          #{ @user.time_average.round(2) } minutos.
+                      %p.small.hint-text.m-t-5
+                        Total de uso
+                        %span
+                          #{ @user.total_time.round(2) } munutos.
+              .col-md-10
+                %table.table.resumen-table.table-striped.table-top-border.perfil-table
+                  %tbody
+                    %tr.odd.gradeX
+                      %td{:width => "25%"} Nombre
+                      %td
+                        = @user.name
+                    /- if current_user.admin?
+                    /  %tr.odd.gradeX
+                    /    %td{:width => "25%"} Estatus de evaluación
+                    /    %td
+                    /      = editable @user, :evaluation_status, source: [:evaluado, :'sin evaluar'], type: :select
+                    /      %a{href: '#', title: 'Haz clic para editar la información'}
+                    /        %i.fa.fa-edit
+                    /- else
+                    /  %tr.odd.gradeX
+                    /    %td{:width => "25%"} Estatus de evaluación
+                    /    %td
+                    /      = @user.evaluation_status
 
-  .panel.panel-default
-    .panel-body
-      .table-responsive
-        %table.table.table-hover
-          %thead
-            %tr
-              %th
-                Examen
-              %th
-                Preguntas disponibles
-              %th
-                Preguntas contestadas
-              %th
-                Calificación
-              %th
-          %tbody
-            - unless @user.group.nil? 
-              - @user.group.quizzes.each do |quiz|
-                %tr
-                  %td= quiz.name
-                  %td= quiz.quiz_questions.count
-                  %td= quiz.answered(@user)
-                  %td= quiz.average(@user)
-                  %td= link_to "Ver detalle", analytics_quiz_user_path(@user, quiz_id: quiz)
+                    %tr.odd.gradeX
+                      %td Correo electrónico
+                      %td
+                        = @user.email
+                    %tr.odd.gradeX
+                      %td Teléfono
+                      %td
+                        = @user.phone_number
+                    %tr.odd.gradeX
+                      %td Industria
+                      %td
+                        = unless @user.industry.nil? then @user.industry.name else 'N/A' end
+                    %tr.odd.gradeX
+                      %td Ubicación
+                      %td #{@user.state}, #{@user.city}
+                    %tr.odd.gradeX
+                      %td Grupo
+                      %td
+                        = @user.group.name unless @user.group.nil?
+                    %tr.odd.gradeX
+                      %td Fecha de creación de cuenta
+                      %td #{l @user.created_at, format: :special}
+                    %tr.odd.gradeX
+                      %td Fecha de activación de cuenta
+                      %td #{l @user.invitation_accepted_at, format: :special unless @user.invitation_accepted_at.nil?}
+                    %tr.odd.gradeX
+                      %td Cursos inscritos
+                      - if current_user.admin? && !@user.group.nil?
+                        %td
+                          - @user.group.programs.each do |program|
+                            \-
+                            = link_to program.name, user_program_answers_path(@user, program)
+                            %br
+                      - else
+                        - if !@user.group.nil?
+                          %td
+                            - @user.group.programs.each do |program|
+                              \-
+                              = program.name
+                              %br
+          #tabProgram.tab-pane.tabcontent
+            .row
+              .col-sm-12.table-responsive
+                %table.table.table-hover
+                  %thead
+                    %tr
+                      %th{:width => '45%'}
+                        Curso inscrito
+                      %th{:width => '25%'}
+                        Avances del alumno
+                      %th{:width => '15%'}
+                        Disponible
+                      %th
+                        Acciones
+                  %tbody
+                    - Program.all.each do |program|
+                      %tr
+                        %td.p-b-15
+                          = link_to program.name, analytics_program_user_path(@user, program_id: program), :style => "font-size: 17px;"
+                          %p.hint-text.m-t-5.m-b-5 Módulos del programa:
+                          %ul.list-inline.no-style.unstyled
+                            - counter = 0
+                            - program.chapters.each_with_index do |chapter, index|
+                              - if chapter.questions.count == 0
+                                - counter += 1
+                              - else
+                                %li.squized-li
+                                  = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: program) do
+                                    - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions.count.to_f).ceil
+                                    - checked = chapter.chapter_checked?(chapter.id, @user.id)
+                                    - if answered_percentage > 95
+                                      .label.label-success{:class => "#{checked ? '' : 'p-sides-14'}"}
+                                        M-#{index + 1 - counter}
+                                        %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
+                                    - else
+                                      .label{:class => "#{(answered_percentage > 0) ? 'label-warning' : ''} #{checked ? '' : 'p-sides-14'}"}
+                                        M#{index + 1 - counter}
+                                        %i.fa{:class => "#{checked ? 'fa-check' : ''}"}
+                        %td.p-b-15
+                          .m-b-10
+                            %i.fa.fa-edit
+                            #{@user.questions_answered_for(program)}
+                            %span preguntas contestadas
+                            %strong (#{@user.percentage_questions_answered_for(program)}%)
+                          .m-b-10
+                            %i.fa.fa-eye
+                            #{@user.content_visted_for(program)}
+                            %span contenidos vistos
+                            %strong (#{@user.percentage_content_visited_for(program)}%)
+                        - if current_user.admin? && !@user.group.nil?
+                          %td.p-b-15
+                            = !@user.group.programs.exists?(program) ? "No disponible" : "Disponible"
+                          %td.p-b-15
+                            %ul.unstyled.list-unstyled.p-l-0.m-b-0
+                              %li
+                                = link_to analytics_program_user_path(@user, program_id: program) do
+                                  %i.fa.fa-line-chart
+                                  Ver analíticos
+                              %li
+                                = link_to mentor_evaluations_path(user_id: @user, program_id: program) do
+                                  %i.fa.fa-check-square-o
+                                  Ver evaluación
+                              %li
+                                = link_to mentor_evaluations_path(user_id: @user, program_id: program, format: :xlsx) do
+                                  %i.fa.fa-file-excel-o
+                                  Descargar Excel
+          #tabQuizzes.tab-pane.tabcontent
+            .row
+              .col-sm-12.table-responsive
+                .table-responsive
+                  %table.table.table-hover
+                    %thead
+                      %tr
+                        %th{width: "35%"}
+                          Examen
+                        %th{width: "25%"}
+                          Preguntas disponibles
+                        %th.text-center{width: "20%"}
+                          Calificación
+                        %th
+                          Acciones
+                    %tbody
+                      - if @user.group.quizzes.count == 0
+                        %tr
+                          %td.p-t-20.p-b-15{colspan: "4"}
+                            .text-primary.bold
+                              No hay exámenes asignados a este estudiante
+                      - else
+                        - @user.group.quizzes.each do |quiz|
+                          - quiz_ques = quiz.quiz_questions.count
+                          - answered_ques = quiz.answered(@user)
+                          - result = quiz.average(@user)
+                          %tr
+                            %td.p-t-20.p-b-15
+                              = quiz.name
+                            %td.p-t-20.p-b-15{style: "color: #{ (quiz_ques <= answered_ques) ? '#10CFBD' : '' };"}
+                              #{answered_ques} contestadas / #{quiz_ques} disponibles
+                            %td.p-t-20.p-b-15.text-center
+                              = result
+                            %td.p-t-20.p-b-15
+                              = link_to analytics_quiz_user_path(@user, quiz_id: quiz) do
+                                %i.fa.fa-eye
+                                Ver detalle
+          #tabFiles.tab-pane.tabcontent
+            - if current_user.admin?
+              .row.p-b-20
+                .col-sm-12.table-responsive
+                  %h4.text-primary
+                    Archivos cargados por el usuario
+                  %table.table.table-hover
+                    %thead
+                      %tr
+                        %th
+                          Nombre de archivo
+                        %th
+                          Información de archivo
+                        %th
+                          Historial
+                    %tbody
+                      - if @user.attachments.count == 0
+                        %tr
+                          %td.p-t-20.p-b-15{colspan: "3"}
+                            .text-primary.bold
+                              No hay archivos cargados por este estudiante
+                      - else
+                        - @user.attachments.each do |attachment|
+                          %tr
+                            %td.p-t-20.p-b-15
+                              = link_to attachment.display_name + ' (ver archivo)', attachment.file.url, target: :_blank
+                            %td.p-t-20.p-b-15
+                              %ul.p-l-0.m-b-10
+                                %li.inline.text-primary.bold
+                                  Tipo:  
+                                %li.inline 
+                                  = attachment.humanize_document_type
+                              %ul.p-l-0.m-b-0
+                                %li.inline.text-primary.bold
+                                  Comentarios:  
+                                %li.inline 
+                                  = attachment.label
+                            %td.p-t-20.p-b-15
+                              %ul.p-l-0.m-b-10
+                                %li.inline.text-primary.bold
+                                  Creación: 
+                                %li.inline 
+                                  = l attachment.created_at, format: :special
+                              %ul.p-l-0.m-b-0
+                                %li.inline.text-primary.bold
+                                  Modificación: 
+                                %li.inline 
+                                  = l attachment.updated_at, format: :special       
+              .row
+                .col-sm-12.table-responsive
+                  %h4.text-primary
+                    Archivos compartidos con el usuario
+                  %table.table.table-hover
+                    %thead
+                      %tr
+                        %th
+                          Nombre de archivo
+                        %th
+                          Información
+                        %th
+                          Historial
+                    %tbody
+                      - if @user.shared_attachments.count == 0
+                        %tr
+                          %td.p-t-20.p-b-15{colspan: "6"}
+                            .text-primary.bold
+                              No hay archivos compartidos con el estudiante
+                      - else
+                        - @user.shared_attachments.each do |attachment|
+                          %tr
+                            %td.p-t-20.p-b-15
+                              = link_to attachment.display_name + ' (ver archivo)', attachment.file.url, target: :_blank
+                            %td.p-t-20.p-b-15
+                              %ul.p-l-0.m-b-10
+                                %li.inline.text-primary.bold
+                                  Tipo:  
+                                %li.inline 
+                                  = attachment.humanize_document_type
+                              %ul.p-l-0.m-b-10
+                                %li.inline.text-primary.bold
+                                  Comentarios:  
+                                %li.inline
+                                  = attachment.label
+                            %td.p-t-20.p-b-15
+                              %ul.p-l-0.m-b-10
+                                %li.inline.text-primary.bold
+                                  Creación:  
+                                %li.inline
+                                  = l attachment.created_at, format: :special
+                              %ul.p-l-0.m-b-10
+                                %li.inline.text-primary.bold
+                                  Modificación:  
+                                %li.inline
+                                  = l attachment.updated_at, format: :special
+          #tabDeliverables.tab-pane.tabcontent
+            .row
+              .col-sm-12.table-responsive
+                %table.table.table-hover
+                  %thead
+                    %tr
+                      %th{width: "25%"}
+                        Nombre
+                      %th
+                        Comentarios
+                      %th.text-center{width: "25%"}
+                        Estatus
+                      %th{width: "20%"}
+                        Acciones
+                  %tbody
+                    - if @delireverables.count == 0
+                      %tr
+                        %td.p-t-20.p-b-15{colspan: "4"}
+                          .text-primary.bold
+                            No hay entregables asignados a este estudiante
+                    - else
+                      - @delireverables.each do |delireverable|
+                        - user_delireverable = delireverable.delireverable_users.find_by(user: @user)
+                        %tr
+                          %td.p-t-20.p-b-15
+                            = delireverable.name
+                          %td.p-t-20.p-b-15
+                            - if user_delireverable
+                              - if user_delireverable.comments
+                                .text-primary
+                                  = user_delireverable.comments
+                              - else
+                                No hay comentarios
+                            - else
+                              No hay comentarios
+                          %td.p-t-20.p-b-15.text-center
+                            - if user_delireverable
+                              - status = user_delireverable.huminize_status
+                              .label{class: "#{ status == 'Enviado' ? 'label-warning p-r-l-20' : 'label-success p-r-l-17' }"}
+                                = status
+                            - else
+                              .label
+                                Sin entregar
+                          %td.p-t-20.p-b-15
+                            %ul.p-l-0.m-b-10
+                              = link_to delireverable.file.url, target: '_blank' do
+                                %li.inline
+                                  %i.fa.fa-download
+                                %li.inline 
+                                  Descargar ejemplo
+                            - if user_delireverable
+                              %ul.p-l-0.m-b-10
+                                = link_to user_delireverable.file.url, target: '_blank' do
+                                  %li.inline
+                                    %i.fa.fa-file-o
+                                  %li.inline 
+                                    Descargar archivo de alumno
+          #tabRefilables.tab-pane.tabcontent
+            .row
+              .col-sm-12.table-responsive
+                %table.table.table-hover
+                  %thead
+                    %tr
+                      %th{width: "15%"} Nombre
+                      %th Descripción
+                      %th.text-center{width: "15%"} Estatus
+                      %th{width: "15%"} Acciones
+                  %tbody
+                    - if @refilables.count == 0
+                      %tr
+                        %td.p-t-20.p-b-15{colspan: "4"}
+                          .text-primary.bold
+                            No hay rellenables asignados a este estudiante
+                    - else 
+                      - @refilables.each do |refilable|
+                        - user_refilable = refilable.refilables.find_by(user: @user)
+                        %tr
+                          %td.p-t-20.p-b-15
+                            = refilable.name
+                          %td.p-t-20.p-b-15
+                            %ul.p-l-0.m-b-10
+                              %li.inline.text-primary.bold
+                                Decripción:  
+                              %li.inline 
+                                = refilable.description
+                            %ul.unstyled.no-style.p-l-0.m-b-10
+                              %li.inline.text-primary.bold
+                                Comentarios:  
+                              %li
+                                - if user_refilable
+                                  = user_refilable.comments ? user_refilable.comments : "No hay comentarios"
+                                - else
+                                  No hay comentarios
+                          %td.p-t-20.p-b-15.text-center
+                            - if user_refilable
+                              - status = user_refilable.status
+                              .label{class: "#{ status == 'Contestado' ? 'label-success p-r-l-17' : 'label-warning p-r-l-20'}"}
+                                = status
+                            - else
+                              .label
+                                No contestado
+                          %td.p-t-20.p-b-15
+                            - if user_refilable
+                              %ul.p-l-0.m-b-10
+                                = link_to mentor_student_refilable_path(@user, user_refilable) do
+                                  %li.inline
+                                    %i.fa.fa-eye
+                                  %li.inline 
+                                    Ver rellenable
+                              %ul.p-l-0
+                                = link_to edit_mentor_student_refilable_path(@user, user_refilable) do
+                                  %li.inline
+                                    %i.fa.fa-comment-o
+                                  %li.inline 
+                                    Comentar
+          #tabSessions.tab-pane.tabcontent
+            .row
+              .col-sm-12.table-responsive
+                %table.table.table-hover
+                  %thead
+                    %tr
+                      %th
+                        Navegador
+                      %th
+                        Dispositivo
+                      %th
+                        Sistema operativo
+                      %th
+                        Inicio de sesión
+                      %th
+                        Cierre de sesión
+                      %th
+                        Duración de la sesión
+                  %tbody
+                    - @user.sessions.each do |visit|
+                      %tr
+                        %td
+                          = visit.browser
+                        %td
+                          = visit.device_type
+                        %td
+                          = visit.platform
+                        %td
+                          = l visit.start, format: :special
+                        %td
+                          = l visit.finish, format: :special unless visit.finish.nil?
+                        %td
+                          = visit.time
 
-
-  - if current_user.admin?
-    %h3
-      Archivos del usuario
-
-    .panel.panel-default
-      .panel-body
-        .table-responsive
-          %table.table.table-hover
-            %thead
-              %tr
-                %th
-                  Nombre de archivo
-                %th
-                  Tipo de archivo
-                %th
-                  Comentarios
-                %th
-                  Subido en
-                %th
-                  Fecha de modificación
-            %tbody
-              - @user.attachments.each do |attachment|
-                %tr
-                  %th
-                    = link_to attachment.display_name, attachment.file.url, target: :_blank
-                  %th
-                    = attachment.humanize_document_type
-                  %th
-                    = attachment.label
-                  %th
-                    = l attachment.created_at, format: :special
-                  %th
-                    = l attachment.updated_at, format: :special
-
-    %h3
-      Historial de sesiones
-
-    .panel.panel-default
-      .panel-body
-        .table-responsive
-          %table.table.table-hover
-            %thead
-              %tr
-                %th
-                  Navegador
-                %th
-                  Dispositivo
-                %th
-                  Sistema operativo
-                %th
-                  Inicio de sesión
-                %th
-                  Cierre de sesión
-                %th
-                  Duración de la sesión
-            %tbody
-              - @user.sessions.each do |visit|
-                %tr
-                  %td
-                    = visit.browser
-                  %td
-                    = visit.device_type
-                  %td
-                    = visit.platform
-                  %td
-                    = l visit.start, format: :special
-                  %td
-                    = l visit.finish, format: :special unless visit.finish.nil?
-                  %td
-                    = visit.time
-
-  %h3
-    Entregables
-  .panel.panel-default
-    .panel-body.table-responsive
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Nombre
-            %th
-              Archivo de ejemplo
-            %th
-              Tu entregable
-            %th
-              Estatus
-            %th
-              Comentarios
-        %tbody
-          - @delireverables.each do |delireverable|
-            - user_delireverable = delireverable.delireverable_users.find_by(user: @user)
-            %tr
-              %td
-                = delireverable.name
-              %td
-                = link_to 'Descargar', delireverable.file.url, target: '_blank'
-              %td
-                - if user_delireverable
-                  = link_to 'Descargar', user_delireverable.file.url, target: '_blank'
-                - else
-                  N/A
-              %td
-                - if user_delireverable
-                  = user_delireverable.huminize_status
-                - else
-                  Sin entregar
-              %td
-                - if user_delireverable
-                  = user_delireverable.comments ? user_delireverable.comments : "N/A"
-                - else
-                  N/A
 
 #alert-ra-warning.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
@@ -345,3 +501,17 @@
       setTimeout(function(){$("#alert-ra-warning").css('display','none');},4000);
     });
   });
+
+  function openTab(evt, tabNumber) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabNumber).style.display = "block";
+    evt.currentTarget.className += " active";
+  };

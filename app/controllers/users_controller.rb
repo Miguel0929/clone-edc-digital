@@ -97,6 +97,9 @@ class UsersController < ApplicationController
     @delireverables = Delireverable.joins(delireverable_package: [:groups])
                                     .where('groups.id = ?', @user.group.id)
                                     .order(position: :asc) rescue []
+    @refilables = TemplateRefilable.joins(:groups)
+                                    .where('groups.id = ?', @user.group.id)
+                                    .order(position: :asc) rescue []
   end
 
   def edit
