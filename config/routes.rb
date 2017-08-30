@@ -207,6 +207,7 @@ Rails.application.routes.draw do
       end
       member do
         get :analytics_quiz
+        get :summary
       end
 
       resources :delireverable_users, only: [:edit, :update]

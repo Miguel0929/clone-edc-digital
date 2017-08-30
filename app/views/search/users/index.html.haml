@@ -88,6 +88,9 @@
                         = link_to mentor_student_path(user) do
                           %i.fa.fa-eye
                           Ver información
+                        %sup
+                          = link_to summary_mentor_student_path(user),class: "p-l-5" do
+                            %i.fa.fa-bolt
                     - if current_user.admin?
                       %li
                         = link_to edit_user_path(user) do
