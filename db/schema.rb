@@ -388,6 +388,7 @@ ActiveRecord::Schema.define(version: 20170811192457) do
   create_table "mentor_helps", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "sender"
   end
 
   create_table "notifications", force: :cascade do |t|

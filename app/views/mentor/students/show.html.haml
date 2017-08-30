@@ -114,6 +114,11 @@
                       %td{:width => "25%"} Nombre
                       %td
                         = @user.name
+                        %sup
+                          = link_to summary_mentor_student_path(@user),class: "p-l-5" do
+                            (
+                            %i.fa.fa-bolt
+                            VER RESUMEN )
                     /%tr.odd.gradeX
                     /%td{:width => "25%"} Estatus de evaluación
                     /%td

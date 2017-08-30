@@ -167,6 +167,7 @@ Rails.application.routes.draw do
     member do
       get :analytics_quiz
       get :change_state
+      get :summary
     end
 
     resources :programs, only: [] do
@@ -216,6 +217,7 @@ Rails.application.routes.draw do
       end
       member do
         get :analytics_quiz
+        get :summary
       end
 
       resources :delireverable_users, only: [:edit, :update]
