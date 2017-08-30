@@ -283,7 +283,6 @@ a.unseen-link:hover {
 .bottom-line{
 	border-bottom: 1px solid rgba(0,0,0,0.1);
 }
-
 .summary-background-img{
 	background-image: url('images/darkwood.jpg');
 }
@@ -299,7 +298,4 @@ a.unseen-link:hover {
 	z-index: 0;
 	opacity: .8;
 	padding: 20px 20px 20px 20px;
-}
-.white-shadow{
-	-webkit-text-stroke: 1px white;
 }
