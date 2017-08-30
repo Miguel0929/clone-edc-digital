@@ -83,6 +83,11 @@
                       %td{:width => "25%"} Nombre
                       %td
                         = @user.name
+                        %sup
+                          = link_to summary_user_path(@user),class: "p-l-5" do
+                            (
+                            %i.fa.fa-bolt
+                            VER RESUMEN )
                     /- if current_user.admin?
                     /  %tr.odd.gradeX
                     /    %td{:width => "25%"} Estatus de evaluación
