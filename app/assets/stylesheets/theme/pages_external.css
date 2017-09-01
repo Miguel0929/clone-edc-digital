@@ -18,6 +18,12 @@ a.evaluation-nav-link {
 a.evaluation-nav-link:hover {
 	color: #6DC0F9;
 }
+a.swal-close {
+	color: #626262;
+}
+a.swal-close:hover {
+	color: #CD4945;
+}
 .p-r-12 {
 	padding-right: 12px;
 }
