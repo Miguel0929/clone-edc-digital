@@ -84,9 +84,9 @@
                 .col-sm-11
                   .small.p-b-5
                     %span.small-text Promedio contestado: 
-                    %span.text-success.font-montserrat.small-text #{current_stats.average_progress.ceil}%
+                    %span.text-success.font-montserrat.small-text #{current_stats.average_progress.ceil unless current_stats.average_progress.nil?}%
                   .progress.progress-small.m-b-5
-                    .progress-bar.progress-bar-primary{:style => "width: #{current_stats.average_progress.ceil}%"}
+                    .progress-bar.progress-bar-primary{:style => "width: #{current_stats.average_progress.ceil unless current_stats.average_progress.nil? }%"}
   - else 
     .panel.panel-default
       .panel-body
