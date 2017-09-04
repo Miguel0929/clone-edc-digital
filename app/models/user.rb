@@ -186,8 +186,8 @@ class User < ActiveRecord::Base
   end
 
   def percentage_questions_answered_for(program)
-    total = program.chapters.joins(:questions).select('questions.*').count
-    (questions_answered_for(program) * 100) / total rescue 0
+    total_questions = program.chapters.joins(:questions).select('questions.*').count
+    (questions_answered_for(program) * 100) / total_questions rescue 0
   end
 
   def answered_questions_percentage
@@ -313,6 +313,25 @@ class User < ActiveRecord::Base
     last_stat = self.program_stats.sort_by{ |stat| [stat.updated_at].max}.last
     last_program = Program.where(id: last_stat.program_id).last
   end
+
+  def has_answer_refilable?(template_refilable)
+    !template_refilable.refilables.find_by(user: self).nil?
+  end
+  def has_sent_delireverables?(delireverable_package)
+    entregables=delireverable_package.delireverables
+    respuestas=[]
+    entregables.each do |entregable|
+      unless entregable.delireverable_users.find_by(user: self).nil?
+        respuestas.push(entregable.delireverable_users.find_by(user: self))
+      end  
+    end
+   
+    if respuestas.length>0
+      return true
+    else
+      return false     
+    end  
+  end 
 
   private
 

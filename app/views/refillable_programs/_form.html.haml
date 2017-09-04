@@ -1,0 +1,8 @@
+.well
+	= form_tag(chapter_refillable_programs_path, method: :post) do 
+		.form-group
+			%label.control-label{for: :quiz_id} Rellenable:
+			= select_tag "template_refilable_id", options_from_collection_for_select(TemplateRefilable.ruta, "id", "name"), class: 'form-control', required: "required", prompt: "Selecciona el rellenable"
+		.form-group
+			= link_to 'Cancelar',  program_path(@chapter.program), class: 'btn btn-danger'	
+			= submit_tag "Guardar", class: 'btn btn-default'

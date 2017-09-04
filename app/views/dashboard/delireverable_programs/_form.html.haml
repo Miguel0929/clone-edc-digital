@@ -1,0 +1,46 @@
+.container-fluid.container-fixed-lg
+  = form_tag(dashboard_chapter_content_delireverable_programs_path, method: :post, multipart: true) do 
+    .panel.panel-default
+      .panel-heading
+        .panel-title.question-title
+          = @chapter_content.chapter.name
+        .clearfix
+      .panel-body
+        .row
+          .col-md-10.col-md-offset-1
+            .padding-30.p-b-100
+              %i.fa.fa-tasks.fa-2x.hint-text
+              .pull-right
+                /- unless @question.support_image.nil?
+                /  = image_tag(@question.support_image.url, class: 'img-responsive')
+              .clearfix
+              %h2
+                = @chapter_content.model.name
+                %table.table
+                  %thead
+                    %tr
+                      %th{width: "20%"}
+                        Nombre
+                      %th{width: "50%"}
+                        Descripcion
+                      %th{width: "15%"}
+                        Ejemplo
+                      %th{width: "15%"}
+                        Tu entregable       
+                  %tbody
+                    - @delireverables_package.delireverables.each do |delireverable|
+                      %tr
+                        %td
+                          = delireverable.name
+                        %td
+                          = delireverable.description
+                        %td
+                          =link_to delireverable.file_identifier, delireverable.file.url, class: "btn btn-link", target: "_blank"
+                        %td
+                          %input{type: "file", name: "delireverable_"+delireverable.id.to_s, id:"delireverable_"+delireverable.id.to_s, required: "required"}
+                          %input{type: "hidden", name: "package", id:"package", value: @delireverables_package.id}      
+
+              %p.small.hint-text.m-t-15
+                /= @question.support_text
+
+        = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content, answer: @answer, edit_mode: true }

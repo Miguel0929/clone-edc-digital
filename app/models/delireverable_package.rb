@@ -4,4 +4,27 @@ class DelireverablePackage < ActiveRecord::Base
   has_many :delireverables
 
   validates_presence_of :name, :description
+  enum tipo: [ :ruta, :complementario ]
+
+  def self.tipo_type_options
+    [['Ruta de aprendizaje', 'ruta'], ['Complementario', 'complementario']]
+  end
+
+  def delireverables_sent(user)
+    entregables=self.delireverables
+    respuestas=[]
+    entregables.each do |entregable|
+      unless entregable.delireverable_users.find_by(user: user).nil?
+        respuestas.push(entregable.delireverable_users.find_by(user: user))
+      end  
+    end
+   
+    if respuestas.length>0
+      return true
+    else
+      return false     
+    end   
+  end 
+
+    
 end

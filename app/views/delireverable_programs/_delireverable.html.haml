@@ -1,0 +1,11 @@
+%span.handle-sort
+  [mover]
+Entregable:   
+= delireverable.model.name
+
+.pull-right
+  %span.option
+    = link_to 'Editar',  delireverable_package_delireverables_path(delireverable.model)
+  |
+  %span.option
+    = link_to 'Eliminar',  chapter_refillable_program_path(chapter, delireverable), method: :delete, data: {confirm: '¿Estás seguro?'} 

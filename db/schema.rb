@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170823173242) do
+ActiveRecord::Schema.define(version: 20170829163346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -137,6 +137,7 @@ ActiveRecord::Schema.define(version: 20170823173242) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "tipo"
   end
 
   create_table "delireverable_users", force: :cascade do |t|
@@ -526,6 +527,7 @@ ActiveRecord::Schema.define(version: 20170823173242) do
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "tipo"
   end
 
   create_table "ratings", force: :cascade do |t|
@@ -649,6 +651,7 @@ ActiveRecord::Schema.define(version: 20170823173242) do
     t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "tipo"
   end
 
   create_table "trackers", force: :cascade do |t|
@@ -677,12 +680,12 @@ ActiveRecord::Schema.define(version: 20170823173242) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                             default: "",    null: false
-    t.string   "encrypted_password",                default: "",    null: false
+    t.string   "email",                             default: "",                                                                              null: false
+    t.string   "encrypted_password",                default: "",                                                                              null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                     default: 0,     null: false
+    t.integer  "sign_in_count",                     default: 0,                                                                               null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -690,8 +693,8 @@ ActiveRecord::Schema.define(version: 20170823173242) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "phone_number"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                                                                                                  null: false
+    t.datetime "updated_at",                                                                                                                  null: false
     t.string   "invitation_token"
     t.datetime "invitation_created_at"
     t.datetime "invitation_sent_at"
@@ -718,6 +721,7 @@ ActiveRecord::Schema.define(version: 20170823173242) do
     t.float    "user_progress",                     default: 0.0
     t.float    "user_seen",                         default: 0.0
     t.boolean  "check_ready"
+    t.text     "tour_trigger",                      default: "---\n:first: true\n:second: true\n:third: true\n:fourth: true\n:fifth: true\n"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree

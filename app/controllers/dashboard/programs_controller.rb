@@ -109,6 +109,12 @@ class Dashboard::ProgramsController < ApplicationController
       
       if last_content.coursable_type == "Lesson"
         last_text = last_content.model.identifier
+      elsif last_content.coursable_type == "Quiz"
+        last_text = last_content.model.name
+      elsif last_content.coursable_type == "TemplateRefilable"
+        last_text = last_content.model.name
+      elsif last_content.coursable_type == "DelireverablePackage"  
+        last_text = last_content.model.name
       else
         last_text = last_content.model.question_text
       end

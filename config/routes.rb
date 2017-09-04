@@ -66,6 +66,24 @@ Rails.application.routes.draw do
         post :clone
       end
     end
+
+    resources :quiz_programs, except: [:index, :show] do
+      member do
+        post :clone
+      end
+    end
+    
+    resources :refillable_programs, except: [:index, :show] do
+      member do
+        post :clone
+      end
+    end
+
+    resources :delireverable_programs, except: [:index, :show] do
+      member do
+        post :clone
+      end
+    end
   end
 
 
@@ -109,6 +127,21 @@ Rails.application.routes.draw do
           get :router
         end
       end
+      resources :delireverable_programs, only: [:show, :new, :create, :update, :edit] do
+        collection do
+          get :router
+        end
+      end
+      resources :refilable_programs, only: [:show, :new, :create, :update, :edit] do
+        collection do
+          get :router
+        end
+      end
+      resources :quiz_programs, only: [:show, :new, :create, :update, :edit] do
+        collection do
+          get :router
+        end
+      end
       post "mailer_interno"
       post "rank"
     end
@@ -136,7 +169,7 @@ Rails.application.routes.draw do
     end
 
     resources :template_refilables, only: [:index] do
-      resources :refilables, only: [:new, :create, :show, :edit, :update,]
+      resources :refilables, only: [:new, :create, :show, :edit, :update]
     end
   end
 

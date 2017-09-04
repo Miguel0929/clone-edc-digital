@@ -5,7 +5,7 @@
   %button.btn.btn-default#addRefilable
     Agregar rellenable
   = f.text_area :content, ckeditor: { language: 'es'}, id: 'ckeditor', label: 'Contenido'
-
+  = f.select :tipo, TemplateRefilable.tipo_type_options, {prompt: "Selecciona el tipo de rellenable", label: 'Tipo' }
   = f.select :group_ids,  Group.all.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Grupos'}, multiple: 'multiple'
   .actions
     = f.submit 'Guardar'

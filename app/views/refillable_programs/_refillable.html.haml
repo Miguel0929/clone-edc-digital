@@ -1,0 +1,11 @@
+%span.handle-sort
+  [mover]
+Rellenable:   
+= refillable.model.name
+
+.pull-right
+  %span.option
+    = link_to 'Editar', edit_template_refilable_path(refillable.model)
+  |
+  %span.option
+    = link_to 'Eliminar',  chapter_refillable_program_path(chapter, refillable), method: :delete, data: {confirm: '¿Estás seguro?'} 

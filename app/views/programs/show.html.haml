@@ -56,10 +56,23 @@
                             - elsif content.coursable_type == 'Question'
                               .well{id: "chapter_content_#{content.id}"}
                                 = render partial: 'questions/question', locals: { question: content.model, chapter: chapter}
+                            - elsif content.coursable_type == 'Quiz'
+                              .well{id: "chapter_content_#{content.id}"}
+                                = render partial: 'quiz_programs/quiz', locals: { quiz: content, chapter: chapter}
+                            - elsif content.coursable_type == 'TemplateRefilable'
+                              .well{id: "chapter_content_#{content.id}"}
+                                = render partial: 'refillable_programs/refillable', locals: { refillable: content, chapter: chapter}
+                            - elsif content.coursable_type == 'DelireverablePackage'
+                              .well{id: "chapter_content_#{content.id}"}
+                                = render partial: 'delireverable_programs/delireverable', locals: { delireverable: content, chapter: chapter}         
+    
 
                       .text-center
                         = link_to 'Agregar contenido', new_chapter_lesson_path(chapter), class: 'btn btn-success'
                         = link_to 'Agregar pregunta', new_chapter_question_path(chapter), class: 'btn btn-primary'
+                        = link_to 'Agregar examen', new_chapter_quiz_program_path(chapter), class: 'btn btn-success'
+                        = link_to 'Agregar rellenable', new_chapter_refillable_program_path(chapter), class: 'btn btn-primary'
+                        = link_to 'Agregar entregable', new_chapter_delireverable_program_path(chapter), class: 'btn btn-success'
           .row.p-r-20.p-l-20
             - if @pending_content_notifications.count > 0
               = link_to  notify_changes_program_path,:method => 'post', class: 'btn btn-success pull-right m-l-10' do

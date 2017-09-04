@@ -4,6 +4,8 @@ class Quiz < ActiveRecord::Base
   has_many :groups, through: :group_quizzes, dependent: :nullify
   validates_presence_of :name, :description
 
+  enum tipo: [ :ruta, :complementario]
+
   def average(user)
     total = 0
     quiz_questions.each do |question|
@@ -22,6 +24,10 @@ class Quiz < ActiveRecord::Base
       end
     end
     return total
+  end
+
+  def self.tipo_type_options
+    [['Ruta de aprendizaje', 'ruta'], ['Complementario', 'complementario']]
   end
 
   def answered(user)

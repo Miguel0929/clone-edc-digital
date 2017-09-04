@@ -1,0 +1,12 @@
+- content_for :title  do
+  Agregar paquete de entregables - EDCdigital
+
+.container
+  %h2.text-center
+    Agregar entregable
+    
+  = render 'form'
+
+  .pull-right
+    = link_to "Crea entregables nuevos",  new_delireverable_package_path,  {class: "btn btn-primary", target: "_blank"}
+

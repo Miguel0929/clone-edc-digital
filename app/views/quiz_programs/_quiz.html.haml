@@ -1,0 +1,11 @@
+%span.handle-sort
+  [mover]
+Examen:   
+= quiz.model.name
+
+.pull-right
+  %span.option
+    = link_to 'Editar', quiz_path(quiz.model)
+  |
+  %span.option
+    = link_to 'Eliminar', chapter_quiz_program_path(chapter, quiz), method: :delete, data: {confirm: '¿Estás seguro?'} 

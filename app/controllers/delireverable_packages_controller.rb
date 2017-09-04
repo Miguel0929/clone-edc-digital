@@ -54,7 +54,7 @@ class DelireverablePackagesController < ApplicationController
 
   private
   def delireverable_package_params
-    params.require(:delireverable_package).permit(:name, :description, group_ids: [])
+    params.require(:delireverable_package).permit(:name, :description, :tipo, group_ids: [])
   end
 
   def set_delireverable_package

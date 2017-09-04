@@ -58,7 +58,7 @@ class QuizzesController < ApplicationController
       format.html { redirect_to quizzes_url, notice: 'Quiz eliminado exitosamente.' }
       format.json { head :no_content }
     end
-  end
+  end  
 
   private
     def set_quiz
@@ -66,6 +66,6 @@ class QuizzesController < ApplicationController
     end
 
     def quiz_params
-      params.require(:quiz).permit(:name, :description, group_ids: [])
+      params.require(:quiz).permit(:name, :description, :tipo, group_ids: [])
     end
 end
