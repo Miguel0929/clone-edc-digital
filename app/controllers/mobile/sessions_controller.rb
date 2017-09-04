@@ -11,7 +11,7 @@ class Mobile::SessionsController < Mobile::BaseController
   end
 
   private
-  def generate_authentication_token
+  def generate_authentication_token(user)
     if user.authentication_token.blank?
       user.authentication_token = loop do
         token = Devise.friendly_token
