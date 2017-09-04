@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  # Endpoints for mobile application
+  namespace :mobile do
+    resources :sessions, only: [:create]
+    resources :programs, only: [:index]
+  end
 
   post 'ratings/vote_chapter_content'
   post 'ratings/vote_program'

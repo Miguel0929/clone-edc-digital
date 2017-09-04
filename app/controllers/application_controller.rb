@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:invite).concat [:role, :group_id]
     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :phone_number, :email, :password, :password_confirmation, :gender, :bio, :state, :city, :profile_picture, :industry_id])
   end
-  
+
   def banned?
     if current_user.present? && current_user.banned?
       sign_out current_user
