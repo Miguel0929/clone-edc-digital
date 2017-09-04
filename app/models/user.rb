@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   has_many :shared_attachments
   has_many :chapter_content_rank
   has_many :quiz_answers
-  has_many :program_stats
+  has_many :program_stats, dependent: :destroy
   belongs_to :industry
   has_many :panel_notifications
 
@@ -64,20 +64,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def generate_authentication_token
-    if authentication_token.blank?
-      self.authentication_token = loop do
-        token = Devise.friendly_token
-        break token if token_suitable?(token)
-      end
-
-      self.save
-    end
-  end
-
-  def token_suitable?(token)
-    self.class.where(authentication_token: token).count == 0
-  end
 
   def self.students_table
 
