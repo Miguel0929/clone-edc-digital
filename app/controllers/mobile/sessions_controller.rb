@@ -1,6 +1,5 @@
-class Api::V1::StaticLoginController < Api::V1::BaseController
+class Mobile::SessionsController < Mobile::BaseController
   def create
-    binding.pry
     user = User.authenticate(params[:email], params[:password])
 
     if user

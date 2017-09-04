@@ -479,6 +479,10 @@ GEM
     sexp_processor (4.7.0)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
+    simple_token_authentication (1.15.1)
+      actionmailer (>= 3.2.6, < 6)
+      actionpack (>= 3.2.6, < 6)
+      devise (>= 3.2, < 6)
     simplecov (0.12.0)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
@@ -599,6 +603,7 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   sendgrid-ruby
   shoulda-matchers
+  simple_token_authentication (~> 1.0)
   simplecov
   spring
   sucker_punch (~> 2.0)
