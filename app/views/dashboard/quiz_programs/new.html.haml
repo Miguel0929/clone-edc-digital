@@ -1,0 +1,24 @@
+.container-fluid.container-fixed-lg
+  %h2
+    Examen: 
+    = @quiz.name
+  = form_tag dashboard_chapter_content_quiz_programs_path do  
+    -@answers.each_with_index do |answer, index|
+      = fields_for "answers[#{index}]", answer do |f| 
+        .panel.panel-default
+          .panel-heading
+            .panel-title.question-title
+              /= @quiz.name
+          .panel-body
+            .row
+              .col-md-10.col-md-offset-1
+                .padding-30.m-t-15.p-b-50
+                  %i.fa.fa-tasks.fa-2x.hint-text
+                  %h2
+                    = answer.quiz_question.question_text
+                  = f.hidden_field :user_id
+                  = f.hidden_field :quiz_question_id
+                  = render partial: "/dashboard/quiz_answers/inputs/#{answer.quiz_question.question_type}", locals: { disabled: false, f: f, question: answer.quiz_question, answers: answer, i: index, detail: false}
+                  = hidden_field_tag :quiz_id, @quiz.id
+    = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content, answer: @quiz, edit_mode: true }      
+

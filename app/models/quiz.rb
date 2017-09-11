@@ -34,4 +34,15 @@ class Quiz < ActiveRecord::Base
     ids = quiz_questions.map { |q| q.id }
     return QuizAnswer.where(quiz_question_id: ids, user_id: user.id).count
   end
+
+  def answered?(user)
+    ids = quiz_questions.map { |q| q.id }
+    respuestas = QuizAnswer.where(quiz_question_id: ids, user_id: user.id).count
+    preguntas=self.quiz_questions.count
+    if respuestas > 0 && preguntas != 0
+      return true
+    else
+      return false
+    end  
+  end  
 end

@@ -57,6 +57,29 @@
           = link_to edit_dashboard_chapter_content_answer_path(@chapter_content, @answer), class: 'btn btn-sm btn-primary btn-cons m-b-10', style: 'color:#fff;' do
             %i.fa.fa-edit
             %span.bold Editar respuesta
+    -elsif chapter_content.coursable_type == "Quiz"
+      .pull-right
+        - if (@chapter_content.model.answered?(current_user) == false && edit_mode == true) || (@chapter_content.model.answered?(current_user)  && edit_mode == true)
+          - if chapter_content.lower_item
+            %button.btn.btn-sm.btn-info.btn-cons.m-b-10.redirector{href: dashboard_chapter_content_path(chapter_content.lower_item)}
+              %span.bold Sólo continuar
+              %i.fa.fa-forward
+
+          - elsif chapter_content.chapter.program.next_chapter(chapter_content.chapter) && chapter_content.chapter.program.next_chapter(chapter_content.chapter).chapter_contents.first
+            %button.btn.btn-sm.btn-info.btn-cons.m-b-10.redirector{href: dashboard_chapter_content_path(chapter_content.chapter.program.next_chapter(chapter_content.chapter).chapter_contents.first)}
+              %span.bold Siguiente módulo
+              %i.fa.fa-forward
+          - else
+            %button.btn.btn-sm.btn-info.btn-cons.m-b-10.redirector{href: dashboard_program_path(chapter_content.chapter.program)}
+              %span.bold Volver al contenido del programa
+              %i.fa.fa-forward
+
+          %button#send-refilable.btn.btn-sm.btn-success.btn-cons.m-b-10
+            %i.fa.fa-save
+            %span.bold Continuar y enviar respuestas
+            %i.fa.fa-forward        
+
+
     -elsif chapter_content.coursable_type == "TemplateRefilable"
       .pull-right
         - if (@chapter_content.model.refilables.find_by(user: current_user).nil? == false && edit_mode == true) || (@chapter_content.model.refilables.find_by(user: current_user).nil?  && edit_mode == true)
@@ -76,13 +99,15 @@
 
           %button#send-refilable.btn.btn-sm.btn-success.btn-cons.m-b-10
             %i.fa.fa-save
-            %span.bold Continuar y enviar archivos
+            %span.bold Continuar y enviar respuestas
             %i.fa.fa-forward
 
         - elsif (@chapter_content.model.refilables.find_by(user: current_user).nil?  && edit_mode == false) || (@chapter_content.model.refilables.find_by(user: current_user).nil? == false && edit_mode == false)
           = link_to  edit_dashboard_chapter_content_refilable_program_path(@chapter_content, refilable), class: 'btn btn-sm btn-primary btn-cons m-b-10', style: 'color:#fff;' do
             %i.fa.fa-edit
-            %span.bold Editar respuesta        
+            %span.bold Editar respuesta 
+
+
     -elsif chapter_content.coursable_type == "DelireverablePackage"
       .pull-right
         - if (@delireverables_package.delireverables_sent(current_user) == false && edit_mode == true) || (@delireverables_package.delireverables_sent(current_user) && edit_mode == true)

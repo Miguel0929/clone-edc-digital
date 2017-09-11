@@ -331,7 +331,17 @@ class User < ActiveRecord::Base
     else
       return false     
     end  
-  end 
+  end
+  def has_answer_quiz?(quiz)
+    ids = quiz.quiz_questions.map { |q| q.id }
+    respuestas = QuizAnswer.where(quiz_question_id: ids, user_id: self.id).count
+    preguntas=quiz.quiz_questions.count
+    if respuestas > 0 && preguntas != 0
+      return true
+    else
+      return false
+    end  
+  end  
 
   private
 

@@ -5,6 +5,9 @@ class Chapter < ActiveRecord::Base
   has_many :chapter_contents, -> { order(position: :asc) }, dependent: :destroy
   has_many :lessons, :through => :chapter_contents, :source => :coursable, :source_type => 'Lesson', dependent: :destroy
   has_many :questions, :through => :chapter_contents, :source => :coursable, :source_type => 'Question', dependent: :destroy
+  has_many :quizzes, :through => :chapter_contents, :source => :coursable, :source_type => 'Quiz', dependent: :destroy
+  has_many :delireverable_packages, :through => :chapter_contents, :source => :coursable, :source_type => 'DelireverablePackage', dependent: :destroy
+  has_many :template_refilables, :through => :chapter_contents, :source => :coursable, :source_type => 'TemplateRefilable', dependent: :destroy
   has_many :evaluations, -> { order(position: :asc) }
   belongs_to :program
 
