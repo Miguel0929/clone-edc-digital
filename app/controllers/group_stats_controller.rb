@@ -21,7 +21,7 @@ class GroupStatsController < ApplicationController
   		av_answered = (answered.inject(0){ |sum, el| sum + el }.to_f / answered.size) rescue 0.0
   	end
 
-  	active_students = @group.students.count
+  	active_students = @group.active_students.count
   	total_unevaluated = evaluation.count("sin evaluar")
   	total_evaluated = evaluation.size - total_unevaluated
   	group_stats = GroupStat.find_by(group_id: @group.id)

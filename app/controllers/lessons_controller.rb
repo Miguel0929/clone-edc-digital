@@ -28,7 +28,7 @@ class LessonsController < ApplicationController
       @chapter.lessons << @lesson
       #NewContentNotificationJob.perform_async(@chapter.program,  dashboard_program_url(@chapter.program)) #Se llevó a método program#notify_changes
       QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "up-lesson-#{@lesson.id}")
-      redirect_to @chapter.program, notice: "Se creo exitosamente el contenido #{@lesson.identifier}"
+      redirect_to content_chapter_path(@chapter), notice: "Se creo exitosamente el contenido #{@lesson.identifier}"
     else
       render :new
     end
@@ -47,7 +47,7 @@ class LessonsController < ApplicationController
 
     if @lesson.update_attributes(lesson_params)
       QueueNotification.create(category: 3, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "edit-lesson-#{@lesson.id}")
-      redirect_to @chapter.program, notice: "Se actualizó exitosamente el contenido #{@lesson.identifier}"
+      redirect_to content_chapter_path(@chapter), notice: "Se actualizó exitosamente el contenido #{@lesson.identifier}"
     else
       render :edit
     end
@@ -70,7 +70,7 @@ class LessonsController < ApplicationController
       QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "down-lesson-#{@lesson.id}")
     end
 
-    redirect_to @chapter.program, notice: "Se eliminó exitosamente el contenido #{@lesson.identifier}"
+    redirect_to content_chapter_path(@chapter), notice: "Se eliminó exitosamente el contenido #{@lesson.identifier}"
   end
 
   def clone
@@ -78,7 +78,7 @@ class LessonsController < ApplicationController
 
     @chapter.lessons << lesson_clone
 
-    redirect_to @chapter.program, notice: "Se creo exitosamente el contenido #{@lesson.identifier}"
+    redirect_to content_chapter_path(@chapter), notice: "Se creo exitosamente el contenido #{@lesson.identifier}"
   end
 
   private

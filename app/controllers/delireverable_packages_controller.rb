@@ -1,5 +1,6 @@
 class DelireverablePackagesController < ApplicationController
   before_action :authenticate_user!
+  before_action :require_admin
   before_action :set_delireverable_package, only: [:edit, :update, :destroy]
 
   add_breadcrumb "EDCDIGITAL", :root_path

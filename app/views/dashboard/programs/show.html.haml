@@ -2,8 +2,8 @@
   Programas - EDCdigital
 
 .container-fluid.container-fixed-lg.top-container-padding.m-b-25
-  %section.demo-bg-section.p-b-0.p-t-45.panel-title-emprendimiento
-    .container
+  %section.demo-bg-section.p-b-0.p-t-45.panel-title-emprendimiento#tour-5
+    .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         %h5.block-title.hint-text.no-margin.text-white Programa de Aprendizaje
         .pull-right
@@ -95,13 +95,14 @@
       .panel.panel-transparent
         .panel-heading
           .panel-title
+            .red-spot#tour-6
             Detalles del contenido
         .panel-body
-          - @program.chapters.each do |chapter|
+          - @program.chapters.each_with_index do |chapter, index|
             - chapter_progress = chapter.get_chapter_progress(chapter, current_user)
             .sm-m-l-5.sm-m-r-5
               #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
-                .panel.panel-default
+                .panel.panel-default{id: "#{ index == 0 ? "tour-7" : "" }"}
                   .panel-heading.p-b-0{:role => "tab", :id=>"heading_#{chapter.id}"}
                     %h4.panel-title
                       %a{"aria-controls" => "collapse_#{chapter.id}", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse_#{chapter.id}"}
@@ -184,7 +185,6 @@
                                   %span.label{class: "#{current_user.has_sent_delireverables?(content.model) ? 'label-info p-r-17 p-l-17 m-t-20' : 'label-master m-t-20'}"}
                                     = current_user.has_sent_delireverables?(content.model) ? 'Enviado' : 'No enviando'            
 
-
 :javascript
   var frm = $('#form_rank');
   $('.rank').click(function() {
@@ -212,3 +212,6 @@
           div.style.display = 'none';
       }
   };
+
+- if @tour_trigger[:second]
+  = javascript_include_tag '/javascripts/lib/bootstraptour/tour_second_step', 'data-turbolinks-track' => false

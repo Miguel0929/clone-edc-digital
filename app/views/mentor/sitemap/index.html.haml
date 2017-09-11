@@ -1,0 +1,279 @@
+- content_for :title do
+	Mapa del sitio - EDCdigital
+
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+	%section.demo-bg-section.p-b-15.p-t-30.panel-title-perfil
+		.container
+			.md-p-l-20.md-p-r-20.xs-no-padding
+				.row.col-md-12
+					.col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+						%h2.text-white 
+							Mapa del sitio
+					.col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+						%h5.text-white
+							Encuentra lo que necesites usando el menú de EDC Digital
+						%p.m-b-25.text-white
+							Aquí encontrarás una breve descripción sobre cada sección de la plataforma
+
+.content.p-t-0.p-b-30
+	.container-fluid.sm-p-l-5
+		%h4.text-primary.m-b-20
+			MENÚ SUPERIOR >
+		.row.p-r-20.p-l-20
+			.col-sm-4
+				.timeline-block.m-b-10
+					.timeline-point.sitemap.complete
+						%i.fa.fa-globe
+					.timeline-content.sitemap
+						.social-card.share.full-width
+							.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
+							.card-header.clearfix
+								= link_to dashboard_notifications_path do
+									%h5 Notificaciones
+							.card-description
+								%p
+									Entérate de los últimos cambios en el contenido e información de la plataforma. 
+								%p
+									= link_to dashboard_notifications_path do
+										Visitar sección
+										%i.fa.fa-angle-double-right
+			.col-sm-4
+				.timeline-block.m-b-10
+					.timeline-point.sitemap.complete
+						%i.fa.fa-send{style: "left: 16px;"}
+					.timeline-content.sitemap
+						.social-card.share.full-width
+							.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
+							.card-header.clearfix
+								= link_to mailbox_inbox_path do
+									%h5 Mensajes
+							.card-description
+								%p
+									Envía y recibe mensajes, dudas y archivos con los profesores vinculados a EDC-Digital de tu Universidad. 
+								%p
+									= link_to mailbox_inbox_path do
+										Visitar sección
+										%i.fa.fa-angle-double-right
+			.col-sm-4
+				.timeline-block.m-b-10
+					.timeline-point.sitemap.complete
+						%i.fa.fa-question-circle{style: "left: 19px;"}
+					.timeline-content.sitemap
+						.social-card.share.full-width
+							.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
+							.card-header.clearfix
+								= link_to frequent_questions_path do
+									%h5 Preguntas frecuentes
+							.card-description
+								%p
+									Encuentra las respuestas a las preguntas más frecuentes hechas por los usuarios sobre el uso de la plataforma EDC-Digital. 
+								%p
+									= link_to frequent_questions_path do
+										Visitar sección
+										%i.fa.fa-angle-double-right
+
+.content.p-t-30.p-b-0
+	.container-fluid.sm-p-l-5.bg-master-lighter.p-t-30
+		%h4.text-primary.m-b-0
+			MENÚ LATERAL >
+		.row.p-r-20.p-l-20
+			- group_one = current_user.groups.first
+			- program_one = group_one.programs.first
+			- student_one = group_one.students.first
+			.col-sm-4
+				.row.m-t-40.p-r-40
+					= link_to dashboard_programs_path, class: "pump-link-title" do
+						.card.social-card.share.full-width.sitemap
+							.card-header.clearfix
+								.user-pic
+									%i.fa.fa-newspaper-o
+								%h5 
+									Programas
+				.row.p-r-30{style: "position: relative; top: -22px;"}
+					.timeline-container.sitemap.top-circle
+						%section.timeline.sitemap
+							.timeline-block
+								.timeline-point.sitemap.success
+									%i.fa.fa-list
+								.timeline-content.sitemap
+									.social-card.share.full-width
+										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
+										.card-header.clearfix
+											= link_to dashboard_programs_path do
+												%h5 Programas
+										.card-description
+											%p
+												Accede al contenido de todos los programas disponibles en EDC-Digital como un alumno. 
+											%p
+												= link_to dashboard_programs_path do
+													Visitar sección
+													%i.fa.fa-angle-double-right
+			.col-sm-4
+				= link_to mentor_groups_path, class: "pump-link-title" do
+					.row.m-t-40.p-r-40
+						.card.social-card.share.full-width.sitemap
+							.card-header.clearfix
+								.user-pic
+									%i.fa.fa-users
+								%h5 Grupos
+				.row.p-r-30{style: "position: relative; top: -22px;"}
+					.timeline-container.sitemap.top-circle
+						%section.timeline.sitemap
+							.timeline-block
+								.timeline-point.sitemap.success
+									%i.fa.fa-plus-square
+								.timeline-content.sitemap
+									.social-card.share.full-width
+										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
+										.card-header.clearfix
+											= link_to mentor_group_path(group_one.id) do
+												%h5 Detalle de grupo
+										.card-description
+											%p
+												Monitorea el avance de los grupos a los que estás vinculado, así como el avance de cada alumno de tus grupos
+											%p
+												= link_to mentor_group_path(group_one) do
+													Ver ejemplo
+													%i.fa.fa-angle-double-right
+							.timeline-block
+								.timeline-point.sitemap.success
+									%i.fa.fa-check-square-o
+								.timeline-content.sitemap
+									.social-card.share.full-width
+										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
+										.card-header.clearfix
+											= link_to :controller => "mentor/evaluations", :action => "index", :program_id => program_one.id, :user_id => student_one.id do
+												%h5 Rúbrica de evaluación
+										.card-description
+											%p
+												Evalúa el progreso de tus alumnos basándote en una serie de criterios para calificar las respuestas de los estudiantes en los cursos respectivos
+											%p
+												= link_to :controller => "mentor/evaluations", :action => "index", :program_id => program_one.id, :user_id => student_one.id do
+													Ver ejemplo
+													%i.fa.fa-angle-double-right
+			.col-sm-4
+				.row.m-t-40.p-r-40
+					= link_to mentor_students_path, class: "pump-link-title" do
+						.card.social-card.share.full-width.sitemap
+							.card-header.clearfix
+								.user-pic
+									%i.fa.fa-book
+								%h5 Estudiantes
+				.row.p-r-30{style: "position: relative; top: -22px;"}
+					.timeline-container.sitemap.top-circle
+						%section.timeline.sitemap
+							.timeline-block
+								.timeline-point.sitemap.success
+									%i.fa.fa-user{style: "left: 19.5px;"}
+								.timeline-content.sitemap
+									.social-card.share.full-width
+										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
+										.card-header.clearfix
+											= link_to mentor_students_path do
+												%h5 Alumnos bajo tu tutela
+										.card-description
+											%p
+												Accede a la lista completa de los estudiantes que son asesorados por ti. Monitorea los avances totales y específicos de cada curso del estudiante
+											%p
+												= link_to mentor_students_path do
+													Visitar sección
+													%i.fa.fa-angle-double-right
+							.timeline-block
+								.timeline-point.sitemap.success
+									%i.fa.fa-search
+								.timeline-content.sitemap
+									.social-card.share.full-width
+										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
+										.card-header.clearfix
+											= link_to mentor_student_path(student_one.id) do
+												%h5 Detalle de alumno
+										.card-description
+											%p
+												Accede a la información completa de cada alumno. Evalúa su progreso dentro de un programa o un módulo en específico basado en las rúbricas de evaluación
+											%p
+												= link_to mentor_student_path(student_one.id) do
+													Ver ejemplo
+													%i.fa.fa-angle-double-right
+		.row.p-r-20.p-l-20
+			.col-sm-4
+				.row.m-t-40.p-r-40
+					= link_to progress_panel_index_path, class: "pump-link-title" do
+						.card.social-card.share.full-width.sitemap
+							.card-header.clearfix
+								.user-pic
+									%i.fa.fa-line-chart
+								%h5 Panel de progreso
+				.row.p-r-30{style: "position: relative; top: -22px;"}
+					.timeline-container.sitemap.top-circle
+						%section.timeline.sitemap
+							.timeline-block
+								.timeline-point.sitemap.success
+									%i.fa.fa-line-chart{style: "font-weight: bold;"}
+								.timeline-content.sitemap
+									.social-card.share.full-width
+										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
+										.card-header.clearfix
+											= link_to progress_panel_index_path do
+												%h5 Panel de progreso
+										.card-description
+											%p
+												Explora el progreso global de los alumnos en los cursos de la plataforma. Puedes ver la información de avance de grupos y cursos en esta sección
+											%p
+												= link_to progress_panel_index_path do
+													Visitar sección
+													%i.fa.fa-angle-double-right
+			.col-sm-4
+				.row.m-t-40.p-r-40
+					= link_to mentor_shared_group_attachments_path, class: "pump-link-title" do
+						.card.social-card.share.full-width.sitemap
+							.card-header.clearfix
+								.user-pic
+									%i.fa.fa-file
+								%h5 Archivos compartidos
+				.row.p-r-30{style: "position: relative; top: -22px;"}
+					.timeline-container.sitemap.top-circle
+						%section.timeline.sitemap
+							.timeline-block
+								.timeline-point.sitemap.success
+									%i.fa.fa-file{style: "left: 19.5px;"}
+								.timeline-content.sitemap
+									.social-card.share.full-width
+										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
+										.card-header.clearfix
+											= link_to  mentor_shared_group_attachments_path  do
+												%h5 Archivos compartidos
+										.card-description
+											%p
+												Sube y comparte archivos de interés con tus alumnos, asignándolos a los diferentes grupos con los que estás vinculado 
+											%p
+												= link_to mentor_shared_group_attachments_path do
+													Visitar sección
+													%i.fa.fa-angle-double-right
+			.col-sm-4
+				.row.m-t-40.p-r-40
+					= link_to mailbox_inbox_path, class: "pump-link-title" do
+						.card.social-card.share.full-width.sitemap
+							.card-header.clearfix
+								.user-pic
+									%i.fa.fa-comment
+								%h5 Mensajes
+				.row.p-r-30{style: "position: relative; top: -22px;"}
+					.timeline-container.sitemap.top-circle
+						%section.timeline.sitemap
+							.timeline-block
+								.timeline-point.sitemap.success
+									%i.fa.fa-comment
+								.timeline-content.sitemap
+									.social-card.share.full-width
+										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
+										.card-header.clearfix
+											= link_to mailbox_inbox_path do
+												%h5 Mensajes
+										.card-description
+											%p
+												Envía y recibe mensajes en contacto con tus estudiantes. Comparte archivos de interés con tus alumnos para mejorar tu comunicación como profesor
+											%p
+												= link_to mailbox_inbox_path do
+													Visitar sección
+													%i.fa.fa-angle-double-right
+

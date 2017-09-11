@@ -2,14 +2,18 @@ a.pump-link {
 	color: #626262;
 }
 a.pump-link:hover {
-	//text-decoration: underline;
+	color: #48b0f7;
+}
+a.pump-link-title {
+	color: #2c2c2c;
+}
+a.pump-link-title:hover {
 	color: #48b0f7;
 }
 a.redish-link {
 	color: #CD4945;
 }
 a.redish-link:hover {
-	//text-decoration: underline;
 	color: #F77975;
 }
 a.evaluation-nav-link {
@@ -17,6 +21,12 @@ a.evaluation-nav-link {
 }
 a.evaluation-nav-link:hover {
 	color: #6DC0F9;
+}
+a.swal-close {
+	color: #626262;
+}
+a.swal-close:hover {
+	color: #CD4945;
 }
 .p-r-12 {
 	padding-right: 12px;
@@ -38,6 +48,14 @@ a.evaluation-nav-link:hover {
 }
 .m-t-18 {
   margin-top: 18px;
+}
+.p-r-l-20 {
+	padding-right: 20.5px;
+	padding-left: 20.5px;
+}
+.p-r-l-17 {
+	padding-right: 17.5px;
+	padding-left: 17.5px;
 }
 .subtitle-module-text {
   opacity: .7;
@@ -67,6 +85,12 @@ a.evaluation-nav-link:hover {
 .p-sides-14-2{
 	padding-left: 14.57px;
 	padding-right: 14.57px;
+}
+.flag-text-size{
+	font-size: 1.1em;
+}
+.name-text-size{
+	font-size: 1.6em;
 }
 .text-overflow p{
 	display: none;
@@ -266,5 +290,75 @@ a.unseen-link:hover {
 	border-right: 20px solid #c2e5fc; 
 	border-bottom: 10px solid transparent; 
 }
-
-
+.card.share.sitemap .card-header {
+  padding: 15px 15px 12px;
+  border-bottom: 0.5px solid #e6e6e6;
+}
+.card.share.sitemap .card-header h5 {
+  margin-top: 0px;
+}
+.red-spot:before {
+  content: ' \25CF';
+  font-size: 10px;
+  color: transparent;
+}
+.delete-rubrics{
+	position: relative;
+	top: 7px;
+}
+.modules-heading-card{
+	padding: 10px 20px 0px 20px;
+}
+.modules-heading-body{
+	padding: 0px 20px 10px 20px;
+}
+.modules-heading-actions{
+	padding: 10px 10px 10px 10px;
+}
+.modules-menu-list li {
+	display: inline;
+	padding-right: 10px;
+}
+.bottom-line{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.refilable-input{
+	display: inline-block;
+	width: 200px;
+	position: relative;
+	min-height: 27px;
+	height: 27px;
+	line-height: 8px;
+	top: -2px;
+	margin: 5px 5px 5px 5px;
+	overflow:auto;
+	white-space: nowrap;
+}
+.refilable-show{
+	display: inline-block;
+	width: 150px;	
+}
+.present-answer{
+	color: #10CFBD;
+	font-weight: bold;
+}
+.no-answer{
+	color: #F55753;
+	font-weight: bold;
+}
+.summary-background-img{
+	background-image: url('images/darkwood.jpg');
+}
+.widget-1-straight{
+	background-image: url("/assets/darkwood.jpg");
+	background-size: cover;
+	content: " ";
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	position: absolute;
+	z-index: 0;
+	opacity: .8;
+	padding: 20px 20px 20px 20px;
+}

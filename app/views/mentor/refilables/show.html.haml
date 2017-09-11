@@ -1,11 +1,60 @@
+- content_for :title  do
+  Ver rellenable - EDCdigital
+
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-recursos
+    .container-fluid
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Ver rellenable
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            .m-t-20
+              %span.text-white.flag-text-size.p-r-10
+                Rellenable:
+              %span.text-white.name-text-size
+                = @refilable.template_refilable.name
+
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
-      %h2
-        = @refilable.template_refilable.name
-      %p
-        = @refilable.template_refilable.description
+      .tab-content
+        #tab1.tab-pane.padding-20.sm-no-padding.active.slide-left
+          .row.row-same-height
+            .col-md-4.b-r.b-dashed.b-grey.sm-b-b
+              .p-r-30.p-l-30.p-b-30.p-t-15.sm-padding-5.sm-m-t-15
+                %i.fa.fa-eye.fa-2x.hint-text
+                .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+                  = @refilable.template_refilable.name
+                %p
+                  = @refilable.template_refilable.description
+                - if current_user.admin?
+                  = link_to user_path(@user) do
+                    %i.fa.fa-arrow-left
+                    Regresar al perfil del estudiante
+                - if current_user.mentor?
+                  = link_to mentor_student_path(@user) do
+                    %i.fa.fa-arrow-left
+                    Regresar al perfil del estudiante
+            .col-md-7
+              .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
+                .table-responsive.table-invoice
+                  %table.table.m-t-0
+                    %thead
+                      %tr
+                        %th 
+                          Texto del rellenable
+                          %p.small.m-b-0
+                            Las respuestas del estudiante están resaltadas en verde.
+                    %tbody
+                      %tr
+                        %td.p-b-30
+                          #refilable-content-template
+                            = raw remove_class(replace_fillable(@refilable.content))
 
-      .col-md-10.col-md-offset-1.well
-        #refilable-content-template
-          = raw remove_class(replace_fillable(@refilable.content))
+:javascript
+  $(document).on('turbolinks:load', function(){
+    $('.refilable-edit').removeClass('form-control refilable-input');
+    $('.no-answer').text(' (sin respuesta) ');
+  });

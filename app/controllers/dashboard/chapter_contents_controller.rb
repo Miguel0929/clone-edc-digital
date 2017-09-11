@@ -5,7 +5,7 @@ class Dashboard::ChapterContentsController < ApplicationController
   after_action :update_program_stats, only: [:show]
 
   def show
-  
+    @tour_trigger = current_user.tour_trigger
     rank= Rating.where(ratingable_type: "ChapterContent", ratingable_id: @chapter_content.id, user_id: current_user.id).first
     if rank.nil?
       @rank=0
@@ -38,7 +38,7 @@ class Dashboard::ChapterContentsController < ApplicationController
       @recipients.each do |recipient, index|
         if recipient[:type] == 'soporte'
           subject = "Solicitud de soporte EDC-Digital: " + params[:raw_subject]
-          Support.contact(subject, params[:message], params[:urgency], params[:matter], current_user, params[:chapter],params[:signature], recipient[:adress], nil).deliver_now
+          Support.contact(subject, params[:message], params[:urgency], params[:matter], current_user, params[:chapter], params[:signature], recipient[:adress], params[:signature], params[:chapter], nil).deliver_now
           flash_message = { notice: 'Su mensaje ha sido enviado.'}
         else
           subject = "Recibimos tu mensaje: " + params[:raw_subject]

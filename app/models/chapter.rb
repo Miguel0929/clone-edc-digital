@@ -82,4 +82,12 @@ class Chapter < ActiveRecord::Base
     end
   end
 
+  def lessons_count
+    self.chapter_contents.where(coursable_type: "Lesson").count
+  end
+
+  def questions_count
+    self.chapter_contents.where(coursable_type: "Question").count
+  end
+
 end

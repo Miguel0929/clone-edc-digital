@@ -67,10 +67,15 @@ class Mentor::EvaluationsController < ApplicationController
       if chapter.id == @chapter.id
         if index == 0 
           @prev_chapter, @next_chapter = @chapter, @chapters_w_questions[index+1] 
+          @selected_user = User.find(user_spot[0])
+          @prev_text = "Estudiante anterior: "
         elsif index == (@chapters_w_questions.count - 1)
-          @prev_chapter, @next_chapter = @chapters_w_questions[index-1], @chapters_w_questions[@chapters_w_questions.count - 1]  
+          @prev_chapter, @next_chapter = @chapters_w_questions[index-1], @chapters_w_questions[0] #@chapters_w_questions[@chapters_w_questions.count - 1]  -> NOTA: "@next_chapter" ya no será el último si no el primero del sig usuario
+          @selected_user = User.find(user_spot[1])
+          @next_text = "Siguiente estudiante: "
         else 
-          @prev_chapter, @next_chapter = @chapters_w_questions[index-1], @chapters_w_questions[index+1] 
+          @prev_chapter, @next_chapter = @chapters_w_questions[index-1], @chapters_w_questions[index+1]
+          @selected_user = @user
         end
       end
     end
@@ -139,5 +144,26 @@ class Mentor::EvaluationsController < ApplicationController
       "(select COALESCE(SUM(user_evaluations.points), 0)  from user_evaluations where user_evaluations.user_id = #{@user.id}  and user_evaluations.evaluation_id in (select id from evaluations where evaluations.chapter_id = chapters.id) ) as evaluation_points,"\
       "((select COUNT(*) from evaluations where evaluations.chapter_id = chapters.id) * 100) as total_evaluations_points"
     )
+  end
+
+  def user_spot
+    ordered_students = @user.group.active_students.order(:id).pluck(:id)
+    current_position = ordered_students.index(@user.id)
+    if ordered_students.count > 1
+      if current_position == 0
+        prev_student = ordered_students[current_position]
+        next_student = ordered_students[current_position + 1]
+      elsif (current_position + 1) == ordered_students.size
+        prev_student = ordered_students[current_position - 1]
+        next_student = ordered_students[current_position]
+      else
+        prev_student = ordered_students[current_position - 1]
+        next_student = ordered_students[current_position + 1]
+      end
+    else
+      prev_student = ordered_students[current_position]
+      next_student = ordered_students[current_position]
+    end
+    return prev_student, next_student
   end
 end

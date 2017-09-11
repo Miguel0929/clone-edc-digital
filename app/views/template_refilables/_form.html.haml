@@ -1,14 +1,19 @@
 = bootstrap_form_for @template_refilable do |f|
-  = f.text_field :name, label: 'Nombre'
-  = f.text_area :description, label: 'Descripción'
-
-  %button.btn.btn-default#addRefilable
-    Agregar rellenable
-  = f.text_area :content, ckeditor: { language: 'es'}, id: 'ckeditor', label: 'Contenido'
-  = f.select :tipo, TemplateRefilable.tipo_type_options, {prompt: "Selecciona el tipo de rellenable", label: 'Tipo' }
+  .row
+    .col-md-4
+      = f.text_area :name, label: 'Nombre'
+    .col-md-8
+      = f.text_area :description, label: 'Descripción'
+  .row
+    .col-md-10
+      = f.text_area :content, ckeditor: { language: 'es'}, id: 'ckeditor', label: 'Contenido'
+    .col-md-2
+      %button.btn.btn-complete.m-t-20#addRefilable
+        Agregar rellenable
   = f.select :group_ids,  Group.all.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Grupos'}, multiple: 'multiple'
-  .actions
-    = f.submit 'Guardar'
+  .actions.text-center.m-t-30.m-b-20
+    = link_to 'Cancelar', template_refilables_path, class: 'btn btn-danger'
+    = f.submit 'Guardar rellenable', class: 'btn btn-primary'
 
 :javascript
   $( document ).on('turbolinks:load', function() {

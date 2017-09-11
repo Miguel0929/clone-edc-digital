@@ -3,7 +3,7 @@
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
-    .container
+    .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
           .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
@@ -15,18 +15,26 @@
             %p.m-b-25.text-white
               Aquí encontrarás las peticiones de archivos que debes entregar a lo largo de tu avance por la plataforma de EDC Digital. ¡Toma la iniciativa y constúyelos! 
 
-.container-fluid.container-fixed-lg
+.container-fluid.container-fixed-lg#pending
   .panel.panel-default
     .panel-body
       .tab-content
         #tab1.tab-pane.padding-20.sm-no-padding.active.slide-left
           .row.row-same-height
-            .col-md-6.b-r.b-dashed.b-grey.sm-b-b
+            .col-md-12
               .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
-                %h3 
-                  %i.fa.fa-clock-o.hint-text
-                  Entregables pendientes
-                %p.m-b-30 Aquí puedes ver aquellos entregables que te son asignados por nuestro equipo de mentores. Recuerda siempre mantenerte al tanto de ellos.
+                .m-b-30.b-b.b-dashed.sm-b-b
+                  .pull-left
+                    %h3.text-primary
+                      %i.fa.fa-clock-o.hint-text
+                      Entregables pendientes
+                  .pull-right
+                    .p-t-15
+                      %a.slow_scroll.small-text{href: "#accomplished", style: "opacity: 1;"}
+                        %i.fa.fa-chevron-circle-down
+                        Entregables cumplidos
+                  .clearfix
+                  %p.m-b-15 Aquí puedes ver aquellos entregables que te son asignados por nuestro equipo de mentores. Recuerda siempre mantenerte al tanto de ellos.
 
                 - if @undone_delireverables.count > 0
                   - @undone_delireverables.each do |deliv|
@@ -55,12 +63,26 @@
                   %h4.text-complete
                     Por el momento no tienes entregables pendientes.
 
-            .col-md-6
+.container-fluid.container-fixed-lg#accomplished
+  .panel.panel-default
+    .panel-body
+      .tab-content
+        #tab1.tab-pane.padding-20.sm-no-padding.active.slide-left
+          .row.row-same-height
+            .col-md-12
               .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
-                %h3 
-                  %i.fa.fa-check-square-o.hint-text
-                  Entregables cumplidos
-                %p.m-b-30 Una vez que hayas subido tus entregables podrás verlos en esta columna. Podrás editarlos aunque estén clasificados como complidos. 
+                .m-b-30.b-b.b-dashed.sm-b-b
+                  .pull-left
+                    %h3.text-success
+                      %i.fa.fa-check-square-o.hint-text
+                      Entregables cumplidos
+                  .pull-right
+                    .p-t-15
+                      %a.slow_scroll.small-text{href: "#pending", style: "opacity: 1;"}
+                        %i.fa.fa-chevron-circle-up
+                        Entregables pendientes
+                  .clearfix
+                  %p.m-b-15 Una vez que hayas subido tus entregables podrás verlos en esta columna. Podrás editarlos aunque estén clasificados como complidos. 
 
                 - if @done_delireverables.count > 0
                   - @done_delireverables.each do |deliv|
@@ -101,3 +123,11 @@
                 - else
                   %h4.text-complete
                     Por el momento no tienes entregables cumplidos.
+
+:javascript
+  $('.slow_scroll').click(function(){
+    $('html, body').animate({
+      scrollTop: $( $(this).attr('href') ).offset().top
+    }, 500);
+    return false;
+  });

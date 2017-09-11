@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  # Endpoints for mobile application
+  namespace :mobile do
+    resources :sessions, only: [:create]
+    resources :programs, only: [:index]
+  end
 
   post 'ratings/vote_chapter_content'
   post 'ratings/vote_program'
@@ -10,7 +15,7 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users, sign_out_via: [:get, :delete], :controllers => { :invitations => 'users/invitations', sessions: 'sessions' }
+  devise_for :users, sign_out_via: [:get, :delete], :controllers => { :invitations => 'users/invitations', sessions: 'sessions', :registrations => "registrations" }
 
   #root 'dashboard/programs#index'
   get '/', to: 'landings#index'
@@ -40,6 +45,7 @@ Rails.application.routes.draw do
 
       member do
         post :clone
+        #get :rubrics
       end
     end
 
@@ -51,7 +57,11 @@ Rails.application.routes.draw do
   end
 
   resources :quizzes do
-    resources :quiz_questions
+    resources :quiz_questions do
+      member do
+        get :support
+      end
+    end
   end
 
   resources :chapters, only: [] do
@@ -83,6 +93,11 @@ Rails.application.routes.draw do
       member do
         post :clone
       end
+    end  
+
+    member do
+      get :content
+      get :rubrics
     end
   end
 
@@ -106,6 +121,9 @@ Rails.application.routes.draw do
     get 'calculator_method',       to: 'welcome#calculator_method', as: :calculator_method
     get 'notifications-panel',        to: 'welcome#notifications_panel', as: :notifications_panel
     post 'store-notifications-panel',        to: 'welcome#store_notifications_panel', as: :store_notifications_panel
+    post 'change_tour_trigger', to: 'users#change_tour_trigger', as: 'change_tour_trigger'
+
+    resources :sitemap, only: [:index]
 
     resources :users, only: [:show]
 
@@ -187,6 +205,7 @@ Rails.application.routes.draw do
     member do
       get :analytics_quiz
       get :change_state
+      get :summary
     end
 
     resources :programs, only: [] do
@@ -225,8 +244,14 @@ Rails.application.routes.draw do
   resources :deleted_users, only: [:index, :update], path: 'usuarios-desactivados'
 
   namespace :mentor do
+    resources :sitemap, only: [:index]
     resources :groups, only: [:index, :show]
+<<<<<<< HEAD
     resources :evaluations, only: [:index, :show, :update]  
+=======
+    resources :evaluations, only: [:index, :show, :update]
+    resources :program_details, only: [:index]
+>>>>>>> staging
     resources :students, only: [:index, :show, :update] do
       resources :shared_attachments
       collection do
@@ -234,6 +259,7 @@ Rails.application.routes.draw do
       end
       member do
         get :analytics_quiz
+        get :summary
       end
 
       resources :delireverable_users, only: [:edit, :update]

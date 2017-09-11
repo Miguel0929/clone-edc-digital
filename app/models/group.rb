@@ -30,6 +30,6 @@ class Group < ActiveRecord::Base
   end
 
   def get_group_stat(group)
-    GroupStat.where(group_id: group.id).last
+    GroupStat.find_by(group_id: group.id)
   end
 end

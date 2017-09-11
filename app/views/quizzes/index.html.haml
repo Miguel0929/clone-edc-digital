@@ -5,24 +5,46 @@
   .panel.panel-default
     .panel-heading
       .pull-right
-        .col-xs-12
+        .col-xs-6
           %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+        .col-xs-6
+          = link_to new_quiz_path, class: 'btn btn-primary' do
+            %i.fa.fa-plus
+            Crear examen
       .clearfix
     .panel-body
       %table.table.table-over
         %thead
           %tr
             %th Examen
-            %th Descripción
             %th
         %tbody
           - @quizzes.each do |quiz|
             %tr
-              %td= quiz.name
-              %td= quiz.description
-              %td
-                = link_to 'Ver', quiz, class: 'btn btn-default'
-                = link_to 'Editar', edit_quiz_path(quiz), class: 'btn btn-default'
-                = link_to 'Eliminar', quiz, :method => :delete, :data => { :confirm => '¿Estás seguro?' }, class: 'btn btn-default'
+              %td.p-t-15.p-b-10
+                %h4.m-t-0.m-b-5
+                  = quiz.name
+                %span.text-primary
+                  Descripción:
+                %span.hint-text
+                  = quiz.description
+              %td.p-t-15.p-b-10
+                = link_to quiz do
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %i.fa.fa-list-alt
+                    %li.inline 
+                      Ver preguntas
+                = link_to edit_quiz_path(quiz) do
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %i.fa.fa-edit
+                    %li.inline 
+                      Editar examen
+                = link_to quiz, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %i.fa.fa-times
+                    %li.inline 
+                      Eliminar examen
 
-      = link_to 'Crear Exámen', new_quiz_path, class: 'btn btn-default'

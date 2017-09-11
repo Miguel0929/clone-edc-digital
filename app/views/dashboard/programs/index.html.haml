@@ -3,7 +3,7 @@
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
-    .container
+    .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
           .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
@@ -115,7 +115,7 @@
                                     = p.position
                                 .pull-right.small.hint-text
                                   .text-white.bold
-                                    = program.rating
+                                    = program.rating.round(1)
                                     %i.fa.fa-star
                                 .clearfix
                                 %h6.m-t-name_card
@@ -147,12 +147,14 @@
                                         = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
                                           %button.btn.btn-complete.m-t--10.opacity__1
                                             Comenzar
+                                            %i.fa.fa-angle-double-right.font-size-play
                                       -elsif seen_progress > 0 && seen_progress < 100
                                         = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
                                           %button.btn.btn-complete.m-t--10.opacity__1
                                             Continuar
                                             %span
                                               (#{answered_progress}%)
+                                            %i.fa.fa-angle-double-right.font-size-play
                                       -elsif seen_progress == 100 && answered_progress == 0
                                         = link_to dashboard_program_path(program), class: "opacity__1" do
                                           %button.btn.btn-success.m-t--10.opacity__1
@@ -163,6 +165,7 @@
                                             Continuar
                                             %span
                                               (#{answered_progress}%)
+                                            %i.fa.fa-angle-double-right.font-size-play
                                       -elsif seen_progress == 100 && answered_progress == 100
                                         = link_to dashboard_program_path(program), class: "opacity__1" do
                                           %button.btn.btn-success.m-t--10.opacity__1
@@ -213,4 +216,4 @@
                                     $("#ver" + #{program.id}).text("Ocultar información");
                                   }
                                 });
-                           
+  

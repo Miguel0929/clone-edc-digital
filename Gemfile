@@ -58,6 +58,8 @@ gem 'redis-rails'
 gem 'redis-rack-cache'
 gem 'remote_syslog_logger'
 gem 'sweetalert-rails'
+gem 'whenever', :require => false
+gem 'simple_token_authentication', '~> 1.0'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'

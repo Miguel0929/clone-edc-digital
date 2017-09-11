@@ -3,4 +3,6 @@
   = f.text_area :description, label: 'Descripción'
   = f.select :tipo,  DelireverablePackage.tipo_type_options, {prompt: "Selecciona el tipo de paquete de entregable", label: 'Tipo'} 
   = f.select :group_ids,  Group.all.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Grupos'}, multiple: 'multiple'
-  = f.submit 'Guardar'
+  .m-t-20
+    = link_to 'Cancelar', delireverable_packages_path, class: 'btn btn-danger'
+    = f.submit 'Guardar paquete', class: 'btn btn-primary'

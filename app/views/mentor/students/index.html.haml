@@ -3,7 +3,7 @@
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-30.panel-title-recursos
-    .container
+    .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
           .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
@@ -138,10 +138,14 @@
                   %li.inline 
                     = user.phone_number
                 %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %i.fa.fa-eye
-                  %li.inline 
-                    = link_to "Ver informacion de usuario", mentor_student_path(user)   
+                  = link_to mentor_student_path(user) do
+                    %li.inline 
+                      %i.fa.fa-eye
+                    %li.inline 
+                      Ver perfil de usuario   
+                  %sup
+                    = link_to  summary_mentor_student_path(user),class: "p-l-5" do
+                      %i.fa.fa-bolt
               %td
                 %ul.p-l-0.m-b-0
                   %li.inline 

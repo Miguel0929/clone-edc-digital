@@ -2,6 +2,7 @@
 class User < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
+  acts_as_token_authenticatable
 
   attr_accessor :agreement
   acts_as_paranoid
@@ -11,6 +12,7 @@ class User < ActiveRecord::Base
   enum role: [ :student, :mentor, :admin, :staff ]
   enum gender: [ :male, :female ]
   enum evaluation_status: [:'sin evaluar', :evaluado]
+  serialize :tour_trigger, Hash 
 
   has_many :answers
   has_many :group_users
@@ -33,7 +35,7 @@ class User < ActiveRecord::Base
   has_many :shared_attachments
   has_many :chapter_content_rank
   has_many :quiz_answers
-  has_many :program_stats
+  has_many :program_stats, dependent: :destroy
   belongs_to :industry
   has_many :panel_notifications
   has_many :refilables
@@ -65,20 +67,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def generate_authentication_token
-    if authentication_token.blank?
-      self.authentication_token = loop do
-        token = Devise.friendly_token
-        break token if token_suitable?(token)
-      end
-
-      self.save
-    end
-  end
-
-  def token_suitable?(token)
-    self.class.where(authentication_token: token).count == 0
-  end
 
   def self.students_table
 
@@ -252,7 +240,7 @@ class User < ActiveRecord::Base
   end
 
   def last_time
-    return 'El usuario no ha iniciado sesión' if sessions.last.nil?
+    return 'No ha iniciado sesión' if sessions.last.nil?
 
     if TimeDifference.between(sessions.last.finish, Time.now).humanize.nil?
       "Menos de 1 segundo"
@@ -295,18 +283,17 @@ class User < ActiveRecord::Base
   end
 
   def ready_to_check?
-    programs = self.programs
-    stats = ProgramStat.where(user_id: self.id).map { |n| n.checked}
+    groupstats = self.group.programs.map{ |program| program.program_stats.find_by(user_id: self.id)}
+    stats = groupstats.map{ |n| if !n.nil? then n.checked else 0 end} #Regresa el valor de checked de los programa_stats (1 o 0), si no existe un program_stat (n.nil?) entonces pone 0
     detection = stats.detect { |i| i == 0}.nil? #Si no halla ningún 0 dará true al preguntar .nil?, o sea que todos los programas de este usuario han sido "checked"
-    control = ( detection && programs.count == stats.count ) #Para editar el checked se ocupa que todos los programas del usuario estén revisados y que él no tenga más programas de los que tiene un registro (program_stats)
-    if control == false || programs.count > stats.count then self.update(evaluation_status: 0) end
-    return control
+    if detection == false then self.update(evaluation_status: 0) end #Si detecta algún 0 en 'detection' entonces regresa a 'no evaluado' al usuario
+    return detection
   end
 
   def get_update_move
     program_update = ProgramStat.where(user_id: self.id)
     last_content = program_update.sort_by{|m| [m.updated_at].max}.last(1)
-    return last_content 
+    return last_content
   end
 
   def get_last_program
@@ -314,6 +301,7 @@ class User < ActiveRecord::Base
     last_program = Program.where(id: last_stat.program_id).last
   end
 
+<<<<<<< HEAD
   def has_answer_refilable?(template_refilable)
     !template_refilable.refilables.find_by(user: self).nil?
   end
@@ -342,6 +330,25 @@ class User < ActiveRecord::Base
       return false
     end  
   end  
+=======
+  def total_quizzes
+    self.group.quizzes.count
+  end
+
+  def answered_quizzes
+    total = 0
+    results = []
+    self.group.quizzes.each do |quiz|
+      if quiz.answered(self) > 0 
+        total += 1
+        results.push( (quiz.average(self).to_f / quiz.total_points.to_f * 100).ceil )
+      end
+    end
+    average = results.inject(0.0) { |sum, el| sum + el } / results.size
+    if average.nan? then average = 0 end
+    return average, total
+  end
+>>>>>>> staging
 
   private
 

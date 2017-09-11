@@ -62,6 +62,7 @@ class Dashboard::WelcomeController < ApplicationController
       @programs=LearningPathProgram.where(id: ids).order(:position)
     end         
     @modal_trigger = current_user.video_trigger
+    @tour_trigger = current_user.tour_trigger
   end  
  
   def send_support_email
@@ -71,7 +72,7 @@ class Dashboard::WelcomeController < ApplicationController
     elsif params[:urgency] == 'none' || params[:matter] == 'none'
       flash_message = { alert: 'Recuerda seleccionar urgencia y clasificación.'}
     else
-      MentorHelp.create
+      MentorHelp.create(sender: current_user.id)
       unless params[:file].nil?
         uploaded_io=params[:file][:attachment]
         p uploaded_io.content_type

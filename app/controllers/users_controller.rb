@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin, except: [:students, :show, :change_evaluation]
   before_action :require_creator, only: [:students, :show]
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state, :summary]
   add_breadcrumb "EDCDIGITAL", :root_path
   helper_method :get_program_active
 
@@ -98,6 +98,9 @@ class UsersController < ApplicationController
     @delireverables = Delireverable.joins(delireverable_package: [:groups])
                                     .where('groups.id = ?', @user.group.id)
                                     .order(position: :asc) rescue []
+    @refilables = TemplateRefilable.joins(:groups)
+                                    .where('groups.id = ?', @user.group.id)
+                                    .order(position: :asc) rescue []
   end
 
   def edit
@@ -125,7 +128,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
 
-    redirect_to users_path, notice: "Se eliminó exitosamente al usuario #{@user.email}"
+    redirect_to  students_users_path, notice: "Se eliminó exitosamente al usuario #{@user.email}"
   end
 
   def analytics_program
@@ -235,7 +238,7 @@ class UsersController < ApplicationController
       @users=@users.where(id: ids)
     end
 
-    @users = @users.search_query(params[:query]) if params[:query].present?
+    @users = @users.search_query(params[:query]) if params[:query].present? 
 
     respond_to do |format|
       format.html do
@@ -295,6 +298,25 @@ class UsersController < ApplicationController
     ProgramActive.where(user_id: user.id, program_id: program.id).first
   end
 
+  def summary
+    add_breadcrumb "<a href='#{students_users_path}'>Estudiantes</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{summary_user_path(@user)}'>Vista rápida: #{@user.email}</a>".html_safe
+    quizzes_results = @user.answered_quizzes
+    @quizzes_average = quizzes_results[0]
+    @answered_quizzes = quizzes_results[1]
+    @total_quizzes = @user.total_quizzes
+    @delireverables = Delireverable.joins(delireverable_package: [:groups]).where('groups.id = ?', @user.group.id).count
+    @refilables = TemplateRefilable.joins(:groups).where('groups.id = ?', @user.group.id).count
+    @complete_delireverables = DelireverableUser.where(user: @user).count
+    @complete_refilables = Refilable.where(user: @user).count
+    @self_archives = @user.attachments.count
+    @shared_archives = @user.shared_attachments.count
+    @sent_chats = Mailboxer::Message.where(sender_id: @user).count
+    @mentor_messages = MentorHelp.where(sender: @user.id).count
+    @result_exams = @answered_quizzes.to_f / @total_quizzes.to_f * 100
+    @result_delireverables = @complete_delireverables.to_f / @delireverables.to_f * 100
+    @result_refilables = @complete_refilables.to_f / @refilables.to_f * 100
+  end
 
   private
   def set_user
