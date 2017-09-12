@@ -68,6 +68,9 @@ GEM
     bcrypt (3.1.11)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-editable-rails (0.0.9)
+      railties (>= 3.1)
+      sass-rails
     bootstrap-kaminari-views (0.0.5)
       kaminari (>= 0.13)
       rails (>= 3.1)
@@ -535,8 +538,6 @@ GEM
       sprockets-rails (>= 2.0, < 4.0)
     whenever (0.9.7)
       chronic (>= 0.6.3)
-    x-editable-rails (1.5.5)
-      railties
     xml-simple (1.1.5)
     xray-rails (0.2.0)
       rails (>= 3.1.0)
@@ -549,6 +550,7 @@ DEPENDENCIES
   acts_as_list
   ahoy_matey
   axlsx_rails
+  bootstrap-editable-rails
   bootstrap-kaminari-views
   bootstrap_form
   breadcrumbs_on_rails
@@ -616,7 +618,6 @@ DEPENDENCIES
   useragent
   web-console (~> 2.0)
   whenever
-  x-editable-rails
   xray-rails
 
 RUBY VERSION
