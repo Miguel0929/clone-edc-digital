@@ -23,6 +23,8 @@
 //= require dataTables/extras/dataTables.tableTools
 //= require turbolinks
 //= require bootstrap
+//= require bootstrap-editable
+//= require bootstrap-editable-rails
 //= require ckeditor/init
 //= require modernizr
 //= require jquery.scrollbar
@@ -36,7 +38,5 @@
 //= stub landings/pages.frontend
 //= stub landings/velocity.min
 //= stub landings/velocity.ui
-//= require editable/bootstrap-editable
-//= require editable/rails
 //= require typeahead.js.js
 //= require bootstrap-tour
