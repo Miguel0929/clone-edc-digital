@@ -59,6 +59,8 @@ gem 'redis-rack-cache'
 gem 'remote_syslog_logger'
 gem 'whenever', :require => false
 gem 'simple_token_authentication', '~> 1.0'
+gem 'sweetify'
+gem 'sweet-alert-confirm'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
