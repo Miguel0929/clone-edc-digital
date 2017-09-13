@@ -362,3 +362,6 @@ a.unseen-link:hover {
 	opacity: .8;
 	padding: 20px 20px 20px 20px;
 }
+.select2 {
+	width: 100% !important;
+}
