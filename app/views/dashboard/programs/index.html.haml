@@ -30,67 +30,66 @@
               %a{"aria-expanded" => "false", :href => dashboard_programs_path(tipo: "elearning"), class: "bold"} e-Learning
       .col-md-3
 .container-fluid
-  .row
-    .col-md-4
-    .col-md-5
-      #accordion.panel.panel-group.panel-transparent
-        .panel.panel-default.b-rad-sm
-          .panel-heading
-            %h4.panel-title
-              %a.collapsed.b-b{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseOne"} 
-                .text_ultimos_avances 
-                  Tus últimos avances
-                  %i.fa.fa-circle.opacity1
-                  %i.fa.fa-circle.opacity2
-                  %i.fa.fa-circle.opacity3
-                  %i.fa.fa-circle.opacity4
-          #collapseOne.panel-collapse.collapse
-            .panel-body.p-t-0
-              /= current_user.id
-              - current_user.get_update_move.each do |stat|
-                .row
-                  .panel-body
-                    .col-md-12.p-b-10.b-b
-                      %small.m-t-0.m-b-0
-                        - last_parameters = last_moved_program(stat.program)
-                        - if !last_parameters[4].nil?
-                          = distance_of_time_in_words(last_parameters[1].to_i, Time.now.to_i)
-                      %h4.bold.m-t-0.m-b-0
-                        = truncate(last_parameters[3], length: 60, separator: ' ')
-                      %small.text_ultimos_avances.m-t-0.m-b-0
-                        .bold
-                          Curso : 
-                          = stat.program.name
-                      %small.block.p-t-25
-                        - stats = @current_user.program_stats.find_by(program_id: stat.program)
-                        - seen_progress = ( (!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
-                        - answered_progress = ( (!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
-                        - if !last_parameters[4].nil?
-                          -if seen_progress == 0 
-                            = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
-                              %button.btn.btn-complete.m-t--10.opacity__1
-                                Comenzar
-                          -elsif seen_progress > 0 && seen_progress < 100
-                            = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
-                              %button.btn.btn-complete.m-t--10.opacity__1
-                                Continuar
-                                %span
-                                  (#{answered_progress}%)
-                          -elsif seen_progress == 100 && answered_progress == 0
-                            = link_to dashboard_program_path(stat.program), class: "opacity__1" do
-                              %button.btn.btn-success.m-t--10.opacity__1
-                                Completado
-                          -elsif seen_progress == 100 && answered_progress < 100
-                            = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
-                              %button.btn.btn-complete.m-t--10.opacity__1
-                                Continuar
-                                %span
-                                  (#{answered_progress}%)
-                          -elsif seen_progress == 100 && answered_progress == 100
-                            = link_to dashboard_program_path(stat.program), class: "opacity__1" do
-                              %button.btn.btn-success.m-t--10.opacity__1
-                                Completado
-    .col-md-3
+  .p-r-45.p-l-30
+    .row
+      .col-md-12
+        #accordion.panel.panel-group.panel-transparent
+          .panel.panel-default.b-rad-sm
+            .panel-heading.p-b-20
+              %h4.panel-title
+                %a.collapsed.b-b.b-grey.p-b-15{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseOne"} 
+                  .text_ultimos_avances 
+                    Tus últimos avances
+                    %i.fa.fa-circle.opacity1
+                    %i.fa.fa-circle.opacity2
+                    %i.fa.fa-circle.opacity3
+                    %i.fa.fa-circle.opacity4
+            #collapseOne.panel-collapse.collapse
+              .panel-body.p-t-0
+                /= current_user.id
+                - current_user.get_update_move.each do |stat|
+                  .row
+                    .panel-body.p-t-0
+                      .col-md-12.p-b-20.b-b.b-grey
+                        %small.m-t-0.m-b-0
+                          - last_parameters = last_moved_program(stat.program)
+                          - if !last_parameters[4].nil?
+                            = distance_of_time_in_words(last_parameters[1].to_i, Time.now.to_i)
+                        %h4.bold.m-t-0.m-b-0
+                          = truncate(last_parameters[3], length: 60, separator: ' ')
+                        %small.text_ultimos_avances.m-t-0.m-b-0
+                          .bold
+                            Curso : 
+                            = stat.program.name
+                        %small.block.p-t-25
+                          - stats = @current_user.program_stats.find_by(program_id: stat.program)
+                          - seen_progress = ( (!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
+                          - answered_progress = ( (!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
+                          - if !last_parameters[4].nil?
+                            -if seen_progress == 0 
+                              = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                                %button.btn.btn-complete.m-t--10.opacity__1
+                                  Comenzar
+                            -elsif seen_progress > 0 && seen_progress < 100
+                              = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                                %button.btn.btn-complete.m-t--10.opacity__1
+                                  Continuar
+                                  %span
+                                    (#{answered_progress}%)
+                            -elsif seen_progress == 100 && answered_progress == 0
+                              = link_to dashboard_program_path(stat.program), class: "opacity__1" do
+                                %button.btn.btn-success.m-t--10.opacity__1
+                                  Completado
+                            -elsif seen_progress == 100 && answered_progress < 100
+                              = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                                %button.btn.btn-complete.m-t--10.opacity__1
+                                  Continuar
+                                  %span
+                                    (#{answered_progress}%)
+                            -elsif seen_progress == 100 && answered_progress == 100
+                              = link_to dashboard_program_path(stat.program), class: "opacity__1" do
+                                %button.btn.btn-success.m-t--10.opacity__1
+                                  Completado
 .container-fluid.container-fixed-lg
   .row
     .col-md-12
