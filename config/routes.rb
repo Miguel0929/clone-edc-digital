@@ -77,6 +77,24 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :quiz_programs, except: [:index] do
+      member do
+        post :clone
+      end
+    end
+    
+    resources :refillable_programs, except: [:index, :show] do
+      member do
+        post :clone
+      end
+    end
+
+    resources :delireverable_programs, except: [:index] do
+      member do
+        post :clone
+      end
+    end  
+
     member do
       get :content
       get :rubrics
@@ -127,6 +145,21 @@ Rails.application.routes.draw do
           get :router
         end
       end
+      resources :delireverable_programs, only: [:show, :new, :create, :update, :edit] do
+        collection do
+          get :router
+        end
+      end
+      resources :refilable_programs, only: [:show, :new, :create, :update, :edit] do
+        collection do
+          get :router
+        end
+      end
+      resources :quiz_programs, only: [:show, :new, :create, :update, :edit] do
+        collection do
+          get :router
+        end
+      end
       post "mailer_interno"
       post "rank"
     end
@@ -154,7 +187,7 @@ Rails.application.routes.draw do
     end
 
     resources :template_refilables, only: [:index] do
-      resources :refilables, only: [:new, :create, :show, :edit, :update,]
+      resources :refilables, only: [:new, :create, :show, :edit, :update]
     end
   end
 
@@ -213,6 +246,7 @@ Rails.application.routes.draw do
   namespace :mentor do
     resources :sitemap, only: [:index]
     resources :groups, only: [:index, :show]
+
     resources :evaluations, only: [:index, :show, :update]
     resources :program_details, only: [:index]
     resources :students, only: [:index, :show, :update] do
@@ -326,6 +360,8 @@ Rails.application.routes.draw do
       end
     end
   end
+  resources :delireverable_members
+  resources :quiz_question_members
 
   resources :template_refilables do
     collection do

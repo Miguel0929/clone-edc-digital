@@ -5,5 +5,12 @@ class TemplateRefilable < ActiveRecord::Base
   has_many :groups, through: :group_template_refilables
   has_many :refilables
 
+  enum tipo: [ :program, :complementario ]
+
   validates_presence_of :name, :description, :content
+
+  def self.tipo_type_options
+    [['Ruta de aprendizaje', 'ruta'], ['Complementario', 'complementario']]
+  end
+
 end

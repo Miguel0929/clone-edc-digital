@@ -1,0 +1,87 @@
+- content_for :title  do
+  Entregables - EDCdigital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .panel-title.question-title
+        = @chapter_content.chapter.name
+      .panel-title.pull-right
+        /- unless @answer.rubric.nil?
+        /  = image_tag(image_for_rubric(@answer.rubric.criteria), :class=> 'rating-image',"data-original-title" => "Esta pregunta ha sido evaluada como #{@answer.rubric.criteria.downcase}", "data-toggle" => "tooltip")
+      .clearfix
+    .panel-body
+      .row
+        .col-md-10.col-md-offset-1
+          .padding-30.m-t-50.p-b-100
+            %i.fa.fa-tasks.fa-2x.hint-text
+            .pull-right
+              /- unless @question.support_image.nil?
+              /  = image_tag(@question.support_image.url, class: 'img-responsive')
+            .clearfix
+            %h2
+              = @chapter_content.model.name
+              %table.table
+                %thead
+                  %tr
+                    %th{width: "20%"}
+                      Nombre
+                    %th{width: "50%"}
+                      Descripcion
+                    %th{width: "15%"}
+                      Ejemplo
+                    %th{width: "15%"}
+                      Tu entregable       
+                %tbody
+                  - @delireverables_package.delireverables.each do |delireverable|
+                    %tr
+                      %td
+                        = delireverable.name
+                      %td
+                        = delireverable.description
+                      %td
+                        =link_to delireverable.file_identifier, delireverable.file.url, class: "btn btn-link", target: "_blank"
+                      %td
+                        -if delireverable.delireverable_users.find_by(user: current_user).nil?
+                          No has enviado este archivo
+                        -else
+                          =link_to delireverable.delireverable_users.find_by(user: current_user).file_identifier, delireverable.delireverable_users.find_by(user: current_user).file.url, class: "btn btn-link", target: "_blank"
+            %h2
+              Comentarios
+              %table.table
+                %thead
+                  %tr
+                    %th{width: "20%"}
+                      Nombre
+                    %th{width: "20%"}
+                      Status
+                    %th{width: "60%"}
+                      Comentarios     
+                %tbody
+                  - @delireverables_package.delireverables.each do |delireverable|
+                    %tr
+                      %td
+                        = delireverable.name
+                      %td
+                        -if delireverable.delireverable_users.find_by(user: current_user).nil?
+                          No has enviado este archivo
+                        -else
+                          - estatus = delireverable.delireverable_users.find_by(user: current_user).huminize_status
+                          .label{class: "#{ estatus == 'Enviado' ? 'label-warning p-r-l-20' : 'label-success p-r-l-17' }"}
+                            = estatus
+                      %td
+                        -if delireverable.delireverable_users.find_by(user: current_user).comments == ""
+                          %i
+                            No hay comentarios sobre este archivo
+                        -else
+                          = delireverable.delireverable_users.find_by(user: current_user).comments
+                        
+                                        
+
+
+
+
+
+            %p.small.hint-text.m-t-15
+              /= @question.support_text
+      = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content, answer: @answer, edit_mode: false }        

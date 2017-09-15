@@ -141,12 +141,25 @@
                                     %i.fa.fa-youtube-play
                                   - elsif content.coursable_type == 'Question'
                                     %i.fa.fa-edit
+                                  - elsif content.coursable_type == 'Quiz'
+                                    %i.fa.fa-book
+                                  - elsif content.coursable_type == 'TemplateRefilable'
+                                    %i.fa.fa-pencil
+                                  - elsif content.coursable_type == 'DelireverablePackage'
+                                    %i.fa.fa-upload      
 
                               %td{style: "width: 60%;"}
                                 - if content.coursable_type == 'Lesson'
                                   = link_to content.model.identifier, dashboard_chapter_content_path(content), class: "pump-link"
                                 - elsif content.coursable_type == 'Question'
                                   = link_to truncate(content.model.question_text, length: 120, separator: ' '), dashboard_chapter_content_path(content), class: "pump-link"
+                                - elsif content.coursable_type == 'Quiz'
+                                  = link_to truncate(content.model.name, length: 120, separator: ' '), dashboard_chapter_content_path(content), class: "pump-link"
+                                - elsif content.coursable_type == 'TemplateRefilable'
+                                  = link_to truncate(content.model.name, length: 120, separator: ' '), dashboard_chapter_content_path(content), class: "pump-link"
+                                - elsif content.coursable_type == 'DelireverablePackage'
+                                  = link_to truncate(content.model.name, length: 120, separator: ' '), dashboard_chapter_content_path(content), class: "pump-link"
+                                  
                               %td
                                 - if content.coursable_type == 'Lesson'
                                   %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master m-t-10' : 'label-success p-r-17 p-l-17 m-t-10'}"}
@@ -156,6 +169,21 @@
                                     = current_user.trackers.find_by(chapter_content: content).nil? ? 'No visto' : 'Visto'
                                   %span.label{class: "#{current_user.has_answer_question?(content.model) ? 'label-info p-r-17 p-l-17 m-t-20' : 'label-master m-t-20'}"}
                                     = current_user.has_answer_question?(content.model) ? 'Contestado' : 'No contestado'
+                                - elsif content.coursable_type == 'Quiz'
+                                  %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master m-r-10' : 'label-success p-r-17 p-l-17 m-r-10'}"}
+                                    = current_user.trackers.find_by(chapter_content: content).nil? ? 'No visto' : 'Visto'
+                                  %span.label{class: "#{current_user.has_answer_quiz?(content.model) ? 'label-info p-r-17 p-l-17 m-t-20' : 'label-master m-t-20'}"}
+                                    = current_user.has_answer_quiz?(content.model) ? 'Contestado' : 'No contestado'
+                                - elsif content.coursable_type == 'TemplateRefilable'
+                                  %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master m-r-10' : 'label-success p-r-17 p-l-17 m-r-10'}"}
+                                    = current_user.trackers.find_by(chapter_content: content).nil? ? 'No visto' : 'Visto'
+                                  %span.label{class: "#{current_user.has_answer_refilable?(content.model) ? 'label-info p-r-17 p-l-17 m-t-20' : 'label-master m-t-20'}"}
+                                    = current_user.has_answer_refilable?(content.model) ? 'Contestado' : 'No contestado'
+                                - elsif content.coursable_type == 'DelireverablePackage'
+                                  %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master m-r-10' : 'label-success p-r-17 p-l-17 m-r-10'}"}
+                                    = current_user.trackers.find_by(chapter_content: content).nil? ? 'No visto' : 'Visto'
+                                  %span.label{class: "#{current_user.has_sent_delireverables?(content.model) ? 'label-info p-r-17 p-l-17 m-t-20' : 'label-master m-t-20'}"}
+                                    = current_user.has_sent_delireverables?(content.model) ? 'Enviado' : 'No enviando'            
 
 :javascript
   var frm = $('#form_rank');
