@@ -89,5 +89,13 @@ class Chapter < ActiveRecord::Base
   def questions_count
     self.chapter_contents.where(coursable_type: "Question").count
   end
-
+  def quizzes_count
+    self.chapter_contents.where(coursable_type: "Quiz").count
+  end
+  def delireverables_count
+    self.chapter_contents.where(coursable_type: "DelireverablePackage").count
+  end
+  def refilables_count
+    self.chapter_contents.where(coursable_type: "TemplateRefilable").count
+  end
 end

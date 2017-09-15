@@ -43,17 +43,20 @@ class Dashboard::ProgramsController < ApplicationController
           end
         end  
       end
-      userprograms = Program.where(id: ids).order(:position)
-      @programs = userprograms.map { |p| p.group_programs.first }
+      @programs = Program.where(id: ids).order(:position)
     end
 
  
     
     if params[:tipo]=="elearning"
-      @programs = current_user.group.group_programs.joins(:program).where(programs: { tipo: "0"}).order(:position)
-      @activo = ['', '','active'] 
+      userprograms = current_user.group.group_programs.joins(:program).where(programs: { tipo: "0"}).order(:position).pluck(:id)
+      @programs =  Program.where(id: userprograms).order(:position)
+      @activo = ['', '','active']
+
+
     elsif params[:tipo]=="construccion"
-      @programs = current_user.group.group_programs.joins(:program).where(programs: { tipo: "1"}).order(:position)
+      userprograms = current_user.group.group_programs.joins(:program).where(programs: { tipo: "1"}).order(:position)
+      @programs = Program.where(id: userprograms).order(:position)
       @activo = ['', 'active','']
     end
 
@@ -152,9 +155,9 @@ class Dashboard::ProgramsController < ApplicationController
         end
       end
       programas.each do |p|
-        if (p.program == anterior && current_user.percentage_questions_answered_for(anterior) == 100)
+        if (p.program == anterior && current_user.percentage_answered_for(anterior) == 100)
           return false      
-        elsif (current_user.percentage_questions_answered_for(p.program) < 100 && p.program != anterior) 
+        elsif (current_user.percentage_answered_for(p.program) < 100 && p.program != anterior) 
           return true
         end  
       end

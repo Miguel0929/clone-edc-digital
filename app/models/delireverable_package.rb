@@ -1,10 +1,11 @@
 class DelireverablePackage < ActiveRecord::Base
   has_many :group_delireverable_packages
   has_many :groups, through: :group_delireverable_packages
-  has_many :delireverables
+  has_many :delireverables, :dependent => :delete_all
+  has_one :chapter_content, as: :coursable
 
   validates_presence_of :name, :description
-  enum tipo: [ :ruta, :complementario ]
+  enum tipo: [ :program, :complementario ]
 
   def self.tipo_type_options
     [['Ruta de aprendizaje', 'ruta'], ['Complementario', 'complementario']]

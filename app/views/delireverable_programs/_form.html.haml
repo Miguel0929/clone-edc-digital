@@ -1,8 +1,7 @@
 .well
-	= form_tag(chapter_delireverable_programs_path, method: :post) do 
-		.form-group
-			%label.control-label{for: :quiz_id} Entregable:
-			= select_tag "delireverable_package_id", options_from_collection_for_select(DelireverablePackage.ruta, "id", "name"), class: 'form-control', required: "required", prompt: "Selecciona el entregable"
-		.form-group
-			= link_to 'Cancelar',  program_path(@chapter.program), class: 'btn btn-danger'	
-			= submit_tag "Guardar", class: 'btn btn-default'
+  = bootstrap_form_for(@delireverable_package, url: chapter_delireverable_programs_path, method: :post) do |f|
+    = f.text_field :name, label: 'Nombre'
+    = f.text_area :description, label: 'Descripción'
+    .m-t-20
+      = link_to 'Cancelar', delireverable_packages_path, class: 'btn btn-danger'
+      = f.submit 'Guardar paquete', class: 'btn btn-primary'  

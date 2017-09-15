@@ -30,5 +30,15 @@
                       %td.p-b-30
                         #refilable-content-template
                           = raw remove_class(replace_fillable(@refilable.content))
+              %h2            
+                Comentarios:
+
+              -if @refilable.comments == ""
+                %i
+                  No hay comentarios sobre este rellenable
+              -else
+                = @refilable.comments
+                                     
+
 
       = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content, refilable: @refilable, edit_mode: false }

@@ -98,7 +98,7 @@ class Dashboard::AnswersController < ApplicationController
   def redirect_to_next_content
     mensaje= "Cambios guardados con éxito"
     program=@chapter_content.chapter.program
-    if current_user.percentage_questions_answered_for(program)>80 && current_user.percentage_questions_answered_for(program)<100
+    if current_user.percentage_answered_for(program)>80 && current_user.percentage_answered_for(program)<100
       if current_user.program_notifications.where(program: program).more80.first.nil?
         current_user.program_notifications.create(program: program, notification_type: 'more80')
         if current_user.panel_notifications.more80_student.first.nil? || current_user.panel_notifications.more80_student.first.status
@@ -116,11 +116,11 @@ class Dashboard::AnswersController < ApplicationController
         ProgramMore80NotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
       end
       if program.ruta?
-        mensaje = mensaje + ", haz completado el #{current_user.percentage_questions_answered_for(program)}\% del programa, ya mero entras al siguiente curso."
+        mensaje = mensaje + ", haz completado el #{current_user.percentage_answered_for(program)}\% del programa, ya mero entras al siguiente curso."
       else
-        mensaje = mensaje + ", haz completado el #{current_user.percentage_questions_answered_for(program)}\% del programa."
+        mensaje = mensaje + ", haz completado el #{current_user.percentage_answered_for(program)}\% del programa."
       end  
-    elsif current_user.percentage_questions_answered_for(program)==100
+    elsif current_user.percentage_answered_for(program)==100
       if current_user.program_notifications.where(program: program).complete.first.nil?
         current_user.program_notifications.create(program: program, notification_type: 'complete')
         if current_user.panel_notifications.complete_student.first.nil? || current_user.panel_notifications.complete_student.first.status
@@ -152,7 +152,7 @@ class Dashboard::AnswersController < ApplicationController
     #program = Program.joins(:chapters => :chapter_contents).where(chapter_contents: {id: @chapter_content.id}).last
     program = @chapter_content.chapter.program
     program_stat = ProgramStat.where(user_id: @current_user.id, program_id: program.id).last
-    progress = @current_user.percentage_questions_answered_for(program)
+    progress = @current_user.percentage_answered_for(program)
     seen = @current_user.percentage_content_visited_for(program)
 
     if program_stat.nil?

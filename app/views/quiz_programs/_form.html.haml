@@ -1,8 +1,7 @@
 .well
-	= form_tag(chapter_quiz_programs_path, method: :post) do 
-		.form-group
-			%label.control-label{for: :quiz_id} Examen:
-			= select_tag "quiz_id", options_from_collection_for_select(Quiz.ruta, "id", "name"), class: 'form-control', required: "required", prompt: "Selecciona el examen"
-		.form-group
-			= link_to 'Cancelar', program_path(@chapter.program), class: 'btn btn-danger'	
-			= submit_tag "Guardar", class: 'btn btn-default'
+  = bootstrap_form_for @quiz, url:chapter_quiz_programs_path, method: :post do |f|
+    = f.text_field :name, label: "Nombre del exámen"
+    = f.text_area :description, label: "Descripción"
+
+    = link_to 'Cancelar', program_path(@chapter.program), class: 'btn btn-danger'
+    = f.submit 'Aceptar'

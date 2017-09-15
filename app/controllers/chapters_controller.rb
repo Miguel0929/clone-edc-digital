@@ -79,6 +79,37 @@ class ChaptersController < ApplicationController
           kopy.support_image = original.support_image
           kopy.rubrics = original.rubrics.map(&:deep_clone)
         end
+      elsif model.is_a?(TemplateRefilable)
+
+        refilable_clone = model.deep_clone do |original, kopy|
+          kopy.tipo = 0
+        end  
+        clone_chapter.template_refilables << refilable_clone     
+      
+      elsif model.is_a?(DelireverablePackage)
+
+        delireverable_package_clone = model.deep_clone do |original, kopy|
+          kopy.tipo = 0 
+        end  
+        clone_chapter.delireverable_packages << delireverable_package_clone
+        model.delireverables.each do |delireverable|
+          aux=Delireverable.new(name: delireverable.name, description: delireverable.description, delireverable_package: delireverable_package_clone, file: delireverable.file, position: delireverable.position) 
+          aux.save
+        end 
+
+      elsif model.is_a?(Quiz)
+
+        quiz_clone = model.deep_clone do |original, kopy|
+          kopy.tipo = 0
+          original.quiz_questions.each do |question|
+            question_clone= question.deep_clone do |original_q,kopy_q|
+              kopy_q.quiz_id=kopy.id
+              kopy.quiz_questions << kopy_q
+            end  
+          end  
+        end  
+        clone_chapter.quizzes << quiz_clone
+
       end
     end
 

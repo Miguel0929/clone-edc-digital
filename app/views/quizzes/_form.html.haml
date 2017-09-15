@@ -2,7 +2,6 @@
   = bootstrap_form_for @quiz do |f|
     = f.text_field :name, label: "Nombre del exámen"
     = f.text_area :description, label: "Descripción"
-    = f.select :tipo, Quiz.tipo_type_options, {prompt: "Selecciona el tipo de examen", label: 'Tipo' }
     = f.select :group_ids, Group.all.collect{|g| [g.name, g.id]}, {include_blank: false, label: 'Grupos' }, multiple: 'multiple'
 
     = link_to 'Cancelar', quizzes_path, class: 'btn btn-danger'

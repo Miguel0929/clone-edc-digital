@@ -8,7 +8,7 @@ class DelireverablePackagesController < ApplicationController
   def index
     add_breadcrumb "<a class='active' href='#{delireverable_packages_path}'>Paquetes de entregables</a>".html_safe
 
-    @delireverable_packages =  DelireverablePackage.all.includes(:groups)
+    @delireverable_packages =  DelireverablePackage.where("tipo IS ? or tipo = ?", nil, 1).includes(:groups)
   end
 
   def new
@@ -23,7 +23,7 @@ class DelireverablePackagesController < ApplicationController
     add_breadcrumb "<a class='active' href='#{new_delireverable_package_path}'>Nuevo paquete</a>".html_safe
 
     @delireverable_package = DelireverablePackage.new(delireverable_package_params)
-
+    @delireverable_package.tipo=1
     if @delireverable_package.save
       redirect_to delireverable_packages_path, notice: 'Paquete creado'
     else

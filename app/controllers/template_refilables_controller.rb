@@ -6,7 +6,7 @@ class TemplateRefilablesController < ApplicationController
   def index
     add_breadcrumb "<a class='active' href='#{template_refilables_path}'>Mis rellenables</a>".html_safe
 
-    @template_refilables = TemplateRefilable.all
+    @template_refilables = TemplateRefilable.where("tipo IS ? or tipo = ?", nil, 1)
   end
 
   def show
@@ -35,6 +35,7 @@ class TemplateRefilablesController < ApplicationController
     add_breadcrumb "<a class='active' href='#{new_template_refilable_path}'>Nuevo rellenable</a>".html_safe
 
     @template_refilable = TemplateRefilable.new(template_refilable_params)
+    @template_refilable.tipo=1
 
     if @template_refilable.save
       redirect_to template_refilables_path, notice: 'Rellenable creado'
@@ -75,6 +76,6 @@ class TemplateRefilablesController < ApplicationController
     end
 
     def template_refilable_params
-      params.require(:template_refilable).permit(:name, :description, :content, :tipo, group_ids: [])
+      params.require(:template_refilable).permit(:name, :description, :content, group_ids: [])
     end
 end

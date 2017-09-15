@@ -1,11 +1,25 @@
-%span.handle-sort
-  [mover]
-Entregable:   
-= delireverable.model.name
+.row
+  .col-sm-12
+    %span.handle-sort
+      [mover]
+    %span.bold   
+      Entregable:   
+    = delireverable.model.name
 
-.pull-right
-  %span.option
-    = link_to 'Editar',  delireverable_package_delireverables_path(delireverable.model)
-  |
-  %span.option
-    = link_to 'Eliminar',  chapter_refillable_program_path(chapter, delireverable), method: :delete, data: {confirm: '¿Estás seguro?'} 
+    .pull-right
+      %span.option.p-r-10.p-l-10
+        = link_to chapter_delireverable_program_path(chapter, delireverable) do
+          %i.fa.fa-briefcase
+          Contenido
+      %span.option.p-r-10.p-l-10
+        = link_to edit_chapter_delireverable_program_path(chapter, delireverable) do
+          %i.fa.fa-edit
+          Editar
+      %span.option.p-r-10.p-l-10
+        = link_to clone_chapter_delireverable_program_path(chapter, delireverable), method: :post, data: {confirm: '¿Estás seguro?'} do
+          %i.fa.fa-copy
+          Clonar           
+      %span.option.p-r-10.p-l-10
+        = link_to  chapter_delireverable_program_path(chapter, delireverable), method: :delete, data: {confirm: '¿Estás seguro?'} do
+          %i.fa.fa-times
+          Eliminar

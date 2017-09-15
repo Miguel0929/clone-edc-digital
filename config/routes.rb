@@ -77,7 +77,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :quiz_programs, except: [:index, :show] do
+    resources :quiz_programs, except: [:index] do
       member do
         post :clone
       end
@@ -89,7 +89,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :delireverable_programs, except: [:index, :show] do
+    resources :delireverable_programs, except: [:index] do
       member do
         post :clone
       end
@@ -246,12 +246,9 @@ Rails.application.routes.draw do
   namespace :mentor do
     resources :sitemap, only: [:index]
     resources :groups, only: [:index, :show]
-<<<<<<< HEAD
-    resources :evaluations, only: [:index, :show, :update]  
-=======
+
     resources :evaluations, only: [:index, :show, :update]
     resources :program_details, only: [:index]
->>>>>>> staging
     resources :students, only: [:index, :show, :update] do
       resources :shared_attachments
       collection do
@@ -363,6 +360,8 @@ Rails.application.routes.draw do
       end
     end
   end
+  resources :delireverable_members
+  resources :quiz_question_members
 
   resources :template_refilables do
     collection do

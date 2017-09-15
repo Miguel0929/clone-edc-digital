@@ -46,6 +46,39 @@
                           No has enviado este archivo
                         -else
                           =link_to delireverable.delireverable_users.find_by(user: current_user).file_identifier, delireverable.delireverable_users.find_by(user: current_user).file.url, class: "btn btn-link", target: "_blank"
+            %h2
+              Comentarios
+              %table.table
+                %thead
+                  %tr
+                    %th{width: "20%"}
+                      Nombre
+                    %th{width: "20%"}
+                      Status
+                    %th{width: "60%"}
+                      Comentarios     
+                %tbody
+                  - @delireverables_package.delireverables.each do |delireverable|
+                    %tr
+                      %td
+                        = delireverable.name
+                      %td
+                        -if delireverable.delireverable_users.find_by(user: current_user).nil?
+                          No has enviado este archivo
+                        -else
+                          - estatus = delireverable.delireverable_users.find_by(user: current_user).huminize_status
+                          .label{class: "#{ estatus == 'Enviado' ? 'label-warning p-r-l-20' : 'label-success p-r-l-17' }"}
+                            = estatus
+                      %td
+                        -if delireverable.delireverable_users.find_by(user: current_user).comments == ""
+                          %i
+                            No hay comentarios sobre este archivo
+                        -else
+                          = delireverable.delireverable_users.find_by(user: current_user).comments
+                        
+                                        
+
+
 
 
 

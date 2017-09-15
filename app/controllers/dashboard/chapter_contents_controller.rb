@@ -82,9 +82,9 @@ class Dashboard::ChapterContentsController < ApplicationController
         end
       end
       programas.each do |p|
-        if p.program == anterior && current_user.percentage_questions_answered_for(anterior) == 100
+        if p.program == anterior && current_user.percentage_answered_for(anterior) == 100
           return false     
-        elsif current_user.percentage_questions_answered_for(p.program) < 100 && p.program != anterior
+        elsif current_user.percentage_answered_for(p.program) < 100 && p.program != anterior
           return true
         end  
       end

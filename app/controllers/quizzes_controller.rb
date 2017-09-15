@@ -7,7 +7,7 @@ class QuizzesController < ApplicationController
 
   def index
     add_breadcrumb "<a class='active' href='#{quizzes_path}'>Examenes</a>".html_safe
-    @quizzes = Quiz.all
+    @quizzes = Quiz.where("tipo IS ? or tipo = ?", nil, 1)
   end
 
   def show
@@ -28,7 +28,7 @@ class QuizzesController < ApplicationController
 
   def create
     @quiz = Quiz.new(quiz_params)
-
+    @quiz.tipo=1
     respond_to do |format|
       if @quiz.save
         format.html { redirect_to @quiz, notice: 'Quiz creado exitosamente.' }
@@ -66,6 +66,6 @@ class QuizzesController < ApplicationController
     end
 
     def quiz_params
-      params.require(:quiz).permit(:name, :description, :tipo, group_ids: [])
+      params.require(:quiz).permit(:name, :description, group_ids: [])
     end
 end
