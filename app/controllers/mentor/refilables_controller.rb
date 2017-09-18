@@ -19,7 +19,7 @@ class Mentor::RefilablesController < ApplicationController
     @refilable.update(refilable_params)
     respond_to do |format|
       format.html { redirect_to mentor_student_path(@user), notice: 'Rellenable actualizado'}
-      format.js { render json: @refilable, status: :update }
+      format.js { render "notification"}
       format.json { render json: @refilable, status: :update }
     end  
   end
