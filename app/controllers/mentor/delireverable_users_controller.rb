@@ -14,7 +14,7 @@ class Mentor::DelireverableUsersController < ApplicationController
     respond_to do |format|
       if @delireverable_user.update(delireverable_user_params)
         format.html { redirect_to mentor_student_path(@user), notice: 'Entregable actualizado' }
-        format.js { render json: @delireverable_user, status: :update }
+        format.js { render "notification" }
         format.json { render json: @delireverable_user, status: :update }  
       else
         format.html { render :edit }
