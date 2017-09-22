@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   namespace :mobile do
     resources :sessions, only: [:create]
     resources :programs, only: [:index]
+    resources :contents, only: [:show]
   end
 
   post 'ratings/vote_chapter_content'

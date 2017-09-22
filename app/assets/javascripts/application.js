@@ -41,3 +41,4 @@
 //= stub landings/velocity.ui
 //= require typeahead.js.js
 //= require bootstrap-tour
+//= stub "mobile"
