@@ -16,5 +16,5 @@ Rails.application.config.assets.register_mime_type('text/html', '.html')
 Rails.application.config.assets.precompile += %w( landings/* )
 Rails.application.config.assets.precompile += %w( landings.js )
 Rails.application.config.assets.precompile += %w( landings.css )
-
-
+Rails.application.config.assets.precompile += %w( mobile.js )
+Rails.application.config.assets.precompile += %w( mobile.css )
