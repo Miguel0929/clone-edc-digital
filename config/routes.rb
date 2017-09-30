@@ -4,7 +4,9 @@ Rails.application.routes.draw do
     resources :sessions, only: [:create]
     resources :programs, only: [:index]
     resources :contents, only: [:show]
-    resources :questions, only: [:show]
+    resources :questions, only: [:show] do
+      resources :answers, only: [:create, :update]
+    end
   end
 
   post 'ratings/vote_chapter_content'
