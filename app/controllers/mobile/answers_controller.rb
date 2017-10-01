@@ -9,6 +9,8 @@ class Mobile::AnswersController < Mobile::BaseController
 
     answer.answer_text = sanitize_answer if question.checkbox?
 
+    answer.answer_text = answer.answer_text.strip
+
     answer.save
 
     render json: { status: :ok }
@@ -20,6 +22,8 @@ class Mobile::AnswersController < Mobile::BaseController
     answer.answer_text = sanitize_answer if question.checkbox?
 
     answer.assign_attributes(answer_params)
+
+    answer.answer_text = answer.answer_text.strip
 
     answer.save
 
