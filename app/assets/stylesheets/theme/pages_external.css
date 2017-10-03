@@ -322,43 +322,6 @@ a.unseen-link:hover {
 .bottom-line{
 	border-bottom: 1px solid rgba(0,0,0,0.1);
 }
-.refilable-input{
-	display: inline-block;
-	width: 200px;
-	position: relative;
-	min-height: 27px;
-	height: 27px;
-	line-height: 8px;
-	top: -2px;
-	margin: 5px 5px 5px 5px;
-	overflow:auto;
-	white-space: nowrap;
-}
-.refilable-show{
-	display: inline-block;
-	width: 150px;	
-}
-.present-answer{
-	color: #10CFBD;
-	font-weight: bold;
-}
-.no-answer{
-	color: #F55753;
-	font-weight: bold;
-}
-.summary-background-img{
-	background-image: url('images/darkwood.jpg');
-}
-.widget-1-straight{
-	background-image: url("/assets/darkwood.jpg");
-	background-size: cover;
-	content: " ";
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	position: absolute;
-	z-index: 0;
-	opacity: .8;
-	padding: 20px 20px 20px 20px;
+.select2 {
+	width: 100% !important;
 }

@@ -33,6 +33,7 @@
 //= require chartkick
 //= require jquery-readyselector
 //= require sweetalert
+//= require sweet-alert-confirm
 //= require_tree "."
 //= stub landings/pace.min
 //= stub landings/pages.frontend
@@ -40,3 +41,4 @@
 //= stub landings/velocity.ui
 //= require typeahead.js.js
 //= require bootstrap-tour
+//= stub "mobile"
