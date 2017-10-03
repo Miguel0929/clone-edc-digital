@@ -1,5 +1,6 @@
 class InvitationJob
   include SuckerPunch::Job
+  workers 1
 
   def perform(name, email, group_id, url, job_id)
     redis = Redis.new
@@ -27,7 +28,7 @@ class InvitationJob
 
       job["progress"] = job["progress"] + 1;
       redis.set(job_id, job.to_json)
-      
+
       sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
       begin
         response = sg.client.mail._("send").post(request_body: data)
