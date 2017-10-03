@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170811192457) do
+ActiveRecord::Schema.define(version: 20170829214129) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -271,14 +271,16 @@ ActiveRecord::Schema.define(version: 20170811192457) do
     t.string   "name"
     t.string   "key"
     t.datetime "deleted_at"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.integer  "state_id"
     t.string   "category"
     t.integer  "university_id"
+    t.integer  "learning_path_id"
   end
 
   add_index "groups", ["deleted_at"], name: "index_groups_on_deleted_at", using: :btree
+  add_index "groups", ["learning_path_id"], name: "index_groups_on_learning_path_id", using: :btree
   add_index "groups", ["university_id"], name: "index_groups_on_university_id", using: :btree
 
   create_table "industries", force: :cascade do |t|
@@ -294,6 +296,23 @@ ActiveRecord::Schema.define(version: 20170811192457) do
   end
 
   add_index "learning_path_notifications", ["group_id"], name: "index_learning_path_notifications_on_group_id", using: :btree
+
+  create_table "learning_path_programs", force: :cascade do |t|
+    t.integer  "program_id"
+    t.integer  "learning_path_id"
+    t.integer  "position"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "learning_path_programs", ["learning_path_id"], name: "index_learning_path_programs_on_learning_path_id", using: :btree
+  add_index "learning_path_programs", ["program_id"], name: "index_learning_path_programs_on_program_id", using: :btree
+
+  create_table "learning_paths", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "lessons", force: :cascade do |t|
     t.string   "identifier"
@@ -369,7 +388,19 @@ ActiveRecord::Schema.define(version: 20170811192457) do
   create_table "mentor_helps", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "sender"
   end
+
+  create_table "mentor_program_notifications", force: :cascade do |t|
+    t.integer  "program_id"
+    t.integer  "user_id"
+    t.integer  "notification_type"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "mentor_program_notifications", ["program_id"], name: "index_mentor_program_notifications_on_program_id", using: :btree
+  add_index "mentor_program_notifications", ["user_id"], name: "index_mentor_program_notifications_on_user_id", using: :btree
 
   create_table "notifications", force: :cascade do |t|
     t.integer  "user_id"
@@ -391,6 +422,17 @@ ActiveRecord::Schema.define(version: 20170811192457) do
   end
 
   add_index "panel_notifications", ["user_id"], name: "index_panel_notifications_on_user_id", using: :btree
+
+  create_table "program_actives", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "program_id"
+    t.boolean  "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "program_actives", ["program_id"], name: "index_program_actives_on_program_id", using: :btree
+  add_index "program_actives", ["user_id"], name: "index_program_actives_on_user_id", using: :btree
 
   create_table "program_notifications", force: :cascade do |t|
     t.integer "program_id"
@@ -429,7 +471,7 @@ ActiveRecord::Schema.define(version: 20170811192457) do
     t.string   "small_cover"
     t.integer  "level"
     t.integer  "tipo"
-    t.string   "content_type"
+    t.integer  "content_type"
     t.string   "short_name"
   end
 
@@ -636,12 +678,12 @@ ActiveRecord::Schema.define(version: 20170811192457) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                             default: "",    null: false
-    t.string   "encrypted_password",                default: "",    null: false
+    t.string   "email",                             default: "",                                                                              null: false
+    t.string   "encrypted_password",                default: "",                                                                              null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                     default: 0,     null: false
+    t.integer  "sign_in_count",                     default: 0,                                                                               null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -649,8 +691,8 @@ ActiveRecord::Schema.define(version: 20170811192457) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "phone_number"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                                                                                                  null: false
+    t.datetime "updated_at",                                                                                                                  null: false
     t.string   "invitation_token"
     t.datetime "invitation_created_at"
     t.datetime "invitation_sent_at"
@@ -677,6 +719,7 @@ ActiveRecord::Schema.define(version: 20170811192457) do
     t.float    "user_progress",                     default: 0.0
     t.float    "user_seen",                         default: 0.0
     t.boolean  "check_ready"
+    t.text     "tour_trigger",                      default: "---\n:first: true\n:second: true\n:third: true\n:fourth: true\n:fifth: true\n"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
@@ -725,12 +768,19 @@ ActiveRecord::Schema.define(version: 20170811192457) do
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"
   add_foreign_key "group_stats", "groups"
+  add_foreign_key "groups", "learning_paths"
   add_foreign_key "groups", "universities"
   add_foreign_key "learning_path_notifications", "groups"
+  add_foreign_key "learning_path_programs", "learning_paths"
+  add_foreign_key "learning_path_programs", "programs"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
+  add_foreign_key "mentor_program_notifications", "programs"
+  add_foreign_key "mentor_program_notifications", "users"
   add_foreign_key "panel_notifications", "users"
+  add_foreign_key "program_actives", "programs"
+  add_foreign_key "program_actives", "users"
   add_foreign_key "program_stats", "programs"
   add_foreign_key "program_stats", "users"
   add_foreign_key "quiz_answers", "quiz_questions"

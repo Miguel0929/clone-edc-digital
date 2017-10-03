@@ -164,6 +164,8 @@
                         setTimeout(function(){$("#alert-ra-warning").css('display','none');},4000);
                       });
                     });
+    = paginate @students
+    = page_entries_info @students
 #alert-ra-warning.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
     #al.alert.alert-warning
