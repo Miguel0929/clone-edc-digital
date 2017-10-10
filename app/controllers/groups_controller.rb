@@ -167,7 +167,11 @@ class GroupsController < ApplicationController
     attributes.delete('updated_at')
 
     group = Group.new(attributes)
-    group.programs = @group.programs
+    
+    @group.programs.order(:position).each do |program|
+      group.programs << program
+    end
+
     group.quizzes = @group.quizzes
     group.users = @group.users
     group.key = "COPIA-#{@group.key}"
