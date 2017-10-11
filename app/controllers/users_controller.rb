@@ -238,7 +238,7 @@ class UsersController < ApplicationController
       @users=@users.where(id: ids)
     end
 
-    @users = @users.search_query(params[:query]) if params[:query].present? 
+    @users = @users.search_query(params[:query]) if params[:query].present?
 
     respond_to do |format|
       format.html do

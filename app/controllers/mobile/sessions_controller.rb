@@ -18,7 +18,7 @@ class Mobile::SessionsController < Mobile::BaseController
         break token if token_suitable?(token)
       end
 
-      self.save
+      user.save
     end
   end
 

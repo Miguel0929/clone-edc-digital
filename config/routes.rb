@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   namespace :mobile do
     resources :sessions, only: [:create]
     resources :programs, only: [:index]
+    resources :contents, only: [:show]
+    resources :questions, only: [:show] do
+      resources :answers, only: [:create, :update]
+    end
   end
 
   post 'ratings/vote_chapter_content'
@@ -232,6 +236,7 @@ Rails.application.routes.draw do
       get :reassign_student
       post :unlink_student
       post '/unlink_group_student' => 'groups#unlink_student'
+      post :clone
     end
 
   end
