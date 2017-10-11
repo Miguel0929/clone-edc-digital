@@ -23,10 +23,7 @@ class MentorsController < ApplicationController
   end
 
   def update
-    add_breadcrumb "Mentores", :mentors_path
-    add_breadcrumb @user.email, mentor_path(@user)
-    add_breadcrumb "<a class='active' href='#{edit_mentor_path(@user)}'>Editar información</a>".html_safe
-
+    @user.__elasticsearch__.update_document
     if @user.update(user_params)
       redirect_to mentors_path
     else

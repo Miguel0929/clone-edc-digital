@@ -193,6 +193,7 @@ Rails.application.routes.draw do
       get :reassign_student
       post :unlink_student
       post '/unlink_group_student' => 'groups#unlink_student'
+      post :clone
     end
 
   end
