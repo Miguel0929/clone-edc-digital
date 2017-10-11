@@ -324,7 +324,7 @@ class User < ActiveRecord::Base
     stats = groupstats.map{ |n| if !n.nil? then n.checked else 0 end} #Regresa el valor de checked de los programa_stats (1 o 0), si no existe un program_stat (n.nil?) entonces pone 0
     detection = stats.detect { |i| i == 0}.nil? #Si no halla ningún 0 dará true al preguntar .nil?, o sea que todos los programas de este usuario han sido "checked"
     if detection == false then self.update(evaluation_status: 0) end #Si detecta algún 0 en 'detection' entonces regresa a 'no evaluado' al usuario
-    return detection
+    return 0
   end
 
   def get_update_move
