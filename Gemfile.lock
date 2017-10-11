@@ -613,6 +613,7 @@ DEPENDENCIES
   spring
   sucker_punch (~> 2.0)
   sweet-alert-confirm
+  sweetalert-rails
   sweetify
   time_difference
   turbolinks

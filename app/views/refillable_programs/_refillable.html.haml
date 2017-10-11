@@ -1,0 +1,21 @@
+.row
+  .col-sm-12
+    %span.handle-sort
+      [mover]
+    %span.bold 
+      Rellenable:   
+    = refillable.model.name
+
+    .pull-right
+      %span.option.p-r-10.p-l-10
+        = link_to  edit_chapter_refillable_program_path(chapter, refillable) do
+          %i.fa.fa-edit
+          Editar
+      %span.option.p-r-10.p-l-10
+        = link_to clone_chapter_refillable_program_path(chapter, refillable), method: :post, data: {confirm: '¿Estás seguro?'} do
+          %i.fa.fa-copy
+          Clonar    
+      %span.option.p-r-10.p-l-10
+        = link_to chapter_refillable_program_path(chapter, refillable), method: :delete, data: {confirm: '¿Estás seguro?'} do
+          %i.fa.fa-times
+          Eliminar

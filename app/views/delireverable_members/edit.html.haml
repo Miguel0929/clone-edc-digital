@@ -1,0 +1,26 @@
+- content_for :title  do
+  Editar Paquete de entregables - EDCdigital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      .tab-content
+        .tab-pane.padding-20.sm-no-padding.active.slide-left
+          .row.row-same-height
+            .col-md-3.b-r.b-dashed.b-grey.sm-b-b
+              .p-r-15.p-l-30.p-b-30.p-t-15.sm-padding-5.sm-m-t-15
+                %i.fa.fa-edit.fa-2x.hint-text
+                .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+                  Editar entregable
+                %p
+                  Usa este formulario para editar entregables existentes de este mismo paquete.
+            .col-md-8
+              .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
+                = bootstrap_form_for( @delireverable, url: delireverable_member_path(@delireverable), method: :put) do |f| 
+                  = f.hidden_field :delireverable_package_id       
+                  = f.text_field :name, label: 'Nombre', required: "required"
+                  = f.text_area :description, label: 'Descripción', required: "required"
+                  = f.file_field :file, label: 'Archivo de ejemplo'
+                  .m-t-20.pull-right
+                    = link_to 'Cancelar', chapter_delireverable_program_path(@delireverable.delireverable_package.chapter_content.chapter , @delireverable.delireverable_package.chapter_content), class: 'btn btn-danger'
+                    = f.submit 'Guardar entregable', class: 'btn btn-primary'

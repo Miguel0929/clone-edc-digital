@@ -137,6 +137,7 @@ ActiveRecord::Schema.define(version: 20170829214129) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "tipo"
   end
 
   create_table "delireverable_users", force: :cascade do |t|
@@ -527,6 +528,7 @@ ActiveRecord::Schema.define(version: 20170829214129) do
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "tipo"
   end
 
   create_table "ratings", force: :cascade do |t|
@@ -650,6 +652,7 @@ ActiveRecord::Schema.define(version: 20170829214129) do
     t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "tipo"
   end
 
   create_table "trackers", force: :cascade do |t|

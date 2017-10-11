@@ -53,10 +53,68 @@
                     %span.p-l-10.p-r-10 
                     Preguntas:
                     %span.bold.text-primary #{chapter.questions_count}
-                    %span.p-l-10.p-r-10 
+                    %span.p-l-10.p-r-10
+                    Examenes:
+                    %span.bold.text-primary #{chapter.quizzes_count}
+                    %span.p-l-10.p-r-10
+                    Rellenables:
+                    %span.bold.text-primary #{chapter.refilables_count}
+                    %span.p-l-10.p-r-10
+                    Entregables:
+                    %span.bold.text-primary #{chapter.delireverables_count}
+                    %span.p-l-10.p-r-10   
                     Rúbricas de evaluación:
                     %span.bold.text-primary #{chapter.evaluations.count}
 
+                    = link_to edit_program_chapter_path(@program, chapter), 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Editar módulo' do
+                      %span.glyphicon.glyphicon-edit
+
+                    = link_to clone_program_chapter_path(@program, chapter), method: :post, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Clonar módulo' do
+                      %span.glyphicon.glyphicon-list
+
+                    %h3.panel-title
+                      %a{"aria-controls" => "collapse_#{chapter.id}", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse_#{chapter.id}"}
+                        = chapter.name
+
+
+                  .panel-collapse.collapse{:id=>"collapse_#{chapter.id}", "aria-labelledby" => "heading_#{chapter.id}", :role => "tabpanel"}
+                    .panel-body
+                      .panel-body
+                        .sortable{'data-update-url'=> url_prod_helper(sort_chapter_contents_url) }
+                          - chapter.chapter_contents.each do |content|
+                            - if content.coursable_type == 'Lesson'
+                              .well{id: "chapter_content_#{content.id}"}
+                                %span.handle-sort
+                                  [mover]
+                                = link_to clone_chapter_lesson_path(chapter, content.model), method: :post, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Clonar lección' do
+                                  %span.glyphicon.glyphicon-list
+                                %br
+                                %a{href: chapter_lesson_path(chapter, content.model)}
+                                  = content.model.identifier
+                                %span.pull-right
+                                  Rating:
+                                  = content.rating.round(2)
+
+                            - elsif content.coursable_type == 'Question'
+                              .well{id: "chapter_content_#{content.id}"}
+                                = render partial: 'questions/question', locals: { question: content.model, chapter: chapter}
+                            - elsif content.coursable_type == 'Quiz'
+                              .well{id: "chapter_content_#{content.id}"}
+                                = render partial: 'quiz_programs/quiz', locals: { quiz: content, chapter: chapter}
+                            - elsif content.coursable_type == 'TemplateRefilable'
+                              .well{id: "chapter_content_#{content.id}"}
+                                = render partial: 'refillable_programs/refillable', locals: { refillable: content, chapter: chapter}
+                            - elsif content.coursable_type == 'DelireverablePackage'
+                              .well{id: "chapter_content_#{content.id}"}
+                                = render partial: 'delireverable_programs/delireverable', locals: { delireverable: content, chapter: chapter}         
+    
+
+                      .text-center
+                        = link_to 'Agregar contenido', new_chapter_lesson_path(chapter), class: 'btn btn-success'
+                        = link_to 'Agregar pregunta', new_chapter_question_path(chapter), class: 'btn btn-primary'
+                        = link_to 'Agregar examen', new_chapter_quiz_program_path(chapter), class: 'btn btn-success'
+                        = link_to 'Agregar rellenable', new_chapter_refillable_program_path(chapter), class: 'btn btn-primary'
+                        = link_to 'Agregar entregable', new_chapter_delireverable_program_path(chapter), class: 'btn btn-success'
           .row.p-r-20.p-l-20
             - if @pending_content_notifications.count > 0
               = link_to  notify_changes_program_path,:method => 'post', class: 'btn btn-success pull-right m-l-10' do

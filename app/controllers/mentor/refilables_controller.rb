@@ -17,8 +17,11 @@ class Mentor::RefilablesController < ApplicationController
     add_breadcrumb "<a class='active' href='#{edit_mentor_student_refilable_path(@user, @refilable)}'>#{@refilable.template_refilable.name}</a>".html_safe
 
     @refilable.update(refilable_params)
-
-    redirect_to mentor_student_path(@user), notice: 'Rellenable actualizado'
+    respond_to do |format|
+      format.html { redirect_to mentor_student_path(@user), notice: 'Rellenable actualizado'}
+      format.js { render "notification"}
+      format.json { render json: @refilable, status: :update }
+    end  
   end
 
   private

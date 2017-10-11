@@ -5,6 +5,9 @@ class Chapter < ActiveRecord::Base
   has_many :chapter_contents, -> { order(position: :asc) }, dependent: :destroy
   has_many :lessons, :through => :chapter_contents, :source => :coursable, :source_type => 'Lesson', dependent: :destroy
   has_many :questions, :through => :chapter_contents, :source => :coursable, :source_type => 'Question', dependent: :destroy
+  has_many :quizzes, :through => :chapter_contents, :source => :coursable, :source_type => 'Quiz', dependent: :destroy
+  has_many :delireverable_packages, :through => :chapter_contents, :source => :coursable, :source_type => 'DelireverablePackage', dependent: :destroy
+  has_many :template_refilables, :through => :chapter_contents, :source => :coursable, :source_type => 'TemplateRefilable', dependent: :destroy
   has_many :evaluations, -> { order(position: :asc) }
   belongs_to :program
 
@@ -86,5 +89,13 @@ class Chapter < ActiveRecord::Base
   def questions_count
     self.chapter_contents.where(coursable_type: "Question").count
   end
-
+  def quizzes_count
+    self.chapter_contents.where(coursable_type: "Quiz").count
+  end
+  def delireverables_count
+    self.chapter_contents.where(coursable_type: "DelireverablePackage").count
+  end
+  def refilables_count
+    self.chapter_contents.where(coursable_type: "TemplateRefilable").count
+  end
 end

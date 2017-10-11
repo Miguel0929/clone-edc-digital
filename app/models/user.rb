@@ -160,6 +160,34 @@ class User < ActiveRecord::Base
     program.chapters.joins(questions: [:answers]).where('answers.user_id': self.id).count
   end
 
+  def refilables_answered_for(program)
+    program.chapters.joins(template_refilables: [:refilables]).where('refilables.user_id': self.id).count
+  end
+
+  def delireverables_answered_for(program)
+    arr=[]
+    program.chapters.each do |p|
+      p.delireverable_packages.each do |d|
+        if d.delireverables_sent(self)
+          arr.push(d)
+        end  
+      end  
+    end
+    return arr.length  
+  end
+
+  def quizzes_answered_for(program)
+    arr=[]
+    program.chapters.each do |p|
+      p.quizzes.each do |d|
+        if d.answered?(self)
+          arr.push(d)
+        end  
+      end  
+    end
+    return arr.length  
+  end
+
   def total_comments_for(program)
     program.chapters.joins(questions: [answers: [:comments]]).where('comments.user_id': self.id).count
   end
@@ -174,8 +202,17 @@ class User < ActiveRecord::Base
   end
 
   def percentage_questions_answered_for(program)
-    total = program.chapters.joins(:questions).select('questions.*').count
-    (questions_answered_for(program) * 100) / total rescue 0
+    total_questions = program.chapters.joins(:questions).select('questions.*').count
+    (questions_answered_for(program) * 100) / total_questions rescue 0
+  end
+
+  def percentage_answered_for(program)
+    total_questions = program.chapters.joins(:questions).select('questions.*').count
+    total_quizzes = program.chapters.joins(:quizzes).count
+    total_delireverables = program.chapters.joins(:delireverable_packages).count
+    total_refilables = program.chapters.joins(:template_refilables).count
+   
+    ((questions_answered_for(program) + delireverables_answered_for(program)+ refilables_answered_for(program) + quizzes_answered_for(program)) * 100) / (total_questions + total_quizzes + total_delireverables + total_refilables) rescue 0
   end
 
   def answered_questions_percentage
@@ -300,6 +337,35 @@ class User < ActiveRecord::Base
     last_stat = self.program_stats.sort_by{ |stat| [stat.updated_at].max}.last
     last_program = Program.where(id: last_stat.program_id).last
   end
+
+  def has_answer_refilable?(template_refilable)
+    !template_refilable.refilables.find_by(user: self).nil?
+  end
+  def has_sent_delireverables?(delireverable_package)
+    entregables=delireverable_package.delireverables
+    respuestas=[]
+    entregables.each do |entregable|
+      unless entregable.delireverable_users.find_by(user: self).nil?
+        respuestas.push(entregable.delireverable_users.find_by(user: self))
+      end  
+    end
+   
+    if respuestas.length>0
+      return true
+    else
+      return false     
+    end  
+  end
+  def has_answer_quiz?(quiz)
+    ids = quiz.quiz_questions.map { |q| q.id }
+    respuestas = QuizAnswer.where(quiz_question_id: ids, user_id: self.id).count
+    preguntas=quiz.quiz_questions.count
+    if respuestas > 0 && preguntas != 0
+      return true
+    else
+      return false
+    end  
+  end  
 
   def total_quizzes
     self.group.quizzes.count

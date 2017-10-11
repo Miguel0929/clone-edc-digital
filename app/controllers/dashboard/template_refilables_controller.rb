@@ -4,7 +4,6 @@ class Dashboard::TemplateRefilablesController < ApplicationController
 
   def index
     add_breadcrumb "<a href='#{dashboard_template_refilables_path}' class='active'>Mis rellenables</a>".html_safe
-
     @refilables = TemplateRefilable.joins(:groups)
                                     .where('groups.id = ?', current_user.group.id)
                                     .order(position: :asc)

@@ -1,0 +1,14 @@
+- content_for :title  do
+  Editar paquete de entregables - EDCdigital
+
+.container
+  %h2.text-center
+    Editar paquete
+    
+  .well
+    = bootstrap_form_for(@delireverable_package, url: chapter_delireverable_program_path, method: :put) do |f|
+      = f.text_field :name, label: 'Nombre'
+      = f.text_area :description, label: 'Descripción'
+      .m-t-20
+        = link_to 'Cancelar', delireverable_packages_path, class: 'btn btn-danger'
+        = f.submit 'Guardar paquete', class: 'btn btn-primary'  

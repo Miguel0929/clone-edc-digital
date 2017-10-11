@@ -12,8 +12,14 @@ class Dashboard::ChapterContentsController < ApplicationController
     else
       @rank=rank.rank
     end  
-    if @chapter_content.coursable_type == 'Question'
+    if @chapter_content.coursable_type == 'Question' 
       redirect_to router_dashboard_chapter_content_answers_path(@chapter_content), status: 301
+    elsif @chapter_content.coursable_type == 'Quiz'
+      redirect_to router_dashboard_chapter_content_quiz_programs_path(@chapter_content), status: 301
+    elsif @chapter_content.coursable_type == 'TemplateRefilable'
+      redirect_to  router_dashboard_chapter_content_refilable_programs_path(@chapter_content)
+    elsif @chapter_content.coursable_type == 'DelireverablePackage'  
+      redirect_to  router_dashboard_chapter_content_delireverable_programs_path(@chapter_content)  
     else
       add_breadcrumb "EDCDIGITAL", :root_path
       add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
@@ -76,9 +82,9 @@ class Dashboard::ChapterContentsController < ApplicationController
         end
       end
       programas.each do |p|
-        if p.program == anterior && current_user.percentage_questions_answered_for(anterior) == 100
+        if p.program == anterior && current_user.percentage_answered_for(anterior) == 100
           return false     
-        elsif current_user.percentage_questions_answered_for(p.program) < 100 && p.program != anterior
+        elsif current_user.percentage_answered_for(p.program) < 100 && p.program != anterior
           return true
         end  
       end
