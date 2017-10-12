@@ -14,7 +14,7 @@ class Quiz < ActiveRecord::Base
       answers = QuizAnswer.where(quiz_question_id: question.id, user_id: user.id)
       answers.each do |answer|
         if !answer.nil? && answer.correct
-          total += (question.points / answers.count)
+          total += (question.points / answers.count) unless question.points.nil?
         end
       end
     else
