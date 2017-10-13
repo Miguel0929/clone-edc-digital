@@ -6,6 +6,14 @@ class InvitationJob
     redis = Redis.new
     job = JSON.parse(redis.get(job_id)) unless redis.get(job_id).nil?
 
+    u = User.find_by(email: email)
+    if u.nil?
+      job["new_records"] = job["new_records"] + 1;
+    else
+      u.update(group_id: group_id)
+      job["old_records"] = job["old_records"] + 1;
+    end
+
     user = User.invite!(:email => email, :first_name => name, group_id: group_id) do |u|
       u.skip_invitation = true
     end
@@ -29,7 +37,6 @@ class InvitationJob
       job["progress"] = job["progress"] + 1;
       redis.set(job_id, job.to_json)
 
-      sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
       begin
         response = sg.client.mail._("send").post(request_body: data)
         Rails.logger.info response.status_code
