@@ -15,7 +15,14 @@ class GroupInvitationsController < ApplicationController
 
       timestamp = Time.current.to_i
       redis = Redis.new
-      redis.set("job_#{timestamp}", { total: total, progress: 0, new_records: 0, old_records: 0}.to_json)
+      redis.set("job_#{timestamp}", {
+        total: total,
+        progress: 0,
+        new_records: 0,
+        old_records: 0,
+        new_emails: [],
+        old_emails: [],
+      }.to_json)
 
       CSV.foreach(params[:csv].tempfile, headers: true, encoding:'iso-8859-1:utf-8') do |row|
         InvitationJob.perform_async(row['NOMBRE'], row['CORREO'], params[:group_id], accept_user_invitation_url, "job_#{timestamp}")
