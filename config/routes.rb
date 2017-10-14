@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     resources :questions, only: [:show] do
       resources :answers, only: [:create, :update]
     end
+
+    resources :frequents, only: [:index]
   end
 
   post 'ratings/vote_chapter_content'
