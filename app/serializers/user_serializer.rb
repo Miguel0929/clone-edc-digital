@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :authentication_token, :first_name, :last_name, :profile_picture_url, :user_progress, :user_seen
+  attributes :id, :email, :authentication_token, :first_name, :last_name, :profile_picture_url, :user_progress, :user_seen, :phone_number
   belongs_to :group
   belongs_to :industry
 
