@@ -19,4 +19,13 @@ class Mobile::BaseController < ActionController::Base
       render json: { error: 'invalid credentials' }, status: 401
     end
   end
+
+  def authorize_by_url
+    user = User.find_by(email: params[:user_email], authentication_token: params[:user_token])
+    if user
+      sign_in(user)
+    else
+      render json: { error: 'invalid credentials' }, status: 401
+    end
+  end
 end
