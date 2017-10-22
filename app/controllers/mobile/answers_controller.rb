@@ -1,4 +1,5 @@
 class Mobile::AnswersController < Mobile::BaseController
+  before_action :authorize
   after_action :update_program_stats, only: [:create, :update]
 
   def create
