@@ -1,5 +1,6 @@
 class FrequentCategoriesController < ApplicationController
 	before_action :authenticate_user!
+	before_action :require_admin
 	before_action :set_category, only: [:edit, :show, :update, :destroy]
 
 	add_breadcrumb "EDCDIGITAL", :root_path

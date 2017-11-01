@@ -2,7 +2,7 @@ class LessonsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_chapter
   before_action :set_lesson, only: [:show, :edit, :update, :destroy, :clone]
-
+  before_action :require_admin
   add_breadcrumb "EDCDIGITAL", :root_path
   add_breadcrumb "Programas", :programs_path
 
