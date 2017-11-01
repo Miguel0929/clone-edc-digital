@@ -1,7 +1,7 @@
 class GlossaryCategoriesController < ApplicationController
 	before_action :authenticate_user!
 	before_action :set_category, only: [:edit, :show, :update, :destroy]
-
+	before_action :require_admin
 	helper_method :owner_category
 
 	add_breadcrumb "EDCDIGITAL", :root_path

@@ -1,5 +1,6 @@
 class ChaptersController < ApplicationController
   before_action :authenticate_user!
+  before_action :require_admin
   before_action :set_program
   before_action :set_chapter, only: [:edit, :update, :destroy, :clone]
 
