@@ -1,5 +1,6 @@
 class ProgramsController < ApplicationController
   before_action :authenticate_user!
+  before_action :require_admin
   before_action :set_program, only: [:show, :edit, :update, :destroy, :clone, :notify_changes, :notify_null]
   before_action :set_pending_content_notifications, only: [:show, :notify_changes, :notify_null]
 

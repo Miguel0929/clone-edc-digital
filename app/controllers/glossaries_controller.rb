@@ -1,5 +1,6 @@
 class GlossariesController < ApplicationController
 	before_action :authenticate_user!
+	before_action :require_admin
 	before_action :set_glossary, only: [:show, :edit, :update, :destroy]
 
 	add_breadcrumb "EDCDIGITAL", :root_path
