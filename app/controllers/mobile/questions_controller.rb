@@ -6,13 +6,15 @@ class Mobile::QuestionsController < Mobile::BaseController
     answer = question.answers.find_by(user: current_user)
 
     parsed_answer = []
+    parsed_answer_index = []
     options = question.answer_options.split("\n").map.with_index {|item, index| {index => item} }
     unless answer.nil?
       if question.checkbox?
         parsed_answer = answer.answer_text.split('\n')
+        parsed_answer_index = answer.answer_text.split('\n').map {|answer| parsed_answer.index(answer)}
       end
     end
 
-    render json: { question: question, answer: answer, parsed_answer: parsed_answer, options: options}
+    render json: { question: question, answer: answer, parsed_answer: parsed_answer, options: options, parsed_answer_index: parsed_answer_index}
   end
 end
