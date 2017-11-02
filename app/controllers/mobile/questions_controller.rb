@@ -7,11 +7,11 @@ class Mobile::QuestionsController < Mobile::BaseController
 
     parsed_answer = []
     parsed_answer_index = []
-    options = question.answer_options.split("\n").map.with_index {|item, index| {index => item} }
+    options = question.answer_options.split("\n")
     unless answer.nil?
       if question.checkbox?
         parsed_answer = answer.answer_text.split('\n')
-        parsed_answer_index = answer.answer_text.split('\n').map {|answer| parsed_answer.index(answer)}
+        parsed_answer_index = answer.answer_text.split('\n').map {|answer| options.index(answer)}
       end
     end
 
