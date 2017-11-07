@@ -36,7 +36,8 @@
       = link_to mentor_evaluation_path(chapter, program_id: @program, user_id: @user), class: 'evaluation-nav-link' do
         %li.text-center{style: "width: #{chaps_width}%; border-right: 1px dotted #3C93CE; #{(index==0) ? 'border-left: 1px dotted #3C93CE;' : ''}", class: "#{(chapter.id == @chapter.id) ? 'evaluation-nav-active' : ''}", "data-placement": "bottom", "data-toggle": "tooltip", "data-original-title": "#{chapter.name}"}
           #{index+1}
-    = link_to mentor_evaluation_path(@next_chapter, program_id: @program, user_id: (defined?(@same_user_next) ? @same_user_next : @selected_user) ), class: 'evaluation-nav-link' do
+    - unless @next_chapter.nil?
+      = link_to mentor_evaluation_path(@next_chapter, program_id: @program, user_id: (defined?(@same_user_next) ? @same_user_next : @selected_user) ), class: 'evaluation-nav-link' do
       %li.text-center{style: "width: #{chaps_width}%;", "data-placement": "bottom", "data-toggle": "tooltip", "data-original-title": "#{ (@selected_user.id > @user.id) ? @next_text + @selected_user.name : @next_chapter.name }", class: "#{ (@selected_user.id > @user.id) ? 'text-complete' : ''}"}
         Siguiente
 
