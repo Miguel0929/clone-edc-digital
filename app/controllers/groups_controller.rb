@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort, :student_control, :reassign_student, :unlink_student, :notification_route, :no_group_students]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort, :student_control, :reassign_student, :unlink_student, :notification_route, :no_group_students, :clone]
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -11,8 +11,8 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @students = @group.active_students
-    @students = @group.student_search(params[:query]) if params[:query].present?
+    @students = @group.active_students.page(params[:page]).per(50)
+    @students = @group.student_search(params[:query]).page(params[:page]).per(50) if params[:query].present?
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{group_path(@group)}'>#{@group.name}</a>".html_safe
   end
@@ -46,7 +46,7 @@ class GroupsController < ApplicationController
           m = User.find(u)
           @group.users << m
         end
-      end   
+      end
       redirect_to sort_route_group_path(@group.id), notice: "Se creo exitosamente el grupo #{@group.name}, ahora ordena la \"Ruta de aprendizaje\""
     else
       render :new
@@ -100,7 +100,7 @@ class GroupsController < ApplicationController
   def notification_route
     LearningPathNotificationJob.perform_async(@group,dashboard_learning_path_url)
     redirect_to sort_route_group_path, notice: "Notificaciones enviadas al grupo #{@group.name}"
-  end  
+  end
 
   def student_control
     add_breadcrumb "Grupos", :groups_path
@@ -159,6 +159,27 @@ class GroupsController < ApplicationController
         redirect_to groups_path, notice: "Los alumnos fueron reasignados exitosamente a #{host_group.name}"
       end
     end
+  end
+
+  def clone
+    attributes = @group.attributes
+    attributes.delete('id')
+    attributes.delete('created_at')
+    attributes.delete('updated_at')
+
+    group = Group.new(attributes)
+    
+    @group.programs.order(:position).each do |program|
+      group.programs << program
+    end
+
+    group.quizzes = @group.quizzes
+    group.users = @group.users
+    group.key = "COPIA-#{@group.key}"
+
+    group.save({ validate: false })
+
+    redirect_to groups_path, notice: 'Grupo clonado exitosamente'
   end
 
   private

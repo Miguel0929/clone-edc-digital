@@ -2,6 +2,7 @@ class ChaptersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_program, except: [:content, :rubrics]
   before_action :set_chapter, only: [:edit, :update, :destroy, :clone, :content, :rubrics]
+  before_action :require_admin
 
   add_breadcrumb "EDCDIGITAL", :root_path
   add_breadcrumb "Programas", :programs_path

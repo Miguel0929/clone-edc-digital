@@ -1,0 +1,9 @@
+- if lesson.content.nil? || lesson.content.empty?
+  .embed-responsive.embed-responsive-16by9
+    = raw lesson.video_url
+- else
+  = raw parse_lesson_content(lesson)
+
+:javascript
+  $('img').addClass('img-responsive');
+  $('p').addClass('text-justify');

@@ -23,6 +23,8 @@
 //= require dataTables/extras/dataTables.tableTools
 //= require turbolinks
 //= require bootstrap
+//= require bootstrap-editable
+//= require bootstrap-editable-rails
 //= require ckeditor/init
 //= require modernizr
 //= require jquery.scrollbar
@@ -31,16 +33,11 @@
 //= require chartkick
 //= require jquery-readyselector
 //= require sweetalert
+//= require sweet-alert-confirm
 //= require_tree "."
 //= stub landings/pace.min
 //= stub landings/pages.frontend
 //= stub landings/velocity.min
 //= stub landings/velocity.ui
-//= require editable/bootstrap-editable
-//= require editable/rails
 //= require typeahead.js.js
 //= require bootstrap-tour
-
-$(document).on('turbolinks:load', function(){
-  $('.editable').editable();
-});

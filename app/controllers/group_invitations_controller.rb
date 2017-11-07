@@ -13,15 +13,24 @@ class GroupInvitationsController < ApplicationController
     else
       total = CSV.read(params[:csv].tempfile, headers: true, encoding:'iso-8859-1:utf-8').size
 
-      job = AsyncJob.create({title: 'Inviting users', progress: 0, total: total})
+      timestamp = Time.current.to_i
+      redis = Redis.new
+      redis.set("job_#{timestamp}", {
+        total: total,
+        progress: 0,
+        new_records: 0,
+        old_records: 0,
+        new_emails: [],
+        old_emails: [],
+      }.to_json)
 
       CSV.foreach(params[:csv].tempfile, headers: true, encoding:'iso-8859-1:utf-8') do |row|
-        InvitationJob.perform_async(row['NOMBRE'], row['CORREO'], params[:group_id], accept_user_invitation_url, job)
+        InvitationJob.perform_async(row['NOMBRE'], row['CORREO'], params[:group_id], accept_user_invitation_url, "job_#{timestamp}")
       end
 
       flash[:notice] = "Invitaciones enviadas"
 
-      redirect_to group_invitation_path(job)
+      redirect_to group_invitation_path(timestamp)
     end
   end
 

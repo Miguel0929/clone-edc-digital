@@ -1,7 +1,7 @@
 class FrequentsController < ApplicationController
 	before_action :authenticate_user!
 	before_action :set_frequent, only: [:show, :edit, :update, :destroy]
-
+	before_action :require_admin
 	add_breadcrumb "EDCDIGITAL", :root_path
 
 	def show
