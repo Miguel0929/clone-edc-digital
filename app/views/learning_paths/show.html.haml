@@ -5,31 +5,100 @@
   .row
     .col-md-12
       %h2.text-center
-        Diseño de la "Ruta de aprendizaje"
+        = 'Diseño de la "Ruta de aprendizaje": ' + @learning_path.name 
       .panel.panel-default
         .panel-heading
-          %h3.panel-title
-            = @learning_path.name
+          %h3.panel-title Programas
         .panel-body
-          #cont_sortable.sortable{'data-update-url'=> url_prod_helper(sort_learning_path_learning_path_programs_path(@learning_path))}
-            - @learning_path.learning_path_programs.order(:position).each do |program|
+          #cont_sortable_programs.sortable{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
+            - @c_programs.each do |program|
+
               .panel-group{id: "content_#{program.id}"}
                 .panel.panel-default
                   .panel-heading
                     %span.handle-sort
                       [mover]
                     .pull-right  
-                      = link_to learning_path_learning_path_program_path(@learning_path, program), method: :delete, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Elimiar' do
+                      = link_to learning_path_learning_path_content_path(@learning_path, program), method: :delete, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Elimiar' do
                         %span.glyphicon.glyphicon-remove
      
                     %h3.panel-title
-                      = program.program.name
+                      = program.model.name
                       .pull-right
                         %span.label.label-info
                           Programa                  
           %center                
             %button.btn.btn-primary{"data-target" => "#addProgram", "data-toggle" => "modal", :type => "button"}
-              Agregar Programa      
+              Agregar Programa
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title Examenes
+        .panel-body
+          #cont_sortable_quizzes.sortable{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
+            - @c_quizzes.each do |quiz|
+              .panel-group{id: "content_#{quiz.id}"}
+                .panel.panel-default
+                  .panel-heading
+                    %span.handle-sort
+                      [mover]
+                    .pull-right  
+                      = link_to learning_path_learning_path_content_path(@learning_path, quiz), method: :delete, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Elimiar' do
+                        %span.glyphicon.glyphicon-remove
+     
+                    %h3.panel-title
+                      = quiz.model.name
+                      .pull-right
+                        %span.label.label-info
+                          Examen                  
+          %center                
+            %button.btn.btn-primary{"data-target" => "#addQuiz", "data-toggle" => "modal", :type => "button"}
+              Agregar Examen
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title Rellenables
+        .panel-body
+          #cont_sortable_refilables.sortable{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
+            - @c_refilables.each do |refilable|
+              .panel-group{id: "content_#{refilable.id}"}
+                .panel.panel-default
+                  .panel-heading
+                    %span.handle-sort
+                      [mover]
+                    .pull-right  
+                      = link_to learning_path_learning_path_content_path(@learning_path, refilable), method: :delete, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Elimiar' do
+                        %span.glyphicon.glyphicon-remove
+     
+                    %h3.panel-title
+                      = refilable.model.name
+                      .pull-right
+                        %span.label.label-info
+                          Rellenable                  
+          %center                
+            %button.btn.btn-primary{"data-target" => "#addRefilable", "data-toggle" => "modal", :type => "button"}
+              Agregar Rellenable
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title Entregables
+        .panel-body
+          #cont_sortable_delireverables.sortable{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
+            - @c_delireverables.each do |delireverable|
+              .panel-group{id: "content_#{delireverable.id}"}
+                .panel.panel-default
+                  .panel-heading
+                    %span.handle-sort
+                      [mover]
+                    .pull-right  
+                      = link_to learning_path_learning_path_content_path(@learning_path, delireverable), method: :delete, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Elimiar' do
+                        %span.glyphicon.glyphicon-remove
+     
+                    %h3.panel-title
+                      = delireverable.model.name
+                      .pull-right
+                        %span.label.label-info
+                          Entregable                  
+          %center                
+            %button.btn.btn-primary{"data-target" => "#addDelireverable", "data-toggle" => "modal", :type => "button"}
+              Agregar Entregable                                   
  
 %input{:id => "learning_path_id", :type => "hidden", :value => @learning_path.id}            
 
@@ -41,14 +110,58 @@
           %span{"aria-hidden" => "true"} ×
         %h4#myModalLabel.modal-title Agregar Programa
       .modal-body
-        %input{:id => "tipo_p", :type => "hidden", :value => "program"}
         %center
           .form-group
-            %label{:for => "programs"} Programas: 
-            = select_tag "programs", options_from_collection_for_select(@programs, "id", "name"), prompt: "Selecciona un programa", class: 'form-control col-md-12'         
+            %label{:for => "program"} Programas: 
+            = select_tag "program", options_from_collection_for_select(@programs, "id", "name"), prompt: "Selecciona un programa", class: 'form-control col-md-12'         
       .modal-footer
-        %button.btn.btn-primary{:type => "button", :id => "add_program"} Agregar    
+        %button.btn.btn-primary.add_content{:type => "button", :id => "add_program"} Agregar    
         %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+#addQuiz.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content    
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title Agregar Examen
+      .modal-body
+        %center
+          .form-group
+            %label{:for => "quiz"} Examenes: 
+            = select_tag "quiz", options_from_collection_for_select(@quizzes, "id", "name"), prompt: "Selecciona un examen", class: 'form-control col-md-12'         
+      .modal-footer
+        %button.btn.btn-primary.add_content{:type => "button", :id => "add_quiz"} Agregar    
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close 
+#addRefilable.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content    
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title Agregar Rellenable
+      .modal-body
+        %center
+          .form-group
+            %label{:for => "refilable"} Rellenable: 
+            = select_tag "refilable", options_from_collection_for_select(@templates_refilables, "id", "name"), prompt: "Selecciona un rellenable", class: 'form-control col-md-12'         
+      .modal-footer
+        %button.btn.btn-primary.add_content{:type => "button", :id => "add_refilable"} Agregar    
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+#addDelireverable.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content    
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title Agregar Entregable
+      .modal-body
+        %center
+          .form-group
+            %label{:for => "delireverable"} Entregable: 
+            = select_tag "delireverable", options_from_collection_for_select(@delireverable_packages, "id", "name"), prompt: "Selecciona un entregable", class: 'form-control col-md-12'         
+      .modal-footer
+        %button.btn.btn-primary.add_content{:type => "button", :id => "add_delireverable"} Agregar    
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close                         
 
 #alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
@@ -57,19 +170,43 @@
         %span{"aria-hidden" => "true"} ×
         %span.sr-only Close
       .alert-text  
-        Programa agregado a la ruta          
+                 
                          
 
 
 :javascript
-  $("#add_program").click(function() {
+  $(".add_content").click(function() {
+    var boton = $(this).attr("id");
     id= $("#learning_path_id").val();
-    program=$("#programs").val();
+    if (boton == "add_program"){
+      content=$("#program").val();
+      tipo= "program";
+    } else if (boton == "add_quiz") {
+      content=$("#quiz").val();
+      tipo= "quiz";
+    } else if (boton == "add_refilable") {
+      content=$("#refilable").val();
+      tipo= "refilable";
+    } else if (boton == "add_delireverable") {
+      content=$("#delireverable").val();
+      tipo= "delireverable";
+    }
     $.ajax({
       type: "POST",  
-      url: "/learning_paths/"+id+"/learning_path_programs",
-      data: { program: program },
+      url: "/learning_paths/"+id+"/learning_path_contents",
+      data: { content: content, tipo: tipo },
       success: function(data){
+        if (data.error == "No"){
+          if (data.contenido.content_type == "Program"){
+            tipo_success = "Programa";
+          }else if (data.contenido.content_type == "Quiz"){
+            tipo_success = "Examen";
+          }else if (data.contenido.content_type == "TemplateRefilable"){
+            tipo_success = "Rellenable";
+          }else if (data.contenido.content_type == "DelireverablePackage"){
+            tipo_success = "Entregable";
+          }
+
           var str="<div class='panel-group'>"
             +"<div class='panel panel-default'>"
             +"<div class='panel-heading'>"
@@ -77,30 +214,49 @@
             +"[mover]"
             +"</span>"
             +"<div class='pull-right'>"
-            +"<a data-confirm='¿Estás seguro?' data-toggle='tooltip' data-placement='top' title='Eliminar' rel='nofollow' data-method='delete' href='/learning_paths/"+ id +"/learning_path_programs/"+ data.contenido.id +"'><span class='glyphicon glyphicon-remove'></span></a>"
+            +"<a data-confirm='¿Estás seguro?' data-toggle='tooltip' data-placement='top' title='Eliminar' rel='nofollow' data-method='delete' href='/learning_paths/"+ id +"/learning_path_contents/"+ data.contenido.id +"'><span class='glyphicon glyphicon-remove'></span></a>"
             +"</div>"
             +"<h3 class='panel-title'>"
-            +data.programa.name
+            +data.poly_content.name
             +"<div class='pull-right'>"
             +"<span class='label label-info'>"
-            +"Programa"
+            +tipo_success
             +"</span>"
             +"</div>"
             +"</h3>"
             +"</div>"
             +"</div>"
             +"</div>"
-          $('#programs').val('');
-          $("#cont_sortable").append(str);
-
 
           $("#alert-ra").css('display','block');
           setTimeout(function(){$("#alert-ra").css('display','none');},4000);
-
-          $('#addProgram').modal('hide');         
+            
+          if (data.contenido.content_type == "Program"){
+            $("#cont_sortable_programs").append(str);
+            $(".alert-text").html("Programa "+ data.poly_content.name+ " agregado con exito.")
+            $('#addProgram').modal('hide'); 
+          }else if (data.contenido.content_type == "Quiz"){
+            $("#cont_sortable_quizzes").append(str);
+            $('#addQuiz').modal('hide');
+            $(".alert-text").html("Examen "+ data.poly_content.name+ " agregado con exito.") 
+          }else if (data.contenido.content_type == "TemplateRefilable"){
+            $("#cont_sortable_refilables").append(str);
+            $('#addRefilable').modal('hide'); 
+            $(".alert-text").html("Rellenable "+ data.poly_content.name+ " agregado con exito.")
+          }else if (data.contenido.content_type == "DelireverablePackage"){
+            $("#cont_sortable_delireverables").append(str);
+            $('#addDelireverable').modal('hide'); 
+            $(".alert-text").html("Entregable "+ data.poly_content.name+ " agregado con exito.")
+          }  
+        } else if (data.error == "Existe"){
+          sweetAlert('Oops...',
+          "El elemento ya existe en la Ruta de Aprendizaje",
+          'error')
+        }          
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) { 
           alert("Status: " + textStatus); 
       }       
     });
   });
+  
