@@ -13,6 +13,7 @@ class LearningPathContentsController < ApplicationController
 		if learning_path_contents_params[:tipo] == "program"
 			if @learning_path.learning_path_contents.where(content_type: "Program", content_id: params[:content]).first.nil?
 				maximo = @learning_path.learning_path_contents.where(content_type: "Program").maximum(:position)
+				if maximo.nil? then maximo = 0 end
 				@learning_path_content=@learning_path.learning_path_contents.new(content_type: "Program", content_id: params[:content], position: maximo+1)
 			else
 				existe = false
@@ -20,6 +21,7 @@ class LearningPathContentsController < ApplicationController
 		elsif learning_path_contents_params[:tipo] == "quiz"
 			if @learning_path.learning_path_contents.where(content_type: "Quiz", content_id: params[:content]).first.nil?
 				maximo = @learning_path.learning_path_contents.where(content_type: "Quiz").maximum(:position)
+				if maximo.nil? then maximo = 0 end
 				@learning_path_content=@learning_path.learning_path_contents.new(content_type: "Quiz", content_id: params[:content], position: maximo+1)
 			else
 				existe = false
@@ -27,6 +29,7 @@ class LearningPathContentsController < ApplicationController
 		elsif learning_path_contents_params[:tipo] == "refilable"
 			if @learning_path.learning_path_contents.where(content_type: "TemplateRefilable", content_id: params[:content]).first.nil?	
 				maximo = @learning_path.learning_path_contents.where(content_type: "TemplateRefilable").maximum(:position) 
+				if maximo.nil? then maximo = 0 end
 				@learning_path_content=@learning_path.learning_path_contents.new(content_type: "TemplateRefilable", content_id: params[:content], position: maximo+1)
 			else
 				existe = false
@@ -34,6 +37,7 @@ class LearningPathContentsController < ApplicationController
 		elsif learning_path_contents_params[:tipo] == "delireverable"
 			if @learning_path.learning_path_contents.where(content_type: "DelireverablePackage", content_id: params[:content]).first.nil?		
 				maximo = @learning_path.learning_path_contents.where(content_type: "DelireverablePackage").maximum(:position)
+				if maximo.nil? then maximo = 0 end
 				@learning_path_content=@learning_path.learning_path_contents.new(content_type: "DelireverablePackage", content_id: params[:content], position: maximo+1)	
 			else
 				existe = false
