@@ -7,7 +7,7 @@ class QuizzesController < ApplicationController
 
   def index
     add_breadcrumb "<a class='active' href='#{quizzes_path}'>Examenes</a>".html_safe
-    @quizzes = Quiz.where("tipo IS ? or tipo = ?", nil, 1)
+    @quizzes = Quiz.all
   end
 
   def show

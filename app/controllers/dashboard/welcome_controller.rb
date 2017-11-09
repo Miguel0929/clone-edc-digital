@@ -46,7 +46,7 @@ class Dashboard::WelcomeController < ApplicationController
 
   def learning_path
     unless current_user.group.learning_path.nil?    
-      @programs=current_user.group.learning_path.learning_path_programs.order(:position)
+      @programs=current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
       c=0
       @c=0 
       ids=[]
@@ -59,8 +59,8 @@ class Dashboard::WelcomeController < ApplicationController
           break
         end
       end    
-      @programs=LearningPathProgram.where(id: ids).order(:position)
-    end         
+      @programs=LearningPathContent.where(id: ids).order(:position)
+    end        
     @modal_trigger = current_user.video_trigger
     @tour_trigger = current_user.tour_trigger
   end  

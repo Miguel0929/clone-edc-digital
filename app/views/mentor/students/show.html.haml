@@ -170,7 +170,7 @@
                         Acciones
                   %tbody
                     - Program.all.each do |program|
-                      - if @user.group.programs.exists?(program) #hace lo de abajo solo si el programa está DISPONIBLE
+                      - if @programs.exists?(program) #hace lo de abajo solo si el programa está DISPONIBLE
                         %tr
                           %td.p-b-35
                             %div
@@ -324,7 +324,7 @@
                           .text-primary.bold
                             No hay exámenes asignados a este estudiante
                     - else
-                      - @user.group.quizzes.each do |quiz|
+                      - @quizzes.each do |quiz|
                         - quiz_ques = quiz.quiz_questions.count
                         - answered_ques = quiz.answered(@user)
                         - result = quiz.average(@user)

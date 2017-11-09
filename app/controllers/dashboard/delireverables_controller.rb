@@ -5,9 +5,20 @@ class Dashboard::DelireverablesController < ApplicationController
   def index
     add_breadcrumb "<a href='#{dashboard_delireverables_path}' class='active'>Mis entregables</a>".html_safe
 
-    @delireverables = Delireverable.joins(delireverable_package: [:groups])
+    delireverables_groups = Delireverable.joins(delireverable_package: [:groups])
                                    .where('groups.id = ?', current_user.group.id)
-                                   .order(position: :asc)
+                                   .order(position: :asc).pluck(:id)
+
+    packages = current_user.group.learning_path.learning_path_contents.where(content_type: "DelireverablePackage")
+    ids=[]
+    packages.each do |package|
+      package.model.delireverables.each do |delireverable|
+        ids << delireverable.id
+      end  
+    end                                                               
+    aux=ids.concat(delireverables_groups)                               
+    @delireverables=Delireverable.where(id: aux)
+
     @done_delireverables = []
     @undone_delireverables = []    
     @delireverables.each do |deliv|
@@ -16,6 +27,6 @@ class Dashboard::DelireverablesController < ApplicationController
     	else
     		@undone_delireverables.push(deliv)
     	end
-    end                          
+    end                               
   end
 end

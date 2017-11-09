@@ -79,14 +79,14 @@ class Program < ActiveRecord::Base
   end
 
   def anterior(grupo)
-    programas  = grupo.learning_path.learning_path_programs.order(:position)  
+    programas  = grupo.learning_path.learning_path_contents.where(content_type: "Program").order(:position)  
     anterior=Program.new
 
     programas.each do |p|
-      if p.program==self
+      if p.model==self
         return anterior
       else
-        anterior=p.program
+        anterior=p.model
       end
     end
   end  

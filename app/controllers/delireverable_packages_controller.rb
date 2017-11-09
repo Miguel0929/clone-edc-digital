@@ -8,7 +8,7 @@ class DelireverablePackagesController < ApplicationController
   def index
     add_breadcrumb "<a class='active' href='#{delireverable_packages_path}'>Paquetes de entregables</a>".html_safe
 
-    @delireverable_packages =  DelireverablePackage.where("tipo IS ? or tipo = ?", nil, 1).includes(:groups)
+    @delireverable_packages =  DelireverablePackage.all.includes(:groups)
   end
 
   def new

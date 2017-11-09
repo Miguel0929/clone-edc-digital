@@ -28,9 +28,9 @@
               ×
           Aquí estará disponible el video introductorio siempre que lo necesites
           .triangle-left
-        - @programs.each do |p|
+        - @programs.order(:position).each do |p|
           - @c+=1         
-          - program = p.program
+          - program = p.model
           - anterior = p.anterior(current_user.group)
 
           .timeline-block

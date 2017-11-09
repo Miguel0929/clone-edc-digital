@@ -6,7 +6,7 @@ class TemplateRefilablesController < ApplicationController
   def index
     add_breadcrumb "<a class='active' href='#{template_refilables_path}'>Mis rellenables</a>".html_safe
 
-    @template_refilables = TemplateRefilable.where("tipo IS ? or tipo = ?", nil, 1)
+    @template_refilables = TemplateRefilable.all
   end
 
   def show
