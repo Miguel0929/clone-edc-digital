@@ -192,7 +192,7 @@
                             %strong (#{@user.percentage_content_visited_for(program)}%)
                         - if current_user.admin? && !@user.group.nil?
                           %td.p-b-15
-                            = !@user.group.programs.exists?(program) ? "No disponible" : "Disponible"
+                            = !@programs.exists?(program) ? "No disponible" : "Disponible"
                           %td.p-b-15
                             %ul.unstyled.list-unstyled.p-l-0.m-b-0
                               %li
@@ -229,7 +229,7 @@
                             .text-primary.bold
                               No hay exámenes asignados a este estudiante
                       - else
-                        - @user.group.quizzes.each do |quiz|
+                        - @quizzes.each do |quiz|
                           - quiz_ques = quiz.quiz_questions.count
                           - answered_ques = quiz.answered(@user)
                           - result = quiz.average(@user)

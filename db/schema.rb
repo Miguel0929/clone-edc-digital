@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170829214129) do
+ActiveRecord::Schema.define(version: 20171107202540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -289,6 +289,17 @@ ActiveRecord::Schema.define(version: 20170829214129) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "learning_path_contents", force: :cascade do |t|
+    t.integer  "learning_path_id"
+    t.integer  "content_id"
+    t.string   "content_type"
+    t.integer  "position"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "learning_path_contents", ["learning_path_id"], name: "index_learning_path_contents_on_learning_path_id", using: :btree
 
   create_table "learning_path_notifications", force: :cascade do |t|
     t.integer  "group_id"
@@ -773,6 +784,7 @@ ActiveRecord::Schema.define(version: 20170829214129) do
   add_foreign_key "group_stats", "groups"
   add_foreign_key "groups", "learning_paths"
   add_foreign_key "groups", "universities"
+  add_foreign_key "learning_path_contents", "learning_paths"
   add_foreign_key "learning_path_notifications", "groups"
   add_foreign_key "learning_path_programs", "learning_paths"
   add_foreign_key "learning_path_programs", "programs"

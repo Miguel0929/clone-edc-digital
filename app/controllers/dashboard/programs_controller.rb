@@ -21,14 +21,12 @@ class Dashboard::ProgramsController < ApplicationController
             ids_comp.push(id)
           end
         end  
-        #prog_comp = current_user.group.group_programs.where(program_id: ids_comp).map{|p| p.id}
-        @programs = current_user.group.learning_path.learning_path_programs.order(:position)
-        #@programs = current_user.group.group_programs.where(program_id: ids_ruta).order(:position)
+        @programs = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
         c=0
         @programs.each do |p|
           c+=1
           if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group))>80
-            ids.push(p.program_id)
+            ids.push(p.content_id)
           else
             break
           end
@@ -141,23 +139,23 @@ class Dashboard::ProgramsController < ApplicationController
   def permiso_avance
     @program = Program.find(params[:id])
     active=ProgramActive.where(user: current_user, program: @program).first
-    programas = current_user.group.learning_path.learning_path_programs.order(:position)
-    if (@program.content_type != "ruta" && active.status) || current_user.mentor? 
+    programas = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
+    if (active.nil? || active.status) || current_user.mentor? 
       return false
     end  
-    if @program != programas.first.program  
+    if @program != programas.first.model  
       anterior=Program.new
       programas.each do |p|
-        if p.program==@program
+        if p.model==@program
           break
         else
-          anterior=p.program
+          anterior=p.model
         end
       end
       programas.each do |p|
-        if (p.program == anterior && current_user.percentage_answered_for(anterior) == 100)
+        if (p.model == anterior && current_user.percentage_answered_for(anterior) == 100)
           return false      
-        elsif (current_user.percentage_answered_for(p.program) < 100 && p.program != anterior) 
+        elsif (current_user.percentage_answered_for(p.model) < 100 && p.model != anterior) 
           return true
         end  
       end

@@ -108,13 +108,39 @@ class Mentor::StudentsController < ApplicationController
     .where("users.id = ?", @user.id)
     .order(created_at: :desc)
 
-    @delireverables = Delireverable.joins(delireverable_package: [:groups])
-                                    .where('groups.id = ?', @user.group.id)
-                                    .order(position: :asc)
+    aux = []
+    programs_groups = @user.group.programs.pluck(:id)
+    programs_ruta = @user.group.learning_path.learning_path_contents.where(content_type: "Program").pluck(:content_id)                                
+    aux = programs_ruta.concat(programs_groups)                                
+    @programs=Program.where(id: aux)
 
-    @refilables = TemplateRefilable.joins(:groups)
+    aux = []
+    delireverables_groups = Delireverable.joins(delireverable_package: [:groups])
                                     .where('groups.id = ?', @user.group.id)
-                                    .order(position: :asc)
+                                    .order(position: :asc).pluck(:id)
+    packages = @user.group.learning_path.learning_path_contents.where(content_type: "DelireverablePackage")
+    ids=[]
+    packages.each do |package|
+      package.model.delireverables.each do |delireverable|
+        ids << delireverable.id
+      end  
+    end                                                               
+    aux=ids.concat(delireverables_groups)                               
+    @delireverables=Delireverable.where(id: aux)
+                                    
+    aux = []
+    refilables_groups = TemplateRefilable.joins(:groups)
+                                    .where('groups.id = ?', @user.group.id)
+                                    .order(position: :asc).pluck(:id)
+    refilables_ruta = @user.group.learning_path.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)                                
+    aux = refilables_ruta.concat(refilables_groups)                                
+    @refilables=TemplateRefilable.where(id: aux)                                
+    
+    aux = []
+    quizzes_groups = @user.group.quizzes
+    quizzes_ruta = @user.group.learning_path.learning_path_contents.where(content_type: "Quiz").pluck(:content_id) 
+    aux = quizzes_ruta.concat(quizzes_groups)                                
+    @quizzes=Quiz.where(id: aux) 
   end
 
   def exports

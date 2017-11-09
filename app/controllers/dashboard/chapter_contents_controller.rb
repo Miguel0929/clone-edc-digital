@@ -68,23 +68,23 @@ class Dashboard::ChapterContentsController < ApplicationController
   def permiso
     program=@chapter_content.chapter.program
     active=ProgramActive.where(user: current_user, program: program).first
-    programas = current_user.group.learning_path.learning_path_programs.order(:position)
-    if (program.content_type != "ruta" && active.status) || current_user.mentor?
+    programas = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
+    if (active.nil? || active.status) || current_user.mentor?
       return false
     end 
-    if program != programas.first.program
+    if program != programas.first.model
       anterior=Program.new
       programas.each do |p|
-        if p.program==program
+        if p.model==program
           break
         else
-          anterior=p.program
+          anterior=p.model
         end
       end
       programas.each do |p|
-        if p.program == anterior && current_user.percentage_answered_for(anterior) == 100
+        if p.model == anterior && current_user.percentage_answered_for(anterior) == 100
           return false     
-        elsif current_user.percentage_answered_for(p.program) < 100 && p.program != anterior
+        elsif current_user.percentage_answered_for(p.model) < 100 && p.model != anterior
           return true
         end  
       end

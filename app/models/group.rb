@@ -12,6 +12,10 @@ class Group < ActiveRecord::Base
   has_many :shared_group_attachment_groups
   has_many :shared_group_attachments, through: :shared_group_attachment_groups
   has_one :group_stats
+  has_many :delireverable_packages, through: :group_delireverable_packages
+  has_many :template_refilables, through: :group_template_refilables
+  has_many :group_delireverable_packages
+  has_many :group_template_refilables
   belongs_to :state
   belongs_to :university
   belongs_to :learning_path

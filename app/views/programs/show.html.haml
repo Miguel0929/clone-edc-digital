@@ -112,9 +112,9 @@
                       .text-center
                         = link_to 'Agregar contenido', new_chapter_lesson_path(chapter), class: 'btn btn-success'
                         = link_to 'Agregar pregunta', new_chapter_question_path(chapter), class: 'btn btn-primary'
-                        = link_to 'Agregar examen', new_chapter_quiz_program_path(chapter), class: 'btn btn-success'
-                        = link_to 'Agregar rellenable', new_chapter_refillable_program_path(chapter), class: 'btn btn-primary'
-                        = link_to 'Agregar entregable', new_chapter_delireverable_program_path(chapter), class: 'btn btn-success'
+                        = #link_to 'Agregar examen', new_chapter_quiz_program_path(chapter), class: 'btn btn-success'
+                        = #link_to 'Agregar rellenable', new_chapter_refillable_program_path(chapter), class: 'btn btn-primary'
+                        = #link_to 'Agregar entregable', new_chapter_delireverable_program_path(chapter), class: 'btn btn-success'
           .row.p-r-20.p-l-20
             - if @pending_content_notifications.count > 0
               = link_to  notify_changes_program_path,:method => 'post', class: 'btn btn-success pull-right m-l-10' do
