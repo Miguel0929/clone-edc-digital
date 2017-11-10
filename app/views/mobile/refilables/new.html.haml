@@ -1,20 +1,3 @@
-- content_for :title  do
-  Mis rellenables - EDCdigital
-
-.container-fluid.container-fixed-lg.top-container-padding.minus-30
-  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
-    .container-fluid
-      .md-p-l-20.md-p-r-20.xs-no-padding
-        .row.col-md-12
-          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
-            %h2.text-white
-              Tus rellenables
-          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
-            %h5.text-white
-              Título:
-            %h3.m-b-20.text-white
-              = @template.name
-
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
@@ -36,11 +19,9 @@
                   #refilable-content-template
                     = raw replace_fillable(@template.content)
                 .refilable-form
-                  = form_for([:dashboard, @template, Refilable.new]) do |f|
+                  = form_for([:mobile, @template, Refilable.new]) do |f|
                     = f.hidden_field :content
                 .pull-right
-                  = link_to dashboard_template_refilables_path, class: "btn btn-danger" do
-                    Cancelar
                   %button.btn.btn-primary#send-refilable
                     Enviar respuestas
 
@@ -64,7 +45,8 @@
 /    Contestar
 
 :javascript
-  $(document).on('turbolinks:load', function(){
+  $(document).ready(function(){
+    debugger
     $('.refilable-edit').editable();
 
     $('#send-refilable').click(function() {

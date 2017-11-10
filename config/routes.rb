@@ -9,6 +9,9 @@ Rails.application.routes.draw do
     end
 
     resources :frequents, only: [:index]
+    resources :template_refilables, only: [:index] do
+      resources :refilables, only: [:new, :create, :edit, :update]
+    end
   end
 
   post 'ratings/vote_chapter_content'
