@@ -9,13 +9,13 @@ class Dashboard::TemplateRefilablesController < ApplicationController
                                     .where('groups.id = ?', current_user.group.id)
                                     .order(position: :asc)
     @done_refilables = []
-    @undone_refilables = []    
+    @undone_refilables = []
     @refilables.each do |refil|
     	if refil.refilables.find_by(user: current_user)
     		@done_refilables.push(refil)
     	else
     		@undone_refilables.push(refil)
     	end
-    end 
+    end
   end
 end
