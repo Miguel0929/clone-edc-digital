@@ -1,20 +1,3 @@
-- content_for :title  do
-  Mis rellenables - EDCdigital
-
-.container-fluid.container-fixed-lg.top-container-padding.minus-30
-  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
-    .container-fluid
-      .md-p-l-20.md-p-r-20.xs-no-padding
-        .row.col-md-12
-          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
-            %h2.text-white
-              Tus rellenables
-          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
-            %h5.text-white
-              Título:
-            %h3.m-b-20.text-white
-              = @template.name
-
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
@@ -28,7 +11,7 @@
                   = @template.name
                 %p
                   = @template.description
-            .col-md-8
+            .col-md-7
               .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
                 .p-b-15
                   Introduce tus respuestas en el siguiente recuadro:
@@ -36,11 +19,9 @@
                   #refilable-content-template
                     = raw replace_fillable(@template.content)
                 .refilable-form
-                  = form_for([:dashboard, @template, Refilable.new]) do |f|
+                  = form_for([:mobile, @template, Refilable.new]) do |f|
                     = f.hidden_field :content
                 .pull-right
-                  = link_to dashboard_template_refilables_path, class: "btn btn-danger" do
-                    Cancelar
                   %button.btn.btn-primary#send-refilable
                     Enviar respuestas
 
@@ -64,21 +45,11 @@
 /    Contestar
 
 :javascript
-  $(document).on('turbolinks:load', function(){
-    $('.refilable-edit').editable('toggleDisabled');
-    $('.refilable-edit').attr('contentEditable', true);
-    $('.refilable-edit').addClass('form-control refilable-input');
+  $(document).ready(function(){
+    debugger
+    $('.refilable-edit').editable();
 
     $('#send-refilable').click(function() {
-
-      $('.refilable-edit').each(function() {
-        if ($(this).text() == "" || $(this).text() == " (sin respuesta) ") {
-          $(this).addClass('no-answer');
-        } else {
-          $(this).addClass('present-answer');
-        }
-      });
-
       var $form = $('#new_refilable');
       var $template_content = $('#refilable-content-template');
       $('#refilable_content').val($template_content.html());

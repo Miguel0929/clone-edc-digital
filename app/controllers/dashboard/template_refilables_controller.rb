@@ -11,13 +11,13 @@ class Dashboard::TemplateRefilablesController < ApplicationController
     aux = refilables_ruta.concat(refilables_groups)                                
     @refilables=TemplateRefilable.where(id: aux)
     @done_refilables = []
-    @undone_refilables = []    
+    @undone_refilables = []
     @refilables.each do |refil|
     	if refil.refilables.find_by(user: current_user)
     		@done_refilables.push(refil)
     	else
     		@undone_refilables.push(refil)
     	end
-    end 
+    end
   end
 end
