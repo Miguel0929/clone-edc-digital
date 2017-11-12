@@ -6,7 +6,7 @@ class InvitationJob
     redis = Redis.new
     job = JSON.parse(redis.get(job_id)) unless redis.get(job_id).nil?
 
-    u = User.find_by(email: email)
+    u = User.unscoped.find_by(email: email)
     if u.nil?
       job["new_records"] = job["new_records"] + 1;
       job["new_emails"] = job["new_emails"] << email
@@ -16,7 +16,7 @@ class InvitationJob
       job["old_emails"] = job["old_emails"] << email
     end
 
-    user = User.invite!(:email => email, :first_name => name, group_id: group_id) do |u|
+    user = User.unscoped.invite!(:email => email, :first_name => name, group_id: group_id) do |u|
       u.skip_invitation = true
     end
 
