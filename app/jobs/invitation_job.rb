@@ -6,23 +6,17 @@ class InvitationJob
     redis = Redis.new
     job = JSON.parse(redis.get(job_id)) unless redis.get(job_id).nil?
 
-    u = User.find_by(email: email)
+    u = User.unscoped.find_by(email: email)
     if u.nil?
       job["new_records"] = job["new_records"] + 1;
-<<<<<<< HEAD
-    else
-      u.update(group_id: group_id)
-      job["old_records"] = job["old_records"] + 1;
-=======
       job["new_emails"] = job["new_emails"] << email
     else
       u.update(group_id: group_id)
       job["old_records"] = job["old_records"] + 1;
       job["old_emails"] = job["old_emails"] << email
->>>>>>> feature/invitations-to-groups
     end
 
-    user = User.invite!(:email => email, :first_name => name, group_id: group_id) do |u|
+    user = User.unscoped.invite!(:email => email, :first_name => name, group_id: group_id) do |u|
       u.skip_invitation = true
     end
 
