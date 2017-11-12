@@ -17,4 +17,15 @@ class Mobile::TemplateRefilablesController < Mobile::BaseController
 
     render json: { done_refilables: done_refilables, undone_refilables: undone_refilables}
   end
+
+  def router
+    template = TemplateRefilable.find(params[:id])
+    refil = template.refilables.find_by(user: current_user)
+
+    if refil.nil?
+      redirect_to new_mobile_template_refilable_refilable_path(template, user_token: params[:user_token], user_email: params[:user_email])
+    else
+      redirect_to edit_mobile_template_refilable_refilable_path(template, refil, user_token: params[:user_token], user_email: params[:user_email])
+    end
+  end
 end

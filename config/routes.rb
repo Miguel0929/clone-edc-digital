@@ -10,6 +10,10 @@ Rails.application.routes.draw do
 
     resources :frequents, only: [:index]
     resources :template_refilables, only: [:index] do
+      member do
+        get :router
+      end
+      
       resources :refilables, only: [:new, :create, :edit, :update]
     end
   end
