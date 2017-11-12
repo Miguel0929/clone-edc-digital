@@ -54,6 +54,7 @@
       var $template_content = $('#refilable-content-template');
       $('#refilable_content').val($template_content.html());
 
+      window.postMessage("#{@template.id}", '*')
       $form.submit();
     })
   });
