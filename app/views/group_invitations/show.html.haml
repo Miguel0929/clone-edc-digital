@@ -25,8 +25,8 @@
         %tbody.total-students-news
 
       %h6
-        Estudiantes registrados previamente
-        %span.old_records
+        Estudiantes registrados previamente inactivos
+        %span.old_records_inactive
           0
 
       %table.table.table-striped.table-bordered
@@ -34,7 +34,19 @@
           %tr
             %td
               Email
-        %tbody.total-students-olds
+        %tbody.total-students-olds-inactive
+
+      %h6
+        Estudiantes previamente registrados activos, se movieron de grupo
+        %span.old_records_group
+          0
+
+      %table.table.table-striped.table-bordered
+        %thead
+          %tr
+            %td
+              Email
+        %tbody.total-students-olds-group
 
 :javascript
   $(document).on('turbolinks:load', function(){
@@ -45,16 +57,17 @@
         $('.job-progress').html(progress + '%');
         $('.progress-bar').css('width', progress + '%');
         $('.new_records').html(job.new_records);
-        $('.old_records').html(job.old_records);
+        $('.old_records_group').html(job.old_records_group);
+        $('.old_records_inactive').html(job.old_records_inactive);
 
         if(progress == 100) {
           clearInterval(interval);
-          job.old_emails.forEach(function (email) {
+          job.old_emails_inactive.forEach(function (email) {
             var row = "<tr>" +
               "<td>" + email + "</td>" +
             "</tr>";
 
-            $('.total-students-olds').append(row);
+            $('.total-students-olds-inactive').append(row);
           });
 
           job.new_emails.forEach(function (email) {
@@ -63,6 +76,15 @@
             "</tr>";
 
             $('.total-students-news').append(row);
+          });
+
+
+          job.old_emails_group.forEach(function (email) {
+            var row = "<tr>" +
+              "<td>" + email + "</td>" +
+            "</tr>";
+
+            $('.total-students-olds-group').append(row);
           });
         }
       })
