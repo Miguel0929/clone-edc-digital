@@ -40,6 +40,7 @@
                     .col-md-9
                       %h6.bot-left{:class => "#{(quiz.answered(current_user) > 0) ? 'text-complete' : 'text-success'}"}
                         = quiz.answered(current_user) > 0 ? 'Contestado' : 'No contestado'
+                        %span.pull-right Intentos #{ Attempt.where(quiz_id: quiz.id, user_id: current_user.id).count }
                       %h4 
                         = quiz.name
                       %h6
@@ -51,6 +52,11 @@
                         = link_to dashboard_quiz_path(quiz) do
                           %button.btn.btn-sm.btn-complete.bold.m-b-10
                             Ver exámen
+                        - if Attempt.where(quiz_id: quiz.id, user_id: current_user.id).count < 3
+                          = link_to apply_dashboard_quiz_path(quiz) do
+                            %button.btn.btn-sm.btn-warning.bold.m-b-10
+                              Nuevo intento
+                            
                       -else
                         = link_to apply_dashboard_quiz_path(quiz) do
                           %button.btn.btn-sm.btn-success.bold.m-b-10
