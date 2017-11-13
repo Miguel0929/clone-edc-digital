@@ -111,9 +111,9 @@ class Mentor::StudentsController < ApplicationController
     aux = []
     programs_groups = @user.group.programs.pluck(:id)
     programs_ruta = @user.group.learning_path.learning_path_contents.where(content_type: "Program").pluck(:content_id)                                
-    aux = programs_ruta.concat(programs_groups)                                
+    @complementarios = programs_groups - programs_ruta
+    aux = programs_ruta.concat(programs_groups)                               
     @programs=Program.where(id: aux)
-
     aux = []
     delireverables_groups = Delireverable.joins(delireverable_package: [:groups])
                                     .where('groups.id = ?', @user.group.id)

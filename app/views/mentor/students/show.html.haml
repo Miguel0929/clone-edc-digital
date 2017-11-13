@@ -243,7 +243,7 @@
                                       .slider.slider-small.round
                                   .label-for-switch.label-for-switch-small.p-l-5
                                     Estado de evaluación
-                                - if program.content_type!="ruta"
+                                - if @complementarios.include? program.id
                                   .btn-like-switch.btn-like-switch-small
                                     %label.switch.switch-small
                                       %form{:action => program_stats_path, 'data-remote': "true", method: :post, id: "edit_program_active_#{program.id}"}

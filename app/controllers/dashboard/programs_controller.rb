@@ -139,8 +139,10 @@ class Dashboard::ProgramsController < ApplicationController
   def permiso_avance
     @program = Program.find(params[:id])
     active=ProgramActive.where(user: current_user, program: @program).first
+    is_active=true
     programas = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
-    if (active.nil? || active.status) || current_user.mentor? 
+    if active.nil? then is_active = false else is_active = active.status end  
+    if is_active || current_user.mentor? 
       return false
     end  
     if @program != programas.first.model  

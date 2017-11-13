@@ -5,13 +5,15 @@
   
   = f.select :university_id, University.where(state_id: @group.state_id).collect{|p| [ p.name, p.id ] }, {label: 'Universidad', include_blank: "Selecciona un estado primero"}
   = f.select :category, ['Escolarizado', 'Autodidacta digital', 'Presencial', 'Experiemental'], label: 'Tipo de grupo', include_blank: true
-  = f.select :program_ids,  Program.all.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Programas'}, multiple: 'multiple'
+  
   = f.select :user_ids, User.mentors.invitation_accepted.collect{|u| [u.name, u.id]}, {include_blank: false, label: 'Mentores'}, multiple: 'multiple'
   = f.select :student_ids, User.active_users.collect{|u| [u.email, u.id]}, {include_blank: false, label: 'Estudiantes'}, multiple: 'multiple'
-  = f.select :quiz_ids, Quiz.all.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Examenes' }, multiple: 'multiple'
-  = f.select :delireverable_package_ids, DelireverablePackage.all.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Entregables' }, multiple: 'multiple'
-  = f.select :template_refilable_ids, TemplateRefilable.all.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Rellenables' }, multiple: 'multiple'
   = f.select :learning_path_id, LearningPath.all.collect{|l|[l.name, l.id]},  {include_blank: "Selecciona una Ruta de Aprendizaje", label: 'Ruta de aprendizaje' }
+  = f.select :program_ids,  Program.all.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Programas (Complementarios)'}, multiple: 'multiple'
+  = f.select :quiz_ids, Quiz.all.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Examenes (Complemantarios)' }, multiple: 'multiple'
+  = f.select :delireverable_package_ids, DelireverablePackage.all.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Entregables (Complementarios)' }, multiple: 'multiple'
+  = f.select :template_refilable_ids, TemplateRefilable.all.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Rellenables (Complementarios)' }, multiple: 'multiple'
+  
   
   = link_to "Cancelar", groups_path, class: "btn btn-danger"
   = f.submit 'Aceptar'

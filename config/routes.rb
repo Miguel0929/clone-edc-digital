@@ -377,11 +377,6 @@ Rails.application.routes.draw do
   end
 
   resources :learning_paths,  only: [:index, :new, :create, :destroy, :show] do
-    resources :learning_path_programs, only: [:new, :create, :destroy] do
-      collection do
-        post :sort
-      end
-    end
     resources :learning_path_contents, only: [:new, :create, :destroy] do
       collection do
         post :sort
