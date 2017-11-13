@@ -1,5 +1,5 @@
 class Mobile::RefilablesController < Mobile::BaseController
-  #before_action :authorize
+  before_action :authorize
   before_action :set_template_refilable
   layout 'mobile'
   skip_after_action :intercom_rails_auto_include

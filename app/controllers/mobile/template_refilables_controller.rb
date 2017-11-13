@@ -1,5 +1,5 @@
 class Mobile::TemplateRefilablesController < Mobile::BaseController
-  #before_action :authorize
+  before_action :authorize
 
   def index
     refilables = TemplateRefilable.joins(:groups)
