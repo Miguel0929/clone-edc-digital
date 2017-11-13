@@ -20,12 +20,16 @@ class GroupInvitationsController < ApplicationController
         progress: 0,
         new_records: 0,
         old_records: 0,
+        old_records_group: 0,
+        old_records_inactive: 0,
         new_emails: [],
         old_emails: [],
+        old_emails_group: [],
+        old_emails_inactive: [],
       }.to_json)
 
       CSV.foreach(params[:csv].tempfile, headers: true, encoding:'iso-8859-1:utf-8') do |row|
-        InvitationJob.perform_async(row['NOMBRE'], row['CORREO'], params[:group_id], accept_user_invitation_url, "job_#{timestamp}")
+        InvitationJob.perform_async(row['NOMBRE'].downcase, row['CORREO'], params[:group_id], accept_user_invitation_url, "job_#{timestamp}")
       end
 
       flash[:notice] = "Invitaciones enviadas"
