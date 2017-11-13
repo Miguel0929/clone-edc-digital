@@ -216,6 +216,8 @@
                         %th.text-center{width: "20%"}
                           Calificación
                         %th
+                          Intentos
+                        %th
                           Acciones
                     %tbody
                       - if @user.group.nil? || @user.group.quizzes.count == 0
@@ -235,6 +237,8 @@
                               #{answered_ques} contestadas / #{quiz_ques} disponibles
                             %td.p-t-20.p-b-15.text-center
                               = result
+                            %td.p-t-20.p-b-15.text-center
+                              = Attempt.where(quiz_id: quiz.id, user_id: @user.id).count
                             %td.p-t-20.p-b-15
                               = link_to analytics_quiz_user_path(@user, quiz_id: quiz) do
                                 %i.fa.fa-eye
