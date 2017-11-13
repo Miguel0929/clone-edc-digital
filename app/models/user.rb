@@ -1,4 +1,3 @@
-
 class User < ActiveRecord::Base
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
@@ -36,6 +35,7 @@ class User < ActiveRecord::Base
   has_many :program_stats, dependent: :destroy
   belongs_to :industry
   has_many :panel_notifications
+  has_many :attempts
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 
