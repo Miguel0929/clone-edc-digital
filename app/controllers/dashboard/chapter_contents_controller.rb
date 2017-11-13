@@ -68,10 +68,12 @@ class Dashboard::ChapterContentsController < ApplicationController
   def permiso
     program=@chapter_content.chapter.program
     active=ProgramActive.where(user: current_user, program: program).first
+    is_active = true
     programas = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
-    if (active.nil? || active.status) || current_user.mentor?
+    if active.nil? then is_active = false else is_active = active.status end  
+    if is_active || current_user.mentor? 
       return false
-    end 
+    end
     if program != programas.first.model
       anterior=Program.new
       programas.each do |p|

@@ -9,7 +9,7 @@ class LearningPathsController < ApplicationController
 	end
 	def new
 		add_breadcrumb "Ruta de aprendizaje", :learning_paths_path
-    add_breadcrumb '<a class="active">Nueva "Ruta de aprendizaje"</a>'.html_safe
+    	add_breadcrumb '<a class="active">Nueva "Ruta de aprendizaje"</a>'.html_safe
 		@programs = Program.all
 		@quizzes = Quiz.all
 		@templates_refilables = TemplateRefilable.all
