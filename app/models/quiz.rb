@@ -2,6 +2,7 @@ class Quiz < ActiveRecord::Base
   has_many :quiz_questions, dependent: :destroy
   has_many :group_quizzes, dependent: :nullify
   has_many :groups, through: :group_quizzes, dependent: :nullify
+  has_many :attempts
   validates_presence_of :name, :description
   has_one :chapter_content, as: :coursable
 
