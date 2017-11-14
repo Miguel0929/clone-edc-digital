@@ -21,6 +21,8 @@
                 .refilable-form
                   = form_for([:mobile, @template, Refilable.new]) do |f|
                     = f.hidden_field :content
+                    %input{type: "hidden" name: "user_email", value: params[:user_email]}
+                    %input{type: "hidden" name: "user_token", value: params[:user_token]}
                 .pull-right
                   %button.btn.btn-primary#send-refilable
                     Enviar respuestas

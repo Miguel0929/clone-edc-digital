@@ -12,7 +12,7 @@ class Mobile::RefilablesController < Mobile::BaseController
     refilable.user = current_user
     refilable.save
 
-    redirect_to edit_mobile_template_refilable_refilable_path(@template, refilable)
+    redirect_to edit_mobile_template_refilable_refilable_path(@template, refilable, user_token: params[:user_token], user_email: params[:user_email])
   end
 
   def edit
@@ -24,7 +24,7 @@ class Mobile::RefilablesController < Mobile::BaseController
 
     @refilable.update(refilable_params)
 
-    redirect_to edit_mobile_template_refilable_refilable_path(@template, @refilable)
+    redirect_to edit_mobile_template_refilable_refilable_path(@template, @refilable, user_token: params[:user_token], user_email: params[:user_email])
   end
 
   private
