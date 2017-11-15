@@ -22,11 +22,26 @@ class GroupsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{new_group_path}'>Crear grupo</a>".html_safe
 
     @group = Group.new
+    @programs = Program.all
+    @quizzes = Quiz.all
+    @refilables = TemplateRefilable.all
+    @delireverables = DelireverablePackage.all
   end
 
   def edit
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{edit_group_path(@group)}'>#{@group.name}</a>".html_safe
+    @contents = @group.learning_path.learning_path_contents.order(:content_type)
+    
+    lp_programs = @group.learning_path.learning_path_contents.where(content_type: "Program").pluck(:content_id)
+    lp_quizzes = @group.learning_path.learning_path_contents.where(content_type: "Quiz").pluck(:content_id)
+    lp_refilables = @group.learning_path.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)
+    lp_delireverables = @group.learning_path.learning_path_contents.where(content_type: "DelireverablePackage").pluck(:content_id)
+    
+    @programs = Program.where.not(id: lp_programs)
+    @quizzes = Quiz.where.not(id: lp_quizzes)
+    @refilables = TemplateRefilable.where.not(id: lp_refilables)
+    @delireverables = DelireverablePackage.where.not(id: lp_delireverables)
   end
 
   def create
@@ -47,7 +62,7 @@ class GroupsController < ApplicationController
           @group.users << m
         end
       end
-      redirect_to sort_route_group_path(@group.id), notice: "Se creo exitosamente el grupo #{@group.name}, ahora ordena la \"Ruta de aprendizaje\""
+      redirect_to group_path(@group.id), notice: "Se creo exitosamente el grupo #{@group.name}, ahora ordena la \"Ruta de aprendizaje\""
     else
       render :new
     end
