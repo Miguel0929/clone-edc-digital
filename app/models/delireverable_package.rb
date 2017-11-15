@@ -6,7 +6,6 @@ class DelireverablePackage < ActiveRecord::Base
 
   validates_presence_of :name, :description
   enum tipo: [ :program, :complementario ]
-
   def self.tipo_type_options
     [['Ruta de aprendizaje', 'ruta'], ['Complementario', 'complementario']]
   end
