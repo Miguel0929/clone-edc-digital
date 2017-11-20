@@ -13,8 +13,15 @@ Rails.application.routes.draw do
       member do
         get :router
       end
-      
+
       resources :refilables, only: [:new, :create, :edit, :update]
+    end
+
+    resources :quizzes, only: [:index, :show] do
+      member do
+        get :detail
+        get :apply
+      end
     end
   end
 
