@@ -151,21 +151,21 @@ Rails.application.routes.draw do
           get :router
         end
       end
-      resources :delireverable_programs, only: [:show, :new, :create, :update, :edit] do
-        collection do
-          get :router
-        end
-      end
-      resources :refilable_programs, only: [:show, :new, :create, :update, :edit] do
-        collection do
-          get :router
-        end
-      end
-      resources :quiz_programs, only: [:show, :new, :create, :update, :edit] do
-        collection do
-          get :router
-        end
-      end
+      #resources :delireverable_programs, only: [:show, :new, :create, :update, :edit] do
+      #  collection do
+      #    get :router
+      #  end
+      #end
+      #resources :refilable_programs, only: [:show, :new, :create, :update, :edit] do
+      #  collection do
+      #    get :router
+      #  end
+      #end
+      #resources :quiz_programs, only: [:show, :new, :create, :update, :edit] do
+      #  collection do
+      #    get :router
+      #  end
+      #end
       post "mailer_interno"
       post "rank"
     end
@@ -229,7 +229,7 @@ Rails.application.routes.draw do
 
   resources :groups do
     member do
-      get :sort_route
+      #get :sort_route
       post :sort
       post :notification_route
     end
@@ -376,7 +376,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :learning_paths,  only: [:index, :new, :create, :destroy, :show] do
+  resources :learning_paths,  only: [:index, :new, :create, :destroy, :show, :edit, :update] do
     member do
       post :complementarios
     end  

@@ -4,6 +4,7 @@ class Dashboard::AnswersController < ApplicationController
   before_action :validate_coursable_type
   before_action :build_question
   after_action :update_program_stats, only: [:create, :update]
+  before_action :redirect_to_learning, if: :permiso, only: [:show, :new, :edit]
 
   add_breadcrumb "EDCDIGITAL", :root_path
   add_breadcrumb "programas", :dashboard_programs_path
@@ -161,4 +162,39 @@ class Dashboard::AnswersController < ApplicationController
       program_stat.update(program_progress: progress, program_seen: seen)
     end
   end
+
+  def permiso
+    program=@chapter_content.chapter.program
+    active=ProgramActive.where(user: current_user, program: program).first
+    is_active = true
+    programas = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
+    if active.nil? then is_active = false else is_active = active.status end  
+    if is_active || current_user.mentor? 
+      return false
+    end
+    if program != programas.first.model
+      anterior=Program.new
+      programas.each do |p|
+        if p.model==program
+          break
+        else
+          anterior=p.model
+        end
+      end
+      programas.each do |p|
+        if p.model == anterior && current_user.percentage_answered_for(anterior) == 100
+          return false     
+        elsif current_user.percentage_answered_for(p.model) < 100 && p.model != anterior
+          return true
+        end  
+      end
+    else
+      return false
+    end      
+  end
+
+  def redirect_to_learning
+    redirect_to dashboard_learning_path_path, notice: "Aun no puedes acceder a este contenido." 
+  end
+
 end
