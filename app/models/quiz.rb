@@ -5,7 +5,7 @@ class Quiz < ActiveRecord::Base
   has_many :attempts
   validates_presence_of :name, :description
   has_one :chapter_content, as: :coursable
-
+  has_one :learning_path_content, as: :content, :dependent => :destroy
   enum tipo: [ :program, :complementario]
 
   def average(user)

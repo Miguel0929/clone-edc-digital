@@ -2,7 +2,7 @@ class LearningPathsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_learning_path, only: [:show, :destroy, :complementarios]
+  before_action :set_learning_path, only: [:show, :destroy, :edit, :complementarios, :update]
   add_breadcrumb "EDCDIGITAL", :root_path
   def index
     add_breadcrumb "<a href='#{learning_paths_path}' class='active'>Rutas de aprendizaje</a>".html_safe
@@ -16,6 +16,11 @@ class LearningPathsController < ApplicationController
     @templates_refilables = TemplateRefilable.all
     @delireverable_packages = DelireverablePackage.all
   end
+
+  def edit
+    add_breadcrumb "Ruta de aprendizaje", :learning_paths_path
+    add_breadcrumb "<a class='active' href='#{edit_learning_path_path(@learning_path)}'>#{@learning_path.name}</a>".html_safe
+  end  
 
   def create
     @learning_path= LearningPath.new(name: params[:name])
@@ -58,8 +63,17 @@ class LearningPathsController < ApplicationController
     else
       render :new
     end         
-
   end
+
+  def update
+    if @learning_path.update(learning_path_edit_params)
+
+      redirect_to learning_paths_path, notice: "Ruta de aprendizaje actualizada"
+    else  
+      render :edit
+    end  
+  end  
+
   def show
     add_breadcrumb "Rutas de aprendizaje", :learning_paths_path
     add_breadcrumb "<a class='active' href='#{learning_path_path(@learning_path)}'>#{@learning_path.name}</a>".html_safe
@@ -100,5 +114,8 @@ class LearningPathsController < ApplicationController
     end
     def learning_path_params
       params.permit(:name, programs: [], quizzes: [], refilables: [], delireverables: [])
-    end 
+    end
+    def learning_path_edit_params
+      params.require(:learning_path).permit(:name, group_ids: [])
+    end  
 end

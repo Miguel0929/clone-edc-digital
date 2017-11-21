@@ -3,6 +3,7 @@ class DelireverablePackage < ActiveRecord::Base
   has_many :groups, through: :group_delireverable_packages
   has_many :delireverables, :dependent => :delete_all
   has_one :chapter_content, as: :coursable
+  has_one :learning_path_content, as: :content, :dependent => :destroy
 
   validates_presence_of :name, :description
   enum tipo: [ :program, :complementario ]
