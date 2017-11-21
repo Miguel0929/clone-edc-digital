@@ -5,7 +5,7 @@
         = image_tag('logo-edc-color-horizontal.png', width: "200")
         %h3 Acompañando emprendedores sin importar la distancia
         %p
-          Activa tu cuenta de EDCdigital en segundos.
+          Activa tu cuenta de EDC Digital en segundos.
         = form_for resource, label_errors: false, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f|
           = f.hidden_field :invitation_token
           .row

@@ -3,7 +3,7 @@
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title
-      = content_for?(:title) ? yield(:title) : "EDCdigital"
+      = content_for?(:title) ? yield(:title) : "EDC Digital"
     %meta{:name => "viewport", :content=>"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no"}/
     %meta{:content => "Primer plataforma diseñada para construir y validar tu idea de negocio, en lo comercial, técnico y financiero.", :name => "description"}/
     %meta{:content => "emprendedor, emprendedores, emprendimiento, financiamiento, jóvenes, finanzas, capacitación, curso, inversión, capital, privado", :name => "keywords"}/
@@ -161,7 +161,7 @@
                   %a{:href => mailbox_inbox_path} Mensajes
                   %span.icon-thumbnail Mn
 
-          = display_navbar_link({link: 'Programas', details: 'Cursos en EDCdigital' ,path: dashboard_programs_path, css: ['m-t-30'], icon: 'fa pg-layouts', role: [:mentor]})
+          = display_navbar_link({link: 'Programas', details: 'Cursos en EDC Digital' ,path: dashboard_programs_path, css: ['m-t-30'], icon: 'fa pg-layouts', role: [:mentor]})
           = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: [''], icon: 'fa fa-users', role: [:mentor]})
           = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
           = display_navbar_link({css: [], link: 'Panel de progreso', details: 'Progreso de estudiantes' ,path: progress_panel_index_path, icon: 'fa fa-line-chart', role: [:mentor]})
