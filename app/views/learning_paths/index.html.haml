@@ -11,9 +11,8 @@
               Rutas de aprendizaje
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
-              bla bla
-            %p.m-b-25.text-white
-              mas bla bla  
+              Rutas de aprendizaje construidas hasta el momento, selecciona "Crear ruta de aprendizaje" para agregar una nueva.
+
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
@@ -47,8 +46,12 @@
                 %ul.unstyled.list-unstyled.p-l-0.m-b-0
                   %li
                     = link_to learning_path_path(lp) do
+                      %i.fa.fa-eye
+                      Agregar Contenido/Ver 
+                  %li
+                    = link_to edit_learning_path_path(lp) do
                       %i.fa.fa-edit
-                      Ver/Editar 
+                      Editar     
                   %li
                     = link_to learning_path_path(lp), method: :delete, data: { confirm: '¿Estás seguro?' } do
                       %i.fa.fa-times

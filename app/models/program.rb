@@ -11,6 +11,7 @@ class Program < ActiveRecord::Base
   has_many :program_notifications, dependent: :destroy
   has_many :ratings, as: :ratingable 
   has_many :program_stats, dependent: :destroy
+  has_one :learning_path_content, as: :content, :dependent => :destroy
 
   enum tipo: [ :elearning, :construccion, :fusion ]
   enum level: [:basico, :intermedio, :avanzado]

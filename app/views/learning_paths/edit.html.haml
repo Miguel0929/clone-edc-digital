@@ -1,0 +1,16 @@
+- content_for :title  do
+  Editar "Ruta de aprendizaje" - EDCdigital
+
+.container
+  .row
+    .col-md-12
+      %h2.text-center
+        Editar "Ruta de aprendizaje"
+
+      .well
+        = bootstrap_form_for(@learning_path) do |f|
+          = f.text_field :name, label: 'Nombre de la "Ruta de aprendizaje"'
+          = f.select :group_ids, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupos"}, { :multiple => true}
+
+          = link_to "Cancelar",  learning_paths_path, class: "btn btn-danger"
+          = f.submit 'Aceptar' 

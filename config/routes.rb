@@ -13,8 +13,15 @@ Rails.application.routes.draw do
       member do
         get :router
       end
-      
+
       resources :refilables, only: [:new, :create, :edit, :update]
+    end
+
+    resources :quizzes, only: [:index, :show] do
+      member do
+        get :detail
+        get :apply
+      end
     end
   end
 
@@ -158,21 +165,21 @@ Rails.application.routes.draw do
           get :router
         end
       end
-      resources :delireverable_programs, only: [:show, :new, :create, :update, :edit] do
-        collection do
-          get :router
-        end
-      end
-      resources :refilable_programs, only: [:show, :new, :create, :update, :edit] do
-        collection do
-          get :router
-        end
-      end
-      resources :quiz_programs, only: [:show, :new, :create, :update, :edit] do
-        collection do
-          get :router
-        end
-      end
+      #resources :delireverable_programs, only: [:show, :new, :create, :update, :edit] do
+      #  collection do
+      #    get :router
+      #  end
+      #end
+      #resources :refilable_programs, only: [:show, :new, :create, :update, :edit] do
+      #  collection do
+      #    get :router
+      #  end
+      #end
+      #resources :quiz_programs, only: [:show, :new, :create, :update, :edit] do
+      #  collection do
+      #    get :router
+      #  end
+      #end
       post "mailer_interno"
       post "rank"
     end
@@ -236,7 +243,7 @@ Rails.application.routes.draw do
 
   resources :groups do
     member do
-      get :sort_route
+      #get :sort_route
       post :sort
       post :notification_route
     end
@@ -383,12 +390,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :learning_paths,  only: [:index, :new, :create, :destroy, :show] do
-    resources :learning_path_programs, only: [:new, :create, :destroy] do
-      collection do
-        post :sort
-      end
-    end
+  resources :learning_paths,  only: [:index, :new, :create, :destroy, :show, :edit, :update] do
+    member do
+      post :complementarios
+    end  
     resources :learning_path_contents, only: [:new, :create, :destroy] do
       collection do
         post :sort

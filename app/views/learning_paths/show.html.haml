@@ -10,7 +10,7 @@
         .panel-heading
           %h3.panel-title Programas
         .panel-body
-          #cont_sortable_programs.sortable{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
+          #cont_sortable_programs.sortable3{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
             - @c_programs.each do |program|
 
               .panel-group{id: "content_#{program.id}"}
@@ -34,7 +34,7 @@
         .panel-heading
           %h3.panel-title Examenes
         .panel-body
-          #cont_sortable_quizzes.sortable{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
+          #cont_sortable_quizzes.sortable3{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
             - @c_quizzes.each do |quiz|
               .panel-group{id: "content_#{quiz.id}"}
                 .panel.panel-default
@@ -57,7 +57,7 @@
         .panel-heading
           %h3.panel-title Rellenables
         .panel-body
-          #cont_sortable_refilables.sortable{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
+          #cont_sortable_refilables.sortable3{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
             - @c_refilables.each do |refilable|
               .panel-group{id: "content_#{refilable.id}"}
                 .panel.panel-default
@@ -80,7 +80,7 @@
         .panel-heading
           %h3.panel-title Entregables
         .panel-body
-          #cont_sortable_delireverables.sortable{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
+          #cont_sortable_delireverables.sortable3{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
             - @c_delireverables.each do |delireverable|
               .panel-group{id: "content_#{delireverable.id}"}
                 .panel.panel-default
@@ -169,8 +169,15 @@
       %button.close{"data-dismiss" => "alert", :type => "button"}>
         %span{"aria-hidden" => "true"} ×
         %span.sr-only Close
-      .alert-text  
-                 
+      .alert-text
+#alert-sortable.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-info
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      #div         
+        Ordenado correctamente           
                          
 
 
