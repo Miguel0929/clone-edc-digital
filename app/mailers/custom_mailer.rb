@@ -9,7 +9,7 @@ class CustomMailer < Devise::Mailer
           substitutions: {
             "-confirmation_link-" => edit_password_url(record, reset_password_token: token)
           },
-          subject: "Recupera tu contraseña en EDCdigital"
+          subject: "Recupera tu contraseña en EDC Digital"
         },
       ],
       from: {

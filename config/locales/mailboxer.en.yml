@@ -1,5 +1,5 @@
 en:    
   mailboxer:   
     message_mailer:  
-      subject_new: "New Notification from EDC-Digital: %{subject}"  
-      subject_reply: "New Reply from EDC-Digital: %{subject}"  
+      subject_new: "New Notification from EDC Digital: %{subject}"  
+      subject_reply: "New Reply from EDC Digital: %{subject}"  

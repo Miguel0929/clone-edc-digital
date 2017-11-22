@@ -2,7 +2,7 @@ class RatingsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_program, only: [:show]
   before_action :require_admin, only: [:show]
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
   def show
     add_breadcrumb "Programas", :programs_path
     add_breadcrumb "<a class='active' href='#{rating_program_path}'>Ratings</a>".html_safe

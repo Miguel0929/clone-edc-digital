@@ -2,7 +2,7 @@ class  Dashboard::RefilablesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_template_refilable
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
 
   def new
     add_breadcrumb "Mis rellenables", dashboard_template_refilables_path

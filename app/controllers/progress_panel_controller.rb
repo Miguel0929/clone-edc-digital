@@ -8,7 +8,7 @@ class ProgressPanelController < ApplicationController
   helper_method :get_all_group_progress_strata
   helper_method :get_program_group_progress_strata
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
 
   def index
   	add_breadcrumb "<a class='active' href='#{progress_panel_index_path}'>Panel de progreso de EDC Digital</a>".html_safe

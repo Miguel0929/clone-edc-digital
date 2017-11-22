@@ -1,7 +1,7 @@
 class TemplateRefilablesController < ApplicationController
   before_action :set_template_refilable, only: [:show, :edit, :update, :destroy]
   before_action :require_admin
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{template_refilables_path}'>Mis rellenables</a>".html_safe
@@ -10,13 +10,13 @@ class TemplateRefilablesController < ApplicationController
   end
 
   def show
-    add_breadcrumb "EDCDIGITAL", :root_path
+    add_breadcrumb "EDC DIGITAL", :root_path
     add_breadcrumb "Mis rellenables", :template_refilables_path
     add_breadcrumb "<a class='active' href='#{template_refilable_path(@template_refilable)}'>#{@template_refilable.name}</a>".html_safe
   end
 
   def new
-    add_breadcrumb "EDCDIGITAL", :root_path
+    add_breadcrumb "EDC DIGITAL", :root_path
     add_breadcrumb "Mis rellenables", :template_refilables_path
     add_breadcrumb "<a class='active' href='#{new_template_refilable_path}'>Nuevo rellenable</a>".html_safe
 
@@ -24,13 +24,13 @@ class TemplateRefilablesController < ApplicationController
   end
 
   def edit
-    add_breadcrumb "EDCDIGITAL", :root_path
+    add_breadcrumb "EDC DIGITAL", :root_path
     add_breadcrumb "Mis rellenables", :template_refilables_path
     add_breadcrumb "<a class='active' href='#{edit_template_refilable_path(@template_refilable)}'>#{@template_refilable.name}</a>".html_safe
   end
 
   def create
-    add_breadcrumb "EDCDIGITAL", :root_path
+    add_breadcrumb "EDC DIGITAL", :root_path
     add_breadcrumb "Mis rellenables", :template_refilables_path
     add_breadcrumb "<a class='active' href='#{new_template_refilable_path}'>Nuevo rellenable</a>".html_safe
 
@@ -44,7 +44,7 @@ class TemplateRefilablesController < ApplicationController
   end
 
   def update
-    add_breadcrumb "EDCDIGITAL", :root_path
+    add_breadcrumb "EDC DIGITAL", :root_path
     add_breadcrumb "Mis rellenables", :template_refilables_path
     add_breadcrumb "<a class='active' href='#{edit_template_refilable_path(@template_refilable)}'>#{@template_refilable.name}</a>".html_safe
 

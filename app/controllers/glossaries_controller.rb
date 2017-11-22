@@ -3,7 +3,7 @@ class GlossariesController < ApplicationController
 	before_action :require_admin
 	before_action :set_glossary, only: [:show, :edit, :update, :destroy]
 
-	add_breadcrumb "EDCDIGITAL", :root_path
+	add_breadcrumb "EDC DIGITAL", :root_path
 
 	def show
 		add_breadcrumb "Glosario", :glossary_categories_path

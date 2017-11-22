@@ -7,11 +7,11 @@ class SharedGroupAttachmentMailer
           {
             to: [ { email: user.email } ],
             substitutions: {
-              "-raw_subject-"=> "Hay un nuevo archivo compartido contigo en EDCdigital",
-              "-content-" => "Hay un nuevo archivo compartido contigo en EDCdigital",
+              "-raw_subject-"=> "Hay un nuevo archivo compartido contigo en EDC Digital",
+              "-content-" => "Hay un nuevo archivo compartido contigo en EDC Digital",
               "-url-" => ruta,
             },
-            subject: "Hay un nuevo archivo compartido contigo en EDCdigital"
+            subject: "Hay un nuevo archivo compartido contigo en EDC Digital"
           },
         ],
         from: {

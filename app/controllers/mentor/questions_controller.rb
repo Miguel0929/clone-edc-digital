@@ -1,5 +1,5 @@
 class Mentor::QuestionsController < ApplicationController
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
   add_breadcrumb "Estudiantes", :mentor_students_path
 
   def show

@@ -3,7 +3,7 @@ class RouteCoversController < ApplicationController
   before_action :set_cover, only: [:show, :destroy, :update, :edit]
 
   
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
 
   def index
   	@routecovers = RouteCover.all

@@ -1,7 +1,7 @@
 class MailboxController < ApplicationController
   before_action :authenticate_user!  
   
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
 
   def inbox
     add_breadcrumb "<a class='active' href='#{mailbox_inbox_path}'>Mensajes</a>".html_safe

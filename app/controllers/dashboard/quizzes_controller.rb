@@ -1,6 +1,6 @@
 class Dashboard::QuizzesController < ApplicationController
   before_action :authenticate_user!
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
   helper_method :right_answer
   helper_method :evaluating_quiz
 
