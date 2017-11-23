@@ -25,9 +25,14 @@ img.leida{
   width: 64px;
   height:64px;
 }
-.nueva-tipografia-rellenable{
-  font-size: 82px !important;
-  line-height: 75px !important;
+div#refilable-content-template > p{
+  font-size: 22px !important;
+  line-height: 35px !important;
+  text-align: justify-all !important;
+}
+.tipografia-textos-rellenables{
+  font-size: 22px !important;
+  line-height: 35px !important;
 }
 p.name{
   color:#4965a0;

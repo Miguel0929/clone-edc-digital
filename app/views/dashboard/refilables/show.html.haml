@@ -31,21 +31,28 @@
                 %h5
                   = link_to dashboard_template_refilables_path do
                     Regresar a rellenables
-            .col-md-7
+                %h5
+                  - if @done_refilables.count > 0
+                    - @done_refilables.each do |refilable|
+                      - user_refilable = refilable.refilables.find_by(user: current_user)
+                      = link_to edit_dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "text-danger bold" do
+                        Editar este rellenable
+            .col-md-8
               .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
                 .table-responsive.table-invoice
                   %table.table.m-t-0
                     %thead
                       %tr
-                        %th 
+                        %th.tipografia-textos-rellenables
                           Texto del rellenable
                           %p.small.hint-text.m-b-0
                             Tus respuestas están resaltadas en negro.
                     %tbody
                       %tr
                         %td.p-b-30
-                          #refilable-content-template.nueva-tipografia-rellenable
-                            = raw remove_class(replace_fillable(@refilable.content))
+                          .well
+                            #refilable-content-template.nueva-tipografia-rellenable
+                              = raw remove_class(replace_fillable(@refilable.content))
 
 /.container-fluid.container-fixed-lg
 /  .panel.panel-default

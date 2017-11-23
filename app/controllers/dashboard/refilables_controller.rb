@@ -22,6 +22,20 @@ class  Dashboard::RefilablesController < ApplicationController
 
     add_breadcrumb "Mis rellenables", dashboard_template_refilables_path
     add_breadcrumb "<a class='active' href='#{dashboard_template_refilable_refilable_path(@template,  @refilable)}'>#{@template.name}</a>".html_safe
+
+    @refilables = TemplateRefilable.joins(:groups)
+                                    .where('groups.id = ?', current_user.group.id)
+                                    .order(position: :asc)
+    @done_refilables = []
+    @undone_refilables = []
+    @refilables.each do |refil|
+      if refil.refilables.find_by(user: current_user)
+        @done_refilables.push(refil)
+      else
+        @undone_refilables.push(refil)
+      end
+    end
+
   end
 
   def edit
