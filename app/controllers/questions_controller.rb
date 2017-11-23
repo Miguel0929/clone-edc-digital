@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
   before_action :set_chapter
   before_action :set_question, only: [:edit, :update, :destroy, :clone]
   before_action :require_admin  
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
   add_breadcrumb "Programas", :programs_path
 
   def new
@@ -53,6 +53,10 @@ class QuestionsController < ApplicationController
     ActiveRecord::Base.transaction do
       ChapterContent.where({coursable_type: 'Question', coursable_id: @question.id}).delete_all
       @question.destroy
+      chapter_contents = @chapter.chapter_contents.map{ |cp| cp.id }
+      chapter_contents.each_with_index do |id, index|
+        ChapterContent.find(id).update_attributes({position: index + 1})
+      end
     end
 
     up_notification = QueueNotification.find_by(category: 2, detail: "up-question-#{@question.id}", sent: false)

@@ -2,7 +2,7 @@ class Mentor::RefilablesController < ApplicationController
   before_action :set_student
   before_action :set_refilable
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
   before_action :set_user_breadcrum
 
   def show

@@ -2,7 +2,7 @@ class Dashboard::NotificationsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    add_breadcrumb "EDCDIGITAL", :root_path
+    add_breadcrumb "EDC DIGITAL", :root_path
     add_breadcrumb "<a class='active' href='#{dashboard_notifications_path}'>Notificaciones</a>".html_safe
 
     @notifications = current_user.notifications.order(created_at: :desc).page(params[:page]).per(30)

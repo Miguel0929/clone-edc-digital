@@ -4,7 +4,7 @@ class Dashboard::WelcomeController < ApplicationController
 
   helper_method :last_moved_program
   helper_method :last_visited_content
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{root_path}'>Inicio</a>".html_safe
@@ -81,7 +81,7 @@ class Dashboard::WelcomeController < ApplicationController
       @recipients = [{adress: 'soporte@edc-digital.com', type: 'soporte'}, {adress: current_user.email, type: 'usuario'}]
       @recipients.each do |recipient, index|
         if recipient[:type] == 'soporte'
-          subject = "Solicitud de soporte EDC-Digital: " + params[:raw_subject]
+          subject = "Solicitud de soporte EDC Digital: " + params[:raw_subject]
           Support.contact(subject, params[:message], params[:urgency], params[:matter], current_user, chapter, params[:signature], recipient[:adress], params[:program], params[:last_content], uploaded_io).deliver_now
           flash_message = { notice: 'Su mensaje ha sido enviado.'}
         else

@@ -3,7 +3,7 @@ class Mentor::CommentsController < ApplicationController
   before_action :require_mentor
   before_action :set_comments, only: [:index, :archived, :news]
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
 
   def index
   end

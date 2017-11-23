@@ -3,7 +3,7 @@ class DelireverablePackagesController < ApplicationController
   before_action :require_admin
   before_action :set_delireverable_package, only: [:edit, :update, :destroy]
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{delireverable_packages_path}'>Paquetes de entregables</a>".html_safe

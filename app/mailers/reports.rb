@@ -7,7 +7,7 @@ class Reports
         {
           to: [ { email: "soporte@edc-digital.com" } ],
           substitutions: {
-            "-raw_subject-"=> "EDC-Digital: Contenido Reportado ID: #{report.id.to_s}",
+            "-raw_subject-"=> "EDC Digital: Contenido Reportado ID: #{report.id.to_s}",
             "-cause-" => report.cause.to_s,
             "-content_reported-" => report.reportable_id.to_s,
             "-email-" => report.user.email,
@@ -17,7 +17,7 @@ class Reports
             "-chapter-" => report.model.chapter.name,
             "-content-" => report.model.model.identifier,
           },
-          subject: "EDC-Digital: Contenido Reportado ID: #{report.id.to_s}"
+          subject: "EDC Digital: Contenido Reportado ID: #{report.id.to_s}"
         },
       ],
       from: {

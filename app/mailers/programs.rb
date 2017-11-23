@@ -6,11 +6,11 @@ class Programs
           {
             to: [ { email: user.email } ],
             substitutions: {
-              "-raw_subject-"=> "Un nuevo programa ha sido añadido para ti en EDCdigital",
-              "-content-" => "El programa \"#{program.name}\" ahora esta diponible para ti en EDCdigital",
+              "-raw_subject-"=> "Un nuevo programa ha sido añadido para ti en EDC Digital",
+              "-content-" => "El programa \"#{program.name}\" ahora esta diponible para ti en EDC Digital",
               "-url-" => ruta,
             },
-            subject: "El nuevo programa ha sido añadido para ti en EDCdigital"
+            subject: "El nuevo programa ha sido añadido para ti en EDC Digital"
           },
         ],
         from: {
@@ -37,11 +37,11 @@ class Programs
         {
           to: [ { email: user.email } ],
           substitutions: {
-            "-raw_subject-" => "Se ha actualizado tu curso \"#{program.name}\" en EDCdigital",
-            "-content-" => "El programa \"#{program.name}\" tiene nuevo contenido diponible para ti en EDCdigital",
+            "-raw_subject-" => "Se ha actualizado tu curso \"#{program.name}\" en EDC Digital",
+            "-content-" => "El programa \"#{program.name}\" tiene nuevo contenido diponible para ti en EDC Digital",
             "-url-" => ruta,
           },
-          subject: "Se ha actualizado tu curso \"#{program.name}\" en EDCdigital"
+          subject: "Se ha actualizado tu curso \"#{program.name}\" en EDC Digital"
         },
       ],
       from: {
@@ -67,11 +67,11 @@ class Programs
         {
           to: [ { email: user.email } ],
           substitutions: {
-            "-raw_subject-" => "Se ha actualizado tu rúbrica de evaluación en EDCdigital",
+            "-raw_subject-" => "Se ha actualizado tu rúbrica de evaluación en EDC Digital",
             "-content-" => "Tu rúbrica de evaluación en el programa \"#{program.name}\" ha sido actualizada recientemente",
             "-url-" => ruta,
           },
-          subject: "Se ha actualizado tu rúbrica de evaluación en EDCdigital"
+          subject: "Se ha actualizado tu rúbrica de evaluación en EDC Digital"
         },
       ],
       from: {
@@ -98,7 +98,7 @@ class Programs
           to: [ { email: user.email } ],
           substitutions: {
             "-raw_subject-" => "Has sido evaluado en el programa \"#{program.name}\"",
-            "-content-" => "Has sido evaluado en el programa \"#{program.name}\" en EDCdigital",
+            "-content-" => "Has sido evaluado en el programa \"#{program.name}\" en EDC Digital",
             "-url-" => ruta,
           },
           subject: "Has sido evaluado en el programa \"#{program.name}\""

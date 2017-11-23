@@ -6,7 +6,7 @@ class Dashboard::AnswersController < ApplicationController
   after_action :update_program_stats, only: [:create, :update]
   before_action :redirect_to_learning, if: :permiso, only: [:show, :new, :edit]
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
   add_breadcrumb "programas", :dashboard_programs_path
 
   def router

@@ -3,7 +3,7 @@ class FrequentCategoriesController < ApplicationController
 	before_action :require_admin
 	before_action :set_category, only: [:edit, :show, :update, :destroy]
 
-	add_breadcrumb "EDCDIGITAL", :root_path
+	add_breadcrumb "EDC DIGITAL", :root_path
 
 	def index
 		add_breadcrumb "<a class='active' href='#{frequent_categories_path}'>Preguntas frecuentes</a>".html_safe

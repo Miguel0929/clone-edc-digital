@@ -6,11 +6,11 @@ class LearningPathMailer
           {
             to: [ { email: user.email } ],
             substitutions: {
-              "-raw_subject-"=> "Tu ruta de aprendizaje ha sido actualizada en EDCdigital",
-              "-content-" => "Tu ruta de aprendizaje ha sido actualizada en EDCdigital",
+              "-raw_subject-"=> "Tu ruta de aprendizaje ha sido actualizada en EDC Digital",
+              "-content-" => "Tu ruta de aprendizaje ha sido actualizada en EDC Digital",
               "-url-" => ruta,
             },
-            subject: "Tu ruta de aprendizaje ha sido actualizada en EDCdigital"
+            subject: "Tu ruta de aprendizaje ha sido actualizada en EDC Digital"
           },
         ],
         from: {
