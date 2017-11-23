@@ -2,36 +2,46 @@
   Programas - EDC Digital
 
 .container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-heading
-      .pull-right
-        .col-xs-12
-          /%input#search-table.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
-      .clearfix
-    .panel-body
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-            %th
-              Programa
-            %th
-            %th
-              Rating
-        %tbody.sortable{'data-update-url'=> url_prod_helper(sort_programs_path())}
-          - @programs.each do |program|
-            %tr{id: "program_#{program.id}"}
-              %td.handle-sort
-                [mover]
-              %td
-                = program.name
-              %td
-                = link_to 'Ver', program_path(program), class: 'btn btn-default'
-                = link_to 'Editar', edit_program_path(program), class: 'btn btn-default'
-                = link_to 'Clonar', clone_program_path(program), method: :post, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
-                = link_to 'Eliminar', program_path(program), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
-                = link_to 'Ver Ratings', rating_program_path(program), class: 'btn btn-default'
-              %td
-                = program.rating.round(2)
-
-      = link_to 'Crear programa', new_program_path, class: 'btn btn-default'
+  .row
+    .col-md-12
+      %h2.bold
+        Programas de aprendizaje
+      .panel.panel-default
+        .panel-heading
+          .pull-left.bold
+            PROGRAMAS DE EDC DIGITAL
+          .pull-right
+            = link_to "<i class='fa fa-plus'></i> Crear programa ".html_safe, new_program_path, class: 'btn btn-primary'
+          .pull-right
+            .col-xs-12
+              /%input#search-table.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
+          .clearfix
+        .panel-body
+          %table.table.table-hover
+            %thead
+              %tr
+                %th
+                %th
+                  Programa
+                
+            %tbody.sortable{'data-update-url'=> url_prod_helper(sort_programs_path())}
+              - @programs.each do |program|
+                %tr{id: "program_#{program.id}"}
+                  %td.handle-sort
+                    [mover]
+                  %td
+                    .large-text.bold
+                      = program.name
+                    .normal-text.hint-text.inline-block
+                      Módulos de programa:
+                      = program.chapters.count
+                    .normal-text.hint-text.inline-block.m-l-20
+                      Rating: 
+                      = program.rating.round(2)
+                    .normal-text.hint-text.block.m-t-10
+                      = link_to "<i class='fa fa-list-alt'></i> Contenido ".html_safe, program_path(program)
+                      = link_to "<i class='fa fa-star'></i> Ratings ".html_safe, rating_program_path(program), class: "m-l-20"
+                      = link_to "<i class='fa fa-edit'></i> Editar ".html_safe, edit_program_path(program), class: 'm-l-20'
+                      = link_to "<i class='fa fa-copy'></i> Clonar ".html_safe, clone_program_path(program), method: :post, data: { confirm: '¿Estás seguro?' }, class: 'm-l-20'
+                      = link_to "<i class='fa fa-close'></i> Eliminar ".html_safe, program_path(program), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'm-l-20'
+                      
