@@ -5,7 +5,7 @@ class Dashboard::AnswersController < ApplicationController
   before_action :build_question
   after_action :update_program_stats, only: [:create, :update]
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
   add_breadcrumb "programas", :dashboard_programs_path
 
   def router

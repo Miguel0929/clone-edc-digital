@@ -4,7 +4,7 @@ class ChaptersController < ApplicationController
   before_action :set_program
   before_action :set_chapter, only: [:edit, :update, :destroy, :clone]
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
   add_breadcrumb "Programas", :programs_path
 
   def new

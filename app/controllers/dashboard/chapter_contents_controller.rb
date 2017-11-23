@@ -15,7 +15,7 @@ class Dashboard::ChapterContentsController < ApplicationController
     if @chapter_content.coursable_type == 'Question'
       redirect_to router_dashboard_chapter_content_answers_path(@chapter_content), status: 301
     else
-      add_breadcrumb "EDCDIGITAL", :root_path
+      add_breadcrumb "EDC DIGITAL", :root_path
       add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
       add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@chapter_content.model.identifier}</a>".html_safe
     end 
@@ -31,7 +31,7 @@ class Dashboard::ChapterContentsController < ApplicationController
       @recipients = [{adress: 'soporte@edc-digital.com', type: 'soporte'}, {adress: current_user.email, type: 'usuario'}]
       @recipients.each do |recipient, index|
         if recipient[:type] == 'soporte'
-          subject = "Solicitud de soporte EDC-Digital: " + params[:raw_subject]
+          subject = "Solicitud de soporte EDC Digital: " + params[:raw_subject]
           Support.contact(subject, params[:message], params[:urgency], params[:matter], current_user, params[:chapter], params[:signature], recipient[:adress], params[:signature], params[:chapter], nil).deliver_now
           flash_message = { notice: 'Su mensaje ha sido enviado.'}
         else

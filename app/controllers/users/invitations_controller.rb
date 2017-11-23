@@ -22,7 +22,7 @@ class Users::InvitationsController < Devise::InvitationsController
             substitutions: {
               "-confirmation_link-" => accept_user_invitation_url(:invitation_token => user.raw_invitation_token)
             },
-            subject: "Tu cuenta en EDCdigital ha sido creada"
+            subject: "Tu cuenta en EDC Digital ha sido creada"
           },
         ],
         from: {

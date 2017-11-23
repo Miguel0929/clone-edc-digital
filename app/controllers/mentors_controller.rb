@@ -3,7 +3,7 @@ class MentorsController < ApplicationController
   before_action :require_admin
   before_action :set_user, only: [:show, :edit, :update, :destroy, :change_state]
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{mentors_path}'>Mentores</a>".html_safe

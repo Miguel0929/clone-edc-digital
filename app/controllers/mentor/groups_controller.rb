@@ -2,7 +2,7 @@ class Mentor::GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_mentor
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{mentor_groups_path}'>Grupos</a>".html_safe

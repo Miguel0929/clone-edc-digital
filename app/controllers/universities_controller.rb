@@ -3,7 +3,7 @@ class UniversitiesController < ApplicationController
 	before_action :require_admin
 	before_action :set_university, only:[:edit, :destroy, :update, :show]
 
-	add_breadcrumb "EDCDIGITAL", :root_path
+	add_breadcrumb "EDC DIGITAL", :root_path
 	def index
 		add_breadcrumb "<a class='active' href='#{universities_path}'>Universidades</a>".html_safe
 		@states=State.all

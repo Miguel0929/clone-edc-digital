@@ -1,11 +1,11 @@
 es:
   devise:
     failure:
-      invited: "Tienes una invitacioón pendiente, sigue las instrucciones enviadas a tu emaili, para terminar de crear tu cuenta."
+      invited: "Tienes una invitación pendiente, sigue las instrucciones enviadas a tu email, para terminar de crear tu cuenta."
     invitations:
       send_instructions: "Una invitación de correo se ha enviado para %{email}."
       invitation_token_invalid: "El token de invitación no es valido!"
-      updated: "Tu contraseña se ha captura con éxito, ya te encuentras dentro del sistema."
+      updated: "Tu contraseña se ha capturado con éxito, ya te encuentras dentro del sistema."
       no_invitations_remaining: "No quedan más invitaciones"
       invitation_removed: "Tu invitacion fue cancelada."
       new:

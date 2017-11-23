@@ -2,7 +2,7 @@ class Mentor::StudentsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_mentor
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
   helper_method :get_program_stat
   helper_method :chapter_have_questions?
 

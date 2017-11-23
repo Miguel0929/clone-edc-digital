@@ -1,7 +1,7 @@
 class Dashboard::ProgramsController < ApplicationController
   before_action :authenticate_user!
   #before_action :redirect_to_learning, if: :permiso_avance, only: [:show]
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
 
   helper_method :last_moved_program
   helper_method :last_visited_content

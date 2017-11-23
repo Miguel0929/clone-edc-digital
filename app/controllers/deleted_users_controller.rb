@@ -3,7 +3,7 @@ class DeletedUsersController < ApplicationController
   before_action :require_admin
   before_action :set_user, only: [:update]
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{deleted_users_path}'>Usuarios desactivados</a>".html_safe
@@ -37,7 +37,7 @@ class DeletedUsersController < ApplicationController
             "-user_emailaddress-"=> email_address,
             "-confirmation_link-" => ''
           },
-          subject: "Tu cuenta de EDCdigital ha sido reactivada"
+          subject: "Tu cuenta de EDC Digital ha sido reactivada"
         },
       ],
       from: {

@@ -4,7 +4,7 @@ class ProgramsController < ApplicationController
   before_action :set_program, only: [:show, :edit, :update, :destroy, :clone, :notify_changes, :notify_null]
   before_action :set_pending_content_notifications, only: [:show, :notify_changes, :notify_null]
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{programs_path}'>Programas</a>".html_safe

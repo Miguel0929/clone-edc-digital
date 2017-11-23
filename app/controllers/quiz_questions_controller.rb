@@ -3,7 +3,7 @@ class QuizQuestionsController < ApplicationController
   before_action :require_admin
   before_action :set_quiz, only: [:new, :create, :destroy, :edit, :update, :support]
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
 
   def new
     add_breadcrumb "<a href='#{quizzes_path}'>Examenes</a>".html_safe

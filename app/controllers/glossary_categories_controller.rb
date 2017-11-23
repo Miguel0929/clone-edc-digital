@@ -3,7 +3,7 @@ class GlossaryCategoriesController < ApplicationController
 	before_action :set_category, only: [:edit, :show, :update, :destroy]
 	helper_method :owner_category
 
-	add_breadcrumb "EDCDIGITAL", :root_path
+	add_breadcrumb "EDC DIGITAL", :root_path
 
 	def index
 		add_breadcrumb "<a class='active' href='#{glossary_categories_path}'>Glosario</a>".html_safe

@@ -4,7 +4,7 @@ class Mentor::AnswersController < ApplicationController
   before_action :validate_coursable_type
   before_action :build_question
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path
   add_breadcrumb "programas", :mentor_programs_path
 	def router
     answer = build_answer
