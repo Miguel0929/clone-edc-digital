@@ -53,6 +53,10 @@ class QuestionsController < ApplicationController
     ActiveRecord::Base.transaction do
       ChapterContent.where({coursable_type: 'Question', coursable_id: @question.id}).delete_all
       @question.destroy
+      chapter_contents = @chapter.chapter_contents.map{ |cp| cp.id }
+      chapter_contents.each_with_index do |id, index|
+        ChapterContent.find(id).update_attributes({position: index + 1})
+      end
     end
 
     up_notification = QueueNotification.find_by(category: 2, detail: "up-question-#{@question.id}", sent: false)
