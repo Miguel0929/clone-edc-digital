@@ -23,6 +23,8 @@ Rails.application.routes.draw do
         get :apply
       end
     end
+
+    resources :quiz_answers, only: [:show, :new, :create, :update, :edit]
   end
 
   post 'ratings/vote_chapter_content'
