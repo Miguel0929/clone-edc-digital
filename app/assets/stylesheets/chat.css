@@ -25,6 +25,10 @@ img.leida{
   width: 64px;
   height:64px;
 }
+.nueva-tipografia-rellenable{
+  font-size: 82px !important;
+  line-height: 75px !important;
+}
 p.name{
   color:#4965a0;
   font-weight:bold;

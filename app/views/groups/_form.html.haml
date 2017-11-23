@@ -11,5 +11,5 @@
   = f.select :quiz_ids, Quiz.all.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Examenes' }, multiple: 'multiple'
   
   = link_to "Cancelar", groups_path, class: "btn btn-danger"
-  = f.submit 'Aceptar'
+  = f.submit 'Guardar sin salir'
 /students.collect{|u| [u.email, u.id]},
