@@ -13,9 +13,18 @@ Rails.application.routes.draw do
       member do
         get :router
       end
-      
+
       resources :refilables, only: [:new, :create, :edit, :update]
     end
+
+    resources :quizzes, only: [:index, :show] do
+      member do
+        get :detail
+        get :apply
+      end
+    end
+
+    resources :quiz_answers, only: [:show, :new, :create, :update, :edit]
   end
 
   post 'ratings/vote_chapter_content'
