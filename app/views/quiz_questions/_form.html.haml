@@ -1,6 +1,6 @@
 .well
   = bootstrap_form_for([@quiz, @quiz_question]) do |f|
-    = f.text_field :question_text, label: "Pregunta"
+    = f.text_field :question_text, label: "Pregunta", required: true
     = f.text_area :support_text, ckeditor: { language: 'es'}, id: 'ckeditor', label: "Información de apoyo"
     = f.select :question_type, QuizQuestion::TYPES, { label: "Tipo de pregunta" }
     = f.text_area :answer_options, hide_label: true, rows: 8, class: 'hide'
@@ -24,7 +24,7 @@
           Respuestas
         %ul#answers-list
     %br
-    = f.text_field :points, label: 'Valor de esta pregunta'
+    = f.text_field :points, label: 'Valor de esta pregunta', required: true
     = f.hidden_field :quiz_id, value: @quiz.id
     = link_to 'Cancelar', @quiz, class: 'btn btn-danger'
     = f.submit 'Aceptar'
