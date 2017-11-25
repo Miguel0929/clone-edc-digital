@@ -1,0 +1,7 @@
+.container
+  .col-md-8.col-md-offset-2
+    %h1 Activar cuenta
+    %center
+      .panel.panel-default
+        .panel-body
+          = link_to "Activar cuenta","#{accept_user_invitation_url}?invitation_token=#{@user.raw_invitation_token}"

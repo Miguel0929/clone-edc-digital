@@ -3,6 +3,9 @@ class User < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   acts_as_token_authenticatable
 
+  after_create :create_code
+
+
   attr_accessor :agreement
   acts_as_paranoid
   mount_uploader :profile_picture, ProfilePictureUploader
@@ -11,6 +14,7 @@ class User < ActiveRecord::Base
   enum role: [ :student, :mentor, :admin, :staff ]
   enum gender: [ :male, :female ]
   enum evaluation_status: [:'sin evaluar', :evaluado]
+  serialize :tour_trigger, Hash
 
   has_many :answers
   has_many :group_users
@@ -36,6 +40,7 @@ class User < ActiveRecord::Base
   belongs_to :industry
   has_many :panel_notifications
   has_many :attempts
+  has_one :user_code
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 
@@ -43,6 +48,7 @@ class User < ActiveRecord::Base
   scope :mentors, -> { where(role: 1) }
   scope :staffs, -> { where(role: 3) }
   scope :invitation_accepted, -> { where.not('invitation_accepted_at' => nil) }
+  scope :invitation_no_accepted, -> { where('invitation_accepted_at' => nil) }
   scope :search_query, -> (query) {
     where('lower(users.first_name) LIKE lower(?) OR lower(users.last_name) LIKE lower(?) OR lower(users.email) LIKE lower(?)',
          "%#{query}%", "%#{query}%", "%#{query}%")
@@ -55,6 +61,7 @@ class User < ActiveRecord::Base
 
   before_create :set_origin
   after_create :assign_group
+  after_update :del_code
 
   def self.authenticate(email, password)
     user = find_for_authentication(email: email)
@@ -298,6 +305,21 @@ class User < ActiveRecord::Base
     last_program = Program.where(id: last_stat.program_id).last
   end
 
+  def create_code_inactivo
+    if self.user_code.nil?
+      unique = true
+      codigo = SecureRandom.hex(6) 
+      while unique
+        if UserCode.find_by(codigo: codigo).nil?
+          UserCode.create(codigo: codigo, user: self)
+          unique = false
+        else
+          codigo = SecureRandom.hex(6)
+        end
+      end
+    end
+  end  
+
   private
 
   def set_origin
@@ -310,5 +332,28 @@ class User < ActiveRecord::Base
       group.users << self
     end
   end
+
+  def create_code
+    if self.user_code.nil?
+      unique = true
+      codigo = SecureRandom.hex(6) 
+      while unique
+        if UserCode.find_by(codigo: codigo).nil?
+          UserCode.create(codigo: codigo, user: self)
+          unique = false
+        else
+          codigo = SecureRandom.hex(6)
+        end
+      end
+    end
+  end
+
+  def del_code
+    unless self.invitation_accepted_at.nil?
+      unless self.user_code.nil?   
+        self.user_code.destroy
+      end  
+    end  
+  end  
 
 end
