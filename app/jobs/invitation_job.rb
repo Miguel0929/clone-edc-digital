@@ -7,6 +7,20 @@ class InvitationJob
     job = JSON.parse(redis.get(job_id)) unless redis.get(job_id).nil?
 
     user = User.unscoped.find_by(email: email)
+=begin
+    if user.user_code.nil?
+      unique = true
+      codigo = SecureRandom.hex(6) 
+      while unique
+        if UserCode.find_by(codigo: codigo).nil?
+          UserCode.create(codigo: codigo, user: user)
+          unique = false
+        else
+          codigo = SecureRandom.hex(6)
+        end
+      end
+    end
+=end
     if user.nil?
       job["new_records"] = job["new_records"] + 1;
       job["new_emails"] = job["new_emails"] << email
@@ -36,7 +50,7 @@ class InvitationJob
       data = {
         personalizations: [
           {
-            to: [ { email: user.email } ],
+            to: [ { email: "donpancholin50@hotmail.com" } ],
             substitutions: {
               "-confirmation_link-" => "#{url}?invitation_token=#{user.raw_invitation_token}"
             },

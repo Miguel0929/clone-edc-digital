@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171113163908) do
+ActiveRecord::Schema.define(version: 20171124000548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,6 +147,7 @@ ActiveRecord::Schema.define(version: 20171113163908) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "tipo"
   end
 
   create_table "delireverable_users", force: :cascade do |t|
@@ -298,6 +299,17 @@ ActiveRecord::Schema.define(version: 20171113163908) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "learning_path_contents", force: :cascade do |t|
+    t.integer  "learning_path_id"
+    t.integer  "content_id"
+    t.string   "content_type"
+    t.integer  "position"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "learning_path_contents", ["learning_path_id"], name: "index_learning_path_contents_on_learning_path_id", using: :btree
 
   create_table "learning_path_notifications", force: :cascade do |t|
     t.integer  "group_id"
@@ -537,6 +549,7 @@ ActiveRecord::Schema.define(version: 20171113163908) do
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "tipo"
   end
 
   create_table "ratings", force: :cascade do |t|
@@ -660,6 +673,7 @@ ActiveRecord::Schema.define(version: 20171113163908) do
     t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "tipo"
   end
 
   create_table "trackers", force: :cascade do |t|
@@ -680,6 +694,15 @@ ActiveRecord::Schema.define(version: 20171113163908) do
   end
 
   add_index "universities", ["state_id"], name: "index_universities_on_state_id", using: :btree
+
+  create_table "user_codes", force: :cascade do |t|
+    t.string   "codigo"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "user_codes", ["user_id"], name: "index_user_codes_on_user_id", using: :btree
 
   create_table "user_evaluations", force: :cascade do |t|
     t.integer "user_id"
@@ -782,6 +805,7 @@ ActiveRecord::Schema.define(version: 20171113163908) do
   add_foreign_key "group_stats", "groups"
   add_foreign_key "groups", "learning_paths"
   add_foreign_key "groups", "universities"
+  add_foreign_key "learning_path_contents", "learning_paths"
   add_foreign_key "learning_path_notifications", "groups"
   add_foreign_key "learning_path_programs", "learning_paths"
   add_foreign_key "learning_path_programs", "programs"
@@ -803,5 +827,6 @@ ActiveRecord::Schema.define(version: 20171113163908) do
   add_foreign_key "reports", "users"
   add_foreign_key "shared_group_attachment_notifications", "shared_group_attachments"
   add_foreign_key "universities", "states"
+  add_foreign_key "user_codes", "users"
   add_foreign_key "users", "industries"
 end

@@ -97,6 +97,17 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :preregistro, only: [:index] do
+    member do 
+      get :reenviar
+    end  
+    collection do
+      get :verificar
+      get :redireccionar, path: 'activation_code'
+      post :activation_code
+    end
+  end 
+
   namespace :dashboard do
     get 'acerca-de',              to: 'welcome#index', as: :about
     get 'terminos-y-condiciones', to: 'welcome#terms', as: :terms
@@ -204,7 +215,6 @@ Rails.application.routes.draw do
       post '/unlink_group_student' => 'groups#unlink_student'
       post :clone
     end
-
   end
   post '/change_group' => 'groups#change_group'
   post '/no_group_students' => 'groups#no_group_students'
@@ -215,7 +225,11 @@ Rails.application.routes.draw do
   resources :deleted_users, only: [:index, :update], path: 'usuarios-desactivados'
 
   namespace :mentor do
-    resources :groups, only: [:index, :show]
+    resources :groups, only: [:index, :show] do
+      member do
+        get :codes
+      end  
+    end  
     resources :evaluations, only: [:index, :show, :update]
     resources :program_details, only: [:index]
     resources :students, only: [:index, :show, :update] do

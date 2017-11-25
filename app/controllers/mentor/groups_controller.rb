@@ -10,6 +10,10 @@ class Mentor::GroupsController < ApplicationController
     @groups = current_user.groups.group_search(params[:query]).page(params[:page]) if params[:query].present? 
   end
 
+  def codes
+    @group=current_user.groups.includes(:programs, :users, :active_students).find(params[:id])
+  end  
+
   def show
     @group = current_user.groups.includes(:programs, :users, :active_students).find(params[:id])
     @students = @group.active_students.order(:id)
