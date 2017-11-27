@@ -113,7 +113,7 @@
                   = !program.short_name.nil? ? program.short_name : "P-#{index}"
           .pull-right
             = link_to codes_mentor_group_path(@group, format: :xlsx), class: "btn btn-success" do
-              = "Exportar Códigos de activación manual (#{@group.inactive_students.count} inactivos)"
+              = "Códigos de activación manual (#{@group.inactive_students.count} inactivos)"
               %i.fa.fa-file-excel-o        
       .row.m-b-20
         .col-md-12
