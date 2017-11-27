@@ -1,10 +1,22 @@
-- answer_to_select(question, detail).each_with_index do |answer, index|
-  .row
-    .col-md-4
-      .checkbox.check-success
-        = check_box_tag "answers[#{i}][answer_text][]", answer[1], quiz_answer_selected?(answers, answer[0].split('~')[0]), id: "check_#{answers.quiz_question_id}_#{index}", disabled: disabled, multiple: true
-        %label{:for => "check_#{answers.quiz_question_id}_#{index}" }
-          - if detail
-            = "#{answer[0].split('~')[0]}" #= "#{answer[0].split('~')[0]} #{answer[0].split('~')[1]}"
-          - else
-            = answer[0].split('~')[0]
+.options
+  - answer_to_select(question, detail).each_with_index do |answer, index|
+    .row
+      .col-md-4
+        .checkbox.check-success
+          = check_box_tag "answers[#{i}][answer_text][]", answer[1], quiz_answer_selected?(answers, answer[0].split('~')[0]), id: "check_#{answers.quiz_question_id}_#{index}", disabled: disabled, multiple: true, required: true
+          %label{:for => "check_#{answers.quiz_question_id}_#{index}" }
+            - if detail
+              = "#{answer[0].split('~')[0]}"
+            - else
+              = answer[0].split('~')[0]
+:javascript
+  $(document).on('turbolinks:load', function(){
+    var requiredCheckboxes = $('.options :checkbox[required]');
+    requiredCheckboxes.change(function(){
+      if(requiredCheckboxes.is(':checked')) {
+        requiredCheckboxes.removeAttr('required');
+      } else {
+        requiredCheckboxes.attr('required', 'required');
+      }
+    });
+  });
