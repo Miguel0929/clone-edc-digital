@@ -3,7 +3,7 @@
     /- answer_to_array(question).each_with_index do |answer, index|
     .row
       .col-md-4
-        %input{:name => "answers[#{i}][answer_text]", :type => "radio", :value => answer, id: "radio_#{answers.quiz_question_id}_#{index}", disabled: disabled, checked: quiz_answer_selected?(answers, answer)}
+        %input{:name => "answers[#{i}][answer_text]", :type => "radio", :value => answer, required: true, id: "radio_#{answers.quiz_question_id}_#{index}", disabled: disabled, checked: quiz_answer_selected?(answers, answer)}
         %label{:for => "radio_#{answers.quiz_question_id}_#{index}"}
           - if detail
             = "#{answer.split('~')[0]}" #= "#{answer.split('~')[0]} #{answer.split('~')[1]}"
