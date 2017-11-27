@@ -153,7 +153,7 @@
                   %li
                     = link_to codes_group_path(group, format: :xlsx) do
                       %i.fa.fa-code
-                      = "Exportar codigos de activación (#{@group.inactive_students.count} inactivos)"    
+                      = "Exportar codigos de activación (#{group.inactive_students.count} inactivos)"    
                   %li
                     = link_to group, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
                       %i.fa.fa-times
