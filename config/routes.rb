@@ -259,6 +259,7 @@ Rails.application.routes.draw do
       #get :sort_route
       post :sort
       post :notification_route
+      get :codes
     end
     member do
       get :student_control
