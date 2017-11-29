@@ -48,6 +48,7 @@ class Dashboard::WelcomeController < ApplicationController
     @group_programs = current_user.group.group_programs.order(:position)
     @c=0   
     @modal_trigger = current_user.video_trigger
+    @tour_trigger = current_user.tour_trigger
   end  
  
   def send_support_email

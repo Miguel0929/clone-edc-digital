@@ -130,6 +130,9 @@ Rails.application.routes.draw do
     get 'calculator_method',       to: 'welcome#calculator_method', as: :calculator_method
     get 'notifications-panel',        to: 'welcome#notifications_panel', as: :notifications_panel
     post 'store-notifications-panel',        to: 'welcome#store_notifications_panel', as: :store_notifications_panel
+    post 'change_tour_trigger', to: 'users#change_tour_trigger', as: 'change_tour_trigger'
+
+    resources :sitemap, only: [:index]
 
     resources :users, only: [:show]
 
@@ -240,6 +243,7 @@ Rails.application.routes.draw do
         get :codes
       end  
     end  
+    resources :sitemap, only: [:index]
     resources :evaluations, only: [:index, :show, :update]
     resources :program_details, only: [:index]
     resources :students, only: [:index, :show, :update] do

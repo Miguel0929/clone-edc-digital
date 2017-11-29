@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   enum evaluation_status: [:'sin evaluar', :evaluado]
   serialize :tour_trigger, Hash
 
+
   has_many :answers
   has_many :group_users
   has_many :groups, through: :group_users
