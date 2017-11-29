@@ -7,9 +7,13 @@ class Dashboard::TemplateRefilablesController < ApplicationController
     refilables_groups = TemplateRefilable.joins(:groups)
                                     .where('groups.id = ?', current_user.group.id)
                                     .order(position: :asc).pluck(:id)
-    refilables_ruta = current_user.group.learning_path.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)                                
-    aux = refilables_ruta.concat(refilables_groups)                                
+    refilables_fisica = current_user.group.learning_path.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)
+    refilables_moral = current_user.group.learning_path2.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)                                    
+
+    aux = refilables_fisica + refilables_moral + refilables_groups                              
+    
     @refilables=TemplateRefilable.where(id: aux)
+    
     @done_refilables = []
     @undone_refilables = []    
     @refilables.each do |refil|

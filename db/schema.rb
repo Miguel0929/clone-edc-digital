@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171107202540) do
+ActiveRecord::Schema.define(version: 20171128185944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,16 @@ ActiveRecord::Schema.define(version: 20171107202540) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "attempts", force: :cascade do |t|
+    t.integer  "quiz_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "attempts", ["quiz_id"], name: "index_attempts_on_quiz_id", using: :btree
+  add_index "attempts", ["user_id"], name: "index_attempts_on_user_id", using: :btree
 
   create_table "chapter_contents", force: :cascade do |t|
     t.integer "chapter_id"
@@ -272,15 +282,17 @@ ActiveRecord::Schema.define(version: 20171107202540) do
     t.string   "name"
     t.string   "key"
     t.datetime "deleted_at"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.integer  "state_id"
     t.string   "category"
     t.integer  "university_id"
     t.integer  "learning_path_id"
+    t.integer  "learning_path2_id"
   end
 
   add_index "groups", ["deleted_at"], name: "index_groups_on_deleted_at", using: :btree
+  add_index "groups", ["learning_path2_id"], name: "index_groups_on_learning_path2_id", using: :btree
   add_index "groups", ["learning_path_id"], name: "index_groups_on_learning_path_id", using: :btree
   add_index "groups", ["university_id"], name: "index_groups_on_university_id", using: :btree
 
@@ -685,6 +697,15 @@ ActiveRecord::Schema.define(version: 20171107202540) do
 
   add_index "universities", ["state_id"], name: "index_universities_on_state_id", using: :btree
 
+  create_table "user_codes", force: :cascade do |t|
+    t.string   "codigo"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "user_codes", ["user_id"], name: "index_user_codes_on_user_id", using: :btree
+
   create_table "user_evaluations", force: :cascade do |t|
     t.integer "user_id"
     t.integer "evaluation_id"
@@ -778,6 +799,8 @@ ActiveRecord::Schema.define(version: 20171107202540) do
   add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
   add_index "visits", ["visit_token"], name: "index_visits_on_visit_token", unique: true, using: :btree
 
+  add_foreign_key "attempts", "quizzes"
+  add_foreign_key "attempts", "users"
   add_foreign_key "glossaries", "glossary_categories"
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"
@@ -806,5 +829,6 @@ ActiveRecord::Schema.define(version: 20171107202540) do
   add_foreign_key "reports", "users"
   add_foreign_key "shared_group_attachment_notifications", "shared_group_attachments"
   add_foreign_key "universities", "states"
+  add_foreign_key "user_codes", "users"
   add_foreign_key "users", "industries"
 end

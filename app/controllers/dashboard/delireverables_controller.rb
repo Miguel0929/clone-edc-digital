@@ -9,16 +9,26 @@ class Dashboard::DelireverablesController < ApplicationController
                                    .where('groups.id = ?', current_user.group.id)
                                    .order(position: :asc).pluck(:id)
 
-    packages = current_user.group.learning_path.learning_path_contents.where(content_type: "DelireverablePackage")
-    ids=[]
-    packages.each do |package|
+    fisica_packages = current_user.group.learning_path.learning_path_contents.where(content_type: "DelireverablePackage")
+    moral_packages = current_user.group.learning_path2.learning_path_contents.where(content_type: "DelireverablePackage")
+    
+    ids_fisica=[]
+    fisica_packages.each do |package|
       package.model.delireverables.each do |delireverable|
-        ids << delireverable.id
+        ids_fisica << delireverable.id
       end  
-    end                                                               
-    aux=ids.concat(delireverables_groups)                               
-    @delireverables=Delireverable.where(id: aux)
+    end
 
+    ids_moral=[]
+    moral_packages.each do |package|
+      package.model.delireverables.each do |delireverable|
+        ids_moral << delireverable.id
+      end  
+    end                              
+    
+    aux = ids_fisica + ids_moral + delireverables_groups
+    @delireverables=Delireverable.where(id: aux)
+    
     @done_delireverables = []
     @undone_delireverables = []    
     @delireverables.each do |deliv|

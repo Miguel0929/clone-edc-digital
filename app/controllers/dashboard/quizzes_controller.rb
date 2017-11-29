@@ -6,11 +6,11 @@ class Dashboard::QuizzesController < ApplicationController
 
   def index
     add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path}'>Exámenes</a>".html_safe
-    quizzes_ruta = current_user.group.learning_path.learning_path_contents.where(content_type: "Quiz").pluck(:content_id)
+    quizzes_fisica = current_user.group.learning_path.learning_path_contents.where(content_type: "Quiz").pluck(:content_id)
+    quizzes_moral = current_user.group.learning_path2.learning_path_contents.where(content_type: "Quiz").pluck(:content_id)
     quizzes_group = current_user.group.quizzes.pluck(:id)
-    aux=quizzes_ruta.concat(quizzes_group)
+    aux= quizzes_fisica + quizzes_moral + quizzes_group
     @quizzes = Quiz.where(id: aux)
-
   end
 
   def show

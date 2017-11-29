@@ -229,7 +229,6 @@ Rails.application.routes.draw do
 
   resources :groups do
     member do
-      #get :sort_route
       post :sort
       post :notification_route
     end
@@ -240,7 +239,6 @@ Rails.application.routes.draw do
       post '/unlink_group_student' => 'groups#unlink_student'
       post :clone
     end
-
   end
   post '/change_group' => 'groups#change_group'
   post '/no_group_students' => 'groups#no_group_students'
