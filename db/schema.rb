@@ -88,6 +88,17 @@ ActiveRecord::Schema.define(version: 20171124000548) do
     t.integer "position"
   end
 
+  create_table "chapter_stats", force: :cascade do |t|
+    t.integer  "checked",    default: 0
+    t.integer  "user_id"
+    t.integer  "chapter_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "chapter_stats", ["chapter_id"], name: "index_chapter_stats_on_chapter_id", using: :btree
+  add_index "chapter_stats", ["user_id"], name: "index_chapter_stats_on_user_id", using: :btree
+
   create_table "chapters", force: :cascade do |t|
     t.string   "name"
     t.integer  "program_id"
@@ -147,6 +158,7 @@ ActiveRecord::Schema.define(version: 20171124000548) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "tipo"
   end
 
   create_table "delireverable_users", force: :cascade do |t|
@@ -299,6 +311,17 @@ ActiveRecord::Schema.define(version: 20171124000548) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "learning_path_contents", force: :cascade do |t|
+    t.integer  "learning_path_id"
+    t.integer  "content_id"
+    t.string   "content_type"
+    t.integer  "position"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "learning_path_contents", ["learning_path_id"], name: "index_learning_path_contents_on_learning_path_id", using: :btree
+
   create_table "learning_path_notifications", force: :cascade do |t|
     t.integer  "group_id"
     t.datetime "created_at", null: false
@@ -323,28 +346,6 @@ ActiveRecord::Schema.define(version: 20171124000548) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  add_index "learning_path_notifications", ["group_id"], name: "index_learning_path_notifications_on_group_id", using: :btree
-
-  create_table "learning_path_programs", force: :cascade do |t|
-    t.integer  "program_id"
-    t.integer  "learning_path_id"
-    t.integer  "content_id"
-    t.string   "content_type"
-    t.integer  "position"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
-
-  add_index "learning_path_contents", ["learning_path_id"], name: "index_learning_path_contents_on_learning_path_id", using: :btree
-
-  create_table "learning_path_notifications", force: :cascade do |t|
-    t.integer  "group_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "learning_path_notifications", ["group_id"], name: "index_learning_path_notifications_on_group_id", using: :btree
 
   create_table "lessons", force: :cascade do |t|
     t.string   "identifier"
@@ -559,6 +560,7 @@ ActiveRecord::Schema.define(version: 20171124000548) do
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "tipo"
   end
 
   create_table "ratings", force: :cascade do |t|
@@ -682,6 +684,7 @@ ActiveRecord::Schema.define(version: 20171124000548) do
     t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "tipo"
   end
 
   create_table "trackers", force: :cascade do |t|
@@ -807,12 +810,15 @@ ActiveRecord::Schema.define(version: 20171124000548) do
 
   add_foreign_key "attempts", "quizzes"
   add_foreign_key "attempts", "users"
+  add_foreign_key "chapter_stats", "chapters"
+  add_foreign_key "chapter_stats", "users"
   add_foreign_key "glossaries", "glossary_categories"
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"
   add_foreign_key "group_stats", "groups"
   add_foreign_key "groups", "learning_paths"
   add_foreign_key "groups", "universities"
+  add_foreign_key "learning_path_contents", "learning_paths"
   add_foreign_key "learning_path_notifications", "groups"
   add_foreign_key "learning_path_programs", "learning_paths"
   add_foreign_key "learning_path_programs", "programs"
