@@ -12,7 +12,7 @@ wb.styles do |style|
       else
         codigo =  student.user_code.codigo.to_s
       end  
-      sheet.add_row [student.name ,student.email, codigo], style: [content_cell, content_cell, content_cell]
+      sheet.add_row [student.name ,student.email, codigo], style: [content_cell, content_cell, content_cell], :types => [:string, :string, :string]
     end
   end
 end
