@@ -50,10 +50,9 @@
                       %i.fa.fa-line-chart
                       Ver progreso de grupo
               %td.p-b-20
-                %ol.p-l-0.p-t-5
-                  - group.programs.each_with_index do |program, index|
-                    .label.m-b-5.program-labels{"data-toggle": "tooltip", "data-original-title": "#{program.name}"}
-                      = !program.short_name.nil? ? program.short_name : "P-#{index}"
+                - group.all_programs.each_with_index do |program, index|
+                  .label.m-b-5.program-labels{"data-toggle": "tooltip", "data-original-title": "#{program.name}"}
+                    = !program.short_name.nil? ? program.short_name : "P-#{index}"
               %td.p-b-20
                 - group.users.each do |user|
                   %ul.p-l-10.m-b-0

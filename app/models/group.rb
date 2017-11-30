@@ -37,4 +37,12 @@ class Group < ActiveRecord::Base
   def get_group_stat(group)
     GroupStat.find_by(group_id: group.id)
   end
+
+  def all_programs
+    group_programs = self.programs.pluck(:id)
+    self.learning_path.nil? ? fisica_programs = [] : fisica_programs = self.learning_path.learning_path_contents.where(content_type: "Program").pluck(:content_id)
+    self.learning_path2.nil? ? moral_programs = [] : moral_programs = self.learning_path2.learning_path_contents.where(content_type: "Program").pluck(:content_id)
+    aux = group_programs + fisica_programs + moral_programs
+    Program.where(id: aux)
+  end  
 end
