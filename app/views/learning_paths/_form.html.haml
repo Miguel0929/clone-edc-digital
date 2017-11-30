@@ -1,0 +1,18 @@
+= form_tag learning_paths_path do
+  .form-group
+    %label{:for => "name"} Nombre: 
+    = text_field_tag :name , "", class: 'form-control'
+  .form-group
+    %label{:for => "programs"} Programas:   
+    = select_tag "programs[]", options_from_collection_for_select(@programs, "id", "name"), multiple: 'multiple', class: 'form-control'
+  .form-group
+    %label{:for => "quizzes"} Examenes:   
+    = select_tag "quizzes[]", options_from_collection_for_select(@quizzes, "id", "name"), multiple: 'multiple', class: 'form-control'
+  .form-group
+    %label{:for => "refilables"} Rellenables:   
+    = select_tag "refilables[]", options_from_collection_for_select(@templates_refilables, "id", "name"), multiple: 'multiple', class: 'form-control'
+  .form-group
+    %label{:for => "delireverables"} Entregables:   
+    = select_tag "delireverables[]", options_from_collection_for_select(@delireverable_packages, "id", "name"), multiple: 'multiple', class: 'form-control'      
+  .form-group
+    = submit_tag "Crear Ruta", class: "btn btn-primary"        

@@ -357,4 +357,16 @@ Rails.application.routes.draw do
       post :sort
     end
   end
+
+  resources :learning_paths,  only: [:index, :new, :create, :destroy, :show, :edit, :update] do
+    member do
+      post :complementarios
+    end  
+    resources :learning_path_contents, only: [:new, :create, :destroy] do
+      collection do
+        post :sort
+      end
+    end    
+  end
+  post "get_contents" => "learning_path_contents#get_contents"
 end
