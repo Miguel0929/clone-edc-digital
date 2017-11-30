@@ -7,7 +7,7 @@
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
           .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15#tour-3
-            %h2.text-white
+            %h2.text-white#tour-0
               ¡Bienvenido a EDC Digital!
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
@@ -134,6 +134,6 @@
         .modal-body
           .embed-responsive.embed-responsive-16by9
             %iframe.embed-responsive-item{:src => "https://player.vimeo.com/video/188382978"}
-
+  
 - if @tour_trigger[:first]
   = javascript_include_tag '/javascripts/lib/bootstraptour/tour_first_step', 'data-turbolinks-track' => false
