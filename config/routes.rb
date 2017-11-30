@@ -418,5 +418,6 @@ Rails.application.routes.draw do
       end
     end    
   end
-  post "get_contents" => "learning_path_contents#get_contents"  
+  post "get_contents" => "learning_path_contents#get_contents"
+
 end
