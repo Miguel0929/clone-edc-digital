@@ -1,5 +1,6 @@
 class Dashboard::ProgramsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_program, only: [:show]
   before_action :redirect_to_learning, if: :permiso_avance, only: [:show]
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -8,40 +9,47 @@ class Dashboard::ProgramsController < ApplicationController
 
   def index
     add_breadcrumb "<a class='active' href='#{dashboard_programs_path}'>Programas</a>".html_safe
-    #@programs = current_user.group.programs.order(position: :asc) rescue []
     
-    ids=[]
     if current_user.student?
+      @activo = ['active', '','']
       unless current_user.group.nil?
-        ids_comp=[] 
-        @activo = ['active', '','']
-        aux = current_user.group.programs.where.not(content_type: 0).map{|p|p.id}
-        aux.each do |id|
-          if !ProgramActive.where(user: current_user, program_id: id).first.nil? && ProgramActive.where(user: current_user, program_id: id).first.status
-            ids_comp.push(id)
-          end
-        end  
-        @programs = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
+        ids_comp = []; ids_fisica = []; ids_moral = [] 
+
+        current_user.group.learning_path.nil? ? program_fisico = [] : program_fisico = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
         c=0
-        @programs.each do |p|
+        program_fisico.each do |p|
           c+=1
-          if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group))>80
-            ids.push(p.content_id)
+          if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group.learning_path))>80
+            ids_fisica << p.content_id
           else
             break
           end
         end
-        @programs=Program.where(id: ids_comp.concat(ids))
+
+        current_user.group.learning_path2.nil? ? program_moral = [] : program_moral = current_user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position)
+        c=0
+        program_moral.each do |p|
+          c+=1
+          if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group.learning_path2))>80
+            ids_moral << p.content_id
+          else
+            break
+          end
+        end
+
+        program_group = current_user.group.programs.where.not(content_type: 0).map{|p|p.id}
+        complementarios = program_group - (program_fisico.pluck(:content_id) + program_moral.pluck(:content_id))
+
+        complementarios.each do |id|
+          if !ProgramActive.where(user: current_user, program_id: id).first.nil? && ProgramActive.where(user: current_user, program_id: id).first.status
+            ids_comp << id
+          end
+        end
+  
+        @programs=Program.where(id: ids_comp+ids_fisica+ids_moral)
       end
     elsif current_user.mentor?
-      current_user.groups.each do |g|
-        g.programs.each do |p|
-          unless ids.include?(p.id)          
-            ids.push(p.id)         
-          end
-        end  
-      end
-      @programs = Program.where(id: ids).order(:position)
+      @programs = Program.all
     end
 
  
@@ -133,37 +141,13 @@ class Dashboard::ProgramsController < ApplicationController
       return nil
     end
   end
-  def redirect_to_learning
-    redirect_to dashboard_learning_path_path, notice: "Aun no puedes acceder a este contenido." 
-  end  
+
+  def set_program
+    @program=Program.find(params[:id])
+  end
+
   def permiso_avance
-    @program = Program.find(params[:id])
-    active=ProgramActive.where(user: current_user, program: @program).first
-    is_active=true
-    programas = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
-    if active.nil? then is_active = false else is_active = active.status end  
-    if is_active || current_user.mentor? 
-      return false
-    end  
-    if @program != programas.first.model  
-      anterior=Program.new
-      programas.each do |p|
-        if p.model==@program
-          break
-        else
-          anterior=p.model
-        end
-      end
-      programas.each do |p|
-        if (p.model == anterior && current_user.percentage_answered_for(anterior) == 100)
-          return false      
-        elsif (current_user.percentage_answered_for(p.model) < 100 && p.model != anterior) 
-          return true
-        end  
-      end
-    else
-      return false
-    end      
+    permiso_programs(@program)
   end  
 
 end

@@ -53,8 +53,6 @@ class Dashboard::WelcomeController < ApplicationController
       @programs_fisica.each do |p|
         c+=1
         anterior = p.anterior(current_user.group.learning_path)
-        p "=========================="
-        p anterior
         if current_user.percentage_questions_answered_for(anterior)>80 || c==1 
           ids.push(p.id)
         else
@@ -70,8 +68,6 @@ class Dashboard::WelcomeController < ApplicationController
       @programs_moral.each do |p|
         c+=1
         anterior = p.anterior(current_user.group.learning_path2)
-        p "=========================="
-        p anterior
         if current_user.percentage_questions_answered_for(anterior)>80 || c==1 
           ids.push(p.id)
         else

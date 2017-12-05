@@ -105,9 +105,9 @@
           %h5
             Programas habilitados
             %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
-              (#{@group.programs.count} programas)
+              (#{@group.all_programs.count} programas)
           .m-t-10.p-l-20
-            - @group.programs.each_with_index do |program, index|
+            - @group.all_programs.each_with_index do |program, index|
               = link_to mentor_program_details_path(group_id: @group, program_id: program) do
                 .label.program-labels{"data-toggle": "tooltip", "data-original-title": "#{program.name}"}
                   = !program.short_name.nil? ? program.short_name : "P-#{index}"

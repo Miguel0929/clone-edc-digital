@@ -3,16 +3,9 @@ class Dashboard::TemplateRefilablesController < ApplicationController
   add_breadcrumb "EDCDIGITAL", :root_path
 
   def index
-    add_breadcrumb "<a href='#{dashboard_template_refilables_path}' class='active'>Mis rellenables</a>".html_safe
-    refilables_groups = TemplateRefilable.joins(:groups)
-                                    .where('groups.id = ?', current_user.group.id)
-                                    .order(position: :asc).pluck(:id)
-    refilables_fisica = current_user.group.learning_path.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)
-    refilables_moral = current_user.group.learning_path2.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)                                    
-
-    aux = refilables_fisica + refilables_moral + refilables_groups                              
+    add_breadcrumb "<a href='#{dashboard_template_refilables_path}' class='active'>Mis rellenables</a>".html_safe                            
     
-    @refilables=TemplateRefilable.where(id: aux)
+    @refilables = current_user.group.all_refilables
     
     @done_refilables = []
     @undone_refilables = []    

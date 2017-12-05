@@ -1,27 +1,23 @@
 class Dashboard::QuizzesController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_quiz, only: [:show, :apply, :detail]
+  before_action :redirect_to_quizzes, if: :permiso_quiz, only: [:show, :apply, :detail]  
   add_breadcrumb "EDCDIGITAL", :root_path
   helper_method :right_answer
   helper_method :evaluating_quiz
 
   def index
     add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path}'>Exámenes</a>".html_safe
-    quizzes_fisica = current_user.group.learning_path.learning_path_contents.where(content_type: "Quiz").pluck(:content_id)
-    quizzes_moral = current_user.group.learning_path2.learning_path_contents.where(content_type: "Quiz").pluck(:content_id)
-    quizzes_group = current_user.group.quizzes.pluck(:id)
-    aux= quizzes_fisica + quizzes_moral + quizzes_group
-    @quizzes = Quiz.where(id: aux)
+    @quizzes = current_user.group.all_quizzes
   end
 
   def show
-    @quiz = Quiz.find(params[:id])
     add_breadcrumb "<a href='#{dashboard_quizzes_path}'>Exámenes</a>".html_safe    
     add_breadcrumb "<a class='active' href='#{dashboard_quiz_path(@quiz)}'>#{@quiz.name}</a>".html_safe
     redirect_to dashboard_quizzes_path unless @quiz.answered(current_user) > 0
   end
 
   def detail
-    @quiz = Quiz.find(params[:id])
     ids = @quiz.quiz_questions.map{ |q| q.id }
     @answers = QuizAnswer.where(quiz_question_id: ids, user_id: current_user.id)
     add_breadcrumb "<a href='#{dashboard_quizzes_path}'>Exámenes</a>".html_safe    
@@ -30,7 +26,6 @@ class Dashboard::QuizzesController < ApplicationController
 
   def apply
     @answers = []
-    @quiz = Quiz.find(params[:id])
     @quiz.quiz_questions.each do |question|
       @answers << QuizAnswer.new(quiz_question_id: question.id, user_id: current_user.id)
     end
@@ -61,4 +56,16 @@ class Dashboard::QuizzesController < ApplicationController
     end
     return righty
   end
+  private
+  def set_quiz
+    @quiz = Quiz.find(params[:id])
+  end
+
+  def permiso_quiz
+    !current_user.group.all_quizzes.include?(@quiz)  
+  end  
+
+  def redirect_to_quizzes
+    redirect_to dashboard_quizzes_path, alert: 'No tienes asignado este examen' 
+  end   
 end

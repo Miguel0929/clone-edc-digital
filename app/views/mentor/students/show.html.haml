@@ -152,7 +152,7 @@
                     %tr.odd.gradeX
                       %td Cursos inscritos
                       %td
-                        - @user.group.programs.each do |program|
+                        - @user.group.all_programs.each do |program|
                           \-
                           = link_to program.name, mentor_evaluations_path(user_id: @user, program_id: program)
                           %br
@@ -318,7 +318,7 @@
                       %th
                         Acciones
                   %tbody
-                    - if @user.group.quizzes.count == 0
+                    - if @quizzes.count == 0
                       %tr
                         %td.p-t-20.p-b-15{colspan: "4"}
                           .text-primary.bold

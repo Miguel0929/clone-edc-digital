@@ -85,6 +85,6 @@ class Dashboard::EvaluationsController < ApplicationController
   end
 
   def redirect_on_program_not_assigned
-    redirect_to welcome_path unless current_user.group.programs.include?(@program)
+    redirect_to welcome_path unless current_user.group.all_programs.include?(@program)
   end
 end

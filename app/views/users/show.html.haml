@@ -130,7 +130,7 @@
                       %td Cursos inscritos
                       - if current_user.admin? && !@user.group.nil?
                         %td
-                          - @user.group.programs.each do |program|
+                          - @programs.each do |program|
                             \-
                             = link_to program.name, user_program_answers_path(@user, program)
                             %br
@@ -223,7 +223,7 @@
                         %th
                           Acciones
                     %tbody
-                      - if @user.group.nil? || @user.group.quizzes.count == 0
+                      - if @user.group.nil? || @quizzes.count == 0
                         %tr
                           %td.p-t-20.p-b-15{colspan: "4"}
                             .text-primary.bold
