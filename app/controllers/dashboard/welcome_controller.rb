@@ -45,11 +45,12 @@ class Dashboard::WelcomeController < ApplicationController
   end
 
   def learning_path
-    unless current_user.group.learning_path.nil?    
-      @programs_fisica=current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
-      c=0
-      @c1=0 
-      ids=[]
+    #unless current_user.group.learning_path.nil?    
+    @programs_fisica=current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position) rescue nil
+    c=0
+    @c1=0 
+    ids=[]
+    unless @programs_fisica.nil?
       @programs_fisica.each do |p|
         c+=1
         anterior = p.anterior(current_user.group.learning_path)
@@ -60,11 +61,13 @@ class Dashboard::WelcomeController < ApplicationController
         end
       end    
       @programs_fisica=LearningPathContent.where(id: ids).order(:position)
-      
-      @programs_moral=current_user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position)
-      c=0
-      @c2=0 
-      ids=[]
+    end
+    
+    @programs_moral=current_user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position) rescue nil
+    c=0
+    @c2=0 
+    ids=[]
+    unless @programs_moral.nil?
       @programs_moral.each do |p|
         c+=1
         anterior = p.anterior(current_user.group.learning_path2)
@@ -75,7 +78,8 @@ class Dashboard::WelcomeController < ApplicationController
         end
       end    
       @programs_moral=LearningPathContent.where(id: ids).order(:position)
-    end        
+    end
+    #end        
     @modal_trigger = current_user.video_trigger
     @tour_trigger = current_user.tour_trigger
   end  
