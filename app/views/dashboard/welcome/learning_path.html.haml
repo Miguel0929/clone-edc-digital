@@ -15,7 +15,7 @@
             %p.m-b-25.text-white
               Aquí podrás ver los cursos que te han sido asignados por nuestro equipo de expertos. Esta selección de programas fue diseñada en el orden óptimo para que realices tu viaje a través de nuestra plataforma. Cada curso de tu ruta mostrará el porcentaje de progreso, de modo que siempre podrás tener una visión general de tus avances. ¿Estás listo para continuar?
 
-- unless current_user.group.learning_path.nil?
+- unless @programs_fisica.nil?
   .container-fluid.sm-p-l-5
     .pull-right
       .btn-group{"aria-label" => "Basic example", :role => "group"}
@@ -130,7 +130,7 @@
   %center
     .alert.alert-danger{:role => "alert"}
       No tienes asignada un ruta de aprendizaje (Física) 
-- unless current_user.group.learning_path2.nil?
+- unless @programs_moral.nil?
   .container-fluid.sm-p-l-5#moral_cont.hide
     .timeline-container.top-circle
       %section.timeline.black-line
