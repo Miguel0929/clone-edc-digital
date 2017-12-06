@@ -58,6 +58,58 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def permiso_programs(program)
+
+    complementarios = current_user.group.programs_complementaries
+    is_active=true
+    if complementarios.include?(program.id) 
+      active=ProgramActive.where(user: current_user, program: @program).first
+    else
+      active = nil
+    end  
+    
+    if active.nil? then is_active = false else is_active = active.status end  
+    if is_active || current_user.mentor? 
+      return false
+    end
+
+    current_user.group.learning_path.nil? ? fisica_programs = [] : fisica_programs = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
+    current_user.group.learning_path2.nil? ? moral_programs = [] : moral_programs = current_user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position)
+
+    if program != fisica_programs.first.model || program != moral_programs.first.model      
+      anterior_fisico=Program.new
+      fisica_programs.each do |p|
+        if p.model==program
+          break
+        else
+          anterior_fisico=p.model
+        end
+      end
+      anterior_moral=Program.new
+      moral_programs.each do |p|
+        if p.model==program
+          break
+        else
+          anterior_moral=p.model
+        end
+      end   
+      if (current_user.percentage_answered_for(anterior_fisico) == 100) || (current_user.percentage_answered_for(anterior_moral) == 100)
+        return false
+      elsif anterior_fisico.id.nil? || anterior_fisico.id.nil? 
+        return false      
+      elsif (current_user.percentage_answered_for(anterior_fisico) < 100) && (current_user.percentage_answered_for(anterior_moral) < 100)  
+        return true
+      end  
+
+    else
+      return false
+    end  
+  end
+
+  def redirect_to_learning
+    redirect_to dashboard_learning_path_path, notice: "Aun no puedes acceder a este contenido." 
+  end  
+
   helper_method :mailbox, :conversation
 
   private

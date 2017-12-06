@@ -37,7 +37,7 @@
           <Cell><Data ss:Type="String"><%= user.created_at %></Data></Cell>
           <Cell><Data ss:Type="String"><%= user.invitation_accepted_at %></Data></Cell>
           <% Program.all.each do |program| %>
-            <% if user.group.nil? == false && user.group.programs.include?(program)%>
+            <% if user.group.nil? == false && user.group.all_programs.include?(program)%>
               <Cell><Data ss:Type="String"><%= user.percentage_content_visited_for(program)%></Data></Cell>
               <Cell><Data ss:Type="String"><%= user.percentage_questions_answered_for(program)%></Data></Cell>
             <% else %>

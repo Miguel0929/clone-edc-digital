@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171124000548) do
+ActiveRecord::Schema.define(version: 20171128185944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -281,15 +281,17 @@ ActiveRecord::Schema.define(version: 20171124000548) do
     t.string   "name"
     t.string   "key"
     t.datetime "deleted_at"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.integer  "state_id"
     t.string   "category"
     t.integer  "university_id"
     t.integer  "learning_path_id"
+    t.integer  "learning_path2_id"
   end
 
   add_index "groups", ["deleted_at"], name: "index_groups_on_deleted_at", using: :btree
+  add_index "groups", ["learning_path2_id"], name: "index_groups_on_learning_path2_id", using: :btree
   add_index "groups", ["learning_path_id"], name: "index_groups_on_learning_path_id", using: :btree
   add_index "groups", ["university_id"], name: "index_groups_on_university_id", using: :btree
 

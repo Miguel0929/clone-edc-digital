@@ -94,36 +94,15 @@ class UsersController < ApplicationController
   def show
     add_breadcrumb "Estudiantes", :students_users_path
     add_breadcrumb "<a class='active' href='#{user_path(@user)}'>#{@user.email}</a>".html_safe
-    aux = []
-    programs_groups = @user.group.programs.pluck(:id)
-    programs_ruta = @user.group.learning_path.learning_path_contents.where(content_type: "Program").pluck(:content_id)                                
-    aux = programs_ruta.concat(programs_groups)                                
-    @programs=Program.where(id: aux)
 
-    delireverables_groups = Delireverable.joins(delireverable_package: [:groups])
-                                    .where('groups.id = ?', @user.group.id)
-                                    .order(position: :asc).pluck(:id) rescue []
-    packages = @user.group.learning_path.learning_path_contents.where(content_type: "DelireverablePackage")
-    ids=[]
-    packages.each do |package|
-      package.model.delireverables.each do |delireverable|
-        ids << delireverable.id
-      end  
-    end                                                               
-    aux=ids.concat(delireverables_groups)                               
-    @delireverables=Delireverable.where(id: aux)                                
-    aux = []
-    refilables_groups = TemplateRefilable.joins(:groups)
-                                    .where('groups.id = ?', @user.group.id)
-                                    .order(position: :asc).pluck(:id) rescue []
-    refilables_ruta = @user.group.learning_path.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)                                
-    aux = refilables_ruta.concat(refilables_groups)                                
-    @refilables=TemplateRefilable.where(id: aux)  
-    aux = []
-    quizzes_groups = @user.group.quizzes
-    quizzes_ruta = @user.group.learning_path.learning_path_contents.where(content_type: "Quiz").pluck(:content_id) 
-    aux = quizzes_ruta.concat(quizzes_groups)                                
-    @quizzes=Quiz.where(id: aux)                                
+                                   
+    @programs = @user.group.all_programs
+                                   
+    @delireverables = @user.group.all_delireverables
+                                 
+    @refilables = @user.group.all_refilables
+                                
+    @quizzes = @user.group.all_quizzes                               
   end
 
   def edit

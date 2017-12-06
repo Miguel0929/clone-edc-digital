@@ -256,7 +256,6 @@ Rails.application.routes.draw do
 
   resources :groups do
     member do
-      #get :sort_route
       post :sort
       post :notification_route
       get :codes
@@ -409,8 +408,8 @@ Rails.application.routes.draw do
   end
 
   resources :learning_paths,  only: [:index, :new, :create, :destroy, :show, :edit, :update] do
-    member do
-      post :complementarios
+    collection do
+      get :complementarios
     end  
     resources :learning_path_contents, only: [:new, :create, :destroy] do
       collection do

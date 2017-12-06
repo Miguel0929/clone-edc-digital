@@ -46,20 +46,35 @@ class Dashboard::WelcomeController < ApplicationController
 
   def learning_path
     unless current_user.group.learning_path.nil?    
-      @programs=current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
+      @programs_fisica=current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
       c=0
-      @c=0 
+      @c1=0 
       ids=[]
-      @programs.each do |p|
+      @programs_fisica.each do |p|
         c+=1
-        anterior = p.anterior(current_user.group)
+        anterior = p.anterior(current_user.group.learning_path)
         if current_user.percentage_questions_answered_for(anterior)>80 || c==1 
           ids.push(p.id)
         else
           break
         end
       end    
-      @programs=LearningPathContent.where(id: ids).order(:position)
+      @programs_fisica=LearningPathContent.where(id: ids).order(:position)
+      
+      @programs_moral=current_user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position)
+      c=0
+      @c2=0 
+      ids=[]
+      @programs_moral.each do |p|
+        c+=1
+        anterior = p.anterior(current_user.group.learning_path2)
+        if current_user.percentage_questions_answered_for(anterior)>80 || c==1 
+          ids.push(p.id)
+        else
+          break
+        end
+      end    
+      @programs_moral=LearningPathContent.where(id: ids).order(:position)
     end        
     @modal_trigger = current_user.video_trigger
     @tour_trigger = current_user.tour_trigger

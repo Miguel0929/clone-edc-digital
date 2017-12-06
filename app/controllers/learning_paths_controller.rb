@@ -2,7 +2,7 @@ class LearningPathsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_learning_path, only: [:show, :destroy, :edit, :complementarios, :update]
+  before_action :set_learning_path, only: [:show, :destroy, :edit, :update]
   add_breadcrumb "EDCDIGITAL", :root_path
   def index
     add_breadcrumb "<a href='#{learning_paths_path}' class='active'>Rutas de aprendizaje</a>".html_safe
@@ -91,22 +91,45 @@ class LearningPathsController < ApplicationController
     redirect_to learning_paths_path, notice: "Se eliminó exitosamente"  
   end
 
-  def complementarios 
-    lp_programs = @learning_path.learning_path_contents.where(content_type: "Program").pluck(:content_id)
-    lp_quizzes = @learning_path.learning_path_contents.where(content_type: "Quiz").pluck(:content_id)
-    lp_refilables = @learning_path.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)
-    lp_delireverables = @learning_path.learning_path_contents.where(content_type: "DelireverablePackage").pluck(:content_id)
-    aux = @learning_path.learning_path_contents
-    ruta = []
-    aux.each do |content|
-      ruta << {id: content.content_id, type: content.content_type, name: content.model.name}
-    end  
-    programs = Program.where.not(id: lp_programs).select("id","name")
-    quizzes =  Quiz.where.not(id: lp_quizzes).select("id","name")
-    refilables = TemplateRefilable.where.not(id: lp_refilables).select("id","name")
-    delireverables = DelireverablePackage.where.not(id: lp_delireverables).select("id","name")
+  def complementarios
+    if params.has_key?(:r_fisica) && params.has_key?(:r_moral)
+      @learning_path_fisica = LearningPath.find(params[:r_fisica]) rescue nil
+      @learning_path_moral = LearningPath.find(params[:r_moral]) rescue nil
 
-    render :json => {ruta: ruta, programs: programs, quizzes: quizzes, refilables: refilables, delireverables: delireverables}
+      ruta_f = []
+      if @learning_path_fisica.nil?
+        lpf_programs = []; lpf_quizzes = [],lpf_refilables = [], lpf_delireverables = []    
+      else
+        lpf_programs = @learning_path_fisica.learning_path_contents.where(content_type: "Program").pluck(:content_id)
+        lpf_quizzes = @learning_path_fisica.learning_path_contents.where(content_type: "Quiz").pluck(:content_id)
+        lpf_refilables = @learning_path_fisica.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)
+        lpf_delireverables = @learning_path_fisica.learning_path_contents.where(content_type: "DelireverablePackage").pluck(:content_id)
+        @learning_path_fisica.learning_path_contents.each do |content|
+          ruta_f << {id: content.content_id, type: content.content_type, name: content.model.name}
+        end
+      end
+
+      ruta_m = []
+      if @learning_path_moral.nil?
+        lpm_programs = []; lpm_quizzes = [],lpm_refilables = [], lpm_delireverables = []   
+      else
+        lpm_programs = @learning_path_moral.learning_path_contents.where(content_type: "Program").pluck(:content_id)
+        lpm_quizzes = @learning_path_moral.learning_path_contents.where(content_type: "Quiz").pluck(:content_id)
+        lpm_refilables = @learning_path_moral.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)
+        lpm_delireverables = @learning_path_moral.learning_path_contents.where(content_type: "DelireverablePackage").pluck(:content_id)
+        @learning_path_moral.learning_path_contents.each do |content|
+          ruta_m << {id: content.content_id, type: content.content_type, name: content.model.name}
+        end
+      end
+
+      programs = Program.where.not(id: lpf_programs + lpm_programs).select("id","name")
+      quizzes =  Quiz.where.not(id: lpf_quizzes + lpm_quizzes).select("id","name")
+      refilables = TemplateRefilable.where.not(id: lpf_refilables + lpm_refilables).select("id","name")
+      delireverables = DelireverablePackage.where.not(id: lpf_delireverables + lpm_delireverables).select("id","name")
+      render :json => {ruta_f: ruta_f, ruta_m: ruta_m, programs: programs, quizzes: quizzes, refilables: refilables, delireverables: delireverables}
+    else
+      render :json => {ruta_f: [], ruta_m: [], programs: [], quizzes: [], refilables: [], delireverables: []}  
+    end
   end 
   private
     def set_learning_path
