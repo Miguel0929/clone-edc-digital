@@ -31,7 +31,8 @@ class GroupsController < ApplicationController
   def edit
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{edit_group_path(@group)}'>#{@group.name}</a>".html_safe
-    @contents = @group.learning_path.learning_path_contents.order(:content_type)
+    @contents_fisica = @group.learning_path.learning_path_contents.order(:content_type)
+    @contents_moral = @group.learning_path2.learning_path_contents.order(:content_type)
     
     lp_programs = @group.learning_path.learning_path_contents.where(content_type: "Program").pluck(:content_id)
     lp_quizzes = @group.learning_path.learning_path_contents.where(content_type: "Quiz").pluck(:content_id)
