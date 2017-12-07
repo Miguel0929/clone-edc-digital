@@ -5,11 +5,207 @@
   
   = f.select :university_id, University.where(state_id: @group.state_id).collect{|p| [ p.name, p.id ] }, {label: 'Universidad', include_blank: "Selecciona un estado primero"}
   = f.select :category, ['Escolarizado', 'Autodidacta digital', 'Presencial', 'Experiemental'], label: 'Tipo de grupo', include_blank: true
-  = f.select :program_ids,  Program.all.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Programas'}, multiple: 'multiple'
+  
   = f.select :user_ids, User.mentors.invitation_accepted.collect{|u| [u.name, u.id]}, {include_blank: false, label: 'Mentores'}, multiple: 'multiple'
   = f.select :student_ids, User.active_users.collect{|u| [u.email, u.id]}, {include_blank: false, label: 'Estudiantes'}, multiple: 'multiple'
-  = f.select :quiz_ids, Quiz.all.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Examenes' }, multiple: 'multiple'
+  .panel.panel-info
+    .panel-heading
+      %h3.panel-title Ruta de Aprendizaje (Persona Física)
+    .panel-body
+      = f.select :learning_path_id, LearningPath.fisica.collect{|l|[l.name, l.id]},  {include_blank: "Selecciona una Ruta de Aprendizaje (Física)", label: 'Ruta de aprendizaje (Física)' }, class: "learning_paths"
+      - if (edit_mode)  
+        #learning_path_content.row
+          .col-md-6.col-xs-12.col-sm-12
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th #
+                  %th Contenido
+                  %th Tipo de contenido
+              %tbody#body-table-fisica
+                - if @contents_fisica.count == 0
+                  %tr
+                    %th.text-center{colspan: 3}
+                      Ruta de aprendizaje sin contenidos
+                - else      
+                  - @contents_fisica.each_with_index do |content, index|
+                    %tr
+                      %td.text-center= index + 1
+                      %td= content.model.name
+                      %td= learning_path_content_type(content.content_type)
+               
+      - else
+        #learning_path_content.row
+          .col-md-6.col-xs-12.col-sm-12
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th #
+                  %th Contenido
+                  %th Tipo de contenido
+              %tbody#body-table-fisica
+                %tr
+                  %th.text-center{colspan: 3}
+                    Ruta de aprendizaje sin contenidos
+  .panel.panel-info
+    .panel-heading
+      %h3.panel-title Ruta de Aprendizaje (Persona Moral)
+    .panel-body                  
+      = f.select :learning_path2_id, LearningPath.moral.collect{|l|[l.name, l.id]},  {include_blank: "Selecciona una Ruta de Aprendizaje (Moral)", label: 'Ruta de aprendizaje (Moral)'}, class: "learning_paths"
+      - if (edit_mode)  
+        #learning_path_content.row
+          .col-md-6.col-xs-12.col-sm-12
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th #
+                  %th Contenido
+                  %th Tipo de contenido
+              %tbody#body-table-moral
+                - if @contents_moral.count == 0
+                  %tr
+                    %th.text-center{colspan: 3}
+                      Ruta de aprendizaje sin contenidos
+                - else      
+                  - @contents_moral.each_with_index do |content, index|
+                    %tr
+                      %td.text-center= index + 1
+                      %td= content.model.name
+                      %td= learning_path_content_type(content.content_type)
+               
+      - else
+        #learning_path_content.row
+          .col-md-6.col-xs-12.col-sm-12
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th #
+                  %th Contenido
+                  %th Tipo de contenido
+              %tbody#body-table-moral
+                %tr
+                  %th.text-center{colspan: 3}
+                    Ruta de aprendizaje sin contenidos     
+  .panel.panel-success
+    .panel-heading
+      %h3.panel-title Contenidos complementarios
+    .panel-body 
+      = f.select :program_ids,  @programs.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Programas (Complementarios)'}, multiple: 'multiple'
+      = f.select :quiz_ids, @quizzes.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Examenes (Complemantarios)' }, multiple: 'multiple'
+      = f.select :delireverable_package_ids, @delireverables.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Entregables (Complementarios)' }, multiple: 'multiple'
+      = f.select :template_refilable_ids, @refilables.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Rellenables (Complementarios)' }, multiple: 'multiple'
+  
   
   = link_to "Cancelar", groups_path, class: "btn btn-danger"
   = f.submit 'Aceptar'
-/students.collect{|u| [u.email, u.id]},
+
+
+:javascript
+  $(document).on('turbolinks:load', function(){
+    
+    o_ids_programs = $("#group_program_ids").val();
+    o_ids_quizzes = $("#group_quiz_ids").val();
+    o_ids_delireverables = $("#group_delireverable_package_ids").val();
+    o_ids_refilables = $("#group_template_refilable_ids").val();
+
+
+    var is_content_type = function(type) {
+      if (type == "Program"){
+        return "Programa"
+      }else if(type == "Quiz"){
+        return "Examen"
+      }else if(type == "TemplateRefilable"){
+        return "Rellenable"
+      }else if(type == "DelireverablePackage"){
+        return "Entregable"
+      }else{
+        return "N/A"
+      }
+    };
+    $(".learning_paths").change(function() {
+
+      valor1 = $("#group_learning_path_id").val();
+      valor2 = $("#group_learning_path2_id").val();
+
+      $.ajax({
+        type: "get", url: "/learning_paths/complementarios?r_fisica=" + valor1 + "&r_moral=" + valor2,
+        success: function (data) {
+          programs = data.programs;
+          quizzes = data.quizzes;
+          refilables = data.refilables;
+          delireverables = data.delireverables;
+          console.log(programs);
+          
+          //Actualizar ruta fisica
+          ruta_f = data.ruta_f;
+          console.log("Fisica");
+          console.log(ruta_f);
+          $("#body-table-fisica").html('');
+          if (ruta_f.length == 0){
+             $('#body-table-fisica').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin contenidos</th></tr>');
+          }else{
+            $.each(ruta_f, function(key, value) {
+              $('#body-table-fisica').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td><td>'+is_content_type(value.type)+'</td></tr>');
+            });
+          }
+
+          //Actualizar ruta moral
+          ruta_m = data.ruta_m;
+          console.log("Moral");
+          console.log(ruta_m);
+          $("#body-table-moral").html('');
+          if (ruta_m.length == 0){
+             $('#body-table-moral').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin contenidos</th></tr>');
+          }else{
+            $.each(ruta_m, function(key, value) {
+              $('#body-table-moral').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td><td>'+is_content_type(value.type)+'</td></tr>');
+            });
+          }
+
+          // Actualizar programas
+          $("#group_program_ids").html('');
+          $.each(programs, function(key, value) {
+            if (o_ids_programs.includes(value.id.toString())){
+              $('#group_program_ids').append('<option selected="selected" value="' + value.id + '">' + value.name + '</option>');
+            }else{
+              $('#group_program_ids').append($('<option>', { value : value.id }).text(value.name));
+            } 
+          });
+
+          // Actualizar examenes
+          $("#group_quiz_ids").html('');
+          $.each(quizzes, function(key, value) {
+            if (o_ids_quizzes.includes(value.id.toString())){
+              $('#group_quiz_ids').append('<option selected="selected" value="' + value.id + '">' + value.name + '</option>');
+            }else{
+              $('#group_quiz_ids').append($('<option>', { value : value.id }).text(value.name));
+            }
+          });
+
+          // Actualizar rellenables
+          $("#group_template_refilable_ids").html('');
+          $.each(refilables, function(key, value) {
+            if (o_ids_refilables.includes(value.id.toString())){
+              $('#group_template_refilable_ids').append('<option selected="selected" value="' + value.id + '">' + value.name + '</option>');
+            }else{
+              $('#group_template_refilable_ids').append($('<option>', { value : value.id }).text(value.name));
+            }   
+          });
+
+          // Actualizar entregables
+          $("#group_delireverable_package_ids").html('');
+          $.each(delireverables, function(key, value) {
+            if (o_ids_delireverables.includes(value.id.toString())){
+              $('#group_delireverable_package_ids').append('<option selected="selected" value="' + value.id + '">' + value.name + '</option>');
+            }else{
+              $('#group_delireverable_package_ids').append($('<option> ', { value : value.id }).text(value.name));
+            } 
+          });
+        },
+        error: function (data) {
+          console.log(data);
+        }
+      });  
+      //}
+    });
+  });             
