@@ -24,12 +24,12 @@ class Group < ActiveRecord::Base
   validates_presence_of :name, :key
   validates_uniqueness_of :key
 
-  has_many :inactive_students, -> { where('invitation_accepted_at IS NULL and role = 0')}, class_name: 'User', foreign_key: 'group_id'
-
   scope :group_search, -> (query) {
     where('lower(groups.name) LIKE lower(?) OR lower(groups.key) LIKE lower(?)',
          "%#{query}%", "%#{query}%")
   }
+
+  has_many :inactive_students, -> { where('invitation_accepted_at IS NULL and role = 0')}, class_name: 'User', foreign_key: 'group_id'
 
   def student_search(query) 
     active_students.where('lower(users.first_name) LIKE lower(?) OR lower(users.last_name) LIKE lower(?) OR lower(users.email) LIKE lower(?)',

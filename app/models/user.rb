@@ -3,9 +3,6 @@ class User < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   acts_as_token_authenticatable
 
-  after_create :create_code
-
-
   attr_accessor :agreement
   acts_as_paranoid
   mount_uploader :profile_picture, ProfilePictureUploader
@@ -50,7 +47,6 @@ class User < ActiveRecord::Base
   scope :mentors, -> { where(role: 1) }
   scope :staffs, -> { where(role: 3) }
   scope :invitation_accepted, -> { where.not('invitation_accepted_at' => nil) }
-  scope :invitation_no_accepted, -> { where('invitation_accepted_at' => nil) }
   scope :search_query, -> (query) {
     where('lower(users.first_name) LIKE lower(?) OR lower(users.last_name) LIKE lower(?) OR lower(users.email) LIKE lower(?)',
          "%#{query}%", "%#{query}%", "%#{query}%")
@@ -63,7 +59,6 @@ class User < ActiveRecord::Base
 
   before_create :set_origin
   after_create :assign_group
-  after_update :del_code
 
   def self.authenticate(email, password)
     user = find_for_authentication(email: email)
@@ -403,7 +398,41 @@ class User < ActiveRecord::Base
         end
       end
     end
+   
+    if respuestas.length>0
+      return true
+    else
+      return false     
+    end  
+  end
+  def has_answer_quiz?(quiz)
+    ids = quiz.quiz_questions.map { |q| q.id }
+    respuestas = QuizAnswer.where(quiz_question_id: ids, user_id: self.id).count
+    preguntas=quiz.quiz_questions.count
+    if respuestas > 0 && preguntas != 0
+      return true
+    else
+      return false
+    end  
   end  
+
+  def total_quizzes
+    self.group.quizzes.count
+  end
+
+  def answered_quizzes
+    total = 0
+    results = []
+    self.group.quizzes.each do |quiz|
+      if quiz.answered(self) > 0 
+        total += 1
+        results.push( (quiz.average(self).to_f / quiz.total_points.to_f * 100).ceil )
+      end
+    end
+    average = results.inject(0.0) { |sum, el| sum + el } / results.size
+    if average.nan? then average = 0 end
+    return average, total
+  end
 
   private
 
@@ -417,28 +446,5 @@ class User < ActiveRecord::Base
       group.users << self
     end
   end
-
-  def create_code
-    if self.user_code.nil?
-      unique = true
-      codigo = SecureRandom.hex(6) 
-      while unique
-        if UserCode.find_by(codigo: codigo).nil?
-          UserCode.create(codigo: codigo, user: self)
-          unique = false
-        else
-          codigo = SecureRandom.hex(6)
-        end
-      end
-    end
-  end
-
-  def del_code
-    unless self.invitation_accepted_at.nil?
-      unless self.user_code.nil?   
-        self.user_code.destroy
-      end  
-    end  
-  end  
 
 end
