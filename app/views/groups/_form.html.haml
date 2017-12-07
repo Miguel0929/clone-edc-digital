@@ -12,7 +12,7 @@
     .panel-heading
       %h3.panel-title Ruta de Aprendizaje (Persona Física)
     .panel-body
-      = f.select :learning_path_id, LearningPath.all.collect{|l|[l.name, l.id]},  {include_blank: "Selecciona una Ruta de Aprendizaje (Física)", label: 'Ruta de aprendizaje (Física)' }, class: "learning_paths"
+      = f.select :learning_path_id, LearningPath.fisica.collect{|l|[l.name, l.id]},  {include_blank: "Selecciona una Ruta de Aprendizaje (Física)", label: 'Ruta de aprendizaje (Física)' }, class: "learning_paths"
       - if (edit_mode)  
         #learning_path_content.row
           .col-md-6.col-xs-12.col-sm-12
@@ -51,7 +51,7 @@
     .panel-heading
       %h3.panel-title Ruta de Aprendizaje (Persona Moral)
     .panel-body                  
-      = f.select :learning_path2_id, LearningPath.all.collect{|l|[l.name, l.id]},  {include_blank: "Selecciona una Ruta de Aprendizaje (Moral)", label: 'Ruta de aprendizaje (Moral)'}, class: "learning_paths"
+      = f.select :learning_path2_id, LearningPath.moral.collect{|l|[l.name, l.id]},  {include_blank: "Selecciona una Ruta de Aprendizaje (Moral)", label: 'Ruta de aprendizaje (Moral)'}, class: "learning_paths"
       - if (edit_mode)  
         #learning_path_content.row
           .col-md-6.col-xs-12.col-sm-12
