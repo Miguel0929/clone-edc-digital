@@ -3,6 +3,9 @@
     %label{:for => "name"} Nombre: 
     = text_field_tag :name , "", class: 'form-control'
   .form-group
+    %label{:for => "tipo"} Tipo: 
+    = select_tag :tipo , options_for_select([["Fisica","fisica"],["Moral","moral"]]), prompt: "Selecciona el tipo de ruta"
+  .form-group
     %label{:for => "programs"} Programas:   
     = select_tag "programs[]", options_from_collection_for_select(@programs, "id", "name"), multiple: 'multiple', class: 'form-control'
   .form-group

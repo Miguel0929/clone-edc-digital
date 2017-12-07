@@ -29,6 +29,7 @@
         %thead
           %tr
             %th Nombre
+            %th Tipo
             %th.text-center N°. Contenidos
             %th.text-center Grupos asignados
             %th.text-center Acciones
@@ -38,6 +39,8 @@
             %tr
               %td 
                 = lp.name
+              %td
+                = if lp.tipo == "fisica" then "Física" elsif lp.tipo == "moral" then "Moral" else "Sin tipo" end  
               %td.text-center
                 = lp.count_programs
               %td.text-center

@@ -23,7 +23,7 @@ class LearningPathsController < ApplicationController
   end  
 
   def create
-    @learning_path= LearningPath.new(name: params[:name])
+    @learning_path= LearningPath.new(name: params[:name], tipo: params[:tipo])
 
     if @learning_path.save
       if learning_path_params[:programs]
@@ -66,12 +66,25 @@ class LearningPathsController < ApplicationController
   end
 
   def update
-    if @learning_path.update(learning_path_edit_params)
-
-      redirect_to learning_paths_path, notice: "Ruta de aprendizaje actualizada"
-    else  
-      render :edit
-    end  
+    if learning_path_edit_params[:tipo] == "moral"
+      if @learning_path.update(tipo: learning_path_edit_params[:tipo], name: learning_path_edit_params[:name], group2_ids:  learning_path_edit_params[:group2_ids])
+        redirect_to learning_paths_path, notice: "Ruta de aprendizaje actualizada"
+      else  
+        render :edit
+      end
+    elsif  learning_path_edit_params[:tipo] == "fisica"
+      if @learning_path.update(tipo: learning_path_edit_params[:tipo], name: learning_path_edit_params[:name], group_ids: learning_path_edit_params[:group_ids])
+        redirect_to learning_paths_path, notice: "Ruta de aprendizaje actualizada"
+      else  
+        render :edit
+      end
+    else
+      if @learning_path.update(tipo: learning_path_edit_params[:tipo], name: learning_path_edit_params[:name])
+        redirect_to learning_paths_path, notice: "Ruta de aprendizaje actualizada"
+      else  
+        render :edit
+      end
+    end         
   end  
 
   def show
@@ -136,9 +149,9 @@ class LearningPathsController < ApplicationController
       @learning_path= LearningPath.find(params[:id])
     end
     def learning_path_params
-      params.permit(:name, programs: [], quizzes: [], refilables: [], delireverables: [])
+      params.permit(:name, :tipo, programs: [], quizzes: [], refilables: [], delireverables: [])
     end
     def learning_path_edit_params
-      params.require(:learning_path).permit(:name, group_ids: [])
+      params.require(:learning_path).permit(:name, :tipo, group_ids: [], group2_ids: [])
     end  
 end
