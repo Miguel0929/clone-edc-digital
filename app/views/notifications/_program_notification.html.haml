@@ -26,3 +26,15 @@
     Has sido evaluado en el programa
     %strong
       "#{notification.model.program.name}"
+- when 'more80'
+  %i.fa.fa-refresh.m-r-10
+  %span.fs-12.m-l-10
+    Has completado el 80% del programa
+    %strong
+      "#{notification.model.program.name}"
+- when 'complete'
+  %i.fa.fa-refresh.m-r-10
+  %span.fs-12.m-l-10
+    Has completado el programa
+    %strong
+      "#{notification.model.program.name}"             

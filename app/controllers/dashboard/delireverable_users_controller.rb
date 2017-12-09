@@ -1,7 +1,8 @@
 class Dashboard::DelireverableUsersController < ApplicationController
   before_action :authenticate_user!
   before_action :set_delireverable
-  add_breadcrumb "EDC DIGITAL", :root_path
+  before_action :redirect_to_delireverables, if: :permiso_delireverable
+  add_breadcrumb "EDCDIGITAL", :root_path
 
   def new
     add_breadcrumb "Entregables", :dashboard_delireverables_path
@@ -42,4 +43,12 @@ class Dashboard::DelireverableUsersController < ApplicationController
   def delireverable_user_params
     params.require(:delireverable_user).permit(:file)
   end
+
+  def permiso_delireverable
+    !current_user.group.all_delireverables.include?(@delireverable)  
+  end  
+
+  def redirect_to_delireverables
+    redirect_to dashboard_delireverables_path, alert: 'No tienes asignado este entregable' 
+  end  
 end

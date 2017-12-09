@@ -54,7 +54,7 @@
                       %i.fa.fa-angle-right
                       %span Programas:
                   %li.inline
-                    = group.programs.count
+                    = group.all_programs.count
                 %ul.p-l-0.m-b-0
                   %li.inline
                     %strong
@@ -138,10 +138,10 @@
                     = link_to student_control_group_path(group) do
                       %i.fa.fa-user
                       Vincular estudiantes
-                  %li
-                    = link_to sort_route_group_path(group) do
-                      %i.fa.fa-map-signs
-                      Editar "Ruta de aprendizaje"
+                  /%li
+                  /  = link_to sort_route_group_path(group) do
+                  /    %i.fa.fa-map-signs
+                  /    Editar "Ruta de aprendizaje"
                   %li
                     = link_to progress_panel_path(group) do
                       %i.fa.fa-line-chart

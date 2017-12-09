@@ -11,6 +11,7 @@ class Program < ActiveRecord::Base
   has_many :program_notifications, dependent: :destroy
   has_many :ratings, as: :ratingable 
   has_many :program_stats, dependent: :destroy
+  has_one :learning_path_content, as: :content, :dependent => :destroy
 
   enum tipo: [ :elearning, :construccion, :fusion ]
   enum level: [:basico, :intermedio, :avanzado]
@@ -77,5 +78,18 @@ class Program < ActiveRecord::Base
     arr=self.name.split(" ")
     return self.name[0,3]+"."+arr[1][0].capitalize+"."+self.id.to_s
   end
+
+  def anterior(grupo)
+    programas  = grupo.learning_path.learning_path_contents.where(content_type: "Program").order(:position)  
+    anterior=Program.new
+
+    programas.each do |p|
+      if p.model==self
+        return anterior
+      else
+        anterior=p.model
+      end
+    end
+  end  
 
 end

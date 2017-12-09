@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171124000548) do
+
+ActiveRecord::Schema.define(version: 20171207184952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,6 +148,7 @@ ActiveRecord::Schema.define(version: 20171124000548) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "tipo"
   end
 
   create_table "delireverable_users", force: :cascade do |t|
@@ -281,15 +283,17 @@ ActiveRecord::Schema.define(version: 20171124000548) do
     t.string   "name"
     t.string   "key"
     t.datetime "deleted_at"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.integer  "state_id"
     t.string   "category"
     t.integer  "university_id"
     t.integer  "learning_path_id"
+    t.integer  "learning_path2_id"
   end
 
   add_index "groups", ["deleted_at"], name: "index_groups_on_deleted_at", using: :btree
+  add_index "groups", ["learning_path2_id"], name: "index_groups_on_learning_path2_id", using: :btree
   add_index "groups", ["learning_path_id"], name: "index_groups_on_learning_path_id", using: :btree
   add_index "groups", ["university_id"], name: "index_groups_on_university_id", using: :btree
 
@@ -298,6 +302,17 @@ ActiveRecord::Schema.define(version: 20171124000548) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "learning_path_contents", force: :cascade do |t|
+    t.integer  "learning_path_id"
+    t.integer  "content_id"
+    t.string   "content_type"
+    t.integer  "position"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "learning_path_contents", ["learning_path_id"], name: "index_learning_path_contents_on_learning_path_id", using: :btree
 
   create_table "learning_path_notifications", force: :cascade do |t|
     t.integer  "group_id"
@@ -322,6 +337,7 @@ ActiveRecord::Schema.define(version: 20171124000548) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "tipo"
   end
 
   create_table "lessons", force: :cascade do |t|
@@ -537,6 +553,7 @@ ActiveRecord::Schema.define(version: 20171124000548) do
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "tipo"
   end
 
   create_table "ratings", force: :cascade do |t|
@@ -660,6 +677,7 @@ ActiveRecord::Schema.define(version: 20171124000548) do
     t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "tipo"
   end
 
   create_table "trackers", force: :cascade do |t|
@@ -791,6 +809,7 @@ ActiveRecord::Schema.define(version: 20171124000548) do
   add_foreign_key "group_stats", "groups"
   add_foreign_key "groups", "learning_paths"
   add_foreign_key "groups", "universities"
+  add_foreign_key "learning_path_contents", "learning_paths"
   add_foreign_key "learning_path_notifications", "groups"
   add_foreign_key "learning_path_programs", "learning_paths"
   add_foreign_key "learning_path_programs", "programs"

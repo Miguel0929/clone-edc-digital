@@ -4,8 +4,13 @@
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-heading
+      .pull-left
+        .panel-title
+          Programas de EDC-Digital
       .pull-right
-        .col-xs-12
+        = link_to new_program_path, class: 'btn btn-primary' do
+          %i.fa.fa-plus
+          Crear programa
           /%input#search-table.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
       .clearfix
     .panel-body
@@ -16,22 +21,43 @@
             %th
               Programa
             %th
-            %th
-              Rating
         %tbody.sortable{'data-update-url'=> url_prod_helper(sort_programs_path())}
           - @programs.each do |program|
             %tr{id: "program_#{program.id}"}
-              %td.handle-sort
+              %td.p-t-25.p-b-20.handle-sort
                 [mover]
-              %td
-                = program.name
-              %td
-                = link_to 'Ver', program_path(program), class: 'btn btn-default'
-                = link_to 'Editar', edit_program_path(program), class: 'btn btn-default'
-                = link_to 'Clonar', clone_program_path(program), method: :post, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
-                = link_to 'Eliminar', program_path(program), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
-                = link_to 'Ver Ratings', rating_program_path(program), class: 'btn btn-default'
-              %td
-                = program.rating.round(2)
+              %td.p-b-20
+                %h5.m-b-0.m-t-0
+                  = program.name
+                .hint-text.small-text
+                  Módulos de programa:
+                  %span.bold.text-primary #{program.chapters.count}
+                  %span.p-l-10.p-r-10 
+                  Rating:
+                  %span.bold.text-primary #{program.rating.round(2)}
+                  %span.p-l-10.p-r-10 
+              %td.p-b-20
 
-      = link_to 'Crear programa', new_program_path, class: 'btn btn-default'
+
+                %ul.no-style.unstyled.m-b-0.p-l-40.modules-menu-list
+                  %li
+                    = link_to program_path(program) do
+                      %i.fa.fa-list-alt
+                      Contenido
+                  %li
+                    = link_to rating_program_path(program) do
+                      %i.fa.fa-star
+                      Ratings
+                  %li
+                    = link_to edit_program_path(program) do
+                      %i.fa.fa-edit
+                      Editar
+                  %li
+                    = link_to clone_program_path(program), method: :post, data: { confirm: '¿Estás seguro?' } do
+                      %i.fa.fa-copy
+                      Clonar 
+                  %li
+                    = link_to program_path(program), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                      %i.fa.fa-times
+                      Eliminar 
+

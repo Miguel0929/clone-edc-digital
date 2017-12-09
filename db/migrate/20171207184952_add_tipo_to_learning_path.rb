@@ -3,3 +3,4 @@ class AddTipoToLearningPath < ActiveRecord::Migration
     add_column :learning_paths, :tipo, :integer
   end
 end
+

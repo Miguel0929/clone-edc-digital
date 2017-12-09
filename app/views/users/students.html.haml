@@ -240,6 +240,9 @@
                     = link_to user_path(user) do
                       %i.fa.fa-eye
                       Ver información
+                    %sup
+                      = link_to summary_user_path(user),class: "p-l-5" do
+                        %i.fa.fa-bolt
                   - if user.student?
                     - if current_user.admin?
                       %li

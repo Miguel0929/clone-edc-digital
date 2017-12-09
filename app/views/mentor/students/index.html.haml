@@ -138,10 +138,14 @@
                   %li.inline 
                     = user.phone_number
                 %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %i.fa.fa-eye
-                  %li.inline 
-                    = link_to "Ver informacion de usuario", mentor_student_path(user)   
+                  = link_to mentor_student_path(user) do
+                    %li.inline 
+                      %i.fa.fa-eye
+                    %li.inline 
+                      Ver perfil de usuario   
+                  %sup
+                    = link_to  summary_mentor_student_path(user),class: "p-l-5" do
+                      %i.fa.fa-bolt
               %td
                 %ul.p-l-0.m-b-0
                   %li.inline 
@@ -181,7 +185,7 @@
                 %td
                   - unless user.group.nil?
                     %ul.unstyled.no-style
-                      - user.group.programs.each do |program|
+                      - user.group.all_programs.each do |program|
                         %li.inline.p-b-5
                           %i.fa.fa-check
                           #{program.name}. 

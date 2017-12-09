@@ -28,7 +28,7 @@
     = csrf_meta_tags
 
   %body.fixed-header.menu-behind
-    %nav.page-sidebar{"data-pages" => "sidebar"}
+    %nav.page-sidebar#tour-2{"data-pages" => "sidebar"}
       .sidebar-header
         %a.redirector{href: root_path}
           = image_tag('logo-edc-blanco-horizontal.png', height: 40)
@@ -132,11 +132,9 @@
                 %li
                   %a{:href => delireverable_packages_path} Entregables
                   %span.icon-thumbnail En
-
                 %li
                   %a{:href => template_refilables_path} Rellenables
-                  %span.icon-thumbnail Re
-
+                  %span.icon-thumbnail Re                
 
             %li.extra-bottom-4
               %a{:href => "javascript:;"}
@@ -163,6 +161,7 @@
                 %li
                   %a{:href => mailbox_inbox_path} Mensajes
                   %span.icon-thumbnail Mn
+                
 
           = display_navbar_link({link: 'Programas', details: 'Cursos en EDC Digital' ,path: dashboard_programs_path, css: ['m-t-30'], icon: 'fa pg-layouts', role: [:mentor]})
           = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: [''], icon: 'fa fa-users', role: [:mentor]})
@@ -170,6 +169,8 @@
           = display_navbar_link({css: [], link: 'Panel de progreso', details: 'Progreso de estudiantes' ,path: progress_panel_index_path, icon: 'fa fa-line-chart', role: [:mentor]})
           = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: mentor_shared_group_attachments_path, icon: 'fa fa-file', role: [:mentor]})
           = display_navbar_link({css: [], link: 'Mensajes', details: 'Mensajes con estudiantes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]})
+          = display_navbar_link({css: [], link: 'Panel de notificaciones', details: 'Administra tus emails' ,path: dashboard_notifications_panel_path, icon: 'fa fa-columns', role: [:mentor]})
+          = display_navbar_link({css: [], link: 'Mapa del sitio', details: 'Mapa de EDCdigital' ,path:  mentor_sitemap_index_path, icon: 'fa fa-map', role: [:mentor]})
 
           - if current_user.student?
             %li.extra-bottom-4.m-t-30
@@ -273,6 +274,9 @@
                 %li
                   %a{:href => dashboard_calculator_path} Calculadora de muestras
                   %span.icon-thumbnail En
+                %li
+                  %a{:href => dashboard_sitemap_index_path } Mapa del sitio
+                  %span.icon-thumbnail Mp
 
             %li.extra-bottom-4
               %a{:href => "javascript:;"}
@@ -368,6 +372,7 @@
                           =current_user.mentor? ? 'Ver mensajes con tus estudiantes' : 'Ver mensajes con tus profesores'
                         %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
                           %i.pg-refresh_new
+              .red-spot#tour-1{style: "position: absolute"}
             %a{:href => frequent_questions_path, :target => "blank"}
               %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-10.p-r-10
                 %li.p-r-15.inline
@@ -450,6 +455,16 @@
               %span{"aria-hidden" => "true"} ×
               %span.sr-only Close
             = alert
+    - if flash[:more80]
+      :javascript
+        $(document).on('turbolinks:load', function(){
+          sweetAlert("#{flash[:more80]}");
+        });
+    - if flash[:complete]
+      :javascript
+        $(document).on('turbolinks:load', function(){
+          sweetAlert("#{flash[:complete]}");
+        });
 
     - if current_user && current_user.student?
       :javascript

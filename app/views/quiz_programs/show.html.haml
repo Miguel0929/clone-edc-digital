@@ -1,0 +1,119 @@
+- content_for :title  do
+  Contenido del examen - EDCdigital
+
+.container
+  .row
+    .col-md-12
+      %h2.text-center
+        Contenido del examen
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title
+            = @quiz.name
+        .panel-body
+          .sortable
+          - @quiz.quiz_questions.each do |question|
+            .well 
+              = render partial: 'quiz_programs/question', locals: {question: question, quiz: @quiz}
+          .text-center
+            %button.btn.btn-primary.m-t-10.m-r-15{"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"}
+              %i.fa.fa-plus
+              Agregar pregunta
+#myModal.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"} 
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title Agregar Pregunta
+      .modal-body
+        = bootstrap_form_for(@quiz_question, url: quiz_question_members_path, method: :post) do |f|
+          = f.hidden_field :quiz_id, :value => @quiz.id 
+          = f.text_field :question_text, label: "Pregunta"
+          = f.text_area :support_text, ckeditor: { language: 'es'}, id: 'ckeditor', label: "Información de apoyo"
+          = f.select :question_type, QuizQuestion::TYPES, { label: "Tipo de pregunta" }
+          = f.text_area :answer_options, hide_label: true, rows: 8, class: 'hide'
+          #question-answers
+            %br
+            .row
+              .col-md-4.m-r-0
+                .input-group
+                  %input#answer-option.form-control{ placeholder: "Respuesta", type: "text" }/
+              .col-md-4
+                .input-group
+                  %select#answer-status.form-control
+                    %option Seleccion una opcion
+                    %option{value: "incorrecta"} Incorrecta
+                    %option{value: "correcta"} Correcta
+                  %span.input-group-btn
+                    %button#addAnswer.btn.btn-default{ type: "button" }
+                      Agregar
+            .row
+              %h6
+                Respuestas
+              %ul#answers-list
+          %br
+          = f.text_field :points, label: 'Valor de esta pregunta'
+          = f.hidden_field :quiz_id, value: @quiz.id
+          %button.btn.btn-danger{"data-dismiss" => "modal", :type => "button"} Cancelar
+          = f.submit 'Aceptar'
+
+        
+
+      .modal-footer              
+
+:javascript
+  $(document).on('turbolinks:load', function(){
+    setAnswersOptions();
+    var questionType = $('#quiz_question_question_type').val();
+
+    $('#addAnswer').click(function(){
+      var option = $('#answer-option').val();
+      var stat = $('#answer-status').val();
+      if(!option || /^\s*$/.test(option)){
+        return true;
+      }
+      if(stat == 'Seleccion una opcion'){
+        alert('Selecciona si la respuesta es correcta o incorrecta');
+        return false;
+      }
+      $('#answers-list').append(getOptionElement(option + " ~ " + stat));
+      $('#answer-option').val('');
+      formatTextArea();
+    });
+
+    function setAnswersOptions() {
+      var answers = $('#quiz_question_answer_options').val().split('\n');
+      $('#answers-list').html('')
+      $.each(answers, function(key, answer){
+        if(!(!answer || /^\s*$/.test(answer))){
+          $('#answers-list').append(getOptionElement(answer));
+        }
+      });
+    }
+    
+    function getOptionElement(answer){
+      return $('<li>')
+            .append(answer)
+            .attr('class', 'answer-option')
+            .append(
+              $('<a>')
+              .attr('href', 'javascript:void(0)').append(
+                $('<span>').attr('class', 'glyphicon glyphicon-remove')
+              )
+              .click(function(){
+                $(this).parent().remove();
+                formatTextArea();
+              })
+            )
+    }
+
+    function formatTextArea(){
+      var answers = [];
+      $.each($('.answer-option'), function(key, element){
+        answers.push(element.textContent)
+      });
+      $('#quiz_question_answer_options').val(answers.join('\n'));
+    }
+  });
+  CKEDITOR.replace('ckeditor');
