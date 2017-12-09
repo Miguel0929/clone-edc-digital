@@ -415,9 +415,5 @@ Rails.application.routes.draw do
       end
     end    
   end
-<<<<<<< HEAD
   post "get_contents" => "learning_path_contents#get_contents"
-=======
-  post "get_contents" => "learning_path_contents#get_contents"  
->>>>>>> feature/avances-learning-path
 end
