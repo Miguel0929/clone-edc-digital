@@ -83,6 +83,11 @@
                       %td{:width => "25%"} Nombre
                       %td
                         = @user.name
+                        %sup
+                          = link_to summary_user_path(@user),class: "p-l-5" do
+                            (
+                            %i.fa.fa-bolt
+                            VER RESUMEN )
                     /- if current_user.admin?
                     /  %tr.odd.gradeX
                     /    %td{:width => "25%"} Estatus de evaluación
@@ -125,7 +130,7 @@
                       %td Cursos inscritos
                       - if current_user.admin? && !@user.group.nil?
                         %td
-                          - @user.group.programs.each do |program|
+                          - @programs.each do |program|
                             \-
                             = link_to program.name, user_program_answers_path(@user, program)
                             %br
@@ -187,7 +192,7 @@
                             %strong (#{@user.percentage_content_visited_for(program)}%)
                         - if current_user.admin? && !@user.group.nil?
                           %td.p-b-15
-                            = !@user.group.programs.exists?(program) ? "No disponible" : "Disponible"
+                            = !@programs.exists?(program) ? "No disponible" : "Disponible"
                           %td.p-b-15
                             %ul.unstyled.list-unstyled.p-l-0.m-b-0
                               %li
@@ -220,13 +225,13 @@
                         %th
                           Acciones
                     %tbody
-                      - if @user.group.nil? || @user.group.quizzes.count == 0
+                      - if @user.group.nil? || @quizzes.count == 0
                         %tr
                           %td.p-t-20.p-b-15{colspan: "4"}
                             .text-primary.bold
                               No hay exámenes asignados a este estudiante
                       - else
-                        - @user.group.quizzes.each do |quiz|
+                        - @quizzes.each do |quiz|
                           - quiz_ques = quiz.quiz_questions.count
                           - answered_ques = quiz.answered(@user)
                           - result = quiz.average(@user)

@@ -32,7 +32,6 @@ class InvitationJob
         user.invite! do |u|
           u.skip_invitation = true
         end
-
       end
     end
 

@@ -1,0 +1,41 @@
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .panel-title.question-title
+        = @chapter_content.chapter.name
+      .panel-title.pull-right
+        
+      .clearfix
+    .panel-body
+      .row
+        .col-md-10.col-md-offset-1
+          .padding-30.m-t-50.p-b-100
+            %i.fa.fa-tasks.fa-2x.hint-text
+            .pull-right
+              
+            .clearfix
+            %h2
+              = @chapter_content.model.name
+            .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
+              .p-b-15
+                Introduce tus respuestas en el siguiente recuadro:
+              .well
+                #refilable-content-template
+                  = raw replace_fillable(@template.content)
+              .refilable-form
+                = form_tag(dashboard_chapter_content_refilable_programs_path, method: :post, :id => 'new_refilable') do 
+                  = hidden_field_tag  :content
+            
+
+      = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content, refilable: @refilable, edit_mode: true }
+:javascript
+  $(document).on('turbolinks:load', function(){
+    $('#send-refilable').click(function() {
+      var $form = $('#new_refilable');
+      var $template_content = $('#refilable-content-template');
+      $('#content').val($template_content.html());
+
+      $form.submit();
+    });
+    $('.refilable-edit').editable();
+  });

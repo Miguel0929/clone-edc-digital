@@ -55,9 +55,14 @@ class Mentor::EvaluationsController < ApplicationController
     .group('questions.id')
     .group('chapter_contents.position')
     .order('chapter_contents.position asc')
+    @templates = TemplateRefilable.where(id: @chapter.template_refilables.pluck(:id))
+    dp = DelireverablePackage.where(id: @chapter.delireverable_packages.pluck(:id)).pluck(:id)
+    @delireverables = Delireverable.where(delireverable_package_id: dp)
+    @quizzes = Quiz.where(id: @chapter.quizzes.pluck(:id))
     
     @chapters_w_questions = []
-    @chapters.all.map { |chap| if (chap.questions.count >0) then @chapters_w_questions << chap end}
+    @chapters.all.map { |chap| if (chap.questions.count >0 || chap.quizzes.count > 0 || chap.delireverable_packages.count > 0 || chap.delireverable_packages.count > 0 || chap.template_refilables.count > 0 ) then @chapters_w_questions << chap end}
+ 
     @chapters_w_questions.each_with_index do |chapter, index|
       if chapter.id == @chapter.id
         nav_indexes = user_spot
@@ -114,7 +119,7 @@ class Mentor::EvaluationsController < ApplicationController
         redirect_to mentor_evaluations_path(user_id: @user, program_id: @program), notice: "Evaluación exitosamente guardada"
       end
     end
-  end
+  end 
 
   def evaluation_pointed?(evaluation, points)
     !@evaluations.where(evaluation: evaluation, points: points).empty?

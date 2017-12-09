@@ -45,9 +45,43 @@ class Dashboard::WelcomeController < ApplicationController
   end
 
   def learning_path
-    @group_programs = current_user.group.group_programs.order(:position)
-    @c=0   
+    #unless current_user.group.learning_path.nil?    
+    @programs_fisica=current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position) rescue nil
+    c=0
+    @c1=0 
+    ids=[]
+    unless @programs_fisica.nil?
+      @programs_fisica.each do |p|
+        c+=1
+        anterior = p.anterior(current_user.group.learning_path)
+        if current_user.percentage_questions_answered_for(anterior)>80 || c==1 
+          ids.push(p.id)
+        else
+          break
+        end
+      end    
+      @programs_fisica=LearningPathContent.where(id: ids).order(:position)
+    end
+    
+    @programs_moral=current_user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position) rescue nil
+    c=0
+    @c2=0 
+    ids=[]
+    unless @programs_moral.nil?
+      @programs_moral.each do |p|
+        c+=1
+        anterior = p.anterior(current_user.group.learning_path2)
+        if current_user.percentage_questions_answered_for(anterior)>80 || c==1 
+          ids.push(p.id)
+        else
+          break
+        end
+      end    
+      @programs_moral=LearningPathContent.where(id: ids).order(:position)
+    end
+    #end        
     @modal_trigger = current_user.video_trigger
+    @tour_trigger = current_user.tour_trigger
   end  
  
   def send_support_email
@@ -57,7 +91,7 @@ class Dashboard::WelcomeController < ApplicationController
     elsif params[:urgency] == 'none' || params[:matter] == 'none'
       flash_message = { alert: 'Recuerda seleccionar urgencia y clasificación.'}
     else
-      MentorHelp.create
+      MentorHelp.create(sender: current_user.id)
       unless params[:file].nil?
         uploaded_io=params[:file][:attachment]
         p uploaded_io.content_type

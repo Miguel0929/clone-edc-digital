@@ -2,7 +2,7 @@
   Programas - EDC Digital
 
 .container-fluid.container-fixed-lg.top-container-padding.m-b-25
-  %section.demo-bg-section.p-b-0.p-t-45.panel-title-emprendimiento
+  %section.demo-bg-section.p-b-0.p-t-45.panel-title-emprendimiento#tour-5
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         %h5.block-title.hint-text.no-margin.text-white Programa de Aprendizaje
@@ -95,13 +95,14 @@
       .panel.panel-transparent
         .panel-heading
           .panel-title
+            .red-spot#tour-6
             Detalles del contenido
         .panel-body
-          - @program.chapters.each do |chapter|
+          - @program.chapters.each_with_index do |chapter, index|
             - chapter_progress = chapter.get_chapter_progress(chapter, current_user)
             .sm-m-l-5.sm-m-r-5
               #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
-                .panel.panel-default
+                .panel.panel-default{id: "#{ index == 0 ? "tour-7" : "" }"}
                   .panel-heading.p-b-0{:role => "tab", :id=>"heading_#{chapter.id}"}
                     %h4.panel-title
                       %a{"aria-controls" => "collapse_#{chapter.id}", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse_#{chapter.id}"}
@@ -140,12 +141,25 @@
                                     %i.fa.fa-youtube-play
                                   - elsif content.coursable_type == 'Question'
                                     %i.fa.fa-edit
+                                  - elsif content.coursable_type == 'Quiz'
+                                    %i.fa.fa-book
+                                  - elsif content.coursable_type == 'TemplateRefilable'
+                                    %i.fa.fa-pencil
+                                  - elsif content.coursable_type == 'DelireverablePackage'
+                                    %i.fa.fa-upload      
 
                               %td{style: "width: 60%;"}
                                 - if content.coursable_type == 'Lesson'
                                   = link_to content.model.identifier, dashboard_chapter_content_path(content), class: "pump-link"
                                 - elsif content.coursable_type == 'Question'
                                   = link_to truncate(content.model.question_text, length: 120, separator: ' '), dashboard_chapter_content_path(content), class: "pump-link"
+                                - elsif content.coursable_type == 'Quiz'
+                                  = link_to truncate(content.model.name, length: 120, separator: ' '), dashboard_chapter_content_path(content), class: "pump-link"
+                                - elsif content.coursable_type == 'TemplateRefilable'
+                                  = link_to truncate(content.model.name, length: 120, separator: ' '), dashboard_chapter_content_path(content), class: "pump-link"
+                                - elsif content.coursable_type == 'DelireverablePackage'
+                                  = link_to truncate(content.model.name, length: 120, separator: ' '), dashboard_chapter_content_path(content), class: "pump-link"
+                                  
                               %td
                                 - if content.coursable_type == 'Lesson'
                                   %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master m-t-10' : 'label-success p-r-17 p-l-17 m-t-10'}"}
@@ -155,7 +169,21 @@
                                     = current_user.trackers.find_by(chapter_content: content).nil? ? 'No visto' : 'Visto'
                                   %span.label{class: "#{current_user.has_answer_question?(content.model) ? 'label-info p-r-17 p-l-17 m-t-20' : 'label-master m-t-20'}"}
                                     = current_user.has_answer_question?(content.model) ? 'Contestado' : 'No contestado'
-
+                                - elsif content.coursable_type == 'Quiz'
+                                  %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master m-r-10' : 'label-success p-r-17 p-l-17 m-r-10'}"}
+                                    = current_user.trackers.find_by(chapter_content: content).nil? ? 'No visto' : 'Visto'
+                                  %span.label{class: "#{current_user.has_answer_quiz?(content.model) ? 'label-info p-r-17 p-l-17 m-t-20' : 'label-master m-t-20'}"}
+                                    = current_user.has_answer_quiz?(content.model) ? 'Contestado' : 'No contestado'
+                                - elsif content.coursable_type == 'TemplateRefilable'
+                                  %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master m-r-10' : 'label-success p-r-17 p-l-17 m-r-10'}"}
+                                    = current_user.trackers.find_by(chapter_content: content).nil? ? 'No visto' : 'Visto'
+                                  %span.label{class: "#{current_user.has_answer_refilable?(content.model) ? 'label-info p-r-17 p-l-17 m-t-20' : 'label-master m-t-20'}"}
+                                    = current_user.has_answer_refilable?(content.model) ? 'Contestado' : 'No contestado'
+                                - elsif content.coursable_type == 'DelireverablePackage'
+                                  %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master m-r-10' : 'label-success p-r-17 p-l-17 m-r-10'}"}
+                                    = current_user.trackers.find_by(chapter_content: content).nil? ? 'No visto' : 'Visto'
+                                  %span.label{class: "#{current_user.has_sent_delireverables?(content.model) ? 'label-info p-r-17 p-l-17 m-t-20' : 'label-master m-t-20'}"}
+                                    = current_user.has_sent_delireverables?(content.model) ? 'Enviado' : 'No enviando'            
 
 :javascript
   var frm = $('#form_rank');
@@ -184,3 +212,6 @@
           div.style.display = 'none';
       }
   };
+
+- if @tour_trigger[:second]
+  = javascript_include_tag '/javascripts/lib/bootstraptour/tour_second_step', 'data-turbolinks-track' => false

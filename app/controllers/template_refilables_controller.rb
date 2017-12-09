@@ -35,6 +35,7 @@ class TemplateRefilablesController < ApplicationController
     add_breadcrumb "<a class='active' href='#{new_template_refilable_path}'>Nuevo rellenable</a>".html_safe
 
     @template_refilable = TemplateRefilable.new(template_refilable_params)
+    @template_refilable.tipo=1
 
     if @template_refilable.save
       redirect_to template_refilables_path, notice: 'Rellenable creado'

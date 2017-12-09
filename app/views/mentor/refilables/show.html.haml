@@ -46,10 +46,15 @@
                         %th 
                           Texto del rellenable
                           %p.small.m-b-0
-                            Las respuestas del estudiante están resaltadas en negro.
+                            Las respuestas del estudiante están resaltadas en verde.
                     %tbody
                       %tr
                         %td.p-b-30
                           #refilable-content-template
                             = raw remove_class(replace_fillable(@refilable.content))
 
+:javascript
+  $(document).on('turbolinks:load', function(){
+    $('.refilable-edit').removeClass('form-control refilable-input');
+    $('.no-answer').text(' (sin respuesta) ');
+  });
