@@ -3,4 +3,3 @@ class AddLearningPathToGroups < ActiveRecord::Migration
     add_reference :groups, :learning_path, index: true, foreign_key: true
   end
 end
-
