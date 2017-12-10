@@ -1,0 +1,82 @@
+.container-fluid.container-fixed-lg
+  .panel.panel-transparent
+    .panel-body.p-t-0
+      .row
+        .col-sm-10
+          = form_tag(mobile_supports_path(user_email: params[:user_email], user_token: params[:user_token]), class: 'form-horizontal', multipart: true, onsubmit: "return validar()") do
+            .form-group
+              %label.col-sm-3.control-label{:for => "raw_subject"} Asunto *
+              .col-sm-9
+                %input#correo.form-control{:name => "raw_subject", :placeholder => "Aquí va tu asunto", :required => "", :type => "text"}/
+            .form-group
+              %label.col-sm-3.control-label{:for => "urgency"} Nivel de urgencia *
+              .col-sm-9
+                %select.full-width.form-control.minimal{name: 'urgency', :required => ""}
+                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Selecciona el nivel de urgencia de tu mensaje
+                  %option{:value => "Esto es solo un mensaje"} Esto es solo un mensaje
+                  %option{:value => "Estaré bien, pero por favor arreglen esto"} Estaré bien, pero por favor arreglen esto
+                  %option{:value => "Estoy atorado, nada de lo que hago funciona"} Estoy atorado, nada de lo que hago funciona
+                  %option{:value => "Esto me está matando"} Esto me está matando
+                  %option{:value => "Emergencia: Esto es crítico"} Emergencia: Esto es crítico
+            .form-group
+              %label.col-sm-3.control-label{:for => "matter"} Clasificación *
+              .col-sm-9
+                %select.full-width.form-control.minimal{name: 'matter', :required => ""}
+                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Clasifica tu mensaje
+                  %option{:value => "Comentario"} Comentario
+                  %option{:value => "Sugerencia"} Sugerencia
+                  %option{:value => "Duda sobre el contenido"} Tengo una duda sobre el contenido
+                  %option{:value => "Duda sobre la plataforma"} Tengo una duda sobre la plataforma
+                  %option{:value => "Duda sobre mi idea de negocio"} Tengo una duda sobre mi idea de negocio
+                  %option{:value => "Retroalimentación sobre mi idea de negocio"} Me gustaría recibir retroalimentación sobre mi idea de negocio
+            .form-group
+              %label.col-sm-3.control-label{:for => "message"} Descripción detallada de tu mensaje o problema *
+              .col-sm-9
+                %textarea.form-control{:rows => "8", :placeholder => "Describe aquí el problema o lo que estás enfrentando", name: 'message', :required => ""}
+            .form-group
+              %label.col-sm-3.control-label{:for => "program"} Programa
+              .col-sm-9
+                %select.full-width.form-control.minimal{name: 'program', :required => ""}
+                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} ¿Tu duda o comentario es sobre algún programa en particular? Especifícalo aquí
+                  - current_user.programs.each do |program|
+                    %option{:value => "#{program.name}"} #{program.name}
+            .form-group
+              %label.col-sm-3.control-label{:for => "message"} Adjunta archivos
+              .col-sm-9
+                .m-b-10
+                  ¿Requieres adjuntar un archivo para ilustrar tu mensaje? Puedes hacerlo aquí:
+                .m-b-10
+                  = file_field(:file,:attachment)
+            %input{:name => "last_content", value: @last_content_address, hidden: true}
+
+            .clearfix
+            .row.m-t-15
+              .col-sm-12
+                %button.btn.btn-success.btn-lg.pull-right{:type => "submit"}
+                  %i.fa.fa-send-o
+                  Enviar
+
+          /- if notice
+          /  .alert.alert-success
+          /    %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
+          /    = notice
+          /- if alert
+          /  .alert.alert-danger
+          /    %button.close{"aria-hidden" => "true", "data-dismiss" => "alert", :type => "button"} &times;
+          /    = alert
+:javascript
+
+  function validar() {
+    if (window.File && window.FileReader && window.FileList && window.Blob)
+    {
+        var fsize = $('#file_attachment')[0].files[0].size;
+
+        if(fsize>10485760) //do something if file size more than 10 mb (1048576)
+        {
+            alert("El archivo es muy grande, el tamaño maximo permitido es de 10MB");
+            return false;
+        }
+    }else{
+        alert("Please upgrade your browser, because your current browser lacks some new features we need!");
+    }
+  };
