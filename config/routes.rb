@@ -421,8 +421,4 @@ Rails.application.routes.draw do
     end
   end
   post "get_contents" => "learning_path_contents#get_contents"
-<<<<<<< HEAD
-
-=======
->>>>>>> feature/web-iframe-for-mentor-messages
 end
