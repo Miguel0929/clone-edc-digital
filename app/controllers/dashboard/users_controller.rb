@@ -30,7 +30,14 @@ class Dashboard::UsersController < ApplicationController
     end
 
     program_group = current_user.group.programs.where.not(content_type: 0).map{|p|p.id}
-    complementarios = program_group - (program_fisico.pluck(:content_id) + program_moral.pluck(:content_id))
+    if program_fisico == [] && program_moral == []
+      p_f = []; p_m = []; 
+    elsif program_moral == [] && program_fisico != []
+      p_f = program_fisico.pluck(:content_id); p_m = []; 
+    elsif program_fisico == [] && program_moral != []
+      p_f = []; p_m = program_moral.pluck(:content_id);
+    end 
+    complementarios = program_group - (p_f + p_m)
 
     complementarios.each do |id|
       if !ProgramActive.where(user: current_user, program_id: id).first.nil? && ProgramActive.where(user: current_user, program_id: id).first.status

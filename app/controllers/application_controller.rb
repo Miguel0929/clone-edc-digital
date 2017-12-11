@@ -59,8 +59,7 @@ class ApplicationController < ActionController::Base
   end
 
   def permiso_programs(program)
-
-    complementarios = current_user.group.programs_complementaries
+    complementarios = current_user.group.programs_complementaries rescue []
     is_active=true
     if complementarios.include?(program.id) 
       active=ProgramActive.where(user: current_user, program: @program).first
@@ -69,14 +68,16 @@ class ApplicationController < ActionController::Base
     end  
     
     if active.nil? then is_active = false else is_active = active.status end  
-    if is_active || current_user.mentor? 
+    if is_active || current_user.mentor? || current_user.admin?
       return false
     end
 
     current_user.group.learning_path.nil? ? fisica_programs = [] : fisica_programs = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
     current_user.group.learning_path2.nil? ? moral_programs = [] : moral_programs = current_user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position)
 
-    if program != fisica_programs.first.model || program != moral_programs.first.model      
+    primero_fisico = fisica_programs.first.model rescue nil
+    primero_moral = moral_programs.first.model rescue nil
+    if program != primero_fisico || program != primero_moral     
       anterior_fisico=Program.new
       fisica_programs.each do |p|
         if p.model==program
