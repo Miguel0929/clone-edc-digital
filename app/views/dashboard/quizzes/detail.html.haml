@@ -25,6 +25,8 @@
 .container-fluid.container-fixed-lg
   = form_tag dashboard_quiz_answers_path do  
     -@answers.each_with_index do |answer, index|
+      - rightones, yours = right_answer(answer.quiz_question.id), answer.answer_text
+      - evaluation = evaluating_quiz(rightones, yours)      
       = fields_for "answers[#{index}]", answer do |f| 
         .panel.panel-default
           .panel-heading.p-t-10.p-b-5{class: "#{(answer.correct == true)? 'heading-right-answer' : 'heading-wrong-answer'}"}
