@@ -94,7 +94,7 @@ class ApplicationController < ActionController::Base
           anterior_moral=p.model
         end
       end   
-      if (current_user.percentage_answered_for(anterior_fisico) == 100) || (current_user.percentage_answered_for(anterior_moral) == 100)
+      if (current_user.percentage_answered_for(anterior_fisico) == 100) || (current_user.percentage_answered_for(anterior_moral) == 100 || (current_user.percentage_content_visited_for(anterior_fisico) == 100 && anterior_fisico.questions? == false) || (current_user.percentage_content_visited_for(anterior_moral) == 100 && anterior_moral.questions? == false))
         return false
       elsif anterior_fisico.id.nil? || anterior_fisico.id.nil? 
         return false      
