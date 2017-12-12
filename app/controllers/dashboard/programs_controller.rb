@@ -19,7 +19,7 @@ class Dashboard::ProgramsController < ApplicationController
         c=0
         program_fisico.each do |p|
           c+=1
-          if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group.learning_path))>80
+          if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group.learning_path))>80 || (current_user.percentage_content_visited_for(p.anterior(current_user.group.learning_path)) == 100 && p.anterior(current_user.group.learning_path).questions? == false)
             ids_fisica << p.content_id
           else
             break
@@ -30,7 +30,7 @@ class Dashboard::ProgramsController < ApplicationController
         c=0
         program_moral.each do |p|
           c+=1
-          if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group.learning_path2))>80
+          if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group.learning_path2))>80 || (current_user.percentage_content_visited_for(p.anterior(current_user.group.learning_path2)) == 100 && p.anterior(current_user.group.learning_path).questions? == false)
             ids_moral << p.content_id
           else
             break
@@ -44,6 +44,8 @@ class Dashboard::ProgramsController < ApplicationController
           p_f = program_fisico.pluck(:content_id); p_m = []; 
         elsif program_fisico == [] && program_moral != []
           p_f = []; p_m = program_moral.pluck(:content_id);
+        else
+           p_f = []; p_m = [];  
         end  
         complementarios = program_group - (p_f + p_m)
 

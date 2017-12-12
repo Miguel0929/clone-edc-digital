@@ -90,6 +90,13 @@ class Program < ActiveRecord::Base
         anterior=p.model
       end
     end
-  end  
+  end
 
+  def questions?
+    c = 0  
+    self.chapters.each do |chapter|
+      c += chapter.questions.count 
+    end
+    c == 0 ? false : true 
+  end  
 end
