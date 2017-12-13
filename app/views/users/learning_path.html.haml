@@ -1,0 +1,275 @@
+- content_for :title  do
+  Ruta de aprendizaje - EDC Digital
+
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
+    .container-fluid
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15#tour-3
+            %h2.text-white
+              ¡Bienvenido a EDC Digital!
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Esta es tu ruta de aprendizaje
+            %p.m-b-25.text-white
+              Aquí podrás ver los cursos que te han sido asignados por nuestro equipo de expertos. Esta selección de programas fue diseñada en el orden óptimo para que realices tu viaje a través de nuestra plataforma. Cada curso de tu ruta mostrará el porcentaje de progreso, de modo que siempre podrás tener una visión general de tus avances. ¿Estás listo para continuar?
+
+- unless @programs_fisica.nil?
+  .container-fluid.sm-p-l-5
+    .pull-right
+      .btn-group{"aria-label" => "Basic example", :role => "group"}
+        %button.btn.btn-primary.active#fisica-btn{:type => "button"} Física
+        %button.btn.btn-primary#moral-btn{:type => "button"} Moral
+  .container-fluid.sm-p-l-5#fisica_cont
+    .timeline-container.top-circle
+      %section.timeline.black-line
+        .timeline-point.large.info.m-t-30
+          %button.timeline-point.large-transparent#btnToggleSlideUpSizeLearning{"data-toggle": "tooltip", "data-original-title": "Video introductorio"}
+            %i.fa.fa-play-circle{"aria-hidden"=>"true", style: "font-size: 24px; margin-left: -11px; margin-top: -12.5px;"}
+        .m-l-80.p-l-20#learning-video-message{style: "#{@modal_trigger ? '' : 'display: none;'}"}
+          .pull-right
+            %a.close-message-type#close-learning-message{href: "#", onclick: "return false;"}
+              ×
+          Aquí estará disponible el video introductorio siempre que lo necesites
+          .triangle-left
+        - @programs_fisica.order(:position).each do |p|
+          - @c1+=1         
+          - program = p.model
+          - anterior = p.anterior(@user.group.learning_path)
+
+          .timeline-block
+            .timeline-point.panel-title-emprendimiento
+            .timeline-content
+              .card.share.share-other.m-r-0.new-width-card{"data-social" => "item", id: "#{ @c1 == 1 ? "tour-4" : "" }"}
+                .card-content
+                  %a{:href => dashboard_program_path(program)}
+                    .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{program.cover.url});" , class: "height-img" }
+                  .col-md-7.height-col-md-6
+                    /%a{:href => dashboard_program_path(program)}
+                    %h6.text-tipo-card-ruta.b-b
+                      - if program.tipo == "construccion"
+                        Construcción
+                      -elsif program.tipo == "elearning"
+                        e-learning
+                      -elsif program.tipo.nil?
+                        Emprendimiento 
+                    %h5.text-name-ruta.m-b-5
+                      = truncate(program.name, length: 40, separator: ' ')
+                    - stats = @user.program_stats.find_by(program_id: program)
+                    /- seen_progress = ((!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
+                    - seen_progress = @user.percentage_content_visited_for(program)
+                    /- answered_progress = ((!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
+                    - answered_progress = @user.percentage_questions_answered_for(program)
+                    - last_tracker = program.get_last_move(@user)
+                    /- last_content = (!last_tracker.nil? ? last_tracker.chapter_content : nil)
+                    - last_content = last_visited_content(program, stats)
+                    .text-black.text-frase
+                      = truncate(program.description, length: 60, separator: ' ')
+                    .contenedor-btn-barra
+                      .col-md-12.p-l-0.text-center.p-t-10.new-p-btn
+                        - if !last_content.nil?
+                          -if seen_progress == 0
+                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                Comenzar
+                                %i.fa.fa-angle-double-right.font-size-play      
+                          -elsif seen_progress > 0 && seen_progress < 100
+                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                Continuar
+                                %span
+                                  #{answered_progress}%
+                                %i.fa.fa-angle-double-right.font-size-play
+                          -elsif seen_progress == 100 && answered_progress == 0
+                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                              %button.btn.btn-success.m-t--10
+                                Completado
+                                %i.fa.fa-check.font-size-play
+                          -elsif seen_progress == 100 && answered_progress < 100
+                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                Continuar
+                                %span
+                                  #{answered_progress}%
+                                %i.fa.fa-angle-double-right.font-size-play
+                          -elsif seen_progress == 100 && answered_progress == 100
+                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                              %button.btn.btn-success.m-t--10
+                                Completado
+                                %i.fa.fa-check.font-size-play
+                        - else  
+                          -if answered_progress > 0
+                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                = "Continuar " + answered_progress.to_s + "%"
+                                %i.fa.fa-angle-double-right.font-size-play
+                                
+                          -elsif @user.percentage_questions_answered_for(anterior)>=80 && @user.percentage_questions_answered_for(anterior)<100
+                            .text-info
+                              Completa el curso previo para poder acceder a este contenido
+                          -else
+                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                = "Comenzar"    
+                                %i.fa.fa-angle-double-right.font-size-play
+                      -unless @user.percentage_questions_answered_for(anterior)>=80 && @user.percentage_questions_answered_for(anterior)<100          
+                        .row
+                          .pull-left.m-l-15
+                            .m-t-5.bold.text-contestado
+                              #{answered_progress}% contestado
+                          .pull-right.m-r-15
+                            .m-t-5.bold.opacity_new
+                              #{seen_progress}% visto
+                        .progress.m-b-5
+                          .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
+              .event-date
+                %h6.font-montserrat.all-caps.hint-text.m-t-0
+                %small.fs-12.hint-text
+-else
+  %center
+    .alert.alert-danger{:role => "alert"}
+      No tienes asignada un ruta de aprendizaje (Física) 
+- unless @programs_moral.nil?
+  .container-fluid.sm-p-l-5#moral_cont.hide
+    .timeline-container.top-circle
+      %section.timeline.black-line
+        .timeline-point.large.info.m-t-30
+          %button.timeline-point.large-transparent#btnToggleSlideUpSizeLearning{"data-toggle": "tooltip", "data-original-title": "Video introductorio"}
+            %i.fa.fa-play-circle{"aria-hidden"=>"true", style: "font-size: 24px; margin-left: -11px; margin-top: -12.5px;"}
+        .m-l-80.p-l-20#learning-video-message{style: "#{@modal_trigger ? '' : 'display: none;'}"}
+          .pull-right
+            %a.close-message-type#close-learning-message{href: "#", onclick: "return false;"}
+              ×
+          Aquí estará disponible el video introductorio siempre que lo necesites
+          .triangle-left
+        - @programs_moral.order(:position).each do |p|
+          - @c2+=1         
+          - program = p.model
+          - anterior = p.anterior(@user.group.learning_path2)
+
+          .timeline-block
+            .timeline-point.panel-title-emprendimiento
+            .timeline-content
+              .card.share.share-other.m-r-0.new-width-card{"data-social" => "item", id: "#{ @c2 == 1 ? "tour-4" : "" }"}
+                .card-content
+                  %a{:href => dashboard_program_path(program)}
+                    .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{program.cover.url});" , class: "height-img" }
+                  .col-md-7.height-col-md-6
+                    /%a{:href => dashboard_program_path(program)}
+                    %h6.text-tipo-card-ruta.b-b
+                      - if program.tipo == "construccion"
+                        Construcción
+                      -elsif program.tipo == "elearning"
+                        e-learning
+                      -elsif program.tipo.nil?
+                        Emprendimiento 
+                    %h5.text-name-ruta.m-b-5
+                      = truncate(program.name, length: 40, separator: ' ')
+                    - stats = @user.program_stats.find_by(program_id: program)
+                    /- seen_progress = ((!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
+                    - seen_progress = @user.percentage_content_visited_for(program)
+                    /- answered_progress = ((!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
+                    - answered_progress = @user.percentage_questions_answered_for(program)
+                    - last_tracker = program.get_last_move(@user)
+                    /- last_content = (!last_tracker.nil? ? last_tracker.chapter_content : nil)
+                    - last_content = last_visited_content(program, stats)
+                    .text-black.text-frase
+                      = truncate(program.description, length: 60, separator: ' ')
+                    .contenedor-btn-barra
+                      .col-md-12.p-l-0.text-center.p-t-10.new-p-btn
+                        - if !last_content.nil?
+                          -if seen_progress == 0
+                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                Comenzar
+                                %i.fa.fa-angle-double-right.font-size-play      
+                          -elsif seen_progress > 0 && seen_progress < 100
+                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                Continuar
+                                %span
+                                  #{answered_progress}%
+                                %i.fa.fa-angle-double-right.font-size-play
+                          -elsif seen_progress == 100 && answered_progress == 0
+                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                              %button.btn.btn-success.m-t--10
+                                Completado
+                                %i.fa.fa-check.font-size-play
+                          -elsif seen_progress == 100 && answered_progress < 100
+                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                Continuar
+                                %span
+                                  #{answered_progress}%
+                                %i.fa.fa-angle-double-right.font-size-play
+                          -elsif seen_progress == 100 && answered_progress == 100
+                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                              %button.btn.btn-success.m-t--10
+                                Completado
+                                %i.fa.fa-check.font-size-play
+                        - else  
+                          -if answered_progress > 0
+                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                = "Continuar " + answered_progress.to_s + "%"
+                                %i.fa.fa-angle-double-right.font-size-play
+                                
+                          -elsif @user.percentage_questions_answered_for(anterior)>=80 && @user.percentage_questions_answered_for(anterior)<100
+                            .text-info
+                              Completa el curso previo para poder acceder a este contenido
+                          -else
+                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                              %button.btn.btn-complete.m-t--10
+                                = "Comenzar"    
+                                %i.fa.fa-angle-double-right.font-size-play
+                      -unless @user.percentage_questions_answered_for(anterior)>=80 && @user.percentage_questions_answered_for(anterior)<100          
+                        .row
+                          .pull-left.m-l-15
+                            .m-t-5.bold.text-contestado
+                              #{answered_progress}% contestado
+                          .pull-right.m-r-15
+                            .m-t-5.bold.opacity_new
+                              #{seen_progress}% visto
+                        .progress.m-b-5
+                          .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
+              .event-date
+                %h6.font-montserrat.all-caps.hint-text.m-t-0
+                %small.fs-12.hint-text                
+-else
+  %center
+    .alert.alert-danger{:role => "alert"}
+      No tienes asignada un ruta de aprendizaje (Moral)                                 
+%input{type: "radio", value: @modal_trigger.to_s, name: "modal_trigger", checked: true, hidden: true}
+#modalSlideUpLearning.modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1", :style => "z-index: 1105;"}
+  .modal-dialog.modal-lg{style: "width: 900px;"}
+    .modal-content-wrapper
+      .modal-content
+        .modal-header.clearfix.text-left
+          %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
+            %i.pg-close.fs-14
+          %h3.text-primary.text-center
+            ¡Bienvenido a EDC-Digital!
+        .modal-body
+          .embed-responsive.embed-responsive-16by9
+            %iframe.embed-responsive-item{:src => "https://player.vimeo.com/video/188382978"}
+
+- if @tour_trigger[:first]
+  = javascript_include_tag '/javascripts/lib/bootstraptour/tour_first_step', 'data-turbolinks-track' => false
+:javascript
+  $(document).on('turbolinks:load', function(){
+    $("#fisica-btn").click(function(){
+      $("#moral-btn").removeClass("active");
+      $("#fisica-btn").addClass("active");
+      $("#moral_cont").removeClass("show");
+      $("#moral_cont").addClass("hide");
+      $("#fisica_cont").addClass("show");
+    });
+    $("#moral-btn").click(function(){
+      $("#fisica-btn").removeClass("active");
+      $("#moral-btn").addClass( "active" );
+      $("#fisica_cont").removeClass("show");
+      $("#fisica_cont").addClass("hide");
+      $("#moral_cont").addClass("show");
+    });
+  });

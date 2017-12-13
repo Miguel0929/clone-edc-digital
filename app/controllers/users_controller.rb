@@ -2,9 +2,12 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin, except: [:students, :show, :change_evaluation]
   before_action :require_creator, only: [:students, :show]
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state, :summary]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state, :summary, :learning_path]
   add_breadcrumb "EDCDIGITAL", :root_path
   helper_method :get_program_active
+
+  helper_method :last_moved_program
+  helper_method :last_visited_content
 
   def index
     add_breadcrumb "<a class='active' href='#{users_path}'>Estudiantes</a>".html_safe
@@ -320,6 +323,46 @@ class UsersController < ApplicationController
     @result_refilables = @complete_refilables.to_f / @refilables.to_f * 100
   end
 
+  def learning_path
+    @programs_fisica=@user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position) rescue nil
+    c=0
+    @c1=0
+    ids=[]
+    unless @programs_fisica.nil?
+      @programs_fisica.each do |p|
+        c+=1
+        anterior = p.anterior(@user.group.learning_path)
+        if @user.percentage_questions_answered_for(anterior)>80 || c==1 || (@user.percentage_content_visited_for(anterior) == 100 && anterior.questions? == false)
+          ids.push(p.id)
+        else
+          break
+        end
+      end
+      @programs_fisica=LearningPathContent.where(id: ids).order(:position)
+    end
+
+    @programs_moral=@user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position) rescue nil
+    c=0
+    @c2=0
+    ids=[]
+    unless @programs_moral.nil?
+      @programs_moral.each do |p|
+        c+=1
+        anterior = p.anterior(@user.group.learning_path2)
+        if @user.percentage_questions_answered_for(anterior)>80 || c==1 || (@user.percentage_content_visited_for(anterior) == 100 && anterior.questions? == false)
+          ids.push(p.id)
+        else
+          break
+        end
+      end
+      @programs_moral=LearningPathContent.where(id: ids).order(:position)
+    end
+    #end
+    @modal_trigger = @user.video_trigger
+    @tour_trigger = @user.tour_trigger
+
+  end  
+
   private
   def set_user
     @user = User.find(params[:id])
@@ -357,4 +400,30 @@ class UsersController < ApplicationController
         percentage >= 91 && percentage <=100
     end
   end
+
+  def last_visited_content(program, stats)
+    if stats != nil
+      last = ( !stats.last_content.nil? ? stats.last_content : nil)
+      return last
+    else
+      return nil
+    end
+  end
+
+  def last_moved_program(program)
+     last_moved_content = program.get_last_move(current_user)
+    if !last_moved_content.nil?
+      last_move = last_moved_content.chapter_content_id
+      last_time = last_moved_content.updated_at
+      last_content = last_moved_content.chapter_content
+
+      if last_content.coursable_type == "Lesson"
+        last_text = last_content.model.identifier
+      else
+        last_text = last_content.model.question_text
+      end
+    end
+    return last_move, last_time, last_content, last_text, last_moved_content
+  end
+
 end

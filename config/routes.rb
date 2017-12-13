@@ -242,6 +242,7 @@ Rails.application.routes.draw do
       get :analytics_quiz
       get :change_state
       get :summary
+      get :learning_path
     end
 
     resources :programs, only: [] do
