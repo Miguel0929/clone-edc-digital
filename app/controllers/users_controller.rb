@@ -332,7 +332,7 @@ class UsersController < ApplicationController
       @programs_fisica.each do |p|
         c+=1
         anterior = p.anterior(@user.group.learning_path)
-        if @user.percentage_questions_answered_for(anterior)>80 || c==1 || (@user.percentage_content_visited_for(anterior) == 100 && anterior.questions? == false)
+        if @user.percentage_questions_answered_for(anterior) >= 95 || c==1 || (@user.percentage_content_visited_for(anterior) == 100 && anterior.questions? == false)
           ids.push(p.id)
         else
           break
@@ -349,7 +349,7 @@ class UsersController < ApplicationController
       @programs_moral.each do |p|
         c+=1
         anterior = p.anterior(@user.group.learning_path2)
-        if @user.percentage_questions_answered_for(anterior)>80 || c==1 || (@user.percentage_content_visited_for(anterior) == 100 && anterior.questions? == false)
+        if @user.percentage_questions_answered_for(anterior) >= 95 || c==1 || (@user.percentage_content_visited_for(anterior) == 100 && anterior.questions? == false)
           ids.push(p.id)
         else
           break
