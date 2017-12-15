@@ -110,19 +110,19 @@ class Mentor::StudentsController < ApplicationController
 
     aux = []
                                     
-    group_programs = @user.group.programs.pluck(:id)
-    @user.group.learning_path.nil? ? fisica_programs = [] : fisica_programs = @user.group.learning_path.learning_path_contents.where(content_type: "Program").pluck(:content_id)
-    @user.group.learning_path2.nil? ? moral_programs = [] : moral_programs = @user.group.learning_path2.learning_path_contents.where(content_type: "Program").pluck(:content_id)
+    group_programs = @user.group.programs.pluck(:id) rescue []
+    @user.group.nil?  || @user.group.learning_path.nil? ? fisica_programs = [] : fisica_programs = @user.group.learning_path.learning_path_contents.where(content_type: "Program").pluck(:content_id)
+    @user.group.nil? || @user.group.learning_path2.nil?  ? moral_programs = [] : moral_programs = @user.group.learning_path2.learning_path_contents.where(content_type: "Program").pluck(:content_id)
 
     @complementarios = group_programs - (fisica_programs + moral_programs)
                              
-    @programs=@user.group.all_programs
+    @programs=@user.group.all_programs rescue []
                                  
-    @delireverables=@user.group.all_delireverables
+    @delireverables=@user.group.all_delireverables rescue []
 
-    @refilables=@user.group.all_refilables                             
+    @refilables=@user.group.all_refilables rescue []                            
 
-    @quizzes=@user.group.all_quizzes 
+    @quizzes=@user.group.all_quizzes rescue []
   end
 
   def exports

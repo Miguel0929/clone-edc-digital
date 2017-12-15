@@ -64,7 +64,7 @@ class Dashboard::ChapterContentsController < ApplicationController
   end
 
   def permiso_avance
-    permiso_programs(@chapter_content.chapter.program)
+    permiso_programs(@chapter_content.chapter.program, current_user)
   end  
 
   def update_program_stats

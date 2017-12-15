@@ -99,28 +99,20 @@ class Dashboard::AnswersController < ApplicationController
   def redirect_to_next_content
     mensaje= "Cambios guardados con éxito"
     program=@chapter_content.chapter.program
-    if current_user.percentage_answered_for(program)>80 && current_user.percentage_answered_for(program)<100
-      if current_user.program_notifications.where(program: program).more80.first.nil?
-        current_user.program_notifications.create(program: program, notification_type: 'more80')
-        if current_user.panel_notifications.more80_student.first.nil? || current_user.panel_notifications.more80_student.first.status
-          Programs.more80_student(program, current_user, dashboard_program_url(program))
+    if current_user.percentage_answered_for(program) > 95 && current_user.percentage_answered_for(program) < 100
+      if current_user.program_notifications.where(program: program).more95.first.nil?
+        current_user.program_notifications.create(program: program, notification_type: 'more95')
+        if current_user.panel_notifications.more95_student.first.nil? || current_user.panel_notifications.more95_student.first.status
+          Programs.more95_student(program, current_user, dashboard_program_url(program))
         end
         #soporte
         soporte=User.new(email: "soporte@edc-digital.com")
-        Programs.more80_mentor(program,soporte,current_user,user_url(current_user))
-        if program.ruta?
-          flash[:more80]="Haz completado el 80% del curso, pronto desbloquearas el siguiente contenido!"
-        else
-          flash[:more80]="Haz completado el 80% del curso!"
-        end    
+        Programs.more95_mentor(program,soporte,current_user,user_url(current_user))
+        flash[:more95]="Haz completado el 95% del curso, haz liberado el siguiente contenido!"  
         #mentores
-        ProgramMore80NotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
+        ProgramMore95NotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
       end
-      if program.ruta?
-        mensaje = mensaje + ", haz completado el #{current_user.percentage_answered_for(program)}\% del programa, ya mero entras al siguiente curso."
-      else
-        mensaje = mensaje + ", haz completado el #{current_user.percentage_answered_for(program)}\% del programa."
-      end  
+        mensaje = mensaje + ", haz completado el #{current_user.percentage_answered_for(program)}\% del programa." 
     elsif current_user.percentage_answered_for(program)==100
       if current_user.program_notifications.where(program: program).complete.first.nil?
         current_user.program_notifications.create(program: program, notification_type: 'complete')
@@ -164,6 +156,6 @@ class Dashboard::AnswersController < ApplicationController
   end
 
   def permiso_avance
-    permiso_programs(@chapter_content.chapter.program) 
+    permiso_programs(@chapter_content.chapter.program, current_user) 
   end
 end
