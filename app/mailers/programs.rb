@@ -121,7 +121,7 @@ class Programs
       FakeEmail.new
     end 
   end
-  def self.more80_mentor(program, user, student, ruta)
+  def self.more95_mentor(program, user, student, ruta)
     data = {
       personalizations: [
         {
@@ -151,11 +151,11 @@ class Programs
       FakeEmail.new
     end 
   end
-  def self.more80_student(program, user, ruta)
+  def self.more95_student(program, user, ruta)
     data = {
       personalizations: [
         {
-          to: [ { email:  user.email } ],
+          to: [ { email: user.email } ],
           substitutions: {
             "-raw_subject-" => "Estas a punto de terminar el programa \"#{program.name}\".",
             "-content-" => "Estas a punto de terminar el programa \"#{program.name}\" en EDCdigital.",
@@ -185,7 +185,7 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email:  user.email } ],
+          to: [ { email: user.email } ],
           substitutions: {
             "-raw_subject-" => "El alumno #{student.name} ha terminado el programa \"#{program.name}\".",
             "-content-" => "El alumno #{student.name} ha terminado el programa \"#{program.name}\", te invitamos a que revises sus avances y completes la rúbrica de evaluación correspondiente.",
@@ -215,7 +215,7 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email:  user.email} ],
+          to: [ { email: user.email } ],
           substitutions: {
             "-raw_subject-" => "Has terminado el programa \"#{program.name}\".",
             "-content-" => "Has terminado el programa \"#{program.name}\" en EDCdigital.",

@@ -244,11 +244,11 @@ Rails.application.routes.draw do
       get :summary
       get :learning_path
     end
-
     resources :programs, only: [] do
       resources :answers, only: [:index, :edit, :update]
     end
   end
+  get '/users/:id/program_permitted/:program_id', to: 'users#program_permitted', as: 'program_permitted_user'
   post 'change_evaluation', to: 'users#change_evaluation', as: :change_evaluation_panel
 
   resources :mentors, except: [:create] do

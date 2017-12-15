@@ -104,25 +104,20 @@
                               %button.btn.btn-complete.m-t--10
                                 = "Continuar " + answered_progress.to_s + "%"
                                 %i.fa.fa-angle-double-right.font-size-play
-                                
-                          -elsif current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100
-                            .text-info
-                              Completa el curso previo para poder acceder a este contenido
                           -else
                             = link_to dashboard_program_path(program), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 = "Comenzar"    
-                                %i.fa.fa-angle-double-right.font-size-play
-                      -unless current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100          
-                        .row
-                          .pull-left.m-l-15
-                            .m-t-5.bold.text-contestado
-                              #{answered_progress}% contestado
-                          .pull-right.m-r-15
-                            .m-t-5.bold.opacity_new
-                              #{seen_progress}% visto
-                        .progress.m-b-5
-                          .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
+                                %i.fa.fa-angle-double-right.font-size-play        
+                      .row
+                        .pull-left.m-l-15
+                          .m-t-5.bold.text-contestado
+                            #{answered_progress}% contestado
+                        .pull-right.m-r-15
+                          .m-t-5.bold.opacity_new
+                            #{seen_progress}% visto
+                      .progress.m-b-5
+                        .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
               .event-date
                 %h6.font-montserrat.all-caps.hint-text.m-t-0
                 %small.fs-12.hint-text
@@ -214,25 +209,20 @@
                               %button.btn.btn-complete.m-t--10
                                 = "Continuar " + answered_progress.to_s + "%"
                                 %i.fa.fa-angle-double-right.font-size-play
-                                
-                          -elsif current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100
-                            .text-info
-                              Completa el curso previo para poder acceder a este contenido
                           -else
                             = link_to dashboard_program_path(program), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 = "Comenzar"    
-                                %i.fa.fa-angle-double-right.font-size-play
-                      -unless current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100          
-                        .row
-                          .pull-left.m-l-15
-                            .m-t-5.bold.text-contestado
-                              #{answered_progress}% contestado
-                          .pull-right.m-r-15
-                            .m-t-5.bold.opacity_new
-                              #{seen_progress}% visto
-                        .progress.m-b-5
-                          .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
+                                %i.fa.fa-angle-double-right.font-size-play          
+                      .row
+                        .pull-left.m-l-15
+                          .m-t-5.bold.text-contestado
+                            #{answered_progress}% contestado
+                        .pull-right.m-r-15
+                          .m-t-5.bold.opacity_new
+                            #{seen_progress}% visto
+                      .progress.m-b-5
+                        .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
               .event-date
                 %h6.font-montserrat.all-caps.hint-text.m-t-0
                 %small.fs-12.hint-text                

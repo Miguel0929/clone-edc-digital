@@ -455,10 +455,10 @@
               %span{"aria-hidden" => "true"} ×
               %span.sr-only Close
             = alert
-    - if flash[:more80]
+    - if flash[:more95]
       :javascript
         $(document).on('turbolinks:load', function(){
-          sweetAlert("#{flash[:more80]}");
+          sweetAlert("#{flash[:more95]}");
         });
     - if flash[:complete]
       :javascript
