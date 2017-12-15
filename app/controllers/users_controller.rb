@@ -2,12 +2,14 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin, except: [:students, :show, :change_evaluation]
   before_action :require_creator, only: [:students, :show]
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state, :summary, :learning_path]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state, :summary, :learning_path, :program_permitted]
+  before_action :set_program, only:[:program_permitted]
   add_breadcrumb "EDCDIGITAL", :root_path
   helper_method :get_program_active
 
   helper_method :last_moved_program
   helper_method :last_visited_content
+  helper_method :permiso_programs
 
   def index
     add_breadcrumb "<a class='active' href='#{users_path}'>Estudiantes</a>".html_safe
@@ -99,13 +101,13 @@ class UsersController < ApplicationController
     add_breadcrumb "<a class='active' href='#{user_path(@user)}'>#{@user.email}</a>".html_safe
 
                                    
-    @programs = @user.group.all_programs
+    @programs = @user.group.all_programs rescue []
                                    
-    @delireverables = @user.group.all_delireverables
+    @delireverables = @user.group.all_delireverables rescue []
                                  
-    @refilables = @user.group.all_refilables
+    @refilables = @user.group.all_refilables rescue []
                                 
-    @quizzes = @user.group.all_quizzes                               
+    @quizzes = @user.group.all_quizzes rescue []                              
   end
 
   def edit
@@ -361,12 +363,23 @@ class UsersController < ApplicationController
     @modal_trigger = @user.video_trigger
     @tour_trigger = @user.tour_trigger
 
+  end
+
+  def program_permitted
+    if permiso_programs(@program,@user)
+      redirect_to learning_path_user_path(@user), alert: "El curso \"#{@program.name}\" no esta disponible para el alumno #{@user.name}"
+    else
+      redirect_to learning_path_user_path(@user), notice: "El curso \"#{@program.name}\" si esta disponible para el alumno  #{@user.name}" 
+    end  
   end  
 
   private
   def set_user
     @user = User.find(params[:id])
   end
+  def set_program
+     @program= Program.find(params[:program_id])
+  end  
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :industry_id, :group_id, :role, :evaluation_status)

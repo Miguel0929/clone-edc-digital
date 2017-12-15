@@ -130,8 +130,8 @@
                             /- @current_user.programs.each do |personal|
                             /- if program.name == personal.name
                             - stats = @current_user.program_stats.find_by(program_id: program)
-                            - seen_progress = ( (!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
-                            - answered_progress = ( (!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
+                            - seen_progress = @current_user.percentage_content_visited_for(program)
+                            - answered_progress = @current_user.percentage_questions_answered_for(program)
                             - last_content = last_visited_content(program, stats)
                             /- last_parameters = last_moved_program(program)
                             .min-height
@@ -175,9 +175,6 @@
                                           %button.btn.btn-complete.m-t--10
                                             = "Continuar " + answered_progress.to_s + "%"
                                             %i.fa.fa-angle-double-right.font-size-play
-                                      -elsif program.ruta? && current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100
-                                        .text-info.m-t--10 
-                                          Completa el curso previo para poder acceder a este contenido
                                       -else
                                         = link_to dashboard_program_path(program), class: "opacity__1" do
                                           %button.btn.btn-complete.m-t--10

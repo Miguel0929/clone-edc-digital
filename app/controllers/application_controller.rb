@@ -58,26 +58,28 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def permiso_programs(program)
-    complementarios = current_user.group.programs_complementaries rescue []
+  def permiso_programs(program, user)
+    complementarios = user.group.programs_complementaries rescue []
     is_active=true
     if complementarios.include?(program.id) 
-      active=ProgramActive.where(user: current_user, program: @program).first
+      active=ProgramActive.where(user: user, program: @program).first
     else
       active = nil
     end  
     
     if active.nil? then is_active = false else is_active = active.status end  
-    if is_active || current_user.mentor? || current_user.admin?
+    if is_active || user.mentor? || user.admin?
       return false
     end
 
-    current_user.group.learning_path.nil? ? fisica_programs = [] : fisica_programs = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
-    current_user.group.learning_path2.nil? ? moral_programs = [] : moral_programs = current_user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position)
+    user.group.learning_path.nil? ? fisica_programs = [] : fisica_programs = user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
+    user.group.learning_path2.nil? ? moral_programs = [] : moral_programs = user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position)
 
     primero_fisico = fisica_programs.first.model rescue nil
     primero_moral = moral_programs.first.model rescue nil
-    if program != primero_fisico || program != primero_moral     
+    if program == primero_fisico || program == primero_moral
+      return false
+    else     
       anterior_fisico=Program.new
       fisica_programs.each do |p|
         if p.model==program
@@ -94,16 +96,14 @@ class ApplicationController < ActionController::Base
           anterior_moral=p.model
         end
       end   
-      if (current_user.percentage_answered_for(anterior_fisico) == 100) || (current_user.percentage_answered_for(anterior_moral) == 100 || (current_user.percentage_content_visited_for(anterior_fisico) == 100 && anterior_fisico.questions? == false) || (current_user.percentage_content_visited_for(anterior_moral) == 100 && anterior_moral.questions? == false))
+      if (user.percentage_answered_for(anterior_fisico) >= 95) || (user.percentage_answered_for(anterior_moral) >= 95 || (user.percentage_content_visited_for(anterior_fisico) == 100 && anterior_fisico.questions? == false) || (user.percentage_content_visited_for(anterior_moral) == 100 && anterior_moral.questions? == false))
         return false
       elsif anterior_fisico.id.nil? || anterior_fisico.id.nil? 
-        return false      
-      elsif (current_user.percentage_answered_for(anterior_fisico) < 100) && (current_user.percentage_answered_for(anterior_moral) < 100)  
+        return false 
+      elsif (user.percentage_answered_for(anterior_fisico) < 95) && (user.percentage_answered_for(anterior_moral) < 95)  
         return true
       end  
-
-    else
-      return false
+    
     end  
   end
 
