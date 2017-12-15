@@ -30,7 +30,7 @@ class Dashboard::NotificationsController < ApplicationController
           dashboard_programs_path
         elsif notification.model.evaluation?
           dashboard_evaluations_path(program_id: notification.model.program.id)
-        elsif notification.model.more80?
+        elsif notification.model.more95?
           dashboard_program_path(notification.model.program)
         elsif notification.model.complete?  
           dashboard_learning_path_path              
@@ -46,7 +46,7 @@ class Dashboard::NotificationsController < ApplicationController
         dashboard_attachments_path
       when 'MentorProgramNotification'
         notification.update(read: true) unless notification.read
-        if notification.model.more80?
+        if notification.model.more95?
           mentor_student_path(notification.model.user)
         elsif notification.model.complete?
           mentor_student_path(notification.model.user)
