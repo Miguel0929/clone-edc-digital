@@ -55,7 +55,7 @@
               .col-sm-9
                 %select.full-width.form-control.minimal{name: 'program', :required => ""}
                   %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} ¿Tu duda o comentario es sobre algún programa en particular? Especifícalo aquí
-                  - current_user.programs.each do |program|
+                  - current_user.group.all_programs.each do |program|
                     %option{:value => "#{program.name}"} #{program.name}
             .form-group
               %label.col-sm-3.control-label{:for => "message"} Adjunta archivos
