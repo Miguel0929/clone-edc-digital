@@ -109,7 +109,7 @@ class LearningPathsController < ApplicationController
       @learning_path_fisica = LearningPath.find(params[:r_fisica]) rescue nil
       @learning_path_moral = LearningPath.find(params[:r_moral]) rescue nil
 
-      ruta_f = []
+      ruta_f_p = []; ruta_f_q = []; ruta_f_d = []; ruta_f_r = []
       if @learning_path_fisica.nil?
         lpf_programs = []; lpf_quizzes = [],lpf_refilables = [], lpf_delireverables = []    
       else
@@ -118,11 +118,19 @@ class LearningPathsController < ApplicationController
         lpf_refilables = @learning_path_fisica.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)
         lpf_delireverables = @learning_path_fisica.learning_path_contents.where(content_type: "DelireverablePackage").pluck(:content_id)
         @learning_path_fisica.learning_path_contents.each do |content|
-          ruta_f << {id: content.content_id, type: content.content_type, name: content.model.name}
+          if content.content_type == "Program"
+            ruta_f_p << {id: content.content_id, type: content.content_type, name: content.model.name}
+          elsif content.content_type == "Quiz"
+            ruta_f_q << {id: content.content_id, type: content.content_type, name: content.model.name}
+          elsif content.content_type == "DelireverablePackage"  
+            ruta_f_d << {id: content.content_id, type: content.content_type, name: content.model.name}
+          elsif content.content_type == "TemplateRefilable"  
+            ruta_f_r << {id: content.content_id, type: content.content_type, name: content.model.name}
+          end  
         end
       end
 
-      ruta_m = []
+      ruta_m_p = []; ruta_m_q = []; ruta_m_d = []; ruta_m_r = []
       if @learning_path_moral.nil?
         lpm_programs = []; lpm_quizzes = [],lpm_refilables = [], lpm_delireverables = []   
       else
@@ -131,7 +139,15 @@ class LearningPathsController < ApplicationController
         lpm_refilables = @learning_path_moral.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)
         lpm_delireverables = @learning_path_moral.learning_path_contents.where(content_type: "DelireverablePackage").pluck(:content_id)
         @learning_path_moral.learning_path_contents.each do |content|
-          ruta_m << {id: content.content_id, type: content.content_type, name: content.model.name}
+          if content.content_type == "Program"
+            ruta_m_p << {id: content.content_id, type: content.content_type, name: content.model.name, position: content.position}
+          elsif content.content_type == "Quiz"
+            ruta_m_q << {id: content.content_id, type: content.content_type, name: content.model.name, position: content.position}
+          elsif content.content_type == "DelireverablePackage"  
+            ruta_m_d << {id: content.content_id, type: content.content_type, name: content.model.name, position: content.position}
+          elsif content.content_type == "TemplateRefilable"  
+            ruta_m_r << {id: content.content_id, type: content.content_type, name: content.model.name, position: content.position}
+          end  
         end
       end
 
@@ -139,9 +155,9 @@ class LearningPathsController < ApplicationController
       quizzes =  Quiz.where.not(id: lpf_quizzes + lpm_quizzes).select("id","name")
       refilables = TemplateRefilable.where.not(id: lpf_refilables + lpm_refilables).select("id","name")
       delireverables = DelireverablePackage.where.not(id: lpf_delireverables + lpm_delireverables).select("id","name")
-      render :json => {ruta_f: ruta_f, ruta_m: ruta_m, programs: programs, quizzes: quizzes, refilables: refilables, delireverables: delireverables}
+      render :json => {ruta_f_p: ruta_f_p, ruta_f_q: ruta_f_q, ruta_f_d: ruta_f_d, ruta_f_r: ruta_f_r, ruta_m_p: ruta_m_p, ruta_m_q: ruta_m_q, ruta_m_d: ruta_m_d, ruta_m_r: ruta_m_r, programs: programs, quizzes: quizzes, refilables: refilables, delireverables: delireverables}
     else
-      render :json => {ruta_f: [], ruta_m: [], programs: [], quizzes: [], refilables: [], delireverables: []}  
+      render :json => {ruta_f_p: [], ruta_f_q: [], ruta_f_d: [], ruta_f_r: [], ruta_m_p: [], ruta_m_q: [], ruta_m_d: [], ruta_m_r: [], programs: [], quizzes: [], refilables: [], delireverables: []}  
     end
   end 
   private
