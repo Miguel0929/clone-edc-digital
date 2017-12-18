@@ -31,7 +31,7 @@
                     %th.text-center{colspan: 3}
                       Ruta de aprendizaje sin programas
                 - else      
-                  - @contents_fisica_programs.sort_by{ |h| h[:position] }.each_with_index do |content, index|
+                  - @contents_fisica_programs.sort_by{ |h| h.position }.each_with_index do |content, index|
                     %tr
                       %td.text-center= index + 1
                       %td= content.model.name
@@ -51,7 +51,7 @@
                     %th.text-center{colspan: 3}
                       Ruta de aprendizaje sin examenes
                 - else      
-                  - @contents_fisica_quizzes.sort_by{ |h| h[:position] }.each_with_index do |content, index|
+                  - @contents_fisica_quizzes.sort_by{ |h| h.position }.each_with_index do |content, index|
                     %tr
                       %td.text-center= index + 1
                       %td= content.model.name
@@ -70,7 +70,7 @@
                     %th.text-center{colspan: 3}
                       Ruta de aprendizaje sin entregables
                 - else      
-                  - @contents_fisica_delireverables.sort_by{ |h| h[:position] }.each_with_index do |content, index|
+                  - @contents_fisica_delireverables.sort_by{ |h| h.position }.each_with_index do |content, index|
                     %tr
                       %td.text-center= index + 1
                       %td= content.model.name
@@ -89,7 +89,7 @@
                     %th.text-center{colspan: 3}
                       Ruta de aprendizaje sin rellenables
                 - else      
-                  - @contents_fisica_refilables.sort_by{ |h| h[:position] }.each_with_index do |content, index|
+                  - @contents_fisica_refilables.sort_by{ |h| h.position }.each_with_index do |content, index|
                     %tr
                       %td.text-center= index + 1
                       %td= content.model.name       
@@ -170,7 +170,7 @@
                     %th.text-center{colspan: 3}
                       Ruta de aprendizaje sin programas
                 - else      
-                  - @contents_moral_programs.sort_by{ |h| h[:position] }.each_with_index do |content, index|
+                  - @contents_moral_programs.sort_by{ |h| h.position }.each_with_index do |content, index|
                     %tr
                       %td.text-center= index + 1
                       %td= content.model.name
@@ -190,7 +190,7 @@
                     %th.text-center{colspan: 3}
                       Ruta de aprendizaje sin examenes
                 - else      
-                  - @contents_moral_quizzes.sort_by{ |h| h[:position] }.each_with_index do |content, index|
+                  - @contents_moral_quizzes.sort_by{ |h| h.position }.each_with_index do |content, index|
                     %tr
                       %td.text-center= index + 1
                       %td= content.model.name
@@ -209,7 +209,7 @@
                     %th.text-center{colspan: 3}
                       Ruta de aprendizaje sin entregables
                 - else      
-                  - @contents_moral_delireverables.sort_by{ |h| h[:position] }.each_with_index do |content, index|
+                  - @contents_moral_delireverables.sort_by{ |h| h.position }.each_with_index do |content, index|
                     %tr
                       %td.text-center= index + 1
                       %td= content.model.name
@@ -228,7 +228,7 @@
                     %th.text-center{colspan: 3}
                       Ruta de aprendizaje sin rellenables
                 - else      
-                  - @contents_moral_refilables.sort_by{ |h| h[:position] }.each_with_index do |content, index|
+                  - @contents_moral_refilables.sort_by{ |h| h.position }.each_with_index do |content, index|
                     %tr
                       %td.text-center= index + 1
                       %td= content.model.name                                   
@@ -335,14 +335,13 @@
           quizzes = data.quizzes;
           refilables = data.refilables;
           delireverables = data.delireverables;
-          console.log(programs);
+
           
           //Actualizar ruta fisica
-          ruta_f_p = data.ruta_f_p;
-          ruta_f_q = data.ruta_f_q;
-          ruta_f_d = data.ruta_f_d;
-          ruta_f_r = data.ruta_f_r;
-          console.log("Fisica");
+          ruta_f_p = data.ruta_f_p.sort(function(a, b) {return parseFloat(a.position) - parseFloat(b.position);});
+          ruta_f_q = data.ruta_f_q.sort(function(a, b) {return parseFloat(a.position) - parseFloat(b.position);});
+          ruta_f_d = data.ruta_f_d.sort(function(a, b) {return parseFloat(a.position) - parseFloat(b.position);});
+          ruta_f_r = data.ruta_f_r.sort(function(a, b) {return parseFloat(a.position) - parseFloat(b.position);});
           $("#body-table-fisica-programs").html('');
           if (ruta_f_p.length == 0){
              $('#body-table-fisica-programs').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin programas</th></tr>');
@@ -377,11 +376,10 @@
           }
 
           //Actualizar ruta moral
-          ruta_m_p = data.ruta_m_p;
-          ruta_m_q = data.ruta_m_q;
-          ruta_m_d = data.ruta_m_d;
-          ruta_m_r = data.ruta_m_r;
-          console.log("Moral");
+          ruta_m_p = data.ruta_m_p.sort(function(a, b) {return parseFloat(a.position) - parseFloat(b.position);});
+          ruta_m_q = data.ruta_m_q.sort(function(a, b) {return parseFloat(a.position) - parseFloat(b.position);});
+          ruta_m_d = data.ruta_m_d.sort(function(a, b) {return parseFloat(a.position) - parseFloat(b.position);});
+          ruta_m_r = data.ruta_m_r.sort(function(a, b) {return parseFloat(a.position) - parseFloat(b.position);});
 
           $("#body-table-moral-programs").html('');
           if (ruta_m_p.length == 0){
