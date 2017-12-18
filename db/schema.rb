@@ -88,6 +88,17 @@ ActiveRecord::Schema.define(version: 20171207184952) do
     t.integer "position"
   end
 
+  create_table "chapter_stats", force: :cascade do |t|
+    t.integer  "checked",    default: 0
+    t.integer  "user_id"
+    t.integer  "chapter_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "chapter_stats", ["chapter_id"], name: "index_chapter_stats_on_chapter_id", using: :btree
+  add_index "chapter_stats", ["user_id"], name: "index_chapter_stats_on_user_id", using: :btree
+
   create_table "chapters", force: :cascade do |t|
     t.string   "name"
     t.integer  "program_id"
@@ -802,6 +813,8 @@ ActiveRecord::Schema.define(version: 20171207184952) do
 
   add_foreign_key "attempts", "quizzes"
   add_foreign_key "attempts", "users"
+  add_foreign_key "chapter_stats", "chapters"
+  add_foreign_key "chapter_stats", "users"
   add_foreign_key "glossaries", "glossary_categories"
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"
