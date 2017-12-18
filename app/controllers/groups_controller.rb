@@ -34,9 +34,33 @@ class GroupsController < ApplicationController
   def edit
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{edit_group_path(@group)}'>#{@group.name}</a>".html_safe
-    (@group.learning_path.nil?) ?  @contents_fisica = [] : @contents_fisica = @group.learning_path.learning_path_contents.order(:content_type)
-    (@group.learning_path2.nil?) ?  @contents_moral = [] : @contents_moral = @group.learning_path2.learning_path_contents.order(:content_type)
-    
+    @contents_fisica_programs = []; @contents_fisica_quizzes = []; @contents_fisica_refilables = []; @contents_fisica_delireverables = []
+    @contents_moral_programs = []; @contents_moral_quizzes = []; @contents_moral_refilables = []; @contents_moral_delireverables = []
+    (@group.learning_path.nil?) ?  @contents_fisica = [] : @contents_fisica = @group.learning_path.learning_path_contents
+    (@group.learning_path2.nil?) ?  @contents_moral = [] : @contents_moral = @group.learning_path2.learning_path_contents
+    @contents_fisica.each do |c| 
+      if c.content_type == "Program"
+        @contents_fisica_programs << c
+      elsif c.content_type == "Quiz"
+        @contents_fisica_quizzes << c
+      elsif c.content_type == "TemplateRefilable"  
+        @contents_fisica_refilables << c
+      elsif c.content_type == "DelireverablePackage"  
+        @contents_fisica_delireverables << c 
+      end  
+    end
+    @contents_moral.each do |c| 
+      if c.content_type == "Program"
+        @contents_moral_programs << c
+      elsif c.content_type == "Quiz"
+        @contents_moral_quizzes << c
+      elsif c.content_type == "TemplateRefilable"  
+        @contents_moral_refilables << c
+      elsif c.content_type == "DelireverablePackage"  
+        @contents_moral_delireverables << c 
+      end  
+    end
+    #render :json => {1=> }  
     lp_fisica = @group.learning_path
     if lp_fisica.nil?
       lpf_programs = []; lpf_quizzes = []; lpf_refilables = []; lpf_delireverables = []

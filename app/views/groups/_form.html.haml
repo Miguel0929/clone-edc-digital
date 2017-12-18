@@ -15,38 +15,139 @@
       = f.select :learning_path_id, LearningPath.fisica.collect{|l|[l.name, l.id]},  {include_blank: "Selecciona una Ruta de Aprendizaje (Física)", label: 'Ruta de aprendizaje (Física)' }, class: "learning_paths"
       - if (edit_mode)  
         #learning_path_content.row
-          .col-md-6.col-xs-12.col-sm-12
+          #learning_path_content.row
+          .col-md-3.col-xs-6.col-sm-6
             %table.table.table-striped
               %thead
                 %tr
+                  %th{colspan: 2}
+                    Programas
+                %tr
                   %th #
                   %th Contenido
-                  %th Tipo de contenido
-              %tbody#body-table-fisica
-                - if @contents_fisica.count == 0
+              %tbody#body-table-fisica-programs
+                - if @contents_fisica_programs.count == 0
                   %tr
                     %th.text-center{colspan: 3}
-                      Ruta de aprendizaje sin contenidos
+                      Ruta de aprendizaje sin programas
                 - else      
-                  - @contents_fisica.each_with_index do |content, index|
+                  - @contents_fisica_programs.sort_by{ |h| h[:position] }.each_with_index do |content, index|
                     %tr
                       %td.text-center= index + 1
                       %td= content.model.name
-                      %td= learning_path_content_type(content.content_type)
-               
-      - else
-        #learning_path_content.row
-          .col-md-6.col-xs-12.col-sm-12
+          
+          .col-md-3.col-xs-6.col-sm-6
             %table.table.table-striped
               %thead
                 %tr
+                  %th{colspan: 2}
+                    Examenes 
+                %tr
                   %th #
                   %th Contenido
-                  %th Tipo de contenido
-              %tbody#body-table-fisica
+              %tbody#body-table-fisica-quizzes
+                - if @contents_fisica_quizzes.count == 0
+                  %tr
+                    %th.text-center{colspan: 3}
+                      Ruta de aprendizaje sin examenes
+                - else      
+                  - @contents_fisica_quizzes.sort_by{ |h| h[:position] }.each_with_index do |content, index|
+                    %tr
+                      %td.text-center= index + 1
+                      %td= content.model.name
+          .col-md-3.col-xs-6.col-sm-6
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th{colspan: 2}
+                    Entregables 
+                %tr
+                  %th #
+                  %th Contenido
+              %tbody#body-table-fisica-delireverables
+                - if @contents_fisica_delireverables.count == 0
+                  %tr
+                    %th.text-center{colspan: 3}
+                      Ruta de aprendizaje sin entregables
+                - else      
+                  - @contents_fisica_delireverables.sort_by{ |h| h[:position] }.each_with_index do |content, index|
+                    %tr
+                      %td.text-center= index + 1
+                      %td= content.model.name
+          .col-md-3.col-xs-6.col-sm-6
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th{colspan: 2}
+                    Rellenables 
+                %tr
+                  %th #
+                  %th Contenido
+              %tbody#body-table-fisica-refilables
+                - if @contents_fisica_refilables.count == 0
+                  %tr
+                    %th.text-center{colspan: 3}
+                      Ruta de aprendizaje sin rellenables
+                - else      
+                  - @contents_fisica_refilables.sort_by{ |h| h[:position] }.each_with_index do |content, index|
+                    %tr
+                      %td.text-center= index + 1
+                      %td= content.model.name       
+               
+      - else
+        #learning_path_content.row
+          .col-md-3.col-xs-6.col-sm-6
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th{colspan: 2}
+                    Programas 
+                %tr
+                  %th #
+                  %th Contenido
+              %tbody#body-table-fisica-programs
                 %tr
                   %th.text-center{colspan: 3}
-                    Ruta de aprendizaje sin contenidos
+                    Ruta de aprendizaje sin programas
+          .col-md-3.col-xs-6.col-sm-6
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th{colspan: 2}
+                    Examenes 
+                %tr
+                  %th #
+                  %th Contenido
+              %tbody#body-table-fisica-quizzes
+                %tr
+                  %th.text-center{colspan: 3}
+                    Ruta de aprendizaje sin exámenes
+          .col-md-3.col-xs-6.col-sm-6
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th{colspan: 2}
+                    Entregables 
+                %tr
+                  %th #
+                  %th Contenido
+              %tbody#body-table-fisica-delireverables
+                %tr
+                  %th.text-center{colspan: 3}
+                    Ruta de aprendizaje sin entregables
+          .col-md-3.col-xs-6.col-sm-6
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th{colspan: 2}
+                    Rellenables 
+                %tr
+                  %th #
+                  %th Contenido
+              %tbody#body-table-fisica-refilables
+                %tr
+                  %th.text-center{colspan: 3}
+                    Ruta de aprendizaje sin rellenables                             
   .panel.panel-info
     .panel-heading
       %h3.panel-title Ruta de Aprendizaje (Persona Moral)
@@ -54,38 +155,138 @@
       = f.select :learning_path2_id, LearningPath.moral.collect{|l|[l.name, l.id]},  {include_blank: "Selecciona una Ruta de Aprendizaje (Moral)", label: 'Ruta de aprendizaje (Moral)'}, class: "learning_paths"
       - if (edit_mode)  
         #learning_path_content.row
-          .col-md-6.col-xs-12.col-sm-12
+          .col-md-3.col-xs-6.col-sm-6
             %table.table.table-striped
               %thead
                 %tr
+                  %th{colspan: 2}
+                    Programas
+                %tr
                   %th #
                   %th Contenido
-                  %th Tipo de contenido
-              %tbody#body-table-moral
-                - if @contents_moral.count == 0
+              %tbody#body-table-moral-programs
+                - if @contents_moral_programs.count == 0
                   %tr
                     %th.text-center{colspan: 3}
-                      Ruta de aprendizaje sin contenidos
+                      Ruta de aprendizaje sin programas
                 - else      
-                  - @contents_moral.each_with_index do |content, index|
+                  - @contents_moral_programs.sort_by{ |h| h[:position] }.each_with_index do |content, index|
                     %tr
                       %td.text-center= index + 1
                       %td= content.model.name
-                      %td= learning_path_content_type(content.content_type)
-               
-      - else
-        #learning_path_content.row
-          .col-md-6.col-xs-12.col-sm-12
+          
+          .col-md-3.col-xs-6.col-sm-6
             %table.table.table-striped
               %thead
                 %tr
+                  %th{colspan: 2}
+                    Examenes 
+                %tr
                   %th #
                   %th Contenido
-                  %th Tipo de contenido
-              %tbody#body-table-moral
+              %tbody#body-table-moral-quizzes
+                - if @contents_moral_quizzes.count == 0
+                  %tr
+                    %th.text-center{colspan: 3}
+                      Ruta de aprendizaje sin examenes
+                - else      
+                  - @contents_moral_quizzes.sort_by{ |h| h[:position] }.each_with_index do |content, index|
+                    %tr
+                      %td.text-center= index + 1
+                      %td= content.model.name
+          .col-md-3.col-xs-6.col-sm-6
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th{colspan: 2}
+                    Entregables 
+                %tr
+                  %th #
+                  %th Contenido
+              %tbody#body-table-moral-delireverables
+                - if @contents_moral_delireverables.count == 0
+                  %tr
+                    %th.text-center{colspan: 3}
+                      Ruta de aprendizaje sin entregables
+                - else      
+                  - @contents_moral_delireverables.sort_by{ |h| h[:position] }.each_with_index do |content, index|
+                    %tr
+                      %td.text-center= index + 1
+                      %td= content.model.name
+          .col-md-3.col-xs-6.col-sm-6
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th{colspan: 2}
+                    Rellenables 
+                %tr
+                  %th #
+                  %th Contenido
+              %tbody#body-table-moral-refilables
+                - if @contents_moral_refilables.count == 0
+                  %tr
+                    %th.text-center{colspan: 3}
+                      Ruta de aprendizaje sin rellenables
+                - else      
+                  - @contents_moral_refilables.sort_by{ |h| h[:position] }.each_with_index do |content, index|
+                    %tr
+                      %td.text-center= index + 1
+                      %td= content.model.name                                   
+               
+      - else
+        #learning_path_content.row
+          .col-md-3.col-xs-6.col-sm-6
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th{colspan: 2}
+                    Programas 
+                %tr
+                  %th #
+                  %th Contenido
+              %tbody#body-table-moral-programs
                 %tr
                   %th.text-center{colspan: 3}
-                    Ruta de aprendizaje sin contenidos     
+                    Ruta de aprendizaje sin programas
+          .col-md-3.col-xs-6.col-sm-6
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th{colspan: 2}
+                    Examenes 
+                %tr
+                  %th #
+                  %th Contenido
+              %tbody#body-table-moral-quizzes
+                %tr
+                  %th.text-center{colspan: 3}
+                    Ruta de aprendizaje sin exámenes
+          .col-md-3.col-xs-6.col-sm-6
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th{colspan: 2}
+                    Entregables 
+                %tr
+                  %th #
+                  %th Contenido
+              %tbody#body-table-moral-delireverables
+                %tr
+                  %th.text-center{colspan: 3}
+                    Ruta de aprendizaje sin entregables
+          .col-md-3.col-xs-6.col-sm-6
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th{colspan: 2}
+                    Rellenables 
+                %tr
+                  %th #
+                  %th Contenido
+              %tbody#body-table-moral-refilables
+                %tr
+                  %th.text-center{colspan: 3}
+                    Ruta de aprendizaje sin rellenables      
   .panel.panel-success
     .panel-heading
       %h3.panel-title Contenidos complementarios
@@ -137,28 +338,84 @@
           console.log(programs);
           
           //Actualizar ruta fisica
-          ruta_f = data.ruta_f;
+          ruta_f_p = data.ruta_f_p;
+          ruta_f_q = data.ruta_f_q;
+          ruta_f_d = data.ruta_f_d;
+          ruta_f_r = data.ruta_f_r;
           console.log("Fisica");
-          console.log(ruta_f);
-          $("#body-table-fisica").html('');
-          if (ruta_f.length == 0){
-             $('#body-table-fisica').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin contenidos</th></tr>');
+          $("#body-table-fisica-programs").html('');
+          if (ruta_f_p.length == 0){
+             $('#body-table-fisica-programs').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin programas</th></tr>');
           }else{
-            $.each(ruta_f, function(key, value) {
-              $('#body-table-fisica').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td><td>'+is_content_type(value.type)+'</td></tr>');
+            $.each(ruta_f_p, function(key, value) {
+              $('#body-table-fisica-programs').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td></tr>');
+            });
+          }
+          $("#body-table-fisica-quizzes").html('');
+          if (ruta_f_q.length == 0){
+             $('#body-table-fisica-quizzes').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin exámenes</th></tr>');
+          }else{
+            $.each(ruta_f_q, function(key, value) {
+              $('#body-table-fisica-quizzes').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td></tr>');
+            });
+          }
+          $("#body-table-fisica-delireverables").html('');
+          if (ruta_f_d.length == 0){
+             $('#body-table-fisica-delireverables').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin entregables</th></tr>');
+          }else{
+            $.each(ruta_f_d, function(key, value) {
+              $('#body-table-fisica-delireverables').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td></tr>');
+            });
+          }
+          $("#body-table-fisica-refilables").html('');
+          if (ruta_f_r.length == 0){
+             $('#body-table-fisica-refilables').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin rellenables</th></tr>');
+          }else{
+            $.each(ruta_f_r, function(key, value) {
+              $('#body-table-fisica-refilables').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td></tr>');
             });
           }
 
           //Actualizar ruta moral
-          ruta_m = data.ruta_m;
+          ruta_m_p = data.ruta_m_p;
+          ruta_m_q = data.ruta_m_q;
+          ruta_m_d = data.ruta_m_d;
+          ruta_m_r = data.ruta_m_r;
           console.log("Moral");
-          console.log(ruta_m);
-          $("#body-table-moral").html('');
-          if (ruta_m.length == 0){
-             $('#body-table-moral').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin contenidos</th></tr>');
+
+          $("#body-table-moral-programs").html('');
+          if (ruta_m_p.length == 0){
+             $('#body-table-moral-programs').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin progamas</th></tr>');
           }else{
-            $.each(ruta_m, function(key, value) {
-              $('#body-table-moral').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td><td>'+is_content_type(value.type)+'</td></tr>');
+            $.each(ruta_m_p, function(key, value) {
+              $('#body-table-moral-programs').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td></tr>');
+            });
+          }
+
+          $("#body-table-moral-quizzes").html('');
+          if (ruta_m_q.length == 0){
+             $('#body-table-moral-quizzes').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin exámenes</th></tr>');
+          }else{
+            $.each(ruta_m_q, function(key, value) {
+              $('#body-table-moral-quizzes').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td></tr>');
+            });
+          }
+
+          $("#body-table-moral-delireverables").html('');
+          if (ruta_m_d.length == 0){
+             $('#body-table-moral-delireverables').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin entregables</th></tr>');
+          }else{
+            $.each(ruta_m_d, function(key, value) {
+              $('#body-table-moral-delireverables').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td></tr>');
+            });
+          }
+
+          $("#body-table-moral-refilables").html('');
+          if (ruta_m_r.length == 0){
+             $('#body-table-moral-refilables').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin rellenables</th></tr>');
+          }else{
+            $.each(ruta_m_r, function(key, value) {
+              $('#body-table-moral-refilables').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td></tr>');
             });
           }
 
