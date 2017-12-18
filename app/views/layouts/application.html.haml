@@ -119,7 +119,7 @@
               %ul.sub-menu
                 %li
                   %a{:href => learning_paths_path} Rutas de aprendizaje
-                  %span.icon-thumbnail Ra 
+                  %span.icon-thumbnail Ra
                 %li
                   %a{:href => programs_path} Programas
                   %span.icon-thumbnail Pg
@@ -134,7 +134,7 @@
                   %span.icon-thumbnail En
                 %li
                   %a{:href => template_refilables_path} Rellenables
-                  %span.icon-thumbnail Re                
+                  %span.icon-thumbnail Re
 
             %li.extra-bottom-4
               %a{:href => "javascript:;"}
@@ -161,7 +161,7 @@
                 %li
                   %a{:href => mailbox_inbox_path} Mensajes
                   %span.icon-thumbnail Mn
-                
+
 
           = display_navbar_link({link: 'Programas', details: 'Cursos en EDC Digital' ,path: dashboard_programs_path, css: ['m-t-30'], icon: 'fa pg-layouts', role: [:mentor]})
           = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: [''], icon: 'fa fa-users', role: [:mentor]})
@@ -455,10 +455,10 @@
               %span{"aria-hidden" => "true"} ×
               %span.sr-only Close
             = alert
-    - if flash[:more80]
+    - if flash[:more95]
       :javascript
         $(document).on('turbolinks:load', function(){
-          sweetAlert("#{flash[:more80]}");
+          sweetAlert("#{flash[:more95]}");
         });
     - if flash[:complete]
       :javascript

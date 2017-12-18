@@ -25,6 +25,9 @@ Rails.application.routes.draw do
     end
 
     resources :quiz_answers, only: [:show, :new, :create, :update, :edit]
+
+    resources :supports, only: [:new, :create] do
+    end
   end
 
   post 'ratings/vote_chapter_content'
@@ -104,7 +107,7 @@ Rails.application.routes.draw do
         post :clone
       end
     end
-    
+
     resources :refillable_programs, except: [:index, :show] do
       member do
         post :clone
@@ -115,7 +118,7 @@ Rails.application.routes.draw do
       member do
         post :clone
       end
-    end  
+    end
 
     member do
       get :content
@@ -131,15 +134,15 @@ Rails.application.routes.draw do
   end
 
   resources :preregistro, only: [:index] do
-    member do 
+    member do
       get :reenviar
-    end  
+    end
     collection do
       get :verificar
       get :redireccionar, path: 'activation_code'
       post :activation_code
     end
-  end 
+  end
 
   namespace :dashboard do
     get 'acerca-de',              to: 'welcome#index', as: :about
@@ -239,12 +242,13 @@ Rails.application.routes.draw do
       get :analytics_quiz
       get :change_state
       get :summary
+      get :learning_path
     end
-
     resources :programs, only: [] do
       resources :answers, only: [:index, :edit, :update]
     end
   end
+  get '/users/:id/program_permitted/:program_id', to: 'users#program_permitted', as: 'program_permitted_user'
   post 'change_evaluation', to: 'users#change_evaluation', as: :change_evaluation_panel
 
   resources :mentors, except: [:create] do
@@ -256,7 +260,6 @@ Rails.application.routes.draw do
 
   resources :groups do
     member do
-      #get :sort_route
       post :sort
       post :notification_route
       get :codes
@@ -284,8 +287,8 @@ Rails.application.routes.draw do
     resources :groups, only: [:index, :show] do
       member do
         get :codes
-      end  
-    end  
+      end
+    end
     resources :evaluations, only: [:index, :show, :update]
     resources :program_details, only: [:index]
     resources :students, only: [:index, :show, :update] do
@@ -409,14 +412,14 @@ Rails.application.routes.draw do
   end
 
   resources :learning_paths,  only: [:index, :new, :create, :destroy, :show, :edit, :update] do
-    member do
-      post :complementarios
-    end  
+    collection do
+      get :complementarios
+    end
     resources :learning_path_contents, only: [:new, :create, :destroy] do
       collection do
         post :sort
       end
-    end    
+    end
   end
-  post "get_contents" => "learning_path_contents#get_contents"  
+  post "get_contents" => "learning_path_contents#get_contents"
 end

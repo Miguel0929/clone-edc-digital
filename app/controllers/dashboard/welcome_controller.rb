@@ -45,26 +45,45 @@ class Dashboard::WelcomeController < ApplicationController
   end
 
   def learning_path
-    unless current_user.group.learning_path.nil?    
-      @programs=current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
-      c=0
-      @c=0 
-      ids=[]
-      @programs.each do |p|
+    #unless current_user.group.learning_path.nil?
+    @programs_fisica=current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position) rescue nil
+    c=0
+    @c1=0
+    ids=[]
+    unless @programs_fisica.nil?
+      @programs_fisica.each do |p|
         c+=1
-        anterior = p.anterior(current_user.group)
-        if current_user.percentage_questions_answered_for(anterior)>80 || c==1 
+        anterior = p.anterior(current_user.group.learning_path)
+        if current_user.percentage_questions_answered_for(anterior) >= 95 || c==1 || (current_user.percentage_content_visited_for(anterior) == 100 && anterior.questions? == false)
           ids.push(p.id)
         else
           break
         end
-      end    
-      @programs=LearningPathContent.where(id: ids).order(:position)
-    end        
+      end
+      @programs_fisica=LearningPathContent.where(id: ids).order(:position)
+    end
+
+    @programs_moral=current_user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position) rescue nil
+    c=0
+    @c2=0
+    ids=[]
+    unless @programs_moral.nil?
+      @programs_moral.each do |p|
+        c+=1
+        anterior = p.anterior(current_user.group.learning_path2)
+        if current_user.percentage_questions_answered_for(anterior) >= 95 || c==1 || (current_user.percentage_content_visited_for(anterior) == 100 && anterior.questions? == false)
+          ids.push(p.id)
+        else
+          break
+        end
+      end
+      @programs_moral=LearningPathContent.where(id: ids).order(:position)
+    end
+    #end
     @modal_trigger = current_user.video_trigger
     @tour_trigger = current_user.tour_trigger
-  end  
- 
+  end
+
   def send_support_email
 
     if params[:raw_subject].present? == false || params[:message].present? == false
@@ -76,7 +95,7 @@ class Dashboard::WelcomeController < ApplicationController
       unless params[:file].nil?
         uploaded_io=params[:file][:attachment]
         p uploaded_io.content_type
-      end   
+      end
       chapter = "Sección de ayuda (<a class='active' href='https://www.edcdigital.mx/dashboard/ayuda'>puedes verla aquí</a>)".html_safe
       @recipients = [{adress: 'soporte@edc-digital.com', type: 'soporte'}, {adress: current_user.email, type: 'usuario'}]
       @recipients.each do |recipient, index|
@@ -97,7 +116,7 @@ class Dashboard::WelcomeController < ApplicationController
 
   def calculator
     add_breadcrumb "<a class='active' href='#{dashboard_calculator_path}'>Calculadora de tamaño de muestra</a>".html_safe
-    
+
     if !params[:param_result].nil?
       @sample_size, @eighty_s, @innovators_s, @eighty_s_innovators, @inn_early_s  = params[:param_result][0], params[:param_result][1], params[:param_result][2], params[:param_result][3], params[:param_result][4]
       @eighty_s_y, @innovators_n, @eighty_n, @inn_early_n, @eighty_n_y, @population = params[:param_result][5], params[:param_result][6], params[:param_result][7], params[:param_result][8], params[:param_result][9], params[:param_result][10]
@@ -133,9 +152,9 @@ class Dashboard::WelcomeController < ApplicationController
       nt=PanelNotification.create(status: false, user: current_user, notification: params[:notification].to_i)
     else
       @notification.update(status: !@notification.status)
-    end  
+    end
     render json:{nt: @notification}
-  end  
+  end
 
   private
   def change_video_trigger
@@ -150,7 +169,7 @@ class Dashboard::WelcomeController < ApplicationController
       last_move = last_moved_content.chapter_content_id
       last_time = last_moved_content.updated_at
       last_content = last_moved_content.chapter_content
-      
+
       if last_content.coursable_type == "Lesson"
         last_text = last_content.model.identifier
       else

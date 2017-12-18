@@ -82,7 +82,6 @@ class Program < ActiveRecord::Base
   def anterior(grupo)
     programas  = grupo.learning_path.learning_path_contents.where(content_type: "Program").order(:position)  
     anterior=Program.new
-
     programas.each do |p|
       if p.model==self
         return anterior
@@ -90,6 +89,13 @@ class Program < ActiveRecord::Base
         anterior=p.model
       end
     end
-  end  
+  end
 
+  def questions?
+    c = 0  
+    self.chapters.each do |chapter|
+      c += chapter.questions.count 
+    end
+    c == 0 ? false : true 
+  end  
 end

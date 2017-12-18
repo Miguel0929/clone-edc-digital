@@ -16,20 +16,22 @@ class InvitationJob
         u.skip_invitation = true
       end
     else
-      if user.group_id != group_id.nil? && user.deleted_at.nil?
-        user.update(group_id: group_id,)
-        job["old_records_group"] = job["old_records_group"] + 1;
-        job["old_emails_group"] = job["old_emails_group"] << email
-      elsif user.deleted_at.nil?
-        job["old_records"] = job["old_records"] + 1;
-        job["old_emails"] = job["old_emails"] << email
-      elsif user.deleted_at.nil? == false
-          job["old_records_inactive"] = job["old_records_inactive"] + 1;
-        job["old_emails_inactive"] = job["old_emails_inactive"] << email
-      end
-
-      user.invite! do |u|
-        u.skip_invitation = true
+      if user.invitation_token.nil? && !user.invitation_accepted_at.nil?
+      else 
+        if user.group_id != group_id.nil? && user.deleted_at.nil?
+          user.update(group_id: group_id,)
+          job["old_records_group"] = job["old_records_group"] + 1;
+          job["old_emails_group"] = job["old_emails_group"] << email
+        elsif user.deleted_at.nil?
+          job["old_records"] = job["old_records"] + 1;
+          job["old_emails"] = job["old_emails"] << email
+        elsif user.deleted_at.nil? == false
+            job["old_records_inactive"] = job["old_records_inactive"] + 1;
+          job["old_emails_inactive"] = job["old_emails_inactive"] << email
+        end
+        user.invite! do |u|
+          u.skip_invitation = true
+        end
       end
     end
 

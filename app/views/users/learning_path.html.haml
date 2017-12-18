@@ -25,28 +25,23 @@
     .timeline-container.top-circle
       %section.timeline.black-line
         .timeline-point.large.info.m-t-30
-          %button.timeline-point.large-transparent#btnToggleSlideUpSizeLearning{"data-toggle": "tooltip", "data-original-title": "Video introductorio"}
+          %button.timeline-point.large-transparent#btnToggleSlideUpSizeLearning
             %i.fa.fa-play-circle{"aria-hidden"=>"true", style: "font-size: 24px; margin-left: -11px; margin-top: -12.5px;"}
-        .m-l-80.p-l-20#learning-video-message{style: "#{@modal_trigger ? '' : 'display: none;'}"}
           .pull-right
-            %a.close-message-type#close-learning-message{href: "#", onclick: "return false;"}
-              ×
-          Aquí estará disponible el video introductorio siempre que lo necesites
-          .triangle-left
         - @programs_fisica.order(:position).each do |p|
           - @c1+=1         
           - program = p.model
-          - anterior = p.anterior(current_user.group.learning_path)
+          - anterior = p.anterior(@user.group.learning_path)
 
           .timeline-block
             .timeline-point.panel-title-emprendimiento
             .timeline-content
               .card.share.share-other.m-r-0.new-width-card{"data-social" => "item", id: "#{ @c1 == 1 ? "tour-4" : "" }"}
                 .card-content
-                  %a{:href => dashboard_program_path(program)}
+                  %a{:href => program_permitted_user_path(id: @user.id, program_id: program.id)}
                     .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{program.cover.url});" , class: "height-img" }
                   .col-md-7.height-col-md-6
-                    /%a{:href => dashboard_program_path(program)}
+                    /%a{:href => learning_path_user_path(program)}
                     %h6.text-tipo-card-ruta.b-b
                       - if program.tipo == "construccion"
                         Construcción
@@ -56,12 +51,14 @@
                         Emprendimiento 
                     %h5.text-name-ruta.m-b-5
                       = truncate(program.name, length: 40, separator: ' ')
-                    - stats = @current_user.program_stats.find_by(program_id: program)
+                    .pull-right
+                      = permiso_programs(program, @user) ? "<span class='text-danger'>No disponible <i class='fa fa-times'></i></span>".html_safe : "<span class='text-success'>Disponible <i class='fa fa-check-square'></i></span>".html_safe   
+                    - stats = @user.program_stats.find_by(program_id: program)
                     /- seen_progress = ((!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
-                    - seen_progress = @current_user.percentage_content_visited_for(program)
+                    - seen_progress = @user.percentage_content_visited_for(program)
                     /- answered_progress = ((!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
-                    - answered_progress = @current_user.percentage_questions_answered_for(program)
-                    - last_tracker = program.get_last_move(@current_user)
+                    - answered_progress = @user.percentage_questions_answered_for(program)
+                    - last_tracker = program.get_last_move(@user)
                     /- last_content = (!last_tracker.nil? ? last_tracker.chapter_content : nil)
                     - last_content = last_visited_content(program, stats)
                     .text-black.text-frase
@@ -70,45 +67,45 @@
                       .col-md-12.p-l-0.text-center.p-t-10.new-p-btn
                         - if !last_content.nil?
                           -if seen_progress == 0
-                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                            = link_to program_permitted_user_path(id: @user.id, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 Comenzar
                                 %i.fa.fa-angle-double-right.font-size-play      
                           -elsif seen_progress > 0 && seen_progress < 100
-                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                            = link_to program_permitted_user_path(id: @user.id, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 Continuar
                                 %span
                                   #{answered_progress}%
                                 %i.fa.fa-angle-double-right.font-size-play
                           -elsif seen_progress == 100 && answered_progress == 0
-                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                            = link_to program_permitted_user_path(id: @user.id, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-success.m-t--10
                                 Completado
                                 %i.fa.fa-check.font-size-play
                           -elsif seen_progress == 100 && answered_progress < 100
-                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                            = link_to program_permitted_user_path(id: @user.id, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 Continuar
                                 %span
                                   #{answered_progress}%
                                 %i.fa.fa-angle-double-right.font-size-play
                           -elsif seen_progress == 100 && answered_progress == 100
-                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                            = link_to program_permitted_user_path(id: @user.id, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-success.m-t--10
                                 Completado
                                 %i.fa.fa-check.font-size-play
                         - else  
                           -if answered_progress > 0
-                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                            = link_to program_permitted_user_path(id: @user.id, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 = "Continuar " + answered_progress.to_s + "%"
                                 %i.fa.fa-angle-double-right.font-size-play
                           -else
-                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                            = link_to program_permitted_user_path(id: @user.id, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 = "Comenzar"    
-                                %i.fa.fa-angle-double-right.font-size-play        
+                                %i.fa.fa-angle-double-right.font-size-play       
                       .row
                         .pull-left.m-l-15
                           .m-t-5.bold.text-contestado
@@ -130,25 +127,19 @@
     .timeline-container.top-circle
       %section.timeline.black-line
         .timeline-point.large.info.m-t-30
-          %button.timeline-point.large-transparent#btnToggleSlideUpSizeLearning{"data-toggle": "tooltip", "data-original-title": "Video introductorio"}
+          %button.timeline-point.large-transparent#btnToggleSlideUpSizeLearning
             %i.fa.fa-play-circle{"aria-hidden"=>"true", style: "font-size: 24px; margin-left: -11px; margin-top: -12.5px;"}
-        .m-l-80.p-l-20#learning-video-message{style: "#{@modal_trigger ? '' : 'display: none;'}"}
-          .pull-right
-            %a.close-message-type#close-learning-message{href: "#", onclick: "return false;"}
-              ×
-          Aquí estará disponible el video introductorio siempre que lo necesites
-          .triangle-left
         - @programs_moral.order(:position).each do |p|
           - @c2+=1         
           - program = p.model
-          - anterior = p.anterior(current_user.group.learning_path2)
+          - anterior = p.anterior(@user.group.learning_path2)
 
           .timeline-block
             .timeline-point.panel-title-emprendimiento
             .timeline-content
               .card.share.share-other.m-r-0.new-width-card{"data-social" => "item", id: "#{ @c2 == 1 ? "tour-4" : "" }"}
                 .card-content
-                  %a{:href => dashboard_program_path(program)}
+                  %a{:href => program_permitted_user_path(id: @user.id, program_id: program.id)}
                     .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{program.cover.url});" , class: "height-img" }
                   .col-md-7.height-col-md-6
                     /%a{:href => dashboard_program_path(program)}
@@ -161,12 +152,14 @@
                         Emprendimiento 
                     %h5.text-name-ruta.m-b-5
                       = truncate(program.name, length: 40, separator: ' ')
-                    - stats = @current_user.program_stats.find_by(program_id: program)
+                    .pull-right  
+                      = permiso_programs(program, @user) ? "<span class='text-danger'>No disponible <i class='fa fa-times'></i></span>".html_safe : "<span class='text-success'>Disponible <i class='fa fa-check-square'></i></span>".html_safe  
+                    - stats = @user.program_stats.find_by(program_id: program)
                     /- seen_progress = ((!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
-                    - seen_progress = @current_user.percentage_content_visited_for(program)
+                    - seen_progress = @user.percentage_content_visited_for(program)
                     /- answered_progress = ((!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
-                    - answered_progress = @current_user.percentage_questions_answered_for(program)
-                    - last_tracker = program.get_last_move(@current_user)
+                    - answered_progress = @user.percentage_questions_answered_for(program)
+                    - last_tracker = program.get_last_move(@user)
                     /- last_content = (!last_tracker.nil? ? last_tracker.chapter_content : nil)
                     - last_content = last_visited_content(program, stats)
                     .text-black.text-frase
@@ -175,45 +168,45 @@
                       .col-md-12.p-l-0.text-center.p-t-10.new-p-btn
                         - if !last_content.nil?
                           -if seen_progress == 0
-                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                            = link_to program_permitted_user_path(id: @user.id, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 Comenzar
                                 %i.fa.fa-angle-double-right.font-size-play      
                           -elsif seen_progress > 0 && seen_progress < 100
-                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                            = link_to program_permitted_user_path(id: @user.id, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 Continuar
                                 %span
                                   #{answered_progress}%
                                 %i.fa.fa-angle-double-right.font-size-play
                           -elsif seen_progress == 100 && answered_progress == 0
-                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                            = link_to program_permitted_user_path(id: @user.id, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-success.m-t--10
                                 Completado
                                 %i.fa.fa-check.font-size-play
                           -elsif seen_progress == 100 && answered_progress < 100
-                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                            = link_to program_permitted_user_path(id: @user.id, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 Continuar
                                 %span
                                   #{answered_progress}%
                                 %i.fa.fa-angle-double-right.font-size-play
                           -elsif seen_progress == 100 && answered_progress == 100
-                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                            = link_to program_permitted_user_path(id: @user.id, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-success.m-t--10
                                 Completado
                                 %i.fa.fa-check.font-size-play
                         - else  
                           -if answered_progress > 0
-                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                            = link_to program_permitted_user_path(id: @user.id, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 = "Continuar " + answered_progress.to_s + "%"
                                 %i.fa.fa-angle-double-right.font-size-play
                           -else
-                            = link_to dashboard_program_path(program), class: "opacity__1" do
+                            = link_to program_permitted_user_path(id: @user.id, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 = "Comenzar"    
-                                %i.fa.fa-angle-double-right.font-size-play          
+                                %i.fa.fa-angle-double-right.font-size-play         
                       .row
                         .pull-left.m-l-15
                           .m-t-5.bold.text-contestado
@@ -230,22 +223,7 @@
   %center
     .alert.alert-danger{:role => "alert"}
       No tienes asignada un ruta de aprendizaje (Moral)                                 
-%input{type: "radio", value: @modal_trigger.to_s, name: "modal_trigger", checked: true, hidden: true}
-#modalSlideUpLearning.modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1", :style => "z-index: 1105;"}
-  .modal-dialog.modal-lg{style: "width: 900px;"}
-    .modal-content-wrapper
-      .modal-content
-        .modal-header.clearfix.text-left
-          %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
-            %i.pg-close.fs-14
-          %h3.text-primary.text-center
-            ¡Bienvenido a EDC-Digital!
-        .modal-body
-          .embed-responsive.embed-responsive-16by9
-            %iframe.embed-responsive-item{:src => "https://player.vimeo.com/video/188382978"}
 
-- if @tour_trigger[:first]
-  = javascript_include_tag '/javascripts/lib/bootstraptour/tour_first_step', 'data-turbolinks-track' => false
 :javascript
   $(document).on('turbolinks:load', function(){
     $("#fisica-btn").click(function(){

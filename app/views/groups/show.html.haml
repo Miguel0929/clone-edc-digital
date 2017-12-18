@@ -13,7 +13,7 @@
           %h5
             Programas habilitados
           %ol
-            - @group.programs.each do |program|
+            - @group.all_programs.each do |program|
               %li
                 = program.name
         .col-md-3
@@ -80,10 +80,10 @@
           %h5
             Quizzes habilitados
           %ul.unstyled.no-style
-            - if @group.quizzes.empty?
+            - if @group.all_quizzes.count == 0
               * Aún no hay quizzes
             - else
-              - @group.quizzes.each do |quiz|
+              - @group.all_quizzes.each do |quiz|
                 %li 
                   %i.fa.fa-angle-right
                   = quiz.name
@@ -142,7 +142,7 @@
                     %strong #{student.user_seen.ceil}%
                 %td
                   %ul.list-inline.no-style.unstyled
-                    - @group.programs.each_with_index do |program, index|
+                    - @group.all_programs.each_with_index do |program, index|
                       %li
                         - review = program.program_checked?(program, student)
                         - progress_percentage =  student.percentage_questions_answered_for(program)

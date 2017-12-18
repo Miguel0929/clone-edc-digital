@@ -28,21 +28,27 @@
                   #{@user.name}
               .col-sm-7
                 - if current_user.admin?
-                  - color = @user.banned? ? "btn-success" : "btn-danger"
-                  .pull-right
-                    = link_to change_state_user_path(@user), class: "btn #{color}  pull-right m-l-10", data: { confirm: '¿Estás seguro?' } do
-                      - @user.banned? ? "<i class= 'fa fa-check'></i> Desbloquear usuario" :  "<i class= 'fa fa-times'></i> Bloquear usuario"
-                  .pull-right
-                    = link_to edit_user_path(@user), class: "btn btn-primary pull-right m-l-10" do
-                      %span.glyphicon.glyphicon-edit
-                      Editar perfil de usuario
-                  .btn-like-switch.pull-right
-                    %label.switch#switch-eval
-                      %input{type: "hidden", id: "user_id", value: @user.id}
-                      %input#student_evaluation{{:type => "checkbox"}, @user.evaluation_status == 'evaluado' ? {checked: 1, value: 1} : {value: 0}, {disabled: true}}
-                      .slider.round
-                    .label-for-switch.p-l-5
-                      Edo. de evaluación
+                  .row
+                    - color = @user.banned? ? "btn-success" : "btn-danger"
+                    .pull-right
+                      = link_to change_state_user_path(@user), class: "btn #{color}  pull-right m-l-10", data: { confirm: '¿Estás seguro?' } do
+                        - @user.banned? ? "<i class= 'fa fa-check'></i> Desbloquear usuario" :  "<i class= 'fa fa-times'></i> Bloquear usuario"
+                    .pull-right
+                      = link_to edit_user_path(@user), class: "btn btn-primary pull-right m-l-10" do
+                        %span.glyphicon.glyphicon-edit
+                        Editar perfil de usuario
+                    .btn-like-switch.pull-right
+                      %label.switch#switch-eval
+                        %input{type: "hidden", id: "user_id", value: @user.id}
+                        %input#student_evaluation{{:type => "checkbox"}, @user.evaluation_status == 'evaluado' ? {checked: 1, value: 1} : {value: 0}, {disabled: true}}
+                        .slider.round
+                      .label-for-switch.p-l-5
+                        Edo. de evaluación
+                  .row
+                    .pull-right.m-t-5
+                      = link_to learning_path_user_path(@user), class: "btn btn-success pull-right m-l-10" do
+                        %span.fa.fa-map
+                        Verificar Ruta de aprendizaje     
             .row
               .col-md-2
                 .share.share-other.m-t-5
@@ -121,6 +127,13 @@
                       %td
                         = @user.group.name unless @user.group.nil?
                     %tr.odd.gradeX
+                      %td Ruta de aprendizaje: "P. Fisica"
+                      %td
+                        = @user.group.learning_path.name unless @user.group.nil? || @user.group.learning_path.nil?
+                    %tr.odd.gradeX
+                      %td Ruta de aprendizaje: "P. Moral"
+                      %td= @user.group.learning_path2.name unless @user.group.nil? || @user.group.learning_path2.nil?        
+                    %tr.odd.gradeX
                       %td Fecha de creación de cuenta
                       %td #{l @user.created_at, format: :special}
                     %tr.odd.gradeX
@@ -130,7 +143,7 @@
                       %td Cursos inscritos
                       - if current_user.admin? && !@user.group.nil?
                         %td
-                          - @user.group.programs.each do |program|
+                          - @programs.each do |program|
                             \-
                             = link_to program.name, user_program_answers_path(@user, program)
                             %br
@@ -192,7 +205,14 @@
                             %strong (#{@user.percentage_content_visited_for(program)}%)
                         - if current_user.admin? && !@user.group.nil?
                           %td.p-b-15
-                            = !@programs.exists?(program) ? "No disponible" : "Disponible"
+                            - if !@programs.exists?(program) 
+                              No disponible
+                            - else
+                              - if permiso_programs(program, @user)    
+                                Vinculado
+                              - else 
+                                Disponible  
+
                           %td.p-b-15
                             %ul.unstyled.list-unstyled.p-l-0.m-b-0
                               %li
@@ -225,7 +245,7 @@
                         %th
                           Acciones
                     %tbody
-                      - if @user.group.nil? || @user.group.quizzes.count == 0
+                      - if @user.group.nil? || @quizzes.count == 0
                         %tr
                           %td.p-t-20.p-b-15{colspan: "4"}
                             .text-primary.bold

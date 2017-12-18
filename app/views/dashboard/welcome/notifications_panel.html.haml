@@ -76,10 +76,10 @@
                           .slider.round     
                     %tr
                       %td
-                        Has completado el 80% del curso
+                        Has completado el 95% del curso
                       %td.text-center
                         %label.switch
-                          %input{type: "checkbox", checked: if @noti.more80_student.first.nil? then true else @noti.more80_student.first.status end, value: "8"}/
+                          %input{type: "checkbox", checked: if @noti.more95_student.first.nil? then true else @noti.more95_student.first.status end, value: "8"}/
                           .slider.round
                     %tr
                       %td
@@ -94,7 +94,7 @@
                         Un alumno esta por completar un programa
                       %td.text-center
                         %label.switch
-                          %input{type: "checkbox", checked: if @noti.more80_mentor.first.nil? then true else @noti.more80_mentor.first.status end, value: "10"}/
+                          %input{type: "checkbox", checked: if @noti.more95_mentor.first.nil? then true else @noti.more95_mentor.first.status end, value: "10"}/
                           .slider.round
                     %tr
                       %td

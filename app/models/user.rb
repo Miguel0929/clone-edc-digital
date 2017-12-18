@@ -4,8 +4,6 @@ class User < ActiveRecord::Base
   acts_as_token_authenticatable
 
   after_create :create_code
-
-
   attr_accessor :agreement
   acts_as_paranoid
   mount_uploader :profile_picture, ProfilePictureUploader
@@ -224,8 +222,8 @@ class User < ActiveRecord::Base
   def answered_questions_percentage
     return 0 if group.nil?
 
-    total_of_answers = group.programs.joins(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
-    total_of_questions = group.programs.joins(chapters: [:questions]).select('questions.*').count
+    total_of_answers = group.all_programs.joins(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
+    total_of_questions = group.all_programs.joins(chapters: [:questions]).select('questions.*').count
 
     ((total_of_answers.to_f * 100) / total_of_questions.to_f).round(2) rescue 0
   end
@@ -233,8 +231,8 @@ class User < ActiveRecord::Base
   def content_visited_percentage
     return 0 if group.nil?
 
-    total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id in (?)", group.programs.pluck(:id)).count
-    total_of_contents = group.programs.joins(chapters: [:chapter_contents]).where("chapter_contents.coursable_type = 'Lesson'").count
+    total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id in (?)", group.all_programs.pluck(:id)).count
+    total_of_contents = group.all_programs.joins(chapters: [:chapter_contents]).where("chapter_contents.coursable_type = 'Lesson'").count
 
     ((total_of_visited_contents.to_f * 100) / total_of_contents.to_f).round(2) rescue 0
   end
@@ -326,7 +324,7 @@ class User < ActiveRecord::Base
   end
 
   def ready_to_check?
-    groupstats = self.group.programs.map{ |program| program.program_stats.find_by(user_id: self.id)}
+    groupstats = self.group.all_programs.map{ |program| program.program_stats.find_by(user_id: self.id)}
     stats = groupstats.map{ |n| if !n.nil? then n.checked else 0 end} #Regresa el valor de checked de los programa_stats (1 o 0), si no existe un program_stat (n.nil?) entonces pone 0
     detection = stats.detect { |i| i == 0}.nil? #Si no halla ningún 0 dará true al preguntar .nil?, o sea que todos los programas de este usuario han sido "checked"
     if detection == false then self.update(evaluation_status: 0) end #Si detecta algún 0 en 'detection' entonces regresa a 'no evaluado' al usuario
@@ -403,7 +401,41 @@ class User < ActiveRecord::Base
         end
       end
     end
+   
+    if respuestas.length>0
+      return true
+    else
+      return false     
+    end  
+  end
+  def has_answer_quiz?(quiz)
+    ids = quiz.quiz_questions.map { |q| q.id }
+    respuestas = QuizAnswer.where(quiz_question_id: ids, user_id: self.id).count
+    preguntas=quiz.quiz_questions.count
+    if respuestas > 0 && preguntas != 0
+      return true
+    else
+      return false
+    end  
   end  
+
+  def total_quizzes
+    self.group.quizzes.count
+  end
+
+  def answered_quizzes
+    total = 0
+    results = []
+    self.group.quizzes.each do |quiz|
+      if quiz.answered(self) > 0 
+        total += 1
+        results.push( (quiz.average(self).to_f / quiz.total_points.to_f * 100).ceil )
+      end
+    end
+    average = results.inject(0.0) { |sum, el| sum + el } / results.size
+    if average.nan? then average = 0 end
+    return average, total
+  end
 
   private
 
@@ -439,6 +471,6 @@ class User < ActiveRecord::Base
         self.user_code.destroy
       end  
     end  
-  end  
+  end
 
 end
