@@ -156,6 +156,10 @@
                               %br
           #tabProgram.tab-pane.tabcontent
             .row
+              .pull-right.m-t-5
+                = link_to learning_path_user_path(@user), class: "btn btn-success pull-right m-l-10" do
+                  %span.fa.fa-map
+                  Verificar Ruta de aprendizaje    
               .col-sm-12.table-responsive
                 %table.table.table-hover
                   %thead
