@@ -1,0 +1,18 @@
+wb = xlsx_package.workbook
+wb.styles do |style|
+  header_cell = style.add_style(bg_color: "53f94b")
+  content_cell = style.add_style(bg_color: "4bdff9")
+
+  wb.add_worksheet(name: "Codigos") do |sheet|
+    sheet.add_row ["Nombre","Correo Electrónico", "Código"], style: [header_cell, header_cell, header_cell]
+
+    @group.inactive_students.each do |student|
+      if student.user_code.nil?
+        codigo = "----"
+      else
+        codigo =  student.user_code.codigo.to_s
+      end  
+      sheet.add_row [student.name ,student.email, codigo], style: [content_cell, content_cell, content_cell], :types => [:string, :string, :string]
+    end
+  end
+end

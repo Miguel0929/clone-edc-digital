@@ -25,7 +25,6 @@
               %a{"aria-expanded" => "false", :href => dashboard_quizzes_path(tipo: "contestados"), class: "bold"} Contestados
             %li{'class'=>params[:tipo] == "nocontestados" ? 'active' : ''}
               %a{"aria-expanded" => "false", :href => dashboard_quizzes_path(tipo: "nocontestados"), class: "bold"} No contestados
-      .col-md-3
 
 .container-fluid.container-fixed-lg
   - @quizzes.each do |quiz|

@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   acts_as_token_authenticatable
 
+  after_create :create_code
   attr_accessor :agreement
   acts_as_paranoid
   mount_uploader :profile_picture, ProfilePictureUploader
@@ -11,6 +12,7 @@ class User < ActiveRecord::Base
   enum role: [ :student, :mentor, :admin, :staff ]
   enum gender: [ :male, :female ]
   enum evaluation_status: [:'sin evaluar', :evaluado]
+  serialize :tour_trigger, Hash 
 
   has_many :answers
   has_many :group_users
@@ -21,6 +23,7 @@ class User < ActiveRecord::Base
   has_many :program_notifications, :through => :notifications, :source => :notificable, :source_type => 'ProgramNotification'
   has_many :shared_group_attachment_notifications, :through => :notifications, :source => :notificable, :source_type => 'SharedGroupAttachmentNotification'
   has_many :learning_path_notifications, :through => :notifications, :source => :notificable, :source_type => 'LearningPathNotification'
+  has_many :mentor_program_notifications, :through => :notifications, :source => :notificable, :source_type => 'MentorProgramNotification'
   has_many :visits
   has_many :events, class_name: 'Ahoy::Event'
   has_many :comments
@@ -35,7 +38,10 @@ class User < ActiveRecord::Base
   has_many :program_stats, dependent: :destroy
   belongs_to :industry
   has_many :panel_notifications
+  has_many :refilables
   has_many :attempts
+  has_one :user_code
+
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 
@@ -43,6 +49,7 @@ class User < ActiveRecord::Base
   scope :mentors, -> { where(role: 1) }
   scope :staffs, -> { where(role: 3) }
   scope :invitation_accepted, -> { where.not('invitation_accepted_at' => nil) }
+  scope :invitation_no_accepted, -> { where('invitation_accepted_at' => nil) }
   scope :search_query, -> (query) {
     where('lower(users.first_name) LIKE lower(?) OR lower(users.last_name) LIKE lower(?) OR lower(users.email) LIKE lower(?)',
          "%#{query}%", "%#{query}%", "%#{query}%")
@@ -55,6 +62,7 @@ class User < ActiveRecord::Base
 
   before_create :set_origin
   after_create :assign_group
+  after_update :del_code
 
   def self.authenticate(email, password)
     user = find_for_authentication(email: email)
@@ -157,6 +165,34 @@ class User < ActiveRecord::Base
     program.chapters.joins(questions: [:answers]).where('answers.user_id': self.id).count
   end
 
+  def refilables_answered_for(program)
+    program.chapters.joins(template_refilables: [:refilables]).where('refilables.user_id': self.id).count
+  end
+
+  def delireverables_answered_for(program)
+    arr=[]
+    program.chapters.each do |p|
+      p.delireverable_packages.each do |d|
+        if d.delireverables_sent(self)
+          arr.push(d)
+        end  
+      end  
+    end
+    return arr.length  
+  end
+
+  def quizzes_answered_for(program)
+    arr=[]
+    program.chapters.each do |p|
+      p.quizzes.each do |d|
+        if d.answered?(self)
+          arr.push(d)
+        end  
+      end  
+    end
+    return arr.length  
+  end
+
   def total_comments_for(program)
     program.chapters.joins(questions: [answers: [:comments]]).where('comments.user_id': self.id).count
   end
@@ -171,15 +207,24 @@ class User < ActiveRecord::Base
   end
 
   def percentage_questions_answered_for(program)
-    total = program.chapters.joins(:questions).select('questions.*').count
-    (questions_answered_for(program) * 100) / total rescue 0
+    total_questions = program.chapters.joins(:questions).select('questions.*').count
+    (questions_answered_for(program) * 100) / total_questions rescue 0
+  end
+
+  def percentage_answered_for(program)
+    total_questions = program.chapters.joins(:questions).select('questions.*').count
+    total_quizzes = program.chapters.joins(:quizzes).count
+    total_delireverables = program.chapters.joins(:delireverable_packages).count
+    total_refilables = program.chapters.joins(:template_refilables).count
+   
+    ((questions_answered_for(program) + delireverables_answered_for(program)+ refilables_answered_for(program) + quizzes_answered_for(program)) * 100) / (total_questions + total_quizzes + total_delireverables + total_refilables) rescue 0
   end
 
   def answered_questions_percentage
     return 0 if group.nil?
 
-    total_of_answers = group.programs.joins(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
-    total_of_questions = group.programs.joins(chapters: [:questions]).select('questions.*').count
+    total_of_answers = group.all_programs.joins(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
+    total_of_questions = group.all_programs.joins(chapters: [:questions]).select('questions.*').count
 
     ((total_of_answers.to_f * 100) / total_of_questions.to_f).round(2) rescue 0
   end
@@ -187,8 +232,8 @@ class User < ActiveRecord::Base
   def content_visited_percentage
     return 0 if group.nil?
 
-    total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id in (?)", group.programs.pluck(:id)).count
-    total_of_contents = group.programs.joins(chapters: [:chapter_contents]).where("chapter_contents.coursable_type = 'Lesson'").count
+    total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id in (?)", group.all_programs.pluck(:id)).count
+    total_of_contents = group.all_programs.joins(chapters: [:chapter_contents]).where("chapter_contents.coursable_type = 'Lesson'").count
 
     ((total_of_visited_contents.to_f * 100) / total_of_contents.to_f).round(2) rescue 0
   end
@@ -237,7 +282,7 @@ class User < ActiveRecord::Base
   end
 
   def last_time
-    return 'El usuario no ha iniciado sesión' if sessions.last.nil?
+    return 'No ha iniciado sesión' if sessions.last.nil?
 
     if TimeDifference.between(sessions.last.finish, Time.now).humanize.nil?
       "Menos de 1 segundo"
@@ -280,7 +325,7 @@ class User < ActiveRecord::Base
   end
 
   def ready_to_check?
-    groupstats = self.group.programs.map{ |program| program.program_stats.find_by(user_id: self.id)}
+    groupstats = self.group.all_programs.map{ |program| program.program_stats.find_by(user_id: self.id)}
     stats = groupstats.map{ |n| if !n.nil? then n.checked else 0 end} #Regresa el valor de checked de los programa_stats (1 o 0), si no existe un program_stat (n.nil?) entonces pone 0
     detection = stats.detect { |i| i == 0}.nil? #Si no halla ningún 0 dará true al preguntar .nil?, o sea que todos los programas de este usuario han sido "checked"
     if detection == false then self.update(evaluation_status: 0) end #Si detecta algún 0 en 'detection' entonces regresa a 'no evaluado' al usuario
@@ -298,6 +343,53 @@ class User < ActiveRecord::Base
     last_program = Program.where(id: last_stat.program_id).last
   end
 
+  def has_answer_refilable?(template_refilable)
+    !template_refilable.refilables.find_by(user: self).nil?
+  end
+  def has_sent_delireverables?(delireverable_package)
+    entregables=delireverable_package.delireverables
+    respuestas=[]
+    entregables.each do |entregable|
+      unless entregable.delireverable_users.find_by(user: self).nil?
+        respuestas.push(entregable.delireverable_users.find_by(user: self))
+      end  
+    end
+   
+    if respuestas.length>0
+      return true
+    else
+      return false     
+    end  
+  end
+  def has_answer_quiz?(quiz)
+    ids = quiz.quiz_questions.map { |q| q.id }
+    respuestas = QuizAnswer.where(quiz_question_id: ids, user_id: self.id).count
+    preguntas=quiz.quiz_questions.count
+    if respuestas > 0 && preguntas != 0
+      return true
+    else
+      return false
+    end  
+  end  
+
+  def total_quizzes
+    self.group.quizzes.count
+  end
+
+  def answered_quizzes
+    total = 0
+    results = []
+    self.group.quizzes.each do |quiz|
+      if quiz.answered(self) > 0 
+        total += 1
+        results.push( (quiz.average(self).to_f / quiz.total_points.to_f * 100).ceil )
+      end
+    end
+    average = results.inject(0.0) { |sum, el| sum + el } / results.size
+    if average.nan? then average = 0 end
+    return average, total
+  end
+
   private
 
   def set_origin
@@ -309,6 +401,29 @@ class User < ActiveRecord::Base
     if mentor?
       group.users << self
     end
+  end
+
+  def create_code
+    if self.user_code.nil?
+      unique = true
+      codigo = SecureRandom.hex(6) 
+      while unique
+        if UserCode.find_by(codigo: codigo).nil?
+          UserCode.create(codigo: codigo, user: self)
+          unique = false
+        else
+          codigo = SecureRandom.hex(6)
+        end
+      end
+    end
+  end
+
+  def del_code
+    unless self.invitation_accepted_at.nil?
+      unless self.user_code.nil?   
+        self.user_code.destroy
+      end  
+    end  
   end
 
 end

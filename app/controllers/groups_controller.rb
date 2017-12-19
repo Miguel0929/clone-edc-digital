@@ -1,9 +1,9 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort, :student_control, :reassign_student, :unlink_student, :notification_route, :no_group_students, :clone]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort, :student_control, :reassign_student, :unlink_student, :notification_route, :no_group_students, :clone, :codes]
 
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb "EDCDIGITAL", :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{groups_path}'>Grupos</a>".html_safe
@@ -17,16 +17,74 @@ class GroupsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{group_path(@group)}'>#{@group.name}</a>".html_safe
   end
 
+  def codes
+  end  
+
   def new
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{new_group_path}'>Crear grupo</a>".html_safe
 
     @group = Group.new
+    @programs = Program.all
+    @quizzes = Quiz.all
+    @refilables = TemplateRefilable.all
+    @delireverables = DelireverablePackage.all
   end
 
   def edit
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{edit_group_path(@group)}'>#{@group.name}</a>".html_safe
+    @contents_fisica_programs = []; @contents_fisica_quizzes = []; @contents_fisica_refilables = []; @contents_fisica_delireverables = []
+    @contents_moral_programs = []; @contents_moral_quizzes = []; @contents_moral_refilables = []; @contents_moral_delireverables = []
+    (@group.learning_path.nil?) ?  @contents_fisica = [] : @contents_fisica = @group.learning_path.learning_path_contents
+    (@group.learning_path2.nil?) ?  @contents_moral = [] : @contents_moral = @group.learning_path2.learning_path_contents
+    @contents_fisica.each do |c| 
+      if c.content_type == "Program"
+        @contents_fisica_programs << c
+      elsif c.content_type == "Quiz"
+        @contents_fisica_quizzes << c
+      elsif c.content_type == "TemplateRefilable"  
+        @contents_fisica_refilables << c
+      elsif c.content_type == "DelireverablePackage"  
+        @contents_fisica_delireverables << c 
+      end  
+    end
+    @contents_moral.each do |c| 
+      if c.content_type == "Program"
+        @contents_moral_programs << c
+      elsif c.content_type == "Quiz"
+        @contents_moral_quizzes << c
+      elsif c.content_type == "TemplateRefilable"  
+        @contents_moral_refilables << c
+      elsif c.content_type == "DelireverablePackage"  
+        @contents_moral_delireverables << c 
+      end  
+    end
+    #render :json => {1=> }  
+    lp_fisica = @group.learning_path
+    if lp_fisica.nil?
+      lpf_programs = []; lpf_quizzes = []; lpf_refilables = []; lpf_delireverables = []
+    else  
+      lpf_programs = lp_fisica.learning_path_contents.where(content_type: "Program").pluck(:content_id)
+      lpf_quizzes = lp_fisica.learning_path_contents.where(content_type: "Quiz").pluck(:content_id)
+      lpf_refilables = lp_fisica.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)
+      lpf_delireverables = lp_fisica.learning_path_contents.where(content_type: "DelireverablePackage").pluck(:content_id)
+    end
+
+    lp_moral = @group.learning_path2
+    if lp_moral.nil?
+      lpm_programs = []; lpm_quizzes = []; lpm_refilables = []; lpm_delireverables = [] 
+    else  
+      lpm_programs = lp_moral.learning_path_contents.where(content_type: "Program").pluck(:content_id)
+      lpm_quizzes = lp_moral.learning_path_contents.where(content_type: "Quiz").pluck(:content_id)
+      lpm_refilables = lp_moral.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)
+      lpm_delireverables = lp_moral.learning_path_contents.where(content_type: "DelireverablePackage").pluck(:content_id)
+    end
+
+    @programs = Program.where.not(id: lpf_programs + lpm_programs)
+    @quizzes = Quiz.where.not(id: lpf_quizzes + lpm_quizzes)
+    @refilables = TemplateRefilable.where.not(id: lpf_refilables + lpm_refilables)
+    @delireverables = DelireverablePackage.where.not(id: lpf_delireverables + lpm_delireverables)
   end
 
   def create
@@ -47,7 +105,7 @@ class GroupsController < ApplicationController
           @group.users << m
         end
       end
-      redirect_to sort_route_group_path(@group.id), notice: "Se creo exitosamente el grupo #{@group.name}, ahora ordena la \"Ruta de aprendizaje\""
+      redirect_to group_path(@group.id), notice: "Se creo exitosamente el grupo #{@group.name}, ahora ordena la \"Ruta de aprendizaje\""
     else
       render :new
     end
@@ -85,7 +143,8 @@ class GroupsController < ApplicationController
   def sort_route
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{sort_route_group_path(@group)}'>#{@group.name} - Ruta de aprendizaje</a>".html_safe
-    @programs=@group.group_programs.order(:position)
+    ids=@group.programs.ruta.map{|p|p.id}
+    @programs=@group.group_programs.where(program_id: ids).order(:position)
   end
 
   def sort
@@ -187,6 +246,6 @@ class GroupsController < ApplicationController
   end
 
   def group_params
-    params.require(:group).permit(:name, :key, :state_id, :university_id, :category, program_ids: [], user_ids: [], student_ids: [], quiz_ids: [])
+    params.require(:group).permit(:name, :key, :state_id, :university_id, :category, :learning_path_id, :learning_path2_id, program_ids: [], user_ids: [], student_ids: [], quiz_ids: [], delireverable_package_ids: [], template_refilable_ids: [])
   end
 end

@@ -11,7 +11,7 @@ class Users::InvitationsController < Devise::InvitationsController
     user = super do |u|
       u.skip_invitation = true if Rails.env.production?
     end
-
+       
     BaasstardNotifier.user_invited(user) rescue nil
 
     if Rails.env.production?

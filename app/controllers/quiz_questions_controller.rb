@@ -23,12 +23,12 @@ class QuizQuestionsController < ApplicationController
     if @quiz.quiz_questions.sum(:points) + params[:quiz_question][:points].to_i <= 100
       @quiz_question = QuizQuestion.new(quiz_question_params)
       if @quiz_question.save
-        redirect_to @quiz
+        redirect_to :back, notice: "Pregunta agregada"
       else
         render :new
       end
     else
-      redirect_to new_quiz_quiz_question_path(@quiz), alert: "El puntaje supera el limite permitido o las preguntas existentes tienen la puntuacion tope" 
+      redirect_to :back, alert: "El puntaje supera el limite permitido o las preguntas existentes tienen la puntuacion tope" 
     end
   end
 

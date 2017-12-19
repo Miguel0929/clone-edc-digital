@@ -1,0 +1,7 @@
+.well
+  = bootstrap_form_for(@delireverable_package, url: chapter_delireverable_programs_path, method: :post) do |f|
+    = f.text_field :name, label: 'Nombre'
+    = f.text_area :description, label: 'Descripción'
+    .m-t-20
+      = link_to 'Cancelar', delireverable_packages_path, class: 'btn btn-danger'
+      = f.submit 'Guardar paquete', class: 'btn btn-primary'  

@@ -13,7 +13,7 @@
           %h5
             Programas habilitados
           %ol
-            - @group.programs.each do |program|
+            - @group.all_programs.each do |program|
               %li
                 = program.name
         .col-md-3
@@ -80,10 +80,10 @@
           %h5
             Quizzes habilitados
           %ul.unstyled.no-style
-            - if @group.quizzes.empty?
+            - if @group.all_quizzes.count == 0
               * Aún no hay quizzes
             - else
-              - @group.quizzes.each do |quiz|
+              - @group.all_quizzes.each do |quiz|
                 %li 
                   %i.fa.fa-angle-right
                   = quiz.name
@@ -91,6 +91,12 @@
       %h4
         Lista de alumnos
       .row
+        .col-md-4.col-md-offset-8
+          = link_to codes_group_path(@group, format: :xlsx), class: "btn btn-success" do
+            %i.fa.fa-code
+              = "Exportar codigos de activación (#{@group.inactive_students.count} inactivos)"
+        %br 
+        %br  
         .col-md-2.col-md-offset-10
           .form-group
             %div.input-group
@@ -113,13 +119,18 @@
             - @students.each_with_index do |student, index|
               %tr
                 %td.p-b-20
-                  .m-b-10
+                  .m-b-5
                     = link_to student.name, user_path(student)
                   %ul.p-l-0.m-b-0
                     %li.inline 
                       %i.fa.fa-envelope
                     %li.inline 
                       = student.email
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      = link_to summary_user_path(student) do
+                        %i.fa.fa-bolt
+                        Ver resumen
                 %td
                   .m-b-10
                     %i.fa.fa-edit
@@ -131,7 +142,7 @@
                     %strong #{student.user_seen.ceil}%
                 %td
                   %ul.list-inline.no-style.unstyled
-                    - @group.programs.each_with_index do |program, index|
+                    - @group.all_programs.each_with_index do |program, index|
                       %li
                         - review = program.program_checked?(program, student)
                         - progress_percentage =  student.percentage_questions_answered_for(program)

@@ -4,6 +4,7 @@ class Dashboard::AnswersController < ApplicationController
   before_action :validate_coursable_type
   before_action :build_question
   after_action :update_program_stats, only: [:create, :update]
+  before_action :redirect_to_learning, if: :permiso_avance, only: [:show, :new, :edit]
 
   add_breadcrumb "EDC DIGITAL", :root_path
   add_breadcrumb "programas", :dashboard_programs_path
@@ -19,6 +20,7 @@ class Dashboard::AnswersController < ApplicationController
   end
 
   def show
+    @tour_trigger = current_user.tour_trigger
     @answer = Answer.find(params[:id])
     #@comments = @question.comments.where(owner: current_user).order(created_at: :asc)
     ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
@@ -28,6 +30,7 @@ class Dashboard::AnswersController < ApplicationController
   end
 
   def new
+    @tour_trigger = current_user.tour_trigger
     @answer = build_answer
     #@comments = @question.comments.where(owner: current_user).order(created_at: :asc)
     ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
@@ -95,19 +98,46 @@ class Dashboard::AnswersController < ApplicationController
 
   def redirect_to_next_content
     mensaje= "Cambios guardados con éxito"
-    if current_user.percentage_questions_answered_for(@chapter_content.chapter.program)>75 && current_user.percentage_questions_answered_for(@chapter_content.chapter.program)<=95
-      mensaje = mensaje + ", haz completado el #{current_user.percentage_questions_answered_for(@chapter_content.chapter.program)}\% del programa, ya mero entras al siguiente curso."
-    elsif current_user.percentage_questions_answered_for(@chapter_content.chapter.program)>95 && current_user.percentage_questions_answered_for(@chapter_content.chapter.program)<100
-      mensaje = mensaje + ", haz completado el #{current_user.percentage_questions_answered_for(@chapter_content.chapter.program)}\% del programa, tienes un nuevo programa disponible."
-    elsif current_user.percentage_questions_answered_for(@chapter_content.chapter.program)==100 
-       mensaje = mensaje + ", haz completado el 100% del curso"    
+    program=@chapter_content.chapter.program
+    if current_user.percentage_answered_for(program) > 95 && current_user.percentage_answered_for(program) < 100
+      if current_user.program_notifications.where(program: program).more95.first.nil?
+        current_user.program_notifications.create(program: program, notification_type: 'more95')
+        if current_user.panel_notifications.more95_student.first.nil? || current_user.panel_notifications.more95_student.first.status
+          Programs.more95_student(program, current_user, dashboard_program_url(program))
+        end
+        #soporte
+        soporte=User.new(email: "soporte@edc-digital.com")
+        Programs.more95_mentor(program,soporte,current_user,user_url(current_user))
+        flash[:more95]="Haz completado el 95% del curso, haz liberado el siguiente contenido!"  
+        #mentores
+        ProgramMore95NotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
+      end
+        mensaje = mensaje + ", haz completado el #{current_user.percentage_answered_for(program)}\% del programa." 
+    elsif current_user.percentage_answered_for(program)==100
+      if current_user.program_notifications.where(program: program).complete.first.nil?
+        current_user.program_notifications.create(program: program, notification_type: 'complete')
+        if current_user.panel_notifications.complete_student.first.nil? || current_user.panel_notifications.complete_student.first.status
+          Programs.complete_student(program, current_user, dashboard_program_url(program))
+        end
+        #soporte
+        soporte=User.new(email: "soporte@edc-digital.com")
+        Programs.complete_mentor(program,soporte,current_user,user_url(current_user))
+        flash[:complete]="Haz completado el curso!"
+        #mentores
+        ProgramCompleteNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
+      end
+      if program.ruta?  
+        mensaje = mensaje + ", haz completado el 100% del curso, se ha desbloqueado un nuevo contenido."
+      else
+        mensaje = mensaje + ", haz completado el 100% del curso."
+      end      
     end   
     if @chapter_content.lower_item
       redirect_to dashboard_chapter_content_path(@chapter_content.lower_item), notice: mensaje
-    elsif @chapter_content.chapter.program.next_chapter(@chapter_content.chapter) && @chapter_content.chapter.program.next_chapter(@chapter_content.chapter).chapter_contents.first
-      redirect_to dashboard_chapter_content_path(@chapter_content.chapter.program.next_chapter(@chapter_content.chapter).chapter_contents.first), notice: mensaje
+    elsif program.next_chapter(@chapter_content.chapter) && program.next_chapter(@chapter_content.chapter).chapter_contents.first
+      redirect_to dashboard_chapter_content_path(program.next_chapter(@chapter_content.chapter).chapter_contents.first), notice: mensaje
     else
-      redirect_to dashboard_program_path(@chapter_content.chapter.program), notice: mensaje
+      redirect_to dashboard_program_path(program), notice: mensaje
     end
   end
 
@@ -115,7 +145,7 @@ class Dashboard::AnswersController < ApplicationController
     #program = Program.joins(:chapters => :chapter_contents).where(chapter_contents: {id: @chapter_content.id}).last
     program = @chapter_content.chapter.program
     program_stat = ProgramStat.where(user_id: @current_user.id, program_id: program.id).last
-    progress = @current_user.percentage_questions_answered_for(program)
+    progress = @current_user.percentage_answered_for(program)
     seen = @current_user.percentage_content_visited_for(program)
 
     if program_stat.nil?
@@ -123,5 +153,9 @@ class Dashboard::AnswersController < ApplicationController
     else
       program_stat.update(program_progress: progress, program_seen: seen)
     end
+  end
+
+  def permiso_avance
+    permiso_programs(@chapter_content.chapter.program, current_user) 
   end
 end

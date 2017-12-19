@@ -3,11 +3,10 @@ class Dashboard::TemplateRefilablesController < ApplicationController
   add_breadcrumb "EDC DIGITAL", :root_path
 
   def index
-    add_breadcrumb "<a href='#{dashboard_template_refilables_path}' class='active'>Mis rellenables</a>".html_safe
-
-    @refilables = TemplateRefilable.joins(:groups)
-                                    .where('groups.id = ?', current_user.group.id)
-                                    .order(position: :asc)
+    add_breadcrumb "<a href='#{dashboard_template_refilables_path}' class='active'>Mis rellenables</a>".html_safe                            
+    
+    @refilables = current_user.group.all_refilables
+    
     @done_refilables = []
     @undone_refilables = []
     @refilables.each do |refil|

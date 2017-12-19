@@ -1,0 +1,45 @@
+- content_for :title  do
+  Editar "Ruta de aprendizaje" - EDCdigital
+
+.container
+  .row
+    .col-md-12
+      %h2.text-center
+        Editar "Ruta de aprendizaje"
+
+      .well
+        = bootstrap_form_for(@learning_path) do |f|
+          = f.text_field :name, label: 'Nombre de la "Ruta de aprendizaje"'
+          = f.select :tipo, LearningPath.LP_type_options , {:label => 'Tipo de Ruta de aprendizaje', :class => 'minimal', :include_blank => "Selecciona el tipo de ruta"}
+          #group-fisico 
+            = f.select :group_ids, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupos" , :class => 'minimal', :include_blank => "Selecciona el grupo"}, { :multiple => true}
+          #group-moral
+            = f.select :group2_ids, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupos" , :class => 'minimal', :include_blank => "Selecciona el grupo"}, { :multiple => true}
+
+          = link_to "Cancelar",  learning_paths_path, class: "btn btn-danger"
+          = f.submit 'Aceptar'
+:javascript
+  $(document).on('turbolinks:load', function(){
+    var tipo = $("#learning_path_tipo").val();
+    if (tipo=="moral"){
+      $("#group-fisico").hide();
+    }else if (tipo=="fisica"){
+      $("#group-moral").hide();
+    }else{
+      $("#group-fisico").hide();
+      $("#group-moral").hide();
+    }
+    $("#learning_path_tipo").change(function() {
+      var tipo = $("#learning_path_tipo").val();
+      if (tipo=="moral"){
+        $("#group-moral").show();
+        $("#group-fisico").hide();
+      }else if (tipo=="fisica"){
+        $("#group-moral").hide();
+        $("#group-fisico").show();
+      }else{
+        $("#group-fisico").hide();
+        $("#group-moral").hide();
+      }
+    })
+  });           

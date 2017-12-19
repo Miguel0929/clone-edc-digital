@@ -1,0 +1,25 @@
+.row
+  .col-sm-12
+    %span.handle-sort
+      [mover]
+    %span.bold  
+      Examen:   
+    = quiz.model.name
+
+    .pull-right
+      %span.option.p-r-10.p-l-10
+        = link_to chapter_quiz_program_path(chapter, quiz) do
+          %i.fa.fa-briefcase
+          Contenido
+      %span.option.p-r-10.p-l-10
+        = link_to edit_chapter_quiz_program_path(chapter,quiz) do
+          %i.fa.fa-edit
+          Editar
+      %span.option.p-r-10.p-l-10
+        = link_to clone_chapter_quiz_program_path(chapter, quiz), method: :post, data: {confirm: '¿Estás seguro?'} do
+          %i.fa.fa-copy
+          Clonar      
+      %span.option.p-r-10.p-l-10
+        = link_to chapter_quiz_program_path(chapter, quiz), method: :delete, data: {confirm: '¿Estás seguro?'} do
+          %i.fa.fa-times
+          Eliminar 

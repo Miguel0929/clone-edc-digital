@@ -29,7 +29,11 @@ class Dashboard::NotificationsController < ApplicationController
         elsif notification.model.new_program?
           dashboard_programs_path
         elsif notification.model.evaluation?
-          dashboard_evaluations_path(program_id: notification.model.program.id)          
+          dashboard_evaluations_path(program_id: notification.model.program.id)
+        elsif notification.model.more95?
+          dashboard_program_path(notification.model.program)
+        elsif notification.model.complete?  
+          dashboard_learning_path_path              
         end
       when 'ReportNotification'
         notification.update(read: true) unless notification.read
@@ -39,7 +43,14 @@ class Dashboard::NotificationsController < ApplicationController
         dashboard_learning_path_path
       when 'SharedGroupAttachmentNotification'
         notification.update(read: true) unless notification.read
-        dashboard_attachments_path   
+        dashboard_attachments_path
+      when 'MentorProgramNotification'
+        notification.update(read: true) unless notification.read
+        if notification.model.more95?
+          mentor_student_path(notification.model.user)
+        elsif notification.model.complete?
+          mentor_student_path(notification.model.user)
+        end        
     end
 
     redirect_to path

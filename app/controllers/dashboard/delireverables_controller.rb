@@ -5,9 +5,9 @@ class Dashboard::DelireverablesController < ApplicationController
   def index
     add_breadcrumb "<a href='#{dashboard_delireverables_path}' class='active'>Mis entregables</a>".html_safe
 
-    @delireverables = Delireverable.joins(delireverable_package: [:groups])
-                                   .where('groups.id = ?', current_user.group.id)
-                                   .order(position: :asc)
+    
+    @delireverables= current_user.group.all_delireverables
+    
     @done_delireverables = []
     @undone_delireverables = []    
     @delireverables.each do |deliv|
@@ -16,6 +16,6 @@ class Dashboard::DelireverablesController < ApplicationController
     	else
     		@undone_delireverables.push(deliv)
     	end
-    end                          
+    end                               
   end
 end

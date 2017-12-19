@@ -29,7 +29,7 @@
       - evaluation = evaluating_quiz(rightones, yours)      
       = fields_for "answers[#{index}]", answer do |f| 
         .panel.panel-default
-          .panel-heading.p-t-10.p-b-5{class: "#{(evaluation == true)? 'heading-right-answer' : 'heading-wrong-answer'}"}
+          .panel-heading.p-t-10.p-b-5{class: "#{(answer.correct == true)? 'heading-right-answer' : 'heading-wrong-answer'}"}
             .panel-title.question-title.text-white
               = @quiz.name
           .panel-body
@@ -42,7 +42,7 @@
                   = render partial: "/dashboard/quiz_answers/inputs/#{answer.quiz_question.question_type}", locals: { disabled: true, f: f, question: answer.quiz_question, answers: answer, i: index, detail: true}
               .col-md-5
                 .padding-30.m-t-50.p-b-100
-                  - if evaluation == true
+                  - if answer.correct
                     %i.fa.fa-check.fa-2x.text-success
                     %h3.text-primary ¡Bien hecho!
                   - else

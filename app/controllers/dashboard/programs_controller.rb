@@ -1,49 +1,77 @@
 class Dashboard::ProgramsController < ApplicationController
   before_action :authenticate_user!
-  #before_action :redirect_to_learning, if: :permiso_avance, only: [:show]
-  add_breadcrumb "EDC DIGITAL", :root_path
+  before_action :set_program, only: [:show]
+  before_action :redirect_to_learning, if: :permiso_avance, only: [:show]
+  add_breadcrumb "EDCDIGITAL", :root_path
 
   helper_method :last_moved_program
   helper_method :last_visited_content
 
   def index
     add_breadcrumb "<a class='active' href='#{dashboard_programs_path}'>Programas</a>".html_safe
-    #@programs = current_user.group.programs.order(position: :asc) rescue []
     
-    ids=[]
     if current_user.student?
-      unless current_user.group.nil? 
-        #ids=[]
-        @programs = current_user.group.group_programs.order(:position)
-        @activo = ['active', '','']
-        #c=0
-        #@programs.each do |p|
-       #   c+=1
-       #   if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group))>=75
-       #     ids.push(p.id)
-       #   end
-       # end
-       # @programs=GroupProgram.where(id: ids).order(:position)
-      end
-    elsif current_user.mentor?
-      current_user.groups.each do |g|
-        g.programs.each do |p|
-          unless ids.include?(p.id)          
-            ids.push(p.id)         
+      @activo = ['active', '','']
+      unless current_user.group.nil?
+        ids_comp = []; ids_fisica = []; ids_moral = [] 
+
+        current_user.group.learning_path.nil? ? program_fisico = [] : program_fisico = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
+        c=0
+        program_fisico.each do |p|
+          c+=1
+          if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group.learning_path)) >= 95 || (current_user.percentage_content_visited_for(p.anterior(current_user.group.learning_path)) == 100 && p.anterior(current_user.group.learning_path).questions? == false)
+            ids_fisica << p.content_id
+          else
+            break
           end
+        end
+
+        current_user.group.learning_path2.nil? ? program_moral = [] : program_moral = current_user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position)
+        c=0
+        program_moral.each do |p|
+          c+=1
+          if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group.learning_path2)) >= 95 || (current_user.percentage_content_visited_for(p.anterior(current_user.group.learning_path2)) == 100 && p.anterior(current_user.group.learning_path2).questions? == false)
+            ids_moral << p.content_id
+          else
+            break
+          end
+        end
+
+        program_group = current_user.group.programs.where.not(content_type: 0).map{|p|p.id}
+        if program_fisico == [] && program_moral == []
+          p_f = []; p_m = []; 
+        elsif program_moral == [] && program_fisico != []
+          p_f = program_fisico.pluck(:content_id); p_m = []; 
+        elsif program_fisico == [] && program_moral != []
+          p_f = []; p_m = program_moral.pluck(:content_id);
+        else
+           p_f = []; p_m = [];  
         end  
+        complementarios = program_group - (p_f + p_m)
+
+        complementarios.each do |id|
+          if !ProgramActive.where(user: current_user, program_id: id).first.nil? && ProgramActive.where(user: current_user, program_id: id).first.status
+            ids_comp << id
+          end
+        end
+  
+        @programs=Program.where(id: ids_comp+ids_fisica+ids_moral)
       end
-      userprograms = Program.where(id: ids).order(:position)
-      @programs = userprograms.map { |p| p.group_programs.first }
+    elsif current_user.mentor? || current_user.admin?
+      @programs = Program.all
     end
 
  
     
     if params[:tipo]=="elearning"
-      @programs = current_user.group.group_programs.joins(:program).where(programs: { tipo: "0"}).order(:position)
-      @activo = ['', '','active'] 
+      userprograms = current_user.group.group_programs.joins(:program).where(programs: { tipo: "0"}).order(:position).pluck(:id)
+      @programs =  Program.where(id: userprograms).order(:position)
+      @activo = ['', '','active']
+
+
     elsif params[:tipo]=="construccion"
-      @programs = current_user.group.group_programs.joins(:program).where(programs: { tipo: "1"}).order(:position)
+      userprograms = current_user.group.group_programs.joins(:program).where(programs: { tipo: "1"}).order(:position)
+      @programs = Program.where(id: userprograms).order(:position)
       @activo = ['', 'active','']
     end
 
@@ -67,7 +95,6 @@ class Dashboard::ProgramsController < ApplicationController
   end
 
   def show
-    @program = Program.find(params[:id])
     rank= Rating.where(ratingable_type: "Program", ratingable_id: @program.id, user_id: current_user.id).first
     if rank.nil?
       @rank=0
@@ -75,7 +102,7 @@ class Dashboard::ProgramsController < ApplicationController
       @rank=rank.rank
     end 
 
-    #
+    @tour_trigger = current_user.tour_trigger
 
     add_breadcrumb "Programas", :dashboard_programs_path
     add_breadcrumb "<a class='active' href='#{dashboard_program_path @program}'>#{@program.name}</a>".html_safe
@@ -102,6 +129,12 @@ class Dashboard::ProgramsController < ApplicationController
       
       if last_content.coursable_type == "Lesson"
         last_text = last_content.model.identifier
+      elsif last_content.coursable_type == "Quiz"
+        last_text = last_content.model.name
+      elsif last_content.coursable_type == "TemplateRefilable"
+        last_text = last_content.model.name
+      elsif last_content.coursable_type == "DelireverablePackage"  
+        last_text = last_content.model.name
       else
         last_text = last_content.model.question_text
       end
@@ -117,31 +150,13 @@ class Dashboard::ProgramsController < ApplicationController
       return nil
     end
   end
-  def redirect_to_learning
-    redirect_to dashboard_learning_path_path, notice: "Completa el 95% del curso anterior para continuar" 
-  end  
+
+  def set_program
+    @program=Program.find(params[:id])
+  end
+
   def permiso_avance
-    @program = Program.find(params[:id])
-    programas = current_user.group.group_programs.order(:position)
-    if @program != programas.first.program
-      anterior=Program.new
-      programas.each do |p|
-        if p.program==@program
-          break
-        else
-          anterior=p.program
-        end
-      end
-      programas.each do |p|
-        if p.program == anterior && current_user.percentage_questions_answered_for(anterior) > 95
-          return false      
-        elsif current_user.percentage_questions_answered_for(p.program) < 95 && p.program != anterior
-          return true
-        end  
-      end
-    else
-      return false
-    end      
+    permiso_programs(@program, current_user)
   end  
 
 end

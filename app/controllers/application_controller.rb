@@ -58,6 +58,59 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def permiso_programs(program, user)
+    complementarios = user.group.programs_complementaries rescue []
+    is_active=true
+    if complementarios.include?(program.id) 
+      active=ProgramActive.where(user: user, program: @program).first
+    else
+      active = nil
+    end  
+    
+    if active.nil? then is_active = false else is_active = active.status end  
+    if is_active || user.mentor? || user.admin?
+      return false
+    end
+
+    user.group.learning_path.nil? ? fisica_programs = [] : fisica_programs = user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
+    user.group.learning_path2.nil? ? moral_programs = [] : moral_programs = user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position)
+
+    primero_fisico = fisica_programs.first.model rescue nil
+    primero_moral = moral_programs.first.model rescue nil
+    if program == primero_fisico || program == primero_moral
+      return false
+    else     
+      anterior_fisico=Program.new
+      fisica_programs.each do |p|
+        if p.model==program
+          break
+        else
+          anterior_fisico=p.model
+        end
+      end
+      anterior_moral=Program.new
+      moral_programs.each do |p|
+        if p.model==program
+          break
+        else
+          anterior_moral=p.model
+        end
+      end   
+      if (user.percentage_answered_for(anterior_fisico) >= 95) || (user.percentage_answered_for(anterior_moral) >= 95 || (user.percentage_content_visited_for(anterior_fisico) == 100 && anterior_fisico.questions? == false) || (user.percentage_content_visited_for(anterior_moral) == 100 && anterior_moral.questions? == false))
+        return false
+      elsif anterior_fisico.id.nil? || anterior_fisico.id.nil? 
+        return false 
+      elsif (user.percentage_answered_for(anterior_fisico) < 95) && (user.percentage_answered_for(anterior_moral) < 95)  
+        return true
+      end  
+    
+    end  
+  end
+
+  def redirect_to_learning
+    redirect_to dashboard_learning_path_path, notice: "Aun no puedes acceder a este contenido." 
+  end  
+
   helper_method :mailbox, :conversation
 
   private

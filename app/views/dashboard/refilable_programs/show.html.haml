@@ -1,0 +1,44 @@
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .panel-title.question-title
+        = @chapter_content.chapter.name
+      .panel-title.pull-right
+        
+      .clearfix
+    .panel-body
+      .row
+        .col-md-10.col-md-offset-1
+          .padding-30.m-t-50.p-b-100
+            %i.fa.fa-tasks.fa-2x.hint-text
+            .pull-right
+              
+            .clearfix
+            %h2
+              = @chapter_content.model.name
+            .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
+              .table-responsive.table-invoice
+                %table.table.m-t-0
+                  %thead
+                    %tr
+                      %th 
+                        Texto del rellenable
+                        %p.small.hint-text.m-b-0
+                          Tus respuestas están resaltadas en negro.
+                  %tbody
+                    %tr
+                      %td.p-b-30
+                        #refilable-content-template
+                          = raw remove_class(replace_fillable(@refilable.content))
+              %h2            
+                Comentarios:
+
+              -if @refilable.comments == ""
+                %i
+                  No hay comentarios sobre este rellenable
+              -else
+                = @refilable.comments
+                                     
+
+
+      = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content, refilable: @refilable, edit_mode: false }

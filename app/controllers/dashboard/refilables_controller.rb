@@ -1,8 +1,8 @@
 class  Dashboard::RefilablesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_template_refilable
-
-  add_breadcrumb "EDC DIGITAL", :root_path
+  before_action :redirect_to_template_refilables, if: :permiso_refilable
+  add_breadcrumb "EDCDIGITAL", :root_path
 
   def new
     add_breadcrumb "Mis rellenables", dashboard_template_refilables_path
@@ -47,4 +47,12 @@ class  Dashboard::RefilablesController < ApplicationController
   def refilable_params
     params.require(:refilable).permit(:content)
   end
+
+  def permiso_refilable
+    !current_user.group.all_refilables.include?(@template)  
+  end  
+
+  def redirect_to_template_refilables
+    redirect_to dashboard_template_refilables_path, alert: 'No tienes asignado este rellenable' 
+  end 
 end

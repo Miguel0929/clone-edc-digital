@@ -28,7 +28,7 @@ class QuizzesController < ApplicationController
 
   def create
     @quiz = Quiz.new(quiz_params)
-
+    @quiz.tipo=1
     respond_to do |format|
       if @quiz.save
         format.html { redirect_to @quiz, notice: 'Quiz creado exitosamente.' }
@@ -58,7 +58,7 @@ class QuizzesController < ApplicationController
       format.html { redirect_to quizzes_url, notice: 'Quiz eliminado exitosamente.' }
       format.json { head :no_content }
     end
-  end
+  end  
 
   private
     def set_quiz

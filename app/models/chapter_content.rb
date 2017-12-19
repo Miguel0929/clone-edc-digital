@@ -1,6 +1,6 @@
 class ChapterContent < ActiveRecord::Base
   belongs_to :chapter
-  belongs_to :coursable, polymorphic: true
+  belongs_to :coursable, polymorphic: true, :dependent => :destroy
 
   has_many :trackers
   has_many :ratings, as: :ratingable 
