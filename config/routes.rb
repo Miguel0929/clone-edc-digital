@@ -13,8 +13,20 @@ Rails.application.routes.draw do
       member do
         get :router
       end
-      
+
       resources :refilables, only: [:new, :create, :edit, :update]
+    end
+
+    resources :quizzes, only: [:index, :show] do
+      member do
+        get :detail
+        get :apply
+      end
+    end
+
+    resources :quiz_answers, only: [:show, :new, :create, :update, :edit]
+
+    resources :supports, only: [:new, :create] do
     end
   end
 
@@ -58,6 +70,7 @@ Rails.application.routes.draw do
 
       member do
         post :clone
+        #get :rubrics
       end
     end
 
@@ -88,12 +101,46 @@ Rails.application.routes.draw do
         post :clone
       end
     end
+
+    resources :quiz_programs, except: [:index] do
+      member do
+        post :clone
+      end
+    end
+
+    resources :refillable_programs, except: [:index, :show] do
+      member do
+        post :clone
+      end
+    end
+
+    resources :delireverable_programs, except: [:index] do
+      member do
+        post :clone
+      end
+    end
+
+    member do
+      get :content
+      get :rubrics
+    end
   end
 
 
   resources :chapter_contents, only: [] do
     collection do
       post :sort
+    end
+  end
+
+  resources :preregistro, only: [:index] do
+    member do
+      get :reenviar
+    end
+    collection do
+      get :verificar
+      get :redireccionar, path: 'activation_code'
+      post :activation_code
     end
   end
 
@@ -110,6 +157,9 @@ Rails.application.routes.draw do
     get 'calculator_method',       to: 'welcome#calculator_method', as: :calculator_method
     get 'notifications-panel',        to: 'welcome#notifications_panel', as: :notifications_panel
     post 'store-notifications-panel',        to: 'welcome#store_notifications_panel', as: :store_notifications_panel
+    post 'change_tour_trigger', to: 'users#change_tour_trigger', as: 'change_tour_trigger'
+
+    resources :sitemap, only: [:index]
 
     resources :users, only: [:show]
 
@@ -131,6 +181,21 @@ Rails.application.routes.draw do
           get :router
         end
       end
+      #resources :delireverable_programs, only: [:show, :new, :create, :update, :edit] do
+      #  collection do
+      #    get :router
+      #  end
+      #end
+      #resources :refilable_programs, only: [:show, :new, :create, :update, :edit] do
+      #  collection do
+      #    get :router
+      #  end
+      #end
+      #resources :quiz_programs, only: [:show, :new, :create, :update, :edit] do
+      #  collection do
+      #    get :router
+      #  end
+      #end
       post "mailer_interno"
       post "rank"
     end
@@ -158,7 +223,7 @@ Rails.application.routes.draw do
     end
 
     resources :template_refilables, only: [:index] do
-      resources :refilables, only: [:new, :create, :show, :edit, :update,]
+      resources :refilables, only: [:new, :create, :show, :edit, :update]
     end
   end
 
@@ -176,12 +241,14 @@ Rails.application.routes.draw do
     member do
       get :analytics_quiz
       get :change_state
+      get :summary
+      get :learning_path
     end
-
     resources :programs, only: [] do
       resources :answers, only: [:index, :edit, :update]
     end
   end
+  get '/users/:id/program_permitted/:program_id', to: 'users#program_permitted', as: 'program_permitted_user'
   post 'change_evaluation', to: 'users#change_evaluation', as: :change_evaluation_panel
 
   resources :mentors, except: [:create] do
@@ -193,9 +260,9 @@ Rails.application.routes.draw do
 
   resources :groups do
     member do
-      get :sort_route
       post :sort
       post :notification_route
+      get :codes
     end
     member do
       get :student_control
@@ -204,7 +271,6 @@ Rails.application.routes.draw do
       post '/unlink_group_student' => 'groups#unlink_student'
       post :clone
     end
-
   end
   post '/change_group' => 'groups#change_group'
   post '/no_group_students' => 'groups#no_group_students'
@@ -215,7 +281,12 @@ Rails.application.routes.draw do
   resources :deleted_users, only: [:index, :update], path: 'usuarios-desactivados'
 
   namespace :mentor do
-    resources :groups, only: [:index, :show]
+    resources :groups, only: [:index, :show] do
+      member do
+        get :codes
+      end
+    end
+    resources :sitemap, only: [:index]
     resources :evaluations, only: [:index, :show, :update]
     resources :program_details, only: [:index]
     resources :students, only: [:index, :show, :update] do
@@ -225,6 +296,7 @@ Rails.application.routes.draw do
       end
       member do
         get :analytics_quiz
+        get :summary
       end
 
       resources :delireverable_users, only: [:edit, :update]
@@ -308,6 +380,7 @@ Rails.application.routes.draw do
   resources :group_invitations, only: [:new, :create, :show]
   resources :program_stats
   post '/save_program_stats' => 'program_stats#post'
+  post '/save_program_active' => 'program_actives#post', as: :save_program_active
   get '/generate_group_stats/:id' => 'group_stats#post', as: :generate_group_stats
 
   resources :universities do
@@ -327,10 +400,24 @@ Rails.application.routes.draw do
       end
     end
   end
+  resources :delireverable_members
+  resources :quiz_question_members
 
   resources :template_refilables do
     collection do
       post :sort
     end
   end
+
+  resources :learning_paths,  only: [:index, :new, :create, :destroy, :show, :edit, :update] do
+    collection do
+      get :complementarios
+    end
+    resources :learning_path_contents, only: [:new, :create, :destroy] do
+      collection do
+        post :sort
+      end
+    end
+  end
+  post "get_contents" => "learning_path_contents#get_contents"
 end

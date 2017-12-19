@@ -1,0 +1,130 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html;charset=UTF-8", "http-equiv" => "content-type"}/
+    %meta{:charset => "utf-8"}/
+    %title EDCdigital
+    %meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no", :name => "viewport"}/
+    %link{:href => "#{image_path('favicon.ico')}", :rel => "icon", :type => "image/x-icon"}/
+    %meta{:content => "Plataforma digital para la construcción y validación de tu idea de negocio, para el programa Emprendiendo desde Cero", :name => "description"}/
+    %meta{:content => "emprendedor, emprendedores, emprendimiento, financiamiento, jóvenes, finanzas, capacitación, curso, inversión, capital, privado", :name => "keywords"}/
+    %meta{:content => "Emprendiendo Desde Cero", :name => "author"}/
+    %meta{:content => "Inicia tu programa de Seguimiento Digital y construye tu idea de negocio", :property => "og:title"}/
+    %meta{:content => "website", :property => "og:type"}/
+    %meta{:content => "https://www.emprendiendodesdecero.com/assets/img/VIDEO-INTRODUCTORIO-COMPILADO--(0-00-32-10).png", :property => "og:image"}/
+    %meta{:content => "https://www.edcdigital.mx", :property => "og:url"}/
+    %meta{:content => "Plataforma digital para la construcción y validación de tu idea de negocio, para el programa Emprendiendo desde Cero", :property => "og:description"}/
+    %meta{:content => "summary_large_image", :name => "twitter:card"}/
+    %meta{:content => "@DistritoEmprend", :name => "twitter:site"}/
+    %meta{:content => "Inicia tu programa de Seguimiento Digital y construye tu idea de negocio", :name => "twitter:title"}/
+    %meta{:content => "Plataforma digital para la construcción y validación de tu idea de negocio, para el programa Emprendiendo desde Cero.", :name => "twitter:description"}/
+    %meta{:content => "https://www.emprendiendodesdecero.com/assets/img/VIDEO-INTRODUCTORIO-COMPILADO--(0-00-32-10).png", :name => "twitter:image:src"}/
+    / BEGIN PLUGINS
+    = stylesheet_link_tag("landings/plugins/pace-theme-flash")
+    = stylesheet_link_tag "landings"
+    = stylesheet_link_tag("landings/plugins/swiper.min")
+    / END PLUGINS
+    / BEGIN PAGES CSS
+    = stylesheet_link_tag("landings/pages")
+    = stylesheet_link_tag("landings/pages-icons")
+    / END PAGES CSS
+  %body.pace-complete
+    / BEGIN HEADER
+    %nav.header.static{"data-pages" => "header"}
+      %nav.header.relative
+        .container.relative
+          .pull-left
+            .header-inner
+              %img.logo{:alt => "", "data-src-retina" => "assets/images/logo_black_2x.png", :height => "21", :src => "#{image_path('logo-edc-digital-colores-3.png')}", :width => "152"}/
+              %img.alt{:alt => "", "data-src-retina" => "assets/images/logo_white_2x.png", :height => "21", :src => "#{image_path('logo-edc-digital-colores-3.png')}", :width => "152"}/
+          .visible-sm-inline.visible-xs-inline.menu-toggler.pull-right{"data-pages" => "header-toggle", "data-pages-element" => "#header"}
+            .one
+            .two
+            .three
+          .pull-right.hidden-sm.hidden-xs.col-sm-6
+            .header-inner.text-right
+              %p.font-montserrat.fs-13.text-master.p-t-20.inline
+                +52 (55) 5351 6633
+                %i.m-l-10.fa.fa-phone
+      / BEGIN NESTED MENU
+      %nav.header.sm-header.relative.horizontal.dark.sm-p-t-20{"data-offset-top" => "60", "data-spy" => "affix"}
+        .container.relative
+          #header.menu-content{"data-pages-direction" => "slideRight"}
+            / BEGIN HEADER CLOSE TOGGLE FOR MOBILE
+            .pull-right
+              %a.text-black.link.padding-10.visible-xs-inline.visible-sm-inline.pull-right.m-t-10.m-b-10.m-r-10{"data-pages" => "header-toggle", "data-pages-element" => "#header", :href => "#"}
+                %i.pg-close_line
+            .pull-right.sm-block.sm-full-width.menu-login
+              .header-inner
+                %ul.menu.no-padding
+                  %li
+                    %a.solicitar-cuenta-btn{"data-text" => "Sign up", :href => "https://emprendiendodesdecero.com/seguimiento/", :target => "new"} Solicitar una cuenta
+                  %li
+                    %a.p-r-0.btn.btn-sm.btn-bordered.btn-white.block-title.fs-12.hidden-xs{"data-text" => "Login", :href => user_session_path} Iniciar sesión
+                    %a.p-r-0.visible-xs{"data-text" => "Login", :href => user_session_path} Iniciar sesión
+                  %li.visible-sm.visible-xs
+                    %a{"data-text" => "Contact Us", :href => "#"}
+                      +52 (55) 5351 6633
+                      %i.m-l-10.fa.fa-phone
+      .page-content-wrapper
+        - if notice
+          .col-md-6.col-md-offset-3
+            .alert.alert-info.alert-dismissible{:role => "alert"}
+              %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+                %span{"aria-hidden" => "true"} ×
+              = notice
+        - if alert
+          .col-md-6.col-md-offset-3
+            .alert.alert-danger.dimiss
+              %button.close{"data-dismiss" => "alert", :type => "button"}>
+                %span{"aria-hidden" => "true"} ×
+                %span.sr-only Close
+              = alert     
+        .content               
+          %div{class: "#{controller_name}_#{action_name}"}
+            = yield
+    
+    .container-fluid.container-fixed-lg.footer
+      .container
+        .row
+          .col-sm-8
+            %img.logo.inline.m-r-50{:alt => "", :src => "#{image_path('logo-edc-digital-colores-3.png')}"}/
+            .m-t-10
+              %ul.no-style.fs-11.no-padding.font-arial
+                %li.inline.no-padding
+                  %a.text-master.p-r-10.b-r.b-grey{:href => "https://www.distritoemprendedor.com/", :target => "new"} Distrito Emprendedor
+                %li.inline.no-padding
+                  %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "https://www.emprendiendodesdecero.com/", :target => "new"} Emprendiendo desde Cero
+                %li.inline.no-padding
+                  %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "https://www.edc-megatendencias.com/", :target => "new"} Megatentendencias
+                %li.inline.no-padding
+                  %a.hint-text.text-master.p-l-10.p-r-10.xs-no-padding.xs-m-t-10{:href => "https://www.edc-ideador.com/", :target => "new"} Ideador
+          .col-sm-4.text-right.font-arial.sm-text-left
+            %p.fs-11.muted Copyright © 2017 DISTRITO EMPRENDEDOR. Todos los derechos reservados.
+
+    / END FOOTER
+    / BEGIN VENDOR JS
+    = javascript_include_tag("landings/pace.min.js")
+    = javascript_include_tag "landings"
+    = javascript_include_tag("landings/velocity.min.js")
+    = javascript_include_tag("landings/velocity.ui.js")
+    / END VENDOR JS
+    / BEGIN PAGES FRONTEND LIB
+    = javascript_include_tag("landings/pages.frontend.js")
+    / END PAGES LIB
+    / BEGIN YOUR CUSTOM JS
+    / END PAGES LIB
+    :javascript
+      (function(v,p){
+        var s=document.createElement('script');
+        s.src='https://app.toky.co/resources/widgets/toky-widget.js?v='+v;
+        s.onload=function(){Toky.load(p);};
+        document.head.appendChild(s);
+        })('958177b', {"$lang":"es","$username":"distritoemprend","$bubble":false,"$position":"left","$text":"Llámanos Gratis"})
+    :javascript
+      window.intercomSettings = {
+        app_id: "mb7vwpp6"
+      };
+    :javascript
+      (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/mb7vwpp6';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()
+

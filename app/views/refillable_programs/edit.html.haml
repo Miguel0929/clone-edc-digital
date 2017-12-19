@@ -1,0 +1,35 @@
+.well
+  = bootstrap_form_for @template_refilable, url: chapter_refillable_program_path, method: :put do |f|
+    .row
+      .col-md-4
+        = f.text_area :name, label: 'Nombre',required: "required"
+      .col-md-8
+        = f.text_area :description, label: 'Descripción',required: "required"
+    .row
+      .col-md-10
+        = f.text_area :content, ckeditor: { language: 'es'}, id: 'ckeditor', label: 'Contenido', required: "required"
+      .col-md-2
+        %button.btn.btn-complete.m-t-20#addRefilable
+          Agregar rellenable
+    .actions.text-center.m-t-30.m-b-20
+      = link_to 'Cancelar', program_path(@chapter.program), class: 'btn btn-danger'
+      = f.submit 'Guardar rellenable', class: 'btn btn-primary'
+
+:javascript
+  $( document ).on('turbolinks:load', function() {
+
+    var editor = CKEDITOR.replace('ckeditor')
+    console.log(editor)
+
+
+    editor.addCommand("AddRefilable", {
+      exec: function(edt) {
+        edt.insertHtml("{{rellenable}}")
+      }
+    });
+
+    $('#addRefilable').click(function(e){
+      e.preventDefault();
+      editor.execCommand( 'AddRefilable' );
+    })
+  });

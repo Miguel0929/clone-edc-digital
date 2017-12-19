@@ -1,20 +1,30 @@
-%span.handle-sort
-  [mover]
-= question.question_text
+.row
+	.col-sm-12
+		%span.handle-sort
+			[mover]
+		%span.bold
+			Pregunta
+		.pull-right
+			%span.option.p-r-10.p-l-10
+				= link_to edit_chapter_question_path(chapter, question) do
+					%i.fa.fa-edit
+					Editar
+			%span.option.p-r-10.p-l-10
+				= link_to clone_chapter_question_path(chapter, question), method: :post, data: {confirm: '¿Estás seguro?'} do
+					%i.fa.fa-copy
+					Clonar
+			%span.option.p-r-10.p-l-10
+				= link_to chapter_question_path(chapter, question), method: :delete, data: {confirm: '¿Estás seguro?'} do
+					%i.fa.fa-times
+					Eliminar
 
-%span.option
-  = link_to 'Editar', edit_chapter_question_path(chapter, question)
-|
-%span.option
-  = link_to 'Clonar', clone_chapter_question_path(chapter, question), method: :post, data: {confirm: '¿Estás seguro?'}
-|
-%span.option
-  = link_to 'Eliminar', chapter_question_path(chapter, question), method: :delete, data: {confirm: '¿Estás seguro?'}
+%div
+	= question.question_text
 
 .question-wrapper
-  = render partial: "questions/inputs/#{question.question_type}", locals: { question: question }
+	= render partial: "questions/inputs/#{question.question_type}", locals: { question: question }
 
 %span.option
-  Valor:
-  = question.points
-  puntos
+	Valor:
+	= question.points
+	puntos

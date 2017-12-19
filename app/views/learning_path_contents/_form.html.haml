@@ -1,0 +1,27 @@
+.well
+  = bootstrap_form_for([@learning_path, @learning_path_content]) do |f|
+    .form-group
+      %label.control-label{for: "tipo"}
+        ¿Que tipo de contenido quieres agregar?
+      %select.minimal.form-control{id: "tipo", name: "tipo"}
+        %option{:value => '', :selected=> "selected", :disabled=>"disabled"} Selecciona el tipo
+        %option{:value => 'program'} Programa
+        %option{:value => 'quiz'} Examen
+        %option{:value => 'deliverable'} Entregables
+        %option{:value => 'refilables'} Rellenables
+    #oculto.hide    
+      = f.select(:content, "",{:label => 'Contenido', :class=>'minimal', :include_blank => "Selecciona el tipo contenido"})
+:javascript
+  $("#tipo").change(function() {
+    if ($("#tipo") != null){
+      $("#oculto").removeClass('hide').addClass('show');
+      $.ajax({url : '/get_contents', data : { tipo : $("#tipo").val() }, type : 'POST',
+        success : function(data) {
+          console.log(data);
+        },
+        error : function(data) {
+          console.log(data);
+        },
+      });
+    }
+  });      

@@ -640,7 +640,15 @@ p.mensaje{
 .new-font-size{
   font-size: 100px !important;
 }
-
+.small-circle{
+  font-size: 70px !important;
+}
+.bg-complete-light:after{
+  background-color: #6DC0F9 !important;
+}
+.bg-success-light:after{
+  background-color: #40D9CA !important;
+}
 #color-circle2:after{
   background-color: #48b0f7 !important;
 }
@@ -2986,6 +2994,7 @@ h6.cabecera_card-programas {
 .text-color-dificultad{
   color: #B32768;
 }
+
 .m-t--card{
   margin-top: 80px;
 }
@@ -3114,6 +3123,10 @@ h6.cabecera_card-programas {
 }
 .height-img{
   height: 205px !important;
+  background-repeat: no-repeat  !important;
+  background-position-x: center !important;
+  background-position-y: center !important;
+  background-size: cover !important; 
 }
 .card.share .cabecera_card-programas h5 {
   font-weight: bold;

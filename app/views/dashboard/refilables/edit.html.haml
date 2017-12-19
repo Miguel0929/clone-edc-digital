@@ -65,9 +65,23 @@
 
 :javascript
   $(document).on('turbolinks:load', function(){
-    $('.refilable-edit').editable();
+    $('.refilable-edit').editable('toggleDisabled');
+    $('.refilable-edit').attr('contentEditable', true);
+    $('.refilable-edit').removeAttr('style');
+    $('.refilable-edit').addClass('form-control refilable-input');
 
     $('#send-refilable').click(function() {
+
+      $('.refilable-edit').each(function() {
+        if ($(this).text() == "" || $(this).text() == " (sin respuesta) ") {
+          $(this).removeClass('present-answer');
+          $(this).addClass('no-answer');
+        } else {
+          $(this).removeClass('no-answer');
+          $(this).addClass('present-answer');
+        }
+      });
+
       var $form = $('.edit_refilable');
       var $template_content = $('#refilable-content-template');
       $('#refilable_content').val($template_content.html());

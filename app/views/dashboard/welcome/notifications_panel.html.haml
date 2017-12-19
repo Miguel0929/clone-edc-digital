@@ -44,13 +44,14 @@
                       %label.switch
                         %input#up_program{:type => "checkbox", checked: if @noti.up_program.first.nil? then true else @noti.up_program.first.status end, value: "1"}/
                         .slider.round
-                  %tr
-                    %td
-                      Rúbrica de evaluacion actualizada
-                    %td.text-center
-                      %label.switch
-                        %input{:type => "checkbox", checked: if @noti.up_rubric.first.nil? then true else @noti.up_rubric.first.status end, value: "2"}/
-                        .slider.round 
+                  - if current_user.student?       
+                    %tr
+                      %td
+                        Rúbrica de evaluacion actualizada
+                      %td.text-center
+                        %label.switch
+                          %input{:type => "checkbox", checked: if @noti.up_rubric.first.nil? then true else @noti.up_rubric.first.status end, value: "2"}/
+                          .slider.round 
                   %tr
                     %td
                       Nuevo archivo compartido
@@ -58,20 +59,50 @@
                       %label.switch
                         %input{:type => "checkbox", checked: if @noti.shared_file.first.nil? then true else @noti.shared_file.first.status end, value: "3"}/
                         .slider.round
-                  %tr
-                    %td
-                      Ruta de aprendizaje 
-                    %td.text-center
-                      %label.switch
-                        %input{type: "checkbox", checked: if @noti.up_ruta.first.nil? then true else @noti.up_ruta.first.status end, value: "4"}/
-                        .slider.round
-                  %tr
-                    %td
-                      Has sido evaluado
-                    %td.text-center
-                      %label.switch
-                        %input{type: "checkbox", checked: if @noti.up_evaluation.first.nil? then true else @noti.up_evaluation.first.status end, value: "7"}/
-                        .slider.round
+                  - if current_user.student?       
+                    %tr
+                      %td
+                        Ruta de aprendizaje 
+                      %td.text-center
+                        %label.switch
+                          %input{type: "checkbox", checked: if @noti.up_ruta.first.nil? then true else @noti.up_ruta.first.status end, value: "4"}/
+                          .slider.round
+                    %tr
+                      %td
+                        Has sido evaluado
+                      %td.text-center
+                        %label.switch
+                          %input{type: "checkbox", checked: if @noti.up_evaluation.first.nil? then true else @noti.up_evaluation.first.status end, value: "7"}/
+                          .slider.round     
+                    %tr
+                      %td
+                        Has completado el 95% del curso
+                      %td.text-center
+                        %label.switch
+                          %input{type: "checkbox", checked: if @noti.more95_student.first.nil? then true else @noti.more95_student.first.status end, value: "8"}/
+                          .slider.round
+                    %tr
+                      %td
+                        Has completado un curso
+                      %td.text-center
+                        %label.switch
+                          %input{type: "checkbox", checked: if @noti.complete_student.first.nil? then true else @noti.complete_student.first.status end, value: "9"}/
+                          .slider.round
+                  - if current_user.mentor?
+                    %tr
+                      %td
+                        Un alumno esta por completar un programa
+                      %td.text-center
+                        %label.switch
+                          %input{type: "checkbox", checked: if @noti.more95_mentor.first.nil? then true else @noti.more95_mentor.first.status end, value: "10"}/
+                          .slider.round
+                    %tr
+                      %td
+                        Un alumno completo un programa
+                      %td.text-center
+                        %label.switch
+                          %input{type: "checkbox", checked: if @noti.complete_mentor.first.nil? then true else @noti.complete_mentor.first.status end, value: "11"}/
+                          .slider.round                     
 #alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
     #al.alert.alert-info

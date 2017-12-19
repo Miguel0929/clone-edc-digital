@@ -4,7 +4,7 @@ class Refilable < ActiveRecord::Base
 
   def status
     actual = content.scan(/_____/).count
-
-    actual == 0 ? "Contestado" : "Parcial";
+    tag = content.scan(/no-answer/).count
+    (actual == 0 && tag == 0) ? "Contestado" : "Parcial";
   end
 end

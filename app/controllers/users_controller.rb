@@ -2,8 +2,14 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin, except: [:students, :show, :change_evaluation]
   before_action :require_creator, only: [:students, :show]
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state]
-  add_breadcrumb "EDC DIGITAL", :root_path
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state, :summary, :learning_path, :program_permitted]
+  before_action :set_program, only:[:program_permitted]
+  add_breadcrumb "EDCDIGITAL", :root_path
+  helper_method :get_program_active
+
+  helper_method :last_moved_program
+  helper_method :last_visited_content
+  helper_method :permiso_programs
 
   def index
     add_breadcrumb "<a class='active' href='#{users_path}'>Estudiantes</a>".html_safe
@@ -94,12 +100,14 @@ class UsersController < ApplicationController
     add_breadcrumb "Estudiantes", :students_users_path
     add_breadcrumb "<a class='active' href='#{user_path(@user)}'>#{@user.email}</a>".html_safe
 
-    @delireverables = Delireverable.joins(delireverable_package: [:groups])
-                                    .where('groups.id = ?', @user.group.id)
-                                    .order(position: :asc) rescue []
-    @refilables = TemplateRefilable.joins(:groups)
-                                    .where('groups.id = ?', @user.group.id)
-                                    .order(position: :asc) rescue []
+                                   
+    @programs = @user.group.all_programs rescue []
+                                   
+    @delireverables = @user.group.all_delireverables rescue []
+                                 
+    @refilables = @user.group.all_refilables rescue []
+                                
+    @quizzes = @user.group.all_quizzes rescue []                              
   end
 
   def edit
@@ -293,11 +301,85 @@ class UsersController < ApplicationController
     render json: {eval: to_evaluated, not_eval: to_nonevaluated}
   end
 
+  def get_program_active(user, program)
+    ProgramActive.where(user_id: user.id, program_id: program.id).first
+  end
+
+  def summary
+    add_breadcrumb "<a href='#{students_users_path}'>Estudiantes</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{summary_user_path(@user)}'>Vista rápida: #{@user.email}</a>".html_safe
+    quizzes_results = @user.answered_quizzes
+    @quizzes_average = quizzes_results[0]
+    @answered_quizzes = quizzes_results[1]
+    @total_quizzes = @user.total_quizzes
+    @delireverables = Delireverable.joins(delireverable_package: [:groups]).where('groups.id = ?', @user.group.id).count
+    @refilables = TemplateRefilable.joins(:groups).where('groups.id = ?', @user.group.id).count
+    @complete_delireverables = DelireverableUser.where(user: @user).count
+    @complete_refilables = Refilable.where(user: @user).count
+    @self_archives = @user.attachments.count
+    @shared_archives = @user.shared_attachments.count
+    @sent_chats = Mailboxer::Message.where(sender_id: @user).count
+    @mentor_messages = MentorHelp.where(sender: @user.id).count
+    @result_exams = @answered_quizzes.to_f / @total_quizzes.to_f * 100
+    @result_delireverables = @complete_delireverables.to_f / @delireverables.to_f * 100
+    @result_refilables = @complete_refilables.to_f / @refilables.to_f * 100
+  end
+
+  def learning_path
+    @programs_fisica=@user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position) rescue nil
+    c=0
+    @c1=0
+    ids=[]
+    unless @programs_fisica.nil?
+      @programs_fisica.each do |p|
+        c+=1
+        anterior = p.anterior(@user.group.learning_path)
+        if @user.percentage_questions_answered_for(anterior) >= 95 || c==1 || (@user.percentage_content_visited_for(anterior) == 100 && anterior.questions? == false)
+          ids.push(p.id)
+        else
+          break
+        end
+      end
+      @programs_fisica=LearningPathContent.where(id: ids).order(:position)
+    end
+
+    @programs_moral=@user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position) rescue nil
+    c=0
+    @c2=0
+    ids=[]
+    unless @programs_moral.nil?
+      @programs_moral.each do |p|
+        c+=1
+        anterior = p.anterior(@user.group.learning_path2)
+        if @user.percentage_questions_answered_for(anterior) >= 95 || c==1 || (@user.percentage_content_visited_for(anterior) == 100 && anterior.questions? == false)
+          ids.push(p.id)
+        else
+          break
+        end
+      end
+      @programs_moral=LearningPathContent.where(id: ids).order(:position)
+    end
+    #end
+    @modal_trigger = @user.video_trigger
+    @tour_trigger = @user.tour_trigger
+
+  end
+
+  def program_permitted
+    if permiso_programs(@program,@user)
+      redirect_to learning_path_user_path(@user), alert: "El curso \"#{@program.name}\" no esta disponible para el alumno #{@user.name}"
+    else
+      redirect_to learning_path_user_path(@user), notice: "El curso \"#{@program.name}\" si esta disponible para el alumno  #{@user.name}" 
+    end  
+  end  
 
   private
   def set_user
     @user = User.find(params[:id])
   end
+  def set_program
+     @program= Program.find(params[:program_id])
+  end  
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :phone_number, :industry_id, :group_id, :role, :evaluation_status)
@@ -331,4 +413,30 @@ class UsersController < ApplicationController
         percentage >= 91 && percentage <=100
     end
   end
+
+  def last_visited_content(program, stats)
+    if stats != nil
+      last = ( !stats.last_content.nil? ? stats.last_content : nil)
+      return last
+    else
+      return nil
+    end
+  end
+
+  def last_moved_program(program)
+     last_moved_content = program.get_last_move(current_user)
+    if !last_moved_content.nil?
+      last_move = last_moved_content.chapter_content_id
+      last_time = last_moved_content.updated_at
+      last_content = last_moved_content.chapter_content
+
+      if last_content.coursable_type == "Lesson"
+        last_text = last_content.model.identifier
+      else
+        last_text = last_content.model.question_text
+      end
+    end
+    return last_move, last_time, last_content, last_text, last_moved_content
+  end
+
 end

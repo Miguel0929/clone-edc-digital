@@ -1,8 +1,8 @@
 class ChaptersController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_program, except: [:content, :rubrics]
+  before_action :set_chapter, only: [:edit, :update, :destroy, :clone, :content, :rubrics]
   before_action :require_admin
-  before_action :set_program
-  before_action :set_chapter, only: [:edit, :update, :destroy, :clone]
 
   add_breadcrumb "EDC DIGITAL", :root_path
   add_breadcrumb "Programas", :programs_path
@@ -80,12 +80,57 @@ class ChaptersController < ApplicationController
           kopy.support_image = original.support_image
           kopy.rubrics = original.rubrics.map(&:deep_clone)
         end
+      elsif model.is_a?(TemplateRefilable)
+
+        refilable_clone = model.deep_clone do |original, kopy|
+          kopy.tipo = 0
+        end  
+        clone_chapter.template_refilables << refilable_clone     
+      
+      elsif model.is_a?(DelireverablePackage)
+
+        delireverable_package_clone = model.deep_clone do |original, kopy|
+          kopy.tipo = 0 
+        end  
+        clone_chapter.delireverable_packages << delireverable_package_clone
+        model.delireverables.each do |delireverable|
+          aux=Delireverable.new(name: delireverable.name, description: delireverable.description, delireverable_package: delireverable_package_clone, file: delireverable.file, position: delireverable.position) 
+          aux.save
+        end 
+
+      elsif model.is_a?(Quiz)
+
+        quiz_clone = model.deep_clone do |original, kopy|
+          kopy.tipo = 0
+          original.quiz_questions.each do |question|
+            question_clone= question.deep_clone do |original_q,kopy_q|
+              kopy_q.quiz_id=kopy.id
+              kopy.quiz_questions << kopy_q
+            end  
+          end  
+        end  
+        clone_chapter.quizzes << quiz_clone
+
       end
     end
 
     clone_chapter.save
 
     redirect_to @program, notice: "Se creo exitosamente el módulo #{clone_chapter.name}"
+  end
+
+  def content
+    program = @chapter.program
+    add_breadcrumb "<a href='#{program_path(program)}'>#{program.name}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{content_chapter_path(@chapter)}'>#{@chapter.name}</a>".html_safe
+    
+  end
+
+  def rubrics
+    @program = @chapter.program
+    add_breadcrumb "<a href='#{program_path(@program)}'>#{@program.name}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{rubrics_chapter_path(@chapter)}'>#{@chapter.name}</a>".html_safe
+    
   end
 
   private

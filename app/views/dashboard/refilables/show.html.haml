@@ -46,13 +46,19 @@
                         %th.tipografia-textos-rellenables
                           Texto del rellenable
                           %p.small.hint-text.m-b-0
-                            Tus respuestas están resaltadas en negro.
+                            Tus respuestas están resaltadas en verde.
                     %tbody
                       %tr
                         %td.p-b-30
                           .well
                             #refilable-content-template.nueva-tipografia-rellenable
                               = raw remove_class(replace_fillable(@refilable.content))
+
+:javascript
+  $(document).on('turbolinks:load', function(){
+    $('.refilable-edit').removeClass('form-control refilable-input');
+    $('.no-answer').text(' (sin respuesta) ');
+  });
 
 /.container-fluid.container-fixed-lg
 /  .panel.panel-default

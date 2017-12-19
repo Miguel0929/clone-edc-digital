@@ -1,19 +1,25 @@
 class Dashboard::ChapterContentsController < ApplicationController
   before_action :authenticate_user!
   before_action :track_chapter_content, only: [:show]
-  #before_action :redirect_to_learning, if: :permiso, only: [:show]
+  before_action :redirect_to_learning, if: :permiso_avance, only: [:show]
   after_action :update_program_stats, only: [:show]
 
   def show
-  
+    @tour_trigger = current_user.tour_trigger
     rank= Rating.where(ratingable_type: "ChapterContent", ratingable_id: @chapter_content.id, user_id: current_user.id).first
     if rank.nil?
       @rank=0
     else
       @rank=rank.rank
     end  
-    if @chapter_content.coursable_type == 'Question'
+    if @chapter_content.coursable_type == 'Question' 
       redirect_to router_dashboard_chapter_content_answers_path(@chapter_content), status: 301
+    elsif @chapter_content.coursable_type == 'Quiz'
+      redirect_to router_dashboard_chapter_content_quiz_programs_path(@chapter_content), status: 301
+    elsif @chapter_content.coursable_type == 'TemplateRefilable'
+      redirect_to  router_dashboard_chapter_content_refilable_programs_path(@chapter_content)
+    elsif @chapter_content.coursable_type == 'DelireverablePackage'  
+      redirect_to  router_dashboard_chapter_content_delireverable_programs_path(@chapter_content)  
     else
       add_breadcrumb "EDC DIGITAL", :root_path
       add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
@@ -56,31 +62,9 @@ class Dashboard::ChapterContentsController < ApplicationController
 
     ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
   end
-  def redirect_to_learning
-    redirect_to dashboard_learning_path_path, notice: "Completa el 95% del curso anterior para continuar" 
-  end
-  def permiso
-    program=@chapter_content.chapter.program
-    programas = current_user.group.group_programs.order(:position)
-    if program != programas.first.program
-      anterior=Program.new
-      programas.each do |p|
-        if p.program==program
-          break
-        else
-          anterior=p.program
-        end
-      end
-      programas.each do |p|
-        if p.program == anterior && current_user.percentage_questions_answered_for(anterior) > 95
-          return false     
-        elsif current_user.percentage_questions_answered_for(p.program) < 95 && p.program != anterior
-          return true
-        end  
-      end
-    else
-      return false
-    end      
+
+  def permiso_avance
+    permiso_programs(@chapter_content.chapter.program, current_user)
   end  
 
   def update_program_stats

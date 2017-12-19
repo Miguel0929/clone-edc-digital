@@ -1,0 +1,22 @@
+%span.pull-right
+	%span.option.p-l-20
+		%a{href: "#"}
+			%i.fa.fa-paperclip
+			Info. de apoyo
+	%span.option.p-l-20
+		= link_to edit_quiz_question_member_path(question) do
+			%i.fa.fa-edit
+			Editar
+	%span.option.p-l-20
+		= link_to quiz_question_member_path(question), method: :delete, data: {confirm: '¿Estás seguro?'} do
+			%i.fa.fa-times
+			Eliminar
+%span.pull-left
+	= question.question_text
+.clearfix
+.question-wrapper.p-t-10
+	= render partial: "quiz_questions/inputs/#{question.question_type}", locals: { question: question }
+.option.p-t-10
+	Valor:
+	= question.points
+	puntos

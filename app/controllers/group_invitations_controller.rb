@@ -33,7 +33,6 @@ class GroupInvitationsController < ApplicationController
       end
 
       flash[:notice] = "Invitaciones enviadas"
-
       redirect_to group_invitation_path(timestamp)
     end
   end

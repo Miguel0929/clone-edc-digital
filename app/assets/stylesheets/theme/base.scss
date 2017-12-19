@@ -10094,6 +10094,9 @@ Main components
   width: 2px;
   background: #fff;
 }
+.timeline.sitemap::before {
+  background: #fff !important;
+}
 @media only screen and (min-width: 900px) {
   .timeline-container:not(.left) .timeline {
     margin-bottom: 3em;
@@ -10102,6 +10105,12 @@ Main components
     left: 50%;
     margin-left: -2px;
   }
+  /*----------------------------------------------------------------
+  Esta instrucción es solo para la versión del sitemap */
+  .timeline-container:not(.left) .timeline.sitemap::before {
+    left: 0%;
+  }
+  /*---------------------------------------------------------------*/
 }
 .timeline-block {
   position: relative;
@@ -10195,6 +10204,12 @@ Main components
     -webkit-transform: translateZ(0);
     -webkit-backface-visibility: hidden;
   }
+  /*----------------------------------------------------------------
+  Esta instrucción es solo para la versión del sitemap */
+  .timeline-container:not(.left) .timeline .timeline-point.sitemap {
+    left: 0%;
+  }
+  /*---------------------------------------------------------------*/
   .timeline-container:not(.left) .timeline .timeline-point.large {
     margin-left: -31px;
   }
@@ -10294,6 +10309,13 @@ Main components
     margin-left: 0;
     width: 46%;
   }
+  /*----------------------------------------------------------------
+  Esta instrucción es solo para la versión del sitemap */
+  .timeline-container.sitemap:not(.left) .timeline .timeline-content {
+    margin-left: 15px;
+    width: 100%;
+  }
+  /*---------------------------------------------------------------*/
   .timeline-container:not(.left) .timeline .timeline-content::before {
     top: 24px;
     left: 100%;
@@ -10324,7 +10346,26 @@ Main components
   .timeline-container:not(.left) .timeline .timeline-content .event-date h6 + small {
     margin-top: 0;
   }
-  /* Siguientes líneas: cambiar de even a odd y odd a even para invertir lados (invertir polaridad) */
+  /* Siguientes líneas: Estas reglas son para el timeline version mapa de sitio --------------------------- */
+  .timeline-container.sitemap:not(.left) .timeline .timeline-content .card {
+    left: 0%;
+  }
+  .timeline-container.sitemap:not(.left) .timeline .timeline-content {
+    left: 4%;
+  }
+  .timeline-container:not(.left) .timeline .timeline-block:nth-child(odd) .timeline-content.sitemap .card {
+    float: none;
+  }
+  .timeline-container:not(.left) .timeline .timeline-block:nth-child(even) .timeline-content.sitemap {
+    float: none;
+  }
+  .timeline-container.sitemap:not(.left) .timeline .timeline-block:nth-child(odd) .timeline-content .card::after{
+    content: none;
+  }
+  .timeline-container.sitemap:not(.left) .timeline .timeline-block:nth-child(even) .timeline-content::before{
+    content: none;
+  }
+  /* Siguientes líneas: cambiar de even a odd y odd a even para invertir lados (invertir polaridad) --------*/
   .timeline-container:not(.left) .timeline .timeline-block:nth-child(odd) .timeline-content .card {
     float: right;
   }
@@ -10401,6 +10442,15 @@ Main components
     border-width: 15px;
     margin-top: -15px;
   }
+  /*----------------------------------------------------------------
+  Esta instrucción es solo para la versión del sitemap */
+  .timeline-container.sitemap:not(.left) .timeline .timeline-block:nth-child(even) .timeline-content::before{
+    content: none;
+  }
+  .timeline-container.sitemap:not(.left) .timeline .timeline-block:nth-child(odd) .timeline-content .card::after{
+    content: none;
+  }
+  /*---------------------------------------------------------------*/
 }
 @media only screen and (min-width: 900px) {
   /* inverse bounce effect on even content blocks */
@@ -10573,7 +10623,7 @@ Main components
 .timeline-container.center .timeline .timeline-content .event-date h6 + small {
   margin-top: 0;
 }
-/* Siguientes líneas: cambiar de even a odd y odd a even para invertir lados (invertir polaridad) */
+/* Siguientes líneas: cambiar de even a odd y odd a even para invertir lados (invertir polaridad) ----------*/
 .timeline-container.center .timeline .timeline-block:nth-child(odd) .timeline-content .card {
   float: right;
 }

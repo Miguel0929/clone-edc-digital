@@ -1,0 +1,12 @@
+.container
+  .col-md-8.col-md-offset-2
+    %h1 Preregistro
+    %center
+      .panel.panel-default
+        .panel-body
+          = form_tag(verificar_preregistro_index_path, method: :get) do
+            .form-group
+              = label_tag 'email', "Escribe tu correo electrónico para verificar si estas registrado en EDC Digital"
+              = email_field_tag 'email', nil, class: 'form-control'
+            = submit_tag "Verificar", class: "btn btn-primary" 
+

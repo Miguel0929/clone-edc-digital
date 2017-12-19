@@ -17,7 +17,7 @@ wb.styles do |style|
                     style: [content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell]
 
       unless user.group.nil?
-        user.group.programs.each do |program|
+        user.group.all_programs.each do |program|
           sheet.add_row ["", "", "", "", "", "", "", "", "", "#{program.name}.", "Contestado: #{user.percentage_questions_answered_for(program)}%" ],
           style: [content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell]
         end
