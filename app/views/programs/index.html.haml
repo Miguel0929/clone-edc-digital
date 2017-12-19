@@ -38,8 +38,8 @@
                     .normal-text.hint-text.inline-block.m-l-20
                       Rating: 
                       %span.bold.text-primary #{program.rating.round(2)}
-                    .normal-text.hint-text.block.m-t-10
-                      = link_to program_path(program), class: 'm-l-20' do
+                    .normal-text.hint-text.block.m-t-10.m-b-15
+                      = link_to program_path(program) do
                         %i.fa.fa-list-alt
                         Contenido
                       = link_to rating_program_path(program), class: 'm-l-20' do
