@@ -1,5 +1,4 @@
 class LearningPathProgram < ActiveRecord::Base
-  belongs_to :learning_path
   belongs_to :program
   
   def anterior(grupo)
