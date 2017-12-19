@@ -2,7 +2,7 @@ class LearningPathsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_learning_path, only: [:show, :destroy, :edit, :update]
+  before_action :set_learning_path, only: [:show, :destroy, :edit, :update, :clone]
   add_breadcrumb "EDCDIGITAL", :root_path
   def index
     add_breadcrumb "<a href='#{learning_paths_path}' class='active'>Rutas de aprendizaje</a>".html_safe
@@ -159,7 +159,17 @@ class LearningPathsController < ApplicationController
     else
       render :json => {ruta_f_p: [], ruta_f_q: [], ruta_f_d: [], ruta_f_r: [], ruta_m_p: [], ruta_m_q: [], ruta_m_d: [], ruta_m_r: [], programs: [], quizzes: [], refilables: [], delireverables: []}  
     end
+  end
+
+  def clone
+    learning_path = @learning_path.deep_clone  do |original, kopy|
+       kopy.name = "#{original.name} copia"
+       kopy.learning_path_contents = original.learning_path_contents.map(&:deep_clone)
+    end
+    learning_path.save
+    redirect_to learning_paths_path, notice: "Se creo exitosamente la ruta #{learning_path.name}"
   end 
+
   private
     def set_learning_path
       @learning_path= LearningPath.find(params[:id])
