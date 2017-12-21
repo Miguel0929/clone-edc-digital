@@ -15,6 +15,10 @@
 		= f.text_field :video, label: 'URL del video del programa'
 		= f.select(:color, @selected_color = Program.color_options, {:label => 'Color distintivo'}, {:class => 'minimal'})
 		= f.select :group_ids, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupos"}, { :multiple => true}  
-		= link_to 'Cancelar', programs_path, class: 'btn btn-danger'
-		= f.submit 'Aceptar'
+		.p-t-20.p-b-20.pull-right
+			= link_to programs_path, class: 'btn btn-default' do
+				%i.fa.fa-times
+				Cancelar
+			= f.submit 'Guardar cambios', class: 'btn btn-success'
+		.clearfix
 

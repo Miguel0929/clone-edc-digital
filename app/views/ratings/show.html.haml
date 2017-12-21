@@ -1,19 +1,21 @@
 - content_for :title  do
   Diseño del programa - EDC Digital
 
-.container
+.container.p-r-0.p-l-0
   .row
     .col-md-12
-      %h2.text-center
-        Diseño del programa
       .panel.panel-default
         .panel-heading
           %h3.panel-title
-            = @program.name
+            Rating del programa y sus módulos
           .pull-right
             Rating: 
             = @program.rating.round(2)  
         .panel-body
+          .row
+            .col-sm-8
+              %h3
+                = @program.name
           - @program.chapters.each do |chapter|
             #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist", id: "chapter_#{chapter.id}"}
               .panel.panel-default
@@ -33,17 +35,24 @@
                           %th.text-center
                             Rating
                           %th.text-center
-                            Ver   
-                      %tbody      
-                      - chapter.chapter_contents.each do |content|
-                        - if content.coursable_type == 'Lesson'
+                      %tbody 
+                        - if any_lesson?(chapter)     
+                          - chapter.chapter_contents.each do |content|
+                            - if content.coursable_type == 'Lesson'
+                              %tr
+                                %td.p-b-15
+                                  = content.model.identifier
+                                %td.text-center.p-b-15
+                                  = content.rating_count
+                                %td.text-center.p-b-15
+                                  = content.rating.round(2)
+                                %td.text-center.p-b-15
+                                  = link_to dashboard_chapter_content_path(content) do
+                                    %i.fa.fa-eye
+                                    Ver contenido
+                        - else
                           %tr
-                            %td
-                              = content.model.identifier
-                            %td.text-center
-                              = content.rating_count
-                            %td.text-center
-                              = content.rating.round(2)
-                            %td.text-center
-                              = link_to "Ver contenido", dashboard_chapter_content_path(content), class: "btn btn-default"   
+                            %td.p-b-15{colspan: "4"}
+                              Este módulo no contiene lecciones
+                                  
                         

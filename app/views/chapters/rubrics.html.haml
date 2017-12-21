@@ -9,23 +9,24 @@
 					.panel-title
 						Rúbricas del módulo
 				.panel-body
-					= bootstrap_form_for([@program, @chapter]) do |f|
-						.evaluations
-							= f.fields_for :evaluations do |evaluation|
-								= render 'evaluation_fields', f: evaluation
+					.p-t-20
+						= bootstrap_form_for([@program, @chapter]) do |f|
+							.evaluations
+								= f.fields_for :evaluations do |evaluation|
+									= render 'evaluation_fields', f: evaluation
 
-							- if @chapter.evaluations.count == 0
-								%h4.p-b-20.text-center
-									Aún no hay rúbricas para este módulo
-							.links.pull-left
-								= link_to_add_association f, :evaluations, class: 'btn btn-primary' do
-									%i.fa.fa-plus
-									Agregar nueva rúbrica
-							.links.pull-right
-								= link_to @program, class: 'btn' do
-									%i.fa.fa-times
-									Cancelar
-								= f.submit 'Guardar cambios', class: 'btn btn-success'
+								- if @chapter.evaluations.count == 0
+									%h4.p-b-20.text-center
+										Aún no hay rúbricas para este módulo
+								.links.pull-left.p-t-20.p-b-20
+									= link_to_add_association f, :evaluations, class: 'btn btn-primary' do
+										%i.fa.fa-plus
+										Agregar nueva rúbrica
+								.links.pull-right.p-t-20.p-b-20
+									= link_to @program, class: 'btn' do
+										%i.fa.fa-times
+										Cancelar
+									= f.submit 'Guardar cambios', class: 'btn btn-success'
 
 
 

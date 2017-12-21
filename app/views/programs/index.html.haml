@@ -4,26 +4,22 @@
 .container-fluid.container-fixed-lg
   .row
     .col-md-12
-      %h2.bold
-        Programas de aprendizaje
       .panel.panel-default
-        .panel-heading
-          .pull-left.bold
-            PROGRAMAS DE EDC DIGITAL
-          .pull-right
-            = link_to "<i class='fa fa-plus'></i> Crear programa ".html_safe, new_program_path, class: 'btn btn-primary'
-          .pull-right
-            .col-xs-12
-              /%input#search-table.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
-          .clearfix
         .panel-body
+          .row
+            .col-sm-8
+              %h3
+                Programas de EDC Digital
+            .col-sm-4
+              .pull-right
+                = link_to "<i class='fa fa-plus'></i> Crear programa ".html_safe, new_program_path, class: 'btn btn-primary'
+                /%input#search-table.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
           %table.table.table-hover
             %thead
               %tr
                 %th
                 %th
-                  Programa
-                
+                  Programa 
             %tbody.sortable{'data-update-url'=> url_prod_helper(sort_programs_path())}
               - @programs.each do |program|
                 %tr{id: "program_#{program.id}"}
