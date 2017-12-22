@@ -365,3 +365,20 @@ a.unseen-link:hover {
 .select2 {
 	width: 100% !important;
 }
+.bolt-margin{
+	margin-left: 3px;
+	margin-right: 3px;
+}
+.heding-text-like {
+	text-transform: uppercase;
+	font-weight: 600;
+	font-family: 'Montserrat';
+	font-size: 12px;
+}
+.filter-padding{
+	padding: 1px 10px 0px 10px;
+}
+
+
+
+
