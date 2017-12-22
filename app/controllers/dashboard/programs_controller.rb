@@ -37,7 +37,7 @@ class Dashboard::ProgramsController < ApplicationController
           end
         end
 
-        program_group = current_user.group.programs.where.not(content_type: 0).map{|p|p.id}
+        program_group = current_user.group.programs.map{|p|p.id}
         if program_fisico == [] && program_moral == []
           p_f = []; p_m = []; 
         elsif program_moral == [] && program_fisico != []

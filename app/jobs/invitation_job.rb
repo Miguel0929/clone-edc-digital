@@ -12,14 +12,14 @@ class InvitationJob
       job["new_records"] = job["new_records"] + 1;
       job["new_emails"] = job["new_emails"] << email
 
-      user = User.invite!(:email => email, :first_name => name, group_id: group_id) do |u|
+      user = User.invite!(:email => email, :first_name => name, :group_id => group_id) do |u|
         u.skip_invitation = true
       end
     else
       if user.invitation_token.nil? && !user.invitation_accepted_at.nil?
       else 
         if user.group_id != group_id.nil? && user.deleted_at.nil?
-          user.update(group_id: group_id,)
+          user.update(group_id: group_id)
           job["old_records_group"] = job["old_records_group"] + 1;
           job["old_emails_group"] = job["old_emails_group"] << email
         elsif user.deleted_at.nil?

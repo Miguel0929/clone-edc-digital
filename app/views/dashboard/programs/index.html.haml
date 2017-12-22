@@ -101,13 +101,11 @@
                 .row
                   - slice.each do |p|
                     - program = p
-                    - if program.ruta?
-                      - anterior = p.anterior(current_user.group)
                     - unless program.nil?
                       .col-md-6.col-sm-6.col-xs-12.p-l-0.p_phone
                         .super-card-container
                           .card.share.share-other{"data-social" => "item"}
-                            %a{program.ruta? && (current_user.percentage_questions_answered_for(anterior)>=80 && current_user.percentage_questions_answered_for(anterior)<100)? "" : :href => dashboard_program_path(program)}
+                            %a{:href => dashboard_program_path(program)}
                               .card-header.card_height-programas.text-white{ :style => "background: url(#{program.cover.url});" , class: "style_img_card" }
                                 %h5.text-complete.pull-left.fs-12.demo-fs-23
                                   .text-white.bold{id: "program_id#{program.id}"}
@@ -126,14 +124,10 @@
                                     -elsif program.tipo.nil?
                                       Emprendimiento
                                   = truncate(program.name, length: 50, separator: ' ')
-                            /%a{:href => dashboard_program_path(program)}
-                            /- @current_user.programs.each do |personal|
-                            /- if program.name == personal.name
                             - stats = @current_user.program_stats.find_by(program_id: program)
                             - seen_progress = @current_user.percentage_content_visited_for(program)
                             - answered_progress = @current_user.percentage_questions_answered_for(program)
                             - last_content = last_visited_content(program, stats)
-                            /- last_parameters = last_moved_program(program)
                             .min-height
                               #accordion.panel.panel-group.panel-transparent.m-b-0
                                 .panel
