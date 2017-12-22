@@ -378,6 +378,9 @@ a.unseen-link:hover {
 .filter-padding{
 	padding: 1px 10px 0px 10px;
 }
+.after-lift > a::after{
+	top: 15% !important;
+}
 
 
 
