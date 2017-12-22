@@ -293,7 +293,7 @@ class User < ActiveRecord::Base
           .gsub('Months', 'Meses')
           .gsub('Weeks', 'Semanas')
           .gsub('Week', 'Semana')
-          .gsub('Days', 'Dias')
+          .gsub('Days', 'Días')
           .gsub('Hours', 'Horas')
           .gsub('Minutes', 'Minutos')
           .gsub('Minute', 'Minuto')
