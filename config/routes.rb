@@ -415,6 +415,9 @@ Rails.application.routes.draw do
     collection do
       get :complementarios
     end
+    member do
+      post :clone
+    end  
     resources :learning_path_contents, only: [:new, :create, :destroy] do
       collection do
         post :sort
