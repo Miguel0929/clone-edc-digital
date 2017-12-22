@@ -122,7 +122,8 @@ class GroupsController < ApplicationController
       if source == '/groups/' + @group.id.to_s + '/student_control'
         redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
       else
-        redirect_to groups_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
+        redirect_to edit_group_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
+        #groups_path
       end
     else
       render :edit

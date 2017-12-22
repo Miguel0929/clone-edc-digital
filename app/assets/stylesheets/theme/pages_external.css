@@ -365,3 +365,12 @@ a.unseen-link:hover {
 .select2 {
 	width: 100% !important;
 }
+div#refilable-content-template > p{
+  font-size: 16px !important;
+  line-height: 30px !important;
+  text-align: justify-all !important;
+}
+.tipografia-textos-rellenables{
+  font-size: 15px !important;
+  line-height: 35px !important;
+}
