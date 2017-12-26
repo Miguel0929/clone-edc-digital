@@ -1,6 +1,7 @@
 class Dashboard::ProgramsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_program, only: [:show]
+  before_action :redirect_to_support, if: :student_have_group?
   before_action :redirect_to_learning, if: :permiso_avance, only: [:show]
   add_breadcrumb "EDCDIGITAL", :root_path
 

@@ -1,5 +1,6 @@
 class Dashboard::DelireverableUsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :redirect_to_support, if: :student_have_group?
   before_action :set_delireverable
   before_action :redirect_to_delireverables, if: :permiso_delireverable
   add_breadcrumb "EDCDIGITAL", :root_path
