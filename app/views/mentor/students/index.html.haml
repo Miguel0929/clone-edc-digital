@@ -17,22 +17,12 @@
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
-    .panel-heading
-      .pull-right
-        .col-xs-12
-          /%input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
-          .form-group
-            %div.input-group
-              %input#mentor_students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
-              %span.input-group-addon.panel-title-recursos
-                %i.fa.fa-search.text-white
-      .clearfix
     .panel-body
-      .row.inline-block
+      .pull-right#filters.row.inline-block
         = form_tag(mentor_students_path, method: :get) do
           %a#collap
-            #headingfiltros.panel-heading.panel-title-recursos
-              %h4.panel-title.search-title.text-white.ver
+            #headingfiltros.panel-title-recursos.font-montserrat.font-search.filter-padding.m-l-15.m-r-15
+              %h4.panel-title.search-title.text-white.ver.heding-text-like
                 Ver Filtros de búsqueda
           #ver_collap
             .col-md-12.learning-img
@@ -104,6 +94,15 @@
             .col-md-12
               = submit_tag 'Filtrar', class: "btn btn-default"
               = link_to "Exportar a excel", exports_mentor_students_path(format: :xlsx), class: "btn btn-success"
+      .pull-right
+        .col-xs-12
+          /%input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          .form-group
+            %div.input-group
+              %input#mentor_students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+              %span.input-group-addon.panel-title-recursos
+                %i.fa.fa-search.text-white
+      .clearfix
 
     .table-responsive
       %table.table.table-hover
