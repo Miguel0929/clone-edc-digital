@@ -28,25 +28,25 @@
                   #{@user.name}
               .col-sm-7
                 - if current_user.admin?
-                  .row
+                  .row.p-r-20
                     - color = @user.banned? ? "btn-success" : "btn-danger"
                     .pull-right
                       = link_to change_state_user_path(@user), class: "btn #{color}  pull-right m-l-10", data: { confirm: '¿Estás seguro?' } do
                         - @user.banned? ? "<i class= 'fa fa-check'></i> Desbloquear usuario" :  "<i class= 'fa fa-times'></i> Bloquear usuario"
-                    .pull-right
-                      = link_to edit_user_path(@user), class: "btn btn-primary pull-right m-l-10" do
-                        %span.glyphicon.glyphicon-edit
-                        Editar perfil de usuario
-                    .btn-like-switch.pull-right
+                    .pull-right.btn-like-switch
                       %label.switch#switch-eval
                         %input{type: "hidden", id: "user_id", value: @user.id}
                         %input#student_evaluation{{:type => "checkbox"}, @user.evaluation_status == 'evaluado' ? {checked: 1, value: 1} : {value: 0}, {disabled: true}}
                         .slider.round
                       .label-for-switch.p-l-5
                         Edo. de evaluación
-                  .row
-                    .pull-right.m-t-5
-                      = link_to learning_path_user_path(@user), class: "btn btn-success pull-right m-l-10" do
+                  .row.p-r-20
+                    .pull-right.m-t-10.m-b-10
+                      = link_to edit_user_path(@user) do
+                        %span.glyphicon.glyphicon-edit
+                        Editar perfil de usuario
+                    .pull-right.m-t-10.m-b-10.m-r-20
+                      = link_to learning_path_user_path(@user) do
                         %span.fa.fa-map
                         Verificar Ruta de aprendizaje     
             .row

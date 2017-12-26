@@ -1,10 +1,18 @@
 - content_for :title  do
   Editar programa - EDC Digital
 
-.container
+.container-fluid.container-fixed-lg
   .row
     .col-md-12
-      %h2.text-center
-        Editar programa
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title
+            Editar programa
+        .panel-body
+          .row
+            .col-sm-8
+              %h3
+                = @program.name
+          .row.padding-20
+            = render 'form'
 
-      = render 'form'

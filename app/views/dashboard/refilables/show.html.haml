@@ -27,25 +27,36 @@
                 .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
                   = @template.name
                 %p
-                  = @template.description
-                %h5
-                  = link_to dashboard_template_refilables_path do
-                    Regresar a rellenables
+                  = @template.description 
+                .p-t-10                
+                  %h5
+                    = link_to edit_dashboard_template_refilable_refilable_path(@template,  @refilable) do
+                      Editar este rellenable
+                  %h5
+                    = link_to dashboard_template_refilables_path do
+                      Regresar a rellenables
+                /%h5
+                /  - if @done_refilables.count > 0
+                /    - @done_refilables.each do |refilable|
+                /      - user_refilable = refilable.refilables.find_by(user: current_user)
+                /      = link_to edit_dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "text-danger bold" do
+                /        Editar este rellenable
             .col-md-8
               .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
                 .table-responsive.table-invoice
                   %table.table.m-t-0
                     %thead
                       %tr
-                        %th 
+                        %th.tipografia-textos-rellenables
                           Texto del rellenable
                           %p.small.hint-text.m-b-0
                             Tus respuestas están resaltadas en verde.
                     %tbody
                       %tr
                         %td.p-b-30
-                          #refilable-content-template
-                            = raw remove_class(replace_fillable(@refilable.content))
+                          .well
+                            #refilable-content-template.nueva-tipografia-rellenable
+                              = raw remove_class(replace_fillable(@refilable.content))
 
 :javascript
   $(document).on('turbolinks:load', function(){

@@ -122,7 +122,8 @@ class GroupsController < ApplicationController
       if source == '/groups/' + @group.id.to_s + '/student_control'
         redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
       else
-        redirect_to groups_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
+        redirect_to edit_group_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
+        #groups_path
       end
     else
       render :edit
@@ -154,6 +155,16 @@ class GroupsController < ApplicationController
     end
     render nothing: true
   end
+
+  def bloquear
+    group = Group.find(params[:id])
+    if group.financiero.nil?
+      group.update(financiero: false)
+    else
+      group.update(financiero: !group.financiero)
+    end 
+    render :json => {status: group} 
+  end   
 
   def notification_route
     LearningPathNotificationJob.perform_async(@group,dashboard_learning_path_url)

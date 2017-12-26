@@ -138,10 +138,15 @@
                     = link_to student_control_group_path(group) do
                       %i.fa.fa-user
                       Vincular estudiantes
-                  /%li
-                  /  = link_to sort_route_group_path(group) do
-                  /    %i.fa.fa-map-signs
-                  /    Editar "Ruta de aprendizaje"
+                  %li
+                    .btn-like-switch.btn-like-switch-small
+                      .label-for-switch.label-for-switch-small
+                        %i.fa.fa-credit-card
+                        P. Financiera 
+                      %label.switch.switch-small 
+                        %input{:id => "group_financiero_#{group.id}",:type => "checkbox", checked: if group.financiero.nil? then true else group.financiero end, value: "#{group.id}"}
+                        .slider.slider-small.round
+                       
                   %li
                     = link_to progress_panel_path(group) do
                       %i.fa.fa-line-chart
@@ -158,3 +163,35 @@
                     = link_to group, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
                       %i.fa.fa-times
                       Eliminar
+#alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-info
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      #alert_text                        
+:javascript
+  $(document).on('turbolinks:load', function(){
+    $(":checkbox").click(function() {
+      $.ajax({
+        type: "post", url: "/groups/"+ $(this).prop("value") +"/bloquear",
+        data: { 
+          'group': $(this).prop("value"), 
+        },
+        success: function (data, text) {
+          console.log(data.status.financiero);
+          if (data.status.financiero){
+            $("#alert_text").text("Plataforma financiera desbloqueada");
+          }else{
+            $("#alert_text").text("Plataforma financiera bloqueada");
+          }
+          $("#alert-ra").css('display','block');
+          setTimeout(function(){$("#alert-ra").css('display','none');},3000); 
+        },
+        error: function (data) {
+          console.log(data);
+        }
+      });
+
+    });
+  });

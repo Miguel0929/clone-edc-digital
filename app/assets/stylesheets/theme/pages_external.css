@@ -365,3 +365,29 @@ a.unseen-link:hover {
 .select2 {
 	width: 100% !important;
 }
+div#refilable-content-template > p{
+  font-size: 16px !important;
+  line-height: 30px !important;
+  text-align: justify-all !important;
+}
+.tipografia-textos-rellenables{
+  font-size: 15px !important;
+  line-height: 35px !important;
+}
+.bolt-margin{
+	margin-left: 3px;
+	margin-right: 3px;
+}
+.heding-text-like {
+	text-transform: uppercase;
+	font-weight: 600;
+	font-family: 'Montserrat';
+	font-size: 12px;
+}
+.filter-padding{
+	padding: 1px 10px 0px 10px;
+}
+.after-lift > a::after{
+	top: 15% !important;
+}
+

@@ -268,9 +268,10 @@
                 %li
                   %a{:href => "http://edc-ideador.com/", :target => "_blank"} EDC Ideador
                   %span.icon-thumbnail Id
-                %li
-                  %a{:href => "https://www.edc-financiero.com/", :target => "_blank"} EDC Financiero
-                  %span.icon-thumbnail Fn
+                - if !current_user.group.nil? && (current_user.group.financiero.nil? || current_user.group.financiero) 
+                  %li
+                    %a{:href => "https://www.edc-financiero.com/", :target => "_blank"} EDC Financiero
+                    %span.icon-thumbnail Fn
                 %li
                   %a{:href => dashboard_calculator_path} Calculadora de muestras
                   %span.icon-thumbnail En

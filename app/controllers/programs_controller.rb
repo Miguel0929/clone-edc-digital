@@ -10,6 +10,8 @@ class ProgramsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{programs_path}'>Programas</a>".html_safe
 
     @programs = Program.all.order(position: :asc)
+
+
   end
 
   def show
@@ -56,7 +58,7 @@ class ProgramsController < ApplicationController
         end  
       end
       NewProgramNotificationEditJob.perform_async(Group.where(id: groups), @program, dashboard_program_url(@program)) 
-      redirect_to @program, notice: "Se actualizó exitosamente el programa #{@program.name}"
+      redirect_to edit_program_path, notice: "Se actualizó exitosamente el programa #{@program.name}"
     else
       render :edit
     end
