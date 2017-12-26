@@ -1,7 +1,7 @@
 - content_for :title  do
   Contenido de módulo - EDCdigital
 
-.container.p-r-0.p-l-0
+.container-fluid.container-fixed-lg
   .row
     .col-md-12
       .panel.panel-default
@@ -9,69 +9,70 @@
           .panel-title
             Contenido del módulo              
         .panel-body
-          .sortable{'data-update-url'=> url_prod_helper(sort_chapter_contents_url) }
-            - @chapter.chapter_contents.each do |content|
-              - if content.coursable_type == 'Lesson'
-                .well{id: "chapter_content_#{content.id}"}
-                  .row
-                    .col-sm-12
-                      %span.handle-sort
-                        [mover]
-                      %span.bold
-                        Lección
-                      .pull-right
-                        %span.option.p-r-10.p-l-10
-                          = link_to edit_chapter_lesson_path(@chapter, content.model) do
-                            %i.fa.fa-edit
-                            Editar
-                        
-                        %span.option.p-r-10.p-l-10
-                          = link_to clone_chapter_lesson_path(@chapter, content.model), method: :post, data: {confirm: '¿Estás seguro?'} do
-                            %i.fa.fa-copy
-                            Clonar
-                        
-                        %span.option.p-r-10.p-l-10
-                          = link_to chapter_lesson_path(@chapter, content.model), method: :delete, data: { confirm: '¿Estás seguro?'} do
-                            %i.fa.fa-times
-                            Eliminar
-                  %a{href: chapter_lesson_path(@chapter, content.model)}
-                    = content.model.identifier
-                  %span.pull-right
-                    Rating:
-                    = content.rating.round(2)
+          .p-t-20
+            .sortable{'data-update-url'=> url_prod_helper(sort_chapter_contents_url) }
+              - @chapter.chapter_contents.each do |content|
+                - if content.coursable_type == 'Lesson'
+                  .well{id: "chapter_content_#{content.id}"}
+                    .row
+                      .col-sm-12
+                        %span.handle-sort
+                          [mover]
+                        %span.bold
+                          Lección
+                        .pull-right
+                          %span.option.p-r-10.p-l-10
+                            = link_to edit_chapter_lesson_path(@chapter, content.model) do
+                              %i.fa.fa-edit
+                              Editar
+                          
+                          %span.option.p-r-10.p-l-10
+                            = link_to clone_chapter_lesson_path(@chapter, content.model), method: :post, data: {confirm: '¿Estás seguro?'} do
+                              %i.fa.fa-copy
+                              Clonar
+                          
+                          %span.option.p-r-10.p-l-10
+                            = link_to chapter_lesson_path(@chapter, content.model), method: :delete, data: { confirm: '¿Estás seguro?'} do
+                              %i.fa.fa-times
+                              Eliminar
+                    %a{href: chapter_lesson_path(@chapter, content.model)}
+                      = content.model.identifier
+                    %span.pull-right
+                      Rating:
+                      = content.rating.round(2)
 
-              - elsif content.coursable_type == 'Question'
-                .well{id: "chapter_content_#{content.id}"}
-                  = render partial: 'questions/question', locals: { question: content.model, chapter: @chapter}
-              - elsif content.coursable_type == 'Quiz'
-                .well{id: "chapter_content_#{content.id}"}
-                  = render partial: 'quiz_programs/quiz', locals: { quiz: content, chapter: @chapter} 
-              - elsif content.coursable_type == 'TemplateRefilable'
-                .well{id: "chapter_content_#{content.id}"}
-                  = render partial: 'refillable_programs/refillable', locals: { refillable: content, chapter: @chapter} 
-              - elsif content.coursable_type == 'DelireverablePackage'
-                .well{id: "chapter_content_#{content.id}"}
-                  = render partial: 'delireverable_programs/delireverable', locals: { delireverable: content, chapter: @chapter}            
+                - elsif content.coursable_type == 'Question'
+                  .well{id: "chapter_content_#{content.id}"}
+                    = render partial: 'questions/question', locals: { question: content.model, chapter: @chapter}
+                - elsif content.coursable_type == 'Quiz'
+                  .well{id: "chapter_content_#{content.id}"}
+                    = render partial: 'quiz_programs/quiz', locals: { quiz: content, chapter: @chapter} 
+                - elsif content.coursable_type == 'TemplateRefilable'
+                  .well{id: "chapter_content_#{content.id}"}
+                    = render partial: 'refillable_programs/refillable', locals: { refillable: content, chapter: @chapter} 
+                - elsif content.coursable_type == 'DelireverablePackage'
+                  .well{id: "chapter_content_#{content.id}"}
+                    = render partial: 'delireverable_programs/delireverable', locals: { delireverable: content, chapter: @chapter}            
 
-            - if @chapter.chapter_contents.count == 0
-              %h4.p-b-20.text-center
-                Aún no hay contenido para este módulo
-          .links.pull-right 
-            = link_to new_chapter_lesson_path(@chapter), class: 'btn btn-success' do
-              %i.fa.fa-plus
-              Agregar lección
-            = link_to new_chapter_question_path(@chapter), class: 'btn btn-primary' do
-              %i.fa.fa-plus
-              Agregar pregunta
-            = #link_to new_chapter_quiz_program_path(@chapter), class: 'btn btn-success' do
-            =#%i.fa.fa-plus
-            =#Agregar examen
-            = #link_to new_chapter_refillable_program_path(@chapter), class: 'btn btn-primary' do
-            =#%i.fa.fa-plus
-            =#Agregar rellenable
-            = #link_to new_chapter_delireverable_program_path(@chapter), class: 'btn btn-success' do
-            =#%i.fa.fa-plus
-            =#Agregar entregable 
+              - if @chapter.chapter_contents.count == 0
+                %h4.p-b-20.text-center
+                  Aún no hay contenido para este módulo
+            .links.pull-right.p-t-20.p-b-20
+              = link_to new_chapter_lesson_path(@chapter), class: 'btn btn-success' do
+                %i.fa.fa-plus
+                Agregar lección
+              = link_to new_chapter_question_path(@chapter), class: 'btn btn-primary' do
+                %i.fa.fa-plus
+                Agregar pregunta
+              /= link_to new_chapter_quiz_program_path(@chapter), class: 'btn btn-success' do
+              /  %i.fa.fa-plus
+              /  Agregar examen
+              /= link_to new_chapter_refillable_program_path(@chapter), class: 'btn btn-primary' do
+              /  %i.fa.fa-plus
+              /  Agregar rellenable
+              /= link_to new_chapter_delireverable_program_path(@chapter), class: 'btn btn-success' do
+              /  %i.fa.fa-plus
+              /  Agregar entregable 
         
 
 
