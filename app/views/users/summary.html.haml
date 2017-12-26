@@ -50,24 +50,30 @@
                       %h4.text-complete.m-t-0
                         #{@user.user_seen}%
                 .pull-bottom.bottom-left.bottom-right.p-l-30.p-r-30.p-b-30
-                  .col-xs-4
+                  .row.p-t-5
                     /.font-montserrat.bold.fs-16.text-primary.white-shadow
-                    .label
-                      #{ @user.last_time }
-                    .font-montserrat.bold.fs-11.text-white
-                      ÚLTIMA VEZ
-                  .col-xs-4
+                    .col-md-4
+                      .font-montserrat.bold.fs-11.text-white
+                        ÚLTIMA VEZ
+                    .col-md-8
+                      .label
+                        #{ @user.last_time }
+                  .row.p-t-5
                     /.font-montserrat.bold.fs-16.text-primary.white-shadow
-                    .label
-                      #{ @user.time_average.round(1) } min
-                    .font-montserrat.bold.fs-11.text-white
-                      USO PROMEDIO
-                  .col-xs-4
+                    .col-md-4
+                      .font-montserrat.bold.fs-11.text-white
+                        USO PROMEDIO
+                    .col-md-8
+                      .label
+                        #{ @user.time_average.round(1) } min
+                  .row.p-t-5
                     /.font-montserrat.bold.fs-16.text-primary.white-shadow
-                    .label
-                      #{ @user.total_time.round(1) } min
-                    .font-montserrat.bold.fs-11.text-white
-                      USO TOTAL
+                    .col-md-4
+                      .font-montserrat.bold.fs-11.text-white
+                        USO TOTAL
+                    .col-md-8
+                      .label
+                        #{ @user.total_time.round(1) } min
 
       .row
         .col-sm-6.m-b-10

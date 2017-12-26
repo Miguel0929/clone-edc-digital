@@ -17,25 +17,14 @@
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
-    .panel-heading
-      .pull-right
-        .col-xs-12
-          / %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
-          .form-group
-            %div.input-group
-              %input#admin_students.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
-              %span.input-group-addon.font-search
-                %i.fa.fa-search.text-white
-      .clearfix 
-
-    .panel-body    
-      #filters.row.inline-block
+    .panel-body   
+      .pull-right#filters.row.inline-block
         - if current_user.admin?
           = form_tag(students_users_path, method: :get) do
             %a#collap
-              .panel-heading.font-search
-                %h4.panel-title.search-title.text-white.ver
-                  Ver Filtros de búsqueda :
+              .font-montserrat.font-search.filter-padding.m-l-15.m-r-15
+                %h4.panel-title.search-title.text-white.ver.heding-text-like
+                  Ver filtros de búsqueda
             #ver_collap
               .col-md-12.learning-img
                 %aside.sidebar-menu
@@ -124,6 +113,15 @@
                       = link_to 'Formato rápido', students_users_path(format: :xlsx, fast: true)
                     %li
                       = link_to 'Formato completo', students_users_path(format: :xlsx, fast: false)
+      .pull-right
+        .col-xs-12
+          / %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          .form-group
+            %div.input-group
+              %input#admin_students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+              %span.input-group-addon.font-search
+                %i.fa.fa-search.text-white
+      .clearfix
 
       - if (params[:group].present?) && @allusers.count > 0
         - seen, ave = [], [] #vectores-contadores globales a y b
@@ -250,9 +248,10 @@
                     = link_to user_path(user) do
                       %i.fa.fa-eye
                       Ver información
-                    %sup
-                      = link_to summary_user_path(user),class: "p-l-5" do
-                        %i.fa.fa-bolt
+                  %li
+                    = link_to summary_user_path(user) do
+                      %i.fa.fa-bolt.bolt-margin
+                      Resumen de avances
                   - if user.student?
                     - if current_user.admin?
                       %li
@@ -278,9 +277,9 @@
     $( "#ver_collap" ).toggle("slow");
     x = !x;
     if(x){
-      $(".ver").text("Ver Filtros de búsqueda :");
+      $(".ver").text("Ver Filtros de búsqueda");
     } else {
-      $(".ver").text("Ocultar Filtros de búsqueda :");
+      $(".ver").text("Ocultar Filtros de búsqueda");
     }
   });
  

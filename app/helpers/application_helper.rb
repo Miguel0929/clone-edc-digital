@@ -60,7 +60,7 @@ module ApplicationHelper
   end
 
   def include_margin?(controller_name, action_name)
-    controller_name == 'programs' && action_name == 'show'
+    #controller_name == 'programs' && action_name == 'show'
   end
 
   def url_prod_helper(url)

@@ -2,62 +2,52 @@
   Programas - EDC Digital
 
 .container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-heading
-      .pull-left
-        .panel-title
-          Programas de EDC-Digital
-      .pull-right
-        = link_to new_program_path, class: 'btn btn-primary' do
-          %i.fa.fa-plus
-          Crear programa
-          /%input#search-table.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
-      .clearfix
-    .panel-body
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-            %th
-              Programa
-            %th
-        %tbody.sortable{'data-update-url'=> url_prod_helper(sort_programs_path())}
-          - @programs.each do |program|
-            %tr{id: "program_#{program.id}"}
-              %td.p-t-25.p-b-20.handle-sort
-                [mover]
-              %td.p-b-20
-                %h5.m-b-0.m-t-0
-                  = program.name
-                .hint-text.small-text
-                  Módulos de programa:
-                  %span.bold.text-primary #{program.chapters.count}
-                  %span.p-l-10.p-r-10 
-                  Rating:
-                  %span.bold.text-primary #{program.rating.round(2)}
-                  %span.p-l-10.p-r-10 
-              %td.p-b-20
-
-
-                %ul.no-style.unstyled.m-b-0.p-l-40.modules-menu-list
-                  %li
-                    = link_to program_path(program) do
-                      %i.fa.fa-list-alt
-                      Contenido
-                  %li
-                    = link_to rating_program_path(program) do
-                      %i.fa.fa-star
-                      Ratings
-                  %li
-                    = link_to edit_program_path(program) do
-                      %i.fa.fa-edit
-                      Editar
-                  %li
-                    = link_to clone_program_path(program), method: :post, data: { confirm: '¿Estás seguro?' } do
-                      %i.fa.fa-copy
-                      Clonar 
-                  %li
-                    = link_to program_path(program), method: :delete, data: { confirm: '¿Estás seguro?' } do
-                      %i.fa.fa-times
-                      Eliminar 
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-body
+          .row
+            .col-sm-8
+              %h3
+                Programas de EDC Digital
+            .col-sm-4
+              .pull-right
+                = link_to "<i class='fa fa-plus'></i> Crear programa ".html_safe, new_program_path, class: 'btn btn-primary'
+                /%input#search-table.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
+          %table.table.table-hover
+            %thead
+              %tr
+                %th
+                %th
+                  Programa 
+            %tbody.sortable{'data-update-url'=> url_prod_helper(sort_programs_path())}
+              - @programs.each do |program|
+                %tr{id: "program_#{program.id}"}
+                  %td.handle-sort
+                    [mover]
+                  %td
+                    .large-text.bold
+                      = program.name
+                    .normal-text.hint-text.inline-block
+                      Módulos de programa:
+                      %span.bold.text-primary #{program.chapters.count}
+                    .normal-text.hint-text.inline-block.m-l-20
+                      Rating: 
+                      %span.bold.text-primary #{program.rating.round(2)}
+                    .normal-text.hint-text.block.m-t-10.m-b-15
+                      = link_to program_path(program) do
+                        %i.fa.fa-list-alt
+                        Contenido
+                      = link_to rating_program_path(program), class: 'm-l-20' do
+                        %i.fa.fa-star
+                        Ratings
+                      = link_to edit_program_path(program), class: 'm-l-20' do
+                        %i.fa.fa-edit
+                        Editar
+                      = link_to clone_program_path(program), class: 'm-l-20', method: :post, data: { confirm: '¿Estás seguro?' } do
+                        %i.fa.fa-copy
+                        Clonar 
+                      = link_to program_path(program), class: 'm-l-20', method: :delete, data: { confirm: '¿Estás seguro?' } do
+                        %i.fa.fa-times
+                        Eliminar 
 
