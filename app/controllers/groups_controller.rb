@@ -155,6 +155,16 @@ class GroupsController < ApplicationController
     render nothing: true
   end
 
+  def bloquear
+    group = Group.find(params[:id])
+    if group.financiero.nil?
+      group.update(financiero: false)
+    else
+      group.update(financiero: !group.financiero)
+    end 
+    render :json => {status: group} 
+  end   
+
   def notification_route
     LearningPathNotificationJob.perform_async(@group,dashboard_learning_path_url)
     redirect_to sort_route_group_path, notice: "Notificaciones enviadas al grupo #{@group.name}"
