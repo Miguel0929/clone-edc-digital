@@ -1,5 +1,6 @@
 class Dashboard::AttachmentsController < ApplicationController
   before_action :authenticate_user!
+  before_action :redirect_to_support, if: :student_have_group?
   before_action :set_attachment, only: [:edit, :update, :destroy]
   add_breadcrumb "EDC DIGITAL", :root_path
 

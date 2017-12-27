@@ -1,5 +1,6 @@
 class  Dashboard::RefilablesController < ApplicationController
   before_action :authenticate_user!
+  before_action :redirect_to_support, if: :student_have_group?
   before_action :set_template_refilable
   before_action :redirect_to_template_refilables, if: :permiso_refilable
   add_breadcrumb "EDCDIGITAL", :root_path

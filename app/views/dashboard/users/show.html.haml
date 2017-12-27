@@ -94,7 +94,7 @@
               %tr.odd.gradeX
                 %td Cursos inscritos
                 %td
-                  - @user.group.programs.each do |program|
+                  - @programs.each do |program|
                     \-
                     = program.name
                     %br

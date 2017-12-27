@@ -154,4 +154,38 @@ class Support
       FakeEmail.new
     end
   end
+  def self.sin_grupo(user, state, university, url, group)
+    data = {
+        personalizations: [
+          {
+            to: [ { email: "donpancholin50@hotmail.com"} ],
+            substitutions: {
+              "-raw_subject-" => "EDC Digital - El estudiante #{user.name} no tiene grupo asignado.",
+              "-user-"=> user.name,
+              "-email-"=> user.email,
+              "-state-" => state.name,
+              "-university-" => university,
+              "-url-" => url,
+              "-group-" => group.name,
+            },
+            subject: "EDC Digital - El estudiante #{user.name} no tiene grupo asignado."
+          },
+        ],
+        from: {
+          email: FROM
+        },
+        template_id: "a5158a2b-1845-4f58-9c4a-4513a9703a95",
+      }
+      sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
+      begin
+        response = sg.client.mail._("send").post(request_body: data)
+        Rails.logger.info response.status_code
+        Rails.logger.info response.body
+        Rails.logger.info response.headers
+        FakeEmail.new
+      rescue Exception => e
+        Rails.logger.info e.message
+        FakeEmail.new
+      end
+  end
 end
