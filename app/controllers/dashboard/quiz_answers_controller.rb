@@ -1,5 +1,6 @@
 class Dashboard::QuizAnswersController < ApplicationController
   before_action :authenticate_user!
+  before_action :redirect_to_support, if: :student_have_group?
   before_action :set_quiz
   
   def create
