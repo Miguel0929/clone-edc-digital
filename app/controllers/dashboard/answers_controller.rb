@@ -1,5 +1,6 @@
 class Dashboard::AnswersController < ApplicationController
   before_action :authenticate_user!
+  before_action :redirect_to_support, if: :student_have_group?
   before_action :set_chapter_content
   before_action :validate_coursable_type
   before_action :build_question

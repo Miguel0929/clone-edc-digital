@@ -109,14 +109,34 @@ class ApplicationController < ActionController::Base
         end  
       end
     else 
-      p "+++++++++++++++++++++++++++++++++++++"
       return true  
     end  
   end
 
+  def student_have_group?
+    if current_user.student? && current_user.group.nil?
+      return true
+    else
+      return false
+    end  
+  end
+
+  def have_group?
+    if current_user.student? && !current_user.group.nil?
+      return true
+    else
+      return false
+    end  
+  end
+
+
   def redirect_to_learning
     redirect_to dashboard_learning_path_path, notice: "Aun no puedes acceder a este contenido." 
-  end  
+  end
+
+  def redirect_to_support
+    redirect_to dashboard_support_admin_path, notice: "No tienes asignado un grupo, contacta al administrador para que te asigne a uno." 
+  end    
 
   helper_method :mailbox, :conversation
 

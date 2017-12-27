@@ -149,6 +149,8 @@ Rails.application.routes.draw do
     get 'terminos-y-condiciones', to: 'welcome#terms', as: :terms
     get 'politica-de-privacidad', to: 'welcome#privacy', as: :privacy
     get 'ayuda',                  to: 'welcome#support', as: :support
+    get 'contact_admin',          to: 'welcome#contact_admin', as: :support_admin
+    post 'contact_admin_mail',          to: 'welcome#contact_admin_mail', as: :support_admin_mail
     post 'send_support_email',    to: 'welcome#send_support_email'
     get 'confidencialidad-y-propiedad-industrial', to: 'welcome#service', as: :service
     get 'ruta',                   to: 'welcome#pathway', as: :pathway

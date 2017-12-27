@@ -1,5 +1,6 @@
 class Dashboard::QuizzesController < ApplicationController
   before_action :authenticate_user!
+  before_action :redirect_to_support, if: :student_have_group?
   before_action :set_quiz, only: [:show, :apply, :detail]
   before_action :redirect_to_quizzes, if: :permiso_quiz, only: [:show, :apply, :detail]  
   add_breadcrumb "EDCDIGITAL", :root_path
