@@ -21,5 +21,13 @@ class ChapterContent < ActiveRecord::Base
   end
   def rating_count
     return self.ratings.count
+  end
+
+  def next_content
+    self.chapter.chapter_contents.where("position > ?", self.position).order(:position).first
+  end
+
+  def previous_content
+    self.chapter.chapter_contents.where("position < ?", self.position).order(:position).last
   end	
 end
