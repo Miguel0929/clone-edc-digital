@@ -189,7 +189,7 @@ class Mentor::StudentsController < ApplicationController
     @mentor_messages = MentorHelp.where(sender: @user.id).count
     @result_exams = @answered_quizzes.to_f / @total_quizzes.to_f * 100
     @result_delireverables = @complete_delireverables.to_f / @delireverables.to_f * 100
-    @result_refilables = @complete_refilables.to_f / @refilables.to_f * 100
+    @result_refilables = @complete_refilables.to_f / @refilables.to_f * 100 rescue 0
   end
 
   private
