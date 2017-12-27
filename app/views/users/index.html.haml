@@ -121,7 +121,7 @@
               %td
                 = user.huminize_role
               %td
-                = user.group.name
+                = user.group.name  unless user.group.nil?
               %td
                 #{user.answered_questions_percentage}%
               %td
