@@ -372,13 +372,13 @@ class User < ActiveRecord::Base
   end  
 
   def total_quizzes
-    self.group.quizzes.count
+    self.group.all_quizzes.count
   end
 
   def answered_quizzes
     total = 0
     results = []
-    self.group.quizzes.each do |quiz|
+    self.group.all_quizzes.each do |quiz|
       if quiz.answered(self) > 0 
         total += 1
         results.push( (quiz.average(self).to_f / quiz.total_points.to_f * 100).ceil )

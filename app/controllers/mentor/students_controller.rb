@@ -179,17 +179,29 @@ class Mentor::StudentsController < ApplicationController
     @quizzes_average = quizzes_results[0]
     @answered_quizzes = quizzes_results[1]
     @total_quizzes = @user.total_quizzes
-    @delireverables = Delireverable.joins(delireverable_package: [:groups]).where('groups.id = ?', @user.group.id).count
-    @refilables = TemplateRefilable.joins(:groups).where('groups.id = ?', @user.group.id).count
+    @delireverables = @user.group.all_delireverables.count rescue 0
+    @refilables = @user.group.all_refilables.count rescue 0
     @complete_delireverables = DelireverableUser.where(user: @user).count
     @complete_refilables = Refilable.where(user: @user).count
     @self_archives = @user.attachments.count
     @shared_archives = @user.shared_attachments.count
     @sent_chats = Mailboxer::Message.where(sender_id: @user).count
     @mentor_messages = MentorHelp.where(sender: @user.id).count
-    @result_exams = @answered_quizzes.to_f / @total_quizzes.to_f * 100
-    @result_delireverables = @complete_delireverables.to_f / @delireverables.to_f * 100
-    @result_refilables = @complete_refilables.to_f / @refilables.to_f * 100 rescue 0
+    if @total_quizzes == 0
+      @result_exams = 0
+    else
+      @result_exams = @answered_quizzes.to_f / @total_quizzes.to_f * 100 
+    end
+    if @delireverables == 0
+      @result_delireverables = 0
+    else    
+      @result_delireverables = @complete_delireverables.to_f / @delireverables.to_f * 100
+    end
+    if  @refilables == 0
+      @result_refilables = 0
+    else
+      @result_refilables = @complete_refilables.to_f / @refilables.to_f * 100 
+    end
   end
 
   private

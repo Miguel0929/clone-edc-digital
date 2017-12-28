@@ -290,6 +290,12 @@ a.unseen-link:hover {
 	border-right: 20px solid #c2e5fc; 
 	border-bottom: 10px solid transparent; 
 }
+.bottom-line{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.select2 {
+	width: 100% !important;
+}
 .card.share.sitemap .card-header {
   padding: 15px 15px 12px;
   border-bottom: 0.5px solid #e6e6e6;
