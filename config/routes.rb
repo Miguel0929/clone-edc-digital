@@ -284,14 +284,12 @@ Rails.application.routes.draw do
   resources :deleted_users, only: [:index, :update], path: 'usuarios-desactivados'
 
   namespace :mentor do
-    resources :sitemap, only: [:index]
-    resources :groups, only: [:index, :show]
-
     resources :groups, only: [:index, :show] do
       member do
         get :codes
-      end
-    end
+      end  
+    end  
+    resources :sitemap, only: [:index]
     resources :evaluations, only: [:index, :show, :update]
     resources :program_details, only: [:index]
     resources :students, only: [:index, :show, :update] do

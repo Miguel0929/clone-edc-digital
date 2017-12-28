@@ -19,6 +19,7 @@ var tour3 = new Tour({
       content: "Esta barra te permitirá navegar a través del contenido de cada módulo de manera consecutiva. También puedes reportar el contenido en caso de que experimentes alguna falla en tu exploración usando el botón rojo con la bandera.",
       placement: "top",
       backdrop: true,
+      template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><button class='btn btn-info btn-sm' data-role='end'>Terminar</button></div></div>"
     }
   ],
   container: "body",
@@ -47,7 +48,7 @@ var tour3 = new Tour({
       },
       success: function(data) {
         console.log("Cambio exitoso en la posición " + data["position"] + " del hash 'tour_trigger'");
-        location.reload();
+        //location.reload();
       },
       error: function(data) {
         console.log("Hubo un error en el cambio en la posición " + data["position"] + " del hash 'tour_trigger'");
