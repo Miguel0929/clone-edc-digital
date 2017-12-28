@@ -1,4 +1,5 @@
 class TemplateRefilablesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_template_refilable, only: [:show, :edit, :update, :destroy]
   before_action :require_admin
   add_breadcrumb "EDC DIGITAL", :root_path
