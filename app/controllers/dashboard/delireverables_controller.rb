@@ -1,5 +1,6 @@
 class Dashboard::DelireverablesController < ApplicationController
   before_action :authenticate_user!
+  before_action :redirect_to_support, if: :student_have_group?
   add_breadcrumb "EDC DIGITAL", :root_path
 
   def index

@@ -1,0 +1,21 @@
+- content_for :title  do
+  Nueva "Ruta de aprendizaje" - EDCdigital
+
+.container
+  .row
+    .col-md-offset-2.col-md-8
+      .panel.panel-default
+        .panel-heading.text-center
+          %h3.panel-title Ups! Esto es embarazoso :(
+        .panel-body
+          .p-x-30
+            %p.text-center No estas vinculado a ningún grupo, por el momento seras vinculado a un grupo provisional Te pedimos que llenes la siguiente información para vincularte en el grupo adecuado.
+            = form_tag(dashboard_support_admin_mail_path) do
+              = hidden_field_tag 'user', current_user.id
+              .form-group
+                %label{:for => "state"} Estado: 
+                = select_tag "state", options_from_collection_for_select(@state, "id", "name"), prompt: "Selecciona el estado", class: 'form-control', required: "required" 
+              .form-group
+                %label{:for => "university"} ¿Perteneces a alguna universidad? De ser así coloca la información enseguida 
+                = text_field_tag 'university', '' ,placeholder: 'Coloca la información de tu universidad', class: 'form-control' 
+              = submit_tag "Enviar información", class: "btn btn-success"    

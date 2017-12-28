@@ -1,5 +1,7 @@
 class Dashboard::WelcomeController < ApplicationController
   before_action :authenticate_user!
+  before_action :redirect_to_support, if: :student_have_group? , only: [:support, :send_support_email, :learning_path]
+  before_action :redirect_to_learning, if: :have_group?, only: [:contact_admin, :contact_admin_mail]
   after_action :change_video_trigger, only: [:learning_path]
 
   helper_method :last_moved_program
@@ -49,7 +51,7 @@ class Dashboard::WelcomeController < ApplicationController
   end
 
   def learning_path
-    #unless current_user.group.learning_path.nil?
+    add_breadcrumb "<a class='active' href='#{dashboard_learning_path_path}'>Ruta de aprendizaje</a>".html_safe
     @programs_fisica=current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position) rescue nil
     c=0
     @c1=0
@@ -159,6 +161,22 @@ class Dashboard::WelcomeController < ApplicationController
     end
     render json:{nt: @notification}
   end
+
+  def contact_admin
+    @state = State.all
+  end
+
+  def contact_admin_mail
+    if params[:state].present? == false 
+      flash_message = { alert: 'No olvides agregar el estado.'}
+    else
+      @user = User.find(params[:user])
+      state = State.find(params[:state])
+      @user.update(group_id: 36)
+      Support.sin_grupo(@user, state, params[:university], user_url(@user), @user.group)
+    end
+    redirect_to dashboard_learning_path_path  
+  end  
 
   private
   def change_video_trigger

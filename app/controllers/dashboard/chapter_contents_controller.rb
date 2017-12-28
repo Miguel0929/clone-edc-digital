@@ -1,5 +1,6 @@
 class Dashboard::ChapterContentsController < ApplicationController
   before_action :authenticate_user!
+  before_action :redirect_to_support, if: :student_have_group?
   before_action :track_chapter_content, only: [:show]
   before_action :redirect_to_learning, if: :permiso_avance, only: [:show]
   after_action :update_program_stats, only: [:show]

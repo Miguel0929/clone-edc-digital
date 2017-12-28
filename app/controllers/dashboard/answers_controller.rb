@@ -1,5 +1,6 @@
 class Dashboard::AnswersController < ApplicationController
   before_action :authenticate_user!
+  before_action :redirect_to_support, if: :student_have_group?
   before_action :set_chapter_content
   before_action :validate_coursable_type
   before_action :build_question
@@ -132,8 +133,8 @@ class Dashboard::AnswersController < ApplicationController
         mensaje = mensaje + ", haz completado el 100% del curso."
       end      
     end   
-    if @chapter_content.lower_item
-      redirect_to dashboard_chapter_content_path(@chapter_content.lower_item), notice: mensaje
+    if @chapter_content.next_content
+      redirect_to dashboard_chapter_content_path(@chapter_content.next_content), notice: mensaje
     elsif program.next_chapter(@chapter_content.chapter) && program.next_chapter(@chapter_content.chapter).chapter_contents.first
       redirect_to dashboard_chapter_content_path(program.next_chapter(@chapter_content.chapter).chapter_contents.first), notice: mensaje
     else
