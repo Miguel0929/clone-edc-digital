@@ -289,7 +289,6 @@ Rails.application.routes.draw do
         get :codes
       end
     end
-    
     resources :sitemap, only: [:index]
     resources :evaluations, only: [:index, :show, :update]
     resources :program_details, only: [:index]

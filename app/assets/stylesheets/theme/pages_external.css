@@ -290,6 +290,15 @@ a.unseen-link:hover {
 	border-right: 20px solid #c2e5fc; 
 	border-bottom: 10px solid transparent; 
 }
+<<<<<<< HEAD
+=======
+.bottom-line{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.select2 {
+	width: 100% !important;
+}
+>>>>>>> hotfix/update-bootstraptour
 .card.share.sitemap .card-header {
   padding: 15px 15px 12px;
   border-bottom: 0.5px solid #e6e6e6;
@@ -302,6 +311,7 @@ a.unseen-link:hover {
   font-size: 10px;
   color: transparent;
 }
+<<<<<<< HEAD
 .delete-rubrics{
 	position: relative;
 	top: 7px;

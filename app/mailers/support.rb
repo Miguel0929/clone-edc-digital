@@ -158,7 +158,7 @@ class Support
     data = {
         personalizations: [
           {
-            to: [ { email: "donpancholin50@hotmail.com"} ],
+            to: [ { email: "soporte@edc-digital.com"} ],
             substitutions: {
               "-raw_subject-" => "EDC Digital - El estudiante #{user.name} no tiene grupo asignado.",
               "-user-"=> user.name,

@@ -55,6 +55,7 @@ class Dashboard::UsersController < ApplicationController
   end
 
   def change_tour_trigger
+    puts current_user.tour_trigger
   	position = params[:position].to_i
   	trigger = current_user.tour_trigger
   	if position == 1
@@ -70,8 +71,7 @@ class Dashboard::UsersController < ApplicationController
   	end
 
   	event = current_user.update(tour_trigger: upgrade)
-  	puts event
-  	if upgrade
+  	if event
   		render json: { message: event }, status: :ok
   	else
   		render json: { errors: event.errors.full_messages }, status: 422

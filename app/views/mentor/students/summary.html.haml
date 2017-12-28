@@ -101,7 +101,7 @@
               .padding-30
                 .pull-bottom.p-b-20.bottom-right.bottom-left.p-l-30.p-r-30
                   .row
-                    - exam_results = (@result_exams.nan? ? "0" : @result_exams.ceil.to_s)
+                    - exam_results = @result_exams.ceil.to_s
                     .c100.center.white.small-circle.bg-complete-light{:class=> "p" + exam_results, style: "position: relative;"}
                       %span.bold.text-white
                         = exam_results + "%"
@@ -146,7 +146,7 @@
               .padding-30
                 .pull-bottom.p-b-30.bottom-right.bottom-left.p-l-30.p-r-30
                   .row
-                    - deliv_results = (@result_delireverables.nan? ? "0" : @result_delireverables.ceil.to_s)
+                    - deliv_results = @result_delireverables.ceil.to_s
                     .c100.center.white.small-circle.bg-success-light{:class=> "p" + deliv_results, style: "position: relative;"}
                       %span.bold.text-white
                         = deliv_results + "%"
@@ -168,7 +168,7 @@
               .padding-30
                 .pull-bottom.p-b-30.bottom-right.bottom-left.p-l-30.p-r-30
                   .row
-                    - refil_results = (@result_refilables.nan? ? "0" : @result_refilables.ceil.to_s)
+                    - refil_results = @result_refilables.ceil.to_s
                     .c100.center.white.small-circle.bg-complete-light{:class=> "p" + refil_results, style: "position: relative;"}
                       %span.bold.text-white
                         = refil_results + "%"
