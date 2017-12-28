@@ -25,7 +25,8 @@ var tour4 = new Tour({
       title: "Enviar dudas o comentarios",
       content: "Utiliza este botón siempre que necesites aclarar algo sobre una pregunta o bien hacer un comentario. Tu mensaje llegará directamente a tus mentores y ellos atenderán tu petición.",
       placement: "top",
-      backdrop: true
+      backdrop: true,
+      template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><button class='btn btn-info btn-sm' data-role='end'>Terminar</button></div></div>"
     }
   ],
   container: "body",
@@ -54,7 +55,7 @@ var tour4 = new Tour({
       },
       success: function(data) {
         console.log("Cambio exitoso en la posición " + data["position"] + " del hash 'tour_trigger'");
-        location.reload();
+        //location.reload();
       },
       error: function(data) {
         console.log("Hubo un error en el cambio en la posición " + data["position"] + " del hash 'tour_trigger'");
