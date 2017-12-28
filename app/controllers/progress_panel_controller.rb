@@ -114,6 +114,18 @@ class ProgressPanelController < ApplicationController
     end
   end
 
+  def matrix
+    add_breadcrumb "<a href='#{progress_panel_index_path}'>Panel de progreso de EDC Digital</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{matrix_progress_panel_index_path}'>Progreso de mis alumnos</a>".html_safe
+    user = current_user
+    @groups = current_user.groups
+    @students = User.where(group: @groups, role: "student").uniq.order(:first_name)
+    #@students = User.joins(:program_stats).where(group: groups, role: "student").uniq
+    if params[:group]
+      @programs = Program.joins(:group_programs).where(group_programs: {group_id: params[:group]}).order(:name)
+    end
+  end
+
   def progress_groups
   	add_breadcrumb "<a class='active' href='#{progress_panel_groups_path}'>Panel de progreso por grupos</a>".html_safe
   	@groups = Group.all
