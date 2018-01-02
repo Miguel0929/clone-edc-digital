@@ -14,7 +14,7 @@ class ControlPanelController < ApplicationController
     @attachments = Attachment.all
     @reports = Report.all
     @visits = Visit.where(started_at: 60.day.ago...Time.now)
-    @track = timetrack1
+    @track = timetrack2
 
     #@activados = User.where(invitation_created_at: 6.months.ago.to_date..Date.today).where.not(invitation_accepted_at: nil).select('invitation_created_at, count(invitation_created_at) as total')
     #.group(:invitation_created_at).map {|user| [user.invitation_created_at.strftime('%Y-%m-%d'), user.total]}
