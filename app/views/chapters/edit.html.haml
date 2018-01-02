@@ -1,14 +1,27 @@
 - content_for :title  do
   Editar módulo - EDC Digital
-.container
+
+.container-fluid.container-fixed-lg
   .row
     .col-md-12
-      %h2.text-center
-        Editar Módulo
-
-      = bootstrap_form_for([@program, @chapter]) do |f|
-        = f.text_field :name, label: 'Nombre del módulo'
-        = f.text_field :points, label: 'Valor del módulo'
-
-        = link_to 'Cancelar', @program, class: 'btn btn-danger'
-        = f.submit 'Aceptar', class: 'btn btn-success'
+      .panel.panel-default
+        .panel-heading
+          %h3.panel-title
+            Editar módulo
+        .panel-body
+          .row
+            .col-sm-8
+              %h3
+                = @chapter.name
+          .row.padding-20
+            .well
+              = bootstrap_form_for([@program, @chapter]) do |f|
+                = f.text_field :name, label: 'Nombre del módulo'
+                = f.text_field :points, label: 'Valor del módulo'
+                .p-t-20.p-b-20.pull-right
+                  = link_to @program, class: 'btn btn-default' do
+                    %i.fa.fa-times
+                    Cancelar
+                  = f.submit 'Aceptar', class: 'btn btn-success'
+                .clearfix
+                
