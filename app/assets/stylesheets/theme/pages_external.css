@@ -424,11 +424,22 @@ table.colored-columns td.light{
 	left: 210px;
 }
 .cell-like{
-	height: 48.9666px;
+	/height: 48.9666px;
+	height: 40px;
 	width: 100%;
 	border-bottom: 1px solid rgba(230, 230, 230, 0.7);
-	padding: 15px 10px;
+	padding: 10px 10px;
 }
 .horizontal-overflow table tbody td {
 	border-bottom: none;
+}
+.border-none{
+	border: none !important;
+}
+#staticHeads {
+  overflow: auto;
+  height: 480px;
+}
+.static-heads{
+	background-color: #fff;
 }

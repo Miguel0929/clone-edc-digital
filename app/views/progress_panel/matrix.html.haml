@@ -22,56 +22,69 @@
 									%span{"data-original-title" => "Refrescar búsqueda", "data-toggle" => "tooltip", "data-placement" => "right"}
 										= link_to matrix_progress_panel_index_path, class: "btn btn-info btn-xs p-r-10 p-l-10" do
 											%i.fa.fa-circle-o-notch
+			/Aquí abajo va la tabla, a la altura del .row.m-t-10
 			- if @programs
 				.row
-					.col-sm-12
-						.horizontal-overflow
-							%table.table.colored-columns
-								/%col
-								%thead
+					#staticHeads
+						.col-sm-3.p-r-0
+							%table.table.colored-columns.m-t-0
+								%thead.static-heads
 									%tr
 										%th
 											Nombre
-										%th.loosecells
-											Correo electrónico
-										%th.loosecells
-											Inbox
-										- @programs.each do |program|
-											%th.loosecells{colspan: "4"}
-												= truncate(program.name, length: 40) + ' ' + '(' + program.short_name + ')'
 								%tbody
 									- @students.each do |student|
 										%tr
-											%td.padding-0.fixedcell
+											%td.padding-0.border-none
 												.cell-like
 													= student.name
-											%td.padding-0.loosecells
-												.cell-like
-													= student.email
-											%td.padding-0.loosecells
-												.cell-like
-													Who tha fuck is this
-											- coloring = 1
-											- @programs.each do |program|
-												- coloring = (coloring == 1 ? 0 : 1)
-												- stat = student.get_program_stat(program)
-												%td.padding-0.loosecells{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
-													.cell-like
-														Contestado:
-														= stat.nil? ? "N/A" : stat.program_progress.round
-												%td.padding-0.loosecells{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
-													.cell-like
-														Visto:
-														= stat.nil? ? "N/A" : stat.program_seen.round
-												%td.padding-0.loosecells{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
-													.cell-like
-														Fecha:
-														10/10/10
-												%td.padding-0.loosecells{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
-													.cell-like
-														Envío:
-														Inbox
+						- if @programs
+							.col-sm-9.p-l-0
+								.horizontal-overflow
+									%table.table.colored-columns.m-t-0
+										%thead.static-heads
+											%tr
+												%th
+													Correo electrónico
+												%th
+													Inbox
+												- @programs.each do |program|
+													%th{colspan: "4"}
+														= truncate(program.name, length: 40) + ' ' + '(' + program.short_name + ')'
+										%tbody
+											- @students.each do |student|
+												%tr
+													%td.padding-0
+														.cell-like
+															= student.email
+													%td.padding-0
+														.cell-like.text-center
+															= student.mailbox.inbox.count
+													- coloring = 1
+													- @programs.each do |program|
+														- coloring = (coloring == 1 ? 0 : 1)
+														- stat = student.get_program_stat(program)
+														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+															.cell-like
+																Contestado:
+																= stat.nil? ? "N/A" : stat.program_progress.round
+														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+															.cell-like
+																Visto:
+																= stat.nil? ? "N/A" : stat.program_seen.round
+														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+															.cell-like
+																Fecha:
+																10/10/10
+														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+															.cell-like
+																Envío:
+																Inbox
 
-
-
-
+:javascript
+	
+	var heads = $("#staticHeads").find('thead');
+	document.getElementById("staticHeads").addEventListener("scroll",function(){
+		var translate = "translate(0," + this.scrollTop + "px)";
+		heads.css("transform", translate);
+	});
