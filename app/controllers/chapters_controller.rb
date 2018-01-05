@@ -30,7 +30,7 @@ class ChaptersController < ApplicationController
 
   def edit
     add_breadcrumb @program.name, program_path(@program)
-    add_breadcrumb "<a class='active' href='#{program_chapter_path(@program, @chapter)}'>#{@chapter.name}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{edit_program_chapter_path(@program, @chapter)}'>#{@chapter.name}</a>".html_safe
   end
 
   def update

@@ -17,15 +17,10 @@
                     %span.font-montserrat.fs-11.all-caps
                       total de estudiantes
                       %i.fa.fa-chevron-right
-                    .panel-controls
-                      %ul
-                        %li
-                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
-                            %i.portlet-icon.portlet-icon-refresh
               .row-xs-height 
                 .col-xs-height.col-top.relative
                   .row
-                    .col-sm-6
+                    .col-sm-10
                       .p-l-20
                         %h3.no-margin.p-b-5.text-white
                           = @users.students.count
@@ -42,15 +37,10 @@
                     %span.font-montserrat.fs-11.all-caps
                       Mensajes a mentores
                       %i.fa.fa-chevron-right
-                    .panel-controls
-                      %ul
-                        %li
-                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
-                            %i.portlet-icon.portlet-icon-refresh
               .row-xs-height 
                 .col-xs-height.col-top.relative
                   .row
-                    .col-sm-6
+                    .col-sm-10
                       .p-l-20
                         %h3.no-margin.p-b-5.text-white
                           = @mentor_messages.count
@@ -67,15 +57,10 @@
                     %span.font-montserrat.fs-11.all-caps
                       Mensajes en el chat
                       %i.fa.fa-chevron-right
-                    .panel-controls
-                      %ul
-                        %li
-                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
-                            %i.portlet-icon.portlet-icon-refresh
               .row-xs-height 
                 .col-xs-height.col-top.relative
                   .row
-                    .col-sm-6
+                    .col-sm-10
                       .p-l-20
                         %h3.no-margin.p-b-5.text-white
                           = @massages.count
@@ -92,15 +77,10 @@
                     %span.font-montserrat.fs-11.all-caps
                       total de grupos
                       %i.fa.fa-chevron-right
-                    .panel-controls
-                      %ul
-                        %li
-                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
-                            %i.portlet-icon.portlet-icon-refresh
               .row-xs-height 
                 .col-xs-height.col-top.relative
                   .row
-                    .col-sm-6
+                    .col-sm-10
                       .p-l-20
                         %h3.no-margin.p-b-5.text-white
                           = @groups.count
@@ -119,15 +99,10 @@
                     %span.font-montserrat.fs-11.all-caps
                       total de mentores
                       %i.fa.fa-chevron-right
-                    .panel-controls
-                      %ul
-                        %li
-                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
-                            %i.portlet-icon.portlet-icon-refresh
               .row-xs-height 
                 .col-xs-height.col-top.relative
                   .row
-                    .col-sm-6
+                    .col-sm-10
                       .p-l-20
                         %h3.no-margin.p-b-5.text-white
                           = @users.mentors.count
@@ -144,15 +119,10 @@
                     %span.font-montserrat.fs-11.all-caps
                       total de programas
                       %i.fa.fa-chevron-right
-                    .panel-controls
-                      %ul
-                        %li
-                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
-                            %i.portlet-icon.portlet-icon-refresh
               .row-xs-height 
                 .col-xs-height.col-top.relative
                   .row
-                    .col-sm-6
+                    .col-sm-10
                       .p-l-20
                         %h3.no-margin.p-b-5.text-white
                           = @programs.count
@@ -169,22 +139,17 @@
                     %span.font-montserrat.fs-11.all-caps
                       Sesiones de usuarios 
                       %i.fa.fa-chevron-right
-                    .panel-controls
-                      %ul
-                        %li
-                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
-                            %i.portlet-icon.portlet-icon-refresh
               .row-xs-height 
                 .col-xs-height.col-top.relative
                   .row
-                    .col-sm-6
+                    .col-sm-10
                       .p-l-20
                         %h3.no-margin.p-b-5.text-white
                           = Session.average.round(2) 
                           min.
                         %p.small.hint-text.m-t-5
                           %span.label.font-montserrat.m-r-5
-                            = Session.today
+                            = Session.today.round(2)
                           min. hoy.
         .col-md-3.m-b-10
           .widget-8.panel.no-border.bg-success.no-margin.widget-loader-bar
@@ -195,15 +160,10 @@
                     %span.font-montserrat.fs-11.all-caps
                       Archivos
                       %i.fa.fa-chevron-right
-                    .panel-controls
-                      %ul
-                        %li
-                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
-                            %i.portlet-icon.portlet-icon-refresh
               .row-xs-height 
                 .col-xs-height.col-top.relative
                   .row
-                    .col-sm-6
+                    .col-sm-10
                       .p-l-20
                         %h3.no-margin.p-b-5.text-white
                           = @shared_attachments.count + @attachments.count
@@ -223,15 +183,10 @@
                     %span.font-montserrat.fs-11.all-caps
                       total de invitaciones
                       %i.fa.fa-chevron-right
-                    .panel-controls
-                      %ul
-                        %li
-                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
-                            %i.portlet-icon.portlet-icon-refresh
               .row-xs-height 
                 .col-xs-height.col-top.relative
                   .row
-                    .col-sm-6
+                    .col-sm-10
                       .p-l-20
                         %h3.no-margin.p-b-5.text-white
                           = @users.mentors.count + @users.students.count + @users.staff.count
@@ -246,17 +201,12 @@
                 .col-xs-height.col-top
                   .panel-heading.top-left.top-right
                     %span.font-montserrat.fs-11.all-caps
-                      total reportes contenido dañado
+                      Reportes contenido dañado
                       %i.fa.fa-chevron-right
-                    .panel-controls
-                      %ul
-                        %li
-                          %a.portlet-refresh.text-black{'data-toggle': 'refresh', href: '#'}
-                            %i.portlet-icon.portlet-icon-refresh
               .row-xs-height 
                 .col-xs-height.col-top.relative
                   .row
-                    .col-sm-6
+                    .col-sm-10
                       .p-l-20
                         %h3.no-margin.p-b-5.text-white
                           = @reports.count
@@ -264,12 +214,14 @@
                           %span.label.font-montserrat.m-r-5
                             = @reports.where(created_at: 1.days.ago...Time.now).count
                           reportados hoy
+
   .row
     .panel.panel-default
       .panel-heading
         %h2 Usuarios nuevos
       .panel-body
-        = area_chart [{name: "usuarios activados", data: @activados}, {name: "usuarios inactivos", data: @inactivos}], colors: ["#10CFBD", "#F8D053"], stacked: true
+        = column_chart @track, stacked: true
+        /= area_chart [{name: "usuarios activados", data: @activados}, {name: "usuarios inactivos", data: @inactivos}], colors: ["#10CFBD", "#F8D053"], stacked: true
 
   .row
     .panel.panel-default
