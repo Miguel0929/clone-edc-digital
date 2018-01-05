@@ -23,7 +23,7 @@ class ControlPanelController < ApplicationController
     #.group(:invitation_created_at).map {|user| [user.invitation_created_at.strftime('%Y-%m-%d'), user.total]}
 
     @promedio_sessiones = []
-    Session.where( start: 60.day.ago...Time.now).group_by(&:day).each do |day, session|
+    Session.where( start: 40.day.ago...Time.now).group_by(&:day).each do |day, session|
       tiempo = 0
       session.each do |s|
         tiempo += s.time.to_i
