@@ -70,9 +70,9 @@ class AuthController < ApplicationController
   def user_groups
     return [] if current_user.admin?
     if current_user.mentor?
-      current_user.groups.pluck(:id)
+      current_user.groups.pluck(:key)
     else
-      [current_user.group.id]
+      [current_user.group.key]
     end
   end
 end
