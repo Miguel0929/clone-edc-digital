@@ -437,6 +437,10 @@ class User < ActiveRecord::Base
     return average, total
   end
 
+  def get_program_stat(program)
+    self.program_stats.find_by(program_id: program)
+  end
+
   private
 
   def set_origin
