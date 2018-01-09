@@ -57,6 +57,13 @@ Rails.application.routes.draw do
       get 'matrix'
     end
   end
+
+  resources :analytics_panel, only: [:index] do
+    member do
+      get :group
+    end
+  end
+
   resources :progress_updater, only: [:show]
   #get '/progress_panel/matrix', to: 'progress_panel#matrix', as: :progress_panel_matrix
   get '/massive_program_progress', to: 'progress_panel#massive_program_progress', as: :massive_program_progress

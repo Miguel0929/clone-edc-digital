@@ -6,7 +6,7 @@ class Program < ActiveRecord::Base
   mount_uploader :small_cover, SmallCoverUploader
 
   has_many :chapters, -> { order(position: :asc) }, dependent: :destroy
-  has_many :group_programs
+  has_many :group_programs, dependent: :destroy
   has_many :groups, through: :group_programs
   has_many :program_notifications, dependent: :destroy
   has_many :ratings, as: :ratingable 
