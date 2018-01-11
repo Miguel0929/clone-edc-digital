@@ -249,7 +249,7 @@ a.unseen-link:hover {
 }
 .evaluation-ul-menu{
 	font-size: 0;
-	padding: 7px 0px 0px 0px;
+	padding: 7px 0px 7px 0px;
 }
 .evaluation-ul-menu li{
 	display: inline-block;
@@ -391,9 +391,66 @@ div#refilable-content-template > p{
 	font-size: 12px;
 }
 .filter-padding{
-	padding: 1px 10px 0px 10px;
+	padding: 1px 10px 1px 10px;
 }
 .after-lift > a::after{
 	top: 15% !important;
 }
-
+.horizontal-overflow{
+	display: block;
+	overflow-x: auto;
+	white-space: nowrap;
+}
+.w-300{
+	width: 300px;
+}
+.w-400{
+	width: 400px;
+}
+.w-500{
+	width: 500px;
+}
+.w-600{
+	width: 600px;
+}
+table.colored-columns td.dark{
+	background-color: #f0f0f0; 
+	/#f0eef7 
+}
+table.colored-columns td.light{
+	background-color: #ecf7fe;
+}
+.fixedcell{
+  position: absolute;
+  width: 300px;
+  z-index: 100;
+}
+.loosecells{
+	position: relative;
+	left: 210px;
+}
+.cell-like{
+	/height: 48.9666px;
+	height: 38px;
+	width: 100%;
+	border-bottom: 1px solid rgba(230, 230, 230, 0.7);
+	padding: 9px 10px;
+}
+.horizontal-overflow table tbody td {
+	border-bottom: none;
+}
+.border-none{
+	border: none !important;
+}
+#staticHeads {
+  overflow: auto;
+  height: 430px;
+}
+.static-heads{
+	background-color: #fff;
+}
+.index-block{
+	color: #b8b8b8;
+	display: inline-block;
+	width: 22px;
+}

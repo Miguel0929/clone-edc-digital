@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171226034428) do
+ActiveRecord::Schema.define(version: 20180103182051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -479,14 +479,17 @@ ActiveRecord::Schema.define(version: 20171226034428) do
   add_index "program_notifications", ["program_id"], name: "index_program_notifications_on_program_id", using: :btree
 
   create_table "program_stats", force: :cascade do |t|
-    t.integer  "checked",          default: 0
+    t.integer  "checked",           default: 0
     t.integer  "user_id"
     t.integer  "program_id"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.float    "program_progress"
     t.float    "program_seen"
     t.integer  "last_content"
+    t.datetime "evaluation_date"
+    t.string   "evaluating_mentor"
+    t.string   "sending_method"
   end
 
   add_index "program_stats", ["program_id"], name: "index_program_stats_on_program_id", using: :btree
@@ -768,6 +771,8 @@ ActiveRecord::Schema.define(version: 20171226034428) do
     t.float    "user_seen",                         default: 0.0
     t.boolean  "check_ready"
     t.text     "tour_trigger",                      default: "---\n:first: true\n:second: true\n:third: true\n:fourth: true\n:fifth: true\n"
+    t.datetime "evaluation_date"
+    t.string   "evaluating_mentor"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree

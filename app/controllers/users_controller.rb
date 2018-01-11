@@ -294,9 +294,9 @@ class UsersController < ApplicationController
   def change_evaluation
     user = User.find(params[:user_id].to_i)
     if user.evaluation_status == "evaluado"
-      to_nonevaluated = user.update(evaluation_status: "sin evaluar")
+      to_nonevaluated = user.update(evaluation_status: "sin evaluar", evaluation_date: Time.now, evaluating_mentor: current_user.email)
     else
-      to_evaluated = user.update(evaluation_status: "evaluado")
+      to_evaluated = user.update(evaluation_status: "evaluado", evaluation_date: Time.now, evaluating_mentor: current_user.email)
     end
     render json: {eval: to_evaluated, not_eval: to_nonevaluated}
   end
