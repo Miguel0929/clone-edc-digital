@@ -1,0 +1,60 @@
+- content_for :title  do
+	Analíticos de grupo - EDC Digital
+
+.container-fluid.container-fixed-lg
+	.panel.panel-default
+		.panel-heading
+			.row
+				.col-sm-12
+					.panel-title
+						Panel de analíticos
+		.panel-body
+			.row
+				.col-sm-12
+					%table.table.table-striped
+						%thead
+							%tr
+								%th{width: '35%'}
+									Programa
+								%th
+									Estadísticos
+								%th{width: '30%'}
+									Ver grupo
+						%tbody
+							- @programs.each_with_index do |program, index|
+								- analytics = program_objects(program)
+								%tr
+									%td.p-t-10.p-b-10
+										.fs-15.text-primary
+											= program.name
+									%td.p-t-10.p-b-10
+										%ul.p-l-5.m-b-0
+											%li.inline.p-l-0
+												%i.fa.fa-user 
+											%li.inline 
+												Estudiantes activos: 
+												%strong #{analytics[1]}
+										%ul.p-l-5.m-b-0
+											%li.inline.p-l-0
+												%i.fa.fa-check 
+											%li.inline
+												Estudiantes revisados: 
+												%strong #{analytics[2]}
+										%ul.p-l-5.m-b-0
+											%li.inline.p-l-0
+												%i.fa.fa-users 
+											%li.inline 
+												Grupos con este programa: 
+												%strong #{analytics[0].count}
+									%td.p-t-10.p-b-10
+										= select("group", "selected" + index.to_s, analytics[0].collect {|g| [ g.name, g.id ] }, {prompt: "Selecciona un grupo" })
+
+										:javascript
+											$("#group_selected"+ #{index}).change(function(){
+												var a = document.createElement("a");
+												a.target = "_blank";
+												a.href = "/analytics_panel/" + $(this).val() + "/group";
+												document.body.appendChild(a);
+												a.click();
+											});
+

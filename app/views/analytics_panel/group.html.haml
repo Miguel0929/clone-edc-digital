@@ -1,0 +1,120 @@
+- content_for :title  do
+	Analíticos de grupo - EDC Digital
+
+.container-fluid.container-fixed-lg
+	.panel.panel-default
+		.panel-heading.p-b-0
+			.row
+				.col-sm-6
+					.panel-title
+						Resumen de grupo
+						#{@group.nil? ? '' : ': ' + @group.name}
+				.col-sm-6
+					.pull-right
+						= form_tag(group_analytics_panel_path, method: :get, class: "panel-filter-width", id: "groupAnalytics") do
+							.row.m-b-15
+								.pull-right
+									.col-sm-9{style: "width: 325px;"}
+										= select_tag :group, options_from_collection_for_select(@groups, :id, :name, selected: @group.id ), {include_blank: "Elige uno de tus grupos", class: "form-control"}
+									.col-sm-2
+										= submit_tag 'Ver progreso', class: "btn btn-success btn-xs"
+					.clearfix
+		.panel-body.p-b-10
+			/Aquí abajo va la tabla, a la altura del .row.m-t-10
+			- if @programs
+				.row
+					#staticHeads
+						.col-sm-3.p-r-0
+							%table.table.colored-columns.m-t-0
+								%thead.static-heads
+									%tr
+										%th
+											Nombre
+								%tbody
+									- @students.each_with_index do |student, index|
+										%tr
+											%td.padding-0.border-none
+												.cell-like
+													%span.index-block #{index + 1}
+													= student.name
+						- if @programs
+							.col-sm-9.p-l-0
+								.horizontal-overflow
+									%table.table.colored-columns.m-t-0
+										%thead.static-heads
+											%tr
+												%th
+													Correo electrónico
+												%th.text-center
+													Inbox
+												%th.text-center
+													Evaluado
+												%th.text-center
+													Contestado
+												%th.text-center.p-l-25.p-r-25
+													Visto
+												- @programs.each do |program|
+													%th.text-center.fs-10{colspan: "3"}
+														= program.name
+										%tbody
+											- @students.each do |student|
+												%tr
+													%td.padding-0
+														.cell-like
+															= student.email
+													%td.padding-0
+														.cell-like.text-center
+															= student.mailbox.inbox.count
+													%td.padding-0
+														.cell-like.text-center
+															- evalu = student.evaluation_status
+															%i.fa{class: evalu == "evaluado" ? "fa-check text-success" : "fa-times"}
+															#{l student.evaluation_date, format: :super_short unless student.evaluation_date.nil?}
+													%td.padding-0
+														.cell-like.text-center
+															#{student.user_progress.round(1)}%
+													%td.padding-0
+														.cell-like.text-center
+															#{student.user_seen.round(1)}%
+													- coloring = 1
+													- @programs.each do |program|
+														- coloring = (coloring == 1 ? 0 : 1)
+														- stat = student.get_program_stat(program)
+														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+															.cell-like
+																Contestado:
+																= stat.nil? ? "N/A" : stat.program_progress.round.to_s + "%"
+														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+															.cell-like
+																Visto:
+																= stat.nil? ? "N/A" : stat.program_seen.round.to_s + "%"
+														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+															.cell-like
+																Evaluado:
+																- if stat.nil?
+																	N/A
+																- else
+																	- evalp = stat.checked
+																	%i.fa{class: evalp == 1 ? "fa-check text-success" : "fa-times"}
+																	#{l stat.evaluation_date, format: :super_short unless stat.evaluation_date.nil?}
+					- if @students && @students.count > 0
+						.pull-left.text-complete.text-small.p-l-30.p-t-10
+							* Mostrando el registro de #{@students.count} alumnos
+
+
+:javascript
+	$(document).ready( function() {
+
+		var heads = $("#staticHeads").find('thead');
+		document.getElementById("staticHeads").addEventListener("scroll",function(){
+			var translate = "translate(0," + this.scrollTop + "px)";
+			heads.css("transform", translate);
+		});
+
+		$("#groupAnalytics").on("submit", function(){
+			var selGroup = $(this).find('select#group').val();
+			window.location.replace("/analytics_panel/" + selGroup + "/group");
+			return false;
+		})
+
+	});

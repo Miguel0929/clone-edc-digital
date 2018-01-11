@@ -13,12 +13,12 @@ class ProgramStatsController < ApplicationController
     end
     
     if @current_stats.nil?
-      @new_stats = ProgramStat.create(user_id: user.id, program_id: program, checked: 1)
+      @new_stats = ProgramStat.create(user_id: user.id, program_id: program, checked: 1, evaluation_date: Time.now, evaluating_mentor: current_user.email)
     else
       if @current_stats.checked == 1
-	      @current_stats.update(checked: 0)
+	      @current_stats.update(checked: 0, evaluation_date: Time.now, evaluating_mentor: current_user.email)
       else
-	      @current_stats.update(checked: 1)
+	      @current_stats.update(checked: 1, evaluation_date: Time.now, evaluating_mentor: current_user.email)
       end
     end
 
