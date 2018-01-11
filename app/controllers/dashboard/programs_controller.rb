@@ -17,26 +17,9 @@ class Dashboard::ProgramsController < ApplicationController
         ids_comp = []; ids_fisica = []; ids_moral = [] 
 
         current_user.group.learning_path.nil? ? program_fisico = [] : program_fisico = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
-        c=0
-        program_fisico.each do |p|
-          c+=1
-          if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group.learning_path)) >= 95 || (current_user.percentage_content_visited_for(p.anterior(current_user.group.learning_path)) == 100 && p.anterior(current_user.group.learning_path).questions? == false)
-            ids_fisica << p.content_id
-          else
-            break
-          end
-        end
 
         current_user.group.learning_path2.nil? ? program_moral = [] : program_moral = current_user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position)
-        c=0
-        program_moral.each do |p|
-          c+=1
-          if c==1 || current_user.percentage_questions_answered_for(p.anterior(current_user.group.learning_path2)) >= 95 || (current_user.percentage_content_visited_for(p.anterior(current_user.group.learning_path2)) == 100 && p.anterior(current_user.group.learning_path2).questions? == false)
-            ids_moral << p.content_id
-          else
-            break
-          end
-        end
+    
 
         program_group = current_user.group.programs.map{|p|p.id}
         if program_fisico == [] && program_moral == []
@@ -46,7 +29,7 @@ class Dashboard::ProgramsController < ApplicationController
         elsif program_fisico == [] && program_moral != []
           p_f = []; p_m = program_moral.pluck(:content_id);
         else
-           p_f = []; p_m = [];  
+           p_f = program_fisico.pluck(:content_id); p_m = program_moral.pluck(:content_id);  
         end  
         complementarios = program_group - (p_f + p_m)
 
@@ -56,7 +39,7 @@ class Dashboard::ProgramsController < ApplicationController
           end
         end
   
-        @programs=Program.where(id: ids_comp+ids_fisica+ids_moral)
+        @programs=Program.where(id: ids_comp+p_f+p_m)
       end
     elsif current_user.mentor? || current_user.admin?
       @programs = Program.all
