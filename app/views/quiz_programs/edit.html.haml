@@ -1,12 +1,12 @@
 - content_for :title  do
-  Editar examen - EDCdigital
+  Editar evaluación - EDCdigital
 
 .container
   %h2.text-center
-    Editar examen
+    Editar evaluación
   .well
     = bootstrap_form_for @quiz, url:chapter_quiz_program_path, method: :put do |f|
-      = f.text_field :name, label: "Nombre del exámen"
+      = f.text_field :name, label: "Nombre de la evalaución"
       = f.text_area :description, label: "Descripción"
 
       = link_to 'Cancelar', program_path(@chapter.program), class: 'btn btn-danger'

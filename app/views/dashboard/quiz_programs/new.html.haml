@@ -1,6 +1,6 @@
 .container-fluid.container-fixed-lg
   %h2
-    Examen: 
+    Evaluación: 
     = @quiz.name
   = form_tag dashboard_chapter_content_quiz_programs_path do  
     -@answers.each_with_index do |answer, index|

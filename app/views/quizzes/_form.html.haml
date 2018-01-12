@@ -1,6 +1,6 @@
 .well
   = bootstrap_form_for @quiz do |f|
-    = f.text_field :name, label: "Nombre del exámen"
+    = f.text_field :name, label: "Nombre de la evaluación"
     = f.text_area :description, label: "Descripción"
     = f.select :group_ids, Group.all.collect{|g| [g.name, g.id]}, {include_blank: false, label: 'Grupos' }, multiple: 'multiple'
 

@@ -1,5 +1,5 @@
 - content_for :title  do
-  Rellenables - EDC Digital
+  Plantillas - EDC Digital
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
@@ -7,17 +7,17 @@
       .row
         .col-sm-8
           %h3
-            Rellenables
+            Plantillas
         .col-sm-4
           .pull-right
             = link_to new_template_refilable_path, class: 'btn btn-primary m-t-15 m-r-15' do
               %i.fa.fa-plus
-              Agregar rellenable
+              Agregar plantilla
       %table.table.table-hover
         %thead
           %tr
             %th{width: "5%"}
-            %th{width: "40%"} Rellenable
+            %th{width: "40%"} Plantilla
             %th Grupos
             %th{width: "15%"} Acciones
 
@@ -42,17 +42,17 @@
                     %li.inline
                       %i.fa.fa-eye
                     %li.inline 
-                      Ver rellenable
+                      Ver plantilla
                 %ul.p-l-0.m-b-10
                   = link_to edit_template_refilable_path(template_refilable) do
                     %li.inline
                       %i.fa.fa-edit
                     %li.inline 
-                      Editar rellenable
+                      Editar plantilla
                 %ul.p-l-0.m-b-10
                   = link_to template_refilable, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
                     %li.inline
                       %i.fa.fa-times
                     %li.inline 
-                      Eliminar rellenable
+                      Eliminar plantilla
 

@@ -6,9 +6,9 @@
       %select.minimal.form-control{id: "tipo", name: "tipo"}
         %option{:value => '', :selected=> "selected", :disabled=>"disabled"} Selecciona el tipo
         %option{:value => 'program'} Programa
-        %option{:value => 'quiz'} Examen
+        %option{:value => 'quiz'} Evaluación
         %option{:value => 'deliverable'} Entregables
-        %option{:value => 'refilables'} Rellenables
+        %option{:value => 'refilables'} Plantillas
     #oculto.hide    
       = f.select(:content, "",{:label => 'Contenido', :class=>'minimal', :include_blank => "Selecciona el tipo contenido"})
 :javascript
