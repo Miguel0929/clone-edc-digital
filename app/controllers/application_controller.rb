@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
       "application"
     end
   end
-
+=begin
   def permiso_programs(program, user)
    
     if user.mentor? || user.admin?
@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
     complementarios = user.group.programs_complementaries rescue []
     is_active=true
     if complementarios.include?(program) 
-      active=ProgramActive.where(user: user, program: @program).first
+      active=ProgramActive.where(user: user, program: program).first
       if active.nil? then is_active = false else is_active = active.status end  
       if is_active
         return false
@@ -112,6 +112,31 @@ class ApplicationController < ActionController::Base
       return true  
     end  
   end
+=end
+  def permiso_programs(program, user)
+    if user.mentor? || user.admin?
+      return false
+    elsif user.student?
+      complementarios = user.group.programs_complementaries rescue []
+      is_active = true
+      if complementarios.include?(program) 
+        active=ProgramActive.where(user: user, program: program).first
+        if active.nil? then is_active = false else is_active = active.status end  
+        if is_active
+          return false
+        else
+          return true
+        end
+      end
+      user.group.learning_path.nil? ? fisica_programs = [] : fisica_programs = user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position).pluck(:content_id)
+      user.group.learning_path2.nil? ? moral_programs = [] : moral_programs = user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position).pluck(:content_id)
+      if fisica_programs.include?(program.id) || moral_programs.include?(program.id)
+        return false
+      else
+        return true
+      end  
+    end
+  end  
 
   def student_have_group?
     if current_user.student? && current_user.group.nil?
