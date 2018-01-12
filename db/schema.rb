@@ -289,6 +289,7 @@ ActiveRecord::Schema.define(version: 20180103182051) do
     t.integer  "university_id"
     t.integer  "learning_path_id"
     t.integer  "learning_path2_id"
+    t.boolean  "financiero"
   end
 
   add_index "groups", ["deleted_at"], name: "index_groups_on_deleted_at", using: :btree
