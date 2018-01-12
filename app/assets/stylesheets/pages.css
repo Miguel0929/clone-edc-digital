@@ -191,3 +191,7 @@ input:checked + .slider.slider-small:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.testing-css {
+  color: orange;
+}
