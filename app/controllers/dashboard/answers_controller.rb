@@ -109,7 +109,7 @@ class Dashboard::AnswersController < ApplicationController
         #soporte
         soporte=User.new(email: "soporte@edc-digital.com")
         Programs.more95_mentor(program,soporte,current_user,user_url(current_user))
-        flash[:more95]="Haz completado el 95% del curso, haz liberado el siguiente contenido!"  
+        flash[:more95]="Haz completado el 95% del curso."  
         #mentores
         ProgramMore95NotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
       end
@@ -128,7 +128,7 @@ class Dashboard::AnswersController < ApplicationController
         ProgramCompleteNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
       end
       if program.ruta?  
-        mensaje = mensaje + ", haz completado el 100% del curso, se ha desbloqueado un nuevo contenido."
+        mensaje = mensaje + ", haz completado el 100% del curso."
       else
         mensaje = mensaje + ", haz completado el 100% del curso."
       end      
