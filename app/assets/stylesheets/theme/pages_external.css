@@ -415,7 +415,7 @@ div#refilable-content-template > p{
 }
 table.colored-columns td.dark{
 	background-color: #f0f0f0; 
-	/#f0eef7 
+	/background-color: #f0eef7;
 }
 table.colored-columns td.light{
 	background-color: #ecf7fe;
