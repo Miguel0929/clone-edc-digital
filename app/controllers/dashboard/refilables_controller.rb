@@ -6,7 +6,7 @@ class  Dashboard::RefilablesController < ApplicationController
   add_breadcrumb "EDCDIGITAL", :root_path
 
   def new
-    add_breadcrumb "Mis rellenables", dashboard_template_refilables_path
+    add_breadcrumb "Mis plantillas", dashboard_template_refilables_path
     add_breadcrumb "<a class='active' href='#{new_dashboard_template_refilable_refilable_path(@template)}'>#{@template.name}</a>".html_safe
   end
 
@@ -15,13 +15,13 @@ class  Dashboard::RefilablesController < ApplicationController
     refilable.user = current_user
     refilable.save
 
-    redirect_to dashboard_template_refilables_path, notice: 'Rellenable contestado'
+    redirect_to dashboard_template_refilables_path, notice: 'Plantilla contestada'
   end
 
   def show
     @refilable = Refilable.find(params[:id])
 
-    add_breadcrumb "Mis rellenables", dashboard_template_refilables_path
+    add_breadcrumb "Mis plantillas", dashboard_template_refilables_path
     add_breadcrumb "<a class='active' href='#{dashboard_template_refilable_refilable_path(@template,  @refilable)}'>#{@template.name}</a>".html_safe
 
     @refilables = TemplateRefilable.joins(:groups)
@@ -42,7 +42,7 @@ class  Dashboard::RefilablesController < ApplicationController
   def edit
     @refilable = Refilable.find(params[:id])
 
-    add_breadcrumb "Mis rellenables", dashboard_template_refilables_path
+    add_breadcrumb "Mis plantillas", dashboard_template_refilables_path
     add_breadcrumb "<a class='active' href='#{edit_dashboard_template_refilable_refilable_path(@template,  @refilable)}'>#{@template.name}</a>".html_safe
   end
 
@@ -68,6 +68,6 @@ class  Dashboard::RefilablesController < ApplicationController
   end  
 
   def redirect_to_template_refilables
-    redirect_to dashboard_template_refilables_path, alert: 'No tienes asignado este rellenable' 
+    redirect_to dashboard_template_refilables_path, alert: 'No tienes asignado esta plantilla' 
   end 
 end

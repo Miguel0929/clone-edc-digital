@@ -32,7 +32,7 @@
               Agregar Programa
       .panel.panel-default
         .panel-heading
-          %h3.panel-title Examenes
+          %h3.panel-title Evaluaciones
         .panel-body
           #cont_sortable_quizzes.sortable3{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
             - @c_quizzes.each do |quiz|
@@ -49,13 +49,13 @@
                       = quiz.model.name
                       .pull-right
                         %span.label.label-info
-                          Examen                  
+                          Evaluación                  
           %center                
             %button.btn.btn-primary{"data-target" => "#addQuiz", "data-toggle" => "modal", :type => "button"}
-              Agregar Examen
+              Agregar Evaluación
       .panel.panel-default
         .panel-heading
-          %h3.panel-title Rellenables
+          %h3.panel-title Plantillas
         .panel-body
           #cont_sortable_refilables.sortable3{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
             - @c_refilables.each do |refilable|
@@ -72,10 +72,10 @@
                       = refilable.model.name
                       .pull-right
                         %span.label.label-info
-                          Rellenable                  
+                          Plantilla                  
           %center                
             %button.btn.btn-primary{"data-target" => "#addRefilable", "data-toggle" => "modal", :type => "button"}
-              Agregar Rellenable
+              Agregar Plantilla
       .panel.panel-default
         .panel-heading
           %h3.panel-title Entregables
@@ -116,37 +116,37 @@
             = select_tag "program", options_from_collection_for_select(@programs, "id", "name"), prompt: "Selecciona un programa", class: 'form-control col-md-12'         
       .modal-footer
         %button.btn.btn-primary.add_content{:type => "button", :id => "add_program"} Agregar    
-        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cerrar
 #addQuiz.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
   .modal-dialog{:role => "document"}
     .modal-content    
       .modal-header
         %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
-        %h4#myModalLabel.modal-title Agregar Examen
+        %h4#myModalLabel.modal-title Agregar Evaluación
       .modal-body
         %center
           .form-group
-            %label{:for => "quiz"} Examenes: 
-            = select_tag "quiz", options_from_collection_for_select(@quizzes, "id", "name"), prompt: "Selecciona un examen", class: 'form-control col-md-12'         
+            %label{:for => "quiz"} Evaluaciones: 
+            = select_tag "quiz", options_from_collection_for_select(@quizzes, "id", "name"), prompt: "Selecciona una evaluación", class: 'form-control col-md-12'         
       .modal-footer
         %button.btn.btn-primary.add_content{:type => "button", :id => "add_quiz"} Agregar    
-        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close 
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cerrar 
 #addRefilable.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
   .modal-dialog{:role => "document"}
     .modal-content    
       .modal-header
         %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
-        %h4#myModalLabel.modal-title Agregar Rellenable
+        %h4#myModalLabel.modal-title Agregar Plantilla
       .modal-body
         %center
           .form-group
-            %label{:for => "refilable"} Rellenable: 
-            = select_tag "refilable", options_from_collection_for_select(@templates_refilables, "id", "name"), prompt: "Selecciona un rellenable", class: 'form-control col-md-12'         
+            %label{:for => "refilable"} Plantilla: 
+            = select_tag "refilable", options_from_collection_for_select(@templates_refilables, "id", "name"), prompt: "Selecciona una plantilla", class: 'form-control col-md-12'         
       .modal-footer
         %button.btn.btn-primary.add_content{:type => "button", :id => "add_refilable"} Agregar    
-        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cerrar
 #addDelireverable.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
   .modal-dialog{:role => "document"}
     .modal-content    
@@ -161,7 +161,7 @@
             = select_tag "delireverable", options_from_collection_for_select(@delireverable_packages, "id", "name"), prompt: "Selecciona un entregable", class: 'form-control col-md-12'         
       .modal-footer
         %button.btn.btn-primary.add_content{:type => "button", :id => "add_delireverable"} Agregar    
-        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close                         
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Cerrar                         
 
 #alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
@@ -207,9 +207,9 @@
           if (data.contenido.content_type == "Program"){
             tipo_success = "Programa";
           }else if (data.contenido.content_type == "Quiz"){
-            tipo_success = "Examen";
+            tipo_success = "Evaluación";
           }else if (data.contenido.content_type == "TemplateRefilable"){
-            tipo_success = "Rellenable";
+            tipo_success = "Plantilla";
           }else if (data.contenido.content_type == "DelireverablePackage"){
             tipo_success = "Entregable";
           }
@@ -245,11 +245,11 @@
           }else if (data.contenido.content_type == "Quiz"){
             $("#cont_sortable_quizzes").append(str);
             $('#addQuiz').modal('hide');
-            $(".alert-text").html("Examen "+ data.poly_content.name+ " agregado con exito.") 
+            $(".alert-text").html("Evaluación "+ data.poly_content.name+ " agregada con exito.") 
           }else if (data.contenido.content_type == "TemplateRefilable"){
             $("#cont_sortable_refilables").append(str);
             $('#addRefilable').modal('hide'); 
-            $(".alert-text").html("Rellenable "+ data.poly_content.name+ " agregado con exito.")
+            $(".alert-text").html("Plantilla "+ data.poly_content.name+ " agregada con exito.")
           }else if (data.contenido.content_type == "DelireverablePackage"){
             $("#cont_sortable_delireverables").append(str);
             $('#addDelireverable').modal('hide'); 

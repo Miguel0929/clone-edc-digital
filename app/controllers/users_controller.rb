@@ -151,7 +151,7 @@ class UsersController < ApplicationController
     @quiz = Quiz.find(params[:quiz_id])
     add_breadcrumb "Estudiantes", :students_users_path
     add_breadcrumb @user.email, user_path(@user)
-    add_breadcrumb "<a class='active' href='#{analytics_quiz_user_path(@user, quiz_id: @quiz)}'>Detalles del exámen</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{analytics_quiz_user_path(@user, quiz_id: @quiz)}'>Detalles de la evaluación</a>".html_safe
   end
 
   def students

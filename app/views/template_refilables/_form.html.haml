@@ -13,7 +13,7 @@
   = f.select :group_ids,  Group.all.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Grupos'}, multiple: 'multiple'
   .actions.text-center.m-t-30.m-b-20
     = link_to 'Cancelar', template_refilables_path, class: 'btn btn-danger'
-    = f.submit 'Guardar rellenable', class: 'btn btn-primary'
+    = f.submit 'Guardar plantilla', class: 'btn btn-primary'
 
 :javascript
   $( document ).on('turbolinks:load', function() {

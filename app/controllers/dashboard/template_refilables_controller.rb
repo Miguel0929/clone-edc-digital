@@ -4,7 +4,7 @@ class Dashboard::TemplateRefilablesController < ApplicationController
   add_breadcrumb "EDC DIGITAL", :root_path
 
   def index
-    add_breadcrumb "<a href='#{dashboard_template_refilables_path}' class='active'>Mis rellenables</a>".html_safe                            
+    add_breadcrumb "<a href='#{dashboard_template_refilables_path}' class='active'>Mis plantillas</a>".html_safe                            
     
     @refilables = current_user.group.all_refilables
     

@@ -17,7 +17,7 @@ class RefillableProgramsController < ApplicationController
     if @template_refilable.save
       @chapter.template_refilables << @template_refilable
       #QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "up-lesson-#{@lesson.id}")
-      redirect_to @chapter.program, notice: "Se agrego exitosamente el rellenable"
+      redirect_to @chapter.program, notice: "Se agregó exitosamente la plantilla"
     else
       render :new
     end
@@ -33,7 +33,7 @@ class RefillableProgramsController < ApplicationController
       ChapterContent.find(id).update_attributes({position: index + 1})
     end
 
-    redirect_to @chapter.program, notice: "Se eliminó exitosamente el rellenable"
+    redirect_to @chapter.program, notice: "Se eliminó exitosamente la plantilla"
   end
   def edit
     @template_refilable = @chapter_content.model
@@ -44,7 +44,7 @@ class RefillableProgramsController < ApplicationController
     @template_refilable = @chapter_content.model
     if @template_refilable.update(template_refilable_params)
       #QueueNotification.create(category: 3, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "edit-question-#{@question.id}")
-      redirect_to program_path(@chapter.program), notice: "Se actualizó exitosamente el rellenable  #{@template_refilable.name}"
+      redirect_to program_path(@chapter.program), notice: "Se actualizó exitosamente la plantilla #{@template_refilable.name}"
     else
       render :edit
     end
@@ -58,7 +58,7 @@ class RefillableProgramsController < ApplicationController
 
     @chapter.template_refilables << refilable_clone
 
-    redirect_to program_path(@chapter.program), notice: "Se creo exitosamente el rellenable #{refilable_clone.name}"
+    redirect_to program_path(@chapter.program), notice: "Se creo exitosamente la plantilla #{refilable_clone.name}"
 
   end 
   private

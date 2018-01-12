@@ -1,5 +1,5 @@
 - content_for :title  do
-  Mis rellenables - EDC Digital
+  Mis plantillas - EDC Digital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
@@ -8,7 +8,7 @@
         .row.col-md-12
           .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
             %h2.text-white 
-              Tus rellenables
+              Tus plantillas
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
               Título:
@@ -31,16 +31,16 @@
                 .p-t-10                
                   %h5
                     = link_to edit_dashboard_template_refilable_refilable_path(@template,  @refilable) do
-                      Editar este rellenable
+                      Editar esta plantilla
                   %h5
                     = link_to dashboard_template_refilables_path do
-                      Regresar a rellenables
+                      Regresar a plantillas
                 /%h5
                 /  - if @done_refilables.count > 0
                 /    - @done_refilables.each do |refilable|
                 /      - user_refilable = refilable.refilables.find_by(user: current_user)
                 /      = link_to edit_dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "text-danger bold" do
-                /        Editar este rellenable
+                /        Editar esta plantilla
             .col-md-8
               .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
                 .table-responsive.table-invoice
@@ -48,7 +48,7 @@
                     %thead
                       %tr
                         %th.tipografia-textos-rellenables
-                          Texto del rellenable
+                          Texto de la plantilla
                           %p.small.hint-text.m-b-0
                             Tus respuestas están resaltadas en verde.
                     %tbody

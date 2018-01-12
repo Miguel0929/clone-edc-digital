@@ -8,12 +8,12 @@ class Dashboard::QuizzesController < ApplicationController
   helper_method :evaluating_quiz
 
   def index
-    add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path}'>Exámenes</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path}'>Evaluaciones</a>".html_safe
     @quizzes = current_user.group.all_quizzes
   end
 
   def show
-    add_breadcrumb "<a href='#{dashboard_quizzes_path}'>Exámenes</a>".html_safe    
+    add_breadcrumb "<a href='#{dashboard_quizzes_path}'>Evaluaciones</a>".html_safe    
     add_breadcrumb "<a class='active' href='#{dashboard_quiz_path(@quiz)}'>#{@quiz.name}</a>".html_safe
     redirect_to dashboard_quizzes_path unless @quiz.answered(current_user) > 0
   end
@@ -21,7 +21,7 @@ class Dashboard::QuizzesController < ApplicationController
   def detail
     ids = @quiz.quiz_questions.map{ |q| q.id }
     @answers = QuizAnswer.where(quiz_question_id: ids, user_id: current_user.id)
-    add_breadcrumb "<a href='#{dashboard_quizzes_path}'>Exámenes</a>".html_safe    
+    add_breadcrumb "<a href='#{dashboard_quizzes_path}'>Evaluaciones</a>".html_safe    
     add_breadcrumb "<a class='active' href='#{dashboard_quiz_path(@quiz)}'>#{@quiz.name}</a>".html_safe
   end
 
@@ -33,7 +33,7 @@ class Dashboard::QuizzesController < ApplicationController
     if @quiz.answered(current_user) > 0
       flash[:notice] = "Este es tu intento número #{Attempt.where(quiz_id: @quiz.id, user_id: current_user.id).count + 1} la calificación que obtengas será la se tomará en cuenta"
     end
-    add_breadcrumb "<a href='#{dashboard_quizzes_path}'>Exámenes</a>".html_safe    
+    add_breadcrumb "<a href='#{dashboard_quizzes_path}'>Evaluaciones</a>".html_safe    
     add_breadcrumb "<a class='active' href='#{dashboard_quiz_path(@quiz)}'>#{@quiz.name}</a>".html_safe
   end
 
@@ -69,6 +69,6 @@ class Dashboard::QuizzesController < ApplicationController
   end  
 
   def redirect_to_quizzes
-    redirect_to dashboard_quizzes_path, alert: 'No tienes asignado este examen' 
+    redirect_to dashboard_quizzes_path, alert: 'No tienes asignado esta evaluación' 
   end   
 end

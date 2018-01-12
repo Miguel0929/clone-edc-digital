@@ -12,14 +12,14 @@
           .col-sm-7.col-md-7.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h3.text-white
               %span.p-r-10{style: "font-size:16px !important;"}
-                Examen:
+                Evaluación:
               %span
                 #{@quiz.name}
             %h4.text-white
               Intento número #{ Attempt.where(quiz_id: @quiz.id, user_id: current_user.id).count }
             = link_to dashboard_quizzes_path, class: 'btn btn-sm btn-primary btn-cons m-b-10' do
               %i.fa.fa-reply
-              %span.bold Regresar a mis exámenes
+              %span.bold Regresar a mis evaluaciones
 
               
 .container-fluid.container-fixed-lg
@@ -58,4 +58,4 @@
   .text-center
     = link_to dashboard_quizzes_path, class: 'btn btn-sm btn-primary btn-cons m-b-10' do
       %i.fa.fa-reply
-      %span.bold Regresar a mis exámenes
+      %span.bold Regresar a mis evaluaciones

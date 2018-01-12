@@ -1,5 +1,5 @@
 - content_for :title  do
-  Mis rellenables - EDC Digital
+  Mis plantillas - EDC Digital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
@@ -8,12 +8,12 @@
         .row.col-md-12
           .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
             %h2.text-white 
-              Mis rellenables
+              Mis plantillas
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
               Probando tu conocimiento
             %p.m-b-25.text-white
-              En esta sección verás los rellenables que se te asignen durante tu avance en los cursos de la plataforma. ¡Usa tus conocimientos adquiridos para contestarlos! 
+              En esta sección verás las plantillas que se te asignen durante tu avance en los cursos de la plataforma. ¡Usa tus conocimientos adquiridos para contestarlas! 
 
 .container-fluid.container-fixed-lg#pending
   .panel.panel-default
@@ -27,14 +27,14 @@
                   .pull-left
                     %h3.text-primary 
                       %i.fa.fa-edit.hint-text
-                      Rellenables pendientes
+                      Plantillas pendientes
                   .pull-right
                     .p-t-15
                       %a.slow_scroll.small-text{href: "#accomplished", style: "opacity: 1;"}
                         %i.fa.fa-chevron-circle-down
-                        Rellenables cumplidos
+                        Plantillas cumplidas
                   .clearfix
-                  %p.m-b-15 Aquí puedes ver aquellos rellenables que te son asignados por nuestro equipo de mentores. Recuerda siempre mantenerte al tanto de ellos.
+                  %p.m-b-15 Aquí puedes ver aquellas plantillas que te son asignadas por nuestro equipo de mentores. Recuerda siempre mantenerte al tanto de ellas.
 
                 - if @undone_refilables.count > 0
                   - @undone_refilables.each do |refilable|
@@ -56,7 +56,7 @@
                         .clearfix
                 - else
                   %h4.text-complete
-                    Por el momento no tienes rellenables pendientes.
+                    Por el momento no tienes plantillas pendientes.
                 
 .container-fluid.container-fixed-lg#accomplished
   .panel.panel-default
@@ -70,14 +70,14 @@
                   .pull-left
                     %h3.text-success 
                       %i.fa.fa-check-square-o.hint-text
-                      Rellenables cumplidos
+                      Plantillas cumplidas
                   .pull-right
                     .p-t-15
                       %a.slow_scroll.small-text{href: "#pending", style: "opacity: 1;"}
                         %i.fa.fa-chevron-circle-up
-                        Rellenables pendientes
+                        Plantillas pendientes
                   .clearfix
-                  %p.m-b-15 Una vez que hayas contestado tus rellenables podrás verlos en esta columna. Podrás editarlos aunque estén clasificados como complidos. 
+                  %p.m-b-15 Una vez que hayas contestado tus plantillas podrás verlas en esta columna. Podrás editarlas aunque estén clasificadas como complidas. 
 
                 - if @done_refilables.count > 0
                   - @done_refilables.each do |refilable|
@@ -108,7 +108,7 @@
                         .clearfix
                 - else
                   %h4.text-complete
-                    Por el momento no tienes rellenables cumplidos.
+                    Por el momento no tienes plantillas cumplidas.
 
 :javascript
   $('.slow_scroll').click(function(){
