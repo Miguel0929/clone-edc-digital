@@ -42,7 +42,7 @@ class Quiz < ActiveRecord::Base
   end
 
   def answered(user)
-    ids = quiz_questions.map { |q| q.id }
+    ids = quiz_questions.pluck(:id)
     return QuizAnswer.where(quiz_question_id: ids, user_id: user.id).count
   end
 

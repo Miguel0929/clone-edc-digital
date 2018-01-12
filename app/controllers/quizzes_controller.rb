@@ -6,23 +6,23 @@ class QuizzesController < ApplicationController
   add_breadcrumb "EDC DIGITAL", :root_path
 
   def index
-    add_breadcrumb "<a class='active' href='#{quizzes_path}'>Examenes</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{quizzes_path}'>Evaluaciones</a>".html_safe
     @quizzes = Quiz.all
   end
 
   def show
-    add_breadcrumb "<a href='#{quizzes_path}'>Examenes</a>".html_safe
+    add_breadcrumb "<a href='#{quizzes_path}'>Evaluaciones</a>".html_safe
     add_breadcrumb "<a class='active' href='#{quiz_path(@quiz)}'>#{@quiz.name}</a>".html_safe
   end
 
   def new
-    add_breadcrumb "<a href='#{quizzes_path}'>Examenes</a>".html_safe
+    add_breadcrumb "<a href='#{quizzes_path}'>Evaluaciones</a>".html_safe
     add_breadcrumb "<a class='active' href='#{new_quiz_path(@quiz)}'>Nuevo</a>".html_safe
     @quiz = Quiz.new
   end
 
   def edit
-    add_breadcrumb "<a href='#{quizzes_path}'>Examenes</a>".html_safe
+    add_breadcrumb "<a href='#{quizzes_path}'>Evaluaciones</a>".html_safe
     add_breadcrumb "<a class='active' href='#{edit_quiz_path(@quiz)}'>Editar</a>".html_safe
   end
 

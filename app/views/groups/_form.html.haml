@@ -41,7 +41,7 @@
               %thead
                 %tr
                   %th{colspan: 2}
-                    Examenes 
+                    Evaluaciones
                 %tr
                   %th #
                   %th Contenido
@@ -49,7 +49,7 @@
                 - if @contents_fisica_quizzes.count == 0
                   %tr
                     %th.text-center{colspan: 3}
-                      Ruta de aprendizaje sin examenes
+                      Ruta de aprendizaje sin evaluaciones
                 - else      
                   - @contents_fisica_quizzes.sort_by{ |h| h.position }.each_with_index do |content, index|
                     %tr
@@ -79,7 +79,7 @@
               %thead
                 %tr
                   %th{colspan: 2}
-                    Rellenables 
+                    Plantillas 
                 %tr
                   %th #
                   %th Contenido
@@ -87,7 +87,7 @@
                 - if @contents_fisica_refilables.count == 0
                   %tr
                     %th.text-center{colspan: 3}
-                      Ruta de aprendizaje sin rellenables
+                      Ruta de aprendizaje sin plantillas
                 - else      
                   - @contents_fisica_refilables.sort_by{ |h| h.position }.each_with_index do |content, index|
                     %tr
@@ -114,14 +114,14 @@
               %thead
                 %tr
                   %th{colspan: 2}
-                    Examenes 
+                    Evaluaciones 
                 %tr
                   %th #
                   %th Contenido
               %tbody#body-table-fisica-quizzes
                 %tr
                   %th.text-center{colspan: 3}
-                    Ruta de aprendizaje sin exámenes
+                    Ruta de aprendizaje sin evaluaciones
           .col-md-3.col-xs-6.col-sm-6
             %table.table.table-striped
               %thead
@@ -140,14 +140,14 @@
               %thead
                 %tr
                   %th{colspan: 2}
-                    Rellenables 
+                    Plantillas 
                 %tr
                   %th #
                   %th Contenido
               %tbody#body-table-fisica-refilables
                 %tr
                   %th.text-center{colspan: 3}
-                    Ruta de aprendizaje sin rellenables                             
+                    Ruta de aprendizaje sin plantillas                             
   .panel.panel-info
     .panel-heading
       %h3.panel-title Ruta de Aprendizaje (Persona Moral)
@@ -180,7 +180,7 @@
               %thead
                 %tr
                   %th{colspan: 2}
-                    Examenes 
+                    Evaluaciones 
                 %tr
                   %th #
                   %th Contenido
@@ -188,7 +188,7 @@
                 - if @contents_moral_quizzes.count == 0
                   %tr
                     %th.text-center{colspan: 3}
-                      Ruta de aprendizaje sin examenes
+                      Ruta de aprendizaje sin evaluaciones
                 - else      
                   - @contents_moral_quizzes.sort_by{ |h| h.position }.each_with_index do |content, index|
                     %tr
@@ -218,7 +218,7 @@
               %thead
                 %tr
                   %th{colspan: 2}
-                    Rellenables 
+                    Plantillas 
                 %tr
                   %th #
                   %th Contenido
@@ -226,7 +226,7 @@
                 - if @contents_moral_refilables.count == 0
                   %tr
                     %th.text-center{colspan: 3}
-                      Ruta de aprendizaje sin rellenables
+                      Ruta de aprendizaje sin plantillas
                 - else      
                   - @contents_moral_refilables.sort_by{ |h| h.position }.each_with_index do |content, index|
                     %tr
@@ -253,14 +253,14 @@
               %thead
                 %tr
                   %th{colspan: 2}
-                    Examenes 
+                    Evaluaciones 
                 %tr
                   %th #
                   %th Contenido
               %tbody#body-table-moral-quizzes
                 %tr
                   %th.text-center{colspan: 3}
-                    Ruta de aprendizaje sin exámenes
+                    Ruta de aprendizaje sin evaluaciones
           .col-md-3.col-xs-6.col-sm-6
             %table.table.table-striped
               %thead
@@ -279,22 +279,22 @@
               %thead
                 %tr
                   %th{colspan: 2}
-                    Rellenables 
+                    Plantillas 
                 %tr
                   %th #
                   %th Contenido
               %tbody#body-table-moral-refilables
                 %tr
                   %th.text-center{colspan: 3}
-                    Ruta de aprendizaje sin rellenables      
+                    Ruta de aprendizaje sin plantillas      
   .panel.panel-success
     .panel-heading
       %h3.panel-title Contenidos complementarios
     .panel-body 
       = f.select :program_ids,  @programs.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Programas (Complementarios)'}, multiple: 'multiple'
-      = f.select :quiz_ids, @quizzes.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Examenes (Complemantarios)' }, multiple: 'multiple'
+      = f.select :quiz_ids, @quizzes.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Evaluaciones (Complemantarios)' }, multiple: 'multiple'
       = f.select :delireverable_package_ids, @delireverables.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Entregables (Complementarios)' }, multiple: 'multiple'
-      = f.select :template_refilable_ids, @refilables.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Rellenables (Complementarios)' }, multiple: 'multiple'
+      = f.select :template_refilable_ids, @refilables.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Plantillas (Complementarios)' }, multiple: 'multiple'
   
   
   = link_to "Cancelar", groups_path, class: "btn btn-danger"
@@ -314,9 +314,9 @@
       if (type == "Program"){
         return "Programa"
       }else if(type == "Quiz"){
-        return "Examen"
+        return "Evaluación"
       }else if(type == "TemplateRefilable"){
-        return "Rellenable"
+        return "Plantilla"
       }else if(type == "DelireverablePackage"){
         return "Entregable"
       }else{
@@ -352,7 +352,7 @@
           }
           $("#body-table-fisica-quizzes").html('');
           if (ruta_f_q.length == 0){
-             $('#body-table-fisica-quizzes').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin exámenes</th></tr>');
+             $('#body-table-fisica-quizzes').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin evaluaciones</th></tr>');
           }else{
             $.each(ruta_f_q, function(key, value) {
               $('#body-table-fisica-quizzes').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td></tr>');
@@ -368,7 +368,7 @@
           }
           $("#body-table-fisica-refilables").html('');
           if (ruta_f_r.length == 0){
-             $('#body-table-fisica-refilables').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin rellenables</th></tr>');
+             $('#body-table-fisica-refilables').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin plantillas</th></tr>');
           }else{
             $.each(ruta_f_r, function(key, value) {
               $('#body-table-fisica-refilables').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td></tr>');
@@ -392,7 +392,7 @@
 
           $("#body-table-moral-quizzes").html('');
           if (ruta_m_q.length == 0){
-             $('#body-table-moral-quizzes').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin exámenes</th></tr>');
+             $('#body-table-moral-quizzes').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin evaluaciones</th></tr>');
           }else{
             $.each(ruta_m_q, function(key, value) {
               $('#body-table-moral-quizzes').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td></tr>');
@@ -410,7 +410,7 @@
 
           $("#body-table-moral-refilables").html('');
           if (ruta_m_r.length == 0){
-             $('#body-table-moral-refilables').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin rellenables</th></tr>');
+             $('#body-table-moral-refilables').append('<tr><th class="text-center" colspan=3>Ruta de aprendizaje sin plantillas</th></tr>');
           }else{
             $.each(ruta_m_r, function(key, value) {
               $('#body-table-moral-refilables').append('<tr><td class="text-center">'+ (key+1) +'</td><td>'+value.name+'</td></tr>');
@@ -427,7 +427,7 @@
             } 
           });
 
-          // Actualizar examenes
+          // Actualizar evaluaciones
           $("#group_quiz_ids").html('');
           $.each(quizzes, function(key, value) {
             if (o_ids_quizzes.includes(value.id.toString())){
@@ -437,7 +437,7 @@
             }
           });
 
-          // Actualizar rellenables
+          // Actualizar plantillas
           $("#group_template_refilable_ids").html('');
           $.each(refilables, function(key, value) {
             if (o_ids_refilables.includes(value.id.toString())){

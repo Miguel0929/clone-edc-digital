@@ -1,5 +1,5 @@
 - content_for :title  do
-  Exámenes - EDC Digital
+  Evaluaciones - EDC Digital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
@@ -8,12 +8,12 @@
         .row.col-md-12
           .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
             %h2.text-white 
-              Exámenes de evaluación
+              Evaluaciones de evaluación
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
               ¡Pon a prueba tu conocimiento!
             %p.m-b-25.text-white
-              En esta sección encontrarás las evaluaciones destinadas a medir tu aprendizaje a través de la plataforma. También podrás revisar tus calificaciones obtenidas y el desglose de cada examen. ¡Éxito!
+              En esta sección encontrarás las evaluaciones destinadas a medir tu aprendizaje a través de la plataforma. También podrás revisar tus calificaciones obtenidas y el desglose de cada evaluación. ¡Éxito!
   .panel.container-fluid
     .row
       .col-md-6.col-md-offset-3
@@ -50,7 +50,7 @@
                       -if quiz.answered(current_user) > 0  
                         = link_to dashboard_quiz_path(quiz) do
                           %button.btn.btn-sm.btn-complete.bold.m-b-10
-                            Ver exámen
+                            Ver evaluación
                         - if Attempt.where(quiz_id: quiz.id, user_id: current_user.id).count < 3
                           = link_to apply_dashboard_quiz_path(quiz) do
                             %button.btn.btn-sm.btn-warning.bold.m-b-10

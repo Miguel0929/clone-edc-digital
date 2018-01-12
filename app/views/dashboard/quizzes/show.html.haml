@@ -1,5 +1,5 @@
 - content_for :title  do
-  Exámenes - EDC Digital
+  Evaluaciones - EDC Digital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
@@ -7,25 +7,25 @@
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
           .col-sm-5.col-md-5.no-padding.xs-p-l-15.xs-p-r-15
-            %h5.block-title.hint-text.no-margin.text-white Examen rápido
+            %h5.block-title.hint-text.no-margin.text-white Evaluación rápida
             %h2.text-white 
               = @quiz.name
           .col-sm-7.col-md-7.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
-              Los objetivos de este examen:
+              Los objetivos de esta evaluación:
             %p.m-b-25.text-white
               = @quiz.description
             - if @quiz.quiz_questions.first.quiz_answers.where(user: current_user).empty?
               = link_to apply_dashboard_quiz_path(@quiz), class: 'btn btn-sm btn-primary btn-cons m-b-10' do
                 %i.fa.fa-edit
-                %span.bold Contestar examen
+                %span.bold Contestar evaluación
             - else
               = link_to  detail_dashboard_quiz_path(@quiz), class: 'btn btn-sm btn-success btn-cons m-b-10' do
                 %i.fa.fa-eye
                 %span.bold Ver los detalles de tu evaluación
             = link_to  dashboard_quizzes_path, class: 'btn btn-sm btn-primary btn-cons m-b-10' do
               %i.fa.fa-reply
-              %span.bold Regresar a mis exámenes
+              %span.bold Regresar a Evaluaciones
                                    
 .container-fluid.container-fixed-lg
   .row

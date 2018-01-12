@@ -79,12 +79,12 @@
                   = @delireverables.count
             %li.nav-item.tablinks{onclick: "openTab(event, 'tabRefillables')"}
               %a{href: "#", onclick: "return false;"} 
-                Rellenables
+                Plantillas
                 %span.badge
                   = @templates.count
             %li.nav-item.tablinks{onclick: "openTab(event, 'tabQuizzes')"}
               %a{href: "#", onclick: "return false;"} 
-                Examenes
+                Evaluaciones
                 %span.badge
                   = @quizzes.count
           .tab-content.p-b-30
@@ -193,7 +193,7 @@
                 .panel.panel-default
                   .panel-heading
                     .panel-title
-                      Rellenables del programa
+                      Plantillas del programa
                   .panel-body
                     /%h3.text-complete.m-b-30
                     /  Módulo #{@chapter.position}: #{@chapter.name}
@@ -224,13 +224,13 @@
                               = raw remove_class(replace_fillable(template.content))
                       - else
                         %label.label-danger.padding-5.m-b-10
-                          No hay examenes en este módulo
+                          No hay plantillas en este módulo
             #tabQuizzes.tab-pane.tabcontent
               .row
                 .panel.panel-default
                   .panel-heading
                     .panel-title
-                      Examenes del programa
+                      Evaluaciones del programa
                   .panel-body
                     /%h3.text-complete.m-b-30
                     /  Módulo #{@chapter.position}: #{@chapter.name}
@@ -276,7 +276,7 @@
                           
                       - else
                         %label.label-danger.padding-5.m-b-10
-                          No hay rellenables en este módulo                                
+                          No hay evaluaciones en este módulo                                
         .col-sm-5
           .panel.panel-default
             .panel-heading

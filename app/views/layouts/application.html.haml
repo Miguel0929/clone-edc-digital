@@ -37,7 +37,7 @@
           /= display_navbar_link({link: 'Grupos', details: 'Grupos de la plataforma' ,path: groups_path, css: ['m-t-30'], icon: 'fa fa-users', role: [:admin]})
           /= display_navbar_link({link: 'Mentores', details: 'Grupos de la plataforma' ,path: mentors_path, icon: 'fa fa-briefcase', role: [:admin]})
           /= display_navbar_link({link: 'Programas', details: 'Diseño de programas' ,path: programs_path, icon: 'fa fa-list-alt', role: [:admin]})
-          /= display_navbar_link({link: 'Examenes', details: 'Crear exámen rápido', path: quizzes_path, icon: 'fa fa-file-text-o', role: [:admin]})
+          /= display_navbar_link({link: 'Evaluaciones', details: 'Crear evaluación rápida', path: quizzes_path, icon: 'fa fa-file-text-o', role: [:admin]})
           /= display_navbar_link({link: 'Visitas', details: 'Panel de visitas' ,path: visits_path, icon: 'fa fa-list-alt', role: [:admin]})
           /= display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: students_users_path, icon: 'fa fa-book', role: [:admin, :staff]})
           /= display_navbar_link({link: 'Staff', details: 'Personal de invitaciones', path: staffs_path, icon: 'fa fa-user-md', role: [:admin]})
@@ -127,8 +127,8 @@
                   %a{:href => programs_path} Programas
                   %span.icon-thumbnail Pg
                 %li
-                  %a{:href => quizzes_path} Exámenes
-                  %span.icon-thumbnail Ex
+                  %a{:href => quizzes_path} Evaluaciones
+                  %span.icon-thumbnail Ev
                 %li
                   %a{:href => shared_group_attachments_path} Archivos compartidos
                   %span.icon-thumbnail Ac
@@ -136,8 +136,8 @@
                   %a{:href => delireverable_packages_path} Entregables
                   %span.icon-thumbnail En
                 %li
-                  %a{:href => template_refilables_path} Rellenables
-                  %span.icon-thumbnail Re
+                  %a{:href => template_refilables_path} Plantillas
+                  %span.icon-thumbnail Pl                
 
             %li.extra-bottom-4
               %a{:href => "javascript:;"}
@@ -208,7 +208,7 @@
                   %a{:href => dashboard_pathway_path} Mi ruta
                   %span.icon-thumbnail Ru
                 %li
-                  %a{:href => dashboard_quizzes_path} Exámenes
+                  %a{:href => dashboard_quizzes_path} Evaluaciones
                   %span.icon-thumbnail Ex
                 %li
                   %a{:href => dashboard_attachments_path} Mis archivos
@@ -217,8 +217,8 @@
                   %a{:href => dashboard_delireverables_path} Mis entregables
                   %span.icon-thumbnail Me
                 %li
-                  %a{:href => dashboard_template_refilables_path} Mis rellenables
-                  %span.icon-thumbnail Mr
+                  %a{:href => dashboard_template_refilables_path} Mis plantillas
+                  %span.icon-thumbnail Mp
 
             %li.extra-bottom-4
               %a{:href => "javascript:;"}

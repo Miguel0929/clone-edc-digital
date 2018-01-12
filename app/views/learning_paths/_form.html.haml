@@ -9,10 +9,10 @@
     %label{:for => "programs"} Programas:   
     = select_tag "programs[]", options_from_collection_for_select(@programs, "id", "name"), multiple: 'multiple', class: 'form-control'
   .form-group
-    %label{:for => "quizzes"} Examenes:   
+    %label{:for => "quizzes"} Evaluaciones:   
     = select_tag "quizzes[]", options_from_collection_for_select(@quizzes, "id", "name"), multiple: 'multiple', class: 'form-control'
   .form-group
-    %label{:for => "refilables"} Rellenables:   
+    %label{:for => "refilables"} Plantillas:   
     = select_tag "refilables[]", options_from_collection_for_select(@templates_refilables, "id", "name"), multiple: 'multiple', class: 'form-control'
   .form-group
     %label{:for => "delireverables"} Entregables:   

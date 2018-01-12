@@ -18,7 +18,7 @@ class QuizProgramsController < ApplicationController
   	if @quiz.save
       @chapter.quizzes << @quiz
   		#QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "up-lesson-#{@lesson.id}")
-      redirect_to chapter_quiz_program_path(@chapter, @quiz.chapter_content), notice: "Se agrego exitosamente el examen #{@quiz.name}"
+      redirect_to chapter_quiz_program_path(@chapter, @quiz.chapter_content), notice: "Se agrego exitosamente la evaluación #{@quiz.name}"
     else
       render :new
     end
@@ -31,7 +31,7 @@ class QuizProgramsController < ApplicationController
       ChapterContent.find(id).update_attributes({position: index + 1})
     end
 
-    redirect_to @chapter.program, notice: "Se eliminó exitosamente el examen"
+    redirect_to @chapter.program, notice: "Se eliminó exitosamente la evaluación"
   end
 
   def show   
@@ -72,7 +72,7 @@ class QuizProgramsController < ApplicationController
     end  
 
     @chapter.quizzes << quiz_clone
-    redirect_to program_path(@chapter.program), notice: "Se creo exitosamente el examen #{quiz_clone.name}"
+    redirect_to program_path(@chapter.program), notice: "Se creo exitosamente la evaluación #{quiz_clone.name}"
   end  
   
   private

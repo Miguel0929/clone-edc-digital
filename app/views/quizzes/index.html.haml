@@ -1,5 +1,5 @@
 - content_for :title  do
-  Exámenes - EDC Digital
+  Evaluaciones - EDC Digital
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
@@ -10,13 +10,13 @@
         .col-xs-6
           = link_to new_quiz_path, class: 'btn btn-primary' do
             %i.fa.fa-plus
-            Crear examen
+            Crear evaluación
       .clearfix
     .panel-body
       %table.table.table-over
         %thead
           %tr
-            %th Examen
+            %th Evaluación
             %th
         %tbody
           - @quizzes.each do |quiz|
@@ -40,11 +40,11 @@
                     %li.inline 
                       %i.fa.fa-edit
                     %li.inline 
-                      Editar examen
+                      Editar evaluación
                 = link_to quiz, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
                   %ul.p-l-0.m-b-0
                     %li.inline 
                       %i.fa.fa-times
                     %li.inline 
-                      Eliminar examen
+                      Eliminar evaluación
 

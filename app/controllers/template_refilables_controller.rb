@@ -5,41 +5,41 @@ class TemplateRefilablesController < ApplicationController
   add_breadcrumb "EDC DIGITAL", :root_path
 
   def index
-    add_breadcrumb "<a class='active' href='#{template_refilables_path}'>Mis rellenables</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{template_refilables_path}'>Mis plantillas</a>".html_safe
 
     @template_refilables = TemplateRefilable.all
   end
 
   def show
     add_breadcrumb "EDC DIGITAL", :root_path
-    add_breadcrumb "Mis rellenables", :template_refilables_path
+    add_breadcrumb "Mis plantillas", :template_refilables_path
     add_breadcrumb "<a class='active' href='#{template_refilable_path(@template_refilable)}'>#{@template_refilable.name}</a>".html_safe
   end
 
   def new
     add_breadcrumb "EDC DIGITAL", :root_path
-    add_breadcrumb "Mis rellenables", :template_refilables_path
-    add_breadcrumb "<a class='active' href='#{new_template_refilable_path}'>Nuevo rellenable</a>".html_safe
+    add_breadcrumb "Mis plantillas", :template_refilables_path
+    add_breadcrumb "<a class='active' href='#{new_template_refilable_path}'>Nueva plantilla</a>".html_safe
 
     @template_refilable = TemplateRefilable.new
   end
 
   def edit
     add_breadcrumb "EDC DIGITAL", :root_path
-    add_breadcrumb "Mis rellenables", :template_refilables_path
+    add_breadcrumb "Mis plantillas", :template_refilables_path
     add_breadcrumb "<a class='active' href='#{edit_template_refilable_path(@template_refilable)}'>#{@template_refilable.name}</a>".html_safe
   end
 
   def create
     add_breadcrumb "EDC DIGITAL", :root_path
-    add_breadcrumb "Mis rellenables", :template_refilables_path
-    add_breadcrumb "<a class='active' href='#{new_template_refilable_path}'>Nuevo rellenable</a>".html_safe
+    add_breadcrumb "Mis plantillas", :template_refilables_path
+    add_breadcrumb "<a class='active' href='#{new_template_refilable_path}'>Nueva plantilla</a>".html_safe
 
     @template_refilable = TemplateRefilable.new(template_refilable_params)
     @template_refilable.tipo=1
 
     if @template_refilable.save
-      redirect_to template_refilables_path, notice: 'Rellenable creado'
+      redirect_to template_refilables_path, notice: 'Plantilla creada'
     else
       render :new
     end
@@ -47,11 +47,11 @@ class TemplateRefilablesController < ApplicationController
 
   def update
     add_breadcrumb "EDC DIGITAL", :root_path
-    add_breadcrumb "Mis rellenables", :template_refilables_path
+    add_breadcrumb "Mis plantillas", :template_refilables_path
     add_breadcrumb "<a class='active' href='#{edit_template_refilable_path(@template_refilable)}'>#{@template_refilable.name}</a>".html_safe
 
     if @template_refilable.update(template_refilable_params)
-      redirect_to template_refilables_path, notice: 'Rellenable actualizado'
+      redirect_to template_refilables_path, notice: 'Plantilla actualizada'
     else
       render :edit
     end
@@ -59,7 +59,7 @@ class TemplateRefilablesController < ApplicationController
 
   def destroy
     @template_refilable.destroy
-    redirect_to template_refilables_path, notice: 'Rellenable eliminado'
+    redirect_to template_refilables_path, notice: 'Plantilla eliminada'
   end
 
   def sort

@@ -38,13 +38,13 @@
           %li.nav-item.tablinks{onclick: "openTab(event, 'tabProgram')"}
             %a{href: "#", onclick: "return false;"} Programas
           %li.nav-item.tablinks{onclick: "openTab(event, 'tabQuizzes')"}
-            %a{href: "#", onclick: "return false;"} Exámenes
+            %a{href: "#", onclick: "return false;"} Evaluaciones
           %li.nav-item.tablinks{onclick: "openTab(event, 'tabFiles')"}
             %a{href: "#", onclick: "return false;"} Archivos
           %li.nav-item.tablinks{onclick: "openTab(event, 'tabDeliverables')"}
             %a{href: "#", onclick: "return false;"} Entregables
           %li.nav-item.tablinks{onclick: "openTab(event, 'tabRefilables')"}
-            %a{href: "#", onclick: "return false;"} Rellenables
+            %a{href: "#", onclick: "return false;"} Plantillas
         .tab-content.p-b-30
           #tabStudent.tab-pane.active.tabcontent
             .row
@@ -324,7 +324,7 @@
                   %thead
                     %tr
                       %th{width: "35%"}
-                        Examen
+                        Evaluación
                       %th{width: "25%"}
                         Preguntas disponibles
                       %th.text-center{width: "20%"}
@@ -338,7 +338,7 @@
                       %tr
                         %td.p-t-20.p-b-15{colspan: "4"}
                           .text-primary.bold
-                            No hay exámenes asignados a este estudiante
+                            No hay evaluaciones asignadas a este estudiante
                     - else
                       - @quizzes.each do |quiz|
                         - quiz_ques = quiz.quiz_questions.count
@@ -547,7 +547,7 @@
                       %tr
                         %td.p-t-20.p-b-15{colspan: "4"}
                           .text-primary.bold
-                            No hay rellenables asignados a este estudiante
+                            No hay plantillas asignadas a este estudiante
                     - else
                       - @refilables.each do |refilable|
                         - user_refilable = refilable.refilables.find_by(user: @user)
@@ -583,7 +583,7 @@
                                   %li.inline
                                     %i.fa.fa-eye
                                   %li.inline
-                                    Ver rellenable
+                                    Ver plantilla
                               %ul.p-l-0
                                 = link_to edit_mentor_student_refilable_path(@user, user_refilable) do
                                   %li.inline

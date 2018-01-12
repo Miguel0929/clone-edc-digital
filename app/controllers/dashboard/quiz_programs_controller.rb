@@ -60,7 +60,7 @@ class Dashboard::QuizProgramsController < ApplicationController
   end
   def redirect_to_next_content
     program=@chapter_content.chapter.program
-    mensaje= "Examen enviado con éxito"
+    mensaje= "Evaluación enviada con éxito"
 
     if current_user.percentage_answered_for(program)>80 && current_user.percentage_answered_for(program)<100
       if current_user.program_notifications.where(program: program).more80.first.nil?
