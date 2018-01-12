@@ -415,7 +415,7 @@ div#refilable-content-template > p{
 }
 table.colored-columns td.dark{
 	background-color: #f0f0f0; 
-	/background-color: #f0eef7;
+	/*background-color: #f0eef7;*/
 }
 table.colored-columns td.light{
 	background-color: #ecf7fe;
@@ -430,7 +430,7 @@ table.colored-columns td.light{
 	left: 210px;
 }
 .cell-like{
-	/height: 48.9666px;
+	/*height: 48.9666px;*/
 	height: 38px;
 	width: 100%;
 	border-bottom: 1px solid rgba(230, 230, 230, 0.7);
