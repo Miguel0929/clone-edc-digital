@@ -83,11 +83,11 @@
 														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
 															.cell-like
 																Contestado:
-																= stat.nil? ? "N/A" : stat.program_progress.round.to_s + "%"
+																= stat.nil? ? "N/A" : stat.round_program_progress + "%"
 														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
 															.cell-like
 																Visto:
-																= stat.nil? ? "N/A" : stat.program_seen.round.to_s + "%"
+																= stat.nil? ? "N/A" : stat.round_program_seen + "%"
 														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
 															.cell-like
 																Evaluado:
@@ -100,8 +100,6 @@
 					- if @students && @students.count > 0
 						.pull-left.text-complete.text-small.p-l-30.p-t-10
 							* Mostrando el registro de #{@students.count} alumnos
-						.pull-right.testing-css
-							Test
 
 :javascript
 	$(document).ready( function() {
