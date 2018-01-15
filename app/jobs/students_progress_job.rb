@@ -9,7 +9,7 @@ class StudentsProgressJob
     groups = Group.all
 
     groups.each do |group|
-      programs = group.programs.all
+      programs = group.all_programs
       students = group.students.all
       programs.each do |program|
         students.each do |student|

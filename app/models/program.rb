@@ -97,5 +97,18 @@ class Program < ActiveRecord::Base
       c += chapter.questions.count 
     end
     c == 0 ? false : true 
-  end  
+  end 
+
+  def all_groups
+    program_groups = self.groups.pluck(:id)
+    path_content = self.learning_path_content
+    if path_content.nil?
+      fisica_groups, moral_groups = [], []
+    else
+      (path_content.respond_to? :learning_path) ? fisica_groups = path_content.learning_path.groups.pluck(:id) : fisica_groups = []
+      (path_content.respond_to? :learning_path2) ? moral_groups = path_content.learning_path2.groups.pluck(:id) : moral_groups = []
+    end
+    aux = program_groups + fisica_groups + moral_groups
+    Group.where(id: aux)
+  end 
 end
