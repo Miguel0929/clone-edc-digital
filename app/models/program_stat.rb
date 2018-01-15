@@ -10,7 +10,7 @@ class ProgramStat < ActiveRecord::Base
   	progress.nil? ? "0" : progress.round.to_s
   end
 
-    def round_program_seen
+  def round_program_seen
   	seen = self.program_seen
   	seen.nil? ? "0" : seen.round.to_s
   end
