@@ -121,6 +121,11 @@
               %input#admin_students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
               %span.input-group-addon.font-search
                 %i.fa.fa-search.text-white
+      .pull-left
+        .p-t-10
+          %span.hint-text Mostrando:
+          = @total_users
+          %span.hint-text estudiante(s)
       .clearfix
 
       - if (params[:group].present?) && @allusers.count > 0
