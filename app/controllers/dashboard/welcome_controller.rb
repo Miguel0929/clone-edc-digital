@@ -43,7 +43,7 @@ class Dashboard::WelcomeController < ApplicationController
   end
 
   def pathway
-    add_breadcrumb "<a class='active' href='#{dashboard_pathway_path}'>Mi ruta de emprendimiento</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{dashboard_pathway_path}'>Fases de una idea viable</a>".html_safe
     @last_text = RouteText.last
     @last_cover = RouteCover.last
     @texts = RouteText.all
@@ -51,7 +51,7 @@ class Dashboard::WelcomeController < ApplicationController
   end
 
   def learning_path
-    add_breadcrumb "<a class='active' href='#{dashboard_learning_path_path}'>Ruta de aprendizaje</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{dashboard_learning_path_path}'>Mi ruta de aprendizaje</a>".html_safe
     @programs_fisica=current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position) rescue nil
     c=0
     @c1=0
