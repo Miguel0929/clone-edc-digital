@@ -1,11 +1,32 @@
 .well
   = bootstrap_form_for([@chapter, @lesson]) do |f|
     = f.text_field :identifier, label: 'Identificador'
-    = f.text_area :content, ckeditor: { language: 'es'}, id: 'ckeditor'
-    = f.text_field :video_url, label: 'URL del video'
+    = f.text_area :content, ckeditor: { language: 'es'}, id: 'ckeditor', label: 'Contenido'
+    .row
+      .col-sm-10.p-l-0
+        = f.text_area :video_url, label: 'URL del video'
+      .col-sm-2.videoBtn-padding.p-l-0
+        .btn.btn-complete#addVideoBtn
+          Agregar video
+    .hint-text
+      *Nota: Para colocar el video de la url que agregaste posiciónate en el punto del campo de texto del Contenido donde te gustaría que apareciera. Después da click en el botón azul de 'Agregar video'. Esto último agregará una etiqueta de {{video}}, misma que será reemplazada con el reproductor al momento de ver la lección.
     %br
     = link_to 'Cancelar', @chapter.program, class: 'btn btn-danger'
     = f.submit 'Aceptar'
 
 :javascript
-  CKEDITOR.replace('ckeditor');
+  $( document ).on('turbolinks:load', function() {
+
+    var editor = CKEDITOR.replace('ckeditor')
+
+    editor.addCommand("addVideoFrame", {
+      exec: function(edt) {
+        edt.insertHtml("{{video}}")
+      }
+    });
+
+    $('#addVideoBtn').click(function(e){
+      e.preventDefault();
+      editor.execCommand( 'addVideoFrame' );
+    })
+  });
