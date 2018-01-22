@@ -37,3 +37,6 @@
             = raw @lesson.video_url
         - else
           = raw parse_lesson_content(@lesson)
+
+:javascript
+  $( ".embed-responsive" ).wrap( "<div class='row'></div>" );

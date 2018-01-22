@@ -454,3 +454,11 @@ table.colored-columns td.light{
 	display: inline-block;
 	width: 22px;
 }
+.embed-col-10 iframe{
+	height: 83%;
+}
+@media screen and (min-width: 755px) {
+    .videoBtn-padding {
+        padding-top: 22px;
+    }
+}
