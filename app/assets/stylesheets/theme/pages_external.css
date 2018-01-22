@@ -457,3 +457,11 @@ table.colored-columns td.light{
 .testing-css {
 	text-decoration: underline;
 }
+.embed-col-10 iframe{
+	height: 83%;
+}
+@media screen and (min-width: 755px) {
+    .videoBtn-padding {
+        padding-top: 22px;
+    }
+}

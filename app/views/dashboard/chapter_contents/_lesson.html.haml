@@ -16,11 +16,12 @@
             %h2
               = model.identifier
             %div
-              - if model.video_url.nil? || model.video_url.empty?
-                = raw model.content
-              - else
-                .embed-responsive.embed-responsive-16by9
-                  = raw model.video_url
+              = raw parse_lesson_content(model)
+              /- if model.video_url.nil? || model.video_url.empty?
+              /  = raw model.content
+              /- else
+              /  .embed-responsive.embed-responsive-16by9
+              /    = raw model.video_url
 
       = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content, edit_mode: false}
         
@@ -109,6 +110,7 @@
     });
     ev.preventDefault();
   });
+  //$( ".embed-responsive" ).wrap( "<div class='row'></div>" );
 
 - if @tour_trigger[:third]
   = javascript_include_tag '/javascripts/lib/bootstraptour/tour_third_step', 'data-turbolinks-track' => false
