@@ -56,7 +56,7 @@ module ApplicationHelper
   def parse_lesson_content(lesson)
     return lesson.content.gsub('{{video}}', '') if lesson.video_url.nil? || lesson.video_url.empty?
 
-    lesson.content.gsub('{{video}}', content_tag(:div, lesson.video_url.html_safe, class: 'embed-responsive embed-responsive-16by9 col-sm-10 col-sm-offset-1 embed-col-10'))
+    lesson.content.gsub('{{video}}', content_tag(:div, lesson.video_url.html_safe, class: 'embed-responsive embed-responsive-16by9')) #Estas clases se pueden agregar para hacer la ventana del video más pequeña: col-sm-10 col-sm-offset-1 embed-col-10 
   end
 
   def include_margin?(controller_name, action_name)
