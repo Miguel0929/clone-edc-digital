@@ -32,11 +32,19 @@
         = @lesson.identifier
 
       %div
-        - if @lesson.content.nil? || @lesson.content.empty?
-          .embed-responsive.embed-responsive-16by9
-            = raw @lesson.video_url
+        - if @lesson.video_url.nil? || @lesson.video_url.empty?
+          = raw @lesson.content
         - else
-          = raw parse_lesson_content(@lesson)
+          - if @lesson.content.include?("{{video}}")
+            = raw parse_lesson_content(@lesson)
+          - else
+            .embed-responsive.embed-responsive-16by9
+              = raw @lesson.video_url
+        /- if @lesson.content.nil? || @lesson.content.empty?
+        /  .embed-responsive.embed-responsive-16by9
+        /    = raw @lesson.video_url
+        /- else
+        /  = raw parse_lesson_content(@lesson)
 
 :javascript
   //$( ".embed-responsive" ).wrap( "<div class='row'></div>" );
