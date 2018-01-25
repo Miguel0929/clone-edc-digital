@@ -99,7 +99,11 @@ class GroupsController < ApplicationController
       @group.quizzes << Quiz.where(id: group_params[:quiz_ids].delete_if {|x| x == "" } )
       @group.delireverable_packages << DelireverablePackage.where(id: group_params[:delireverable_package_ids].delete_if {|x| x == "" } )
       @group.template_refilables << TemplateRefilable.where(id: group_params[:template_refilable_ids].delete_if {|x| x == "" } )
-      redirect_to group_path(@group.id), notice: "Se creo exitosamente el grupo #{@group.name}, ahora ordena la \"Ruta de aprendizaje\""
+      if group_params[:hit_n_run].present?
+        redirect_to group_path(@group.id), notice: "Se creo exitosamente el grupo #{@group.name}, ahora ordena la \"Ruta de aprendizaje\""
+      else
+        redirect_to edit_group_path(@group.id), notice: "Se creo exitosamente el grupo #{@group.name}, ahora ordena la \"Ruta de aprendizaje\""
+      end
     else
       render :new
     end
@@ -111,13 +115,16 @@ class GroupsController < ApplicationController
     source = URI(request.referer).path
 
     before_update_ids = @group.programs.pluck(:id)
-    if @group.update(group_params)
+    if @group.update(group_params.except(:hit_n_run))
       NewProgramNotificationJob.perform_async(before_update_ids, @group.programs.pluck(:id))
       if source == '/groups/' + @group.id.to_s + '/student_control'
         redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
       else
-        redirect_to edit_group_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
-        #groups_path
+        if group_params[:hit_n_run].present?
+          redirect_to group_path(@group.id), notice: "Se actualizó exitosamente el grupo #{@group.name}"
+        else
+          redirect_to edit_group_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
+        end
       end
     else
       render :edit
@@ -251,6 +258,6 @@ class GroupsController < ApplicationController
   end
 
   def group_params
-    params.require(:group).permit(:name, :key, :state_id, :university_id, :category, :learning_path_id, :learning_path2_id, program_ids: [], user_ids: [], student_ids: [], quiz_ids: [], delireverable_package_ids: [], template_refilable_ids: [])
+    params.require(:group).permit(:name, :key, :state_id, :university_id, :category, :learning_path_id, :learning_path2_id, :hit_n_run, program_ids: [], user_ids: [], student_ids: [], quiz_ids: [], delireverable_package_ids: [], template_refilable_ids: [])
   end
 end

@@ -300,9 +300,11 @@
       = f.select :delireverable_package_ids, DelireverablePackage.all.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Entregables (Complementarios)' }, multiple: 'multiple'
       = f.select :template_refilable_ids, TemplateRefilable.all.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Plantillas (Complementarios)' }, multiple: 'multiple'
   
-  
-  = link_to "Cancelar", groups_path, class: "btn btn-danger"
-  = f.submit 'Guardar sin salir'
+  .pull-left.p-b-30
+    = link_to "Cancelar", groups_path, class: "btn btn-danger"
+    = f.submit 'Guardar', class: "btn btn-primary"
+    %button.btn.btn-primary#hitNrun Guardar y salir
+  .clearfix
 
 
 :javascript
@@ -467,4 +469,20 @@
       });  
       //}
     });
+
+    var groupForm = $( "#groupFormContainer" ).find( "form" );
+    //groupForm.submit(function(e){
+    //    return false;
+    //});
+
+    $("#hitNrun").click(param_submit_function);
+    function param_submit_function(event) {
+      $('<input>').attr({
+          type: 'hidden',
+          id: 'group_hit_n_run',
+          name: 'group[hit_n_run]',
+          value: 'hit_n_run'
+      }).appendTo(groupForm);
+    }
+
   });
