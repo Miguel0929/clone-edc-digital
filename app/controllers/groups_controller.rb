@@ -91,20 +91,14 @@ class GroupsController < ApplicationController
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{new_group_path}'>Crear grupo</a>".html_safe
 
-    @group = Group.new(name: group_params[:name], key: group_params[:key], state_id: group_params[:state_id], university_id: group_params[:university_id], category: group_params[:category])
+    @group = Group.new(name: group_params[:name], key: group_params[:key], state_id: group_params[:state_id], university_id: group_params[:university_id], category: group_params[:category], learning_path_id: group_params[:learning_path_id], learning_path2_id: group_params[:learning_path2_id])
     if @group.save
-      group_params[:program_ids].each do |p|
-        unless p == ""
-          m = Program.find(p)
-          @group.programs << m
-        end
-      end
-      group_params[:user_ids].each do |u|
-        unless u == ""
-          m = User.find(u)
-          @group.users << m
-        end
-      end
+      @group.users << User.where(id: group_params[:user_ids].delete_if {|x| x == "" } )
+      @group.students << User.where(id: group_params[:student_ids].delete_if {|x| x == "" } )
+      @group.programs << Program.where(id: group_params[:program_ids].delete_if {|x| x == "" } )
+      @group.quizzes << Quiz.where(id: group_params[:quiz_ids].delete_if {|x| x == "" } )
+      @group.delireverable_packages << DelireverablePackage.where(id: group_params[:delireverable_package_ids].delete_if {|x| x == "" } )
+      @group.template_refilables << TemplateRefilable.where(id: group_params[:template_refilable_ids].delete_if {|x| x == "" } )
       redirect_to group_path(@group.id), notice: "Se creo exitosamente el grupo #{@group.name}, ahora ordena la \"Ruta de aprendizaje\""
     else
       render :new
