@@ -470,11 +470,8 @@
       //}
     });
 
+    //Parámetro para hacer la distinción del submit entre "Guardar" y "Guardar y salir"
     var groupForm = $( "#groupFormContainer" ).find( "form" );
-    //groupForm.submit(function(e){
-    //    return false;
-    //});
-
     $("#hitNrun").click(param_submit_function);
     function param_submit_function(event) {
       $('<input>').attr({
