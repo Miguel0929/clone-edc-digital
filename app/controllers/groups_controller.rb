@@ -91,21 +91,19 @@ class GroupsController < ApplicationController
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{new_group_path}'>Crear grupo</a>".html_safe
 
-    @group = Group.new(name: group_params[:name], key: group_params[:key], state_id: group_params[:state_id], university_id: group_params[:university_id], category: group_params[:category])
+    @group = Group.new(name: group_params[:name], key: group_params[:key], state_id: group_params[:state_id], university_id: group_params[:university_id], category: group_params[:category], learning_path_id: group_params[:learning_path_id], learning_path2_id: group_params[:learning_path2_id])
     if @group.save
-      group_params[:program_ids].each do |p|
-        unless p == ""
-          m = Program.find(p)
-          @group.programs << m
-        end
+      @group.users << User.where(id: group_params[:user_ids].delete_if {|x| x == "" } )
+      @group.students << User.where(id: group_params[:student_ids].delete_if {|x| x == "" } )
+      @group.programs << Program.where(id: group_params[:program_ids].delete_if {|x| x == "" } )
+      @group.quizzes << Quiz.where(id: group_params[:quiz_ids].delete_if {|x| x == "" } )
+      @group.delireverable_packages << DelireverablePackage.where(id: group_params[:delireverable_package_ids].delete_if {|x| x == "" } )
+      @group.template_refilables << TemplateRefilable.where(id: group_params[:template_refilable_ids].delete_if {|x| x == "" } )
+      if group_params[:hit_n_run].present?
+        redirect_to group_path(@group.id), notice: "Se creo exitosamente el grupo #{@group.name}, ahora ordena la \"Ruta de aprendizaje\""
+      else
+        redirect_to edit_group_path(@group.id), notice: "Se creo exitosamente el grupo #{@group.name}, ahora ordena la \"Ruta de aprendizaje\""
       end
-      group_params[:user_ids].each do |u|
-        unless u == ""
-          m = User.find(u)
-          @group.users << m
-        end
-      end
-      redirect_to group_path(@group.id), notice: "Se creo exitosamente el grupo #{@group.name}, ahora ordena la \"Ruta de aprendizaje\""
     else
       render :new
     end
@@ -117,13 +115,16 @@ class GroupsController < ApplicationController
     source = URI(request.referer).path
 
     before_update_ids = @group.programs.pluck(:id)
-    if @group.update(group_params)
+    if @group.update(group_params.except(:hit_n_run))
       NewProgramNotificationJob.perform_async(before_update_ids, @group.programs.pluck(:id))
       if source == '/groups/' + @group.id.to_s + '/student_control'
         redirect_to student_control_group_path(@group), notice: "Vinculación  de alumnos actualizada"
       else
-        redirect_to edit_group_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
-        #groups_path
+        if group_params[:hit_n_run].present?
+          redirect_to group_path(@group.id), notice: "Se actualizó exitosamente el grupo #{@group.name}"
+        else
+          redirect_to edit_group_path, notice: "Se actualizó exitosamente el grupo #{@group.name}"
+        end
       end
     else
       render :edit
@@ -257,6 +258,6 @@ class GroupsController < ApplicationController
   end
 
   def group_params
-    params.require(:group).permit(:name, :key, :state_id, :university_id, :category, :learning_path_id, :learning_path2_id, program_ids: [], user_ids: [], student_ids: [], quiz_ids: [], delireverable_package_ids: [], template_refilable_ids: [])
+    params.require(:group).permit(:name, :key, :state_id, :university_id, :category, :learning_path_id, :learning_path2_id, :hit_n_run, program_ids: [], user_ids: [], student_ids: [], quiz_ids: [], delireverable_package_ids: [], template_refilable_ids: [])
   end
 end
