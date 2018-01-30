@@ -330,14 +330,15 @@ a.unseen-link:hover {
 }
 .refilable-input{
 	display: inline-block;
-	width: 200px;
+	width: 225px;
 	position: relative;
 	min-height: 27px;
 	height: 27px;
 	line-height: 8px;
 	top: -2px;
 	margin: 5px 5px 5px 5px;
-	overflow:auto;
+	/*overflow: auto;*/
+	overflow: hidden;
 	white-space: nowrap;
 }
 .refilable-show{
