@@ -394,6 +394,16 @@ class User < ActiveRecord::Base
     self.program_stats.find_by(program_id: program)
   end
 
+  def user_groups
+    if self.admin?
+      Group.all
+    elsif self.mentor?
+      self.groups
+    else
+      nil
+    end
+  end
+
   private
 
   def set_origin

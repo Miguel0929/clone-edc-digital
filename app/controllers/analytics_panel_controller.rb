@@ -41,7 +41,7 @@ class AnalyticsPanelController < ApplicationController
 
   def program_objects(program)
   	#program_groups = @groups.includes(:group_programs).where(:group_programs => {program_id: program})
-    program_groups = program.all_groups
+    program_groups = program.all_groups(current_user)
   	my_students = User.where(group_id: program_groups.pluck(:id), role: 0).where.not(invitation_accepted_at: nil)
   	actives = my_students.count
   	checked = my_students.joins(:program_stats).where(:program_stats => {checked: 1, program_id: program}).count
