@@ -99,7 +99,7 @@ class Program < ActiveRecord::Base
     c == 0 ? false : true 
   end 
 
-  def all_groups
+  def all_groups(user)
     program_groups = self.groups.pluck(:id)
     path_content = self.learning_path_content
     if path_content.nil?
@@ -111,7 +111,8 @@ class Program < ActiveRecord::Base
       #(path_content.respond_to? :learning_path2) ? moral_groups = path_content.learning_path2.groups.pluck(:id) : moral_groups = []
     end
     aux = program_groups + path_groups
-    Group.where(id: aux)
+    groups = Group.where(id: aux)
+    user.mentor? ? groups.where(id: user.groups.pluck(:id)) : groups
   end 
 end
 
