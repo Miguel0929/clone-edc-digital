@@ -17,7 +17,7 @@
 						= form_tag(progress_panel_path(@group), method: :get) do
 							.row.m-b-15
 								.col-md-7
-									= select_tag :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: "Elige otro grupo", class: "form-control" }
+									= select_tag :group, options_from_collection_for_select(current_user.user_groups, :id, :name, params[:group]), {include_blank: "Elige otro grupo", class: "form-control" }
 								.col-md-5
 									= submit_tag 'Filtrar grupo', class: "btn btn-success btn-xs"
 					.pull-right
