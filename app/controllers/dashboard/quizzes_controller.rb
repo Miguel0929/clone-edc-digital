@@ -8,8 +8,16 @@ class Dashboard::QuizzesController < ApplicationController
   helper_method :evaluating_quiz
 
   def index
-    add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path}'>Evaluaciones</a>".html_safe
-    @quizzes = current_user.group.all_quizzes
+    if current_user.student?
+      add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path}'>Evaluaciones</a>".html_safe
+      @quizzes = current_user.group.all_quizzes
+    else
+      student = User.find(params[:user_id])
+      add_breadcrumb "Estudiantes", :mentor_students_path
+      add_breadcrumb "<a href='#{mentor_student_path(student)}'>#{student.email}</a>".html_safe
+      add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path(user_id: student.id)}'>Evaluaciones</a>".html_safe
+      @quizzes = student.group.all_quizzes
+    end
   end
 
   def show
@@ -33,8 +41,16 @@ class Dashboard::QuizzesController < ApplicationController
     if @quiz.answered(current_user) > 0
       flash[:notice] = "Este es tu intento número #{Attempt.where(quiz_id: @quiz.id, user_id: current_user.id).count + 1} la calificación que obtengas será la se tomará en cuenta"
     end
-    add_breadcrumb "<a href='#{dashboard_quizzes_path}'>Evaluaciones</a>".html_safe    
-    add_breadcrumb "<a class='active' href='#{dashboard_quiz_path(@quiz)}'>#{@quiz.name}</a>".html_safe
+    if current_user.student?
+      add_breadcrumb "<a href='#{dashboard_quizzes_path}'>Evaluaciones</a>".html_safe    
+      add_breadcrumb "<a class='active' href='#{dashboard_quiz_path(@quiz)}'>#{@quiz.name}</a>".html_safe
+    else
+      student = User.find(params[:user_id])
+      add_breadcrumb "Estudiantes", :mentor_students_path
+      add_breadcrumb "<a href='#{mentor_student_path(student)}'>#{student.email}</a>".html_safe
+      add_breadcrumb "<a href='#{dashboard_quizzes_path(user_id: student.id)}'>Evaluaciones</a>".html_safe
+      add_breadcrumb "<a class='active' href='#{dashboard_quiz_path(@quiz, user_id: params[:user_id])}'>#{@quiz.name}</a>".html_safe
+    end
   end
 
   def evaluating_quiz(rightones, yours)

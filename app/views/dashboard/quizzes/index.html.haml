@@ -2,7 +2,7 @@
   Evaluaciones - EDC Digital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
-  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
+  %section.demo-bg-section.p-b-15.p-t-30{class: (current_user.mentor? || current_user.admin?) ? "panel-title-recursos" : "panel-title-emprendimiento"}
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
@@ -57,9 +57,9 @@
                               Nuevo intento
                             
                       -else
-                        = link_to apply_dashboard_quiz_path(quiz) do
+                        = link_to apply_dashboard_quiz_path(quiz, user_id: current_user.id) do
                           %button.btn.btn-sm.btn-success.bold.m-b-10
-                            Contestar
+                            #{current_user.student? ? "Contestar" : "Ver examen"}
                       .pull-right#accordion.panel.panel-group.panel-transparent.m-b-0.inline-block.m-t-menos
                         .panel
                           .panel-heading

@@ -317,9 +317,18 @@
                         %td.p-t-20.p-b-15{colspan: "3"}
                           .text-primary.bold
                             No hay programas asignados a este estudiante              
-          #tabQuizzes.tab-pane.tabcontent
+          #tabQuizzes.tab-pane.tabcontent{class: @user.group.nil? ? "" : "minus-15"}
             .row
               .col-sm-12.table-responsive
+                - if !@user.group.nil?
+                  = link_to dashboard_quizzes_path(user_id: @user.id) do
+                    .pull-right.m-b-15
+                      %button.btn.btn-default.text-complete{type: "button"}
+                        %span.pull-right 
+                          %i.fa.fa-check-circle
+                        %span.p-r-10
+                          Ver sección de Evaluaciones del alumno
+                  .clearfix
                 %table.table.table-hover
                   %thead
                     %tr
@@ -532,9 +541,17 @@
                                     %i.fa.fa-edit
                                   %li.inline
                                     Editar registro
-          #tabRefilables.tab-pane.tabcontent
+          #tabRefilables.tab-pane.tabcontent{class: @user.group.nil? ? "" : "minus-15"}
             .row
               .col-sm-12.table-responsive
+                - if !@user.group.nil?
+                  .pull-right.m-b-15
+                    %button.btn.btn-default.text-complete{type: "button"}
+                      %span.pull-right 
+                        %i.fa.fa-bars
+                      %span.p-r-10
+                        Ver sección de Plantillas del alumno
+                .clearfix
                 %table.table.table-hover
                   %thead
                     %tr
