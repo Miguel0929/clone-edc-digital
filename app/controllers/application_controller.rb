@@ -159,6 +159,10 @@ class ApplicationController < ActionController::Base
     redirect_to dashboard_learning_path_path, notice: "Aun no puedes acceder a este contenido." 
   end
 
+  def redirect_to_learning_nil
+    redirect_to dashboard_learning_path_path, notice: "El contenido al que intentas acceder no existe o ha sido eliminado, por favor intenta con otro diferente." 
+  end
+
   def redirect_to_support
     redirect_to dashboard_support_admin_path, notice: "No tienes asignado un grupo, contacta al administrador para que te asigne a uno." 
   end    
