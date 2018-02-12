@@ -2,6 +2,7 @@ class Dashboard::ChapterContentsController < ApplicationController
   before_action :authenticate_user!
   before_action :redirect_to_support, if: :student_have_group?
   before_action :track_chapter_content, only: [:show]
+  before_action :redirect_to_learning_nil, if: :access_deleted_content, only: [:show]
   before_action :redirect_to_learning, if: :permiso_avance, only: [:show]
   after_action :update_program_stats, only: [:show]
 
@@ -54,19 +55,28 @@ class Dashboard::ChapterContentsController < ApplicationController
 
   private
   def track_chapter_content
-    @chapter_content = ChapterContent.find(params[:id])
-    if Tracker.find_by(chapter_content: @chapter_content, user: current_user).nil?
-      Tracker.create(chapter_content: @chapter_content, user: current_user)
-    else
-      Tracker.find_by(chapter_content: @chapter_content, user: current_user).touch
-    end
+    if ChapterContent.exists?(id: params[:id])
+      @chapter_content = ChapterContent.find(params[:id])
+      if Tracker.find_by(chapter_content: @chapter_content, user: current_user).nil?
+        Tracker.create(chapter_content: @chapter_content, user: current_user)
+      else
+        Tracker.find_by(chapter_content: @chapter_content, user: current_user).touch
+      end
 
-    ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
+      ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
+    else
+      @chapter_content = nil
+      ahoy.track "Viewed content", chapter_content_id: nil
+    end
   end
+
+  def access_deleted_content
+    @chapter_content.nil?
+  end 
 
   def permiso_avance
     permiso_programs(@chapter_content.chapter.program, current_user)
-  end  
+  end 
 
   def update_program_stats
     #program = Program.joins(:chapters => :chapter_contents).where(chapter_contents: {id: @chapter_content.id}).last
