@@ -317,9 +317,18 @@
                         %td.p-t-20.p-b-15{colspan: "3"}
                           .text-primary.bold
                             No hay programas asignados a este estudiante              
-          #tabQuizzes.tab-pane.tabcontent
+          #tabQuizzes.tab-pane.tabcontent{class: @user.group.nil? ? "" : "minus-15"}
             .row
               .col-sm-12.table-responsive
+                - if !@user.group.nil?
+                  = link_to dashboard_quizzes_path(user_id: @user.id) do
+                    .pull-right.m-b-15
+                      %button.btn.btn-default.text-complete{type: "button"}
+                        %span.pull-right 
+                          %i.fa.fa-check-circle
+                        %span.p-r-10
+                          Ver sección de Evaluaciones del alumno
+                  .clearfix
                 %table.table.table-hover
                   %thead
                     %tr
@@ -327,9 +336,9 @@
                         Evaluación
                       %th{width: "25%"}
                         Preguntas disponibles
-                      %th.text-center{width: "20%"}
+                      %th.text-center{width: "14%"}
                         Calificación
-                      %th.text-center{width: "20%"}
+                      %th.text-center{width: "14%"}
                         Intentos
                       %th
                         Acciones
@@ -354,9 +363,18 @@
                             %td.p-t-20.p-b-15.text-center
                               = Attempt.where(quiz_id: quiz.id, user_id: @user.id).count
                           %td.p-t-20.p-b-15
-                            = link_to analytics_quiz_mentor_student_path(@user, quiz_id: quiz) do
-                              %i.fa.fa-eye
-                              Ver detalle
+                            %ul.p-l-0.m-b-10
+                              = link_to analytics_quiz_mentor_student_path(@user, quiz_id: quiz) do
+                                %li.inline
+                                  %i.fa.fa-eye
+                                %li.inline
+                                  Ver detalle
+                            %ul.p-l-0.m-b-10
+                              = link_to apply_dashboard_quiz_path(quiz, user_id: @user.id) do
+                                %li.inline
+                                  %i.fa.fa-tasks
+                                %li.inline
+                                  Ver examen
           #tabFiles.tab-pane.tabcontent
             .row
               .col-sm-12.table-responsive
@@ -532,9 +550,18 @@
                                     %i.fa.fa-edit
                                   %li.inline
                                     Editar registro
-          #tabRefilables.tab-pane.tabcontent
+          #tabRefilables.tab-pane.tabcontent{class: @user.group.nil? ? "" : "minus-15"}
             .row
               .col-sm-12.table-responsive
+                - if !@user.group.nil?
+                  .pull-right.m-b-15
+                    = link_to dashboard_template_refilables_path(user_id: @user.id) do
+                      %button.btn.btn-default.text-complete{type: "button"}
+                        %span.pull-right 
+                          %i.fa.fa-bars
+                        %span.p-r-10
+                          Ver sección de Plantillas del alumno
+                .clearfix
                 %table.table.table-hover
                   %thead
                     %tr
@@ -577,13 +604,19 @@
                               .label
                                 No contestado
                           %td.p-t-20.p-b-15
+                            %ul.p-l-0.m-b-10
+                              = link_to new_dashboard_template_refilable_refilable_path(refilable, user_id: @user.id) do
+                                %li.inline
+                                  %i.fa.fa-eye
+                                %li.inline
+                                  Ver plantilla
                             - if user_refilable
                               %ul.p-l-0.m-b-10
                                 = link_to mentor_student_refilable_path(@user, user_refilable) do
                                   %li.inline
-                                    %i.fa.fa-eye
+                                    %i.fa.fa-tasks
                                   %li.inline
-                                    Ver plantilla
+                                    Ver respuestas
                               %ul.p-l-0
                                 = link_to edit_mentor_student_refilable_path(@user, user_refilable) do
                                   %li.inline

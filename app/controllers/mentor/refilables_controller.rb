@@ -6,6 +6,7 @@ class Mentor::RefilablesController < ApplicationController
   before_action :set_user_breadcrum
 
   def show
+    add_breadcrumb "<a href='#{dashboard_template_refilables_path(user_id: @user.id)}'>Plantillas</a>".html_safe
     add_breadcrumb "<a class='active' href='#{mentor_student_refilable_path(@user, @refilable)}'>#{@refilable.template_refilable.name}</a>".html_safe
   end
 

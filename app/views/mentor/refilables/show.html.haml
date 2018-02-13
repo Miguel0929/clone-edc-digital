@@ -34,9 +34,9 @@
                     %i.fa.fa-arrow-left
                     Regresar al perfil del estudiante
                 - if current_user.mentor?
-                  = link_to mentor_student_path(@user) do
+                  = link_to dashboard_template_refilables_path(user_id: @user) do
                     %i.fa.fa-arrow-left
-                    Regresar al perfil del estudiante
+                    Regresar a plantillas
             .col-md-7
               .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
                 .table-responsive.table-invoice

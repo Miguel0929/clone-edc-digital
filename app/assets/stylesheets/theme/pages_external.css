@@ -463,3 +463,7 @@ table.colored-columns td.light{
         padding-top: 22px;
     }
 }
+.minus-15{
+	position: relative; 
+	top: -15px;
+}

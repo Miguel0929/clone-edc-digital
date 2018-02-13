@@ -1,8 +1,9 @@
 - content_for :title  do
   Mis plantillas - EDC Digital
 
+- is_student = current_user.student?
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
-  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
+  %section.demo-bg-section.p-b-15.p-t-30{class: (is_student ? "panel-title-emprendimiento" : "panel-title-recursos")}
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
@@ -51,8 +52,8 @@
                         %p #{refilable.description}
                       .card-footer.clearfix
                         .pull-right.hint-text
-                          = link_to new_dashboard_template_refilable_refilable_path(refilable), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
-                            Contestar
+                          = link_to new_dashboard_template_refilable_refilable_path(refilable, user_id: @this_user.id), class: "btn btn-tag #{ is_student ? 'btn-tag-light' : 'btn-tag-dark' } btn-tag-rounded m-l-5" do
+                            #{ is_student ? "Contestar" : "Ver plantilla" }
                         .clearfix
                 - else
                   %h4.text-complete
@@ -81,7 +82,7 @@
 
                 - if @done_refilables.count > 0
                   - @done_refilables.each do |refilable|
-                    - user_refilable = refilable.refilables.find_by(user: current_user)
+                    - user_refilable = refilable.refilables.find_by(user: @this_user)
                     .card.social-card.share.m-b-30{"data-social" => "item"}
                       .card-header{style: "border-bottom: none"}
                         %h5.text-complete.pull-left.fs-12
@@ -99,12 +100,20 @@
                               %span.text-primary Comentarios: 
                               %span.hint-text #{user_refilable.comments}
                       .card-footer.clearfix
-                        .pull-right.hint-text
-                          = link_to edit_dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
-                            Editar
-                        .pull-right.hint-text
-                          = link_to dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-dark btn-tag-rounded m-l-5" do
-                            Ver
+                        - if is_student
+                          .pull-right.hint-text
+                            = link_to edit_dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
+                              Editar
+                          .pull-right.hint-text
+                            = link_to dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-dark btn-tag-rounded m-l-5" do
+                              Ver
+                        - else
+                          .pull-right.hint-text 
+                            = link_to mentor_student_refilable_path(@this_user, user_refilable), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
+                              Ver respuestas
+                          .pull-right.hint-text
+                            = link_to new_dashboard_template_refilable_refilable_path(refilable, user_id: @this_user.id), class: "btn btn-tag btn-tag-dark btn-tag-rounded m-l-5" do
+                              Ver plantilla
                         .clearfix
                 - else
                   %h4.text-complete

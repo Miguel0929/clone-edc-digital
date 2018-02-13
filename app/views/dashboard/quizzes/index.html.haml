@@ -2,13 +2,13 @@
   Evaluaciones - EDC Digital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
-  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
+  %section.demo-bg-section.p-b-15.p-t-30{class: (current_user.mentor? || current_user.admin?) ? "panel-title-recursos" : "panel-title-emprendimiento"}
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
           .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
             %h2.text-white 
-              Evaluaciones de evaluación
+              Evaluaciones
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
               ¡Pon a prueba tu conocimiento!
@@ -37,9 +37,9 @@
                 .panel-body.p-t-0.p-b-0
                   .row
                     .col-md-9
-                      %h6.bot-left{:class => "#{(quiz.answered(current_user) > 0) ? 'text-complete' : 'text-success'}"}
-                        = quiz.answered(current_user) > 0 ? 'Contestado' : 'No contestado'
-                        %span.pull-right Intentos #{ Attempt.where(quiz_id: quiz.id, user_id: current_user.id).count }
+                      %h6.bot-left{:class => "#{(quiz.answered(@student.nil? ? current_user : @student) > 0) ? 'text-complete' : 'text-success'}"}
+                        = quiz.answered(@student.nil? ? current_user : @student) > 0 ? 'Contestado' : 'No contestado'
+                        %span.pull-right Intentos #{ Attempt.where(quiz_id: quiz.id, user_id: (@student.nil? ? current_user.id : @student.id)).count }
                       %h4 
                         = quiz.name
                       %h6
@@ -57,9 +57,9 @@
                               Nuevo intento
                             
                       -else
-                        = link_to apply_dashboard_quiz_path(quiz) do
+                        = link_to apply_dashboard_quiz_path(quiz, user_id: (@student.nil? ? current_user.id : @student.id)) do
                           %button.btn.btn-sm.btn-success.bold.m-b-10
-                            Contestar
+                            #{current_user.student? ? "Contestar" : "Ver examen"}
                       .pull-right#accordion.panel.panel-group.panel-transparent.m-b-0.inline-block.m-t-menos
                         .panel
                           .panel-heading
@@ -67,9 +67,10 @@
                               %a.collapsed.collap.new-top-collapse-quiz{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{quiz.id}", id: "collap#{quiz.id}", class: "#{(quiz.answered(current_user) > 0) ? 'quizze-contestado' : 'quizze-no-contestado'}"}
                             .m-r-20.text_descripcion_quiz{style: "position: relative; top: -6px; right: 5px;"}
                               Descripción
-                    .col-md-3.pos-relative-quiz{:class => "#{(quiz.answered(current_user) > 0) ? 'colorsote2' : 'colorsote1'}"}
-                      - results = quiz.answered(current_user) > 0 ? ((quiz.average(current_user).to_f/quiz.total_points.to_f*100.0).ceil).to_s : '0'
-                      .c100.center.white.new-font-size{:class=> "p" + results, :id => "#{(quiz.answered(current_user) > 0) ? 'color-circle2' : 'color-circle1'}"}
+                    - this_user = @student.nil? ? current_user : @student
+                    .col-md-3.pos-relative-quiz{:class => "#{(quiz.answered(this_user) > 0) ? 'colorsote2' : 'colorsote1'}"}
+                      - results = quiz.answered(this_user) > 0 ? ((quiz.average(this_user).to_f/quiz.total_points.to_f*100.0).ceil).to_s : '0'
+                      .c100.center.white.new-font-size{:class=> "p" + results, :id => "#{(quiz.answered(this_user) > 0) ? 'color-circle2' : 'color-circle1'}"}
                         %span.bold.text-white
                           = results + "%"
                         .slice
