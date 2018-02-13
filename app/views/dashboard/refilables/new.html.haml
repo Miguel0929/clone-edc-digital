@@ -2,7 +2,7 @@
   Mis plantillas - EDC Digital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
-  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
+  %section.demo-bg-section.p-b-15.p-t-30{class: (current_user.student? ? "panel-title-emprendimiento" : "panel-title-recursos")}
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
@@ -28,6 +28,10 @@
                   = @template.name
                 %p
                   = @template.description
+                - if current_user.mentor?
+                  = link_to dashboard_template_refilables_path(user_id: @student) do
+                    %i.fa.fa-arrow-left
+                    Regresar a plantillas
             .col-md-8
               .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
                 .p-b-15.tipografia-textos-rellenables
@@ -38,11 +42,12 @@
                 .refilable-form
                   = form_for([:dashboard, @template, Refilable.new]) do |f|
                     = f.hidden_field :content
-                .pull-right
-                  = link_to dashboard_template_refilables_path, class: "btn btn-danger" do
-                    Cancelar
-                  %button.btn.btn-primary#send-refilable
-                    Enviar respuestas
+                - if current_user.student?
+                  .pull-right
+                    = link_to dashboard_template_refilables_path, class: "btn btn-danger" do
+                      Cancelar
+                    %button.btn.btn-primary#send-refilable
+                      Enviar respuestas
 
 /.container-fluid.container-fixed-lg
 /  .panel.panel-default

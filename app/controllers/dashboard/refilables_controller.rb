@@ -1,13 +1,21 @@
-class  Dashboard::RefilablesController < ApplicationController
+class Dashboard::RefilablesController < ApplicationController
   before_action :authenticate_user!
   before_action :redirect_to_support, if: :student_have_group?
   before_action :set_template_refilable
   before_action :redirect_to_template_refilables, if: :permiso_refilable
   add_breadcrumb "EDCDIGITAL", :root_path
 
-  def new
-    add_breadcrumb "Mis plantillas", dashboard_template_refilables_path
-    add_breadcrumb "<a class='active' href='#{new_dashboard_template_refilable_refilable_path(@template)}'>#{@template.name}</a>".html_safe
+  def new  
+    if current_user.student?
+      add_breadcrumb "Mis plantillas", dashboard_template_refilables_path
+      add_breadcrumb "<a class='active' href='#{new_dashboard_template_refilable_refilable_path(@template)}'>#{@template.name}</a>".html_safe                           
+    else
+      @student = User.find(params[:user_id])
+      add_breadcrumb "Estudiantes", :mentor_students_path
+      add_breadcrumb "<a href='#{mentor_student_path(@student)}'>#{@student.email}</a>".html_safe
+      add_breadcrumb "<a href='#{dashboard_template_refilables_path(user_id: @student.id)}'>Plantillas</a>".html_safe
+      add_breadcrumb "<a class='active' href='#{new_dashboard_template_refilable_refilable_path(@template, user_id: @student.id)}'>#{@template.name}</a>".html_safe
+    end
   end
 
   def create
@@ -20,9 +28,8 @@ class  Dashboard::RefilablesController < ApplicationController
 
   def show
     @refilable = Refilable.find(params[:id])
-
     add_breadcrumb "Mis plantillas", dashboard_template_refilables_path
-    add_breadcrumb "<a class='active' href='#{dashboard_template_refilable_refilable_path(@template,  @refilable)}'>#{@template.name}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{dashboard_template_refilable_refilable_path(@template,  @refilable)}'>#{@template.name}</a>".html_safe                            
 
     @refilables = TemplateRefilable.joins(:groups)
                                     .where('groups.id = ?', current_user.group.id)
