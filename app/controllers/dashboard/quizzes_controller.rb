@@ -12,11 +12,11 @@ class Dashboard::QuizzesController < ApplicationController
       add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path}'>Evaluaciones</a>".html_safe
       @quizzes = current_user.group.all_quizzes
     else
-      student = User.find(params[:user_id])
+      @student = User.find(params[:user_id])
       add_breadcrumb "Estudiantes", :mentor_students_path
-      add_breadcrumb "<a href='#{mentor_student_path(student)}'>#{student.email}</a>".html_safe
-      add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path(user_id: student.id)}'>Evaluaciones</a>".html_safe
-      @quizzes = student.group.all_quizzes
+      add_breadcrumb "<a href='#{mentor_student_path(@student)}'>#{@student.email}</a>".html_safe
+      add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path(user_id: @student.id)}'>Evaluaciones</a>".html_safe
+      @quizzes = @student.group.all_quizzes
     end
   end
 
