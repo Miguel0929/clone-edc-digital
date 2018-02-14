@@ -23,7 +23,8 @@
               .card-header.clearfix
                 %h6
                   = @user.name
-                %p.small.hint-text.m-t-5 #{@user.state}, #{@user.city}
+                %p.small.hint-text.m-t-5 
+                  #{@user.state.nil? ? "Sin Estado" : @user.state}, #{@user.city.nil? ? "Sin Ciudad" : @user.city}
                 %p.small.hint-text.m-t-5
                   %span
                     Porcentaje contestado #{@user.answered_questions_percentage} %
@@ -49,11 +50,54 @@
                   = @user.phone_number
               %tr.odd.gradeX
                 %td Ubicación
-                %td #{@user.state}, #{@user.city}
-              %tr.odd.gradeX
+                %td #{@user.state.nil? ? "Sin Estado" : @user.state}, #{@user.city.nil? ? "Sin Ciudad" : @user.city}
               %tr.odd.gradeX
                 %td Fecha de creación de cuenta
                 %td #{l @user.created_at, format: :special}
               %tr.odd.gradeX
                 %td Fecha de activación de cuenta
                 %td #{l @user.invitation_accepted_at, format: :special unless @user.invitation_accepted_at.nil?}
+              %tr.odd.gradeX
+                %td Grupos asignados
+                %td 
+                  - @groups.each_with_index do |group, index|
+                    %span
+                      = link_to group.name, group
+                    - unless (index + 1) == @groups.count
+                      %span.p-l-5.p-r-5|
+
+    - if @students.count > 0
+      .panel-heading
+        .pull-left
+          %h3
+            Alumnos de #{@user.name}
+        .pull-right
+          .col-xs-12
+            .form-group
+              %div.input-group
+                %input#search-table.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+                %span.input-group-addon.panel-title-recursos
+                  %i.fa.fa-search.text-white
+        .clearfix
+      .panel-body
+        %table.table.table-hover.datatable
+          %thead
+            %tr
+              %th
+                Id
+              %th
+                Nombre
+              %th
+                Grupo
+          %tbody
+            - @students.each do |student|
+              %tr
+                %td.p-b-15
+                  = student.id
+                %td.p-b-15
+                  = link_to student.name,  student
+                %td.p-b-15
+                  .m-t-0
+                    = link_to student.group.name,  student.group
+
+
