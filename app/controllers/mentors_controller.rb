@@ -14,6 +14,8 @@ class MentorsController < ApplicationController
   def show
     add_breadcrumb "Mentores", :mentors_path
     add_breadcrumb "<a class='active' href='#{mentor_path(@user)}'>#{@user.email}</a>".html_safe
+    @groups = @user.groups
+    @students = User.joins(:group).where(:groups => {id: @groups.pluck(:id)}, role: 0)
   end
 
   def edit
