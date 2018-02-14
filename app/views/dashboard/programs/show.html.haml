@@ -1,7 +1,7 @@
 - content_for :title  do
   Programas - EDC Digital
 
-.container-fluid.container-fixed-lg.top-container-padding.m-b-25
+.container-fluid.container-fixed-lg.top-container-padding.m-b-25.minus-30
   %section.demo-bg-section.p-b-0.p-t-45.panel-title-emprendimiento#tour-5
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
@@ -85,7 +85,7 @@
               %h2 
                 = truncate(last_parameters[3], length: 60, separator: ' ')
               %p
-                = link_to dashboard_chapter_content_path(last_parameters[0]) do
+                = link_to dashboard_chapter_content_path(last_parameters[0], program_id: @program.id) do
                   %button.btn.btn-sm.btn-complete.btn-cons.m-b-10{:type => "button"}
                     %i.fa.fa-play
                     %span.bold Reanudar mis avances

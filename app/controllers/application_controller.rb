@@ -154,13 +154,16 @@ class ApplicationController < ActionController::Base
     end  
   end
 
-
   def redirect_to_learning
     redirect_to dashboard_learning_path_path, notice: "Aun no puedes acceder a este contenido." 
   end
 
   def redirect_to_learning_nil
-    redirect_to dashboard_learning_path_path, notice: "El contenido al que intentas acceder no existe o ha sido eliminado, por favor intenta con otro diferente." 
+    if Program.where(id: params[:program_id]).empty?
+      redirect_to dashboard_learning_path_path, notice: "El contenido al que intentas acceder no existe o ha sido eliminado, por favor intenta con otro diferente." 
+    else
+      redirect_to dashboard_program_path(params[:program_id]), notice: "El contenido al que intentas acceder no existe o ha sido eliminado, por favor intenta con otro contenido de este programa." 
+    end
   end
 
   def redirect_to_support

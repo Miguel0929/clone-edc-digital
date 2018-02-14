@@ -71,7 +71,7 @@
                                 %button.btn.btn-complete.m-t--10.opacity__1
                                   Comenzar
                             -elsif seen_progress > 0 && seen_progress < 100
-                              = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                              = link_to dashboard_chapter_content_path(last_parameters[0], program_id: stat.program.id), class: "opacity__1" do
                                 %button.btn.btn-complete.m-t--10.opacity__1
                                   Continuar
                                   %span
@@ -81,7 +81,7 @@
                                 %button.btn.btn-success.m-t--10.opacity__1
                                   Completado
                             -elsif seen_progress == 100 && answered_progress < 100
-                              = link_to dashboard_chapter_content_path(last_parameters[0]), class: "opacity__1" do
+                              = link_to dashboard_chapter_content_path(last_parameters[0], program_id: stat.program.id), class: "opacity__1" do
                                 %button.btn.btn-complete.m-t--10.opacity__1
                                   Continuar
                                   %span
@@ -142,7 +142,7 @@
                                             Comenzar
                                             %i.fa.fa-angle-double-right.font-size-play
                                       -elsif seen_progress > 0 && seen_progress < 100
-                                        = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                                        = link_to dashboard_chapter_content_path(last_content, program_id: program.id), class: "opacity__1" do
                                           %button.btn.btn-complete.m-t--10.opacity__1
                                             Continuar
                                             %span
@@ -153,7 +153,7 @@
                                           %button.btn.btn-success.m-t--10.opacity__1
                                             Completado
                                       -elsif seen_progress == 100 && answered_progress < 100
-                                        = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                                        = link_to dashboard_chapter_content_path(last_content, program_id: program.id), class: "opacity__1" do
                                           %button.btn.btn-complete.m-t--10.opacity__1
                                             Continuar
                                             %span
