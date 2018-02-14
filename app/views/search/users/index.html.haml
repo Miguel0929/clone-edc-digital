@@ -25,7 +25,7 @@
               %td.p-b-15
                 .m-t-0
                   - if current_user.admin?
-                    = link_to user.name, user_path(user)
+                    = link_to user.name, user.student? ? user_path(user) : mentor_path(user)
                   - else
                     = link_to user.name, mentor_student_path(user)
                 %ul.p-l-0.m-b-0
