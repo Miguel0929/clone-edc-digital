@@ -69,31 +69,31 @@
                     .contenedor-btn-barra
                       .col-md-12.p-l-0.text-center.p-t-10.new-p-btn
                         - if !last_content.nil?
-                          -if seen_progress == 0
+                          - if seen_progress == 0
                             = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 Comenzar
                                 %i.fa.fa-angle-double-right.font-size-play      
-                          -elsif seen_progress > 0 && seen_progress < 100
-                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                          - elsif seen_progress > 0 && seen_progress < 100
+                            = link_to dashboard_chapter_content_path(last_content, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 Continuar
                                 %span
                                   #{answered_progress}%
                                 %i.fa.fa-angle-double-right.font-size-play
-                          -elsif seen_progress == 100 && answered_progress == 0
+                          - elsif seen_progress == 100 && answered_progress == 0
                             = link_to dashboard_program_path(program), class: "opacity__1" do
                               %button.btn.btn-success.m-t--10
                                 Completado
                                 %i.fa.fa-check.font-size-play
-                          -elsif seen_progress == 100 && answered_progress < 100
-                            = link_to dashboard_chapter_content_path(last_content), class: "opacity__1" do
+                          - elsif seen_progress == 100 && answered_progress < 100
+                            = link_to dashboard_chapter_content_path(last_content, program_id: program.id), class: "opacity__1" do
                               %button.btn.btn-complete.m-t--10
                                 Continuar
                                 %span
                                   #{answered_progress}%
                                 %i.fa.fa-angle-double-right.font-size-play
-                          -elsif seen_progress == 100 && answered_progress == 100
+                          - elsif seen_progress == 100 && answered_progress == 100
                             = link_to dashboard_program_path(program), class: "opacity__1" do
                               %button.btn.btn-success.m-t--10
                                 Completado
