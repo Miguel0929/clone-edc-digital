@@ -71,10 +71,14 @@ class Dashboard::RefilablesController < ApplicationController
   end
 
   def permiso_refilable
-    !current_user.group.all_refilables.include?(@template)  
+    if current_user.student?
+      !current_user.group.all_refilables.include?(@template)  
+    else
+      false
+    end
   end  
 
   def redirect_to_template_refilables
-    redirect_to dashboard_template_refilables_path, alert: 'No tienes asignado esta plantilla' 
+    redirect_to dashboard_template_refilables_path, alert: 'No tienes asignada esta plantilla.' 
   end 
 end
