@@ -8,12 +8,12 @@
 				.row.col-md-12
 					.col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
 						%h2.text-white 
-							=current_user.mentor? ? 'Mensajes con tus estudiantes' : 'Mensajes con tus profesores'
+							=current_user.mentor? || current_user.profesor? ? 'Mensajes con tus estudiantes' : 'Mensajes con tus profesores'
 					.col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
 						%h5.text-white
-							=current_user.mentor? ? '¡No pierdas contacto!' : 'Tu buzón en EDC Digital'
+							=current_user.mentor? || current_user.profesor? ? '¡No pierdas contacto!' : 'Tu buzón en EDC Digital'
 						%p.m-b-25.text-white
-							=current_user.mentor? ? 'Envía y recibe mensajes con tus estudiantes. Comparte archivos de interés con tus alumnos para mejorar la comunicación interna.' : 'Comunícate con tus profesores de manera rápida y sencilla. Envía y recibe mensajes. ¡No pierdas contacto!'
+							=current_user.mentor? || current_user.profesor? ? 'Envía y recibe mensajes con tus estudiantes. Comparte archivos de interés con tus alumnos para mejorar la comunicación interna.' : 'Comunícate con tus profesores de manera rápida y sencilla. Envía y recibe mensajes. ¡No pierdas contacto!'
 
 .container-fluid.container-fixed-lg.m-t-20
 	.row

@@ -41,7 +41,7 @@ class Dashboard::ProgramsController < ApplicationController
   
         @programs=Program.where(id: ids_comp+p_f+p_m)
       end
-    elsif current_user.mentor? || current_user.admin?
+    elsif current_user.mentor? || current_user.profesor?|| current_user.admin?
       @programs = Program.all
     end
 

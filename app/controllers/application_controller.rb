@@ -43,6 +43,14 @@ class ApplicationController < ActionController::Base
     redirect_to root_url unless current_user.admin? || current_user.staff?
   end
 
+  def require_profesor
+    redirect_to root_url unless current_user.profesor? 
+  end
+
+  def require_admin_or_mentor_or_profesor
+    redirect_to root_url unless current_user.profesor? || current_user.mentor? || current_user.admin?
+  end
+
   def require_admin_or_mentor
     redirect_to root_url unless current_user.mentor? || current_user.admin?
   end
@@ -114,7 +122,7 @@ class ApplicationController < ActionController::Base
   end
 =end
   def permiso_programs(program, user)
-    if user.mentor? || user.admin?
+    if user.mentor? || user.profesor? || user.admin?
       return false
     elsif user.student?
       complementarios = user.group.programs_complementaries rescue []

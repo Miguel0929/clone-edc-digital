@@ -1,0 +1,84 @@
+- content_for :title  do
+  Mentores - EDC Digital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .pull-right
+        .col-xs-12
+          .form-group
+            %div.input-group
+              %input#search-table.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+              %span.input-group-addon.panel-title-recursos
+                %i.fa.fa-search.text-white
+      .clearfix
+    .panel-body
+      %h2
+        Lista de profesores
+        .pull-right
+          = link_to 'Invitar usuario', new_user_invitation_path, class: 'btn btn-default'
+      %table.table.table-hover.datatable
+        %thead
+          %tr
+            %th
+              Id
+            %th
+              Datos de contacto
+            %th
+              Información de usuario
+            %th
+              Acciones
+        %tbody
+          - @users.each do |user|
+            %tr
+              %td.p-b-15
+                = user.id
+              %td.p-b-15
+                .m-t-0
+                  = link_to user.name,  profesor_path(user)
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %i.fa.fa-envelope
+                  %li.inline 
+                    = user.email
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %i.fa.fa-phone
+                  %li.inline 
+                    = user.phone_number
+              %td.p-b-15
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %strong
+                      Estado: 
+                  %li.inline{:class => "#{(user.status == 'Inactivo') ? 'text-danger' : 'text-primary'}"} 
+                    = user.status
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %strong
+                      Número de grupos: 
+                  %li.inline 
+                    = user.groups.count
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %span.bold Última sesión:
+                  %li.inline 
+                    - if !user.visits.last.nil?
+                      = l user.visits.last.started_at, format: :short_special
+                    - else
+                      %span.text-danger Ninguna
+              %td.p-b-15
+                %ul.unstyled.list-unstyled.p-l-0.m-b-0
+                  %li
+                    = link_to profesor_path(user) do
+                      %i.fa.fa-eye
+                      Ver información
+                  %li
+                    = link_to edit_profesor_path(user) do
+                      %i.fa.fa-edit
+                      Editar
+                  %li
+                    = link_to profesor_path(user), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                      %i.fa.fa-times
+                      Eliminar
+      

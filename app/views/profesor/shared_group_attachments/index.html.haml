@@ -1,0 +1,61 @@
+- content_for :title  do
+  Archivos compartidos - EDC Digital
+
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-acerca
+    .container-fluid
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Mis archivos
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Facilitando el flujo de información.
+            %p.m-b-25.text-white
+              Utiliza esta sección para manejar tus archivos dentro de la plataforma. El objetivo es permitirte compartir archivos con tus grupos asignados. ¡Úsalo siempre que lo necesites!    
+
+.container-fluid.container-fixed-lg
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .pull-right.m-r-20.m-t-5
+            = link_to 'Subir archivo', new_profesor_shared_group_attachment_path, class: 'btn btn-lg btn-success'
+        .panel-body.table-responsive
+          %h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}  Archivos compartidos con mis grupos
+          %table.table.resumen-table.table-striped.rubrica-table
+            %thead
+              %tr
+                %th
+                  Nombre de archivo
+                %th
+                  Tipo de archivo
+                %th
+                  Comentarios
+                %th
+                  Subido en
+                %th
+                  Fecha de modificación
+                %th
+            %tbody
+              - if @shared_group_attachments.empty?
+                %tr
+                  %td{colspan: 6}
+                    %span{style: "color: red;"} No tienes archivos compartidos por el momento
+              - else
+                - @shared_group_attachments.each do |attachment|
+                  %tr
+                    %th
+                      = link_to attachment.display_name, attachment.file.url, target: :_blank
+                    %th.normal-weight
+                      = attachment.humanize_document_type
+                    %th.normal-weight
+                      = attachment.label
+                    %th.normal-weight
+                      = l attachment.created_at, format: :special
+                    %th.normal-weight
+                      = l attachment.updated_at, format: :special
+                    %th.normal-weight
+                      = link_to 'Editar', edit_profesor_shared_group_attachment_path(attachment), class: 'btn btn-default'
+                      = link_to 'Eliminar', profesor_shared_group_attachment_path(attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'

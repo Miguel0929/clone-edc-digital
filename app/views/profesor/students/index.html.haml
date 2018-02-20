@@ -1,0 +1,214 @@
+- content_for :title  do
+  Estudiante - EDC Digital
+
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-recursos
+    .container-fluid
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Tus alumnos
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Todos tus alumnos
+            %p.m-b-25.text-white
+              Accede a la lista completa de los alumnos que son asesorados por ti. Monitorea sus avances totales y de cada curso de manera individual. 
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      .pull-right#filters.row.inline-block
+        = form_tag(profesor_students_path, method: :get) do
+          %a#collap
+            #headingfiltros.panel-title-recursos.font-montserrat.font-search.filter-padding.m-l-15.m-r-15
+              %h4.panel-title.search-title.text-white.ver.heding-text-like
+                Ver Filtros de búsqueda
+          #ver_collap
+            .col-md-12.learning-img
+              %aside.sidebar-menu
+                /%h4.search-title Filtrar búsqueda:
+                .search-group
+                  .col-md-3.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-check-square-o
+                      Status:
+                    = select_tag :status, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:status]), {include_blank: "Filtra por status", :style => "width: 150px;"} 
+                .search-group
+                  .col-md-3.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-users
+                      Grupo:
+                    = select_tag :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "" }
+                .search-group
+                  .col-md-3.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-university
+                      Universidad:
+                    = select_tag :university, options_from_collection_for_select(@universities, :id, :name, params[:university]), {include_blank: "Filtra por universidad", class: "" } 
+                .search-group
+                  .col-md-3.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-map-marker
+                      Estado:
+                    = select_tag :state, options_from_collection_for_select(State.all, :id, :name, params[:state]), {include_blank: "Filtra por estado", class: "" }
+            .col-md-12
+              .search-group
+                .col-md-3.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-graduation-cap
+                    Tipo de grupo:
+                  = select_tag :tipo,  options_for_select(['Escolarizado', ' Autodidacta digital', 'Presencial', 'Experiemental'], params[:tipo]), {include_blank: "Filtra por tipo de grupo", class: "" }
+              .search-group
+                .col-md-3.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-industry
+                    Industria:
+                  = select_tag :industria, options_from_collection_for_select(Industry.all,:id,:name, params[:industria]), {include_blank: "Filtra por industria en la que emprendes", :style => "width: 200px;" }
+              .search-group
+                .col-md-3.col-sm-6.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-check-circle
+                    Porcentaje contestado  
+                  = select_tag :answered, options_for_select(OptionsRange.percentages, params[:answered]), {include_blank: "Filtra por porcentaje contestado", :style => "width: 200px;" }
+              .search-group
+                .col-md-3.col-sm-6.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-eye
+                    Porcentaje visto
+                  = select_tag :visited, options_for_select(OptionsRange.percentages, params[:visited]), {include_blank: "Filtra por porcentaje visto", :style => "width: 200px;" }
+            .col-md-12.m-t-15        
+              .search-group
+                .col-md-3.col-sm-6.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-book
+                    Programa
+                    %i.fa.fa-asterisk.text-primary
+                  = select_tag :program, options_from_collection_for_select(Program.all,:id, :name, params[:program]), {include_blank: "Seleccionar programa", class: "" }
+            .col-md-12.m-t-15.m-l-10
+              %i.row
+                %i.fa.fa-asterisk.text-primary
+                Selecciona un programa para filtrar por el porcentaje de contenido contestado/visto    
+            %br
+            %br
+            .col-md-12
+              = submit_tag 'Filtrar', class: "btn btn-default"
+              = link_to "Exportar a excel", exports_profesor_students_path(format: :xlsx), class: "btn btn-success"
+      .pull-right.w-300
+        .col-xs-12
+          /%input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          .form-group
+            %div.input-group
+              %input#mentor_students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+              %span.input-group-addon.panel-title-recursos
+                %i.fa.fa-search.text-white
+      .clearfix
+
+    .table-responsive
+      %table.table.table-hover
+        %thead
+          %tr
+            %th{:width => "3%"}
+              Id
+            %th{:width => "25%"}
+              Datos de contacto
+            %th{:width => "20%"}
+              Info. de estudiante
+            %th{:width => "15%"}
+              Avances totales
+            %th
+              Cursos inscritos          
+        %tbody
+          - @users.each do |user|
+            %tr
+              %td
+                = user.id
+              %td
+                .m-b-0
+                  = link_to user.name, profesor_student_path(user)
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %i.fa.fa-envelope
+                  %li.inline 
+                    = user.email
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %i.fa.fa-phone
+                  %li.inline 
+                    = user.phone_number
+                %ul.p-l-0.m-b-0
+                  = link_to profesor_student_path(user) do
+                    %li.inline 
+                      %i.fa.fa-eye
+                    %li.inline 
+                      Ver perfil de usuario   
+                  %sup
+                    = link_to  summary_profesor_student_path(user),class: "p-l-5" do
+                      %i.fa.fa-bolt
+              %td
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %span.bold Estado:
+                  %li.inline 
+                    = user.status
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %span.bold Grupo:
+                  %li.inline 
+                    = user.group.name.capitalize
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %span.bold Última sesión:
+                  %li.inline 
+                    - if !user.visits.last.nil?
+                      = l user.visits.last.started_at, format: :short_special
+                    - else
+                      %span.text-danger Ninguna
+              %td
+                - if user.student?
+                  %ul.p-l-0.m-b-0
+                    %li.inline
+                      %span.bold Contestado:
+                    %li.inline 
+                      #{user.user_progress.ceil}%
+                  %ul.p-l-0.m-b-0
+                    %li.inline
+                      %span.bold Visto:
+                    %li.inline 
+                    #{user.user_seen.ceil}%
+                  %ul.p-l-0.m-b-0
+                    %li.inline
+                      %span.bold Status de evaluación:
+                    %li.inline 
+                    #{user.evaluation_status}
+                %td
+                  - unless user.group.nil?
+                    %ul.unstyled.no-style
+                      - user.group.all_programs.each do |program|
+                        %li.inline.p-b-5
+                          %i.fa.fa-check
+                          #{program.name}. 
+                          %strong
+                            Contestado: 
+                          #{user.percentage_questions_answered_for(program)}%
+                          %strong
+                            Visto: 
+                          #{user.percentage_content_visited_for(program)}%
+
+    .pull-right
+      = paginate @users
+      %br
+      %span.text-center= page_entries_info @users
+
+:javascript
+  var x = true;
+  $( "a#collap" ).click(function() {
+    $( "#ver_collap" ).toggle("slow");
+    x = !x;
+    if(x){
+      $(".ver").text("Ver Filtros de búsqueda");
+    } else {
+      $(".ver").text("Ocultar Filtros de búsqueda");
+    }
+    console.log(x);
+  });

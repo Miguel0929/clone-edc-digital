@@ -32,7 +32,7 @@
             .col-md-7
               .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
                 .p-b-15
-                  = bootstrap_form_for([:mentor, @user, @delireverable_user], url: mentor_student_delireverable_user_path(@user, @delireverable_user), method: :put) do |f|
+                  = bootstrap_form_for([:mentor, @user, @delireverable_user], url: profesor_student_delireverable_user_path(@user, @delireverable_user), method: :put) do |f|
                     = f.select(:status, [['Enviado', 'sent'], ['Revisado', 'reviewed']])
                     = f.text_area :comments, label: 'Comentarios', rows: "3"
                     = link_to "Cancelar", mentor_student_path(@user), class: "btn btn-danger"

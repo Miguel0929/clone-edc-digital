@@ -17,6 +17,8 @@ class LandingsController < ApplicationController
           redirect_to students_users_path
         elsif current_user.student?
           redirect_to dashboard_learning_path_path
+        elsif current_user.profesor?
+          redirect_to profesor_groups_path 
         end
       end
     end

@@ -7,9 +7,9 @@ class User < ActiveRecord::Base
   attr_accessor :agreement
   acts_as_paranoid
   mount_uploader :profile_picture, ProfilePictureUploader
-  ROLETYPES = [ ['Estudiante', 'student'], ['Mentor', 'mentor'], ['Administrador', 'admin'], ['Staff', 'staff']]
+  ROLETYPES = [ ['Estudiante', 'student'], ['Mentor', 'mentor'], ['Profesor', 'profesor'],['Administrador', 'admin'], ['Staff', 'staff']]
 
-  enum role: [ :student, :mentor, :admin, :staff ]
+  enum role: [ :student, :mentor, :admin, :staff, :profesor ]
   enum gender: [ :male, :female ]
   enum evaluation_status: [:'sin evaluar', :evaluado]
   serialize :tour_trigger, Hash 
@@ -46,6 +46,7 @@ class User < ActiveRecord::Base
 
   scope :students, -> { where(role: 0) }
   scope :mentors, -> { where(role: 1) }
+  scope :profesors, -> { where(role: 4) }
   scope :staffs, -> { where(role: 3) }
   scope :invitation_accepted, -> { where.not('invitation_accepted_at' => nil) }
   scope :invitation_no_accepted, -> { where('invitation_accepted_at' => nil) }
@@ -448,7 +449,7 @@ class User < ActiveRecord::Base
   def user_groups
     if self.admin?
       Group.all
-    elsif self.mentor?
+    elsif self.mentor? || self.profesor?
       self.groups
     else
       nil
