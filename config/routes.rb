@@ -76,6 +76,7 @@ Rails.application.routes.draw do
   get '/progress_panel_groups', to: 'progress_panel#progress_groups', as: :progress_panel_groups
   get '/progress_per_program', to: 'progress_panel#program_detail', as: :progress_per_program
 
+  
   resources :programs do
     collection do
       post :sort
@@ -276,6 +277,13 @@ Rails.application.routes.draw do
       get :change_state
     end
   end
+
+  resources :profesors, except: [:create] do
+    member do
+      get :change_state
+    end  
+  end  
+
   resources :staffs, except: [:create]
 
   resources :groups do
@@ -312,7 +320,7 @@ Rails.application.routes.draw do
     resources :evaluations, only: [:index, :show, :update]
     resources :program_details, only: [:index]
     resources :students, only: [:index, :show, :update] do
-      resources :shared_attachments
+      
       collection do
         get :exports
       end
@@ -321,6 +329,7 @@ Rails.application.routes.draw do
         get :summary
       end
 
+      resources :shared_attachments
       resources :delireverable_users, only: [:edit, :update]
       resources :refilables, only: [:show, :edit, :update]
     end
@@ -445,4 +454,31 @@ Rails.application.routes.draw do
     end
   end
   post "get_contents" => "learning_path_contents#get_contents"
+
+
+  namespace :profesor do
+    resources :groups, only: [:index, :show]
+    resources :students, only: [:index, :show] do
+      resources :refilables, only: [:show, :edit, :update]
+      resources :delireverable_users, only: [:edit, :update]
+      resources :shared_attachments
+      collection do
+        get :exports
+      end
+      member do
+        get :analytics_quiz
+        get :summary
+      end
+    end
+    resources :evaluations, only: [:index, :show]
+    resources :program_details, only: [:index]
+    resources :shared_group_attachments
+    
+
+    resources :quizzes, only: [] do
+      member do
+        get :apply
+      end
+    end  
+  end
 end

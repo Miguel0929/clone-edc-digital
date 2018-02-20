@@ -1,6 +1,6 @@
 class ProgressPanelController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin_or_mentor
+  before_action :require_admin_or_mentor_or_profesor
   before_action :set_group, only: [:show]
 
   helper_method :get_program_progress_strata
@@ -15,7 +15,7 @@ class ProgressPanelController < ApplicationController
     if current_user.admin?
       @users = User.students.all
       programs = Program.all
-    elsif current_user.mentor?
+    elsif current_user.mentor? || current_user.profesor?
       @users = User.joins(:group).where(:groups => {id: current_user.groups.pluck(:id)}).where(role: 0)
       programs = get_user_programs
     end
