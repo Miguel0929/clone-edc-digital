@@ -1,19 +1,19 @@
-class Mentor::DelireverableUsersController < ApplicationController
-  before_action :set_student
+class Profesor::DelireverableUsersController < ApplicationController
+	before_action :set_student
   before_action :set_delireverable_user
 
   add_breadcrumb "EDC DIGITAL", :root_path
-  add_breadcrumb "Estudiantes", :mentor_students_path
+  add_breadcrumb "Estudiantes", :profesor_students_path
 
   def edit
-    add_breadcrumb "<a href='#{mentor_student_path(@user)}'>#{@user.email}</a>".html_safe
-    add_breadcrumb "<a class='active' href='#{edit_mentor_student_delireverable_user_path(@user, params[:id])}'>#{@delireverable_user.delireverable.name}</a>".html_safe
+    add_breadcrumb "<a href='#{profesor_student_path(@user)}'>#{@user.email}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{edit_profesor_student_delireverable_user_path(@user, params[:id])}'>#{@delireverable_user.delireverable.name}</a>".html_safe
   end
 
   def update
     respond_to do |format|
       if @delireverable_user.update(delireverable_user_params)
-        format.html { redirect_to mentor_student_path(@user), notice: 'Entregable actualizado' }
+        format.html { redirect_to profesor_student_path(@user), notice: 'Entregable actualizado' }
         format.js { render "notification" }
         format.json { render json: @delireverable_user, status: :update }  
       else

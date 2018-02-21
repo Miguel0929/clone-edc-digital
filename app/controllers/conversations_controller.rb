@@ -6,7 +6,7 @@ class ConversationsController < ApplicationController
   def new
     add_breadcrumb "<a href='#{mailbox_inbox_path}'>Mensajes</a>".html_safe
     add_breadcrumb "<a class='active' href='#{}'>Nuevo mensaje</a>".html_safe
-    if current_user.mentor?
+    if current_user.mentor? || current_user.profesor?
       ids=[]
       @contacts=[]
       groups=current_user.groups
@@ -33,7 +33,7 @@ class ConversationsController < ApplicationController
   def create
     recipients=User.where(id: conversation_params[:recipients])
     if conversation_params[:attachment].nil?
-      conversation=current_user.send_message(recipients,conversation_params[:body],conversation_params[:subject]).conversation
+      conversation = current_user.send_message(recipients,conversation_params[:body],conversation_params[:subject]).conversation
     else
       conversation=current_user.send_message(recipients,conversation_params[:body],conversation_params[:subject]).conversation
       att= MailboxAttachment.new
