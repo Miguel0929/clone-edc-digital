@@ -57,9 +57,14 @@
                               Nuevo intento
                             
                       -else
-                        = link_to apply_dashboard_quiz_path(quiz, user_id: (@student.nil? ? current_user.id : @student.id)) do
-                          %button.btn.btn-sm.btn-success.bold.m-b-10
-                            #{current_user.student? ? "Contestar" : "Ver examen"}
+                        - if current_user.profesor?
+                          = link_to apply_profesor_quiz_path(quiz, user_id: (@student.nil? ? current_user.id : @student.id)) do
+                            %button.btn.btn-sm.btn-success.bold.m-b-10
+                              Ver examen
+                        - else
+                          = link_to apply_dashboard_quiz_path(quiz, user_id: (@student.nil? ? current_user.id : @student.id)) do
+                            %button.btn.btn-sm.btn-success.bold.m-b-10
+                              #{current_user.student? ? "Contestar" : "Ver examen"}
                       .pull-right#accordion.panel.panel-group.panel-transparent.m-b-0.inline-block.m-t-menos
                         .panel
                           .panel-heading
