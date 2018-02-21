@@ -33,7 +33,7 @@ class AnalyticsPanelController < ApplicationController
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
     add_breadcrumb "<a class='active' href='#{group_analytics_panel_path(@group)}'>Progreso de grupo</a>".html_safe
     user = current_user
-    @groups = current_user.groups
+    @groups = (user.mentor? || user.profesor?) ? current_user.groups : Group.all
     if @group
       #@group = Group.find(params[:group])
       @programs = Program.joins(:group_programs).where(group_programs: {group_id: @group}).order(:name)
