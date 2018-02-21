@@ -20,8 +20,8 @@ class Dashboard::ProgramsController < ApplicationController
 
         current_user.group.learning_path2.nil? ? program_moral = [] : program_moral = current_user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position)
     
-
         program_group = current_user.group.programs.map{|p|p.id}
+
         if program_fisico == [] && program_moral == []
           p_f = []; p_m = []; 
         elsif program_moral == [] && program_fisico != []
@@ -31,6 +31,7 @@ class Dashboard::ProgramsController < ApplicationController
         else
            p_f = program_fisico.pluck(:content_id); p_m = program_moral.pluck(:content_id);  
         end  
+        
         complementarios = program_group - (p_f + p_m)
 
         complementarios.each do |id|
@@ -41,7 +42,9 @@ class Dashboard::ProgramsController < ApplicationController
   
         @programs=Program.where(id: ids_comp+p_f+p_m)
       end
-    elsif current_user.mentor? || current_user.admin?
+    elsif current_user.mentor?  
+      @programs = current_user.groups.map{|g| g.all_programs}.flatten.uniq
+    else
       @programs = Program.all
     end
 
