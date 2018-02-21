@@ -29,301 +29,286 @@
 
   %body.fixed-header.menu-behind
     %nav.page-sidebar#tour-2{"data-pages" => "sidebar"}
-      .sidebar-header
-        %a.redirector{href: root_path}
-          = image_tag('logo-edc-blanco-horizontal.png', height: 40)
-      .sidebar-menu
-        %ul.menu-items
-          /= display_navbar_link({link: 'Grupos', details: 'Grupos de la plataforma' ,path: groups_path, css: ['m-t-30'], icon: 'fa fa-users', role: [:admin]})
-          /= display_navbar_link({link: 'Mentores', details: 'Grupos de la plataforma' ,path: mentors_path, icon: 'fa fa-briefcase', role: [:admin]})
-          /= display_navbar_link({link: 'Programas', details: 'Diseño de programas' ,path: programs_path, icon: 'fa fa-list-alt', role: [:admin]})
-          /= display_navbar_link({link: 'Evaluaciones', details: 'Crear evaluación rápida', path: quizzes_path, icon: 'fa fa-file-text-o', role: [:admin]})
-          /= display_navbar_link({link: 'Visitas', details: 'Panel de visitas' ,path: visits_path, icon: 'fa fa-list-alt', role: [:admin]})
-          /= display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: students_users_path, icon: 'fa fa-book', role: [:admin, :staff]})
-          /= display_navbar_link({link: 'Staff', details: 'Personal de invitaciones', path: staffs_path, icon: 'fa fa-user-md', role: [:admin]})
-          /= display_navbar_link({link: 'Analíticos de usuarios', details: 'Estudiantes de la plataforma' ,path: users_path, icon: 'fa fa-book', role: [:admin]})
-          /= display_navbar_link({link: 'Usuarios desactivados', details: 'Usuarios desactivados' ,path: deleted_users_path, icon: 'fa fa-ban', role: [:admin]})
-          /= display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: shared_group_attachments_path, icon: 'fa fa-file', role: [:admin]})
-          /= display_navbar_link({link: 'Enviar invitación', details: 'Enviar invitación a un nuevo usuario', path: new_user_invitation_path, icon: 'fa fa-envelope-o', role: [:admin, :staff]})
-          /= display_navbar_link({link: 'Enviar invitación en grupo', details: 'Enviar invitación a un grupo de usuario', path: new_group_invitation_path, icon: 'fa fa-users', role: [:admin, :staff]})
-          /= display_navbar_link({css: [], link: 'Universidades', details: 'Catalogo de universidades' ,path: universities_path, icon: 'fa fa-university', role: [:admin]})
-          /= display_navbar_link({css: [], link: 'Mensajes', details: 'Consulta tus mensajes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:admin]})
-          /= display_navbar_link({css: [], link: 'Reportes', details: 'Consulta los reportes de contenidos' ,path: reports_path, icon: 'fa fa-flag', role: [:admin]})
-          /= display_navbar_link({css: [], link: 'Panel de progreso', details: 'Progreso de alumnos' ,path: progress_panel_index_path, icon: 'fa fa-line-chart', role: [:admin]})
+      - if !current_user.nil?
+        .sidebar-header
+          %a.redirector{href: root_path}
+            = image_tag('logo-edc-blanco-horizontal.png', height: 40)
+        .sidebar-menu
+          %ul.menu-items
 
-          - if current_user.admin?
-            %li.m-t-30
-              %a.detailed.redirector{:href => control_panel_index_path}
-                %span.title Panel de control
-                %span.details Estadísticas de EDC
-              %span.icon-thumbnail
-                %i.fa.fa-home
+            - if current_user.admin?
+              %li.m-t-30
+                %a.detailed.redirector{:href => control_panel_index_path}
+                  %span.title Panel de control
+                  %span.details Estadísticas de EDC
+                %span.icon-thumbnail
+                  %i.fa.fa-home
 
-            %li.extra-bottom-4
-              %a{:href => "javascript:;"}
-                %span.title Usuarios
-                %span.arrow
-              %span.icon-thumbnail
-                %i.fa.fa-user
-              %ul.sub-menu
-                %li
-                  %a{:href => students_users_path} Estudiantes
-                  %span.icon-thumbnail Es
-                %li
-                  %a{:href => mentors_path} Mentores
-                  %span.icon-thumbnail Mt
-                %li
-                  %a{:href => profesors_path} Profesores
-                  %span.icon-thumbnail Mt  
-                %li
-                  %a{:href => groups_path} Grupos
-                  %span.icon-thumbnail Gp
-                %li
-                  %a{:href => staffs_path} Staff
-                  %span.icon-thumbnail Sf
-                %li
-                  %a{:href => deleted_users_path} Usuarios desactivados
-                  %span.icon-thumbnail Ud
-
-            %li.extra-bottom-4
-              %a{:href => "javascript:;"}
-                %span.title Nuevos usuarios
-                %span.arrow
-              %span.icon-thumbnail
-                %i.fa.fa-plus
-              %ul.sub-menu
-                %li
-                  %a{:href => new_user_invitation_path} Enviar invitación
-                  %span.icon-thumbnail In
-                %li
-                  %a{:href => new_group_invitation_path} Invitación de grupo
-                  %span.icon-thumbnail Ig
-
-            %li.extra-bottom-4
-              %a{:href => "javascript:;"}
-                %span.title Avances de usuarios
-                %span.arrow
-              %span.icon-thumbnail
-                %i.fa.fa-line-chart
-              %ul.sub-menu
-                %li
-                  %a{:href => visits_path} Visitas
-                  %span.icon-thumbnail Vi
-                %li
-                  %a{:href => progress_panel_index_path} Panel de progreso
-                  %span.icon-thumbnail Pg
-                %li
-                  %a{:href => analytics_panel_index_path} Panel de analíticos
-                  %span.icon-thumbnail Pa
-
-            %li.extra-bottom-4
-              %a{:href => "javascript:;"}
-                %span.title Contenidos
-                %span.arrow
-              %span.icon-thumbnail
-                %i.fa.fa-book
-              %ul.sub-menu
-                %li
-                  %a{:href => learning_paths_path} Rutas de aprendizaje
-                  %span.icon-thumbnail Ra
-                %li
-                  %a{:href => programs_path} Programas
-                  %span.icon-thumbnail Pg
-                %li
-                  %a{:href => quizzes_path} Evaluaciones
-                  %span.icon-thumbnail Ev
-                %li
-                  %a{:href => shared_group_attachments_path} Archivos compartidos
-                  %span.icon-thumbnail Ac
-                %li
-                  %a{:href => delireverable_packages_path} Entregables
-                  %span.icon-thumbnail En
-                %li
-                  %a{:href => template_refilables_path} Plantillas
-                  %span.icon-thumbnail Pl                
-
-            %li.extra-bottom-4
-              %a{:href => "javascript:;"}
-                %span.title Administrar
-                %span.arrow
-              %span.icon-thumbnail
-                %i.fa.fa-wrench
-              %ul.sub-menu
-                %li
-                  %a{:href => glossary_categories_path} Glosario EDC
-                  %span.icon-thumbnail Gl
-                %li
-                  %a{:href => frequent_questions_path} Preguntas frecuentes
-                  %span.icon-thumbnail Pf
-                %li
-                  %a{:href => dashboard_pathway_path} Fases de una idea viable
-                  %span.icon-thumbnail Fi
-                %li
-                  %a{:href => universities_path} Universidades
-                  %span.icon-thumbnail Un
-                %li
-                  %a{:href => reports_path} Reportes
-                  %span.icon-thumbnail Rp
-                %li
-                  %a{:href => mailbox_inbox_path} Mensajes
-                  %span.icon-thumbnail Mn
-                
-
-          = display_navbar_link({link: 'Programas', details: 'Cursos en EDC Digital' ,path: dashboard_programs_path, css: ['m-t-30'], icon: 'fa pg-layouts', role: [:mentor]})
-          = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: [''], icon: 'fa fa-users', role: [:mentor]})
-          = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
-          = display_navbar_link({css: [], link: 'Panel de progreso', details: 'Progreso de estudiantes' ,path: progress_panel_index_path, icon: 'fa fa-line-chart', role: [:mentor]})
-          = display_navbar_link({css: [], link: 'Panel de analíticos', details: 'Progreso en programas' ,path: analytics_panel_index_path, icon: 'fa fa-tachometer', role: [:mentor]})
-          = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: mentor_shared_group_attachments_path, icon: 'fa fa-file', role: [:mentor]})
-          = display_navbar_link({css: [], link: 'Mensajes', details: 'Mensajes con estudiantes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]})
-          = display_navbar_link({css: [], link: 'Panel de notificaciones', details: 'Administra tus emails' ,path: dashboard_notifications_panel_path, icon: 'fa fa-columns', role: [:mentor]})
-          = display_navbar_link({css: [], link: 'Mapa del sitio', details: 'Mapa de EDCdigital' ,path:  mentor_sitemap_index_path, icon: 'fa fa-map', role: [:mentor]})
-
-          / profesor
-          = display_navbar_link({link: 'Programas', details: 'Cursos en EDC Digital' ,path: dashboard_programs_path, css: ['m-t-30'], icon: 'fa pg-layouts', role: [:profesor]})
-          = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: profesor_groups_path, css: [''], icon: 'fa fa-users', role: [:profesor]})
-          = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: profesor_students_path, icon: 'fa fa-book', role: [:profesor]})
-
-          = display_navbar_link({css: [], link: 'Panel de progreso', details: 'Progreso de estudiantes' ,path: progress_panel_index_path, icon: 'fa fa-line-chart', role: [:profesor]})
-          = display_navbar_link({css: [], link: 'Panel de analíticos', details: 'Progreso en programas' ,path: analytics_panel_index_path, icon: 'fa fa-tachometer', role: [:profesor]})
-          = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: profesor_shared_group_attachments_path, icon: 'fa fa-file', role: [:profesor]})
-          = display_navbar_link({css: [], link: 'Mensajes', details: 'Mensajes con estudiantes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:profesor]})
-          /= display_navbar_link({css: [], link: 'Panel de notificaciones', details: 'Administra tus emails' ,path: dashboard_notifications_panel_path, icon: 'fa fa-columns', role: [:profesor]})
-          /= display_navbar_link({css: [], link: 'Mapa del sitio', details: 'Mapa de EDCdigital' ,path:  mentor_sitemap_index_path, icon: 'fa fa-map', role: [:profesor]})
-
-          - if current_user.student?
-            %li.extra-bottom-4.m-t-30
-              %a{:href => "javascript:;"}
-                %span.title Programas
-                %span.arrow
-              %span.icon-thumbnail
-                %i.pg-layouts
-              %ul.sub-menu
-                %li
-                  %a{:href => dashboard_programs_path} Todos
-                  %span.icon-thumbnail Ts
-                %li
-                  %a{:href => dashboard_programs_path(tipo: "elearning")} e-Learning
-                  %span.icon-thumbnail eL
-                %li
-                  %a{:href => dashboard_programs_path(tipo: "construccion")} Construcción
-                  %span.icon-thumbnail Co
-                %li
-                  %a{:href => dashboard_learning_path_path} Mi ruta
-                  %span.icon-thumbnail Mr
-
-            %li.extra-bottom-4
-              %a{:href => "javascript:;"}
-                %span.title Mi emprendimiento
-                %span.arrow
-              %span.icon-thumbnail
-                %i.fa.fa-rocket
-              %ul.sub-menu
-                %li
-                  %a{:href => dashboard_pathway_path} Fases de una idea viable
-                  %span.icon-thumbnail Fi
-                %li
-                  %a{:href => dashboard_quizzes_path} Evaluaciones
-                  %span.icon-thumbnail Ex
-                %li
-                  %a{:href => dashboard_attachments_path} Mis archivos
-                  %span.icon-thumbnail Ma
-                %li
-                  %a{:href => dashboard_delireverables_path} Mis entregables
-                  %span.icon-thumbnail Me
-                %li
-                  %a{:href => dashboard_template_refilables_path} Mis plantillas
-                  %span.icon-thumbnail Mp
-
-            %li.extra-bottom-4
-              %a{:href => "javascript:;"}
-                %span.title Ayuda
-                %span.arrow
-              %span.icon-thumbnail
-                %i.fa.fa-comment
-              %ul.sub-menu
-                %li
-                  %a{:href => mailbox_inbox_path}
-                    =current_user.mentor? ? 'Mensajes con estudiantes' : 'Mensajes con profesores'
-                  %span.icon-thumbnail
-                    =current_user.mentor? ? 'Me' : 'Mp'
-                %li
-                  %a{:href => dashboard_support_path} Ayuda de mentores EDC
-                  %span.icon-thumbnail Am
-                %li
-                  %a{:href => frequent_questions_path} Preguntas frecuentes
-                  %span.icon-thumbnail Pf
-                %li
-                  %a{:href => glossary_categories_path} Glosario EDC
-                  %span.icon-thumbnail Gl
-
-            %li.extra-bottom-4
-              %a{:href => "javascript:;"}
-                %span.title Mi perfil
-                %span.arrow
-              %span.icon-thumbnail
-                %i.fa.fa-user
-              %ul.sub-menu
-                %li
-                  %a{:href => dashboard_user_path(current_user)} Ver perfil
-                  %span.icon-thumbnail Pf
-                %li
-                  %a{:href => edit_user_registration_path} Editar perfil
-                  %span.icon-thumbnail Ed
-                %li
-                  %a{:href => dashboard_notifications_panel_path} Panel de notificaciones
-                  %span.icon-thumbnail Pn
-
-            %li.extra-bottom-4
-              %a{:href => "javascript:;"}
-                %span.title Recursos
-                %span.arrow
-              %span.icon-thumbnail
-                %i.fa.fa-diamond
-              %ul.sub-menu
-                %li
-                  %a{:href => "https://www.edc-megatendencias.com/", :target => "_blank"} EDC Megatendencias
-                  %span.icon-thumbnail Mg
-                %li
-                  %a{:href => "http://edc-ideador.com/", :target => "_blank"} EDC Ideador
-                  %span.icon-thumbnail Id
-                - if !current_user.group.nil? && (current_user.group.financiero.nil? || current_user.group.financiero) 
+              %li.extra-bottom-4
+                %a{:href => "javascript:;"}
+                  %span.title Usuarios
+                  %span.arrow
+                %span.icon-thumbnail
+                  %i.fa.fa-user
+                %ul.sub-menu
                   %li
-                    %a{:href => "https://www.edc-financiero.com/", :target => "_blank"} EDC Financiero
-                    %span.icon-thumbnail Fn
-                %li
-                  %a{:href => dashboard_calculator_path} Calculadora de muestras
-                  %span.icon-thumbnail En
-                /%li
-                /  %a{:href => dashboard_sitemap_index_path } Mapa del sitio
-                /  %span.icon-thumbnail Mp
+                    %a{:href => students_users_path} Estudiantes
+                    %span.icon-thumbnail Es
+                  %li
+                    %a{:href => mentors_path} Mentores
+                    %span.icon-thumbnail Mt
+                  %li
+                    %a{:href => profesors_path} Profesores
+                    %span.icon-thumbnail Mt  
+                  %li
+                    %a{:href => groups_path} Grupos
+                    %span.icon-thumbnail Gp
+                  %li
+                    %a{:href => staffs_path} Staff
+                    %span.icon-thumbnail Sf
+                  %li
+                    %a{:href => deleted_users_path} Usuarios desactivados
+                    %span.icon-thumbnail Ud
 
-            %li.extra-bottom-4
-              %a{:href => "javascript:;"}
-                %span.title Acerca
-                %span.arrow
-              %span.icon-thumbnail
-                %i.fa.fa-institution
-              %ul.sub-menu
-                %li
-                  %a{:href => dashboard_about_path } EDC Digital
-                  %span.icon-thumbnail Di
-                %li
-                  %a{:href =>  dashboard_terms_path} Términos de servicio
-                  %span.icon-thumbnail Te
-                %li
-                  %a{:href =>  dashboard_privacy_path} Política de privacidad
-                  %span.icon-thumbnail Pr
-                %li
-                  %a{:href =>   dashboard_service_path } Confidencialidad y Propiedad
-                  %span.icon-thumbnail Cp
+              %li.extra-bottom-4
+                %a{:href => "javascript:;"}
+                  %span.title Nuevos usuarios
+                  %span.arrow
+                %span.icon-thumbnail
+                  %i.fa.fa-plus
+                %ul.sub-menu
+                  %li
+                    %a{:href => new_user_invitation_path} Enviar invitación
+                    %span.icon-thumbnail In
+                  %li
+                    %a{:href => new_group_invitation_path} Invitación de grupo
+                    %span.icon-thumbnail Ig
 
-          - if current_user.mentor? || current_user.admin? || current_user.student? || current_user.profesor?
-            %li.extra-bottom-4
-              %a.detailed.redirector{:href => destroy_user_session_path, method: :delete }
-                %span.title Cerrar sesión
-              %span.icon-thumbnail
-                %i.fa.fa-power-off
+              %li.extra-bottom-4
+                %a{:href => "javascript:;"}
+                  %span.title Avances de usuarios
+                  %span.arrow
+                %span.icon-thumbnail
+                  %i.fa.fa-line-chart
+                %ul.sub-menu
+                  %li
+                    %a{:href => visits_path} Visitas
+                    %span.icon-thumbnail Vi
+                  %li
+                    %a{:href => progress_panel_index_path} Panel de progreso
+                    %span.icon-thumbnail Pg
+                  %li
+                    %a{:href => analytics_panel_index_path} Panel de analíticos
+                    %span.icon-thumbnail Pa
+
+              %li.extra-bottom-4
+                %a{:href => "javascript:;"}
+                  %span.title Contenidos
+                  %span.arrow
+                %span.icon-thumbnail
+                  %i.fa.fa-book
+                %ul.sub-menu
+                  %li
+                    %a{:href => learning_paths_path} Rutas de aprendizaje
+                    %span.icon-thumbnail Ra
+                  %li
+                    %a{:href => programs_path} Programas
+                    %span.icon-thumbnail Pg
+                  %li
+                    %a{:href => quizzes_path} Evaluaciones
+                    %span.icon-thumbnail Ev
+                  %li
+                    %a{:href => shared_group_attachments_path} Archivos compartidos
+                    %span.icon-thumbnail Ac
+                  %li
+                    %a{:href => delireverable_packages_path} Entregables
+                    %span.icon-thumbnail En
+                  %li
+                    %a{:href => template_refilables_path} Plantillas
+                    %span.icon-thumbnail Pl                
+
+              %li.extra-bottom-4
+                %a{:href => "javascript:;"}
+                  %span.title Administrar
+                  %span.arrow
+                %span.icon-thumbnail
+                  %i.fa.fa-wrench
+                %ul.sub-menu
+                  %li
+                    %a{:href => glossary_categories_path} Glosario EDC
+                    %span.icon-thumbnail Gl
+                  %li
+                    %a{:href => frequent_questions_path} Preguntas frecuentes
+                    %span.icon-thumbnail Pf
+                  %li
+                    %a{:href => dashboard_pathway_path} Fases de una idea viable
+                    %span.icon-thumbnail Fi
+                  %li
+                    %a{:href => universities_path} Universidades
+                    %span.icon-thumbnail Un
+                  %li
+                    %a{:href => reports_path} Reportes
+                    %span.icon-thumbnail Rp
+                  %li
+                    %a{:href => mailbox_inbox_path} Mensajes
+                    %span.icon-thumbnail Mn
+                  
+
+            = display_navbar_link({link: 'Programas', details: 'Cursos en EDC Digital' ,path: dashboard_programs_path, css: ['m-t-30'], icon: 'fa pg-layouts', role: [:mentor]})
+            = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: [''], icon: 'fa fa-users', role: [:mentor]})
+            = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
+            = display_navbar_link({css: [], link: 'Panel de progreso', details: 'Progreso de estudiantes' ,path: progress_panel_index_path, icon: 'fa fa-line-chart', role: [:mentor]})
+            = display_navbar_link({css: [], link: 'Panel de analíticos', details: 'Progreso en programas' ,path: analytics_panel_index_path, icon: 'fa fa-tachometer', role: [:mentor]})
+            = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: mentor_shared_group_attachments_path, icon: 'fa fa-file', role: [:mentor]})
+            = display_navbar_link({css: [], link: 'Mensajes', details: 'Mensajes con estudiantes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]})
+            = display_navbar_link({css: [], link: 'Panel de notificaciones', details: 'Administra tus emails' ,path: dashboard_notifications_panel_path, icon: 'fa fa-columns', role: [:mentor]})
+            = display_navbar_link({css: [], link: 'Mapa del sitio', details: 'Mapa de EDCdigital' ,path:  mentor_sitemap_index_path, icon: 'fa fa-map', role: [:mentor]})
+
+            / profesor
+            = display_navbar_link({link: 'Programas', details: 'Cursos en EDC Digital' ,path: dashboard_programs_path, css: ['m-t-30'], icon: 'fa pg-layouts', role: [:profesor]})
+            = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: profesor_groups_path, css: [''], icon: 'fa fa-users', role: [:profesor]})
+            = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: profesor_students_path, icon: 'fa fa-book', role: [:profesor]})
+
+            = display_navbar_link({css: [], link: 'Panel de progreso', details: 'Progreso de estudiantes' ,path: progress_panel_index_path, icon: 'fa fa-line-chart', role: [:profesor]})
+            = display_navbar_link({css: [], link: 'Panel de analíticos', details: 'Progreso en programas' ,path: analytics_panel_index_path, icon: 'fa fa-tachometer', role: [:profesor]})
+            = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: profesor_shared_group_attachments_path, icon: 'fa fa-file', role: [:profesor]})
+            = display_navbar_link({css: [], link: 'Mensajes', details: 'Mensajes con estudiantes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:profesor]})
+            /= display_navbar_link({css: [], link: 'Panel de notificaciones', details: 'Administra tus emails' ,path: dashboard_notifications_panel_path, icon: 'fa fa-columns', role: [:profesor]})
+            /= display_navbar_link({css: [], link: 'Mapa del sitio', details: 'Mapa de EDCdigital' ,path:  mentor_sitemap_index_path, icon: 'fa fa-map', role: [:profesor]})
+
+            - if current_user.student?
+              %li.extra-bottom-4.m-t-30
+                %a{:href => "javascript:;"}
+                  %span.title Programas
+                  %span.arrow
+                %span.icon-thumbnail
+                  %i.pg-layouts
+                %ul.sub-menu
+                  %li
+                    %a{:href => dashboard_programs_path} Todos
+                    %span.icon-thumbnail Ts
+                  %li
+                    %a{:href => dashboard_programs_path(tipo: "elearning")} e-Learning
+                    %span.icon-thumbnail eL
+                  %li
+                    %a{:href => dashboard_programs_path(tipo: "construccion")} Construcción
+                    %span.icon-thumbnail Co
+                  %li
+                    %a{:href => dashboard_learning_path_path} Mi ruta
+                    %span.icon-thumbnail Mr
+
+              %li.extra-bottom-4
+                %a{:href => "javascript:;"}
+                  %span.title Mi emprendimiento
+                  %span.arrow
+                %span.icon-thumbnail
+                  %i.fa.fa-rocket
+                %ul.sub-menu
+                  %li
+                    %a{:href => dashboard_pathway_path} Fases de una idea viable
+                    %span.icon-thumbnail Fi
+                  %li
+                    %a{:href => dashboard_quizzes_path} Evaluaciones
+                    %span.icon-thumbnail Ex
+                  %li
+                    %a{:href => dashboard_attachments_path} Mis archivos
+                    %span.icon-thumbnail Ma
+                  %li
+                    %a{:href => dashboard_delireverables_path} Mis entregables
+                    %span.icon-thumbnail Me
+                  %li
+                    %a{:href => dashboard_template_refilables_path} Mis plantillas
+                    %span.icon-thumbnail Mp
+
+              %li.extra-bottom-4
+                %a{:href => "javascript:;"}
+                  %span.title Ayuda
+                  %span.arrow
+                %span.icon-thumbnail
+                  %i.fa.fa-comment
+                %ul.sub-menu
+                  %li
+                    %a{:href => mailbox_inbox_path}
+                      =current_user.mentor? ? 'Mensajes con estudiantes' : 'Mensajes con profesores'
+                    %span.icon-thumbnail
+                      =current_user.mentor? ? 'Me' : 'Mp'
+                  %li
+                    %a{:href => dashboard_support_path} Ayuda de mentores EDC
+                    %span.icon-thumbnail Am
+                  %li
+                    %a{:href => frequent_questions_path} Preguntas frecuentes
+                    %span.icon-thumbnail Pf
+                  %li
+                    %a{:href => glossary_categories_path} Glosario EDC
+                    %span.icon-thumbnail Gl
+
+              %li.extra-bottom-4
+                %a{:href => "javascript:;"}
+                  %span.title Mi perfil
+                  %span.arrow
+                %span.icon-thumbnail
+                  %i.fa.fa-user
+                %ul.sub-menu
+                  %li
+                    %a{:href => dashboard_user_path(current_user)} Ver perfil
+                    %span.icon-thumbnail Pf
+                  %li
+                    %a{:href => edit_user_registration_path} Editar perfil
+                    %span.icon-thumbnail Ed
+                  %li
+                    %a{:href => dashboard_notifications_panel_path} Panel de notificaciones
+                    %span.icon-thumbnail Pn
+
+              %li.extra-bottom-4
+                %a{:href => "javascript:;"}
+                  %span.title Recursos
+                  %span.arrow
+                %span.icon-thumbnail
+                  %i.fa.fa-diamond
+                %ul.sub-menu
+                  %li
+                    %a{:href => "https://www.edc-megatendencias.com/", :target => "_blank"} EDC Megatendencias
+                    %span.icon-thumbnail Mg
+                  %li
+                    %a{:href => "http://edc-ideador.com/", :target => "_blank"} EDC Ideador
+                    %span.icon-thumbnail Id
+                  - if !current_user.group.nil? && (current_user.group.financiero.nil? || current_user.group.financiero) 
+                    %li
+                      %a{:href => "https://www.edc-financiero.com/", :target => "_blank"} EDC Financiero
+                      %span.icon-thumbnail Fn
+                  %li
+                    %a{:href => dashboard_calculator_path} Calculadora de muestras
+                    %span.icon-thumbnail En
+                  /%li
+                  /  %a{:href => dashboard_sitemap_index_path } Mapa del sitio
+                  /  %span.icon-thumbnail Mp
+
+              %li.extra-bottom-4
+                %a{:href => "javascript:;"}
+                  %span.title Acerca
+                  %span.arrow
+                %span.icon-thumbnail
+                  %i.fa.fa-institution
+                %ul.sub-menu
+                  %li
+                    %a{:href => dashboard_about_path } EDC Digital
+                    %span.icon-thumbnail Di
+                  %li
+                    %a{:href =>  dashboard_terms_path} Términos de servicio
+                    %span.icon-thumbnail Te
+                  %li
+                    %a{:href =>  dashboard_privacy_path} Política de privacidad
+                    %span.icon-thumbnail Pr
+                  %li
+                    %a{:href =>   dashboard_service_path } Confidencialidad y Propiedad
+                    %span.icon-thumbnail Cp
+
+            - if current_user.mentor? || current_user.admin? || current_user.student? || current_user.profesor?
+              %li.extra-bottom-4
+                %a.detailed.redirector{:href => destroy_user_session_path, method: :delete }
+                  %span.title Cerrar sesión
+                %span.icon-thumbnail
+                  %i.fa.fa-power-off
 
         .clearfix
     .page-container
@@ -343,95 +328,104 @@
             .brand.inline
               %a.redirector{href: root_path}
                 = image_tag('logo-edc-color-horizontal.png', height: 40)
-            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-l.b-r.no-style.p-l-10.p-r-10
-              %li.p-r-15.inline
-                .dropdown
-                  %a#notification-center.icon-set.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
-                    - if current_user.has_notifications?
-                      %span.bubble
-                        - if current_user.notifications_count > 20
-                          %span.number-inside-bubble-m20
-                            +20
-                        - elsif current_user.notifications_count < 20 and current_user.notifications_count > 9
-                          %span.number-inside-bubble-20
-                            = current_user.notifications_count
-                        - else
-                          %span.number-inside-bubble-9
-                            = current_user.notifications_count
+            - if !current_user.nil?    
+              %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-l.b-r.no-style.p-l-10.p-r-10
+                %li.p-r-15.inline
+                  .dropdown
+                    %a#notification-center.icon-set.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
+                      - if current_user.has_notifications?
+                        %span.bubble
+                          - if current_user.notifications_count > 20
+                            %span.number-inside-bubble-m20
+                              +20
+                          - elsif current_user.notifications_count < 20 and current_user.notifications_count > 9
+                            %span.number-inside-bubble-20
+                              = current_user.notifications_count
+                          - else
+                            %span.number-inside-bubble-9
+                              = current_user.notifications_count
 
-                  .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
-                    .notification-panel
-                      .notification-body.scrollable
-                        = render partial: "notifications/notification", collection: current_user.limited_notifications
-                      .notification-footer.text-center
-                        %a{:href => dashboard_notifications_path} Ver todas las notificaciones
-                        %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
-                          %i.pg-refresh_new
-            %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-10.p-r-10
-              %li.p-r-15.inline
-                .dropdown
-                  %a#notification-center.icon-set-2.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
-                    -  if  unread_messages_count > 0
-                      %span.bubble
-                        - if unread_messages_count > 20
-                          %span.number-inside-bubble-m20
-                            +20
-                        - elsif unread_messages_count < 20 && unread_messages_count > 9
-                          %span.number-inside-bubble-20
-                            = unread_messages_count
-                        - else
-                          %span.number-inside-bubble-9
-                            = unread_messages_count
+                    .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
+                      .notification-panel
+                        .notification-body.scrollable
+                          = render partial: "notifications/notification", collection: current_user.limited_notifications
+                        .notification-footer.text-center
+                          %a{:href => dashboard_notifications_path} Ver todas las notificaciones
+                          %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
+                            %i.pg-refresh_new
+              %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-10.p-r-10
+                %li.p-r-15.inline
+                  .dropdown
+                    %a#notification-center.icon-set-2.globe-fill{"data-toggle" => "dropdown", :href => "javascript:;"}
+                      -  if  unread_messages_count > 0
+                        %span.bubble
+                          - if unread_messages_count > 20
+                            %span.number-inside-bubble-m20
+                              +20
+                          - elsif unread_messages_count < 20 && unread_messages_count > 9
+                            %span.number-inside-bubble-20
+                              = unread_messages_count
+                          - else
+                            %span.number-inside-bubble-9
+                              = unread_messages_count
 
-                  .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
-                    .notification-panel
-                      .notification-body.scrollable
-                        = render partial: "mailbox/notification", collection: mailbox.inbox.limit(3).order(created_at: :desc), as: :item
-                      .notification-footer.text-center
-                        %a{:href => mailbox_inbox_path}
-                          =current_user.mentor? ? 'Ver mensajes con tus estudiantes' : 'Ver mensajes con tus profesores'
-                        %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
-                          %i.pg-refresh_new
-              .red-spot#tour-1{style: "position: absolute"}
+                    .dropdown-menu.notification-toggle{"aria-labelledby" => "notification-center", :role => "menu"}
+                      .notification-panel
+                        .notification-body.scrollable
+                          = render partial: "mailbox/notification", collection: mailbox.inbox.limit(3).order(created_at: :desc), as: :item
+                        .notification-footer.text-center
+                          %a{:href => mailbox_inbox_path}
+                            =current_user.mentor? ? 'Ver mensajes con tus estudiantes' : 'Ver mensajes con tus profesores'
+                          %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
+                            %i.pg-refresh_new
+                .red-spot#tour-1{style: "position: absolute"}
             %a{:href => frequent_questions_path, :target => "blank"}
               %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-r.no-style.p-l-10.p-r-10
                 %li.p-r-15.inline
                   #notification-center.fa.fa-question-circle{:style => "font-size:18px;"}
 
-            - if current_user.admin? || current_user.mentor?
+            - if !current_user.nil? && (current_user.admin? || current_user.mentor?)
               %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.no-style.p-l-10.p-r-10
                 %li.p-r-15.inline
                   %form.navbar-form{:role => "search", action: search_users_path}
                     %input.form-control.typehead.typehead-entries{placeholder: 'Buscar contactos', name: 'search', value: params[:search], style: 'width:350px; bottom:5px;'}
 
 
-
-        .pull-right
-          .visible-lg.visible-md.m-t-10
-            .pull-left.p-r-10.p-t-10.fs-16.font-heading
-              %span.semi-bold
-                = current_user.first_name
-              %span.text-master
-                = current_user.last_name
-            .dropdown.pull-right
-              %button.profile-dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-                %span.thumbnail-wrapper.d32.circular.inline.m-t-5
-                  = current_user.profile_picture.url.nil? ? image_tag('rubensito-05.png', height: 55) : image_tag(current_user.profile_picture.url, height: 55)
-              %ul.dropdown-menu.profile-dropdown{:role => "menu"}
-                %li
-                  %a{:href => edit_user_registration_path}
-                    %i.pg-settings_small
-                    Configuraciones
-                - if current_user.student?
+        - if !current_user.nil?            
+          .pull-right
+            .visible-lg.visible-md.m-t-10
+              .pull-left.p-r-10.p-t-10.fs-16.font-heading
+                %span.semi-bold
+                  = current_user.first_name
+                %span.text-master
+                  = current_user.last_name
+              .dropdown.pull-right
+                %button.profile-dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+                  %span.thumbnail-wrapper.d32.circular.inline.m-t-5
+                    = current_user.profile_picture.url.nil? ? image_tag('rubensito-05.png', height: 55) : image_tag(current_user.profile_picture.url, height: 55)
+                %ul.dropdown-menu.profile-dropdown{:role => "menu"}
                   %li
-                    %a{:href => dashboard_user_path(current_user)}
-                      %i.fa.fa-user
-                      Mi perfil
-                %li.bg-master-lighter
-                  = link_to destroy_user_session_path, method: :delete, class: 'clearfix' do
-                    %span.pull-left Cerrar sesión
-                    %span.pull-right
-                      %i.pg-power
+                    %a{:href => edit_user_registration_path}
+                      %i.pg-settings_small
+                      Configuraciones
+                  - if current_user.student?
+                    %li
+                      %a{:href => dashboard_user_path(current_user)}
+                        %i.fa.fa-user
+                        Mi perfil
+                  %li.bg-master-lighter
+                    = link_to destroy_user_session_path, method: :delete, class: 'clearfix' do
+                      %span.pull-left Cerrar sesión
+                      %span.pull-right
+                        %i.pg-power
+        - else
+          .pull-right
+            .visible-lg.visible-md.m-t-10
+              .pull-right.p-r-10.p-t-7.fs-16.font-heading
+                = link_to "https://emprendiendodesdecero.com/seguimiento/",  class: 'btn btn-default' do
+                  %span.pull-left Solicitar una cuenta
+                = link_to user_session_path, class: 'btn btn-default' do
+                  %span.pull-left Iniciar sesión               
 
       .page-content-wrapper
         .content
