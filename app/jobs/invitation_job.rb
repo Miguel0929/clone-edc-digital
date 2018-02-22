@@ -26,7 +26,7 @@ class InvitationJob
           job["old_records"] = job["old_records"] + 1;
           job["old_emails"] = job["old_emails"] << email
         elsif user.deleted_at.nil? == false
-            job["old_records_inactive"] = job["old_records_inactive"] + 1;
+          job["old_records_inactive"] = job["old_records_inactive"] + 1;
           job["old_emails_inactive"] = job["old_emails_inactive"] << email
         end
         user.invite! do |u|

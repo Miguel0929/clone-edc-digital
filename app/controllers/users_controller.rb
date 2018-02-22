@@ -306,7 +306,7 @@ class UsersController < ApplicationController
       end
       format.xlsx do
         fast = params[:fast] == 'true' ? true : false
-        @users = User.students.includes(:group)
+        @users = User.students.includes(:group).order(:id)
 
         timestamp = Time.current.to_i
         redis = Redis.new
