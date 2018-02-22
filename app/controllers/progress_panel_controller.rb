@@ -90,7 +90,7 @@ class ProgressPanelController < ApplicationController
       students_no_group = User.includes(:program_stats).where(:program_stats => {user_id: stats.pluck(:user_id)}, group_id: nil)
       @active_users = students_with_group.where.not(invitation_accepted_at: nil).pluck(:id).uniq + students_no_group.where.not(invitation_accepted_at: nil).pluck(:id).uniq    
       @inactive_users = (students_with_group.count +  students_no_group.count) - @active_users.count
-    elsif current_user.mentor?
+    elsif current_user.mentor? || current_user.profesor?
       my_groups = current_user.user_groups.pluck(:id)
       groups_program = Group.where(id: my_groups).joins(:programs).where(:programs => {id: program}).pluck(:id)
       groups_path = Group.joins(:learning_path).where(:learning_paths => {id: lpaths}, id: my_groups).pluck(:id)
@@ -124,7 +124,7 @@ class ProgressPanelController < ApplicationController
   private
   def get_program_progress_strata(program, category, my_groups)
     lpaths = LearningPath.joins(:learning_path_contents).where(:learning_path_contents => {content_type: "Program", content_id: program.id}).pluck(:id)
-    if current_user.mentor? || (category.is_a? String)
+    if current_user.mentor? || current_user.profesor? || (category.is_a? String)
       if category == 0
         groups_program = Group.where(id: my_groups).joins(:programs).where(:programs => {id: program.id}).pluck(:id)
         groups_path = Group.joins(:learning_path).where(:learning_paths => {id: lpaths}, id: my_groups).pluck(:id)

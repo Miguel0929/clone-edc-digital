@@ -112,7 +112,7 @@ class Program < ActiveRecord::Base
     end
     aux = program_groups + path_groups
     groups = Group.where(id: aux)
-    user.mentor? ? groups.where(id: user.groups.pluck(:id)) : groups
+    (user.mentor? || user.profesor?) ? groups.where(id: user.groups.pluck(:id)) : groups
   end 
 end
 
