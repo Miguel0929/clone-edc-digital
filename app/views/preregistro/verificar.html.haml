@@ -6,10 +6,13 @@
         .panel-body
           - if @user.nil?
             %p
-              ¡Ups! No hemos encontrado un registro de usuario con este correo electrónico, puedes solicitar tu cuenta en:
-              = link_to "https://emprendiendodesdecero.com/seguimiento/formulario", "https://emprendiendodesdecero.com/seguimiento/formulario"
+              ¡Ups! No hemos encontrado un registro de usuario con este correo electrónico, puedes solicitar tu cuenta en al correo
+              %strong
+                soporte2@edc-digital.com.
+              /= link_to "https://emprendiendodesdecero.com/seguimiento/formulario", "https://emprendiendodesdecero.com/seguimiento/formulario"
               %br
-              %i * Si tienes algun problema comunicate con soporte técnico al correo soporte@edc-digital.com o al teléfono +52 (55) 5351 6633
+              /%i * Si tienes algun problema comunicate con soporte técnico al correo soporte@edc-digital.com o al teléfono +52 (55) 5351 6633
+              %i * También puedes comunicarte al teléfono +52 (55) 5351 6633
 
           - else
             - if @user.invitation_accepted_at.nil?
