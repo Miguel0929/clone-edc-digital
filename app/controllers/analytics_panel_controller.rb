@@ -35,7 +35,6 @@ class AnalyticsPanelController < ApplicationController
     user = current_user
     @groups = (user.mentor? || user.profesor?) ? current_user.groups : Group.all
     if @group
-      #@group = Group.find(params[:group])
       @programs = Program.joins(:group_programs).where(group_programs: {group_id: @group}).order(:name)
       @students = User.where(group: @group, role: 0).where.not(invitation_accepted_at: nil).uniq.order(:first_name)
       #@students = User.joins(:program_stats).where(group: groups, role: 0).uniq
