@@ -1,12 +1,12 @@
 class Dashboard::WelcomeController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:privacy_noregister]
   before_action :redirect_to_support, if: :student_have_group? , only: [:support, :send_support_email, :learning_path]
   before_action :redirect_to_learning, if: :have_group?, only: [:contact_admin, :contact_admin_mail]
   after_action :change_video_trigger, only: [:learning_path]
 
   helper_method :last_moved_program
   helper_method :last_visited_content
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb "EDC DIGITAL", :root_path, except: [:privacy_noregister]
 
   def index
     add_breadcrumb "<a class='active' href='#{root_path}'>Inicio</a>".html_safe
@@ -18,6 +18,10 @@ class Dashboard::WelcomeController < ApplicationController
 
   def privacy
     add_breadcrumb "<a class='active' href='#{dashboard_privacy_path}'>POLÍTICA DE PRIVACIDAD</a>".html_safe
+  end
+
+  def privacy_noregister
+    render layout: "layouts/politicas"
   end
 
   def support
