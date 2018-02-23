@@ -42,7 +42,11 @@
               .checkbox
                 %input{:type => "hidden", :value => "0", name: 'user[agreement]'}/
                 %input#agreement{:type => "checkbox", :value => "1", name: 'user[agreement]'}/
-                %label{:for => "agreement"} Estoy de acuerdo con los Términos de la página y las Políticas de privacidad.
+                %label{:for => "agreement"} 
+                  Estoy de acuerdo con los 
+                  %span
+                    = link_to dashboard_privacy_noregister_path, target: :_blank do
+                      Términos de la página y las Políticas de privacidad.
               = error_for(resource, :agreement)
 
           %button.btn.btn-primary.btn-cons.m-t-10{:type => "submit"} Crear cuenta
