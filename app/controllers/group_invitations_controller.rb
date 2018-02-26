@@ -1,4 +1,5 @@
 require 'csv'
+require 'json'
 
 class GroupInvitationsController < ApplicationController
   add_breadcrumb "EDC DIGITAL", :root_path
@@ -14,6 +15,7 @@ class GroupInvitationsController < ApplicationController
       total = CSV.read(params[:csv].tempfile, headers: true, encoding:'iso-8859-1:utf-8').size
 
       timestamp = Time.current.to_i
+      emails = []
       redis = Redis.new
       redis.set("job_#{timestamp}", {
         total: total,
@@ -40,4 +42,23 @@ class GroupInvitationsController < ApplicationController
   def show
     @job_id = params[:id]
   end
+
+  def export_codes
+    emails = JSON.parse(params[:emails])
+    mails = []
+    emails.each{|e| mails.push(e["email"])}
+    @active_students = User.where(email: mails, invitation_token: nil)
+    @inactive_students = User.where(email: mails).where.not(invitation_token: nil)
+    p "========================="
+    p @active_students
+    p "========================="
+    p @inactive_students
+    if @active_students.count > 0
+      @group = @active_students.first().group
+    elsif @inactive_students.count > 0 
+      @group = @inactive_students.first().group
+    else
+      @group = nil 
+    end  
+  end  
 end
