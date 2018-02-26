@@ -12,14 +12,20 @@ class InvitationJob
       job["new_records"] = job["new_records"] + 1;
       job["new_emails"] = job["new_emails"] << email
 
-      user = User.invite!(:email => email, :first_name => name, :group_id => group_id) do |u|
+      user = User.invite!(:email => email, :first_name => name, :group_id => group_id, :last_name => "x", :phone_number => "0000000000") do |u|
         u.skip_invitation = true
       end
+      send_mail(user, url, job, job_id, redis)
     else
       if user.invitation_token.nil? && !user.invitation_accepted_at.nil?
+        user.update(group_id: group_id)
+        job["old_records_group"] = job["old_records_group"] + 1;
+        job["old_emails_group"] = job["old_emails_group"] << email
+
+        job["progress"] = job["progress"] + 1;
+        redis.set(job_id, job.to_json)
       else 
-        if user.group_id != group_id.nil? && user.deleted_at.nil?
-          user.update(group_id: group_id)
+        if (user.group_id != group_id) && user.deleted_at.nil?
           job["old_records_group"] = job["old_records_group"] + 1;
           job["old_emails_group"] = job["old_emails_group"] << email
         elsif user.deleted_at.nil?
@@ -29,13 +35,16 @@ class InvitationJob
           job["old_records_inactive"] = job["old_records_inactive"] + 1;
           job["old_emails_inactive"] = job["old_emails_inactive"] << email
         end
+        user.update(group_id: group_id, :last_name => "x", :phone_number => "0000000000")
         user.invite! do |u|
           u.skip_invitation = true
         end
+        send_mail(user, url, job, job_id, redis)
       end
     end
+  end
 
-
+  def send_mail(user, url, job, job_id, redis)
       data = {
         personalizations: [
           {
@@ -67,5 +76,6 @@ class InvitationJob
         Rails.logger.info e.message
         FakeEmail.new
       end
-    end
+  end
+
 end
