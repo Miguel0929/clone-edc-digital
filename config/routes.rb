@@ -408,7 +408,11 @@ Rails.application.routes.draw do
   resources :route_texts
   resources :route_covers
 
-  resources :group_invitations, only: [:new, :create, :show]
+  resources :group_invitations, only: [:new, :create, :show] do
+    collection do 
+      post :export_codes
+    end
+  end    
   resources :program_stats
   post '/save_program_stats' => 'program_stats#post'
   post '/save_program_active' => 'program_actives#post', as: :save_program_active
