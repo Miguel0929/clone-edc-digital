@@ -8,7 +8,7 @@ class FrequentsController < ApplicationController
 		add_breadcrumb "Preguntas frecuentes", :frequent_categories_path
     	add_breadcrumb "<a class='active' href='#{frequent_category_path(@frequent.frequent_category_id)}'>#{FrequentCategory.find(@frequent.frequent_category_id).name}</a>".html_safe	
     	if current_user.nil?
-			render layout: "layouts/guest"
+			render layout: "layouts/politicas"
 		end	
 	end
 
@@ -18,7 +18,7 @@ class FrequentsController < ApplicationController
 		@frequentsearch = Frequent.search(params[:term])
 		@search_term = (params[:term])
 		if current_user.nil?
-			render layout: "layouts/guest"
+			render layout: "layouts/politicas"
 		end	
 	end
 

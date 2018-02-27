@@ -36,6 +36,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :receptions, only: [:show, :create, :destroy, :update, :index] do
+    collection do
+      post :register
+    end  
+  end  
   post 'ratings/vote_chapter_content'
   post 'ratings/vote_program'
   get 'rating/program/:id', to: "ratings#show", as: "rating_program"
@@ -167,6 +172,7 @@ Rails.application.routes.draw do
     get 'acerca-de',              to: 'welcome#index', as: :about
     get 'terminos-y-condiciones', to: 'welcome#terms', as: :terms
     get 'politica-de-privacidad', to: 'welcome#privacy', as: :privacy
+    get 'politicas-privacidad', to: 'welcome#privacy_noregister', as: :privacy_noregister
     get 'ayuda',                  to: 'welcome#support', as: :support
     get 'contact_admin',          to: 'welcome#contact_admin', as: :support_admin
     post 'contact_admin_mail',          to: 'welcome#contact_admin_mail', as: :support_admin_mail
@@ -408,7 +414,11 @@ Rails.application.routes.draw do
   resources :route_texts
   resources :route_covers
 
-  resources :group_invitations, only: [:new, :create, :show]
+  resources :group_invitations, only: [:new, :create, :show] do
+    collection do 
+      post :export_codes
+    end
+  end    
   resources :program_stats
   post '/save_program_stats' => 'program_stats#post'
   post '/save_program_active' => 'program_actives#post', as: :save_program_active

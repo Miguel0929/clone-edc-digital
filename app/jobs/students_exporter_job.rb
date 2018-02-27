@@ -11,9 +11,9 @@ class StudentsExporterJob
 
     csv_string = CSV.generate(encoding: "UTF-8") do |csv|
       if fast
-        header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance']
+        header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', "Codigo activación"]
       else
-        header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance']
+        header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', "fhdkjfhdsj"]
         Program.all.each do |program|
           header << "#{program.name} CONTESTADO:"
           header << "#{program.name} VISTO:"
@@ -31,6 +31,7 @@ class StudentsExporterJob
           student.group.nil? ? "" : student.group.name,
           "#{student.answered_questions_percentage}%",
           "#{student.content_visited_percentage}%",
+          student.user_code.nil? ? "----------------" : student.user_code.codigo,
         ]
         programs = ''
         if !fast

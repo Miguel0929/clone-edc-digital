@@ -19,17 +19,13 @@
     %meta{:content => "http://edcdigital.mx", :property => "og:url"}/
     %meta{:content => "Primer plataforma diseñada para construir y validar tu idea de negocio, en lo comercial, técnico y financiero.", :property => "og:description"}/
 
-    = render 'shared/google_analytics' if Rails.env.production?
-
     = favicon_link_tag
-    = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
 
-  %body.fixed-header
-
-    .row
+  %body.fixed-header.menu-behind
+    .page-container.no-navside-padding
       .header
         .container-fluid.relative
           .pull-left.full-height.visible-sm.visible-xs
@@ -45,16 +41,13 @@
           .header-inner
             .brand.inline
               %a.redirector{href: root_path}
-                = image_tag('logo-edc-color-horizontal.png', height: 40)               
+                = image_tag('logo-edc-color-horizontal.png', height: 40)
 
       .page-content-wrapper
         .content
           .jumbotron.bg-white{"data-pages" => "parallax", class: "#{include_margin?(controller_name, action_name) ? 'm-b-0' : ''}"}
-            .container-fluid.container-fixed-lg
-              .inner
-                %ul.breadcrumb
-                  = render_breadcrumbs :tag => :li, separator: ''
-          %div{class: "#{controller_name}_#{action_name}"}
+
+          %div
             = yield
 
         .container-fluid.container-fixed-lg.footer
@@ -64,12 +57,6 @@
               = succeed "." do
                 %span.font-montserrat Distrito Emprendedor
               %span.hint-text Todos los derechos reservados.
-              %span.sm-block
-                %a.m-l-10.m-r-10{:href => dashboard_terms_path} Términos de uso
-                |
-                %a.m-l-10.m-r-10{:href => dashboard_privacy_path } Política de Privacidad
-                |
-                %a.m-l-10{:href => dashboard_service_path } Confidencialidad y Propiedad Industrial
             .clearfix
 
     - if notice
@@ -89,21 +76,3 @@
               %span{"aria-hidden" => "true"} ×
               %span.sr-only Close
             = alert
-    - if flash[:more95]
-      :javascript
-        $(document).on('turbolinks:load', function(){
-          sweetAlert("#{flash[:more95]}");
-        });
-    - if flash[:complete]
-      :javascript
-        $(document).on('turbolinks:load', function(){
-          sweetAlert("#{flash[:complete]}");
-        });
-
-    - if current_user && current_user.student?
-      :javascript
-        $(document).on('turbolinks:load', function(){
-          setInterval(function() {
-            $.post("#{track_sessions_path}")
-          }, 60000)
-        });

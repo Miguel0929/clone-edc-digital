@@ -467,3 +467,6 @@ table.colored-columns td.light{
 	position: relative; 
 	top: -15px;
 }
+.no-navside-padding{
+	padding-left: 0px;
+}

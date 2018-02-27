@@ -9,7 +9,7 @@ class FrequentCategoriesController < ApplicationController
 
 		@categories = FrequentCategory.all
 		if current_user.nil?
-			render layout: "layouts/guest"
+			render layout: "layouts/politicas"
 		end	
 	end
 
@@ -17,7 +17,7 @@ class FrequentCategoriesController < ApplicationController
 		add_breadcrumb "Preguntas frecuentes", :frequent_categories_path
 		add_breadcrumb "<a class='active' href='#{frequent_category_path(@category)}'> #{@category.name}</a>".html_safe
 		if current_user.nil?
-			render layout: "layouts/guest"
+			render layout: "layouts/politicas"
 		end	
 	end
 

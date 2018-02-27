@@ -77,9 +77,6 @@
 		%h4.text-primary.m-b-0
 			MENÚ LATERAL >
 		.row.p-r-20.p-l-20
-			- group_one = current_user.groups.first
-			- program_one = group_one.programs.first
-			- student_one = group_one.students.first
 			.col-sm-4
 				.row.m-t-40.p-r-40
 					= link_to dashboard_programs_path, class: "pump-link-title" do
@@ -126,13 +123,13 @@
 									.social-card.share.full-width
 										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
 										.card-header.clearfix
-											= link_to mentor_group_path(group_one.id) do
+											= link_to mentor_group_path(@group_one.id) do
 												%h5 Detalle de grupo
 										.card-description
 											%p
 												Monitorea el avance de los grupos a los que estás vinculado, así como el avance de cada alumno de tus grupos
 											%p
-												= link_to mentor_group_path(group_one) do
+												= link_to mentor_group_path(@group_one) do
 													Ver ejemplo
 													%i.fa.fa-angle-double-right
 							.timeline-block
@@ -142,13 +139,13 @@
 									.social-card.share.full-width
 										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
 										.card-header.clearfix
-											= link_to :controller => "mentor/evaluations", :action => "index", :program_id => program_one.id, :user_id => student_one.id do
+											= link_to :controller => "mentor/evaluations", :action => "index", :program_id => @program_one.id, :user_id => @student_one.id do
 												%h5 Rúbrica de evaluación
 										.card-description
 											%p
 												Evalúa el progreso de tus alumnos basándote en una serie de criterios para calificar las respuestas de los estudiantes en los cursos respectivos
 											%p
-												= link_to :controller => "mentor/evaluations", :action => "index", :program_id => program_one.id, :user_id => student_one.id do
+												= link_to :controller => "mentor/evaluations", :action => "index", :program_id => @program_one.id, :user_id => @student_one.id do
 													Ver ejemplo
 													%i.fa.fa-angle-double-right
 			.col-sm-4
@@ -185,13 +182,13 @@
 									.social-card.share.full-width
 										.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Label"}
 										.card-header.clearfix
-											= link_to mentor_student_path(student_one.id) do
+											= link_to mentor_student_path(@student_one.id) do
 												%h5 Detalle de alumno
 										.card-description
 											%p
 												Accede a la información completa de cada alumno. Evalúa su progreso dentro de un programa o un módulo en específico basado en las rúbricas de evaluación
 											%p
-												= link_to mentor_student_path(student_one.id) do
+												= link_to mentor_student_path(@student_one.id) do
 													Ver ejemplo
 													%i.fa.fa-angle-double-right
 		.row.p-r-20.p-l-20
