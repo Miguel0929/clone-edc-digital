@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180226032737) do
+ActiveRecord::Schema.define(version: 20180226200923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -571,6 +571,15 @@ ActiveRecord::Schema.define(version: 20180226032737) do
   add_index "ratings", ["ratingable_type", "ratingable_id"], name: "index_ratings_on_ratingable_type_and_ratingable_id", using: :btree
   add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
 
+  create_table "receptions", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "receptions", ["group_id"], name: "index_receptions_on_group_id", using: :btree
+
   create_table "refilables", force: :cascade do |t|
     t.integer  "template_refilable_id"
     t.integer  "user_id"
@@ -840,6 +849,7 @@ ActiveRecord::Schema.define(version: 20180226032737) do
   add_foreign_key "quiz_answers", "users"
   add_foreign_key "quiz_questions", "quizzes"
   add_foreign_key "ratings", "users"
+  add_foreign_key "receptions", "groups"
   add_foreign_key "report_notifications", "reports"
   add_foreign_key "reports", "users"
   add_foreign_key "shared_group_attachment_notifications", "shared_group_attachments"

@@ -49,10 +49,7 @@ class GroupInvitationsController < ApplicationController
     emails.each{|e| mails.push(e["email"])}
     @active_students = User.where(email: mails, invitation_token: nil)
     @inactive_students = User.where(email: mails).where.not(invitation_token: nil)
-    p "========================="
-    p @active_students
-    p "========================="
-    p @inactive_students
+
     if @active_students.count > 0
       @group = @active_students.first().group
     elsif @inactive_students.count > 0 
