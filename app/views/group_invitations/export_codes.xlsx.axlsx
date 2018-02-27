@@ -1,0 +1,29 @@
+wb = xlsx_package.workbook
+wb.styles do |style|
+  header_cell = style.add_style(bg_color: "53f94b")
+  subheader_cell = style.add_style(bg_color: "58ACFA")
+  content_cell = style.add_style(bg_color: "4bdff9")
+
+  wb.add_worksheet(name: "Codigos") do |sheet|
+    sheet.add_row ["Grupo: "+ @group.name,nil,nil,nil], style: [header_cell,header_cell,header_cell,header_cell]
+    
+    sheet.add_row ["Inactivos",nil,nil,nil], style: [subheader_cell,subheader_cell,subheader_cell,subheader_cell]
+
+    sheet.add_row ["Nombre","Correo Electrónico", "Fecha de invitacion", "Código"], style: [subheader_cell, subheader_cell, subheader_cell, subheader_cell]
+
+    @inactive_students.each do |student|
+      if student.user_code.nil?
+        codigo = "----"
+      else
+        codigo =  student.user_code.codigo.to_s
+      end  
+      sheet.add_row [student.name ,student.email, student.invitation_created_at.strftime('%Y-%m-%d %H:%M'), codigo], style: [content_cell, content_cell, content_cell, content_cell], :types => [:string, :string, :string, :string]
+    end
+
+    sheet.add_row ["Activos",nil,nil,nil], style: [subheader_cell,subheader_cell,subheader_cell,subheader_cell]
+
+    @active_students.each do |student| 
+      sheet.add_row [student.name ,student.email, student.invitation_created_at.strftime('%Y-%m-%d %H:%M'), "N/A"], style: [content_cell, content_cell, content_cell, content_cell], :types => [:string, :string, :string, :string]
+    end
+  end
+end
