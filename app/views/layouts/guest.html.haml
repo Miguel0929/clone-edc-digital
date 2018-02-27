@@ -1,0 +1,109 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title
+      = content_for?(:title) ? yield(:title) : "EDC Digital"
+    %meta{:name => "viewport", :content=>"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no"}/
+    %meta{:content => "Primer plataforma diseñada para construir y validar tu idea de negocio, en lo comercial, técnico y financiero.", :name => "description"}/
+    %meta{:content => "emprendedor, emprendedores, emprendimiento, financiamiento, jóvenes, finanzas, capacitación, curso, inversión, capital, privado", :name => "keywords"}/
+    %meta{:content => "Distrito Emprendedor", :name => "author"}/
+    %meta{:content => "summary_large_image", :name => "twitter:card"}/
+    %meta{:content => "@DistritoEmprend", :name => "twitter:site"}/
+    %meta{:content => "Construye y valida tu idea de negocio, desde cero.", :name => "twitter:title"}/
+    %meta{:content => "Primer plataforma diseñada para construir y validar tu idea de negocio, en lo comercial, técnico y financiero.", :name => "twitter:description"}/
+    %meta{:content => "#{image_url('landing-emprendiendo-desde-cero.jpg')}", :name => "twitter:image:src"}/
+    %meta{:content => "Construye y valida tu idea de negocio, desde cero.", :property => "og:title"}/
+    %meta{:content => "website", :property => "og:type"}/
+    %meta{:content => "#{image_url('landing-emprendiendo-desde-cero.jpg')}", :property => "og:image"}/
+    %meta{:content => "http://edcdigital.mx", :property => "og:url"}/
+    %meta{:content => "Primer plataforma diseñada para construir y validar tu idea de negocio, en lo comercial, técnico y financiero.", :property => "og:description"}/
+
+    = render 'shared/google_analytics' if Rails.env.production?
+
+    = favicon_link_tag
+    = javascript_include_tag "https://www.gstatic.com/charts/loader.js"
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  %body.fixed-header
+
+    .row
+      .header
+        .container-fluid.relative
+          .pull-left.full-height.visible-sm.visible-xs
+            .header-inner
+              %a.btn-link.toggle-sidebar.visible-sm-inline-block.visible-xs-inline-block.padding-5{"data-toggle" => "sidebar", :href => "#"}
+                %span.icon-set.menu-hambuger
+          .pull-center.hidden-md.hidden-lg
+            .header-inner
+              .brand.inline
+                %a.redirector{href: root_path}
+                  = image_tag('logo-edc-color-horizontal.png', height: 40)
+        .pull-left.sm-table.hidden-xs.hidden-sm
+          .header-inner
+            .brand.inline
+              %a.redirector{href: root_path}
+                = image_tag('logo-edc-color-horizontal.png', height: 40)               
+
+      .page-content-wrapper
+        .content
+          .jumbotron.bg-white{"data-pages" => "parallax", class: "#{include_margin?(controller_name, action_name) ? 'm-b-0' : ''}"}
+            .container-fluid.container-fixed-lg
+              .inner
+                %ul.breadcrumb
+                  = render_breadcrumbs :tag => :li, separator: ''
+          %div{class: "#{controller_name}_#{action_name}"}
+            = yield
+
+        .container-fluid.container-fixed-lg.footer
+          .copyright.sm-text-center
+            %p.small.no-margin.pull-left.sm-pull-reset
+              %span.hint-text Copyright © 2016
+              = succeed "." do
+                %span.font-montserrat Distrito Emprendedor
+              %span.hint-text Todos los derechos reservados.
+              %span.sm-block
+                %a.m-l-10.m-r-10{:href => dashboard_terms_path} Términos de uso
+                |
+                %a.m-l-10.m-r-10{:href => dashboard_privacy_path } Política de Privacidad
+                |
+                %a.m-l-10{:href => dashboard_service_path } Confidencialidad y Propiedad Industrial
+            .clearfix
+
+    - if notice
+      .pgn-wrapper{"data-position" => "top-right"}
+        .pgn.push-on-sidebar-open.pgn-simple
+          .alert.alert-info.dimiss
+            %button.close{"data-dismiss" => "alert", :type => "button"}>
+              %span{"aria-hidden" => "true"} ×
+              %span.sr-only Close
+            = notice
+
+    - if alert
+      .pgn-wrapper{"data-position" => "top-right"}
+        .pgn.push-on-sidebar-open.pgn-simple
+          .alert.alert-danger.dimiss
+            %button.close{"data-dismiss" => "alert", :type => "button"}>
+              %span{"aria-hidden" => "true"} ×
+              %span.sr-only Close
+            = alert
+    - if flash[:more95]
+      :javascript
+        $(document).on('turbolinks:load', function(){
+          sweetAlert("#{flash[:more95]}");
+        });
+    - if flash[:complete]
+      :javascript
+        $(document).on('turbolinks:load', function(){
+          sweetAlert("#{flash[:complete]}");
+        });
+
+    - if current_user && current_user.student?
+      :javascript
+        $(document).on('turbolinks:load', function(){
+          setInterval(function() {
+            $.post("#{track_sessions_path}")
+          }, 60000)
+        });
