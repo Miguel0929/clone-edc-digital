@@ -20,7 +20,7 @@
     %meta{:content => "Primer plataforma diseñada para construir y validar tu idea de negocio, en lo comercial, técnico y financiero.", :property => "og:description"}/
 
     = render 'shared/google_analytics' if Rails.env.production?
-    - if Rails.env.production? && current_user.student?
+    - if Rails.env.production? && (current_user.student? || current_user.mentor?)
       = render 'shared/smartlook'
 
     = favicon_link_tag
