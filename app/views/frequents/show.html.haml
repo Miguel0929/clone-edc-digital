@@ -21,7 +21,7 @@
 				.row.padding-10
 					%h5.bold.pull-left
 						RESPUESTA:
-					-if current_user.admin?
+					-if !current_user.nil? && current_user.admin?
 						.pull-right.p-t-10.p-r-15.p-l-10
 							= link_to edit_frequent_path(@frequent) do
 								%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-20{:type => "button", }
