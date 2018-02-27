@@ -60,7 +60,7 @@ class ReceptionsController < ApplicationController
       flash[:notice] = "El correo electronico #{@user.email} ya cuenta con una cuenta activa."
 		end
 		
-		redirect_to	reception_path(@group.name)
+		redirect_to	reception_path(@group.reception.name)
 	end	
 
 	private
