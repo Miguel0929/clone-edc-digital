@@ -20,6 +20,7 @@ class Group < ActiveRecord::Base
   belongs_to :university
   belongs_to :learning_path
   belongs_to :learning_path2, class_name: "LearningPath"
+  has_one :reception
 
   validates_presence_of :name, :key
   validates_uniqueness_of :key
