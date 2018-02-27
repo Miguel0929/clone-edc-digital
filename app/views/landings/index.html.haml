@@ -43,6 +43,10 @@
             .three
           .pull-right.hidden-sm.hidden-xs.col-sm-6
             .header-inner.text-right
+              %a.font-montserrat.fs-13.text-master.inline{"data-text" => "Preguntas frecuentes", :href => frequent_categories_path}
+                Preguntas frecuentes
+                %i.fa.fa-question-circle
+              |    
               %p.font-montserrat.fs-13.text-master.p-t-20.inline
                 +52 (55) 5351 6633
                 %i.m-l-10.fa.fa-phone
@@ -61,9 +65,6 @@
                     %a.solicitar-cuenta-btn{"data-text" => "Preregistro", :href => preregistro_index_path} Verifica tu cuenta
                   /%li
                   /  %a.solicitar-cuenta-btn{"data-text" => "Sign up", :href => "https://emprendiendodesdecero.com/seguimiento/", :target => "new"} Solicitar una cuenta
-                  %li
-                    %a{"data-text" => "Preguntas frecuentes", :href => frequent_categories_path}
-                      %i.m-l-10.fa.fa-question-circle
                   %li
                     %a.p-r-0.btn.btn-sm.btn-bordered.btn-white.block-title.fs-12.hidden-xs{"data-text" => "Login", :href => user_session_path} Iniciar sesión
                     %a.p-r-0.visible-xs{"data-text" => "Login", :href => user_session_path} Iniciar sesión
