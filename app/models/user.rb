@@ -55,7 +55,7 @@ class User < ActiveRecord::Base
          "%#{query}%", "%#{query}%", "%#{query}%")
   }
 
-  validates_presence_of :first_name, :last_name, :phone_number
+  validates_presence_of :first_name, :last_name, :phone_number, :group_id
   validates_acceptance_of :agreement
 
   belongs_to :group
