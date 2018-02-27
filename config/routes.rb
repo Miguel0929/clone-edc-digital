@@ -36,6 +36,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :receptions, only: [:show, :create, :destroy, :update, :index] do
+    collection do
+      post :register
+    end  
+  end  
   post 'ratings/vote_chapter_content'
   post 'ratings/vote_program'
   get 'rating/program/:id', to: "ratings#show", as: "rating_program"

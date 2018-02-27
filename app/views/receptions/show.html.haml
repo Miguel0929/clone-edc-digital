@@ -1,0 +1,17 @@
+.row  
+  .container
+    .col-md-8.col-md-offset-2
+      %h1= "Registro #{@reception.name}" 
+      .panel.panel-default
+        .panel-body
+          = bootstrap_form_for(@user, as: :user, url: register_receptions_path) do |f|
+            .row
+              .col-md-6
+                = f.text_field :first_name, label: "Nombre(s):", required: "required"
+              .col-md-6  
+                = f.text_field :last_name, label: "Apellidos:", required: "required"
+            = f.phone_field :phone_number, label: "Telefono:", required: "required"
+            = f.email_field :email, label: "Correo Electrónico:", required: "required"
+            = f.hidden_field :group_id, value: @group.id, required: "required"
+            = f.submit "Registrar", class: "btn btn-primary"
+        .panel-fo       
