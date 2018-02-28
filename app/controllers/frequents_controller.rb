@@ -1,5 +1,5 @@
 class FrequentsController < ApplicationController
-	before_action :authenticate_user!
+	before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 	before_action :set_frequent, only: [:show, :edit, :update, :destroy]
 	before_action :require_admin, only: [:new, :create, :edit, :update, :destroy]
 	add_breadcrumb "EDC DIGITAL", :root_path
@@ -7,6 +7,9 @@ class FrequentsController < ApplicationController
 	def show
 		add_breadcrumb "Preguntas frecuentes", :frequent_categories_path
     	add_breadcrumb "<a class='active' href='#{frequent_category_path(@frequent.frequent_category_id)}'>#{FrequentCategory.find(@frequent.frequent_category_id).name}</a>".html_safe	
+    	if current_user.nil?
+			render layout: "layouts/politicas"
+		end	
 	end
 
 	def index
@@ -14,6 +17,9 @@ class FrequentsController < ApplicationController
 		add_breadcrumb "<a class='active' href='#{frequents_path}'>Búsqueda de preguntas frecuentes</a>".html_safe
 		@frequentsearch = Frequent.search(params[:term])
 		@search_term = (params[:term])
+		if current_user.nil?
+			render layout: "layouts/politicas"
+		end	
 	end
 
 	def new

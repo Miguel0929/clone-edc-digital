@@ -5,7 +5,7 @@
   %section.demo-bg-section.p-b-55.p-t-40.m-b-40.panel-title-ayuda
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
-        - if current_user.admin?      
+        - if !current_user.nil? && current_user.admin?      
           .row-clearfix
             .pull-right
               = link_to new_frequent_path do
@@ -23,9 +23,9 @@
                 = submit_tag 'Buscar', class: "boton-buscar"
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
-              =current_user.mentor? ? '' : 'No te quedes con la duda'
+              = !current_user.nil? && current_user.mentor? ? '' : 'No te quedes con la duda'
             %p.m-b-25.text-white
-              =current_user.mentor? ? 'Encuentra la respuesta a las preguntas más frecuentes hechas por los usuarios sobre el uso de la plataforma EDC-Digital. Como profesor te será útil saber todos los detalles.' : '¿Cuánto dura el curso?, ¿cómo recupero mi contraseña? Como nos hacen mucho estas preguntas y otras más, las hemos recopilado y ordenado especialmente para ti. Si tu duda es común, búscala en esta sección, probablemente aquí esté la respuesta.'
+              = !current_user.nil? && current_user.mentor? ? 'Encuentra la respuesta a las preguntas más frecuentes hechas por los usuarios sobre el uso de la plataforma EDC-Digital. Como profesor te será útil saber todos los detalles.' : '¿Cuánto dura el curso?, ¿cómo recupero mi contraseña? Como nos hacen mucho estas preguntas y otras más, las hemos recopilado y ordenado especialmente para ti. Si tu duda es común, búscala en esta sección, probablemente aquí esté la respuesta.'
               
 
 
@@ -33,7 +33,7 @@
     - @categories.each do |category|
       .col-md-6
         .card.share{"data-social" => "item"}
-          - if current_user.admin?
+          - if !current_user.nil? && current_user.admin?
             .pull-right.p-t-10.p-r-15.p-l-10.clearfix
               = link_to edit_frequent_category_path(category) do
                 %button.btn.btn-tag.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar"}
@@ -52,7 +52,7 @@
                 %ul.list-unstyled
                   %li 
                     = link_to frequent.name, frequent
-                    -if current_user.admin?
+                    -if !current_user.nil? && current_user.admin?
                       = link_to edit_frequent_path(frequent) do
                         %span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-20.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar"}
                           %i.fa.fa-edit{:style => "font-size:18px;"}
@@ -78,7 +78,7 @@
             .card-header
               %h5.text-center 
                 No se ha creado ninguna pregunta todavía. 
-              - if current_user.admin?  
+              - if !current_user.nil? && current_user.admin?  
                 %h5.text-center
                   = link_to '>> Crear la primer pregunta.', new_frequent_path 
 
