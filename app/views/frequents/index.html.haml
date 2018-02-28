@@ -32,7 +32,7 @@
 									%tr{:role => "row"}
 										%td.v-align-middle.bold{:width => "75%", :style => "line-height: 3;"} 
 											= link_to frequentsearch.name, frequentsearch
-										- if current_user.admin?
+										- if !current_user.nil? && current_user.admin?
 											%td
 												.center
 													= link_to edit_frequent_path(frequentsearch) do
