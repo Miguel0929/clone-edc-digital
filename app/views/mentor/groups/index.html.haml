@@ -49,6 +49,11 @@
                     = link_to progress_panel_path(group) do
                       %i.fa.fa-line-chart
                       Ver progreso de grupo
+                %ul.p-l-0.m-b-10
+                  %li.inline 
+                    = link_to inactive_students_mentor_group_path(group) do
+                      %i.fa.fa-male
+                      Ver usuarios inactivos (#{group.inactive_students.count})
               %td.p-b-20
                 - group.all_programs.each_with_index do |program, index|
                   .label.m-b-5.program-labels{"data-toggle": "tooltip", "data-original-title": "#{program.name}"}

@@ -93,5 +93,5 @@ class Group < ActiveRecord::Base
     self.learning_path2.nil? ? moral_programs = [] : moral_programs = self.learning_path2.learning_path_contents.where(content_type: "Program").pluck(:content_id)
     aux = group_programs - (fisica_programs + moral_programs)
     Program.where(id: aux)
-  end    
+  end   
 end

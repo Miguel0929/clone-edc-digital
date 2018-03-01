@@ -1,0 +1,59 @@
+- content_for :title  do
+  Grupos - EDC Digital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .pull-left
+        .col-xs-12
+          .p-t-10{class: (@inactives.count == 0) ? "text-success" : "text-primary"}
+            Actualmente hay #{@inactives.count} alumnos inactivos
+      .pull-right
+        .col-xs-12
+          .form-group
+            %div.input-group
+              %input#search-table.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+              %span.input-group-addon.panel-title-recursos
+                %i.fa.fa-search.text-white
+
+      .clearfix
+    .panel-body
+      %table.table.table-hover.datatable
+        %thead
+          %tr
+            %th Correo
+            %th Fecha de creación de usuario
+
+        %tbody
+          - @inactives.each do |user|
+            %tr
+              %td.p-b-15
+                .m-t-0
+                  /= link_to group.name, group_path(group)
+                  = user.email
+                /%ul.p-l-0.m-b-0
+                /  %li.inline
+                /    %i.fa.fa-key
+                /    %span Clave:
+                /  %li.inline
+                /    %strong
+                /      hola
+              %td.p-b-15
+                %ul.p-l-0.m-b-0
+                  /%li.inline
+                  /  %strong
+                  /    %i.fa.fa-angle-right
+                  /    %span Soy:
+                  %li.inline
+                    = l user.created_at, format: :special
+              /%td.p-b-15
+              /  %ul.unstyled.no-style
+              /    %li
+              /      %ul.p-l-5.m-b-0
+              /        %li.inline.p-l-0
+              /          %i.fa.fa-angle-right
+              /        %li.inline
+              /          Alumnos del grupo:
+              /          %strong #{user.name}
+
+
