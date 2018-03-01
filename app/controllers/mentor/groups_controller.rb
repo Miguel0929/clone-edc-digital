@@ -26,4 +26,11 @@ class Mentor::GroupsController < ApplicationController
       format.xlsx{response.headers['Content-Disposition']='attachment; filename="students_list.xlsx"'}
     end
   end
+
+  def inactive_students
+    group = Group.find(params[:id])
+    @inactives = User.where(group_id: group.id, role: 0, invitation_accepted_at: nil)
+    add_breadcrumb "<a href='#{mentor_groups_path}'>Grupos</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{inactive_students_mentor_group_path(group)}'>Usuarios inactivos de #{group.name}</a>".html_safe
+  end
 end

@@ -319,8 +319,10 @@ Rails.application.routes.draw do
     resources :groups, only: [:index, :show] do
       member do
         get :codes
-      end  
-    end  
+        get :inactive_students
+      end
+    end
+
     resources :sitemap, only: [:index]
     resources :evaluations, only: [:index, :show, :update]
     resources :program_details, only: [:index]
