@@ -11,7 +11,7 @@ class Support
             to: [ { email: recipient } ],
             substitutions: {
               "-raw_subject-"=> subject,
-              "-user_name-" => user.name,
+              "-user_name-" => "#{user.name} #{user.last_name}"
               "-user_email-" => user.email,
               "-user_phone_number-" => user.phone_number,
               "-urgency-" => urgency,
@@ -39,7 +39,7 @@ class Support
             to: [ { email: recipient } ],
             substitutions: {
               "-raw_subject-"=> subject,
-              "-user_name-" => user.name,
+              "-user_name-" => "#{user.name} #{user.last_name}",
               "-user_email-" => user.email,
               "-user_phone_number-" => user.phone_number,
               "-urgency-" => urgency,
@@ -89,7 +89,7 @@ class Support
             substitutions: {
               "-subject-"=> subject,
               "-raw_subject-" => raw_subject,
-              "-user_name-" => user.name,
+              "-user_name-" => user.full_name,
               "-user_email-" => user.email,
               "-user_phone_number-" => user.phone_number,
               "-urgency-" => urgency,
