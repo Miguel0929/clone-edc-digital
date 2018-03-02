@@ -319,6 +319,8 @@ Rails.application.routes.draw do
     resources :groups, only: [:index, :show] do
       member do
         get :codes
+        get :template_refilables
+        get :quizzes
       end
     end
 
@@ -339,6 +341,7 @@ Rails.application.routes.draw do
       resources :delireverable_users, only: [:edit, :update]
       resources :refilables, only: [:show, :edit, :update]
     end
+    resources :refilables, only: [:index]
     resources :comments, only: [:index, :create, :update] do
       collection do
         get :archived
