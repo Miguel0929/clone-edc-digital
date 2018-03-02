@@ -93,5 +93,42 @@ class Group < ActiveRecord::Base
     self.learning_path2.nil? ? moral_programs = [] : moral_programs = self.learning_path2.learning_path_contents.where(content_type: "Program").pluck(:content_id)
     aux = group_programs - (fisica_programs + moral_programs)
     Program.where(id: aux)
-  end   
+  end
+
+  def answered_quizzes
+    total = 0
+    contestados = 0
+    quizzes = self.all_quizzes
+
+    quizzes.each do |quiz|
+      self.students.each do |student|
+        total = total + 1
+        if quiz.answered?(student)
+          contestados = contestados + 1
+        end        
+      end  
+    end
+
+    if total == 0 then average = 0 else average = (contestados * 100) / (total) end  
+    return average, contestados
+  end
+
+  def answered_refilables
+    total = 0
+    contestados = 0
+    refilables = self.all_refilables
+
+    refilables.each do |refilable|
+      self.students.each do |student|
+        total = total + 1
+        con = Refilable.where(template_refilable: refilable, user: student).count
+        if con > 0
+          contestados = contestados + 1
+        end        
+      end  
+    end
+
+    if total == 0 then average = 0 else average = (contestados * 100) / (total) end  
+    return average, contestados
+  end      
 end
