@@ -26,4 +26,20 @@ class Mentor::GroupsController < ApplicationController
       format.xlsx{response.headers['Content-Disposition']='attachment; filename="students_list.xlsx"'}
     end
   end
+  def template_refilables
+    @group = current_user.groups.includes(:users, :active_students).find(params[:id])
+    @students = @group.active_students.order(:id).page(params[:page]).per(20)
+    @students = @group.student_search(params[:query]).page(params[:page]).per(20) if params[:query].present?
+    add_breadcrumb "Grupos", :mentor_groups_path
+    add_breadcrumb "<a class='active' href='#{mentor_group_path(@group)}'>#{@group.name}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{template_refilables_mentor_group_path(@group)}'>Plantillas</a>".html_safe
+  end
+  def quizzes
+    @group = current_user.groups.includes(:users, :active_students).find(params[:id])
+    @students = @group.active_students.order(:id).page(params[:page]).per(20)
+    @students = @group.student_search(params[:query]).page(params[:page]).per(20) if params[:query].present?
+    add_breadcrumb "Grupos", :mentor_groups_path
+    add_breadcrumb "<a class='active' href='#{mentor_group_path(@group)}'>#{@group.name}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{quizzes_mentor_group_path(@group)}'>Examenes</a>".html_safe
+  end   
 end
