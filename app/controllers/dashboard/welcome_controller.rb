@@ -43,7 +43,7 @@ class Dashboard::WelcomeController < ApplicationController
   end
 
   def service
-    add_breadcrumb "<a class='active' href='#{dashboard_support_path}'>TÉRMINOS DE SERVICIO</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{dashboard_service_path}'>TÉRMINOS DE SERVICIO</a>".html_safe
   end
 
   def pathway

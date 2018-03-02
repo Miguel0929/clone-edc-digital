@@ -470,3 +470,9 @@ table.colored-columns td.light{
 .no-navside-padding{
 	padding-left: 0px;
 }
+.no-pointer{
+	pointer-events: none;
+}
+.grey-bottom-border{
+	border-bottom: 1px solid #e6e6e6 !important;
+}

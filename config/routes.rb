@@ -321,6 +321,7 @@ Rails.application.routes.draw do
         get :codes
         get :template_refilables
         get :quizzes
+        get :inactive_students
       end
     end
 
