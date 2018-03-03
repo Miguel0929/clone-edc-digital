@@ -112,6 +112,7 @@ class Group < ActiveRecord::Base
     if total == 0 then average = 0 else average = (contestados * 100) / (total) end  
     return average, contestados
   end
+
   def answered_refilables
     total = 0
     contestados = 0

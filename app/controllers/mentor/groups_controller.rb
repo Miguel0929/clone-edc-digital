@@ -51,5 +51,4 @@ class Mentor::GroupsController < ApplicationController
     add_breadcrumb "<a href='#{mentor_groups_path}'>Grupos</a>".html_safe
     add_breadcrumb "<a class='active' href='#{inactive_students_mentor_group_path(group)}'>Usuarios inactivos de #{group.name}</a>".html_safe
   end
-
 end
