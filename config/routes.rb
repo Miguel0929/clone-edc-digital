@@ -61,7 +61,11 @@ Rails.application.routes.draw do
   get "/404", :to => "errors#not_found"
   get "/500", :to => "errors#internal_error"
 
-  resources :control_panel, only: [:index]
+  resources :control_panel, only: [:index] do
+    collection do
+      get :group_history
+    end  
+  end  
 
   resources :progress_panel, only: [:index, :show] do
     collection do

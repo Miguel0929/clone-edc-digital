@@ -156,7 +156,10 @@
                     %span.icon-thumbnail Mn
                   %li
                     %a{:href => receptions_path} Recepcion
-                    %span.icon-thumbnail Rc  
+                    %span.icon-thumbnail Rc
+                  %li
+                    %a{:href => group_history_control_panel_index_path} Historial de grupos
+                    %span.icon-thumbnail Hg   
 
             = display_navbar_link({link: 'Programas', details: 'Cursos en EDC Digital' ,path: dashboard_programs_path, css: ['m-t-30'], icon: 'fa pg-layouts', role: [:mentor]})
             = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: [''], icon: 'fa fa-users', role: [:mentor]})
