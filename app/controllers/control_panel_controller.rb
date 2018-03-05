@@ -32,6 +32,15 @@ class ControlPanelController < ApplicationController
     end
   end
 
+  def group_history
+    ids_stu = UserTracker.all.pluck(:user_id)
+    @students = User.where(id: ids_stu).page(params[:page]).per(20)
+    if params[:query].present?
+      query = params[:query]
+      @students = @students.where('lower(users.first_name) LIKE lower(?) OR lower(users.last_name) LIKE lower(?) OR lower(users.email) LIKE lower(?)',"%#{query}%", "%#{query}%", "%#{query}%").page(params[:page]).per(20) 
+    end
+  end  
+
   private
   def timetrack1
     #Los sig queries piden todos los usuarios creados desde cierta semana hasta cierta semana, usando el arreglo 'weeks'
