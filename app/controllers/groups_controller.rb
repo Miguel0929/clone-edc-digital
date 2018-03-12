@@ -94,7 +94,9 @@ class GroupsController < ApplicationController
     @group = Group.new(name: group_params[:name], key: group_params[:key], state_id: group_params[:state_id], university_id: group_params[:university_id], category: group_params[:category], learning_path_id: group_params[:learning_path_id], learning_path2_id: group_params[:learning_path2_id])
     if @group.save
       @group.users << User.where(id: group_params[:user_ids].delete_if {|x| x == "" } )
-      @group.students << User.where(id: group_params[:student_ids].delete_if {|x| x == "" } )
+      if group_params[:student_ids].present?
+        @group.students << User.where(id: group_params[:student_ids].delete_if {|x| x == "" } )
+      end
       @group.programs << Program.where(id: group_params[:program_ids].delete_if {|x| x == "" } )
       @group.quizzes << Quiz.where(id: group_params[:quiz_ids].delete_if {|x| x == "" } )
       @group.delireverable_packages << DelireverablePackage.where(id: group_params[:delireverable_package_ids].delete_if {|x| x == "" } )
