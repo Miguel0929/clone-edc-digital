@@ -20,67 +20,87 @@
         %ul.nav.nav-tabs.nav-tabs-simple.nav-tabs-primary
           - if current_user.student?
             %li{'class'=>params[:tipo].nil? ? 'active' : ''}
-              %a{"aria-expanded" => "true", :href => dashboard_quizzes_path, class: "bold"} Todos
+              %a{"aria-expanded" => "true", :href => "/dashboard/quizzes" + (params[:program_id].nil? ? '' : '?program_id=' + params[:program_id]), class: "bold"} Todos
             %li{'class'=>params[:tipo] == "contestados" ? 'active' : ''}
-              %a{"aria-expanded" => "false", :href => dashboard_quizzes_path(tipo: "contestados"), class: "bold"} Contestados
+              %a{"aria-expanded" => "false", :href => "/dashboard/quizzes?tipo=contestados" + (params[:program_id].nil? ? '' : '&program_id=' + params[:program_id]), class: "bold"} Contestados
             %li{'class'=>params[:tipo] == "nocontestados" ? 'active' : ''}
-              %a{"aria-expanded" => "false", :href => dashboard_quizzes_path(tipo: "nocontestados"), class: "bold"} No contestados
+              %a{"aria-expanded" => "false", :href => "/dashboard/quizzes?tipo=nocontestados" + (params[:program_id].nil? ? '' : '&program_id=' + params[:program_id]), class: "bold"} No contestados
+              /dashboard_quizzes_path(tipo: "contestados") dashboard_quizzes_path(tipo: "nocontestados")
 
+- if !params[:program_id].nil?
+  .container-fluid.container-fixed-lg
+    .alert.alert-info
+      %button.close{"data-dismiss": "alert"}
+      .pull-left
+        Mostrando solamente las evaluaciones del programa 
+        "
+        %u
+          = link_to @program.name, dashboard_program_path(@program)
+        ".
+      .pull-right
+        %u
+          = link_to dashboard_quizzes_path do
+            %i.fa.fa-bars.p-r-5
+            Ver todas las evaluaciones
+      .clearfix
 .container-fluid.container-fixed-lg
   - @quizzes.each do |quiz|
     -if params[:tipo].nil? || params[:tipo] && params[:tipo] == "contestados" && quiz.answered(current_user) > 0 || params[:tipo] && params[:tipo] == "nocontestados" && quiz.answered(current_user) == 0
-      .row
-        .col-md-12
-          .container-fluid.container-fixed-lg.new-padding-phone
-            .card.share.share-other.height-card-quizzes
-              .card-content
-                .panel-body.p-t-0.p-b-0
-                  .row
-                    .col-md-9
-                      %h6.bot-left{:class => "#{(quiz.answered(@student.nil? ? current_user : @student) > 0) ? 'text-complete' : 'text-success'}"}
-                        = quiz.answered(@student.nil? ? current_user : @student) > 0 ? 'Contestado' : 'No contestado'
-                        %span.pull-right Intentos #{ Attempt.where(quiz_id: quiz.id, user_id: (@student.nil? ? current_user.id : @student.id)).count }
-                      %h4 
-                        = quiz.name
-                      %h6
-                        -if quiz.answered(current_user) > 0  
-                          ¡Bien hecho!
-                        -else
-                          Sabemos que lo harás bien.
-                      -if quiz.answered(current_user) > 0  
-                        = link_to dashboard_quiz_path(quiz) do
-                          %button.btn.btn-sm.btn-complete.bold.m-b-10
-                            Ver evaluación
-                        - if Attempt.where(quiz_id: quiz.id, user_id: current_user.id).count < 3
-                          = link_to apply_dashboard_quiz_path(quiz) do
-                            %button.btn.btn-sm.btn-warning.bold.m-b-10
-                              Nuevo intento
-                            
-                      -else
-                        - if current_user.profesor?
-                          = link_to apply_profesor_quiz_path(quiz, user_id: (@student.nil? ? current_user.id : @student.id)) do
-                            %button.btn.btn-sm.btn-success.bold.m-b-10
-                              Ver examen
-                        - else
-                          = link_to apply_dashboard_quiz_path(quiz, user_id: (@student.nil? ? current_user.id : @student.id)) do
-                            %button.btn.btn-sm.btn-success.bold.m-b-10
-                              #{current_user.student? ? "Contestar" : "Ver examen"}
-                      .pull-right#accordion.panel.panel-group.panel-transparent.m-b-0.inline-block.m-t-menos
-                        .panel
-                          .panel-heading
-                            %h4.panel-title
-                              %a.collapsed.collap.new-top-collapse-quiz{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{quiz.id}", id: "collap#{quiz.id}", class: "#{(quiz.answered(current_user) > 0) ? 'quizze-contestado' : 'quizze-no-contestado'}"}
-                            .m-r-20.text_descripcion_quiz{style: "position: relative; top: -6px; right: 5px;"}
-                              Descripción
-                    - this_user = @student.nil? ? current_user : @student
-                    .col-md-3.pos-relative-quiz{:class => "#{(quiz.answered(this_user) > 0) ? 'colorsote2' : 'colorsote1'}"}
-                      - results = quiz.answered(this_user) > 0 ? ((quiz.average(this_user).to_f/quiz.total_points.to_f*100.0).ceil).to_s : '0'
-                      .c100.center.white.new-font-size{:class=> "p" + results, :id => "#{(quiz.answered(this_user) > 0) ? 'color-circle2' : 'color-circle1'}"}
-                        %span.bold.text-white
-                          = results + "%"
-                        .slice
-                          .bar
-                          .fill
-                  .panel-collapse.collapse.row{:id => "collapsee#{quiz.id}"}
-                    .panel-body
-                      = truncate(quiz.description, length: 100, separator: ' ')
+      .card.share.share-other.height-card-quizzes
+        .card-content
+          .panel-body.p-t-0.p-b-0
+            .row
+              .col-md-9
+                %h6.bot-left{:class => "#{(quiz.answered(@student.nil? ? current_user : @student) > 0) ? 'text-complete' : 'text-success'}"}
+                  = quiz.answered(@student.nil? ? current_user : @student) > 0 ? 'Contestado' : 'No contestado'
+                  %span.pull-right Intentos #{ Attempt.where(quiz_id: quiz.id, user_id: (@student.nil? ? current_user.id : @student.id)).count }
+                %h4 
+                  = quiz.name
+                %h6
+                  -if quiz.answered(current_user) > 0  
+                    ¡Bien hecho!
+                  -else
+                    Sabemos que lo harás bien.
+                -if quiz.answered(current_user) > 0  
+                  = link_to dashboard_quiz_path(quiz) do
+                    %button.btn.btn-sm.btn-complete.bold.m-b-10
+                      Ver evaluación
+                  - if Attempt.where(quiz_id: quiz.id, user_id: current_user.id).count < 3
+                    = link_to apply_dashboard_quiz_path(quiz) do
+                      %button.btn.btn-sm.btn-warning.bold.m-b-10
+                        Nuevo intento
+                      
+                -else
+                  - if current_user.profesor?
+                    = link_to apply_profesor_quiz_path(quiz, user_id: (@student.nil? ? current_user.id : @student.id)) do
+                      %button.btn.btn-sm.btn-success.bold.m-b-10
+                        Ver examen
+                  - else
+                    = link_to apply_dashboard_quiz_path(quiz, user_id: (@student.nil? ? current_user.id : @student.id)) do
+                      %button.btn.btn-sm.btn-success.bold.m-b-10
+                        #{current_user.student? ? "Contestar" : "Ver examen"}
+                .pull-right#accordion.panel.panel-group.panel-transparent.m-b-0.inline-block.m-t-menos
+                  .panel
+                    .panel-heading
+                      %h4.panel-title
+                        %a.collapsed.collap.new-top-collapse-quiz{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{quiz.id}", id: "collap#{quiz.id}", class: "#{(quiz.answered(current_user) > 0) ? 'quizze-contestado' : 'quizze-no-contestado'}"}
+                      .m-r-20.text_descripcion_quiz{style: "position: relative; top: -6px; right: 5px;"}
+                        Descripción
+              - this_user = @student.nil? ? current_user : @student
+              .col-md-3.pos-relative-quiz{:class => "#{(quiz.answered(this_user) > 0) ? 'colorsote2' : 'colorsote1'}"}
+                - results = quiz.answered(this_user) > 0 ? ((quiz.average(this_user).to_f/quiz.total_points.to_f*100.0).ceil).to_s : '0'
+                .c100.center.white.new-font-size{:class=> "p" + results, :id => "#{(quiz.answered(this_user) > 0) ? 'color-circle2' : 'color-circle1'}"}
+                  %span.bold.text-white
+                    = results + "%"
+                  .slice
+                    .bar
+                    .fill
+            .panel-collapse.collapse.row{:id => "collapsee#{quiz.id}"}
+              .panel-body
+                .p-b-10
+                  %strong Programa:
+                  = quiz.program.nil? ? "Ninguno" : (link_to quiz.program.name, dashboard_program_path(quiz.program))
+                %div
+                  %strong Descripción:
+                  = truncate(quiz.description, length: 100, separator: ' ')
+                      

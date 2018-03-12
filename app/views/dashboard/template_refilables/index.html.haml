@@ -16,6 +16,22 @@
             %p.m-b-25.text-white
               En esta sección verás las plantillas que se te asignen durante tu avance en los cursos de la plataforma. ¡Usa tus conocimientos adquiridos para contestarlas! 
 
+- if !params[:program_id].nil?
+  .container-fluid.container-fixed-lg
+    .alert.alert-info
+      %button.close{"data-dismiss": "alert"}
+      .pull-left
+        Mostrando solamente las plantillas del programa 
+        "
+        %u
+          = link_to @program.name, dashboard_program_path(@program)
+        ".
+      .pull-right
+        %u
+          = link_to dashboard_template_refilables_path do
+            %i.fa.fa-bars.p-r-5
+            Ver todas las plantillas
+      .clearfix
 .container-fluid.container-fixed-lg#pending
   .panel.panel-default
     .panel-body
@@ -51,6 +67,11 @@
                         %h4 #{refilable.name} 
                         %p #{refilable.description}
                       .card-footer.clearfix
+                        .pull-left
+                          %span.hint-text
+                            Programa:
+                          %span.pump-link
+                            = refilable.program.nil? ? "Ninguno" : (link_to refilable.program.name,dashboard_program_path(refilable.program))
                         .pull-right.hint-text
                           = link_to new_dashboard_template_refilable_refilable_path(refilable, user_id: @this_user.id), class: "btn btn-tag #{ is_student ? 'btn-tag-light' : 'btn-tag-dark' } btn-tag-rounded m-l-5" do
                             #{ is_student ? "Contestar" : "Ver plantilla" }
@@ -100,6 +121,11 @@
                               %span.text-primary Comentarios: 
                               %span.hint-text #{user_refilable.comments}
                       .card-footer.clearfix
+                        .pull-left
+                          %span.hint-text
+                            Programa:
+                          %span.pump-link
+                            = refilable.program.nil? ? "Ninguno" : (link_to refilable.program.name,dashboard_program_path(refilable.program))
                         - if is_student
                           .pull-right.hint-text
                             = link_to edit_dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do

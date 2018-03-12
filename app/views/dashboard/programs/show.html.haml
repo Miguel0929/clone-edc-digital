@@ -25,7 +25,7 @@
                 = link_to dashboard_program_path(user_id: current_user, format: :xlsx), class: "btn btn-success btn-sm btn-cons m-b-10" do
                   %i.fa.fa-file-excel-o
                   Descargar mi compilación de resultados en Excel
-        - if @current_user.percentage_questions_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) == 0
+        - if @current_user.overall_percentage_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) == 0
           %section.col-md-12.demo-bg-section.m-b-10.m-t-65
           .row.col-sm-6
             .pull-left.p-b-10
@@ -33,11 +33,11 @@
                 %i.fa.fa-edit
                 Curso no iniciado
             .clearfix
-        - elsif @current_user.percentage_questions_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) > 0
+        - elsif @current_user.overall_percentage_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) > 0
           .row.col-sm-12
             %section.demo-bg-section.m-b-10.m-t-65
               .progress.m-b-5{:style => "background-color: #eef5fb;"}
-                .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.percentage_questions_answered_for(@program)}%"}
+                .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.overall_percentage_answered_for(@program)}%"}
           .row.col-sm-6
             .pull-left
               %span.m-r-20{:style => "color: #48B0F7;"}
@@ -51,12 +51,12 @@
           .row.col-sm-12
             %section.demo-bg-section.m-b-10.m-t-65
               .progress.m-b-5{:style => "background-color: #eef5fb;"}
-                .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.percentage_questions_answered_for(@program)}%"}
+                .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.overall_percentage_answered_for(@program)}%"}
           .row.col-md-6
             .pull-left
               %span.m-r-20{:style => "color: #48B0F7;"}
                 %i.fa.fa-edit
-                #{@current_user.percentage_questions_answered_for(@program)}% contestado
+                #{@current_user.overall_percentage_answered_for(@program)}% contestado
               %span{:style => "color: #b1d3eb;"}
                 %i.fa.fa-eye
                 #{@current_user.percentage_content_visited_for(@program)}% visto
@@ -72,23 +72,65 @@
   - last_parameters = last_moved_program(@program)
   - if !last_parameters[4].nil?
     .row{:id => "last_move_box"}
-      .col-sm-12.col-md-10
+      .col-md-7
         .panel.panel-transparent.m-b-0
           .panel-heading
             .panel-title
               Reanudar tus últimos avances
           .panel-body
             .card.status.contenido-reciente.m-b-0{"data-social" => "item"}
-              .circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Cerrar", :id => "hide_last"}
+              /.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Cerrar", :id => "hide_last"}
               %h5 
                 = distance_of_time_in_words(last_parameters[1].to_i, Time.now.to_i)
-              %h2 
-                = truncate(last_parameters[3], length: 60, separator: ' ')
+              %h4 
+                = truncate(last_parameters[3], length: 65, separator: ' ')
               %p
                 = link_to dashboard_chapter_content_path(last_parameters[0], program_id: @program.id) do
                   %button.btn.btn-sm.btn-complete.btn-cons.m-b-10{:type => "button"}
                     %i.fa.fa-play
                     %span.bold Reanudar mis avances
+      .col-md-5
+        .panel.panel-transparent.m-b-0
+          .panel-heading
+            .panel-title
+              Plantillas y evaluaciones
+          .panel-body
+            .card.social-card.share{style: "min-height: 163px;"}
+              .card-description
+                .row.p-b-25.p-t-5
+                  .col-md-12
+                    = link_to dashboard_template_refilables_path(program_id: @program.id) do
+                      .row
+                        .col-md-12
+                          .pull-left
+                            %p.no-margin{style: "font-size: 17px;"} Plantillas 
+                          .pull-right
+                            Ir
+                            %i.fa.fa-chevron-right
+                    %p.small.hint-text 
+                      - if @answered_templates[1] > 0
+                        #{@answered_templates[0]} de #{@answered_templates[1]} plantillas contestadas
+                      - else
+                        No hay plantillas para este programa
+                    .progress
+                      .progress-bar.progress-bar-success{style: "width: #{@answered_templates[2]}%"}
+                .row
+                  .col-md-12
+                    = link_to dashboard_quizzes_path(program_id: @program.id) do
+                      .row
+                        .col-md-12
+                          .pull-left
+                            %p.no-margin{style: "font-size: 17px;"} Evaluaciones 
+                          .pull-right
+                            Ir
+                            %i.fa.fa-chevron-right
+                    %p.small.hint-text 
+                      - if @answered_quizzes[1] > 0
+                        #{@answered_quizzes[0]} de #{@answered_quizzes[1]} evaluaciones contestados
+                      - else
+                        No hay evaluaciones para este programa
+                    .progress
+                      .progress-bar.progress-bar-success{style: "width: #{@answered_quizzes[2]}%"}
   
   .row
     .col-sm-12

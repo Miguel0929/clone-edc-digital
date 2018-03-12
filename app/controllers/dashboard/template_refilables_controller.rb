@@ -15,6 +15,10 @@ class Dashboard::TemplateRefilablesController < ApplicationController
       add_breadcrumb "<a class='active' href='#{dashboard_template_refilables_path(user_id: @student.id)}'>Plantillas</a>".html_safe
     end
     @refilables = @this_user.group.all_refilables
+    if !params[:program_id].nil?
+      @refilables = @refilables.where(program_id: params[:program_id])
+      @program = Program.find(params[:program_id])
+    end
     
     @done_refilables = []
     @undone_refilables = []
