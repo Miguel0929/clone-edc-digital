@@ -77,6 +77,6 @@ class TemplateRefilablesController < ApplicationController
     end
 
     def template_refilable_params
-      params.require(:template_refilable).permit(:name, :description, :content, group_ids: [])
+      params.require(:template_refilable).permit(:name, :description, :content, :program_id, group_ids: [])
     end
 end
