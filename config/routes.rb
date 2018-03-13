@@ -61,7 +61,11 @@ Rails.application.routes.draw do
   get "/404", :to => "errors#not_found"
   get "/500", :to => "errors#internal_error"
 
-  resources :control_panel, only: [:index]
+  resources :control_panel, only: [:index] do
+    collection do
+      get :group_history
+    end  
+  end  
 
   resources :progress_panel, only: [:index, :show] do
     collection do
@@ -320,6 +324,8 @@ Rails.application.routes.draw do
       member do
         get :codes
         get :inactive_students
+        get :template_refilables
+        get :quizzes
       end
     end
 
@@ -340,6 +346,7 @@ Rails.application.routes.draw do
       resources :delireverable_users, only: [:edit, :update]
       resources :refilables, only: [:show, :edit, :update]
     end
+    resources :refilables, only: [:index]
     resources :comments, only: [:index, :create, :update] do
       collection do
         get :archived

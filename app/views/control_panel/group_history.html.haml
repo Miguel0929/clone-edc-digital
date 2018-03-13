@@ -1,0 +1,45 @@
+- content_for :title  do
+  Historial de grupos - EDCdigital
+
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
+    .container
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Historial de grupos
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Historial de grupos por los que han pasadode los usuarios.
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .col-md-6.col-md-offset-6
+        .pull-right.m-t-10
+          %input#group_student.form-control.pull-right{:placeholder => "Buscar", :type => "text"}/
+    .panel-body
+      %table.table.table-hover
+        %thead
+          %tr
+            %th Nombre
+            %th Email
+            %th Grupo actual
+            %th.text-center Grupos anteriores / Fecha de cambio de grupo
+
+        %tbody
+          - @students.each do |student|
+            %tr
+              %td 
+                = student.name
+              %td 
+                = link_to student.email, student
+              %td
+                = link_to student.group.name, student.group
+              %td.text-center
+                %ul
+                - student.user_trackers.order(:created_at).each_with_index do |tracker, index|
+                  %ol 
+                    = "#{index + 1}) #{tracker.group.name} / #{tracker.created_at.strftime('%m-%d-%Y  %I:%M%p') }"
+      %center
+        =paginate @students              

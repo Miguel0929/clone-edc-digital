@@ -39,7 +39,7 @@ class Support
             to: [ { email: recipient } ],
             substitutions: {
               "-raw_subject-"=> subject,
-              "-user_name-" => user.name,
+              "-user_name-" => "#{user.name} #{user.last_name}",
               "-user_email-" => user.email,
               "-user_phone_number-" => user.phone_number,
               "-urgency-" => urgency,

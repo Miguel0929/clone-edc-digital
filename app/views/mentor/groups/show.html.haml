@@ -100,6 +100,13 @@
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
+      .row
+        .col-md-12
+          .pull-right
+            .btn-group{"role" => "group", "aria-label" => "..."}
+              = link_to "Programas", mentor_group_path(@group), class: 'btn btn-default active'
+              = link_to "Plantillas", template_refilables_mentor_group_path(@group), class: 'btn btn-default'
+              = link_to "Evaluaciones", quizzes_mentor_group_path(@group), class: 'btn btn-default'
       .row.m-b-20
         .col-md-12
           %h5
@@ -127,6 +134,7 @@
                 #{ (index != 0) ? "/ " : ""} 
               %span.m-l-5
                 #{user.name}
+               
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
