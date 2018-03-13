@@ -99,7 +99,8 @@
               .panel-body
                 .p-b-10
                   %strong Programa:
-                  = quiz.program.nil? ? "Ninguno" : (link_to quiz.program.name, dashboard_program_path(quiz.program))
+                  = quiz.program.nil? ? "Ninguno" : quiz.program.name
+                  /(link_to quiz.program.name, dashboard_program_path(quiz.program))
                 %div
                   %strong Descripción:
                   = truncate(quiz.description, length: 100, separator: ' ')

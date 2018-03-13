@@ -71,7 +71,8 @@
                           %span.hint-text
                             Programa:
                           %span.pump-link
-                            = refilable.program.nil? ? "Ninguno" : (link_to refilable.program.name,dashboard_program_path(refilable.program))
+                            = refilable.program.nil? ? "Ninguno" : refilable.program.name
+                            /(link_to refilable.program.name,dashboard_program_path(refilable.program))
                         .pull-right.hint-text
                           = link_to new_dashboard_template_refilable_refilable_path(refilable, user_id: @this_user.id), class: "btn btn-tag #{ is_student ? 'btn-tag-light' : 'btn-tag-dark' } btn-tag-rounded m-l-5" do
                             #{ is_student ? "Contestar" : "Ver plantilla" }
@@ -125,7 +126,8 @@
                           %span.hint-text
                             Programa:
                           %span.pump-link
-                            = refilable.program.nil? ? "Ninguno" : (link_to refilable.program.name,dashboard_program_path(refilable.program))
+                            = refilable.program.nil? ? "Ninguno" : refilable.program.name
+                            /(link_to refilable.program.name,dashboard_program_path(refilable.program))
                         - if is_student
                           .pull-right.hint-text
                             = link_to edit_dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
