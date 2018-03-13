@@ -14,6 +14,10 @@
                   = @template_refilable.name
                 %p
                   = @template_refilable.description
+                %p
+                  %span.bold Programa:
+                  %span 
+                    = @template_refilable.program.nil? ? "Ninguno" :  (link_to @template_refilable.program.name,  program_path(@template_refilable.program))
             .col-md-7
               .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
                 .table-responsive.table-invoice

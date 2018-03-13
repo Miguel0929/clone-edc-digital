@@ -11,6 +11,8 @@ class Program < ActiveRecord::Base
   has_many :program_notifications, dependent: :destroy
   has_many :ratings, as: :ratingable 
   has_many :program_stats, dependent: :destroy
+  has_many :quizzes
+  has_many :template_refilables
   has_one :learning_path_content, as: :content, :dependent => :destroy
 
   enum tipo: [ :elearning, :construccion, :fusion ]
@@ -114,5 +116,27 @@ class Program < ActiveRecord::Base
     groups = Group.where(id: aux)
     (user.mentor? || user.profesor?) ? groups.where(id: user.groups.pluck(:id)) : groups
   end 
+
+  def answered_quizzes(user)
+    ebi = quizzes.map{|q| q.answered(user)}
+    return (ebi.size - ebi.count(0))
+  end
+
+  def percentage_answered_quizzes(user)
+    total_quizzes = quizzes.count
+    solved_quizzes = answered_quizzes(user)
+    percentage = (solved_quizzes * 100) / total_quizzes rescue 0
+    return [solved_quizzes, total_quizzes, percentage]
+    #return [total_quizzes, solved_quizzes, (solved_quizzes * 100) / total_quizzes rescue 0]
+  end
+
+  def percentage_answered_template_refillables(user)
+    refilables = template_refilables.pluck(:id)
+    total_refilables = refilables.count
+    answered_refilables = Refilable.where(template_refilable_id: refilables, user_id: user.id).count
+    percentage = (answered_refilables * 100) / total_refilables rescue 0
+    return [answered_refilables, total_refilables, percentage]
+    #return [total_refilables, answered_refilables, (answered_refilables * 100) / total_refilables rescue 0]
+  end
 end
 

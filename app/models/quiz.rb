@@ -1,4 +1,5 @@
 class Quiz < ActiveRecord::Base
+  belongs_to :program
   has_many :quiz_questions, dependent: :destroy
   has_many :group_quizzes, dependent: :nullify
   has_many :groups, through: :group_quizzes, dependent: :nullify
