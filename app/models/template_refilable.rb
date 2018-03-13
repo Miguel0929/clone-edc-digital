@@ -1,6 +1,6 @@
 class TemplateRefilable < ActiveRecord::Base
   acts_as_list
-  
+  belongs_to :program
   has_many :group_template_refilables
   has_many :groups, through: :group_template_refilables
   has_many :refilables

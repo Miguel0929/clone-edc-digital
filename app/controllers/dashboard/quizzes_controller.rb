@@ -18,6 +18,10 @@ class Dashboard::QuizzesController < ApplicationController
       add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path(user_id: @student.id)}'>Evaluaciones</a>".html_safe
       @quizzes = @student.group.all_quizzes
     end
+    if !params[:program_id].nil?
+      @quizzes = @quizzes.where(program_id: params[:program_id])
+      @program = Program.find(params[:program_id])
+    end
   end
 
   def show

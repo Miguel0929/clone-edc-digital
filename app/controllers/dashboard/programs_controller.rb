@@ -144,8 +144,10 @@ class Dashboard::ProgramsController < ApplicationController
     end 
 
     @tour_trigger = current_user.tour_trigger
+    @answered_quizzes = @program.percentage_answered_quizzes(current_user)
+    @answered_templates = @program.percentage_answered_template_refillables(current_user)
 
-    add_breadcrumb "Programas", :dashboard_programs_path
+    add_breadcrumb "Mi ruta", :dashboard_learning_path_path
     add_breadcrumb "<a class='active' href='#{dashboard_program_path @program}'>#{@program.name}</a>".html_safe
     respond_to do |format|
       format.html

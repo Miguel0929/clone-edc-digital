@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180227210156) do
+ActiveRecord::Schema.define(version: 20180301201645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -568,7 +568,10 @@ ActiveRecord::Schema.define(version: 20180227210156) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "tipo"
+    t.integer  "program_id"
   end
+
+  add_index "quizzes", ["program_id"], name: "index_quizzes_on_program_id", using: :btree
 
   create_table "ratings", force: :cascade do |t|
     t.float    "rank"
@@ -701,7 +704,10 @@ ActiveRecord::Schema.define(version: 20180227210156) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "tipo"
+    t.integer  "program_id"
   end
+
+  add_index "template_refilables", ["program_id"], name: "index_template_refilables_on_program_id", using: :btree
 
   create_table "trackers", force: :cascade do |t|
     t.integer  "user_id"
@@ -861,11 +867,13 @@ ActiveRecord::Schema.define(version: 20180227210156) do
   add_foreign_key "quiz_answers", "quiz_questions"
   add_foreign_key "quiz_answers", "users"
   add_foreign_key "quiz_questions", "quizzes"
+  add_foreign_key "quizzes", "programs"
   add_foreign_key "ratings", "users"
   add_foreign_key "receptions", "groups"
   add_foreign_key "report_notifications", "reports"
   add_foreign_key "reports", "users"
   add_foreign_key "shared_group_attachment_notifications", "shared_group_attachments"
+  add_foreign_key "template_refilables", "programs"
   add_foreign_key "universities", "states"
   add_foreign_key "user_codes", "users"
   add_foreign_key "users", "industries"

@@ -24,10 +24,16 @@
               %td.p-t-15.p-b-10
                 %h4.m-t-0.m-b-5
                   = quiz.name
-                %span.text-primary
-                  Descripción:
-                %span.hint-text
-                  = quiz.description
+                %p
+                  %span.text-primary
+                    Descripción:
+                  %span.hint-text
+                    = quiz.description
+                %p
+                  %span.text-primary
+                    Programa:
+                  %span.hint-text
+                    = quiz.program.nil? ? "Ninguno" :  (link_to quiz.program.name,  program_path(quiz.program))
               %td.p-t-15.p-b-10
                 = link_to quiz do
                   %ul.p-l-0.m-b-0
