@@ -1,5 +1,6 @@
 class Programs
 	FROM = "soporte@edc-digital.com"
+  NAME = "EDC Digital"
 	def self.new_program(program, user, ruta)
   	  data = {
         personalizations: [
@@ -14,7 +15,8 @@ class Programs
           },
         ],
         from: {
-          email: FROM
+          email: FROM,
+          name: NAME
         },
         template_id: "0a672cf0-6306-443b-9508-845a0599c9ea",
       }
@@ -45,7 +47,8 @@ class Programs
         },
       ],
       from: {
-        email: FROM
+        email: FROM,
+        name: NAME
       },
       template_id: "0a672cf0-6306-443b-9508-845a0599c9ea",
     }
@@ -75,7 +78,8 @@ class Programs
         },
       ],
       from: {
-        email: FROM
+        email: FROM,
+        name: NAME
       },
       template_id: "0a672cf0-6306-443b-9508-845a0599c9ea",
     }
@@ -105,7 +109,8 @@ class Programs
         },
       ],
       from: {
-        email: FROM
+        email: FROM,
+        name: NAME
       },
       template_id: "0a672cf0-6306-443b-9508-845a0599c9ea",
     }
@@ -135,7 +140,8 @@ class Programs
         },
       ],
       from: {
-        email: FROM
+        email: FROM,
+        name: NAME
       },
       template_id: "0a672cf0-6306-443b-9508-845a0599c9ea",
     }
@@ -165,7 +171,8 @@ class Programs
         },
       ],
       from: {
-        email: FROM
+        email: FROM,
+        name: NAME
       },
       template_id: "0a672cf0-6306-443b-9508-845a0599c9ea",
     }
@@ -195,7 +202,8 @@ class Programs
         },
       ],
       from: {
-        email: FROM
+        email: FROM,
+        name: NAME
       },
       template_id: "0a672cf0-6306-443b-9508-845a0599c9ea",
     }
@@ -225,7 +233,8 @@ class Programs
         },
       ],
       from: {
-        email: FROM
+        email: FROM,
+        name: NAME
       },
       template_id: "0a672cf0-6306-443b-9508-845a0599c9ea",
     }

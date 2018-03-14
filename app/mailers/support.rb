@@ -1,6 +1,7 @@
 class Support
 
   FROM = "soporte-edcdigital@distritoemprendedor.com"
+  NAME = "EDC Digital"
 
   def self.contact(subject, message, urgency, matter, user, chapter, signature, recipient, program, chaptercontent, attachment)
     require "base64"
@@ -24,7 +25,8 @@ class Support
           },
         ],
         from: {
-          email: FROM
+          email: FROM,
+          name: NAME
         },
         reply_to: {
           email: user.email, 
@@ -100,7 +102,8 @@ class Support
           },
         ],
         from: {
-          email: FROM
+          email: FROM,
+          name: NAME
         },
         reply_to: {
           email: "soporte2@edc-digital.com", 
@@ -172,7 +175,8 @@ class Support
           },
         ],
         from: {
-          email: FROM
+          email: FROM,
+          name: NAME
         },
         template_id: "a5158a2b-1845-4f58-9c4a-4513a9703a95",
       }
