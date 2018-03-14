@@ -421,7 +421,11 @@ class User < ActiveRecord::Base
     refilables = program.template_refilables.pluck(:id)
     total_refilables = refilables.count
     answered_refilables = Refilable.where(template_refilable_id: refilables, user_id: self).count
-    return ((answered_questions + answered_quizzes + answered_refilables) * 100) / (total_questions + total_quizzes + total_refilables)
+    if (total_questions + total_quizzes + total_refilables) > 0
+      return ((answered_questions + answered_quizzes + answered_refilables) * 100) / (total_questions + total_quizzes + total_refilables)
+    else
+      return 0
+    end
   end
 
   def method_name
