@@ -13,7 +13,8 @@ class CustomMailer < Devise::Mailer
         },
       ],
       from: {
-        email: "soporte-edcdigital@distritoemprendedor.com"
+        email: "soporte-edcdigital@distritoemprendedor.com",
+        name: "EDC Digital"
       },
       template_id: "d5b79cfe-a953-409f-b9a1-2767480f1b29"
     }

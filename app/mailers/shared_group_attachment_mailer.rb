@@ -1,5 +1,6 @@
 class SharedGroupAttachmentMailer
 	FROM = "soporte@edc-digital.com"
+  NAME = "EDC Digital"
 	def self.shared_file(user, ruta)
 
 		 data = {
@@ -15,7 +16,8 @@ class SharedGroupAttachmentMailer
           },
         ],
         from: {
-          email: FROM
+          email: FROM,
+          name: NAME
         },
         template_id: "0a672cf0-6306-443b-9508-845a0599c9ea",
       }

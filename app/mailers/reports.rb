@@ -1,6 +1,7 @@
 class Reports
 	FROM = "soporte-edcdigital@distritoemprendedor.com"
-	
+	NAME = "EDC Digital"
+
 	def self.report(report)
 		data = {
       personalizations: [
@@ -21,7 +22,8 @@ class Reports
         },
       ],
       from: {
-        email: FROM
+        email: FROM,
+        name: NAME,
       },
       reply_to: {
           email: report.user.email, 
