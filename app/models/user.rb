@@ -428,9 +428,35 @@ class User < ActiveRecord::Base
     end
   end
 
-  def method_name
-    
+  def visits_per_week
+    per_week = visits.group("DATE_TRUNC('week', started_at)").count.map{|v| v[1]}
+    return per_week.inject(0){|sum,x| sum + x } / per_week.count
   end
+
+  def physical_route
+    if group.nil?
+      return "Sin grupo"
+    else 
+      return group.learning_path.nil? ? "Sin ruta física" : group.learning_path.name
+    end
+  end  
+
+  def moral_route
+    if group.nil?
+      return "Sin grupo"
+    else 
+      return group.learning_path2.nil? ? "Sin ruta moral" : group.learning_path2.name  
+    end
+  end
+
+  def answered_per_program
+    if group.nil?
+      return "Sin grupo"
+    else 
+      user_p = group.all_programs.pluck(:id) 
+      user_s = program_stats.where(program_id: userp).pluck(:program_id, :program_progress)
+    end
+  end  
 
   private
 
