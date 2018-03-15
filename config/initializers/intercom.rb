@@ -31,7 +31,7 @@ IntercomRails.config do |config|
     :phone => Proc.new { |user| user.phone_number },
     :avance => Proc.new { |user| "#{user.content_visited_percentage}%" },
     :contestado => Proc.new { |user| "#{user.answered_questions_percentage}%" },
-    :tiempo_por_sesion => Proc.new { |user| user.time_average }
+    :tiempo_por_sesion => Proc.new { |user| "#{user.time_average.round} min" }
   }
   # == Include for logged out Users
   # If set to true, include the Intercom messenger on all pages, regardless of whether
