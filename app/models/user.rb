@@ -428,9 +428,73 @@ class User < ActiveRecord::Base
     end
   end
 
-  def method_name
-    
+  def total_time_hours
+    tt = self.total_time
+    return 0 if tt == 0
+    return (tt / 60).round.to_s + " h " + (tt % 60).round.to_s + " min"
   end
+
+  def visits_per_week
+    return 0 if visits.last.nil?
+    per_week = visits.group("DATE_TRUNC('week', started_at)").count.map{|v| v[1]}
+    return per_week.inject(0){|sum,x| sum + x } / per_week.count
+  end
+
+  def physical_route
+    if group.nil?
+      return "Sin grupo"
+    else 
+      return group.learning_path.nil? ? "Sin ruta física" : group.learning_path.name
+    end
+  end  
+
+  def moral_route
+    if group.nil?
+      return "Sin grupo"
+    else 
+      return group.learning_path2.nil? ? "Sin ruta moral" : group.learning_path2.name  
+    end
+  end
+
+  def program_stats_string
+    if group.nil?
+      return "Sin grupo"
+    else 
+      user_p = group.all_programs.pluck(:id) 
+      user_s = program_stats.where(program_id: user_p).pluck(:program_id, :program_progress, :program_seen, :checked)
+      if users_s.empty?
+        return "Sin avances"
+      else
+        return user_s.map{|us| Program.find(us[0]).short_name + " (prog: " + us[1].to_s + "%" + ", visto: " + us[2].to_s + "%, " + (us[3]==1 ? "evaluado)" : "no evaluado)") }
+      end
+    end
+  end  
+
+  def number_answered_quizzes
+    if group.nil?
+      return "Sin grupo"
+    else 
+      quizzes = group.all_quizzes
+      if quizzes.empty?
+        return "Sin evaluaciones"
+      else
+        return quizzes.map{|q| (q.answered(self)>0)}.count(true).to_s + " de " + quizzes.count.to_s
+      end
+    end
+  end 
+
+  def number_answered_refilables
+    if group.nil?
+      return "Sin grupo"
+    else 
+      t_refilables = group.all_refilables
+      if t_refilables.empty?
+        return "Sin plantillas"
+      else
+        return t_refilables.map{|r| r.refilables.find_by(user: self).nil?}.count(false).to_s + " de " + t_refilables.count.to_s
+      end
+    end
+  end 
 
   private
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180301201645) do
+ActiveRecord::Schema.define(version: 20180315225750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -796,6 +796,7 @@ ActiveRecord::Schema.define(version: 20180301201645) do
     t.text     "tour_trigger",                      default: "---\n:first: true\n:second: true\n:third: true\n:fourth: true\n:fifth: true\n"
     t.datetime "evaluation_date"
     t.string   "evaluating_mentor"
+    t.integer  "age"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
