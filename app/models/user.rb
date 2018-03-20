@@ -462,7 +462,7 @@ class User < ActiveRecord::Base
     else 
       user_p = group.all_programs.pluck(:id) 
       user_s = program_stats.where(program_id: user_p).pluck(:program_id, :program_progress, :program_seen, :checked)
-      if users_s.empty?
+      if user_s.empty?
         return "Sin avances"
       else
         return user_s.map{|us| Program.find(us[0]).short_name + " (prog: " + us[1].to_s + "%" + ", visto: " + us[2].to_s + "%, " + (us[3]==1 ? "evaluado)" : "no evaluado)") }
