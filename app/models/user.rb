@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
   has_many :attempts
   has_one :user_code
   has_many :user_trackers
-
+  has_many :key_answers
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 

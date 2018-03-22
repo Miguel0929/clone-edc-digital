@@ -5,11 +5,12 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state, :summary, :learning_path, :program_permitted]
   before_action :set_program, only:[:program_permitted]
   add_breadcrumb "EDCDIGITAL", :root_path
+  
   helper_method :get_program_active
-
   helper_method :last_moved_program
   helper_method :last_visited_content
   helper_method :permiso_programs
+  include KeyQuestionsHelper
 
   def index
     add_breadcrumb "<a class='active' href='#{users_path}'>Estudiantes</a>".html_safe
@@ -125,7 +126,11 @@ class UsersController < ApplicationController
                                  
     @refilables = @user.group.all_refilables rescue []
                                 
-    @quizzes = @user.group.all_quizzes rescue []                              
+    @quizzes = @user.group.all_quizzes rescue []    
+
+    @key_questions = key_questions_hash
+
+    @key_programs = @key_questions.map{|kqs| kqs[:program]}.uniq                          
   end
 
   def edit
