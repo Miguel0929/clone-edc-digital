@@ -50,6 +50,8 @@ class Dashboard::NotificationsController < ApplicationController
           mentor_student_path(notification.model.user)
         elsif notification.model.complete?
           mentor_student_path(notification.model.user)
+        else
+          mentor_student_path(notification.model.user)
         end        
     end
 

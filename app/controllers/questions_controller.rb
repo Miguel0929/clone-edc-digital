@@ -40,7 +40,6 @@ class QuestionsController < ApplicationController
   def update
     add_breadcrumb @chapter.program.name, program_path(@chapter.program)
     add_breadcrumb "<a class='active' href='#{edit_chapter_question_path(@chapter, @question)}'>#{@question.question_text}</a>".html_safe
-
     if @question.update_attributes(question_params)
       QueueNotification.create(category: 3, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "edit-question-#{@question.id}")
       redirect_to content_chapter_path(@chapter), notice: "Se actualizó exitosamente la pregunta  #{@question.question_text}"

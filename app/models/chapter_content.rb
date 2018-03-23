@@ -5,6 +5,7 @@ class ChapterContent < ActiveRecord::Base
   has_many :trackers
   has_many :ratings, as: :ratingable 
   has_many :reports, as: :reportable
+  has_one :key_question
 
   acts_as_list scope: :chapter
 

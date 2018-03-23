@@ -17,3 +17,12 @@
     ha completado el programa
     %strong
       "#{notification.model.program.name}"
+- when 'key_question'
+  %i.fa.fa-refresh.m-r-10
+  %span.fs-12.m-l-10
+    El alumno 
+    %strong
+      #{notification.model.user.name}
+    ha respondido una pregunta clave del programa
+    %strong
+      "#{notification.model.program.name}"

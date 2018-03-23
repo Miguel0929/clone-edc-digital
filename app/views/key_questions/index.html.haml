@@ -1,0 +1,106 @@
+- content_for :title  do
+  Preguntas Clave - EDC Digital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .pull-right
+        /.col-xs-6
+        /  %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+        .col-xs-6
+          %button#btnToggleSlideUpSize.btn.btn-primary 
+            %i.fa.fa-plus
+            Marcar pregunta
+      .clearfix
+    .panel-body
+      %table.table.table-over
+        %thead
+          %tr
+            %th Pregunta
+            %th
+        %tbody
+          - @keys.each do |key|
+            - question = Question.find(key.coursable_id)
+            - if !question.nil?
+              - chapter_c = ChapterContent.find_by(coursable_id: key.coursable_id)
+              - chapter = chapter_c.chapter
+              - program = chapter.program
+              %tr
+                %td.p-t-15.p-b-10
+                  %h4.m-t-0.m-b-5
+                    = question.question_text
+                  %p
+                    %span
+                      Módulo:
+                    %span
+                      = link_to chapter.name, content_chapter_path(chapter)
+                  %p
+                    %span
+                      Programa:
+                    %span
+                      = link_to program.name, program
+                %td.p-t-15.p-b-10
+                  = link_to key, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+                    %ul.p-l-0.m-b-0
+                      %li.inline 
+                        %i.fa.fa-times
+                      %li.inline 
+                        Eliminar marca
+
+#modalSlideUp.modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog
+    .modal-content-wrapper
+      .modal-content
+        .modal-header.clearfix.text-left
+          %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
+            %i.pg-close.fs-14
+          %h5
+            Marcar una pregunta clave
+          %p.p-b-10 Busca a través de los programas y sus módulos la pregunta que quieras marcar como pregunta clave
+        .modal-body
+          = bootstrap_form_tag url: '/key_questions', method: :post do |f| 
+            .row
+              .col-md-12
+                = f.select :program_id, Program.all.collect{|p| [p.name, p.id]}, {include_blank: true, label: 'Programa' }
+            .row
+              .col-md-12
+                = f.collection_select(:chapter_id, [], :id, :name, {include_blank: true, label: 'Módulo del programa'})
+            .row
+              .col-md-12
+                = f.collection_select(:question_id, [], :id, :name, {include_blank: true, label: 'Pregunta del módulo'})
+            .row.m-t-20
+              .col-md-12
+                .pull-right
+                  %button.btn.btn-danger{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"}
+                    Cancelar
+                  = f.submit 'Aceptar'
+
+:javascript
+  $(document).ready(function(){
+    $("#_program_id").change(function(){
+      $('#_chapter_id').find('option:not(:first)').remove();
+      var url = '/key_questions/populate_chapter_options?program_id=' + $(this).val();
+      $.get(url, function(data) {
+        $.each(data, function (i, item) {
+          $('#_chapter_id').append($('<option>', { 
+            value: item[0],
+            text : item[1] 
+          }));
+        });
+      });
+    });
+    //alert("done");
+    $("#_chapter_id").change(function(){
+      $('#_question_id').find('option:not(:first)').remove();
+      var url = '/key_questions/populate_content_options?chapter_id=' + $(this).val();
+      $.get(url, function(data) {
+        $.each(data, function (i, item) {
+          $('#_question_id').append($('<option>', { 
+            value: item[0],
+            text : item[1] 
+          }));
+        });
+      });
+    });
+    //alert("done");
+  });
