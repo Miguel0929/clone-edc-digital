@@ -473,6 +473,12 @@ Rails.application.routes.draw do
   end
   post "get_contents" => "learning_path_contents#get_contents"
 
+  resources :key_questions, only: [:index, :create, :destroy] do
+    collection do
+      get :populate_chapter_options
+      get :populate_content_options
+    end
+  end
 
   namespace :profesor do
     resources :groups, only: [:index, :show]
