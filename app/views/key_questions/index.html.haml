@@ -17,7 +17,7 @@
         %thead
           %tr
             %th Pregunta
-            %th
+            %th{width: "18%"}
         %tbody
           - @keys.each do |key|
             - question = Question.find(key.coursable_id)
@@ -39,7 +39,7 @@
                       Programa:
                     %span
                       = link_to program.name, program
-                %td.p-t-15.p-b-10
+                %td.p-t-15.p-b-10.text-center
                   = link_to key, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
                     %ul.p-l-0.m-b-0
                       %li.inline 

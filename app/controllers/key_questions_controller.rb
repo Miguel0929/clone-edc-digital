@@ -9,10 +9,13 @@ class KeyQuestionsController < ApplicationController
   end
 
   def create
+    program = Program.find(params[:program_id])
+    chapter = program.chapters.find(params[:chapter_id])
     question = Question.find(params[:question_id])
+    c_content = chapter.chapter_contents.find_by(coursable_id: question.id)
     prev  = KeyQuestion.find_by(coursable_id: question.id)
     if prev.nil?
-      KeyQuestion.create(coursable_id: question.id, chapter_content_id: ChapterContent.find_by(coursable_id: question.id).id)
+      KeyQuestion.create(coursable_id: question.id, chapter_content_id: c_content.id)
       redirect_to key_questions_path, notice: "Una pregunta clave fue agregada con éxito"
     else
       redirect_to key_questions_path, notice: "La pregunta ya fue marcada como clave previamente"
