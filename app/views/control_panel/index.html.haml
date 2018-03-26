@@ -218,6 +218,17 @@
   .row
     .panel.panel-default
       .panel-heading
+        %h3.p-l-15 Usuarios activos e inactivos
+      .panel-body
+        .row
+          .col-md-6
+            = pie_chart [{name: "Activos", data: @actives}, {name: "Inactivos", data: @inactives}]
+          .col-md-6
+            Puñetas
+
+  .row
+    .panel.panel-default
+      .panel-heading
         %h3.p-l-15 Usuarios nuevos por semana
       .panel-body
         = column_chart @track, stacked: true
