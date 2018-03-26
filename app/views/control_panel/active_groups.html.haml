@@ -1,0 +1,161 @@
+- content_for :title  do
+  Estadísticas generales - EDC Digital
+
+- today = Date.today
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      %h2 Grupos con alumnos activos e inactivos
+      .pull-right
+        .col-xs-12
+          .form-group
+            %div.input-group
+              %input#search-table.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+              %span.input-group-addon.panel-title-recursos
+                %i.fa.fa-search.text-white
+      .clearfix
+    .panel-body
+      %table.table.table-hover.datatable
+        %thead
+          %tr
+            %th Nombre
+            %th Currículum
+            %th Estadísticos
+            %th Acciones
+
+        %tbody
+          - @groups.each do |group|
+            %tr
+              %td.p-b-15
+                %h5.m-t-0
+                  = link_to group.name, group_path(group)
+                %ul.p-l-0.m-b-0
+                  %li.inline
+                    %i.fa.fa-key
+                    %span Clave:
+                  %li.inline
+                    %strong
+                      = group.key
+              %td.p-b-15
+                %ul.p-l-0.m-b-0
+                  %li.inline
+                    %strong
+                      %i.fa.fa-angle-right
+                      %span Profesores:
+                  %li.inline
+                    = group.users.count
+                %ul.p-l-0.m-b-0
+                  %li.inline
+                    %strong
+                      %i.fa.fa-angle-right
+                      %span Programas:
+                  %li.inline
+                    = group.all_programs.count
+                %ul.p-l-0.m-b-0
+                  %li.inline
+                    %strong
+                      %i.fa.fa-angle-right
+                      %span Estado:
+                  %li.inline
+                    = unless  group.state.nil? then group.state.name else "Selecciona tu estado" end
+                %ul.p-l-0.m-b-0
+                  %li.inline
+                    %strong
+                      %i.fa.fa-angle-right
+                      %span Universidad:
+                  %li.inline
+                    = unless  group.university.nil? then group.university.name else "Selecciona tu universidad" end
+                %ul.p-l-0.m-b-0
+                  %li.inline
+                    %strong
+                      %i.fa.fa-angle-right
+                      %span Tipo de grupo:
+                  %li.inline
+                    = group.category
+              %td.p-b-15
+                %ul.unstyled.no-style
+                  %li
+                    %ul.p-l-5.m-b-0
+                      %li.inline.p-l-0
+                        %i.fa.fa-angle-right
+                      %li.inline
+                        Alumnos del grupo:
+                        %strong #{group.active_students.count}
+                  - current_stats = group.get_group_stat(group)
+                  - if !current_stats.nil?
+                    %li
+                      %ul.p-l-5.m-b-0
+                        %li.inline.p-l-0
+                          %i.fa.fa-angle-right
+                        %li.inline
+                          Alumnos evaluados:
+                          %strong #{current_stats.evaluated_students}
+                      %ul.p-l-5.m-b-0
+                        %li.inline.p-l-0
+                          %i.fa.fa-angle-right
+                        %li.inline
+                          Promedio visto:
+                          %strong
+                            #{ current_stats.average_seen.nil? ? 0 : current_stats.average_seen.ceil }%
+                      %ul.p-l-5.m-b-0
+                        %li.inline.p-l-0
+                          %i.fa.fa-angle-right
+                        %li.inline
+                          Promedio contestado:
+                          %strong
+                            #{ current_stats.average_progress.nil? ? 0 : current_stats.average_progress.ceil }%
+                    %li.m-t-15
+                      = link_to generate_group_stats_path(group) do
+                        %ul.p-l-5.m-b-0
+                          %li.inline.p-l-0
+                            %i.fa.fa-rotate-right
+                          %li.inline
+                            Actualizar estadísticos
+                        %ul.p-l-20.m-b-0{:style => "font-size: 0.8em;"}
+                          %li.inline
+                            * Última vez:
+                            = l current_stats.updated_at, format: :short_no_year
+                  - else
+                    %li.m-t-15
+                      = link_to generate_group_stats_path(group) do
+                        %ul.p-l-5.m-b-0
+                          %li.inline.p-l-0
+                            %i.fa.fa-line-chart
+                          %li.inline
+                            Generar estadísticos
+
+              %td.p-b-15
+                %ul.unstyled.list-unstyled.p-l-0.m-b-0
+                  %li
+                    = link_to edit_group_path(group) do
+                      %i.fa.fa-edit
+                      Editar
+                  %li
+                    = link_to student_control_group_path(group) do
+                      %i.fa.fa-user
+                      Vincular estudiantes
+                  %li
+                    .btn-like-switch.btn-like-switch-small
+                      .label-for-switch.label-for-switch-small
+                        %i.fa.fa-credit-card
+                        P. Financiera 
+                      %label.switch.switch-small 
+                        %input{:id => "group_financiero_#{group.id}",:type => "checkbox", checked: if group.financiero.nil? then true else group.financiero end, value: "#{group.id}"}
+                        .slider.slider-small.round
+                       
+                  %li
+                    = link_to progress_panel_path(group) do
+                      %i.fa.fa-line-chart
+                      Ver progreso de grupo
+                  %li
+                    = link_to clone_group_path(group), method: :post do
+                      %i.fa.fa-copy
+                      Copiar grupo
+                  %li
+                    = link_to codes_group_path(group, format: :xlsx) do
+                      %i.fa.fa-code
+                      = "Exportar codigos de activación (#{group.inactive_students.count} inactivos)"    
+                  %li
+                    = link_to group, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+                      %i.fa.fa-times
+                      Eliminar

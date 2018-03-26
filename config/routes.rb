@@ -64,6 +64,7 @@ Rails.application.routes.draw do
   resources :control_panel, only: [:index] do
     collection do
       get :group_history
+      get :active_groups
     end  
   end  
 
