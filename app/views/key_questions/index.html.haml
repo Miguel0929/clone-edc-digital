@@ -22,7 +22,7 @@
           - @keys.each do |key|
             - question = Question.find(key.coursable_id)
             - if !question.nil?
-              - chapter_c = ChapterContent.find_by(coursable_id: key.coursable_id)
+              - chapter_c = ChapterContent.find(key.chapter_content_id)
               - chapter = chapter_c.chapter
               - program = chapter.program
               %tr
