@@ -6,6 +6,7 @@ class Profesor::StudentsController < ApplicationController
   helper_method :chapter_have_questions?
   helper_method :get_program_stat
   helper_method :get_program_active
+  include KeyQuestionsHelper
 
   def index
     add_breadcrumb "<a class='active' href='#{profesor_students_path}'>Estudiantes</a>".html_safe
@@ -120,6 +121,10 @@ class Profesor::StudentsController < ApplicationController
     @refilables=@user.group.all_refilables rescue []                            
 
     @quizzes=@user.group.all_quizzes rescue []
+
+    @key_questions = key_questions_hash
+
+    @key_programs = @key_questions.map{|kqs| kqs[:program]}.uniq 
   end
 
   def summary

@@ -43,7 +43,6 @@ class User < ActiveRecord::Base
   has_one :user_code
   has_many :user_trackers
 
-
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 
   scope :students, -> { where(role: 0) }

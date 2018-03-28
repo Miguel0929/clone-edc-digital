@@ -476,3 +476,7 @@ table.colored-columns td.light{
 .grey-bottom-border{
 	border-bottom: 1px solid #e6e6e6 !important;
 }
+.p-sides-17{
+	padding-right: 17.1px !important;
+	padding-left: 17px !important;
+}

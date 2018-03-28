@@ -42,6 +42,15 @@ class Dashboard::AnswersController < ApplicationController
   end
 
   def create
+    content = ChapterContent.find(params[:chapter_content_id])
+    program = content.chapter.program
+    keys = KeyQuestion.all.pluck(:coursable_id)
+    keys.each do |key|
+      if key == content.coursable_id
+        KeyQuestionNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
+      end
+    end
+
     @answer = @question.answers.new(answer_params)
 
     @answer.user = current_user
