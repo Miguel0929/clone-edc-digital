@@ -64,7 +64,12 @@ Rails.application.routes.draw do
   resources :control_panel, only: [:index] do
     collection do
       get :group_history
-    end  
+      get :active_groups
+      get :students_status
+    end 
+    member do
+      get :students_list
+    end 
   end  
 
   resources :progress_panel, only: [:index, :show] do

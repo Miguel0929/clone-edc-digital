@@ -1,0 +1,114 @@
+- content_for :title  do
+  Estadísticas generales - EDC Digital
+
+- today = Date.today
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      %h2 Grupos con alumnos activos e inactivos
+      .pull-left
+        .col-xs-12
+          .form-group
+            %div.input-group
+              %input#search-table.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+              %span.input-group-addon.panel-title-recursos
+                %i.fa.fa-search.text-white
+      .pull-right
+        .col-xs-12.no-opacity
+          .btn-group
+            = link_to active_groups_control_panel_index_path(group_type: "actives"), class: "no-padding" do
+              %button.btn.btn-complete{:type => "button", class: params[:group_type] == "actives" ? "active" : ""}
+                Con estudiantes activos
+            = link_to active_groups_control_panel_index_path(group_type: "inactives"), class: "no-padding left-7" do
+              %button.btn.btn-complete{:type => "button", class: params[:group_type] == "inactives" ? "active" : ""}
+                Con estudiantes inactivos
+            = link_to active_groups_control_panel_index_path, class: "no-padding left-13" do
+              %button.btn.btn-complete{:type => "button", class: params[:group_type].nil? ? "active" : ""}
+                Ver todos
+      .clearfix
+    .panel-body
+      %table.table.table-hover.datatable
+        %thead
+          %tr
+            %th Nombre
+            %th Currículum
+            %th Acciones
+
+        %tbody
+          - @groups.each do |group|
+            %tr
+              %td.p-b-15
+                %h5.m-t-0
+                  = link_to group.name, group_path(group)
+                %ul.p-l-0.m-b-0
+                  %li.inline
+                    %i.fa.fa-key
+                    %span Clave:
+                  %li.inline
+                    %strong
+                      = group.key
+              %td.p-b-15
+                %ul.p-l-0.m-b-0
+                  %li.inline
+                    %strong
+                      %i.fa.fa-angle-right
+                      %span Profesores:
+                  %li.inline
+                    = group.users.count
+                %ul.p-l-0.m-b-0
+                  %li.inline
+                    %strong
+                      %i.fa.fa-angle-right
+                      %span Programas:
+                  %li.inline
+                    = group.all_programs.count
+                - current_stats = group.get_group_stat(group)
+                - if !current_stats.nil?
+                  %ul.p-l-0.m-b-0
+                    %li.inline
+                      %strong
+                        %i.fa.fa-angle-right
+                        %span Estudiantes evaluados:
+                    %li.inline 
+                      #{current_stats.evaluated_students}
+                  %ul.p-l-0.m-b-0
+                    %li.inline
+                      %strong
+                        %i.fa.fa-angle-right
+                        %span Promedio visto:
+                    %li.inline 
+                      #{ current_stats.average_seen.nil? ? 0 : current_stats.average_seen.ceil }%
+                  %ul.p-l-0.m-b-0
+                    %li.inline
+                      %strong
+                        %i.fa.fa-angle-right
+                        %span Promedio contestado:
+                    %li.inline 
+                      #{ current_stats.average_progress.nil? ? 0 : current_stats.average_progress.ceil }%
+                  = link_to generate_group_stats_path(group) do
+                    %ul.p-l-0.m-b-0.p-t-10
+                      %li.inline.p-l-0
+                        %i.fa.fa-rotate-right
+                      %li.inline
+                        Actualizar estadísticos
+                    %ul.p-l-20.m-b-0{:style => "font-size: 0.8em;"}
+                      %li.inline
+                        * Última vez:
+                        = l current_stats.updated_at, format: :short_no_year
+                - else
+                  = link_to generate_group_stats_path(group) do
+                    %ul.p-l-0.m-b-0.p-t-10
+                      %li.inline.p-l-0
+                        %i.fa.fa-line-chart
+                      %li.inline
+                        Generar estadísticos
+              %td.p-b-15
+                %ul.unstyled.list-unstyled.p-l-0.m-b-0
+                  %li
+                    = link_to students_list_control_panel_path(group, students_type: "actives") do
+                      %i.fa.fa-check-circle{style: "font-size: 14.5px !important;"}
+                      Estudiantes activos (#{group.active_students.count})
+                  %li
+                    = link_to students_list_control_panel_path(group, students_type: "inactives") do
+                      %i.fa.fa-times-circle{style: "font-size: 14.5px !important;"}
+                      Estudiantes inactivos (#{group.inactive_students.count})
