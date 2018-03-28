@@ -29,7 +29,7 @@ IntercomRails.config do |config|
     :role => Proc.new { |user| user.role },
     :group => Proc.new { |user| user.group.nil? ? 'Usuario administrador' : user.group.name },
     :phone => Proc.new { |user| user.phone_number },
-    :avance => Proc.new { |user| "#{user.content_visited_percentage}%" },
+    :visto => Proc.new { |user| "#{user.content_visited_percentage}%" },
     :contestado => Proc.new { |user| "#{user.answered_questions_percentage}%" },
     :tiempo_por_sesion => Proc.new { |user| "#{user.time_average.round} min" },
     :ruta_fisica => Proc.new { |user| user.physical_route },
