@@ -130,5 +130,13 @@ class Group < ActiveRecord::Base
 
     if total == 0 then average = 0 else average = (contestados * 100) / (total) end  
     return average, contestados
-  end  
+  end
+
+  def active_students
+    self.students.where.not(invitation_accepted_at: nil)
+  end
+
+  def inactive_students
+    self.students.where(invitation_accepted_at: nil)
+  end
 end

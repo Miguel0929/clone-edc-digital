@@ -218,6 +218,35 @@
   .row
     .panel.panel-default
       .panel-heading
+        %h3.p-l-15 Usuarios activos e inactivos
+      .panel-body
+        .row
+          .col-sm-4
+            = pie_chart [["Estudiantes activos", @actives], ["Estudiantes inactivos", @inactives]]
+            .row.p-t-20
+              .col-md-12
+                .text-center.sub-title-graphs
+                  Estudiantes totales 
+                  %span.m-l-15
+                    = link_to students_status_control_panel_index_path do
+                      %button.btn.btn-complete.btn-sm
+                        %i.fa.fa-plus
+                        Ver más
+          .col-sm-8
+            = bar_chart [["Grupos con estudiantes activos", @active_groups], ["Grupos con estudiantes inactivos", @inactive_groups]]
+            .row.p-t-20
+              .col-md-12
+                .text-center.sub-title-graphs
+                  Grupos con estudiantes activos e inactivos
+                  %span.m-l-15
+                    = link_to active_groups_control_panel_index_path do
+                      %button.btn.btn-complete.btn-sm
+                        %i.fa.fa-plus
+                        Ver más
+
+  .row
+    .panel.panel-default
+      .panel-heading
         %h3.p-l-15 Usuarios nuevos por semana
       .panel-body
         = column_chart @track, stacked: true

@@ -15,6 +15,10 @@ class ControlPanelController < ApplicationController
     @reports = Report.all
     @visits = Visit.where(started_at: 60.day.ago...Time.now)
     @track = timetrack2
+    @actives = User.where(role: 0).where.not(invitation_accepted_at: nil).count
+    @inactives = User.where(role: 0, invitation_accepted_at: nil).count
+    @active_groups = Group.includes(:students).where(:users => {role: 0}).where.not(:users => {invitation_accepted_at: nil}).count
+    @inactive_groups = Group.includes(:students).where(:users => {role: 0, invitation_accepted_at: nil}).count
 
     #@activados = User.where(invitation_created_at: 6.months.ago.to_date..Date.today).where.not(invitation_accepted_at: nil).select('invitation_created_at, count(invitation_created_at) as total')
     #.group(:invitation_created_at).map {|user| [user.invitation_created_at.strftime('%Y-%m-%d'), user.total]}
@@ -39,7 +43,51 @@ class ControlPanelController < ApplicationController
       query = params[:query]
       @students = @students.where('lower(users.first_name) LIKE lower(?) OR lower(users.last_name) LIKE lower(?) OR lower(users.email) LIKE lower(?)',"%#{query}%", "%#{query}%", "%#{query}%").page(params[:page]).per(20) 
     end
+  end
+
+  def students_status
+    add_breadcrumb "<a href='#{control_panel_index_path}'>Estadisticas generales</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{students_status_control_panel_index_path}'>Status de estudiantes</a>".html_safe
+    req = params[:students_type]
+    case req 
+    when nil
+      @students = User.where(role: 0).all 
+    when "actives"
+      @students = User.where(role: 0).where.not(invitation_accepted_at: nil)
+    when "inactives"
+      @students = User.where(role: 0, invitation_accepted_at: nil)
+    end
+  end
+
+  def active_groups
+    add_breadcrumb "<a href='#{control_panel_index_path}'>Estadisticas generales</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{active_groups_control_panel_index_path}'>Grupos con estudiantes activos e inactivos</a>".html_safe
+    req = params[:group_type]
+    case req 
+    when nil
+      @groups = Group.all 
+    when "actives"
+      @groups = Group.includes(:students).where(:users => {role: 0}).where.not(:users => {invitation_accepted_at: nil})
+    when "inactives"
+      @groups = Group.includes(:students).where(:users => {role: 0, invitation_accepted_at: nil})
+    end
   end  
+
+  def students_list
+    @group = Group.find(params[:id])
+    req = params[:students_type]
+    case req 
+    when nil
+      @students = @group.students.all 
+    when "actives"
+      @students = @group.students.where.not(invitation_accepted_at: nil)
+    when "inactives"
+      @students = @group.students.where(invitation_accepted_at: nil)
+    end
+    add_breadcrumb "<a href='#{control_panel_index_path}'>Estadisticas generales</a>".html_safe
+    add_breadcrumb "<a href='#{active_groups_control_panel_index_path}'>Grupos con estudiantes activos e inactivos</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{students_list_control_panel_path(@group)}'>Estudiantes del grupo #{@group.name}</a>".html_safe
+  end
 
   private
   def timetrack1

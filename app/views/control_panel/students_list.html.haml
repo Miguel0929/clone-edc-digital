@@ -1,0 +1,49 @@
+- content_for :title  do
+  Estadísticas generales - EDC Digital
+
+- today = Date.today
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      %h2 Estudiantes del grupo #{@group.name}
+      .pull-left
+        .col-xs-12
+          .form-group
+            %div.input-group
+              %input#search-table.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+              %span.input-group-addon.panel-title-recursos
+                %i.fa.fa-search.text-white
+      .pull-right
+        .col-xs-12.no-opacity
+          .btn-group
+            = link_to students_list_control_panel_path(@group, students_type: "actives"), class: "no-padding" do
+              %button.btn.btn-complete{:type => "button", class: params[:students_type] == "actives" ? "active" : ""}
+                Estudiantes activos
+            = link_to students_list_control_panel_path(@group, students_type: "inactives"), class: "no-padding left-7" do
+              %button.btn.btn-complete{:type => "button", class: params[:students_type] == "inactives" ? "active" : ""}
+                Estudiantes inactivos
+            = link_to students_list_control_panel_path(@group), class: "no-padding left-13" do
+              %button.btn.btn-complete{:type => "button", class: params[:students_type].nil? ? "active" : ""}
+                Ver todos
+      .clearfix
+    .panel-body
+      %table.table.table-hover.datatable
+        %thead
+          %tr
+            %th Nombre
+            %th Correo
+            %th Fecha de creación
+        %tbody
+          - @students.each do |student|
+            %tr
+              %td.p-b-15
+                .m-t-0{style: "position: relative; top: 3px;"}
+                  = link_to (student.first_name.nil? ? "Sin nombre" : student.name), user_path(student.id)
+              %td.p-b-15
+                %ul.p-l-0.m-b-0
+                  %li.inline
+                    = student.email
+              %td.p-b-15
+                %ul.p-l-0.m-b-0
+                  %li.inline
+                    = l student.created_at, format: :special
