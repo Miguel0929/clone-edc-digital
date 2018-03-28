@@ -45,6 +45,20 @@ class ControlPanelController < ApplicationController
     end
   end
 
+  def students_status
+    add_breadcrumb "<a href='#{control_panel_index_path}'>Estadisticas generales</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{students_status_control_panel_index_path}'>Status de estudiantes</a>".html_safe
+    req = params[:students_type]
+    case req 
+    when nil
+      @students = User.where(role: 0).all 
+    when "actives"
+      @students = User.where(role: 0).where.not(invitation_accepted_at: nil)
+    when "inactives"
+      @students = User.where(role: 0, invitation_accepted_at: nil)
+    end
+  end
+
   def active_groups
     add_breadcrumb "<a href='#{control_panel_index_path}'>Estadisticas generales</a>".html_safe
     add_breadcrumb "<a class='active' href='#{active_groups_control_panel_index_path}'>Grupos con estudiantes activos e inactivos</a>".html_safe

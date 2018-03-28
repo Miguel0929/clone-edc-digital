@@ -228,7 +228,7 @@
                 .text-center.sub-title-graphs
                   Estudiantes totales 
                   %span
-                    = link_to active_groups_control_panel_index_path do
+                    = link_to students_status_control_panel_index_path do
                       ( Ver más )
           .col-sm-8
             = bar_chart [["Grupos con estudiantes activos", @active_groups], ["Grupos con estudiantes inactivos", @inactive_groups]]

@@ -65,6 +65,7 @@ Rails.application.routes.draw do
     collection do
       get :group_history
       get :active_groups
+      get :students_status
     end 
     member do
       get :students_list
