@@ -483,3 +483,15 @@ table.colored-columns td.light{
 .sub-title-graphs{
 	font-size: 17px;
 }
+.no-padding{
+	padding: 0px !important;
+}
+.left-7{
+	position: relative;
+	left: -7px;
+}
+.left-13{
+	position: relative;
+	left: -13px;
+}
+
