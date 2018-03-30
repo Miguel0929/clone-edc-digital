@@ -62,6 +62,7 @@ gem 'whenever', :require => false
 gem 'simple_token_authentication', '~> 1.0'
 gem 'sweetify'
 gem 'sweet-alert-confirm'
+gem 'seed_dump'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
