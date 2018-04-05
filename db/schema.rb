@@ -840,7 +840,7 @@ ActiveRecord::Schema.define(version: 20180320195906) do
   add_index "visits", ["visit_token"], name: "index_visits_on_visit_token", unique: true, using: :btree
 
   add_foreign_key "attempts", "quizzes"
-  add_foreign_key "attempts", "users"g
+  add_foreign_key "attempts", "users"
   add_foreign_key "glossaries", "glossary_categories"
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"
