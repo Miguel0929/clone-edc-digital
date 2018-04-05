@@ -554,14 +554,14 @@ class User < ActiveRecord::Base
 
   def intercom_prog_quizzes(pid)
     if group.nil?
-      return "Sin grupo"
+      return 0
     else 
       quizzes = self.group.all_quizzes.where(program_id: pid)
       if quizzes.empty?
-        return "Sin evaluaciones"
+        return 0
       else
         if quizzes.map{|q| (q.answered(self)>0)}.count(true) < quizzes.count
-          return "SE"
+          return 0
         else
           results = []
           quizzes.map{|q| results.push( (q.average(self).to_f / q.total_points.to_f * 100).ceil )}
@@ -587,12 +587,12 @@ class User < ActiveRecord::Base
 
   def intercom_prog_seen(pid)
     stat = self.program_stats.find_by(program_id: pid)
-    return (stat.nil? ? "No inscrito" : stat.program_seen)
+    return (stat.nil? ? 0 : stat.program_seen.ceil)
   end
 
   def intercom_prog_answered(pid)
     stat = self.program_stats.find_by(program_id: pid)
-    return (stat.nil? ? "No inscrito" : stat.program_progress)
+    return (stat.nil? ? 0 : stat.program_progress.ceil)
   end
 
   def intercom_activation_code
