@@ -543,6 +543,67 @@ class User < ActiveRecord::Base
     end
   end 
 
+  def intercom_prog_status(pid)
+    stat = self.program_stats.find_by(program_id: pid)
+    if stat.nil?
+      return "No inscrito"
+    else
+      return (stat.checked == 0 ? "Sin evaluar" : "Evaluado")
+    end
+  end
+
+  def intercom_prog_quizzes(pid)
+    if group.nil?
+      return "Sin grupo"
+    else 
+      quizzes = self.group.all_quizzes.where(program_id: pid)
+      if quizzes.empty?
+        return "Sin evaluaciones"
+      else
+        if quizzes.map{|q| (q.answered(self)>0)}.count(true) < quizzes.count
+          return "SE"
+        else
+          results = []
+          quizzes.map{|q| results.push( (q.average(self).to_f / q.total_points.to_f * 100).ceil )}
+          average = results.inject(0.0) { |sum, el| sum + el } / results.size
+          return (average.nan? ? 0 : average.ceil)
+        end
+      end
+    end
+  end
+
+  def intercom_prog_refillables(pid)
+    if group.nil?
+      return "Sin grupo"
+    else 
+      refilables = self.group.all_refilables.where(program_id: pid)
+      if refilables.empty?
+        return "Sin plantillas"
+      else
+        return refilables.map{|r| r.refilables.find_by(user: self).nil?}.count(false).to_s + " de " + refilables.count.to_s
+      end
+    end
+  end
+
+  def intercom_prog_seen(pid)
+    stat = self.program_stats.find_by(program_id: pid)
+    return (stat.nil? ? "No inscrito" : stat.program_seen)
+  end
+
+  def intercom_prog_answered(pid)
+    stat = self.program_stats.find_by(program_id: pid)
+    return (stat.nil? ? "No inscrito" : stat.program_progress)
+  end
+
+  def intercom_activation_code
+    if invitation_accepted_at.nil?
+      if user_code.nil? then create_code end
+      return user_code.codigo
+    else
+      return "No aplica"
+    end
+  end
+
   private
 
   def set_origin
