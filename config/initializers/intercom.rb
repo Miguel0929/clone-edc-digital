@@ -44,7 +44,22 @@ IntercomRails.config do |config|
     :token_activacion => Proc.new { |user| user.intercom_activation_code }, #string
     :BNV_contestado => Proc.new { |user| user.program_progress_intercom(45) },
     :HD1_1_contestado => Proc.new { |user| user.program_progress_intercom(19) },
-    :HD2_contestado => Proc.new { |user| user.program_progress_intercom(20) }
+    :HD2_contestado => Proc.new { |user| user.program_progress_intercom(20) },
+    :CPR_contestado => Proc.new { |user| user.program_progress_intercom(26) },
+    :CIM_contestado => Proc.new { |user| user.program_progress_intercom(6) },
+    :PIT_contestado => Proc.new { |user| user.program_progress_intercom(65) },
+    :CRW_contestado => Proc.new { |user| user.program_progress_intercom(68) },
+    :PCN_contestado => Proc.new { |user| user.program_progress_intercom(70) },
+    :DCG_contestado => Proc.new { |user| user.program_progress_intercom(27) },
+    :PN3_contestado => Proc.new { |user| user.program_progress_intercom(51) },
+    :ECI_1_contestado => Proc.new { |user| user.program_progress_intercom(22) },
+    :ECI_2_contestado => Proc.new { |user| user.program_progress_intercom(61) },
+    :EMT_contestado => Proc.new { |user| user.program_progress_intercom(4) },
+    :EMP_contestado => Proc.new { |user| user.program_progress_intercom(16) },
+    :ECI_3_contestado => Proc.new { |user| user.program_progress_intercom(3) },
+    :ECM_contestado => Proc.new { |user| user.program_progress_intercom(10) },
+    :ECF_contestado => Proc.new { |user| user.program_progress_intercom(9) },
+    :ES_contestado => Proc.new { |user| user.program_progress_intercom(71) }
   }
   # == Include for logged out Users
   # If set to true, include the Intercom messenger on all pages, regardless of whether
