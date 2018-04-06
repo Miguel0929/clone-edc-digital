@@ -86,10 +86,7 @@ IntercomRails.config do |config|
     :HCI_contestado => Proc.new { |user| user.program_progress_intercom(56) },
     :VME_1_contestado => Proc.new { |user| user.program_progress_intercom(25) },
     :VME_2_contestado => Proc.new { |user| user.program_progress_intercom(64) },
-    :IPM_2_contestado => Proc.new { |user| user.program_progress_intercom(60) },
-    :PPR_contestado => Proc.new { |user| user.program_progress_intercom(28) },
-    :PVE_contestado => Proc.new { |user| user.program_progress_intercom(32) },
-    :PE2_contestado => Proc.new { |user| user.program_progress_intercom(66) }
+    :IPM_2_contestado => Proc.new { |user| user.program_progress_intercom(60) }
   }
   # == Include for logged out Users
   # If set to true, include the Intercom messenger on all pages, regardless of whether
