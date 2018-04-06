@@ -42,11 +42,9 @@ IntercomRails.config do |config|
     :edad => Proc.new { |user| user.age },
     :industria => Proc.new { |user| user.industry.nil? ? 'Sin información' : user.industry }, #string
     :token_activacion => Proc.new { |user| user.intercom_activation_code }, #string
-    :BNV_status => Proc.new { |user| user.intercom_prog_status(45) }, #string
-    :BNV_examen => Proc.new { |user| user.intercom_prog_quizzes(45) },
-    :BNV_plantillas => Proc.new { |user| user.intercom_prog_refillables(45) }, #string
-    :BNV_visto => Proc.new { |user| user.intercom_prog_seen(45) },
-    :BNV_contestado => Proc.new { |user| user.intercom_prog_answered(45) }
+    :BNV_progreso => Proc.new { |user| user.overall_percentage_answered_for( Program.find(45) ) }, 
+    :HD1_1_progreso => Proc.new { |user| user.overall_percentage_answered_for( Program.find(19) ) },
+    :HD2_progreso => Proc.new { |user| user.overall_percentage_answered_for( Program.find(20) ) }
   }
   # == Include for logged out Users
   # If set to true, include the Intercom messenger on all pages, regardless of whether
