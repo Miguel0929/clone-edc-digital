@@ -74,7 +74,22 @@ IntercomRails.config do |config|
     :P123_2_contestado => Proc.new { |user| user.program_progress_intercom(49) },
     :PE1_contestado => Proc.new { |user| user.program_progress_intercom(47) },
     :MGT_contestado => Proc.new { |user| user.program_progress_intercom(52) },
-    :MNE_1_contestado => Proc.new { |user| user.program_progress_intercom(63) }
+    :MNE_1_contestado => Proc.new { |user| user.program_progress_intercom(63) },
+    :MNE_2_contestado => Proc.new { |user| user.program_progress_intercom(35) },
+    :HD1_2_contestado => Proc.new { |user| user.program_progress_intercom(54) },
+    :HD1_3_contestado => Proc.new { |user| user.program_progress_intercom(55) },
+    :CCF_contestado => Proc.new { |user| user.program_progress_intercom(23) },
+    :CCM_contestado => Proc.new { |user| user.program_progress_intercom(24) },
+    :PNI_contestado => Proc.new { |user| user.program_progress_intercom(18) },
+    :ICF_2_contestado => Proc.new { |user| user.program_progress_intercom(57) },
+    :ICM_2_contestado => Proc.new { |user| user.program_progress_intercom(58) },
+    :HCI_contestado => Proc.new { |user| user.program_progress_intercom(56) },
+    :VME_1_contestado => Proc.new { |user| user.program_progress_intercom(25) },
+    :VME_2_contestado => Proc.new { |user| user.program_progress_intercom(64) },
+    :IPM_2_contestado => Proc.new { |user| user.program_progress_intercom(60) },
+    :PPR_contestado => Proc.new { |user| user.program_progress_intercom(28) },
+    :PVE_contestado => Proc.new { |user| user.program_progress_intercom(32) },
+    :PE2_contestado => Proc.new { |user| user.program_progress_intercom(66) }
   }
   # == Include for logged out Users
   # If set to true, include the Intercom messenger on all pages, regardless of whether
