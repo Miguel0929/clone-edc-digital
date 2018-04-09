@@ -475,6 +475,29 @@ class User < ActiveRecord::Base
     end
   end
 
+  def program_progress_intercom(p_id)
+    if !Program.where(id: p_id).empty?
+      program = Program.find(p_id)
+      #calcular preguntas
+      total_questions = program.chapters.joins(:questions).select('questions.*').count
+      answered_questions = questions_answered_for(program)
+      #calcular exámenes
+      total_quizzes = program.quizzes.count
+      answered_quizzes = program.answered_quizzes(self)
+      #calcular plantillas
+      refilables = program.template_refilables.pluck(:id)
+      total_refilables = refilables.count
+      answered_refilables = Refilable.where(template_refilable_id: refilables, user_id: self).count
+      if (total_questions + total_quizzes + total_refilables) > 0
+        return ((answered_questions + answered_quizzes + answered_refilables) * 100) / (total_questions + total_quizzes + total_refilables)
+      else
+        return 0
+      end
+    else
+      return 0
+    end
+  end
+
   def total_time_hours
     tt = self.total_time
     return 0 if tt == 0
