@@ -10,7 +10,7 @@
         .col-xs-12
           .form-group
             %div.input-group
-              %input#search-table.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+              %input#search-table-students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
               %span.input-group-addon.panel-title-recursos
                 %i.fa.fa-search.text-white
       .pull-right
@@ -27,7 +27,7 @@
                 Ver todos
       .clearfix
     .panel-body
-      %table.table.table-hover.datatable
+      %table.table.table-hover
         %thead
           %tr
             %th Nombre
@@ -47,3 +47,20 @@
                 %ul.p-l-0.m-b-0
                   %li.inline
                     = l student.created_at, format: :special
+      .pull-right
+        = paginate @students
+        %br
+        = page_entries_info @students
+
+:javascript
+  $('#search-table-students').keypress(function(event) {
+      if (event.keyCode == 13) {
+          var key = $('#search-table-students').val();
+          var path = window.location.href
+          if (path.indexOf("?") > -1) {
+            window.location.replace(window.location.href + "&query=" + key);
+          } else {
+             window.location.replace(window.location.href + "?query=" + key);
+          }
+      }
+  });

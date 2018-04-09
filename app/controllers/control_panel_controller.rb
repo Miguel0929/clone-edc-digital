@@ -57,6 +57,8 @@ class ControlPanelController < ApplicationController
     when "inactives"
       @students = User.where(role: 0, invitation_accepted_at: nil)
     end
+    @students = @students.search_query(params[:query]) if params[:query].present?
+    @students = @students.page(params[:page]).per(100)
   end
 
   def active_groups
@@ -71,6 +73,8 @@ class ControlPanelController < ApplicationController
     when "inactives"
       @groups = Group.includes(:students).where(:users => {role: 0, invitation_accepted_at: nil})
     end
+    @groups = @groups.group_search(params[:query]) if params[:query].present?
+    @groups = @groups.page(params[:page]).per(50)
   end  
 
   def students_list
@@ -84,6 +88,8 @@ class ControlPanelController < ApplicationController
     when "inactives"
       @students = @group.students.where(invitation_accepted_at: nil)
     end
+    @students = @students.search_query(params[:query]) if params[:query].present?
+    @students = @students.page(params[:page]).per(100)
     add_breadcrumb "<a href='#{control_panel_index_path}'>Estadisticas generales</a>".html_safe
     add_breadcrumb "<a href='#{active_groups_control_panel_index_path}'>Grupos con estudiantes activos e inactivos</a>".html_safe
     add_breadcrumb "<a class='active' href='#{students_list_control_panel_path(@group)}'>Estudiantes del grupo #{@group.name}</a>".html_safe
