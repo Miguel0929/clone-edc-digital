@@ -579,6 +579,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def profile_info_status
+    if (state.nil? || state.empty?) || (city.nil? || city.empty?) || gender.nil? || industry_id.nil? || birthdate.nil? || (situation.nil? || situation.empty?) || (interest.nil? || interest.empty?) || (challenge.nil? || challenge.empty?) || (goal.nil? || goal.empty?)
+      return "Incompleto"
+    else
+      return "Completo"
+    end
+  end
+
   private
 
   def set_origin
