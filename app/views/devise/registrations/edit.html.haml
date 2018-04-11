@@ -11,6 +11,7 @@
               Sección:
             %h3.m-b-20.text-white
               Edita tu información de perfil
+              = @prueba
 
 .container-fluid.container-fixed-lg
   .panel.panel-transparent
@@ -45,7 +46,7 @@
               %label.col-sm-3.control-label{:for => "name"} Estado
               .col-sm-9
                 %select.full-width.form-control.minimal{name: 'user[state]'}
-                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => "none"} Elige tu Estado
+                  %option{:disabh => "", "form-grouped" => "", :selected => "selected", :value => ""} Elige tu Estado
                   %option{:value => "Aguascalientes", selected: resource.state == 'Aguascalientes'} Aguascalientes
                   %option{:value => "Baja California", selected: resource.state == 'Baja California'} Baja California
                   %option{:value => "Baja California Sur", selected: resource.state == 'Baja California Sur'} Baja California Sur
@@ -101,13 +102,34 @@
                 = f.text_field :email, class: 'form-control', placeholder: 'correo@dominio.com', disabled: true
                 = error_for(resource, :email)
             .form-group
-              %label.col-sm-3.control-label{:for => "name"} Biografía
+              %label.col-sm-3.control-label.correo{:for => "nacimiento"} Fecha de nacimiento
+              .col-sm-9#birthdate_block
+                = f.date_select :birthdate, prompt: {day: 'Elige un día', month: 'Elige un mes', year: 'Elige un año'}, start_year: 1940, end_year: Time.current.year
+                = error_for(resource, :birthdate)
+            .form-group
+              %label.col-sm-3.control-label{:for => "situacion"} La situación que más me define actualmente
               .col-sm-9
-                = f.text_area :bio, class: 'form-control', placeholder: 'Comparte una pequeña descripción de ti y tus habilidades.'
+                = f.select :situation, ["No tengo una idea pero sé que quiero emprender", "Tengo una idea para hacer un negocio", "Ya inicié el proyecto pero aún no tengo ventas", "Ya inicié mi empresa y ya tengo ventas", "Quiero reabir mi negocio"],  {include_blank: "Selecciona una opción"}, { :class => 'minimal form-control full-width' }  
+            .form-group
+              %label.col-sm-3.control-label{:for => "situacion"} Me interesa o mi idea de negocio entra en el tema
+              .col-sm-9
+                = f.select :interest, ["Demografía y sociedad", "Economía", "Tecología e innovación", "Medio ambiente y clima", "Gobernabilidad y relaciones exteriores"],  {include_blank: "Selecciona una opción"}, { :class => 'minimal form-control full-width' }  
+            .form-group
+              %label.col-sm-3.control-label{:for => "reto"} El mayor reto será
+              .col-sm-9
+                = f.text_area :challenge, class: 'form-control', placeholder: 'Describe lo que consideras el mayor reto de tu idea.'
+            .form-group
+              %label.col-sm-3.control-label{:for => "objetivo"} Lo que busco en EDC digital es
+              .col-sm-9
+                = f.text_area :goal, class: 'form-control', placeholder: 'Describe lo que esperas conseguir en la plataforma de EDC Digital.'
             .form-group
               %label.col-sm-3.control-label{:for => "name"} ¿En qué sector económico se ubica tu producto/servicio?
               .col-sm-9
-                = f.select :industry_id, Industry.all.collect {|p| [ p.name, p.id ] },  {include_blank: "Selecciona el sector económico"}, { :class => 'minimal form-control full-width' }   
+                = f.select :industry_id, Industry.all.collect {|p| [ p.name, p.id ] },  {include_blank: "Selecciona el sector económico"}, { :class => 'minimal form-control full-width' }  
+            .form-group
+              %label.col-sm-3.control-label{:for => "name"} Biografía
+              .col-sm-9
+                = f.text_area :bio, class: 'form-control', placeholder: 'Comparte una pequeña descripción de ti y tus habilidades.' 
             .form-group
               %label.col-sm-3.control-label{:for => "correo"} Nueva contraseña (dejar en blanco si no requieres cambiarlo)
               .col-sm-9
@@ -138,4 +160,11 @@
                 - if msg.to_s == "current_password"
                   = javascript_include_tag 'application', 'data-turbolinks-track' => false 
                   /la línea de arriba es para llamar type_password.js que compila en application.js
-                  
+
+:javascript
+  $(document).ready(function(){
+    setTimeout(function () {
+      $("#birthdate_block").find(".select2").removeClass( "select2" );
+    }, 1000);
+  });
+
