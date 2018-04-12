@@ -5,21 +5,23 @@ wb.styles do |style|
   content_cell = style.add_style(bg_color: "e6e6e6", sz: 12)
 
   wb.add_worksheet(name: "Lista de estudiantes") do |sheet|
-    sheet.add_row ["id", "Nombre", "Correo electrónico", "Teléfono", "Estado", "Grupo", "Porcentage contestado",
+    sheet.add_row ["id", "Nombre", "Correo electrónico", "Teléfono", "Género", "Edad", "Situación actual", 
+                  "Tema de interés", "Mi mayor reto será", "Lo que busco en EDC", "Estado", "Grupo", "Porcentage contestado",
                   "Porcentaje avance", "Total comentarios", "Cursos inscritos", ""], 
-                  style: [header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell] 
+                  style: [header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell] 
 
     @users.each do |user|
-      sheet.add_row [user.id, user.name, user.email, user.phone_number, user.status, user.group_name, 
+      sheet.add_row [user.id, user.name, user.email, user.phone_number, user.gender_output, user.age, user.situation, 
+                    user.interest, user.challenge, user.goal, user.status, user.group_name, 
                     "#{(user.answers_count * 100) / user.questions_count rescue 0}%", 
                     "#{(user.content_tracked_count * 100) / user.content_count rescue 0}%", 
                     user.comments_count, "", "" ],
-                    style: [content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell]
+                    style: [content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell]
 
       unless user.group.nil?
         user.group.all_programs.each do |program|
-          sheet.add_row ["", "", "", "", "", "", "", "", "", "#{program.name}.", "Contestado: #{user.percentage_questions_answered_for(program)}%" ],
-          style: [content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell]
+          sheet.add_row ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "#{program.name}.", "Contestado: #{user.percentage_questions_answered_for(program)}%" ],
+          style: [content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell]
         end
       end
     end

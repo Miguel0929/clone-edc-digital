@@ -13,7 +13,7 @@ class StudentsExporterJob
       if fast
         header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', "Codigo activación"]
       else
-        header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', "fhdkjfhdsj"]
+        header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', "Codigo activación", "Género", "Edad", "Situación actual", "Tema de interés", "Mi mayor reto será", "Lo que busco en EDC",]
         Program.all.each do |program|
           header << "#{program.name} CONTESTADO:"
           header << "#{program.name} VISTO:"
@@ -35,6 +35,9 @@ class StudentsExporterJob
         ]
         programs = ''
         if !fast
+          [student.gender_output, student.age, student.situation, student.interest, student.challenge, student.goal].each do |data|
+            content << data
+          end
           unless student.group.nil?
             Program.all.each do |program|
               if student.group.programs.exists?(program)
