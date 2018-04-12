@@ -191,3 +191,7 @@ input:checked + .slider.slider-small:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.hintish{
+  color: #D8DADC;
+}
