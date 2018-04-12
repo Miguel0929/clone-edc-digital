@@ -587,6 +587,22 @@ class User < ActiveRecord::Base
     end
   end
 
+  def gender_output
+    if !gender.nil? then return (gender == "male" ? "Hombre" : "Mujer") end
+  end
+
+  def age
+    if !birthdate.nil?
+      bd, d = self.birthdate, Date.today
+      y = d.year - bd.year 
+      y = y - 1 if (
+           bd.month >  d.month or 
+          (bd.month >= d.month and bd.day > d.day)
+      )
+      return y
+    end 
+  end
+
   private
 
   def set_origin
