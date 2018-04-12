@@ -46,6 +46,18 @@
 												%th
 													Correo electrónico
 												%th.text-center
+													Género
+												%th.text-center
+													Edad
+												%th.text-center
+													Situación actual
+												%th.text-center
+													Tema de interés
+												%th.text-center
+													Mi mayor reto
+												%th.text-center
+													Lo que busco en EDC
+												%th.text-center
 													Inbox
 												%th.text-center
 													Evaluado
@@ -62,6 +74,52 @@
 													%td.padding-0
 														.cell-like
 															= student.email
+													%td.padding-0
+														.cell-like.text-center
+															- if !student.gender_output.nil?
+																= student.gender_output
+															- else
+																.hintish
+																	Indefinido
+													%td.padding-0
+														.cell-like.text-center
+															- if !student.age.nil?
+																= student.age
+															- else
+																.hintish
+																	Indefinido
+													%td.padding-0
+														- if !student.situation.nil?
+															.cell-like
+																= student.situation
+														- else
+															.cell-like.text-center.hintish
+																Indefinido
+													%td.padding-0
+														- if !student.interest.nil?
+															.cell-like
+																= student.interest
+														- else
+															.cell-like.text-center.hintish
+																Indefinido
+													%td.padding-0
+														.cell-like.text-center
+															- if !student.challenge.nil?
+																%a{:href=> "javascript:void(0)", "data-placement" => "top", "data-original-title" => "#{student.challenge}", "data-toggle" => "tooltip", :title => "", :type => "button"}
+																	%i.fa.fa-book
+																	Leer
+															- else
+																.hintish
+																	Indefinido
+													%td.padding-0
+														.cell-like.text-center
+															- if !student.goal.nil?
+																%a{:href=> "javascript:void(0)", "data-placement" => "top", "data-original-title" => "#{student.goal}", "data-toggle" => "tooltip", :title => "", :type => "button"}
+																	%i.fa.fa-book
+																	Leer
+															- else
+																.hintish
+																	Indefinido
 													%td.padding-0
 														.cell-like.text-center
 															= student.mailbox.inbox.count

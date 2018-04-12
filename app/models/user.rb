@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   acts_as_token_authenticatable
 
+  nilify_blanks :only => [:bio, :city, :state, :situation, :interest, :challenge, :goal]
   after_create :create_code
   attr_accessor :agreement
   acts_as_paranoid
