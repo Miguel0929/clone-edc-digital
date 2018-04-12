@@ -39,8 +39,8 @@ IntercomRails.config do |config|
     :plantillas_contestadas => Proc.new { |user| user.number_answered_refilables }, #string
     :evaluaciones_contestadas => Proc.new { |user| user.number_answered_quizzes }, #string
     :genero => Proc.new { |user| user.gender.nil? ? 'Sin información' : user.gender }, #string
-    :edad => Proc.new { |user| user.age },
     :industria => Proc.new { |user| user.industry.nil? ? 'Sin información' : user.industry }, #string
+    :status_perfil => Proc.new { |user| user.profile_info_status },
     :token_activacion => Proc.new { |user| user.intercom_activation_code }, #string
     :BNV_contestado => Proc.new { |user| user.program_progress_intercom(45) },
     :HD1_1_contestado => Proc.new { |user| user.program_progress_intercom(19) },

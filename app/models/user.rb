@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   include Elasticsearch::Model::Callbacks
   acts_as_token_authenticatable
 
+  nilify_blanks :only => [:bio, :city, :state, :situation, :interest, :challenge, :goal]
   after_create :create_code
   attr_accessor :agreement
   acts_as_paranoid
@@ -625,6 +626,30 @@ class User < ActiveRecord::Base
     else
       return "No aplica"
     end
+  end
+
+  def profile_info_status
+    if (state.nil? || state.empty?) || (city.nil? || city.empty?) || gender.nil? || industry_id.nil? || birthdate.nil? || (situation.nil? || situation.empty?) || (interest.nil? || interest.empty?) || (challenge.nil? || challenge.empty?) || (goal.nil? || goal.empty?)
+      return "Incompleto"
+    else
+      return "Completo"
+    end
+  end
+
+  def gender_output
+    if !gender.nil? then return (gender == "male" ? "Hombre" : "Mujer") end
+  end
+
+  def age
+    if !birthdate.nil?
+      bd, d = self.birthdate, Date.today
+      y = d.year - bd.year 
+      y = y - 1 if (
+           bd.month >  d.month or 
+          (bd.month >= d.month and bd.day > d.day)
+      )
+      return y
+    end 
   end
 
   private
