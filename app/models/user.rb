@@ -237,7 +237,10 @@ class User < ActiveRecord::Base
     total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id in (?)", group.all_programs.pluck(:id)).count
     total_of_contents = group.all_programs.joins(chapters: [:chapter_contents]).where("chapter_contents.coursable_type = 'Lesson'").count
 
+    return 0 if (total_of_visited_contents == 0 && total_of_contents == 0) || (total_of_visited_contents != 0 && total_of_contents == 0)
+
     ((total_of_visited_contents.to_f * 100) / total_of_contents.to_f).round(2) rescue 0
+
   end
 
   def total_views_of_content(chapter_content)
