@@ -331,7 +331,7 @@ class User < ActiveRecord::Base
     stats = groupstats.map{ |n| if !n.nil? then n.checked else 0 end} #Regresa el valor de checked de los programa_stats (1 o 0), si no existe un program_stat (n.nil?) entonces pone 0
     detection = stats.detect { |i| i == 0}.nil? #Si no halla ningún 0 dará true al preguntar .nil?, o sea que todos los programas de este usuario han sido "checked"
     if detection == false then self.update(evaluation_status: 0) end #Si detecta algún 0 en 'detection' entonces regresa a 'no evaluado' al usuario
-    return 0
+    return detection
   end
 
   def get_update_move
@@ -386,54 +386,6 @@ class User < ActiveRecord::Base
     total = 0
     results = []
     self.group.all_quizzes.each do |quiz|
-      if quiz.answered(self) > 0 
-        total += 1
-        results.push( (quiz.average(self).to_f / quiz.total_points.to_f * 100).ceil )
-      end
-    end
-    average = results.inject(0.0) { |sum, el| sum + el } / results.size
-    if average.nan? then average = 0 end
-    return average, total
-  end
-  def create_code_inactivo
-    if self.user_code.nil?
-      unique = true
-      codigo = SecureRandom.hex(6) 
-      while unique
-        if UserCode.find_by(codigo: codigo).nil?
-          UserCode.create(codigo: codigo, user: self)
-          unique = false
-        else
-          codigo = SecureRandom.hex(6)
-        end
-      end
-    end
-   
-    if respuestas.length>0
-      return true
-    else
-      return false     
-    end  
-  end
-  def has_answer_quiz?(quiz)
-    ids = quiz.quiz_questions.map { |q| q.id }
-    respuestas = QuizAnswer.where(quiz_question_id: ids, user_id: self.id).count
-    preguntas=quiz.quiz_questions.count
-    if respuestas > 0 && preguntas != 0
-      return true
-    else
-      return false
-    end  
-  end  
-
-  def total_quizzes
-    self.group.quizzes.count
-  end
-
-  def answered_quizzes
-    total = 0
-    results = []
-    self.group.quizzes.each do |quiz|
       if quiz.answered(self) > 0 
         total += 1
         results.push( (quiz.average(self).to_f / quiz.total_points.to_f * 100).ceil )
