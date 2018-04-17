@@ -228,6 +228,8 @@ class User < ActiveRecord::Base
     total_of_answers = group.all_programs.joins(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
     total_of_questions = group.all_programs.joins(chapters: [:questions]).select('questions.*').count
 
+    return 0 if (total_of_answers == 0 && total_of_questions == 0) || (total_of_answers != 0 && total_of_questions == 0)
+
     ((total_of_answers.to_f * 100) / total_of_questions.to_f).round(2) rescue 0
   end
 
