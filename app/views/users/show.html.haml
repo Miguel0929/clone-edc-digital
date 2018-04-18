@@ -116,9 +116,36 @@
                       %td
                         = @user.phone_number
                     %tr.odd.gradeX
+                      %td Edad
+                      %td
+                        = @user.age.nil? ? "Sin registro" : @user.age.to_s + " años"
+                    %tr.odd.gradeX
+                      %td Género
+                      %td
+                        - if @user.gender.nil?
+                          Sin registro
+                        - else
+                          = (@user.gender == "male") ? "Hombre" : "Mujer"
+                    %tr.odd.gradeX
+                      %td Mi situación actual
+                      %td
+                        = @user.situation.nil? ? "Sin registro" : @user.situation
+                    %tr.odd.gradeX
+                      %td Tema de interés
+                      %td
+                        = @user.interest.nil? ? "Sin registro" : @user.interest
+                    %tr.odd.gradeX
+                      %td Mi mayor reto
+                      %td
+                        = @user.challenge.nil? ? "Sin registro" : @user.challenge
+                    %tr.odd.gradeX
+                      %td Lo que busco en EDC Digital
+                      %td
+                        = @user.goal.nil? ? "Sin registro" : @user.goal
+                    %tr.odd.gradeX
                       %td Industria
                       %td
-                        = unless @user.industry.nil? then @user.industry.name else 'N/A' end
+                        = unless @user.industry.nil? then @user.industry.name else "Sin registro" end
                     %tr.odd.gradeX
                       %td Ubicación
                       %td #{@user.state}, #{@user.city}
