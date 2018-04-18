@@ -1,7 +1,10 @@
 class DiagnosticTestJob < ActiveJob::Base
   include SuckerPunch::Job
 
-  def perform(answers, program, user, ruta)
+  FROM = "soporte-edcdigital@distritoemprendedor.com"
+  NAME = "EDC Digital"
+
+  def perform(answers, program, user)
 
   	puts "Aquí empiezan las respuestas"
   	quanswers = []
@@ -12,9 +15,12 @@ class DiagnosticTestJob < ActiveJob::Base
   	quanswers.each do |hash|
   		case hash[:question]
   		when /Cómo definirías la situación actual de tu proyecto/
-  			hash[:score] = 0
+  			hash[:order] = 0
+  			hash[:score] = "Muy bien"
+  			hash[:message] = "Sabemos que cada idea es diferente, así como sus necesidades. Continúa la capacitación y descubre la mejor manera de desarrollar tu proyecto, o defínelo si no tienes uno todavía."
   		when /selecciona el que define más el mercado al que está dirigida tu idea de negocio/
-  			##### Set points #####
+  			hash[:order] = 1
+  			##### Set score #####
    			case hash[:answer]
   			when /Grupos de personas o empresas que tienen la misma necesidad/
   				hash[:score] = "Excelente"
@@ -41,58 +47,59 @@ class DiagnosticTestJob < ActiveJob::Base
   				hash[:message] = "Conocer y saber identificar el tipo de mercado al que va dirigido tu proyecto es de los aspectos principales a tomar en cuenta cuando vas iniciando. Es algo complicado, si, pero para eso estamos. Te ayudaremos a identificar el mercado de tus posibles clientes. "
   			end
   		when /Qué datos ya conoces de tu principal cliente/
-  			##### Set points #####
-  			hash[:score] = 0
+  			hash[:order] = 2
+  			##### Set score #####
+  			counter = 0
 			if hash[:answer].include?("Hábitos")
-				hash[:score] = hash[:score] + 1
+				counter = counter + 1
 			end
 			if hash[:answer].include?("Comportamiento")
-				hash[:score] = hash[:score] + 1
+				counter = counter + 1
 			end
 			if hash[:answer].include?("Personalidad")
-				hash[:score] = hash[:score] + 1
+				counter = counter + 1
 			end
 			if hash[:answer].include?("ingresos")
-				hash[:score] = hash[:score] + 1
+				counter = counter + 1
 			end
 			if hash[:answer].include?("socioeconómico")
-				hash[:score] = hash[:score] + 1
+				counter = counter + 1
 			end
 			if hash[:answer].include?("estudios")
-				hash[:score] = hash[:score] + 1
+				counter = counter + 1
 			end
 			if hash[:answer].include?("Ubicación geográfica")
-				hash[:score] = hash[:score] + 1
+				counter = counter + 1
 			end
 			if hash[:answer].include?("Género")
-				hash[:score] = hash[:score] + 1
+				counter = counter + 1
 			end
 			if hash[:answer].include?("Edad")
-				hash[:score] = hash[:score] + 1
+				counter = counter + 1
 			end
 			if hash[:answer].include?("Ocupación")
-				hash[:score] = hash[:score] + 1
+				counter = counter + 1
 			end
 			if hash[:answer].include?("ventas anuales")
-				hash[:score] = hash[:score] + 1
+				counter = counter + 1
 			end
 			if hash[:answer].include?("Tamaño")
-				hash[:score] = hash[:score] + 1
+				counter = counter + 1
 			end
 			if hash[:answer].include?("Giro o sector")
-				hash[:score] = hash[:score] + 1
+				counter = counter + 1
 			end
 			if hash[:answer].include?("iniciativa a la que pertence")
-				hash[:score] = hash[:score] + 1
+				counter = counter + 1
 			end
 			if hash[:answer].include?("ninguno de los aspectos")
-				hash[:score] = hash[:score] + 0
+				counter = counter + 0
 			end
-			if hash[:score] >= 7
+			if counter >= 7
 				hash[:score] = "Excelente"
-			elsif (hash[:score] < 7 && hash[:score] >= 3)
+			elsif (counter < 7 && counter >= 3)
 				hash[:score] = "Bueno"
-			elsif (hash[:score] < 3 && hash[:score] >= 1)
+			elsif (counter < 3 && counter >= 1)
 				hash[:score] = "Regular"
 			else	
 				hash[:score] = "Malo"
@@ -107,22 +114,25 @@ class DiagnosticTestJob < ActiveJob::Base
   				hash[:message] = "Conocer a tu cliente ideal te permite enfocar tus estrategias correctamente en ellos, por lo que saberlo identificar resultará un gran reto, ¿estás listo? ¡Resolvámoslo juntos!. "
   			end
   		when /Cómo incluyes innovación a tu proyecto/
-  			##### Set points #####
+  			hash[:order] = 3
+  			##### Set score #####
    			case hash[:answer]
   			when /No lo he pensado pero quiero saber cómo innovar/
-  				hash[:score] = 6
+  				hash[:score] = "Regular"
   			when /No tiene innovación/
-  				hash[:score] = 1
+  				hash[:score] = "Malo"
   			when /Tendrá maneras innovadoras de vender el producto/
 				hash[:score] = "Excelente"
   			when /Será innovadora en la organización/
-				hash[:score] = 6
+				hash[:score] = "Excelente"
   			when /El proceso y la forma en que produciré será diferente e innovador/
 				hash[:score] = "Excelente"
   			when /tiene características innovadoras a las que actualmente/
 				hash[:score] = "Excelente"
   			when /Innovará en la forma de/
-  				hash[:score] =	9
+  				hash[:score] =	"Excelente"
+  			when /conozco cómo innovar en/
+  				hash[:score] = "Bueno"
   			end
   			##### Set message #####
   			case
@@ -134,18 +144,20 @@ class DiagnosticTestJob < ActiveJob::Base
   				hash[:message] = "¿Que oportunidades en el mercado podrías dejar pasar si tu idea no es innovadora? No importa que tipo de proyecto tengas en mente, conoce como puedes diferenciarte e innovar. ¡Encontremos juntos más respuestas!"
   			end
   		when /Conoces el sector en el que incursionarías con tu idea de negocio/
-  			##### Set points #####
+  			hash[:order] = 4
+  			##### Set score #####
    			case hash[:answer]
   			when /incluso estoy al tanto de los retos/
-  				hash[:score] = 13
+  				hash[:score] = "Excelente"
   			when /pero no estoy al tanto de los retos/
-  				hash[:score] = 9
+  				hash[:score] = "Bueno"
   			when /no lo considero necesario/
-				hash[:score] = 5
+				hash[:score] = "Regular"
   			else
-				hash[:score] = 5
+				hash[:score] = "Malo"
   			end
   			##### Set message #####
+  			case
   			when hash[:score] == "Excelente"
   				hash[:message] = "Tener una idea de negocio en mente implica conocer el sector económico y la actividad en el que te desarrollarás. Aún así, podrías reforzar lo que ya conoces y darle aún más estructura a tu proyecto... ¿Quieres saber más? ¡Deja que nuestro equipo de expertos te asesore!"
   			when hash[:score] == "Bueno" || hash[:score] == "Regular"
@@ -154,86 +166,119 @@ class DiagnosticTestJob < ActiveJob::Base
   				hash[:message] = "Si aún no has considerado conocer la situación del sector en donde se desarrollará tu proyecto no esperes más, comienza a investigar sobre los retos y oportunidades que enfrenta el sector en el que se desarrollará tu proyecto​."
   			end
   		when /Existe actualmente un producto o servicio similar que pudiera sustituir al tuyo/
-  			##### Set points #####
+  			hash[:order] = 5
+  			##### Set score #####
    			case hash[:answer]
   			when /conozco ya varias empresas/
-  				hash[:score] = 12
+  				hash[:score] = "Excelente"
   			when /estoy seguro de que no tengo competencia/
-  				hash[:score] = 9
+  				hash[:score] = "Bueno"
   			when /No lo sé con certeza/
-				hash[:score] = 5
+				hash[:score] = "Regular"
   			when /No me parece relevante/
-				hash[:score] = 5
+				hash[:score] = "Malo"
   			end
   			##### Set message #####
+  			case
   			when hash[:score] == "Excelente"
-  				hash[:message] = ""
+  				hash[:message] = "Muy bien, identificar que otros negocios ya realizan lo que tienes en mente, te puede ayudar a detectar áreas de oportunidad y aprovecharlas en pro de tu proyecto. ¿Qué ventajas ofrece tu producto o servicio sobre ellos?"
   			when hash[:score] == "Bueno" || hash[:score] == "Regular"
-  				hash[:message] = ""
+  				hash[:message] = "¿Sabías que la competencia no solo implica lo que es igual a tu proyecto? si existe un producto o servicio que satisfaga la misma necesidad, sin importar que no sea directamente lo que tu quieres hacer, ya se considera competencia. Para descubrir más de esto, te invitamos a que consideres este aspecto para continuar."
   			else
-  				hash[:message] = ""
+  				hash[:message] = "Es vital saber que otros negocios ya llevan a cabo lo que tienes en mente, no esperes a que sea tarde para identificarlos, conoce a tu competencia y aprovecha oportunidades que ellos no han visto. Si no lo haces tú, ¡ellos lo harán!"
   			end
   		when /Sabes cuánto costaría iniciar con tu negocio/
-  			##### Set points #####
+  			hash[:order] = 6
+  			##### Set score #####
    			case hash[:answer]
-  			when /tengo identificados todos los costos/
-  				hash[:score] = 12
+  			when /tengo identificados/
+  				hash[:score] = "Excelente"
+  			when /tengo noción de los costos y gastos/
+  				hash[:score] = "Bueno"
   			when /poco claros los costos y gastos/
-  				hash[:score] = 9
+  				hash[:score] = "Regular"
   			when /desconozco el monto total/
-				hash[:score] = 5
+				hash[:score] = "Malo"
   			end
   			##### Set message #####
+  			case
   			when hash[:score] == "Excelente"
-  				hash[:message] = ""
+  				hash[:message] = "Bien, si ya tienes identificados los costos y gastos representativos de tu proyecto, será mucho más fácil para ti y nuestros expertos llevar a cabo el extenso proceso de validación ténico - financiera, y con ello la construcción de tu idea de negocio será más rápida."
   			when hash[:score] == "Bueno" || hash[:score] == "Regular"
-  				hash[:message] = ""
+  				hash[:message] = "Descubrir los diferentes aspectos que integran la cantidad monetaria que requieres para iniciar es un proceso que lleva tiempo, por ello, detenerte a analizar todos y cada uno de los costos y gastos que representa poner en marcha un proyecto te ayudará a estructurar y definir correctamente tu idea de negocio."
   			else
-  				hash[:message] = ""
+  				hash[:message] = "Al desarrollar todos los aspectos técnicos de tu idea, lograrás identificar el monto de dinero que requieres, y con ello determinar la mejor fuente de financiamiento. ¡No dejes que siga corriendo el tiempo! ¡Comienza a estructurar tu idea antes de que alguien más lo haga!"
   			end
   		when /Tienes identificados a los posibles proveedores de los insumos/
-  			##### Set points #####
+  			hash[:order] = 7
+  			##### Set score #####
    			case hash[:answer]
   			when /Conozco los posibles proveedores y los costos/
-  				hash[:score] = 12
+  				hash[:score] = "Excelente"
   			when /Conozco los posibles proveedores pero no/
-  				hash[:score] = 9
+  				hash[:score] = "Bueno"
   			when /Conozco los costos pero no los posibles/
-				hash[:score] = 9
+				hash[:score] = "Regular"
   			when /No tengo identificados los costos ni/
-				hash[:score] = 5
+				hash[:score] = "Malo"
   			end
   			##### Set message #####
+  			case
   			when hash[:score] == "Excelente"
-  				hash[:message] = ""
+  				hash[:message] = "El hecho de que ya conozcas sobre posibles proveedores te ayuda a identificar mejor los requerimentos y los retos que representará para tu negocio. Pero... ¿Sabías que puedes reforzarlo al adentrarte en investigaciones aún más profundas? ¡Nosotros te ayudamos!"
   			when hash[:score] == "Bueno" || hash[:score] == "Regular"
-  				hash[:message] = ""
+  				hash[:message] = "El cruce entre quién te puede proveer lo que necesitas y cuánto dinero necesitarás para ello resultará más facil de identificar si comienzas a hacar un análisis de tus proveedores. ¿Cómo podrías detectarlo? Te ayudamos...contamos con herramientas digitales ideales para ello."
   			else
-  				hash[:message] = ""
+  				hash[:message] = "Si conoces quien te puede proveer de los insumos para tu negocio, identificarás también los costos que representa, con lo que podrás hacer presupuestos y estarás más cerca de validar técnica y financieramente tu proyecto. ¡Queremos ayudarte a que tengas una idea viable y bien fundamentada! Sólo así podrá ser exitosa en el mercado."
   			end
   		when /Tienes identificados los atributos y características/
-  			##### Set points #####
+  			hash[:order] = 8
+  			##### Set score #####
    			case hash[:answer]
   			when /sé muy bien cómo me diferenciaré/
-  				hash[:score] = 15
+  				hash[:score] = "Excelente"
   			when /Tengo medianamente claro/
-  				hash[:score] = 9
+  				hash[:score] = "Bueno"
   			when /no será diferente/
-				hash[:score] = 5
+				hash[:score] = "Regular"
   			when /No lo sé/
-				hash[:score] = 5
+				hash[:score] = "Malo"
   			end
   			##### Set message #####
+  			case
+  			when hash[:score] == "Excelente"
+  				hash[:message] = "Para lograr diferenciarte verdaderamente de otros proyectos necesitas saber comunicar tu propuesta de valor, así que, si ya cuentas con los elementos para definirla, estás más cerca de obtener una idea de negocio estructurada."
+  			when hash[:score] == "Bueno" || hash[:score] == "Regular"
+  				hash[:message] = "Claro está que deseas ser diferente a la competencia, pero ¿cómo lograrlo? sabiéndo comunicar tu propuesta de valor. Nosotros te guiamos."
+  			else
+  				hash[:message] = "Tal vez consideres que no es necesario marcar una gran diferencia en el mercado, pero si no te haces notar con una propuesta de valor bien estructurada, estarás disminuyendo las posibilidades de éxito de tu idea de negocio en el mercado."
+  			end
   		end
   	end
 
-  	puts quanswers
+  	quanswers_0 = quanswers.find{|x| x[:order] == 0}
+  	quanswers_1 = quanswers.find{|x| x[:order] == 1}
+  	quanswers_2 = quanswers.find{|x| x[:order] == 2}
+  	quanswers_3 = quanswers.find{|x| x[:order] == 3}
+  	quanswers_4 = quanswers.find{|x| x[:order] == 4}
+  	quanswers_5 = quanswers.find{|x| x[:order] == 5}
+  	quanswers_6 = quanswers.find{|x| x[:order] == 6}
+  	quanswers_7 = quanswers.find{|x| x[:order] == 7}
+  	quanswers_8 = quanswers.find{|x| x[:order] == 8}
 
-  	#user.group.users.each do |mentor|
-    #  mentor.mentor_program_notifications.create(program: program, user: user, notification_type: 'key_question')
-    #  if mentor.panel_notifications.complete_mentor.first.nil? || mentor.panel_notifications.complete_mentor.first.status
-    #  	Programs.key_question(program, mentor, user, ruta)
-    #  end  
-    #end
+	puts quanswers
+
+	DiagnosticTestMailer.send_results(user, 
+						quanswers_0[:question], quanswers_0[:answer], quanswers_0[:message],
+						quanswers_1[:question], quanswers_1[:answer], quanswers_1[:message],
+						quanswers_2[:question], quanswers_2[:answer], quanswers_2[:message],
+						quanswers_3[:question], quanswers_3[:answer], quanswers_3[:message],
+						quanswers_4[:question], quanswers_4[:answer], quanswers_4[:message],
+						quanswers_5[:question], quanswers_5[:answer], quanswers_5[:message],
+						quanswers_6[:question], quanswers_6[:answer], quanswers_6[:message],
+						quanswers_7[:question], quanswers_7[:answer], quanswers_7[:message],
+						quanswers_8[:question], quanswers_8[:answer], quanswers_8[:message]
+						)
+
   end
 end  	

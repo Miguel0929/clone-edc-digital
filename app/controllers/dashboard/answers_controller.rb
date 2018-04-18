@@ -179,7 +179,7 @@ class Dashboard::AnswersController < ApplicationController
         puts "Simn we estoy en Diagnóstico"
         if (q_ids.sort - q_answers.pluck(:question_id).sort).empty?
           #puts "Ya acabamos weeee!"
-          DiagnosticTestJob.perform_async(q_answers, program, current_user, mentor_student_url(current_user))
+          DiagnosticTestJob.perform_async(q_answers, program, current_user)
         #else 
         #  puts "Todavía no acabamos, llevamos " + q_answers.count.to_s + " de 9... :("
         end
