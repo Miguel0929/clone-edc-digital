@@ -5,6 +5,9 @@ class Dashboard::AnswersController < ApplicationController
   before_action :validate_coursable_type
   before_action :build_question
   after_action :update_program_stats, only: [:create, :update]
+  after_action only: [:create] do |c|
+    c.send(:diagnostic_test_process, params[:chapter_content_id])
+  end
   before_action :redirect_to_learning, if: :permiso_avance, only: [:show, :new, :edit]
 
   add_breadcrumb "EDC DIGITAL", :root_path
@@ -162,6 +165,22 @@ class Dashboard::AnswersController < ApplicationController
       new_stat = ProgramStat.create(user_id: @current_user.id, program_id: program.id, program_progress: progress, program_seen: seen)
     else
       program_stat.update(program_progress: progress, program_seen: seen)
+    end
+  end
+
+  def diagnostic_test_process(ch_c_id)
+    content = ChapterContent.find(ch_c_id)
+    program = content.chapter.program
+    if program.name.include?("¡Bienvenido!")
+      d_chapter = content.chapter
+      if d_chapter.name.include?("Diagnóstico")
+        q_ids = d_chapter.questions.pluck(:id)
+        q_answers = Answer.where(user_id: current_user, question_id: q_ids)
+        #puts "Simn we estoy en Diagnóstico"
+        if (q_ids.sort - q_answers.pluck(:question_id).sort).empty?
+          DiagnosticTestJob.perform_async(q_answers, program, current_user)
+        end
+      end
     end
   end
 
