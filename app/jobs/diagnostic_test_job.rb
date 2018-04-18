@@ -6,7 +6,6 @@ class DiagnosticTestJob < ActiveJob::Base
 
   def perform(answers, program, user)
 
-  	puts "Aquí empiezan las respuestas"
   	quanswers = []
   	answers.each do |answer| 
   		quanswers << {question: Question.find(answer.question_id).question_text, answer: answer.answer_text}
@@ -265,8 +264,6 @@ class DiagnosticTestJob < ActiveJob::Base
   	quanswers_6 = quanswers.find{|x| x[:order] == 6}
   	quanswers_7 = quanswers.find{|x| x[:order] == 7}
   	quanswers_8 = quanswers.find{|x| x[:order] == 8}
-
-	puts quanswers
 
 	DiagnosticTestMailer.send_results(user, 
 						quanswers_0[:question], quanswers_0[:answer], quanswers_0[:message],

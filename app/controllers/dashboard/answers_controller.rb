@@ -176,12 +176,9 @@ class Dashboard::AnswersController < ApplicationController
       if d_chapter.name.include?("Diagnóstico")
         q_ids = d_chapter.questions.pluck(:id)
         q_answers = Answer.where(user_id: current_user, question_id: q_ids)
-        puts "Simn we estoy en Diagnóstico"
+        #puts "Simn we estoy en Diagnóstico"
         if (q_ids.sort - q_answers.pluck(:question_id).sort).empty?
-          #puts "Ya acabamos weeee!"
           DiagnosticTestJob.perform_async(q_answers, program, current_user)
-        #else 
-        #  puts "Todavía no acabamos, llevamos " + q_answers.count.to_s + " de 9... :("
         end
       end
     end
