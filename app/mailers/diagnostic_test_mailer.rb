@@ -4,7 +4,7 @@ class DiagnosticTestMailer
   NAME = "EDC Digital"
 
 	def self.send_results(user, 
-                        question_0, answer_0, message_0,
+                        #question_0, answer_0, message_0,
                         question_1, answer_1, message_1,
                         question_2, answer_2, message_2,
                         question_3, answer_3, message_3,
@@ -21,9 +21,6 @@ class DiagnosticTestMailer
             to: [ { email: user.email } ],
             substitutions: {
               "-user_name-" => user.name,
-              "-question_0-" => question_0,
-              "-answer_0-" => answer_0,
-              "-message_0-" => message_0,
               "-question_1-" => question_1,
               "-answer_1-" => answer_1,
               "-message_1-" => message_1,

@@ -13,10 +13,6 @@ class DiagnosticTestJob < ActiveJob::Base
 
   	quanswers.each do |hash|
   		case hash[:question]
-  		when /Cómo definirías la situación actual de tu proyecto/
-  			hash[:order] = 0
-  			hash[:score] = "Muy bien"
-  			hash[:message] = "Sabemos que cada idea es diferente, así como sus necesidades. Continúa la capacitación y descubre la mejor manera de desarrollar tu proyecto, o defínelo si no tienes uno todavía."
   		when /selecciona el que define más el mercado al que está dirigida tu idea de negocio/
   			hash[:order] = 1
   			##### Set score #####
@@ -26,7 +22,7 @@ class DiagnosticTestJob < ActiveJob::Base
   			when /Un grupo de personas o empresas muy especializado/
   				hash[:score] = "Excelente"
   			when /Público en general/
-				hash[:score] = "Excelente"
+				hash[:score] = "Regular"
   			when /Grupos de personas o empresas con características diferentes/
 				hash[:score] = "Excelente"
   			when /Todas las anteriores/
@@ -39,7 +35,7 @@ class DiagnosticTestJob < ActiveJob::Base
   			##### Set message #####
   			case
   			when hash[:score] == "Excelente"
-  				hash[:message] = "¡Excelente! identificaste el mercado al que está dirigido  tu idea de negocio. Determinar las características de tu cliente resultará más fácil. Aún así, siempre se puede saber más de nuestro posible cliente...Hablamos de investigar más allá: ¿Cómo se comporta? ¿En dónde vive? ¿A qué se dedica? ¿Quieres saber más? ¡Te ayudamos!"
+  				hash[:message] = "¡Bien! identificaste el mercado al que está dirigido  tu idea de negocio. Determinar las características de tu cliente resultará más fácil. Aún así, siempre se puede saber más de nuestro posible cliente...Hablamos de investigar más allá: ¿Cómo se comporta? ¿En dónde vive? ¿A qué se dedica? ¿Quieres saber más? ¡Te ayudamos!"
   			when hash[:score] == "Bueno" || hash[:score] == "Regular"
   				hash[:message] = "Conocer los diferentes tipos de mercado que existen ayuda a que sea menos complicado elegir al que se dirige tu idea de negocio. ¡No te preocupes! ¡Nosotros te ayudaremos a mejorarlo!"
   			else
@@ -255,7 +251,6 @@ class DiagnosticTestJob < ActiveJob::Base
   		end
   	end
 
-  	quanswers_0 = quanswers.find{|x| x[:order] == 0}
   	quanswers_1 = quanswers.find{|x| x[:order] == 1}
   	quanswers_2 = quanswers.find{|x| x[:order] == 2}
   	quanswers_3 = quanswers.find{|x| x[:order] == 3}
@@ -266,7 +261,6 @@ class DiagnosticTestJob < ActiveJob::Base
   	quanswers_8 = quanswers.find{|x| x[:order] == 8}
 
 	DiagnosticTestMailer.send_results(user, 
-						quanswers_0[:question], quanswers_0[:answer], quanswers_0[:message],
 						quanswers_1[:question], quanswers_1[:answer], quanswers_1[:message],
 						quanswers_2[:question], quanswers_2[:answer], quanswers_2[:message],
 						quanswers_3[:question], quanswers_3[:answer], quanswers_3[:message],
