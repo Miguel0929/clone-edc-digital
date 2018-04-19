@@ -57,7 +57,6 @@ class Dashboard::ProgramsController < ApplicationController
         else
             #p_f = program_fisico.pluck(:content_id); p_m = program_moral.pluck(:content_id);
             #físicos
-            p_m = []
             p_f = []
             c_f = 0
             @c1 = 0
@@ -72,7 +71,6 @@ class Dashboard::ProgramsController < ApplicationController
             end 
             #morales
             p_m = []
-            p_f = []
             c_m = 0
             @c2 = 0
             program_moral.each do |p|
@@ -94,7 +92,14 @@ class Dashboard::ProgramsController < ApplicationController
           end
         end
   
-        @programs=Program.where(id: ids_comp+p_f+p_m)
+        pre_programs = Program.where(id: p_f+p_m)
+        combination = (program_fisico + program_moral).sort_by &:position
+        @programs = []
+        combination.each do |cmb| 
+          pre_programs.each do |ppg| if ppg.name == Program.find(cmb.content_id).name then @programs << ppg end end
+        end
+        Program.where(id: ids_comp).each do |pg| @programs.push(pg) end 
+
       end
     elsif current_user.mentor? || current_user.profesor?
       @programs = current_user.groups.map{|g| g.all_programs}.flatten.uniq
