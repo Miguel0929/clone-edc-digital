@@ -97,9 +97,11 @@
         .panel-body
           .tab-content.m-b-30
             #tabTodos.tab-pane.active
+              - index = 0
               - @programs.each_slice(2) do |slice|
                 .row
                   - slice.each do |p|
+                    - index = index + 1
                     - program = p
                     - unless program.nil?
                       .col-md-6.col-sm-6.col-xs-12.p-l-0.p_phone
@@ -109,7 +111,7 @@
                               .card-header.card_height-programas.text-white{ :style => "background: url(#{program.cover.url});" , class: "style_img_card" }
                                 %h5.text-complete.pull-left.fs-12.demo-fs-23
                                   .text-white.bold{id: "program_id#{program.id}"}
-                                    = p.position
+                                    = index
                                 .pull-right.small.hint-text
                                   .text-white.bold
                                     = program.rating.round(1)
