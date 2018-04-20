@@ -16,5 +16,6 @@
       - else
         .panel-body.p0
           = render partial: 'conversations/conversation', collection: messages, locals:{status: status}
-          %center= paginate messages
+          %center
+            = paginate messages
 	
