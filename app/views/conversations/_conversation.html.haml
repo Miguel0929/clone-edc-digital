@@ -8,7 +8,8 @@
 					%img.leida{src: image_path('mail-no-leido.png'), :alt => "..."}	 
 		.media-body
 			%p.name
-				= link_to conversation.originator.name, conversation_path(conversation)
+				/= link_to conversation.originator.name, conversation_path(conversation)
+				= link_to recipient_name(conversation), conversation_path(conversation)
 			%small.asunto ASUNTO:
 			%p.text-asunto
 				= conversation.subject 
@@ -24,7 +25,8 @@
 				%img.leida{src: image_path('mail-leido.png'), :alt => "..."} 
 		.media-body
 			%p.name
-				= link_to conversation.originator.name, conversation_path(conversation)
+				/= link_to conversation.originator.name, conversation_path(conversation)
+				= link_to recipient_name(conversation), conversation_path(conversation)
 			%small.asunto ASUNTO:
 			%p.text-asunto
 				= conversation.subject 
