@@ -1,2 +1,0 @@
-module LearningPathsHelper
-end
