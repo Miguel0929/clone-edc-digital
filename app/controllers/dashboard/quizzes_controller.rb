@@ -6,11 +6,12 @@ class Dashboard::QuizzesController < ApplicationController
   add_breadcrumb "EDCDIGITAL", :root_path
   helper_method :right_answer
   helper_method :evaluating_quiz
+  include ActiveElementsHelper
 
   def index
     if current_user.student?
       add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path}'>Evaluaciones</a>".html_safe
-      @quizzes = current_user.group.all_quizzes
+      @quizzes = get_active_elements(current_user, "quizzes")
     else
       @student = User.find(params[:user_id])
       add_breadcrumb "Estudiantes", :mentor_students_path

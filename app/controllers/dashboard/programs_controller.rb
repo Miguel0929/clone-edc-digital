@@ -7,99 +7,17 @@ class Dashboard::ProgramsController < ApplicationController
 
   helper_method :last_moved_program
   helper_method :last_visited_content
+  include ActiveElementsHelper
 
   def index
     add_breadcrumb "<a class='active' href='#{dashboard_programs_path}'>Programas</a>".html_safe
     
     if current_user.student?
       @activo = ['active', '','']
-      unless current_user.group.nil?
-        ids_comp = []; ids_fisica = []; ids_moral = [] 
-
-        current_user.group.learning_path.nil? ? program_fisico = [] : program_fisico = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position)
-
-        current_user.group.learning_path2.nil? ? program_moral = [] : program_moral = current_user.group.learning_path2.learning_path_contents.where(content_type: "Program").order(:position)
-    
-        program_group = current_user.group.programs.map{|p|p.id}
-
-        if program_fisico == [] && program_moral == []
-          p_f = []; p_m = []; 
-        elsif program_moral == [] && program_fisico != []
-            #p_f = program_fisico.pluck(:content_id); p_m = [];
-            p_m = []
-            p_f = []
-            c_f = 0
-            @c1 = 0
-            program_fisico.each do |p|
-              c_f += 1
-              anterior = p.anterior(current_user.group.learning_path)
-              if current_user.percentage_questions_answered_for(anterior) >= 1 || c_f==1 || (current_user.percentage_content_visited_for(anterior) >= 1 && anterior.questions? == false)
-                p_f.push(p.content_id)
-              else
-                break
-              end
-            end           
-        elsif program_fisico == [] && program_moral != []
-            #p_f = []; p_m = program_moral.pluck(:content_id);
-            p_m = []
-            p_f = []
-            c_m = 0
-            @c2 = 0
-            program_moral.each do |p|
-              c_m += 1
-              anterior = p.anterior(current_user.group.learning_path2)
-              if current_user.percentage_questions_answered_for(anterior) >= 1 || c_m==1 || (current_user.percentage_content_visited_for(anterior) >= 1 && anterior.questions? == false)
-                p_m.push(p.content_id)
-              else
-                break
-              end
-            end
-        else
-            #p_f = program_fisico.pluck(:content_id); p_m = program_moral.pluck(:content_id);
-            #físicos
-            p_f = []
-            c_f = 0
-            @c1 = 0
-            program_fisico.each do |p|
-              c_f += 1
-              anterior = p.anterior(current_user.group.learning_path)
-              if current_user.percentage_questions_answered_for(anterior) >= 1 || c_f==1 || (current_user.percentage_content_visited_for(anterior) >= 1 && anterior.questions? == false)
-                p_f.push(p.content_id)
-              else
-                break
-              end
-            end 
-            #morales
-            p_m = []
-            c_m = 0
-            @c2 = 0
-            program_moral.each do |p|
-              c_m += 1
-              anterior = p.anterior(current_user.group.learning_path2)
-              if current_user.percentage_questions_answered_for(anterior) >= 1 || c_m==1 || (current_user.percentage_content_visited_for(anterior) >= 1 && anterior.questions? == false)
-                p_m.push(p.content_id)
-              else
-                break
-              end
-            end
-        end  
-        
-        complementarios = program_group - (p_f + p_m)
-
-        complementarios.each do |id|
-          if !ProgramActive.where(user: current_user, program_id: id).first.nil? && ProgramActive.where(user: current_user, program_id: id).first.status
-            ids_comp << id
-          end
-        end
-  
-        pre_programs = Program.where(id: p_f+p_m)
-        combination = (program_fisico + program_moral).sort_by &:position
+      if current_user.group.nil?
         @programs = []
-        combination.each do |cmb| 
-          pre_programs.each do |ppg| if ppg.name == Program.find(cmb.content_id).name then @programs << ppg end end
-        end
-        Program.where(id: ids_comp).each do |pg| @programs.push(pg) end 
-
+      else
+        @programs = get_active_programs(current_user)
       end
     elsif current_user.mentor? || current_user.profesor?
       @programs = current_user.groups.map{|g| g.all_programs}.flatten.uniq
