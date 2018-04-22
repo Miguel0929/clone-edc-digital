@@ -44,8 +44,8 @@ module ActiveElementsHelper
       programs_moral = LearningPathContent.where(id: ids)
     end
     ######## Llamar a los programas pertenecientes a esos learning paths #############
-    lp_contents_f = (programs_fisica).sort_by &:position
-    lp_contents_m = (programs_moral).sort_by &:position
+    lp_contents_f = programs_fisica.nil? ? [] : (programs_fisica).sort_by &:position
+    lp_contents_m = programs_moral.nil? ? [] : (programs_moral).sort_by &:position
     active_elements = []
     lp_contents_f.each do |lp|
       requested_class.where(program_id: Program.find(lp.content_id).id).each do |element| active_elements << element end
@@ -101,8 +101,8 @@ module ActiveElementsHelper
       programs_moral = LearningPathContent.where(id: ids)
     end
     ######## Llamar a los programas pertenecientes a esos learning paths #############
-    lp_contents_f = (programs_fisica).sort_by &:position
-    lp_contents_m = (programs_moral).sort_by &:position
+    lp_contents_f = programs_fisica.nil? ? [] : (programs_fisica).sort_by &:position
+    lp_contents_m = programs_moral.nil? ? [] : (programs_moral).sort_by &:position
     active_programs = []
     lp_contents_f.each do |lp|
       active_programs << Program.find(lp.content_id)
