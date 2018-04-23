@@ -609,6 +609,13 @@ class User < ActiveRecord::Base
     end 
   end
 
+  def evaluation_result_for(chapter)
+    #Este método está basado en el que aparece en mentor/evaluations_controller.rb llamado 'evaluation_result(chapter)'
+    evaluation_points =  UserEvaluation.where(user_id: self, evaluation_id: chapter.evaluations.pluck(:id)).pluck(:points).inject(0){|sum,x| sum + x }
+    total_evaluations_points = Evaluation.where(chapter_id: chapter).count * 100
+    (((evaluation_points * 100) / 800 rescue 0) * chapter.points / 100)
+  end
+
   private
 
   def set_origin
