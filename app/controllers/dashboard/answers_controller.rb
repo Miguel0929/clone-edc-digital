@@ -5,7 +5,7 @@ class Dashboard::AnswersController < ApplicationController
   before_action :validate_coursable_type
   before_action :build_question
   after_action :update_program_stats, only: [:create, :update]
-  after_action only: [:create] do |c|
+  after_action only: [:create, :update] do |c|
     c.send(:diagnostic_test_process, params[:chapter_content_id])
   end
   before_action :redirect_to_learning, if: :permiso_avance, only: [:show, :new, :edit]
@@ -176,9 +176,9 @@ class Dashboard::AnswersController < ApplicationController
       if d_chapter.name.include?("Diagnóstico")
         q_ids = d_chapter.questions.pluck(:id)
         q_answers = Answer.where(user_id: current_user, question_id: q_ids)
-        #puts "Simn we estoy en Diagnóstico"
+        first_time = UserEvaluation.where(evaluation_id: d_chapter.evaluations.pluck(:id), user_id: current_user).empty?
         if (q_ids.sort - q_answers.pluck(:question_id).sort).empty?
-          DiagnosticTestJob.perform_async(q_answers, program, current_user)
+          DiagnosticTestJob.perform_async(q_answers, d_chapter, current_user, first_time)
         end
       end
     end

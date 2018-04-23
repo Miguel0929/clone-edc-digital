@@ -4,12 +4,14 @@ class DiagnosticTestJob < ActiveJob::Base
   FROM = "soporte-edcdigital@distritoemprendedor.com"
   NAME = "EDC Digital"
 
-  def perform(answers, program, user)
+  def perform(answers, chapter, user, first_time)
 
   	quanswers = []
   	answers.each do |answer| 
   		quanswers << {question: Question.find(answer.question_id).question_text, answer: answer.answer_text}
   	end
+
+  	evaluations = chapter.evaluations
 
   	quanswers.each do |hash|
   		case hash[:question]
@@ -40,6 +42,13 @@ class DiagnosticTestJob < ActiveJob::Base
   				hash[:message] = "Conocer los diferentes tipos de mercado que existen ayuda a que sea menos complicado elegir al que se dirige tu idea de negocio. ¡No te preocupes! ¡Nosotros te ayudaremos a mejorarlo!"
   			else
   				hash[:message] = "Conocer y saber identificar el tipo de mercado al que va dirigido tu proyecto es de los aspectos principales a tomar en cuenta cuando vas iniciando. Es algo complicado, si, pero para eso estamos. Te ayudaremos a identificar el mercado de tus posibles clientes. "
+  			end
+  			##### Evaluate user #####
+  			evaluations.each do |eve|
+  				if eve.name.include?("selecciona el que define más el mercado al que está dirigida tu idea de negocio")
+  					save_update_user_evaluation(eve, hash[:score], user)
+  					break
+  				end
   			end
   		when /Qué datos ya conoces de tu principal cliente/
   			hash[:order] = 2
@@ -108,6 +117,13 @@ class DiagnosticTestJob < ActiveJob::Base
   			else
   				hash[:message] = "Conocer a tu cliente ideal te permite enfocar tus estrategias correctamente en ellos, por lo que saberlo identificar resultará un gran reto, ¿estás listo? ¡Resolvámoslo juntos!. "
   			end
+  			##### Evaluate user #####
+  			evaluations.each do |eve|
+  				if eve.name.include?("Qué datos ya conoces de tu principal cliente")
+  					save_update_user_evaluation(eve, hash[:score], user)
+  					break
+  				end
+  			end
   		when /Cómo incluyes innovación a tu proyecto/
   			hash[:order] = 3
   			##### Set score #####
@@ -138,6 +154,13 @@ class DiagnosticTestJob < ActiveJob::Base
   			else
   				hash[:message] = "¿Que oportunidades en el mercado podrías dejar pasar si tu idea no es innovadora? No importa que tipo de proyecto tengas en mente, conoce como puedes diferenciarte e innovar. ¡Encontremos juntos más respuestas!"
   			end
+  			##### Evaluate user #####
+  			evaluations.each do |eve|
+  				if eve.name.include?("Cómo incluyes innovación a tu proyecto")
+  					save_update_user_evaluation(eve, hash[:score], user)
+  					break
+  				end
+  			end
   		when /Conoces el sector en el que incursionarías con tu idea de negocio/
   			hash[:order] = 4
   			##### Set score #####
@@ -159,6 +182,13 @@ class DiagnosticTestJob < ActiveJob::Base
   				hash[:message] = "Tu idea de negocio indiscutiblemente se verá impactada por las situaciones que ocurran en el sector económico o actividad a la que te dedicarás. Identifica oportunidades y retos del mismo y prepárate para salir al mercado. ¡El mundo necesita tu idea!"
   			else
   				hash[:message] = "Si aún no has considerado conocer la situación del sector en donde se desarrollará tu proyecto no esperes más, comienza a investigar sobre los retos y oportunidades que enfrenta el sector en el que se desarrollará tu proyecto​."
+  			end
+  			##### Evaluate user #####
+  			evaluations.each do |eve|
+  				if eve.name.include?("Conoces el sector en el que incursionarías con tu idea de negocio")
+  					save_update_user_evaluation(eve, hash[:score], user)
+  					break
+  				end
   			end
   		when /Existe actualmente un producto o servicio similar que pudiera sustituir al tuyo/
   			hash[:order] = 5
@@ -182,6 +212,13 @@ class DiagnosticTestJob < ActiveJob::Base
   			else
   				hash[:message] = "Es vital saber que otros negocios ya llevan a cabo lo que tienes en mente, no esperes a que sea tarde para identificarlos, conoce a tu competencia y aprovecha oportunidades que ellos no han visto. Si no lo haces tú, ¡ellos lo harán!"
   			end
+  			##### Evaluate user #####
+  			evaluations.each do |eve|
+  				if eve.name.include?("Existe actualmente un producto o servicio similar que pudiera sustituir al tuyo")
+  					save_update_user_evaluation(eve, hash[:score], user)
+  					break
+  				end
+  			end
   		when /Sabes cuánto costaría iniciar con tu negocio/
   			hash[:order] = 6
   			##### Set score #####
@@ -203,6 +240,13 @@ class DiagnosticTestJob < ActiveJob::Base
   				hash[:message] = "Descubrir los diferentes aspectos que integran la cantidad monetaria que requieres para iniciar es un proceso que lleva tiempo, por ello, detenerte a analizar todos y cada uno de los costos y gastos que representa poner en marcha un proyecto te ayudará a estructurar y definir correctamente tu idea de negocio."
   			else
   				hash[:message] = "Al desarrollar todos los aspectos técnicos de tu idea, lograrás identificar el monto de dinero que requieres, y con ello determinar la mejor fuente de financiamiento. ¡No dejes que siga corriendo el tiempo! ¡Comienza a estructurar tu idea antes de que alguien más lo haga!"
+  			end
+  			##### Evaluate user #####
+  			evaluations.each do |eve|
+  				if eve.name.include?("Sabes cuánto costaría iniciar con tu negocio")
+  					save_update_user_evaluation(eve, hash[:score], user)
+  					break
+  				end
   			end
   		when /Tienes identificados a los posibles proveedores de los insumos/
   			hash[:order] = 7
@@ -226,6 +270,13 @@ class DiagnosticTestJob < ActiveJob::Base
   			else
   				hash[:message] = "Si conoces quien te puede proveer de los insumos para tu negocio, identificarás también los costos que representa, con lo que podrás hacer presupuestos y estarás más cerca de validar técnica y financieramente tu proyecto. ¡Queremos ayudarte a que tengas una idea viable y bien fundamentada! Sólo así podrá ser exitosa en el mercado."
   			end
+  			##### Evaluate user #####
+  			evaluations.each do |eve|
+  				if eve.name.include?("Tienes identificados a los posibles proveedores de los insumos")
+  					save_update_user_evaluation(eve, hash[:score], user)
+  					break
+  				end
+  			end
   		when /Tienes identificados los atributos y características/
   			hash[:order] = 8
   			##### Set score #####
@@ -248,28 +299,52 @@ class DiagnosticTestJob < ActiveJob::Base
   			else
   				hash[:message] = "Tal vez consideres que no es necesario marcar una gran diferencia en el mercado, pero si no te haces notar con una propuesta de valor bien estructurada, estarás disminuyendo las posibilidades de éxito de tu idea de negocio en el mercado."
   			end
+  			##### Evaluate user #####
+  			evaluations.each do |eve|
+  				if eve.name.include?("Tienes identificados los atributos y características")
+  					save_update_user_evaluation(eve, hash[:score], user)
+  					break
+  				end
+  			end
   		end
   	end
 
-  	quanswers_1 = quanswers.find{|x| x[:order] == 1}
-  	quanswers_2 = quanswers.find{|x| x[:order] == 2}
-  	quanswers_3 = quanswers.find{|x| x[:order] == 3}
-  	quanswers_4 = quanswers.find{|x| x[:order] == 4}
-  	quanswers_5 = quanswers.find{|x| x[:order] == 5}
-  	quanswers_6 = quanswers.find{|x| x[:order] == 6}
-  	quanswers_7 = quanswers.find{|x| x[:order] == 7}
-  	quanswers_8 = quanswers.find{|x| x[:order] == 8}
+  	if first_time
+	  	quanswers_1 = quanswers.find{|x| x[:order] == 1}
+	  	quanswers_2 = quanswers.find{|x| x[:order] == 2}
+	  	quanswers_3 = quanswers.find{|x| x[:order] == 3}
+	  	quanswers_4 = quanswers.find{|x| x[:order] == 4}
+	  	quanswers_5 = quanswers.find{|x| x[:order] == 5}
+	  	quanswers_6 = quanswers.find{|x| x[:order] == 6}
+	  	quanswers_7 = quanswers.find{|x| x[:order] == 7}
+	  	quanswers_8 = quanswers.find{|x| x[:order] == 8}
 
-	DiagnosticTestMailer.send_results(user, 
-						quanswers_1[:question], quanswers_1[:answer], quanswers_1[:message],
-						quanswers_2[:question], quanswers_2[:answer], quanswers_2[:message],
-						quanswers_3[:question], quanswers_3[:answer], quanswers_3[:message],
-						quanswers_4[:question], quanswers_4[:answer], quanswers_4[:message],
-						quanswers_5[:question], quanswers_5[:answer], quanswers_5[:message],
-						quanswers_6[:question], quanswers_6[:answer], quanswers_6[:message],
-						quanswers_7[:question], quanswers_7[:answer], quanswers_7[:message],
-						quanswers_8[:question], quanswers_8[:answer], quanswers_8[:message]
-						)
+		DiagnosticTestMailer.send_results(user, 
+							quanswers_1[:question], quanswers_1[:answer], quanswers_1[:message],
+							quanswers_2[:question], quanswers_2[:answer], quanswers_2[:message],
+							quanswers_3[:question], quanswers_3[:answer], quanswers_3[:message],
+							quanswers_4[:question], quanswers_4[:answer], quanswers_4[:message],
+							quanswers_5[:question], quanswers_5[:answer], quanswers_5[:message],
+							quanswers_6[:question], quanswers_6[:answer], quanswers_6[:message],
+							quanswers_7[:question], quanswers_7[:answer], quanswers_7[:message],
+							quanswers_8[:question], quanswers_8[:answer], quanswers_8[:message]
+							)
+	end
+  end
 
+  def save_update_user_evaluation(eve, score, user)
+	case score
+	when "Excelente"
+		user_points = 100
+	when "Bueno"
+		user_points = 75
+	when "Regular" 
+		user_points = 50
+	else
+		user_points = 25
+	end
+	user_evaluation = UserEvaluation.find_or_initialize_by(user: user, evaluation_id: eve.id) 
+	user_evaluation.points = user_points
+	user_evaluation.save!
   end
 end  	

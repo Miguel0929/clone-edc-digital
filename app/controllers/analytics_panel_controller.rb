@@ -39,6 +39,10 @@ class AnalyticsPanelController < ApplicationController
       group_programs = Program.joins(:group_programs).where(group_programs: {group_id: @group})
       @programs = (path_programs + group_programs).uniq
       @students = User.where(group: @group, role: 0).where.not(invitation_accepted_at: nil).uniq.order(:first_name)
+      @pag_max = 100
+      @records_number = @students.count
+      @students = @students.page(params[:page]).per(@pag_max)
+      @bienvenido = Program.where("name like ?", "%" + "¡Bienvenid" + "%").last.chapters.where("name like ?", "%" + "Diagnóstico" + "%").last
       #@students = User.joins(:program_stats).where(group: groups, role: 0).uniq
     end
   end

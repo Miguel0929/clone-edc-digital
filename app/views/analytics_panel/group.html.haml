@@ -65,6 +65,8 @@
 													Contestado
 												%th.text-center.p-l-25.p-r-25
 													Visto
+												%th.text-center.p-r-25
+													Diagnóstico de bienvenida
 												- @programs.each do |program|
 													%th.text-center.fs-10{colspan: "3"}
 														= program.name
@@ -134,6 +136,9 @@
 													%td.padding-0
 														.cell-like.text-center
 															#{student.user_seen.round(1)}%
+													%td.padding-0
+														.cell-like.text-center
+															#{student.evaluation_result_for(@bienvenido)} de #{@bienvenido.points} pts
 													- coloring = 1
 													- @programs.each do |program|
 														- coloring = (coloring == 1 ? 0 : 1)
@@ -155,9 +160,15 @@
 																	- evalp = stat.checked
 																	%i.fa{class: evalp == 1 ? "fa-check text-success" : "fa-times"}
 																	#{l stat.evaluation_date, format: :super_short unless stat.evaluation_date.nil?}
-					- if @students && @students.count > 0
-						.pull-left.text-complete.text-small.p-l-30.p-t-10
-							* Mostrando el registro de #{@students.count} alumnos
+				- if @records_number > @pag_max	
+					.pull-left
+						= paginate @students
+						%br
+						%span.text-center
+							= page_entries_info @students
+				- else @students && @students.count > 0
+					.pull-left.text-complete.text-small.p-l-30.p-t-20.p-b-20
+						* Mostrando un total de #{@students.count} de alumnos
 
 :javascript
 	$(document).ready( function() {
@@ -173,5 +184,7 @@
 			window.location.replace("/analytics_panel/" + selGroup + "/group");
 			return false;
 		})
+
+		/*$("ul.pagination").find("li.active").find("a").css("top", "24px");*/
 
 	});
