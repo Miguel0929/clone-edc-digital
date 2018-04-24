@@ -92,8 +92,10 @@ class Dashboard::RefilableProgramsController < ApplicationController
         #  Programs.complete_student(program, current_user, dashboard_program_url(program))
         #end
         #soporte
-        soporte=User.new(email: "soporte@edc-digital.com")
-        Programs.complete_mentor(program,soporte,current_user,user_url(current_user))
+        if !program.name.include?("¡Bienvenido")
+          soporte=User.new(email: "soporte2@edc-digital.com")
+          Programs.complete_mentor(program,soporte,current_user,user_url(current_user))
+        end
         flash[:complete]="Haz completado el curso!"
         #mentores
         ProgramCompleteNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
