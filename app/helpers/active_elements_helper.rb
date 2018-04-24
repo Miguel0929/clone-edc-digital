@@ -133,6 +133,8 @@ module ActiveElementsHelper
         end
       end
     end
+    ######## Usar uniq en los programas para que no se repitan ###############
+    active_programs = active_programs.uniq
     ########################################################################## 
     return active_programs 
   end
