@@ -135,8 +135,6 @@ class Dashboard::AnswersController < ApplicationController
         #end
         #soporte
         if !program.name.include?("¡Bienvenido")
-          puts "dentro del método"
-          puts current_user.name
           soporte=User.new(email: "soporte2@edc-digital.com")
           Programs.complete_mentor(program,soporte,current_user,user_url(current_user))
         end
