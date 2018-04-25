@@ -20,7 +20,7 @@ class Dashboard::QuizzesController < ApplicationController
       @quizzes = @student.group.all_quizzes
     end
     if !params[:program_id].nil?
-      @quizzes = @quizzes.where(program_id: params[:program_id])
+      @quizzes.select {|x| x['program_id'] == params[:program_id] }
       @program = Program.find(params[:program_id])
     end
   end
