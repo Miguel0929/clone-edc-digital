@@ -333,7 +333,7 @@ Rails.application.routes.draw do
         get :inactive_students
       end
     end
-
+    
     resources :sitemap, only: [:index]
     resources :evaluations, only: [:index, :show, :update]
     resources :program_details, only: [:index]

@@ -5,7 +5,7 @@ class Dashboard::AnswersController < ApplicationController
   before_action :validate_coursable_type
   before_action :build_question
   after_action :update_program_stats, only: [:create, :update]
-  after_action only: [:create] do |c|
+  after_action only: [:create, :update] do |c|
     c.send(:diagnostic_test_process, params[:chapter_content_id])
   end
   before_action :redirect_to_learning, if: :permiso_avance, only: [:show, :new, :edit]
@@ -121,28 +121,31 @@ class Dashboard::AnswersController < ApplicationController
         #soporte
         soporte=User.new(email: "soporte@edc-digital.com")
         Programs.more95_mentor(program,soporte,current_user,user_url(current_user))
-        flash[:more95]="Haz completado el 95% del curso."  
+        flash[:more95]="Has completado el 95% del curso."  
         #mentores
         ProgramMore95NotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
       end
-        mensaje = mensaje + ", haz completado el #{current_user.percentage_answered_for(program)}\% del programa." 
+        mensaje = mensaje + ", has completado el #{current_user.percentage_answered_for(program)}\% del programa." 
     elsif current_user.percentage_answered_for(program)==100
       if current_user.program_notifications.where(program: program).complete.first.nil?
         current_user.program_notifications.create(program: program, notification_type: 'complete')
-        if current_user.panel_notifications.complete_student.first.nil? || current_user.panel_notifications.complete_student.first.status
-          Programs.complete_student(program, current_user, dashboard_program_url(program))
-        end
+        #Se pidió eliminar el envío del correo (Valeria) de notificación cuando se acaba un programa
+        #if (current_user.panel_notifications.complete_student.first.nil? || current_user.panel_notifications.complete_student.first.status) && !program.name.include?("¡Bienvenido")
+        #  Programs.complete_student(program, current_user, dashboard_program_url(program))
+        #end
         #soporte
-        soporte=User.new(email: "soporte@edc-digital.com")
-        Programs.complete_mentor(program,soporte,current_user,user_url(current_user))
-        flash[:complete]="Haz completado el curso!"
+        if !program.name.include?("¡Bienvenido")
+          soporte=User.new(email: "soporte2@edc-digital.com")
+          Programs.complete_mentor(program,soporte,current_user,user_url(current_user))
+        end
+        flash[:complete]="¡Has completado el curso!"
         #mentores
         ProgramCompleteNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
       end
       if program.ruta?  
-        mensaje = mensaje + ", haz completado el 100% del curso."
+        mensaje = mensaje + ", has completado el 100% del curso."
       else
-        mensaje = mensaje + ", haz completado el 100% del curso."
+        mensaje = mensaje + ", has completado el 100% del curso."
       end      
     end   
     if @chapter_content.next_content
@@ -176,9 +179,9 @@ class Dashboard::AnswersController < ApplicationController
       if d_chapter.name.include?("Diagnóstico")
         q_ids = d_chapter.questions.pluck(:id)
         q_answers = Answer.where(user_id: current_user, question_id: q_ids)
-        #puts "Simn we estoy en Diagnóstico"
+        first_time = UserEvaluation.where(evaluation_id: d_chapter.evaluations.pluck(:id), user_id: current_user).empty?
         if (q_ids.sort - q_answers.pluck(:question_id).sort).empty?
-          DiagnosticTestJob.perform_async(q_answers, program, current_user)
+          DiagnosticTestJob.perform_async(q_answers, d_chapter, current_user, first_time)
         end
       end
     end

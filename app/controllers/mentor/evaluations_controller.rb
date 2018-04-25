@@ -61,7 +61,7 @@ class Mentor::EvaluationsController < ApplicationController
     @quizzes = Quiz.where(id: @chapter.quizzes.pluck(:id))
     
     @chapters_w_questions = []
-    @chapters.all.map { |chap| if (chap.questions.count >0 || chap.quizzes.count > 0 || chap.delireverable_packages.count > 0 || chap.delireverable_packages.count > 0 || chap.template_refilables.count > 0 ) then @chapters_w_questions << chap end}
+    @chapters.all.map { |chap| if (chap.questions.count > 0 || chap.quizzes.count > 0 || chap.delireverable_packages.count > 0 || chap.delireverable_packages.count > 0 || chap.template_refilables.count > 0 ) then @chapters_w_questions << chap end}
  
     @chapters_w_questions.each_with_index do |chapter, index|
       if chapter.id == @chapter.id
