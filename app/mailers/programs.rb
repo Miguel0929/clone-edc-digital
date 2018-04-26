@@ -188,7 +188,7 @@ class Programs
       FakeEmail.new
     end 
   end
-  def self.complete_mentor(program, user, student, ruta)
+  def self.complete_mentores(program, user, student, ruta)
     data = {
       personalizations: [
         {
