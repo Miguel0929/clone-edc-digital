@@ -135,6 +135,9 @@ class Dashboard::AnswersController < ApplicationController
         #end
         #soporte
         if !program.name.include?("¡Bienvenido")
+          puts "hola perros"
+          puts program.name
+          puts !program.name.include?("¡Bienvenido")
           soporte=User.new(email: "soporte2@edc-digital.com")
           Programs.complete_mentor(program,soporte,current_user,user_url(current_user))
         end
