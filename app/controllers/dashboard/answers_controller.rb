@@ -134,8 +134,9 @@ class Dashboard::AnswersController < ApplicationController
         #  Programs.complete_student(program, current_user, dashboard_program_url(program))
         #end
         #soporte
+        puts "hola perros adentro"
         if !program.name.include?("¡Bienvenido")
-          puts "hola perros"
+          puts "hola perros afuera"
           puts program.name
           puts !program.name.include?("¡Bienvenido")
           soporte=User.new(email: "soporte2@edc-digital.com")
