@@ -18,7 +18,7 @@ class Dashboard::TemplateRefilablesController < ApplicationController
       @template_refilables = @this_user.group.all_refilables
     end
     if !params[:program_id].nil?
-      @template_refilables.select {|x| x['program_id'] == params[:program_id] }
+      @template_refilables = @template_refilables.select {|x| x['program_id'] == params[:program_id].to_i }
       @program = Program.find(params[:program_id])
     end
 
