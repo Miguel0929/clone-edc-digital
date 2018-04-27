@@ -67,6 +67,7 @@ class Dashboard::ProgramsController < ApplicationController
     end 
 
     @tour_trigger = current_user.tour_trigger
+    clean_repeated_refilables(@program, current_user)
     @answered_quizzes = @program.percentage_answered_quizzes(current_user)
     @answered_templates = @program.percentage_answered_template_refillables(current_user)
 
