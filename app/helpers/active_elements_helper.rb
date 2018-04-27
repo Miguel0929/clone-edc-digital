@@ -139,5 +139,18 @@ module ActiveElementsHelper
     return active_programs 
   end
 
-
+  def clean_repeated_refilables(program, user)
+    # Todos los refilables (o respuestas) de este usuario y de este programa
+    refiles = Refilable.where(template_refilable_id: TemplateRefilable.where(program_id: program).pluck(:id), user_id: user)
+    # Revisar si hay más de un refilable por template refilable (no debería porque solo se editan, no se crean nuevos)
+    if refiles.pluck(:template_refilable_id).length != refiles.pluck(:template_refilable_id).uniq.length
+      # Seleccionar el template_refilable_id de los refilables que están repetidos (más de 1 refilable por template_refilable_id)
+      refiles.select([:template_refilable_id]).group(:template_refilable_id).having("count(template_refilable_id) > 1").each do |rep|
+        # Seleccionar aquellos refiles de template_refilable_id repetidos
+        refils_rep = refiles.where(template_refilable_id: rep.template_refilable_id)
+        # Eliminar todos los duplicados menos el último o el más reciente
+        refils_rep.order(:created_at)[0..(refils_rep.length - 2)].map{|r| r.destroy}
+      end
+    end
+  end
 end

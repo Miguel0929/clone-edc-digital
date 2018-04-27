@@ -57,17 +57,20 @@
               %span.m-r-20{:style => "color: #48B0F7;"}
                 %i.fa.fa-edit
                 #{@current_user.overall_percentage_answered_for(@program)}% contestado
-              %span{:style => "color: #b1d3eb;"}
+              %span.m-r-20{:style => "color: #b1d3eb;"}
                 %i.fa.fa-eye
                 #{@current_user.percentage_content_visited_for(@program)}% visto
+              %span{:style => "color:#dddddd"}
+                %i.fa.fa-flask
+                Nivel 
+                = @program.level == 'basico' ? "básico" : @program.level
             .clearfix
         .row.col-sm-6.p-b-10
           .pull-right
             %span.pull-left.m-r-10{:style => "color:#dddddd"}
               Califica este curso:
             %span.pull-right.rating
-              = render partial: "layouts/stars", locals: {value: @program, route: ratings_vote_program_path}   
-
+              = render partial: "layouts/stars", locals: {value: @program, route: ratings_vote_program_path}  
 .container-fluid.container-fixed-lg
   - last_parameters = last_moved_program(@program)
   - if !last_parameters[4].nil?
