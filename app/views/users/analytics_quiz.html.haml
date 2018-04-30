@@ -18,7 +18,8 @@
                 %i.fa.fa-tasks 
               = question.question_text
               - answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: @user.id)
-            %td= QuizAnswer.respuesta(question.id, @user.id)
+            %td
+              = QuizAnswer.respuesta(question.id, @user.id)
             %td
               = answer.nil? ? "Sin contestar" : QuizAnswer.revisada(question.id, @user.id).html_safe
             %td
@@ -30,4 +31,5 @@
           %td{colspan: '4'}
             %h5.pull-right Total
           %td
-            %h5= @quiz.average(@user)
+            %h5
+              = @quiz.average(@user)

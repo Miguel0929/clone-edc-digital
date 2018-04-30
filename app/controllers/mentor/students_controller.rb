@@ -135,6 +135,7 @@ class Mentor::StudentsController < ApplicationController
     @quiz = Quiz.find(params[:quiz_id])
     @user = User.find(params[:id])
     unless @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus grupos" end
+    clean_repeated_answers(@quiz, @user)
     add_breadcrumb "Estudiantes", :mentor_students_path
     add_breadcrumb "<a href='#{mentor_student_path(@user)}'>#{@user.email}</a>".html_safe
     add_breadcrumb "<a class='active' href='#{analytics_quiz_mentor_student_path(@user, quiz_id: @quiz)}'>Detalles de la evaluación</a>".html_safe
