@@ -13,14 +13,8 @@ class Mentor::StudentsController < ApplicationController
 
     #@users = User.students_table.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
     #  .page(params[:page]).per(100)
-    ids=[]
-    uni= Group.where.not(university_id: nil)
-    uni.each do |u|
-      unless ids.include?(u.university_id)
-        ids.push(u.university_id)
-      end
-    end
-    @universities=University.where(id: ids)
+    @groups = current_user.groups
+    @universities = University.where(id: current_user.groups.pluck(:university_id) )
     @users = User.students.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
     if params[:status].present?
       case params[:status]
@@ -50,7 +44,6 @@ class Mentor::StudentsController < ApplicationController
     if params[:industria].present?
       @users = @users.where(industry_id: params[:industria])
     end
-
     ids=[]
     if params[:answered].present? && params[:program].length==0
       @users.each do |user|
@@ -95,6 +88,7 @@ class Mentor::StudentsController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    unless @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus grupos" end
 
     add_breadcrumb "Estudiantes", :mentor_students_path
     add_breadcrumb "<a class='active' href='#{mentor_student_path(@user)}'>#{@user.email}</a>".html_safe
@@ -140,6 +134,7 @@ class Mentor::StudentsController < ApplicationController
   def analytics_quiz
     @quiz = Quiz.find(params[:quiz_id])
     @user = User.find(params[:id])
+    unless @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus grupos" end
     add_breadcrumb "Estudiantes", :mentor_students_path
     add_breadcrumb "<a href='#{mentor_student_path(@user)}'>#{@user.email}</a>".html_safe
     add_breadcrumb "<a class='active' href='#{analytics_quiz_mentor_student_path(@user, quiz_id: @quiz)}'>Detalles de la evaluación</a>".html_safe
@@ -178,6 +173,7 @@ class Mentor::StudentsController < ApplicationController
 
   def summary
     @user = User.find(params[:id])
+    unless @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus grupos" end
     add_breadcrumb "<a href='#{students_users_path}'>Estudiantes</a>".html_safe
     add_breadcrumb "<a class='active' href='#{summary_user_path(@user)}'>Vista rápida: #{@user.email}</a>".html_safe
     quizzes_results = @user.answered_quizzes

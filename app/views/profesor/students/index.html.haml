@@ -39,7 +39,7 @@
                     .s-s-title
                       %i.fa.fa-users
                       Grupo:
-                    = select_tag :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "" }
+                    = select_tag :group, options_from_collection_for_select(@groups, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "" }
                 .search-group
                   .col-md-3.col-sm-4.col-xs-12
                     .s-s-title

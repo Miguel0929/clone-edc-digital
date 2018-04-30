@@ -1,6 +1,7 @@
 class Profesor::GroupsController < ApplicationController
 	before_action :authenticate_user!
   before_action :require_profesor
+  before_action :my_groups?, only: [:show]
 
   add_breadcrumb "EDC DIGITAL", :root_path
 
@@ -22,4 +23,9 @@ class Profesor::GroupsController < ApplicationController
       format.xlsx{response.headers['Content-Disposition']='attachment; filename="students_list.xlsx"'}
     end
   end	
+
+  def my_groups?
+    group = Group.find(params[:id])
+    unless current_user.admin? || group.my_group?(current_user) then redirect_to profesor_groups_path, notice: "Este no es uno de tus grupos" end
+  end
 end

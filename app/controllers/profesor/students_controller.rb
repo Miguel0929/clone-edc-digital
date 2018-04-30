@@ -11,14 +11,8 @@ class Profesor::StudentsController < ApplicationController
   def index
     add_breadcrumb "<a class='active' href='#{profesor_students_path}'>Estudiantes</a>".html_safe
 
-    ids=[]
-    uni= Group.where.not(university_id: nil)
-    uni.each do |u|
-      unless ids.include?(u.university_id)
-        ids.push(u.university_id)
-      end
-    end
-    @universities=University.where(id: ids)
+    @groups = current_user.groups
+    @universities = University.where(id: current_user.groups.pluck(:university_id) )
     @users = User.students.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
     if params[:status].present?
       case params[:status]
@@ -92,6 +86,7 @@ class Profesor::StudentsController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    unless @user.my_student?(current_user) then redirect_to profesor_students_path, notice: "Este alumno no es parte de tus grupos" end
 
     add_breadcrumb "Estudiantes", :profesor_students_path
     add_breadcrumb "<a class='active' href='#{profesor_student_path(@user)}'>#{@user.email}</a>".html_safe
@@ -129,6 +124,7 @@ class Profesor::StudentsController < ApplicationController
 
   def summary
     @user = User.find(params[:id])
+    unless @user.my_student?(current_user) then redirect_to profesor_students_path, notice: "Este alumno no es parte de tus grupos" end
     add_breadcrumb "<a href='#{profesor_students_path}'>Estudiantes</a>".html_safe
     add_breadcrumb "<a class='active' href='#{summary_profesor_student_path(@user)}'>Vista rápida: #{@user.email}</a>".html_safe
     quizzes_results = @user.answered_quizzes

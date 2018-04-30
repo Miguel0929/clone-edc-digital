@@ -1,10 +1,10 @@
 class Profesor::RefilablesController < ApplicationController
 	before_action :set_student
+  before_action :my_students?, only: [:show, :edit]
   before_action :set_refilable
 
   add_breadcrumb "EDC DIGITAL", :root_path
  
-
   def show
   	add_breadcrumb "#{@user.name}", profesor_student_path(@user)
     add_breadcrumb "<a href='#{dashboard_template_refilables_path(user_id: @user.id)}'>Plantillas</a>".html_safe
@@ -37,5 +37,9 @@ class Profesor::RefilablesController < ApplicationController
 
   def refilable_params
     params.require(:refilable).permit(:comments)
+  end
+
+  def my_students?
+    unless current_user.admin? || @user.my_student?(current_user) then redirect_to profesor_students_path, notice: "Este alumno no es parte de tus grupos" end
   end
 end

@@ -616,6 +616,10 @@ class User < ActiveRecord::Base
     (((evaluation_points * 100) / 800 rescue 0) * chapter.points / 100)
   end
 
+  def my_student?(mentor)
+    self.group.nil? ? false : mentor.groups.pluck(:id).include?(self.group.id)
+  end
+
   private
 
   def set_origin
