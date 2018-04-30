@@ -54,19 +54,20 @@
                 #{ (index != 0) ? "/ " : ""} 
               %span.m-l-5
                 #{user.name}
-      .row
-        .row.p-l-15
-          .col-md-4
-            %h5
-              Alumnos del grupo
-              %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
-                (#{current_stats.group_students} alumnos) 
-          .col-md-6.col-md-offset-2
-            .small.p-b-5
-              %span.small-text Promedio contestado:
-              %span.text-success.font-montserrat.small-text #{average}%
-            .progress.progress-small.m-b-5
-              .progress-bar.progress-bar-primary{:style => "width: #{average}%"}           
+      - if !current_stats.nil?
+        .row
+          .row.p-l-15
+            .col-md-4
+              %h5
+                Alumnos del grupo
+                %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
+                  (#{current_stats.group_students} alumnos) 
+            .col-md-6.col-md-offset-2
+              .small.p-b-5
+                %span.small-text Promedio contestado:
+                %span.text-success.font-montserrat.small-text #{average}%
+              .progress.progress-small.m-b-5
+                .progress-bar.progress-bar-primary{:style => "width: #{average}%"}           
 
 .container-fluid.container-fixed-lg
   .panel.panel-default

@@ -139,4 +139,8 @@ class Group < ActiveRecord::Base
   def inactive_students
     self.students.where(invitation_accepted_at: nil)
   end
+
+  def my_group?(mentor)
+    self.users.pluck(:id).include?(mentor.id)
+  end
 end
