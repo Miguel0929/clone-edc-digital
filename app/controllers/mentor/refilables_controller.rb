@@ -1,5 +1,6 @@
 class Mentor::RefilablesController < ApplicationController
   before_action :set_student
+  before_action :my_students?, only: [:show, :edit]
   before_action :set_refilable
 
   add_breadcrumb "EDC DIGITAL", :root_path
@@ -44,5 +45,9 @@ class Mentor::RefilablesController < ApplicationController
     elsif current_user.admin?
       add_breadcrumb "#{@user.name}", user_path(@user)
     end  
+  end
+
+  def my_students?
+    unless current_user.admin? || @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus grupos" end
   end
 end

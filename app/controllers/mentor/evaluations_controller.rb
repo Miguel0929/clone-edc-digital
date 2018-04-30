@@ -2,6 +2,7 @@ class Mentor::EvaluationsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin_or_mentor
   before_action :set_user
+  before_action :my_students?, only: [:index, :show]
   before_action :set_program
   before_action :set_chapters
 
@@ -169,5 +170,9 @@ class Mentor::EvaluationsController < ApplicationController
       next_student = ordered_students[current_position]
     end
     return prev_student, next_student
+  end
+
+  def my_students?
+    unless current_user.admin? || @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus grupos" end
   end
 end
