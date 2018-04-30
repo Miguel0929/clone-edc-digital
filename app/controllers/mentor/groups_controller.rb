@@ -1,6 +1,7 @@
 class Mentor::GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_mentor
+  before_action :my_groups?, only: [:show, :inactive_students, :template_refilables, :quizzes]
 
   add_breadcrumb "EDC DIGITAL", :root_path
 
@@ -51,5 +52,10 @@ class Mentor::GroupsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{mentor_group_path(@group)}'>#{@group.name}</a>".html_safe
     add_breadcrumb "<a class='active' href='#{quizzes_mentor_group_path(@group)}'>Examenes</a>".html_safe
   end   
+
+  def my_groups?
+    group = Group.find(params[:id])
+    unless current_user.admin? || group.my_group?(current_user) then redirect_to mentor_groups_path, notice: "Este no es uno de tus grupos" end
+  end
 
 end
