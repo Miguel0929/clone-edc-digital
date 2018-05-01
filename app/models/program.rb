@@ -138,9 +138,5 @@ class Program < ActiveRecord::Base
     return [answered_refilables, total_refilables, percentage]
     #return [total_refilables, answered_refilables, (answered_refilables * 100) / total_refilables rescue 0]
   end
-
-  def toy_method
-    puts "hi"
-  end
 end
 
