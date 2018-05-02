@@ -128,7 +128,7 @@
                                   = truncate(program.name, length: 50, separator: ' ')
                             - stats = @current_user.program_stats.find_by(program_id: program)
                             - seen_progress = @current_user.percentage_content_visited_for(program)
-                            - answered_progress = @current_user.percentage_questions_answered_for(program)
+                            - answered_progress = @current_user.overall_percentage_answered_for(program)
                             - last_content = last_visited_content(program, stats)
                             .min-height
                               #accordion.panel.panel-group.panel-transparent.m-b-0
