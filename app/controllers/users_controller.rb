@@ -172,6 +172,7 @@ class UsersController < ApplicationController
 
   def analytics_quiz
     @quiz = Quiz.find(params[:quiz_id])
+    clean_repeated_answers(@quiz, @user)
     add_breadcrumb "Estudiantes", :students_users_path
     add_breadcrumb @user.email, user_path(@user)
     add_breadcrumb "<a class='active' href='#{analytics_quiz_user_path(@user, quiz_id: @quiz)}'>Detalles de la evaluación</a>".html_safe
