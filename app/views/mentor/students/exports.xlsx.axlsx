@@ -12,9 +12,13 @@ wb.styles do |style|
 
     @users.each do |user|
       sheet.add_row [user.id, user.name, user.email, user.phone_number, user.gender_output, user.age, user.situation, 
-                    user.interest, user.challenge, user.goal, user.status, user.group_name, 
-                    "#{(user.answers_count * 100) / user.questions_count rescue 0}%", 
-                    "#{(user.content_tracked_count * 100) / user.content_count rescue 0}%", 
+                    user.interest, user.challenge, user.goal, user.status, user.group.nil? ? "" : user.group.name, 
+                # "#{(user.answers_count * 100) / user.questions_count rescue 0}%",
+                # La línea anterior es reemplazada por la siguiente:
+                    user.user_progress,
+                # "#{(user.content_tracked_count * 100) / user.content_count rescue 0}%", 
+                # La línea anterior es reemplazada por la siguiente:
+                    user.user_seen,
                     user.comments_count, "", "" ],
                     style: [content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell]
 

@@ -125,7 +125,8 @@ class Mentor::StudentsController < ApplicationController
   end
 
   def exports
-    @users = User.students_table.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
+    #@users = User.students_table.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
+    @users = User.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
     respond_to do |format|
       format.xlsx{response.headers['Content-Disposition']='attachment; filename="Lista de alumnos.xlsx"'}
     end
