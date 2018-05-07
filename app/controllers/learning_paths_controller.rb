@@ -2,6 +2,9 @@ class LearningPathsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
   before_action :set_learning_path, only: [:show, :destroy, :edit, :update, :clone]
+  before_action :blank_group_paths, only: [:destroy]
+  after_action :update_program_sequences, only: [:destroy]
+  include GroupHelper
   add_breadcrumb "EDCDIGITAL", :root_path
   def index
     add_breadcrumb "<a href='#{learning_paths_path}' class='active'>Rutas de aprendizaje</a>".html_safe
@@ -67,12 +70,14 @@ class LearningPathsController < ApplicationController
   def update
     if learning_path_edit_params[:tipo] == "moral"
       if @learning_path.update(tipo: learning_path_edit_params[:tipo], name: learning_path_edit_params[:name], group2_ids:  learning_path_edit_params[:group2_ids])
+        UpdateProgramSequenceJob.perform_async(Group.where(id: learning_path_edit_params[:group2_ids]))
         redirect_to learning_paths_path, notice: "Ruta de aprendizaje actualizada"
       else  
         render :edit
       end
     elsif  learning_path_edit_params[:tipo] == "fisica"
       if @learning_path.update(tipo: learning_path_edit_params[:tipo], name: learning_path_edit_params[:name], group_ids: learning_path_edit_params[:group_ids])
+        UpdateProgramSequenceJob.perform_async(Group.where(id: learning_path_edit_params[:group_ids]))
         redirect_to learning_paths_path, notice: "Ruta de aprendizaje actualizada"
       else  
         render :edit
@@ -98,6 +103,7 @@ class LearningPathsController < ApplicationController
     @c_refilables = @learning_path.learning_path_contents.where(content_type: "TemplateRefilable").order(:position)
     @c_delireverables= @learning_path.learning_path_contents.where(content_type: "DelireverablePackage").order(:position)
   end
+
   def destroy
     @learning_path.destroy
     redirect_to learning_paths_path, notice: "Se eliminó exitosamente"  
@@ -178,5 +184,28 @@ class LearningPathsController < ApplicationController
     end
     def learning_path_edit_params
       params.require(:learning_path).permit(:name, :tipo, group_ids: [], group2_ids: [])
-    end  
+    end 
+    def blank_group_paths
+      if @learning_path.tipo == "fisica"
+        @learning_path_groups = Group.where(learning_path_id: @learning_path.id)
+        @learning_path_groups.each do |group|
+          group.update(learning_path_id: nil)
+        end
+      elsif @learning_path.tipo == "moral"
+        @learning_path_groups = Group.where(learning_path2_id: @learning_path.id)
+        @learning_path_groups.each do |group|
+          group.update(learning_path2_id: nil)
+        end
+      end
+    end 
+    def update_program_sequences
+      #if @learning_path.tipo == "fisica"
+      #  puts "es física we"
+      #  groups = Group.where(learning_path_id: @learning_path.id)
+      #elsif @learning_path.tipo == "moral"
+      #  puts "es moral we"
+      #  groups = Group.where(learning_path2_id: @learning_path.id)
+      #end
+      UpdateProgramSequenceJob.perform_async(@learning_path_groups)
+    end
 end
