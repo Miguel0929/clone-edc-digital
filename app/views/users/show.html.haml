@@ -200,7 +200,8 @@
                       %th
                         Acciones
                   %tbody
-                    - Program.all.each do |program|
+                    /- Program.all.each do |program|
+                    - @all_programs.each do |program|
                       %tr
                         %td.p-b-15
                           = link_to program.name, analytics_program_user_path(@user, program_id: program), :style => "font-size: 17px;"
@@ -244,7 +245,7 @@
                             %strong (#{@user.percentage_content_visited_for(program)}%)
                         - if current_user.admin? && !@user.group.nil?
                           %td.p-b-15
-                            - if !@programs.exists?(program) 
+                            - if !@programs.include?(program) 
                               No disponible
                             - else
                               - if permiso_programs(program, @user)    

@@ -11,6 +11,7 @@ class UsersController < ApplicationController
   helper_method :last_visited_content
   helper_method :permiso_programs
   include KeyQuestionsHelper
+  include GroupHelper
 
   def index
     add_breadcrumb "<a class='active' href='#{users_path}'>Estudiantes</a>".html_safe
@@ -118,9 +119,10 @@ class UsersController < ApplicationController
   def show
     add_breadcrumb "Estudiantes", :students_users_path
     add_breadcrumb "<a class='active' href='#{user_path(@user)}'>#{@user.email}</a>".html_safe
-
                                    
-    @programs = @user.group.all_programs rescue []
+    @programs = sort_programs(@user.group, @user.group.all_programs) rescue []
+
+    @all_programs = @programs + Program.where(id: Program.all.pluck(:id) - @user.group.all_programs.pluck(:id)) rescue []
                                    
     @delireverables = @user.group.all_delireverables rescue []
                                  
@@ -369,7 +371,7 @@ class UsersController < ApplicationController
     if @total_quizzes == 0
       @result_exams = 0
     else
-      @result_exams = @answered_quizzes.to_f / @total_quizzes.to_f * 100 
+      @result_exams = (@answered_quizzes.to_f) / (@total_quizzes.to_f) * 100 
     end
     if @delireverables == 0
       @result_delireverables = 0

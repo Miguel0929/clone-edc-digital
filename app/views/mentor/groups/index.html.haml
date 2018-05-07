@@ -63,7 +63,7 @@
                       %i.fa.fa-male
                       Ver usuarios inactivos (#{group.inactive_students.count})
               %td.p-b-20
-                - group.all_programs.each_with_index do |program, index|
+                - sort_programs(group, group.all_programs).each_with_index do |program, index|
                   .label.m-b-5.program-labels{"data-toggle": "tooltip", "data-original-title": "#{program.name}"}
                     = !program.short_name.nil? ? program.short_name : "P-#{index}"
               %td.p-b-20
