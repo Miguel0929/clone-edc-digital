@@ -8,7 +8,7 @@ class ProgramStatsController < ApplicationController
     @current_stats = ProgramStat.where(user_id: user, program_id: program).last
     user.program_notifications.create({program_id: program, notification_type: 3})
 
-    if (user.panel_notifications.up_evaluation.first.nil? || user.panel_notifications.up_evaluation.first.status) && !program.name.include?("¡Bienvenido")
+    if (user.panel_notifications.up_evaluation.first.nil? || user.panel_notifications.up_evaluation.first.status) && !Program.find(program).name.include?("¡Bienvenido")
       Programs.up_evaluation(Program.find(program),user,dashboard_evaluations_url(program_id: program))
     end
     

@@ -2,6 +2,8 @@ class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
   before_action :set_group, only: [:show, :edit, :update, :destroy, :sort_route, :sort, :student_control, :reassign_student, :unlink_student, :notification_route, :no_group_students, :clone, :codes]
+  after_action :update_program_sequences, only: [:create, :update]
+  include GroupHelper
 
   add_breadcrumb "EDCDIGITAL", :root_path
 
@@ -13,6 +15,7 @@ class GroupsController < ApplicationController
   def show
     @students = @group.active_students.page(params[:page]).per(50)
     @students = @group.student_search(params[:query]).page(params[:page]).per(50) if params[:query].present?
+    @programs = sort_programs(@group, @group.all_programs)
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{group_path(@group)}'>#{@group.name}</a>".html_safe
   end
@@ -261,5 +264,9 @@ class GroupsController < ApplicationController
 
   def group_params
     params.require(:group).permit(:name, :key, :state_id, :university_id, :category, :learning_path_id, :learning_path2_id, :hit_n_run, program_ids: [], user_ids: [], student_ids: [], quiz_ids: [], delireverable_package_ids: [], template_refilable_ids: [])
+  end
+
+  def update_program_sequences
+    set_program_order(@group)
   end
 end

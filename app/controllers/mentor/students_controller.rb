@@ -7,6 +7,7 @@ class Mentor::StudentsController < ApplicationController
   helper_method :get_program_active
   helper_method :chapter_have_questions?
   include KeyQuestionsHelper
+  include GroupHelper
 
   def index
     add_breadcrumb "<a class='active' href='#{mentor_students_path}'>Estudiantes</a>".html_safe
@@ -111,7 +112,8 @@ class Mentor::StudentsController < ApplicationController
 
     @complementarios = group_programs - (fisica_programs + moral_programs)
                              
-    @programs=@user.group.all_programs rescue []
+    #@programs = @user.group.all_programs rescue []
+    @programs = sort_programs(@user.group, @user.group.all_programs) rescue []
                                  
     @delireverables=@user.group.all_delireverables rescue []
 

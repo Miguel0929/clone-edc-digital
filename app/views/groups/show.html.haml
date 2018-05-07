@@ -13,7 +13,7 @@
           %h5
             Programas habilitados
           %ol
-            - @group.all_programs.each do |program|
+            - @programs.each do |program|
               %li
                 = program.name
         .col-md-3
@@ -142,7 +142,7 @@
                     %strong #{student.user_seen.ceil}%
                 %td
                   %ul.list-inline.no-style.unstyled
-                    - @group.all_programs.each_with_index do |program, index|
+                    - @programs.each_with_index do |program, index|
                       %li
                         - review = program.program_checked?(program, student)
                         - progress_percentage =  student.percentage_questions_answered_for(program)
