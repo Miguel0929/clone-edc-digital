@@ -3,6 +3,8 @@ class LearningPathContentsController < ApplicationController
 	before_action :require_admin
 	before_action :set_learning_path
 	before_action :set_learning_path_content, except: [:sort, :create]
+	after_action :update_program_sequences
+
 	def new
 		@learning_path_content=@learning_path.learning_path_contents.new
 	end
@@ -56,9 +58,9 @@ class LearningPathContentsController < ApplicationController
 
 	def sort
 		params[:content].each_with_index do |id, index|
-    	LearningPathContent.find(id).update_attributes({position: index + 1})
-    end
-    render nothing: true
+    		LearningPathContent.find(id).update_attributes({position: index + 1})
+	    end
+	    render nothing: true
 	end	
 	def destroy
 		@learning_path_content.destroy
@@ -73,6 +75,14 @@ class LearningPathContentsController < ApplicationController
 		@learning_path_content=LearningPathContent.find(params[:id])
 	end
 	def learning_path_contents_params
-    params.permit(:tipo, :content)
-  end	
+    	params.permit(:tipo, :content)
+  	end	
+  	def update_program_sequences
+  		if @learning_path.tipo == "fisica"
+  			groups =  Group.where(learning_path_id: @learning_path.id)
+  		elsif @learning_path.tipo == "moral"
+  			groups =  Group.where(learning_path2_id: @learning_path.id)
+  		end
+  		UpdateProgramSequenceJob.perform_async(groups)
+  	end
 end

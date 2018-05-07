@@ -21,6 +21,7 @@ class Group < ActiveRecord::Base
   belongs_to :learning_path
   belongs_to :learning_path2, class_name: "LearningPath"
   has_one :reception
+  has_one :program_sequence
 
   validates_presence_of :name, :key
   validates_uniqueness_of :key

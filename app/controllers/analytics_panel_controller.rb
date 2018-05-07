@@ -3,6 +3,7 @@ class AnalyticsPanelController < ApplicationController
   before_action :require_admin_or_mentor_or_profesor
   before_action :set_group, only: [:group]
   add_breadcrumb "EDCDIGITAL", :root_path
+  include GroupHelper
 
   helper_method :program_objects
 
@@ -15,9 +16,7 @@ class AnalyticsPanelController < ApplicationController
           progs << program
         end  
       end  
-
-      @programs = Program.where(id: progs)
-
+      @programs = Program.where(id: progs.uniq.reverse)
 
   		#@active_students = User.where(group_id: @groups, role: 0).where.not(invitation_accepted_at: nil)
   		#@inactive_students = User.where(group_id: @groups, role: 0).where(invitation_accepted_at: nil)
@@ -35,9 +34,7 @@ class AnalyticsPanelController < ApplicationController
     user = current_user
     @groups = (user.mentor? || user.profesor?) ? current_user.groups : Group.all
     if @group
-      path_programs = @group.all_programs.order(:position)
-      group_programs = Program.joins(:group_programs).where(group_programs: {group_id: @group})
-      @programs = (path_programs + group_programs).uniq
+      @programs = sort_programs(@group, @group.all_programs)
       @students = User.where(group: @group, role: 0).where.not(invitation_accepted_at: nil).uniq.order(:first_name)
       @pag_max = 100
       @records_number = @students.count

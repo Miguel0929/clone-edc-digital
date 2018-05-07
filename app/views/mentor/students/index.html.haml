@@ -184,7 +184,7 @@
                 %td
                   - unless user.group.nil?
                     %ul.unstyled.no-style
-                      - user.group.all_programs.each do |program|
+                      - sort_programs(user.group, user.group.all_programs).each do |program|
                         %li.inline.p-b-5
                           %i.fa.fa-check
                           #{program.name}. 
