@@ -23,6 +23,8 @@ class Dashboard::RefilablesController < ApplicationController
     refilable.user = current_user
     refilable.save
 
+    AnsweredRefilableNotificationJob.perform_async(@template.program, @template, "soporte2@edc-digital.com", current_user, mentor_student_url(current_user))
+
     redirect_to dashboard_template_refilables_path, notice: 'Plantilla contestada'
   end
 
