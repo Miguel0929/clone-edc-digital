@@ -1,6 +1,6 @@
 - content_for :title  do
   Grupos - EDC Digital
-- quizzes_total = @group.all_quizzes.count
+- quizzes_total = @quizzes.count
 - average, contestados = @group.answered_quizzes
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-30.panel-title-perfil
@@ -36,9 +36,9 @@
           %h5
             Evaluaciones habilitadas
             %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
-              (#{@group.all_quizzes.count} evaluaciones)
+              (#{@quizzes.count} evaluaciones)
           .m-t-10.p-l-20
-            - @group.all_quizzes.each_with_index do |quiz, index|
+            - @quizzes.each_with_index do |quiz, index|
               = link_to quiz_path(quiz) do
                 .label.program-labels{"data-toggle": "tooltip", "data-original-title": "#{quiz.name}"}
                   = "Ev-#{index}"    
@@ -117,7 +117,7 @@
                     %strong #{progreso}%
                 %td
                   %ul.list-inline.no-style.unstyled
-                    - @group.all_quizzes.each_with_index do |quiz, index|
+                    - @quizzes.each_with_index do |quiz, index|
                       %li 
                         = link_to analytics_quiz_mentor_student_path(student, quiz_id: quiz) do
                           
