@@ -124,11 +124,11 @@ class UsersController < ApplicationController
 
     @all_programs = @programs + Program.where(id: Program.all.pluck(:id) - @user.group.all_programs.pluck(:id)) rescue []
                                    
-    @delireverables = @user.group.all_delireverables rescue []
+    @delireverables = @user.group.all_delireverables rescue [] 
                                  
-    @refilables = @user.group.all_refilables rescue []
+    @refilables = sort_template_refilables(@user.group) rescue [] # @user.group.all_refilables
                                 
-    @quizzes = @user.group.all_quizzes rescue []    
+    @quizzes = sort_quizzes(@user.group) rescue [] # @user.group.all_quizzes
 
     @key_questions = key_questions_hash
 
