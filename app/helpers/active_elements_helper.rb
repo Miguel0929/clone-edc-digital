@@ -69,7 +69,7 @@ module ActiveElementsHelper
       end
     end
     ########################################################################## 
-    return active_elements  
+    return active_elements.uniq
   end
 
 

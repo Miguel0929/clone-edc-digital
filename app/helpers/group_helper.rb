@@ -47,4 +47,36 @@ module GroupHelper
     return programs.sort_by do |program| order.index(program[:id]) end 
   end
 
+  def sort_template_refilables(group)
+    templates_arry = []
+    physical = group.learning_path.learning_path_contents.where(content_type: "TemplateRefilable").order(:position) rescue nil
+    moral = group.learning_path2.learning_path_contents.where(content_type: "TemplateRefilable").order(:position) rescue nil
+    physical.each do |ph|
+      templates_arry << TemplateRefilable.find(ph.content_id) unless TemplateRefilable.find(ph.content_id).nil? 
+    end unless physical.nil?
+    moral.each do |mo|
+      templates_arry << TemplateRefilable.find(mo.content_id) unless TemplateRefilable.find(mo.content_id).nil? 
+    end unless moral.nil?
+    group.template_refilables.each do |temp|
+      templates_arry << temp
+    end
+    return templates_arry
+  end
+
+  def sort_quizzes(group)
+    quizzes = []
+    physical = group.learning_path.learning_path_contents.where(content_type: "Quiz").order(:position) rescue nil
+    moral = group.learning_path2.learning_path_contents.where(content_type: "Quiz").order(:position) rescue nil
+    physical.each do |ph|
+      quizzes << Quiz.find(ph.content_id) unless Quiz.find(ph.content_id).nil? 
+    end unless physical.nil?
+    moral.each do |mo|
+      quizzes << Quiz.find(mo.content_id) unless Quiz.find(mo.content_id).nil? 
+    end unless moral.nil?
+    group.quizzes.each do |quiz|
+      quizzes << quiz
+    end
+    return quizzes
+  end
+
 end

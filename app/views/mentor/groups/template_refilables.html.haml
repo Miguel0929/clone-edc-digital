@@ -28,17 +28,17 @@
         .col-md-12
           .pull-right
             .btn-group{"role" => "group", "aria-label" => "..."}
-              = link_to "Programas.", mentor_group_path(@group), class: 'btn btn-default'
-              = link_to "Plantillas.", template_refilables_mentor_group_path(@group), class: 'btn btn-default active'
-              = link_to "Evaluaciones.", quizzes_mentor_group_path(@group), class: 'btn btn-default'
+              = link_to "Programas", mentor_group_path(@group), class: 'btn btn-default'
+              = link_to "Plantillas", template_refilables_mentor_group_path(@group), class: 'btn btn-default active'
+              = link_to "Evaluaciones", quizzes_mentor_group_path(@group), class: 'btn btn-default'
       .row.m-b-20
         .col-md-12
           %h5
             Plantillas habilitadas
             %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
-              (#{@group.all_refilables.count} plantillas)
+              (#{@template_refilables.count} plantillas)
           .m-t-10.p-l-20
-            - @group.all_refilables.each_with_index do |template, index|
+            - @template_refilables.each_with_index do |template, index|
               = link_to template_refilable_path(template) do
                 .label.program-labels{"data-toggle": "tooltip", "data-original-title": "#{template.name}"}
                   = "Pla-#{index}"    
@@ -91,11 +91,11 @@
               Plantillas
           %tbody
             - @students.each_with_index do |student, index|
-              - prog= Refilable.where(template_refilable_id: @group.all_refilables, user_id: student).count
+              - prog = Refilable.where(template_refilable_id: @group.all_refilables, user_id: student).count
               - if prog == 0
                 - progreso = 0
               - else 
-                - progreso = (prog * 100)/(@group.all_refilables.count) 
+                - progreso = (prog * 100)/(@template_refilables.count) 
               %tr
                 %td.p-b-20
                   .m-b-5
@@ -117,7 +117,7 @@
                     %strong #{progreso}%
                 %td
                   %ul.list-inline.no-style.unstyled
-                    - @group.all_refilables.each_with_index do |refilable, index|
+                    - @template_refilables.each_with_index do |refilable, index|
                       %li 
                         = link_to mentor_student_refilable_path(student, refilable) do
                           -answered = Refilable.where(template_refilable: refilable, user: student).count
