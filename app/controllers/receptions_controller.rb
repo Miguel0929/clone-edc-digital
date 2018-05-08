@@ -37,7 +37,7 @@ class ReceptionsController < ApplicationController
 
 	def destroy
 		@reception.destroy
-		redirect_to receptions_path, notice: "Se elimino exitosamente la landing #{@reception.name}"
+		redirect_to receptions_path, notice: "Se eliminó exitosamente la landing #{@reception.name}"
 	end
 
 	def register
@@ -48,16 +48,16 @@ class ReceptionsController < ApplicationController
         u.skip_invitation = true
       end
       send_mail(@user, accept_user_invitation_url)
-      flash[:notice] = "El correo electronico #{@user.email} a sido registrado, verifica tu email para completar el registro"
+      flash[:notice] = "El correo electronico #{@user.email} ha sido registrado, verifica tu email para completar el registro"
 		elsif !@user.nil? && !@user.invitation_token.nil?
 			@user.update(email: user_params[:email], first_name: user_params[:first_name], group_id: user_params[:group_id], :last_name => user_params[:last_name], :phone_number => user_params[:phone_number])
       @user.invite! do |u|
         u.skip_invitation = true
       end
       send_mail(@user, accept_user_invitation_url)
-      flash[:notice] = "El correo electronico #{@user.email} a sido registrado, verifica tu email para completar el registro"
+      flash[:notice] = "El correo electronico #{@user.email} ha sido registrado, verifica tu email para completar el registro"
     elsif !@user.nil? && @user.invitation_token.nil?
-      flash[:notice] = "El correo electronico #{@user.email} ya cuenta con una cuenta activa."
+      flash[:notice] = "El correo electronico #{@user.email} ya está asociado a una cuenta activa"
 		end
 		
 		redirect_to	reception_path(@group.reception.name)
