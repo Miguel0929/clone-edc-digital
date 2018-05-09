@@ -4,6 +4,7 @@ if Rails.env.production?
       provider:           'Google',
       google_storage_access_key_id: ENV['GOOGLE_STORAGE_ACCESS_KEY'],
       google_storage_secret_access_key:  ENV['GOOGLE_STORAGE_SECRET'],
+      :persistent => false
     }
 
     config.fog_directory = ENV['GOOGLE_SEGMENT']
