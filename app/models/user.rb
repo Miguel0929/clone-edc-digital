@@ -207,10 +207,12 @@ class User < ActiveRecord::Base
     if self.group != nil
       self.group.all_programs.each do |program|
         p_stats = self.program_stats.find_by(program_id: program)
+        progress = self.percentage_questions_answered_for(program).to_f
+        seen = self.percentage_content_visited_for(program).to_f
         if p_stats.nil?
-          ProgramStat.create(user_id: self.id, program_id: program.id, program_progress: self.percentage_questions_answered_for(program).to_f, program_seen: self.percentage_content_visited_for(program).to_f)
+          ProgramStat.create(user_id: self.id, program_id: program.id, program_progress: progress, program_seen: seen)
         else
-          p_stats.update(program_progress: self.percentage_questions_answered_for(program).to_f, program_seen: self.percentage_content_visited_for(program).to_f)
+          p_stats.update(program_progress: progress, program_seen: seen)
         end
       end
     end
