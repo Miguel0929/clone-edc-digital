@@ -209,9 +209,6 @@ class User < ActiveRecord::Base
         p_stats = self.program_stats.find_by(program_id: program)
         progress = self.percentage_questions_answered_for(program).to_f
         seen = self.percentage_content_visited_for(program).to_f
-        puts "no mamar " + program.name
-        puts progress
-        puts seen
         if p_stats.nil?
           ProgramStat.create(user_id: self.id, program_id: program.id, program_progress: progress, program_seen: seen)
         else
