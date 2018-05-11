@@ -63,27 +63,33 @@ class Mentor::EvaluationsController < ApplicationController
     
     @chapters_w_questions = []
     @chapters.all.map { |chap| if (chap.questions.count > 0 || chap.quizzes.count > 0 || chap.delireverable_packages.count > 0 || chap.delireverable_packages.count > 0 || chap.template_refilables.count > 0 ) then @chapters_w_questions << chap end}
- 
-    @chapters_w_questions.each_with_index do |chapter, index|
-      if chapter.id == @chapter.id
-        nav_indexes = user_spot
-        @prev_student, @next_student = User.find(nav_indexes[0]), User.find(nav_indexes[1])
-        if index == 0 
-          @prev_chapter, @next_chapter = @chapter, @chapters_w_questions[index+1] 
-          @selected_user = @prev_student
-          @same_user_next = @user
-          @prev_text = "Estudiante anterior: "
-        elsif index == (@chapters_w_questions.count - 1)
-          @prev_chapter, @next_chapter = @chapters_w_questions[index-1], @chapters_w_questions[0] #@chapters_w_questions[@chapters_w_questions.count - 1]  -> NOTA: "@next_chapter" ya no será el último si no el primero del sig usuario
-          @selected_user = @next_student
-          @next_text = "Siguiente estudiante: "
-          @same_user_prev = @user
-        else 
-          @prev_chapter, @next_chapter = @chapters_w_questions[index-1], @chapters_w_questions[index+1]
-          @selected_user = @user
+    
+    if @user.student?
+      @chapters_w_questions.each_with_index do |chapter, index|
+        if chapter.id == @chapter.id
+          nav_indexes = user_spot
+          @prev_student, @next_student = User.find(nav_indexes[0]), User.find(nav_indexes[1])
+          if index == 0 
+            @prev_chapter, @next_chapter = @chapter, @chapters_w_questions[index+1] 
+            @selected_user = @prev_student
+            @same_user_next = @user
+            @prev_text = "Estudiante anterior: "
+          elsif index == (@chapters_w_questions.count - 1)
+            @prev_chapter, @next_chapter = @chapters_w_questions[index-1], @chapters_w_questions[0] #@chapters_w_questions[@chapters_w_questions.count - 1]  -> NOTA: "@next_chapter" ya no será el último si no el primero del sig usuario
+            @selected_user = @next_student
+            @next_text = "Siguiente estudiante: "
+            @same_user_prev = @user
+          else 
+            @prev_chapter, @next_chapter = @chapters_w_questions[index-1], @chapters_w_questions[index+1]
+            @selected_user = @user
+          end
         end
       end
-    end
+    else
+      @same_user_prev = @user
+      @selected_user = @user
+      @same_user_next = @user
+    end  
 
     if current_user.admin?
       add_breadcrumb @user.email, user_path(@user)
