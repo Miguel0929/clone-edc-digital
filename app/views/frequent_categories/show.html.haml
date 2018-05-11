@@ -1,53 +1,51 @@
 - content_for :title  do
-	Glosario - EDC Digital
+  Preguntas frecuentas - EDC Digital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
-	%section.demo-bg-section.p-b-15.p-t-30.panel-title-ayuda
-		.container-fluid
-			.md-p-l-20.md-p-r-20.xs-no-padding
-				.row.col-md-12
-					.col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
-						%h3.text-white 
-							Preguntas frecuentes
-					.col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
-						%h5.text-white
-							Categoría:
-						%h3.m-b-20.text-white
-							= @category.name 
-	
-	.m-t-30
-		.col-md-12
-			.panel.panel-transparent.m-b-0
-				.panel-heading
-					.panel-title
-						Consulta las preguntas frecuentes de esta categoría:
-				.panel-body
-					.table-responsive
-						%table.col-md-12.table.table-hover.table-condensed.dataTable.no-footer{:role => "grid"}
-							%tbody
-							- if @category.frequents.exists?
-								- @category.frequents.each do |frequent|
-									%tr{:role => "row"}
-										%td.v-align-middle.bold{:width => "75%", :style => "line-height: 3;"} 
-											= link_to frequent.name, frequent
-										- if !current_user.nil? && current_user.admin?
-											%td
-												.center
-													= link_to edit_frequent_path(frequent) do
-														%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar"}
-															%i.fa.fa-edit{:style => "font-size:18px;"}
-											%td
-												.center
-													= link_to frequent_path(frequent), method: :delete, data: { confirm: '¿Estás seguro?' } do
-														%span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar"}
-															%i.fa.fa-times{:style => "font-size:18px;"}
-							- elsif
-								%tr{:role => "row"}
-									%td.v-align-middle.bold{:width => "75%", :style => "line-height: 3;"} 
-										.text-center
-											Aún no hay preguntas para esta categoría
-				.pull-right
-					= link_to frequent_categories_path do
-						%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.m-r-20
-							%i.fa.fa-mail-reply
-							Regresar a preguntas frecuentes
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-ayuda
+    .container-fluid
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h3.text-white 
+              Preguntas frecuentes
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              = "Categoría: #{@category.name}"
+
+            %p.text-white
+              = @category.description  
+  
+  .m-t-30
+    .col-md-12
+      .card.share{"data-social" => "item"}
+        .card-header.clearfix 
+          %h5
+            Consulta las preguntas frecuentes de esta categoría:
+        .card-description.p-b-0
+          - if @frequents.exists?
+            - @frequents.each_with_index do |frequent, i|
+              %ul.list-unstyled
+                %li      
+                  %strong= "- #{frequent.name}"
+                  -if !current_user.nil? && current_user.admin?
+                    = link_to edit_frequent_path(frequent) do
+                      %span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-20.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar"}
+                        %i.fa.fa-edit{:style => "font-size:18px;"}
+                    = link_to frequent_path(frequent), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                      %span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar"}
+                        %i.fa.fa-times-circle{:style => "font-size:18px;"}
+                  %br 
+                  .text-info.p-l-20= (frequent.answer).html_safe
+            .pull-right
+              = paginate @frequents      
+                  
+          - else
+            %ul.list-unstyled
+              %li 
+                Aún no hay preguntas para esta categoría
+      .pull-right
+        = link_to frequent_categories_path do
+          %button.btn.btn-tag.btn-tag-light.btn-tag-rounded.m-r-20
+            %i.fa.fa-mail-reply
+            Regresar a preguntas frecuentes
