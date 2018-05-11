@@ -158,10 +158,9 @@ class Dashboard::AnswersController < ApplicationController
   end
 
   def update_program_stats
-    #program = Program.joins(:chapters => :chapter_contents).where(chapter_contents: {id: @chapter_content.id}).last
     program = @chapter_content.chapter.program
     program_stat = ProgramStat.where(user_id: @current_user.id, program_id: program.id).last
-    progress = @current_user.percentage_answered_for(program)
+    progress = @current_user.percentage_questions_answered_for(program)
     seen = @current_user.percentage_content_visited_for(program)
 
     if program_stat.nil?
