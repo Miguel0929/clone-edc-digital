@@ -45,13 +45,15 @@
             %h5   
               = link_to category.name, category, :style => "color: black;"
               (#{category.frequents.count})
+            = category.description
 
           .card-description.p-b-0
             -if category.frequents.exists?
-              - category.frequents.first(5).each do |frequent|
+              - category.frequents.first(5).each_with_index do |frequent, i|
                 %ul.list-unstyled
-                  %li 
-                    = link_to frequent.name, frequent
+                  %li      
+                    %strong= "#{i+1}) #{frequent.name}"
+                    
                     -if !current_user.nil? && current_user.admin?
                       = link_to edit_frequent_path(frequent) do
                         %span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-20.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Editar"}
@@ -59,6 +61,8 @@
                       = link_to frequent_path(frequent), method: :delete, data: { confirm: '¿Estás seguro?' } do
                         %span.btn-tag-light.btn-tag-rounded.p-r-10.p-l-10.tip{"data-toggle" => "tooltip", :type => "button", "data-original-title" => "Eliminar"}
                           %i.fa.fa-times-circle{:style => "font-size:18px;"}
+                    %br 
+                    .text-info.p-l-20= (frequent.answer).html_safe      
             -elsif
               %center.p-b-10
                 Aún no hay preguntas para esta categoría
