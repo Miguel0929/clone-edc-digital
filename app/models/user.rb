@@ -237,6 +237,24 @@ class User < ActiveRecord::Base
     ((questions_answered_for(program) + delireverables_answered_for(program)+ refilables_answered_for(program) + quizzes_answered_for(program)) * 100) / (total_questions + total_quizzes + total_delireverables + total_refilables) rescue 0
   end
 
+  def integral_percentage_progress_for(program)
+    program_stat = self.program_stats.find_by(program_id: program)
+    if program_stat.nil? #Primero busca porgram_stat y si no está lo calcula
+      return self.percentage_questions_answered_for(program)
+    else
+      return program_stat.program_progress
+    end
+  end
+
+  def integral_percentage_visited_for(program)
+    program_stat = self.program_stats.find_by(program_id: program)
+    if program_stat.nil? #Primero busca porgram_stat y si no está lo calcula
+      return self.percentage_content_visited_for(program)
+    else
+      return program_stat.program_seen
+    end
+  end
+
   def overall_percentage_answered_for(program)
     #calcular preguntas
     total_questions = program.chapters.joins(:questions).select('questions.*').count
@@ -390,6 +408,7 @@ class User < ActiveRecord::Base
   def has_answer_refilable?(template_refilable)
     !template_refilable.refilables.find_by(user: self).nil?
   end
+  
   def has_sent_delireverables?(delireverable_package)
     entregables=delireverable_package.delireverables
     respuestas=[]

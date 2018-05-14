@@ -40,9 +40,9 @@ class StudentsExporterJob
           end
           unless student.group.nil?
             Program.all.each do |program|
-              if student.group.programs.exists?(program)
-                content << "#{student.percentage_questions_answered_for(program)}%"
-                content << "#{student.content_visted_for(program)}%"
+              if student.group.all_programs.exists?(program)
+                content << "#{student.integral_percentage_progress_for(program).ceil}%"
+                content << "#{student.integral_percentage_visited_for(program).ceil}%"
               else
                 content << "N/A"
                 content << "N/A"
