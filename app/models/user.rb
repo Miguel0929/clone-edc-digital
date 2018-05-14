@@ -203,6 +203,21 @@ class User < ActiveRecord::Base
     comments.count
   end
 
+  def set_all_program_stats
+    if self.group != nil
+      self.group.all_programs.each do |program|
+        p_stats = self.program_stats.find_by(program_id: program)
+        progress = self.percentage_questions_answered_for(program).to_f
+        seen = self.percentage_content_visited_for(program).to_f
+        if p_stats.nil?
+          ProgramStat.create(user_id: self.id, program_id: program.id, program_progress: progress, program_seen: seen)
+        else
+          p_stats.update(program_progress: progress, program_seen: seen)
+        end
+      end
+    end
+  end
+
   def percentage_content_visited_for(program)
     total = program.chapters.joins(:lessons).select('lessons.*').count
     (content_visted_for(program) * 100) / total rescue 0
@@ -237,6 +252,24 @@ class User < ActiveRecord::Base
       return self.percentage_content_visited_for(program)
     else
       return program_stat.program_seen
+    end
+  end
+
+  def overall_percentage_answered_for(program)
+    #calcular preguntas
+    total_questions = program.chapters.joins(:questions).select('questions.*').count
+    answered_questions = questions_answered_for(program)
+    #calcular exámenes
+    total_quizzes = program.quizzes.count
+    answered_quizzes = program.answered_quizzes(self)
+    #calcular plantillas
+    refilables = program.template_refilables.pluck(:id)
+    total_refilables = refilables.count
+    answered_refilables = Refilable.where(template_refilable_id: refilables, user_id: self).count
+    if (total_questions + total_quizzes + total_refilables) > 0
+      return ((answered_questions + answered_quizzes + answered_refilables) * 100) / (total_questions + total_quizzes + total_refilables)
+    else
+      return 0
     end
   end
 
@@ -431,24 +464,6 @@ class User < ActiveRecord::Base
       self.groups
     else
       nil
-    end
-  end
-
-  def overall_percentage_answered_for(program)
-    #calcular preguntas
-    total_questions = program.chapters.joins(:questions).select('questions.*').count
-    answered_questions = questions_answered_for(program)
-    #calcular exámenes
-    total_quizzes = program.quizzes.count
-    answered_quizzes = program.answered_quizzes(self)
-    #calcular plantillas
-    refilables = program.template_refilables.pluck(:id)
-    total_refilables = refilables.count
-    answered_refilables = Refilable.where(template_refilable_id: refilables, user_id: self).count
-    if (total_questions + total_quizzes + total_refilables) > 0
-      return ((answered_questions + answered_quizzes + answered_refilables) * 100) / (total_questions + total_quizzes + total_refilables)
-    else
-      return 0
     end
   end
 
