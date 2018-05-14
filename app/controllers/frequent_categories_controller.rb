@@ -16,9 +16,12 @@ class FrequentCategoriesController < ApplicationController
 	def show
 		add_breadcrumb "Preguntas frecuentes", :frequent_categories_path
 		add_breadcrumb "<a class='active' href='#{frequent_category_path(@category)}'> #{@category.name}</a>".html_safe
+		@frequents = @category.frequents.page(params[:page]).per(15)
+
 		if current_user.nil?
 			render layout: "layouts/politicas"
-		end	
+		end
+		
 	end
 
 	def new
@@ -58,7 +61,7 @@ class FrequentCategoriesController < ApplicationController
 
 	private
   def category_params
-		params.require(:frequent_category).permit(:name, :term)
+		params.require(:frequent_category).permit(:name, :term, :description)
   end
 
   def set_category
