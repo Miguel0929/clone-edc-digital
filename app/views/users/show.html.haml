@@ -233,16 +233,19 @@
                                     .label.tip{class: "#{kq[:question].answers.where(user_id: @user).empty? ? 'p-sides-17' : 'label-success p-sides-17'}", "data-placement": "right", "data-toggle": "tooltip", "data-original-title": "#{truncate(kq[:question].question_text, length: 85, :escape => false)}"}
                                       P#{index + 1}
                         %td.p-b-15
-                          .m-b-10
-                            %i.fa.fa-edit
-                            #{@user.questions_answered_for(program)}
-                            %span preguntas contestadas
-                            %strong (#{@user.percentage_questions_answered_for(program)}%)
-                          .m-b-10
-                            %i.fa.fa-eye
-                            #{@user.content_visted_for(program)}
-                            %span contenidos vistos
-                            %strong (#{@user.percentage_content_visited_for(program)}%)
+                          - if !@programs.include?(program) 
+                            No disponible
+                          - else
+                            .m-b-10
+                              %i.fa.fa-edit
+                              #{@user.questions_answered_for(program)}
+                              %span preguntas contestadas
+                              %strong (#{@user.integral_percentage_progress_for(program).ceil}%)
+                            .m-b-10
+                              %i.fa.fa-eye
+                              #{@user.content_visted_for(program)}
+                              %span contenidos vistos
+                              %strong (#{@user.integral_percentage_visited_for(program).ceil}%)
                         - if current_user.admin? && !@user.group.nil?
                           %td.p-b-15
                             - if !@programs.include?(program) 

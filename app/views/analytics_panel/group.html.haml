@@ -146,16 +146,18 @@
 														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
 															.cell-like
 																Contestado:
-																= stat.nil? ? "N/A" : stat.round_program_progress + "%"
+																/= stat.nil? ? "N/A" : stat.round_program_progress + "%"
+																#{student.integral_percentage_progress_for(program).ceil.to_s}%
 														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
 															.cell-like
 																Visto:
-																= stat.nil? ? "N/A" : stat.round_program_seen + "%"
+																/= stat.nil? ? "N/A" : stat.round_program_seen + "%"
+																#{student.integral_percentage_visited_for(program).ceil.to_s}%
 														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
 															.cell-like
 																Evaluado:
 																- if stat.nil?
-																	N/A
+																	%i.fa.fa-times
 																- else
 																	- evalp = stat.checked
 																	%i.fa{class: evalp == 1 ? "fa-check text-success" : "fa-times"}
