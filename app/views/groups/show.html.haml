@@ -49,9 +49,9 @@
             %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
               ( #{@group.users.count} profesores )
           .m-t-10.p-l-20
-            - @group.users.invitation_accepted.each_with_index do |user, index|
-              .hint-text
-                %span.m-l-5.text-success
+            .hint-text
+              - @group.users.invitation_accepted.each_with_index do |user, index|
+                %span.text-success{class: (index != 0) ? "" : "m-l-5" }
                   #{ (index != 0) ? "/ " : ""} 
                 %span.m-l-5
                   #{user.name}
@@ -77,7 +77,7 @@
           .m-t-10.p-l-20
             .hint-text
               - @attachments.each_with_index do |attachment, index|
-                %span.m-l-5.text-success
+                %span.text-success{class: (index != 0) ? "" : "m-l-5" }
                   #{ (index != 0) ? "/ " : ""} 
                 %span.m-l-5
                   #{attachment.label.truncate(35, separator: ' ')}
