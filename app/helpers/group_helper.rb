@@ -79,4 +79,20 @@ module GroupHelper
     return quizzes
   end
 
+  def sort_delireverables(group)
+    delireverables = []
+    physical = group.learning_path.learning_path_contents.where(content_type: "DelireverablePackage").order(:position) rescue nil
+    moral = group.learning_path2.learning_path_contents.where(content_type: "DelireverablePackage").order(:position) rescue nil
+    physical.each do |ph|
+      delireverables << DelireverablePackage.find(ph.content_id) unless DelireverablePackage.find(ph.content_id).nil? 
+    end unless physical.nil?
+    moral.each do |mo|
+      delireverables << DelireverablePackage.find(mo.content_id) unless DelireverablePackage.find(mo.content_id).nil? 
+    end unless moral.nil?
+    group.delireverable_packages.each do |del|
+      delireverables << del
+    end
+    return delireverables
+  end
+
 end
