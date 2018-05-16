@@ -3,106 +3,159 @@
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
-    .panel-heading
+    .panel-heading.p-b-20
       %h2
         Detalle del grupo: #{@group.name}
 
     .panel-body
-      .row
+      .row.p-b-30
+        - current_stats = @group.get_group_stat(@group)
+        .col-md-12
+          %h5
+            Estadísticas de grupo
+            %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
+              - if !current_stats.nil?
+                (
+                = link_to "Actualizar estadísticos,", generate_group_stats_path(@group)
+                * Última vez: #{l current_stats.updated_at, format: :short_no_year}
+                )
+          .m-t-10.p-l-20
+            - if !current_stats.nil?
+              .hint-text
+                %span.m-l-5
+                  Alumnos del grupo: 
+                  %strong #{current_stats.group_students}
+                %span.m-l-5.text-success /
+                %span.m-l-5
+                  Alumnos evaluados: 
+                  %strong #{current_stats.evaluated_students}
+                %span.m-l-5.text-success /
+                %span.m-l-5
+                  Promedio visto:  
+                  %strong #{current_stats.average_seen.ceil unless current_stats.average_seen.nil?}%
+                %span.m-l-5.text-success /
+                %span.m-l-5
+                  Promedio contestado:
+                  %strong #{current_stats.average_progress.ceil unless current_stats.average_progress.nil? }%
+            - else
+              %span.hint-text Este grupo aún no tiene estadísticos, 
+              = link_to generate_group_stats_path(@group) do
+                generar estadísticos
+                %i.fa.fa-arrow-right
+      .row.p-b-30
+        .col-md-12
+          %h5
+            Profesores vinculados
+            %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
+              ( #{@group.users.count} profesores )
+          .m-t-10.p-l-20
+            .hint-text
+              - @group.users.invitation_accepted.each_with_index do |user, index|
+                %span.text-success{class: (index == 0) ? "" : "m-l-5" }
+                  #{ (index != 0) ? "/ " : ""} 
+                %span.m-l-5
+                  #{user.name}
+      .row.p-b-30
+        .col-md-12
+          %h5
+            Rutas de grupo
+            %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
+              ( #{@routes_count} rutas )
+          .m-t-10.p-l-20
+            .hint-text
+              %span.m-l-5 Ruta física:
+              %strong #{@group.learning_path.nil? ? "Sin ruta" : @group.learning_path.name}
+              %span.m-l-5.text-success /
+              %span.m-l-5 Ruta moral:
+              %strong #{@group.learning_path2.nil? ? "Sin ruta" : @group.learning_path2.name}
+      .row.p-b-30
+        .col-md-12
+          %h5
+            Archivos compartidos de grupo
+            %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
+              ( #{@attachments.count} archivos )
+          .m-t-10.p-l-20
+            .hint-text
+              - @attachments.each_with_index do |attachment, index|
+                %span.text-success{class: (index == 0) ? "" : "m-l-5" }
+                  #{ (index != 0) ? "/ " : ""} 
+                %span.m-l-5
+                  #{attachment.file_identifier.truncate(35, separator: ' ')}
+      .row.p-b-40
         .col-md-3
           %h5
             Programas habilitados
-          %ol
-            - @programs.each do |program|
-              %li
-                = program.name
-        .col-md-3
-          %h5
-            Profesores vinculados
-          %ul.unstyled.no-style
-            - @group.users.invitation_accepted.each do |user|
-              %li 
-                %i.fa.fa-angle-right
-                = user.name
-        .col-md-3
-          %h5
-            Estadísticas de grupo
-          %ul.unstyled.no-style
-            - current_stats = @group.get_group_stat(@group)
-            - if !current_stats.nil?
-              %li
-                %ul.p-l-5.m-b-0
-                  %li.inline.p-l-0
-                    %i.fa.fa-user 
-                  %li.inline 
-                    Alumnos del grupo: 
-                    %strong #{current_stats.group_students}
-                %ul.p-l-5.m-b-0
-                  %li.inline.p-l-0
-                    %i.fa.fa-check-square-o
-                  %li.inline 
-                    Alumnos evaluados: 
-                    %strong #{current_stats.evaluated_students}
-                %ul.p-l-5.m-b-0
-                  %li.inline.p-l-0
-                    %i.fa.fa-eye 
-                  %li.inline 
-                    Promedio visto:  
-                    %strong
-                      #{current_stats.average_seen.ceil unless current_stats.average_seen.nil?}%
-                %ul.p-l-5.m-b-0
-                  %li.inline.p-l-0
-                    %i.fa.fa-rocket
-                  %li.inline 
-                    Promedio contestado: 
-                    %strong
-                      #{current_stats.average_progress.ceil unless current_stats.average_progress.nil? }%
-              %li.m-t-15
-                = link_to generate_group_stats_path(@group) do
-                  %ul.p-l-5.m-b-0
-                    %li.inline.p-l-0
-                      %i.fa.fa-rotate-right
-                    %li.inline 
-                      Actualizar estadísticos
-                  %ul.p-l-20.m-b-0{:style => "font-size: 0.8em;"}
-                    %li.inline 
-                      * Última vez: 
-                      = l current_stats.updated_at, format: :short_no_year
+            %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
+              ( #{@programs.count} )
+          .hint-text
+            - if @programs.count == 0
+              Aún no hay programas
             - else
-              %li.m-t-15
-                = link_to generate_group_stats_path(@group) do
-                  %ul.p-l-5.m-b-0
-                    %li.inline.p-l-0
-                      %i.fa.fa-line-chart
-                    %li.inline 
-                      Generar estadísticos
+              %ol
+                - @programs.each do |program|
+                  %li
+                    = program.name
         .col-md-3
           %h5
-            Quizzes habilitados
+            Evaluaciones habilitadas
+            %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
+              ( #{@quizzes.count} )
           %ul.unstyled.no-style
-            - if @group.all_quizzes.count == 0
-              * Aún no hay quizzes
-            - else
-              - @group.all_quizzes.each do |quiz|
-                %li 
-                  %i.fa.fa-angle-right
-                  = quiz.name
-
-      %h4
-        Lista de alumnos
+            .hint-text
+              - if @quizzes.empty? 
+                Aún no hay evaluaciones
+              - else
+                - @quizzes.each do |quiz|
+                  %li 
+                    %i.fa.fa-angle-right
+                    = quiz.name
+        .col-md-3
+          %h5
+            Plantillas habilitadas
+            %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
+              ( #{@template_refilables.count} )
+          %ul.unstyled.no-style
+            .hint-text
+              - if @template_refilables.empty? 
+                Aún no hay plantillas
+              - else
+                - @template_refilables.each do |quiz|
+                  %li 
+                    %i.fa.fa-angle-right
+                    = quiz.name
+        .col-md-3
+          %h5
+            Entregables habilitados
+            %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
+              - del_count = 0
+              - @delireverable_packages.map{|package| del_count += package.delireverables.count}
+              ( #{del_count} )
+          %ul.unstyled.no-style
+            .hint-text
+              - if @delireverable_packages.empty?
+                Aún no hay entregables
+              - else
+                - @delireverable_packages.each do |package|
+                  - package.delireverables.each do |delireverable|
+                    %li 
+                      %i.fa.fa-angle-right
+                      = delireverable.name
       .row
-        .col-md-4.col-md-offset-8
-          = link_to codes_group_path(@group, format: :xlsx), class: "btn btn-success" do
-            %i.fa.fa-code
-              = "Exportar codigos de activación (#{@group.inactive_students.count} inactivos)"
-        %br 
-        %br  
-        .col-md-2.col-md-offset-10
-          .form-group
-            %div.input-group
-              %input#group_student.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
-              %span.input-group-addon.font-search
-                %i.fa.fa-search.text-white
+        .col-md-5
+          %h4
+            Lista de alumnos
+        .col-md-7
+          .row
+            .col-md-7
+              = link_to codes_group_path(@group, format: :xlsx), class: "btn btn-success" do
+                %i.fa.fa-code
+                = "Exportar codigos de activación (#{@group.inactive_students.count} inactivos)"
+            .col-md-5
+              .form-group
+                %div.input-group
+                  %input#group_student.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+                  %span.input-group-addon.font-search
+                    %i.fa.fa-search.text-white
       
       .table-responsive   
         %table.table.table-striped

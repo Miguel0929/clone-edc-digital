@@ -16,6 +16,11 @@ class GroupsController < ApplicationController
     @students = @group.active_students.page(params[:page]).per(50)
     @students = @group.student_search(params[:query]).page(params[:page]).per(50) if params[:query].present?
     @programs = sort_programs(@group, @group.all_programs)
+    @quizzes = sort_quizzes(@group) rescue []
+    @template_refilables = sort_template_refilables(@group) rescue []
+    @delireverable_packages = sort_delireverables(@group) rescue []
+    @attachments = @group.shared_group_attachments
+    @routes_count = (@group.learning_path.nil? && @group.learning_path2.nil?) ? 0 : ( (@group.learning_path.nil? || @group.learning_path2.nil?) ? 1 : 2)
     add_breadcrumb "Grupos", :groups_path
     add_breadcrumb "<a class='active' href='#{group_path(@group)}'>#{@group.name}</a>".html_safe
   end
