@@ -3,7 +3,7 @@
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
-    .panel-heading
+    .panel-heading.p-b-20
       %h2
         Detalle del grupo: #{@group.name}
 
@@ -14,32 +14,34 @@
           %h5
             Estadísticas de grupo
             %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
-              - if current_stats.nil?
-                = link_to "Generar estadísticos", generate_group_stats_path(@group)
-              - else
+              - if !current_stats.nil?
                 (
                 = link_to "Actualizar estadísticos,", generate_group_stats_path(@group)
                 * Última vez: #{l current_stats.updated_at, format: :short_no_year}
                 )
           .m-t-10.p-l-20
             - if !current_stats.nil?
-              %span.m-l-5
-                Alumnos del grupo: 
-                %strong #{current_stats.group_students}
-              %span.m-l-5.text-success /
-              %span.m-l-5
-                Alumnos evaluados: 
-                %strong #{current_stats.evaluated_students}
-              %span.m-l-5.text-success /
-              %span.m-l-5
-                Promedio visto:  
-                %strong #{current_stats.average_seen.ceil unless current_stats.average_seen.nil?}%
-              %span.m-l-5.text-success /
-              %span.m-l-5
-                Promedio contestado:
-                %strong #{current_stats.average_progress.ceil unless current_stats.average_progress.nil? }%
+              .hint-text
+                %span.m-l-5
+                  Alumnos del grupo: 
+                  %strong #{current_stats.group_students}
+                %span.m-l-5.text-success /
+                %span.m-l-5
+                  Alumnos evaluados: 
+                  %strong #{current_stats.evaluated_students}
+                %span.m-l-5.text-success /
+                %span.m-l-5
+                  Promedio visto:  
+                  %strong #{current_stats.average_seen.ceil unless current_stats.average_seen.nil?}%
+                %span.m-l-5.text-success /
+                %span.m-l-5
+                  Promedio contestado:
+                  %strong #{current_stats.average_progress.ceil unless current_stats.average_progress.nil? }%
             - else
-              Este grupo aún no tiene estadísticos
+              %span.hint-text Este grupo aún no tiene estadísticos, 
+              = link_to generate_group_stats_path(@group) do
+                generar estadísticos
+                %i.fa.fa-arrow-right
       .row.p-b-30
         .col-md-12
           %h5
@@ -48,10 +50,11 @@
               ( #{@group.users.count} profesores )
           .m-t-10.p-l-20
             - @group.users.invitation_accepted.each_with_index do |user, index|
-              %span.m-l-5.text-success
-                #{ (index != 0) ? "/ " : ""} 
-              %span.m-l-5
-                #{user.name}
+              .hint-text
+                %span.m-l-5.text-success
+                  #{ (index != 0) ? "/ " : ""} 
+                %span.m-l-5
+                  #{user.name}
       .row.p-b-30
         .col-md-12
           %h5
@@ -59,11 +62,12 @@
             %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
               ( #{@routes_count} rutas )
           .m-t-10.p-l-20
-            %span.m-l-5 Ruta física:
-            %strong #{@group.learning_path.nil? ? "Sin ruta" : @group.learning_path.name}
-            %span.m-l-5.text-success /
-            %span.m-l-5 Ruta moral:
-            %strong #{@group.learning_path2.nil? ? "Sin ruta" : @group.learning_path2.name}
+            .hint-text
+              %span.m-l-5 Ruta física:
+              %strong #{@group.learning_path.nil? ? "Sin ruta" : @group.learning_path.name}
+              %span.m-l-5.text-success /
+              %span.m-l-5 Ruta moral:
+              %strong #{@group.learning_path2.nil? ? "Sin ruta" : @group.learning_path2.name}
       .row.p-b-30
         .col-md-12
           %h5
@@ -71,50 +75,54 @@
             %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
               ( #{@attachments.count} archivos )
           .m-t-10.p-l-20
-            - @attachments.each_with_index do |attachment, index|
-              %span.m-l-5.text-success
-                #{ (index != 0) ? "/ " : ""} 
-              %span.m-l-5
-                #{attachment.label.truncate(35, separator: ' ')}
+            .hint-text
+              - @attachments.each_with_index do |attachment, index|
+                %span.m-l-5.text-success
+                  #{ (index != 0) ? "/ " : ""} 
+                %span.m-l-5
+                  #{attachment.label.truncate(35, separator: ' ')}
       .row.p-b-40
         .col-md-3
           %h5
             Programas habilitados
             %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
               ( #{@programs.count} )
-          - if @programs.count == 0
-            Aún no hay programas
-          - else
-            %ol
-              - @programs.each do |program|
-                %li
-                  = program.name
+          .hint-text
+            - if @programs.count == 0
+              Aún no hay programas
+            - else
+              %ol
+                - @programs.each do |program|
+                  %li
+                    = program.name
         .col-md-3
           %h5
             Evaluaciones habilitadas
             %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
               ( #{@quizzes.count} )
           %ul.unstyled.no-style
-            - if @quizzes.empty? 
-              Aún no hay evaluaciones
-            - else
-              - @quizzes.each do |quiz|
-                %li 
-                  %i.fa.fa-angle-right
-                  = quiz.name
+            .hint-text
+              - if @quizzes.empty? 
+                Aún no hay evaluaciones
+              - else
+                - @quizzes.each do |quiz|
+                  %li 
+                    %i.fa.fa-angle-right
+                    = quiz.name
         .col-md-3
           %h5
             Plantillas habilitadas
             %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
               ( #{@template_refilables.count} )
           %ul.unstyled.no-style
-            - if @template_refilables.empty? 
-              Aún no hay plantillas
-            - else
-              - @template_refilables.each do |quiz|
-                %li 
-                  %i.fa.fa-angle-right
-                  = quiz.name
+            .hint-text
+              - if @template_refilables.empty? 
+                Aún no hay plantillas
+              - else
+                - @template_refilables.each do |quiz|
+                  %li 
+                    %i.fa.fa-angle-right
+                    = quiz.name
         .col-md-3
           %h5
             Entregables habilitados
@@ -123,15 +131,15 @@
               - @delireverable_packages.map{|package| del_count += package.delireverables.count}
               ( #{del_count} )
           %ul.unstyled.no-style
-            - if @delireverable_packages.empty?
-              Aún no hay entregables
-            - else
-              - @delireverable_packages.each do |package|
-                - package.delireverables.each do |delireverable|
-                  %li 
-                    %i.fa.fa-angle-right
-                    = delireverable.name
-
+            .hint-text
+              - if @delireverable_packages.empty?
+                Aún no hay entregables
+              - else
+                - @delireverable_packages.each do |package|
+                  - package.delireverables.each do |delireverable|
+                    %li 
+                      %i.fa.fa-angle-right
+                      = delireverable.name
       .row
         .col-md-5
           %h4
