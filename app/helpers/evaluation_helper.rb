@@ -1,6 +1,13 @@
 module EvaluationHelper
   def answered_questions(chapter, user)
     total = 0
+    chapter.content_chapters.each do |content|
+      content.questions.each do |question|
+        unless Answer.where(question_id: question.id, user_id: user.id).empty?
+          total += 1
+        end
+      end
+    end
     chapter.questions.each do |question|
       unless Answer.where(question_id: question.id, user_id: user.id).empty?
         total += 1
@@ -9,10 +16,13 @@ module EvaluationHelper
     total
   end
 
-  def total_qustions(programs)
+  def total_qustions(chapters)
     total = 0
-    programs.each do |program|
-      total += program.questions.count
+    chapters.each do |chapter|
+      chapter.content_chapters.each do |content|
+        total += content.questions.count
+      end  
+      total += chapter.questions.count
     end   
     total
   end

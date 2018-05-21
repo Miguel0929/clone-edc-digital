@@ -39,8 +39,12 @@ class AnalyticsPanelController < ApplicationController
       @pag_max = 100
       @records_number = @students.count
       @students = @students.page(params[:page]).per(@pag_max)
-      @bienvenido = Program.where("name like ?", "%" + "¡Bienvenid" + "%").last.chapters.where("name like ?", "%" + "Diagnóstico" + "%").last
-      #@students = User.joins(:program_stats).where(group: groups, role: 0).uniq
+      bienvenido_program = Program.where("name like ?", "%" + "¡Bienvenid" + "%").last
+      unless bienvenido_program.nil? 
+        @bienvenido.chapters.where("name like ?", "%" + "Diagnóstico" + "%").last
+      else
+        @bienvenido = nil
+      end  
     end
   end
 

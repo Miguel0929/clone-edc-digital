@@ -1,4 +1,5 @@
 class ChaptersController < ApplicationController
+  require 'json'
   before_action :authenticate_user!
   before_action :set_program, except: [:content, :rubrics]
   before_action :set_chapter, only: [:edit, :update, :destroy, :clone, :content, :rubrics]
@@ -74,42 +75,35 @@ class ChaptersController < ApplicationController
     @chapter.chapter_contents.each do |chapter_content|
       model = chapter_content.model
       if model.is_a?(Lesson)
+
         clone_chapter.lessons << model.deep_clone
+
       elsif model.is_a?(Question)
+
         clone_chapter.questions << model.deep_clone do |original, kopy|
           kopy.support_image = original.support_image
           kopy.rubrics = original.rubrics.map(&:deep_clone)
         end
-      elsif model.is_a?(TemplateRefilable)
 
-        refilable_clone = model.deep_clone do |original, kopy|
-          kopy.tipo = 0
-        end  
-        clone_chapter.template_refilables << refilable_clone     
-      
-      elsif model.is_a?(DelireverablePackage)
+      elsif model.is_a?(Chapter)
 
-        delireverable_package_clone = model.deep_clone do |original, kopy|
-          kopy.tipo = 0 
-        end  
-        clone_chapter.delireverable_packages << delireverable_package_clone
-        model.delireverables.each do |delireverable|
-          aux=Delireverable.new(name: delireverable.name, description: delireverable.description, delireverable_package: delireverable_package_clone, file: delireverable.file, position: delireverable.position) 
-          aux.save
-        end 
+        content_clone =  model.deep_clone do |original, kopy|
+          kopy.name = "#{original.name} copia"
+        end
+        model.chapter_contents.each do |chapter_content|
+          model = chapter_content.model
+          if model.is_a?(Lesson)
+            content_clone.lessons << model.deep_clone
+          elsif model.is_a?(Question)
+            content_clone.questions << model.deep_clone do |original, kopy|
+              kopy.support_image = original.support_image
+              kopy.rubrics = original.rubrics.map(&:deep_clone)
+            end
+          end
+        end
 
-      elsif model.is_a?(Quiz)
-
-        quiz_clone = model.deep_clone do |original, kopy|
-          kopy.tipo = 0
-          original.quiz_questions.each do |question|
-            question_clone= question.deep_clone do |original_q,kopy_q|
-              kopy_q.quiz_id=kopy.id
-              kopy.quiz_questions << kopy_q
-            end  
-          end  
-        end  
-        clone_chapter.quizzes << quiz_clone
+        content_clone.save
+        clone_chapter.content_chapters << content_clone
 
       end
     end
@@ -123,7 +117,8 @@ class ChaptersController < ApplicationController
     program = @chapter.program
     add_breadcrumb "<a href='#{program_path(program)}'>#{program.name}</a>".html_safe
     add_breadcrumb "<a class='active' href='#{content_chapter_path(@chapter)}'>#{@chapter.name}</a>".html_safe
-    
+    @lesson=Lesson.new
+    @question=Question.new
   end
 
   def rubrics

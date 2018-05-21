@@ -1,0 +1,8 @@
+.radio.radio-success
+  - respuestas = question.answer_options.split("\n").map {|option| option.strip}
+  - respuestas.each_with_index do |answer, index|
+    .row
+      .col-md-4
+        %input{:name => "[answers[#{indice}]][answer_text][]", :type => "radio", :value => answer, id: "radio_#{index}", disabled: disabled, checked: answer_is_selected?(resp, answer)}
+        %label{:for => "radio_#{index}"}
+          = answer

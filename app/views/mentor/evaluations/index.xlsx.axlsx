@@ -12,7 +12,7 @@ wb.styles do |style|
     @chapters.each do |chapter|
       sheet.add_row ["Modulo ", chapter.name], style: [header_cell, content_cell]
       sheet.add_row ["Pregunta", "Respuesta"], style: [answer_title, answer_title]
-      chapter.questions.each do |question|
+      chapter.all_questions.each do |question|
         sheet.add_row [question.question_text, answer_to_show(@user, question)], style: [answer_content, answer_content]
       end
     end

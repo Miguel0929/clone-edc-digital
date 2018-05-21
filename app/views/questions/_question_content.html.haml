@@ -6,7 +6,7 @@
       Pregunta
     .pull-right
       %span.option.p-r-10.p-l-10
-        = link_to edit_chapter_question_path(chapter, question) do
+        %a.cursor{"data-toggle"=>"modal", "data-target"=>"#addQuestion", "onclick"=>"edit_question(\'#{chapter.id}\',#{question.to_json});"} 
           %i.fa.fa-edit
           Editar
       %span.option.p-r-10.p-l-10

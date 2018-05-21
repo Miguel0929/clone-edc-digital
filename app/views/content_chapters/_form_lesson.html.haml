@@ -1,0 +1,17 @@
+.well
+  = bootstrap_form_for([@chapter, @lesson], html: {id: "form-lesson"}, remote: true) do |f|
+    = f.text_field :identifier, label: 'Identificador'
+    = f.text_area :content, ckeditor: { language: 'es'}, id: 'ckeditor', label: 'Contenido'
+    .row
+      .col-sm-9.p-l-0
+        = f.text_area :video_url, label: 'URL del video'
+      .col-sm-3.videoBtn-padding.p-l-0
+        .btn.btn-complete#addVideoBtn
+          %i.fa.fa-plus
+          Ag. Video
+    .hint-text
+      *Nota: Para colocar el video de la url que agregaste posiciónate en el punto del campo de texto del Contenido donde te gustaría que apareciera. Después da click en el botón azul de 'Ag. video'. Esto último agregará una etiqueta de {{video}}, misma que será reemplazada con el reproductor al momento de ver la lección.
+    %br
+    = link_to 'Cancelar', @chapter.program, class: 'btn btn-danger'
+    = f.submit 'Aceptar'
+  

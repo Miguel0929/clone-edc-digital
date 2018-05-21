@@ -44,15 +44,18 @@
                 - elsif content.coursable_type == 'Question'
                   .well{id: "chapter_content_#{content.id}"}
                     = render partial: 'questions/question', locals: { question: content.model, chapter: @chapter}
-                - elsif content.coursable_type == 'Quiz'
+                - elsif content.coursable_type == 'Chapter'
                   .well{id: "chapter_content_#{content.id}"}
-                    = render partial: 'quiz_programs/quiz', locals: { quiz: content, chapter: @chapter} 
-                - elsif content.coursable_type == 'TemplateRefilable'
-                  .well{id: "chapter_content_#{content.id}"}
-                    = render partial: 'refillable_programs/refillable', locals: { refillable: content, chapter: @chapter} 
-                - elsif content.coursable_type == 'DelireverablePackage'
-                  .well{id: "chapter_content_#{content.id}"}
-                    = render partial: 'delireverable_programs/delireverable', locals: { delireverable: content, chapter: @chapter}            
+                    = render partial: 'content_chapters/content_chapters', locals: { content: content.model, chapter: @chapter}
+                    %center
+                      %span.option.p-r-10.p-l-10
+                        %a.cursor.ver_form_leccion{"data-toggle"=>"modal", "data-target"=>"#addLesson", "onclick"=>"add_lesson('#{content.model.id}');"}
+                          %i.fa.fa-plus
+                          Agregar lección
+                      %span.option.p-r-10.p-l-10    
+                        %a.cursor{"data-toggle"=>"modal", "data-target"=>"#addQuestion", "onclick"=>"add_question('#{content.model.id}');"}
+                          %i.fa.fa-plus
+                          Agregar pregunta               
 
               - if @chapter.chapter_contents.count == 0
                 %h4.p-b-20.text-center
@@ -64,15 +67,153 @@
               = link_to new_chapter_question_path(@chapter), class: 'btn btn-primary' do
                 %i.fa.fa-plus
                 Agregar pregunta
-              /= link_to new_chapter_quiz_program_path(@chapter), class: 'btn btn-success' do
-              /  %i.fa.fa-plus
-              /  Agregar evaluación
-              /= link_to new_chapter_refillable_program_path(@chapter), class: 'btn btn-primary' do
-              /  %i.fa.fa-plus
-              /  Agregar plantilla
-              /= link_to new_chapter_delireverable_program_path(@chapter), class: 'btn btn-success' do
-              /  %i.fa.fa-plus
-              /  Agregar entregable 
+              = link_to  chapter_contents_chapters_path(@chapter) , method: :post, class: 'btn btn-success' do
+                %i.fa.fa-plus
+                Agregar Contenedor 
+/ Modal
+#addQuestion.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog"}
+  .modal-dialog.modal-lg{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title Agregar Pregunta
+      .modal-body
+        = render "content_chapters/form_question"
+      .modal-footer
+
+#addLesson.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title Agregar lección
+      .modal-body
+        = render "content_chapters/form_lesson"
+      .modal-footer
+:javascript
+  // Al cargar
+  var editor = CKEDITOR.replace('ckeditor');
+
+  editor.addCommand("addVideoFrame", {
+    exec: function(edt) {
+      edt.insertHtml("{{video}}");
+    }
+  });
+
+  $('.ver_form_leccion').click( function() {
+
+    if (editor) {
+        editor.destroy(true); 
+    }   
+    editor = CKEDITOR.replace('ckeditor');
+
+    editor.addCommand("addVideoFrame", {
+      exec: function(edt) {
+        edt.insertHtml("{{video}}");
+      }
+    });
+  });
+ 
+  $('#addVideoBtn').click(function(e){
+    e.preventDefault();
+    editor.execCommand( 'addVideoFrame' );
+  })
+  // Funciones
+  function add_lesson(chapter){
+    $("#form-lesson").attr("action", "/chapters/" + chapter + "/lessons");
+    $("#form-lesson").attr("method", "post");
+    $("#form-lesson")[0].reset();
+  } 
+  
+  function add_question(chapter){
+    $("#form-question").attr("action", "/chapters/" + chapter + "/questions");
+    $("#form-question").attr("method", "post");
+    $("#form-question")[0].reset();
+    $("#question_question_type").change();
+    setRespuestasOptions();
+    $('#answer-option').val('');
+    console.log("preguntas");
+  }
+
+  function edit_question(chapter,question){
+
+    $("#question_question_text").val(question.question_text);
+    $("#question_support_text").val(question.support_text);
+    $("#question_question_type").val(question.question_type).change();
+    $("#question_answer_options").val(question.answer_options);
+    $("#question_points").val(question.points);
+
+    setRespuestasOptions();
+    $('#answer-option').val('');
+
+    $("#form-question").attr("action", "/chapters/" + chapter + "/questions/"+question.id);
+    $("#form-question").attr("method", "put");
+
+  }
+
+  function edit_lesson(chapter, lesson){
+    $("#lesson_identifier").val(lesson.identifier);
+    $("#ckeditor").val(lesson.content);
+    $("#lesson_video_url").val(lesson.video_url);
+
+    if (editor) {
+        editor.destroy(true); 
+    }   
+    editor = CKEDITOR.replace('ckeditor');
+
+    editor.addCommand("addVideoFrame", {
+      exec: function(edt) {
+        edt.insertHtml("{{video}}");
+      }
+    });
+
+    $("#form-lesson").attr("action", "/chapters/" + chapter + "/lessons/"+lesson.id);
+    $("#form-lesson").attr("method", "put");
+  }
+
+  function setRespuestasOptions(){
+    var answers = $('#question_answer_options').val().split('\n');
+
+    $('#answers-list').html('');
+    $.each(answers, function(key, answer){
+      console.log(answers);
+      if(!(!answer || /^\s*$/.test(answer))){
+        $('#answers-list').append(setOptionElement(answer));
+      }
+    });
+  }
+
+  function setOptionElement(answer){
+    return $('<li>')
+          .append(answer)
+          .attr('class', 'asnwer-option')
+          .append(
+            $('<a>')
+            .attr('href', 'javascript:void(0)').append(
+              $('<span>').attr('class', 'glyphicon glyphicon-remove')
+            )
+            .click(function(){
+              $(this).parent().remove();
+              formatoTextArea();
+            })
+          )
+  }
+
+  function formatoTextArea(){
+    var answers = [];
+    $.each($('.asnwer-option'), function(key, element){
+      answers.push(element.textContent)
+    });
+
+    $('#question_answer_options').val(answers.join('\n'));
+  }  
+
+  $( document ).on('turbolinks:load', function() {
+    
+    
+  }); 
         
 
 
