@@ -189,11 +189,11 @@
                           %i.fa.fa-check
                           #{program.name}. 
                           %strong
-                            Contestado: 
-                          #{user.percentage_questions_answered_for(program)}%
+                            Contestado:
+                          #{user.integral_percentage_progress_for(program).round}%
                           %strong
-                            Visto: 
-                          #{user.percentage_content_visited_for(program)}%
+                            Visto:
+                          #{user.integral_percentage_visited_for(program).round}%
 
     .pull-right
       = paginate @users

@@ -205,6 +205,21 @@ class User < ActiveRecord::Base
     comments.count
   end
 
+  def set_all_program_stats
+    if self.group != nil
+      self.group.all_programs.each do |program|
+        p_stats = self.program_stats.find_by(program_id: program)
+        progress = self.percentage_questions_answered_for(program).to_f
+        seen = self.percentage_content_visited_for(program).to_f
+        if p_stats.nil?
+          ProgramStat.create(user_id: self.id, program_id: program.id, program_progress: progress, program_seen: seen)
+        else
+          p_stats.update(program_progress: progress, program_seen: seen)
+        end
+      end
+    end
+  end
+
   def percentage_content_visited_for(program)
     total = program.chapters.joins(:lessons).select('lessons.*').count
     (content_visted_for(program) * 100) / total rescue 0
@@ -219,6 +234,42 @@ class User < ActiveRecord::Base
     total_questions = program.all_questions_count
     
     (questions_answered_for(program) * 100) / (total_questions) rescue 0
+  end
+
+  def integral_percentage_progress_for(program)
+    program_stat = self.program_stats.find_by(program_id: program)
+    if program_stat.nil? #Primero busca porgram_stat y si no está lo calcula
+      return self.percentage_questions_answered_for(program)
+    else
+      return program_stat.program_progress
+    end
+  end
+
+  def integral_percentage_visited_for(program)
+    program_stat = self.program_stats.find_by(program_id: program)
+    if program_stat.nil? #Primero busca porgram_stat y si no está lo calcula
+      return self.percentage_content_visited_for(program)
+    else
+      return program_stat.program_seen
+    end
+  end
+
+  def overall_percentage_answered_for(program)
+    #calcular preguntas
+    total_questions = program.chapters.joins(:questions).select('questions.*').count
+    answered_questions = questions_answered_for(program)
+    #calcular exámenes
+    total_quizzes = program.quizzes.count
+    answered_quizzes = program.answered_quizzes(self)
+    #calcular plantillas
+    refilables = program.template_refilables.pluck(:id)
+    total_refilables = refilables.count
+    answered_refilables = Refilable.where(template_refilable_id: refilables, user_id: self).count
+    if (total_questions + total_quizzes + total_refilables) > 0
+      return ((answered_questions + answered_quizzes + answered_refilables) * 100) / (total_questions + total_quizzes + total_refilables)
+    else
+      return 0
+    end
   end
 
   def answered_questions_percentage
@@ -359,6 +410,7 @@ class User < ActiveRecord::Base
   def has_answer_refilable?(template_refilable)
     !template_refilable.refilables.find_by(user: self).nil?
   end
+  
   def has_sent_delireverables?(delireverable_package)
     entregables=delireverable_package.delireverables
     respuestas=[]

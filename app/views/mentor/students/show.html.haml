@@ -255,12 +255,12 @@
                               %i.fa.fa-edit
                               #{@user.questions_answered_for(program)}
                               %span preguntas contestadas
-                              %strong (#{@user.percentage_questions_answered_for(program)}%)
+                              %strong (#{@user.integral_percentage_progress_for(program).ceil}%)
                             .m-b-10
                               %i.fa.fa-eye
                               #{@user.content_visted_for(program)}
                               %span contenidos vistos
-                              %strong (#{@user.percentage_content_visited_for(program)}%)
+                              %strong (#{@user.integral_percentage_visited_for(program).ceil}%)
                           %td.p-r-0
                             %ul.unstyled.no-style.p-l-0
                               %li.p-l-0
