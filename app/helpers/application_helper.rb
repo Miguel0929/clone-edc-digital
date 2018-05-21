@@ -78,5 +78,15 @@ module ApplicationHelper
 
   def active_page(active_page)
     @active == active_page ? "active" : ""
+  end
+
+  def check_collapse(id)
+    aux = "out"
+    if flash[:id_aux]
+      if flash[:id_aux].to_s == id.to_s
+        aux = "in"
+      end
+    end
+    return aux  
   end 
 end

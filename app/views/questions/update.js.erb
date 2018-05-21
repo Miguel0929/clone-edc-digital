@@ -1,0 +1,8 @@
+var id_dom = "#contenedor_" + "<%=@question.chapter_content.chapter.get_cc_chapter.id %>" ;
+$("#chapter_content_<%=@question.chapter_content.id%>").html("")
+$("#chapter_content_<%=@question.chapter_content.id%>").append("<div class='panel-body'><%= escape_javascript(render(:partial => 'questions/question_content', :locals => {chapter: @chapter, question: @question})) %></div>");
+$("#form-question")[0].reset();
+
+$("#addQuestion").modal('hide');
+$(id_dom).collapse('show');
+$("html, body").animate({scrollTop: $("#chapter_content_<%=@question.chapter_content.id%>").offset().top}, 1000);

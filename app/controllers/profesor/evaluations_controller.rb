@@ -43,24 +43,31 @@ class Profesor::EvaluationsController < ApplicationController
 
     @evaluations = @user.user_evaluations.joins(:evaluation).where('evaluations.chapter_id = ?', @chapter.id)
 
+    questions = []
+    @chapter.chapter_contents.each do |chapter_content|
+      if chapter_content.coursable_type == "Question"
+        questions << chapter_content.model.id
+      elsif chapter_content.coursable_type == "Chapter" 
+        questions += chapter_content.model.questions.pluck(:id)   
+      end  
+    end  
+
     @answers = Question.select(
       "answers.*, questions.id as question_id, questions.question_text, count(comments.id) as comments_count, (select id from chapter_contents where coursable_id = questions.id and coursable_type = 'Question' limit 1) as chapter_content_id"
     )
     .joins("left outer join answers on answers.question_id = questions.id and answers.user_id = #{@user.id}")
     .joins('left join chapter_contents on chapter_contents.coursable_id = questions.id')
     .joins("left outer join comments on comments.question_id = questions.id and comments.owner_id = #{@user.id}")
-    .where('questions.id in (?) and chapter_contents.coursable_type = ?', @chapter.questions.pluck(:id), 'Question')
+    .where('questions.id in (?) and chapter_contents.coursable_type = ?', questions, 'Question')
     .group('answers.id')
     .group('questions.id')
     .group('chapter_contents.position')
     .order('chapter_contents.position asc')
-    @templates = TemplateRefilable.where(id: @chapter.template_refilables.pluck(:id))
-    dp = DelireverablePackage.where(id: @chapter.delireverable_packages.pluck(:id)).pluck(:id)
-    @delireverables = Delireverable.where(delireverable_package_id: dp)
-    @quizzes = Quiz.where(id: @chapter.quizzes.pluck(:id))
+    @answers.sort_by { |x| questions.index(x.question_id) }
+
     
     @chapters_w_questions = []
-    @chapters.all.map { |chap| if (chap.questions.count >0 || chap.quizzes.count > 0 || chap.delireverable_packages.count > 0 || chap.delireverable_packages.count > 0 || chap.template_refilables.count > 0 ) then @chapters_w_questions << chap end}
+    @chapters.all.map { |chap| if (chap.all_questions.count > 0  ) then @chapters_w_questions << chap end}
  
     @chapters_w_questions.each_with_index do |chapter, index|
       if chapter.id == @chapter.id

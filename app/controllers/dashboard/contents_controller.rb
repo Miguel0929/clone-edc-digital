@@ -1,117 +1,115 @@
-class Dashboard::AnswersController < ApplicationController
+class Dashboard::ContentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :redirect_to_support, if: :student_have_group?
   before_action :set_chapter_content
-  before_action :validate_coursable_type
-  before_action :build_question
+  before_action :redirect_to_support, if: :student_have_group?
+
   after_action :update_program_stats, only: [:create, :update]
   after_action only: [:create, :update] do |c|
     c.send(:diagnostic_test_process, params[:chapter_content_id])
   end
   before_action :redirect_to_learning, if: :permiso_avance, only: [:show, :new, :edit]
-
-  add_breadcrumb "EDC DIGITAL", :root_path
-  add_breadcrumb "programas", :dashboard_programs_path
+  
+  add_breadcrumb "EDCDIGITAL", :root_path
 
   def router
-    answer = build_answer
-
-    if answer.new_record?
-      redirect_to new_dashboard_chapter_content_answer_path(@chapter_content)
+    contestadas = current_user.answers_for(@chapter_content.model).count
+    content = @chapter_content.model.questions_count
+    contenedor = @chapter_content.model
+    if contestadas == content    
+      redirect_to dashboard_chapter_content_content_path(@chapter_content, contenedor)
     else
-      redirect_to dashboard_chapter_content_answer_path(@chapter_content, answer)
+      redirect_to new_dashboard_chapter_content_content_path(@chapter_content)
     end
-  end
-
-  def show
-    @tour_trigger = current_user.tour_trigger
-    @answer = Answer.find(params[:id])
-    #@comments = @question.comments.where(owner: current_user).order(created_at: :asc)
-    ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
-
-    add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
-    add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@question.question_text}</a>".html_safe
   end
 
   def new
-    @tour_trigger = current_user.tour_trigger
-    @answer = build_answer
-    #@comments = @question.comments.where(owner: current_user).order(created_at: :asc)
-    ahoy.track "Viewed content", chapter_content_id: @chapter_content.id
 
+    @content=@chapter_content.model
+    @answers = []
+    @content.questions.each do |question|
+      @answers << Answer.new(question_id: question.id, user_id: current_user.id)
+    end
     add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
-    add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@question.question_text}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>Contenedor</a>".html_safe
+  end
 
+  def show
+    @content=@chapter_content.model
+    @answers = Answer.where(question_id: @content.questions.pluck(:id), user_id: current_user.id)
+    add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
+    add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>Contenedor</a>".html_safe
+  end
+
+  def edit 
+    @content=@chapter_content.model
+    @answers = Answer.where(question_id: @content.questions.pluck(:id), user_id: current_user.id)
+    add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
+    add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>Editar Preguntas</a>".html_safe
   end
 
   def create
-    content = ChapterContent.find(params[:chapter_content_id])
-    program = content.chapter.program
-    keys = KeyQuestion.all.pluck(:coursable_id)
-    keys.each do |key|
-      if key == content.coursable_id
-        KeyQuestionNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
+    #render :json => {1=>params[:answers]}  
+    chapter = @chapter_content.model
+    
+    if params[:answers].map{ |a| a[1][:answer_text]}.include?(nil)
+      redirect_to :back, alert: "Debes contestar todas las preguntas"
+    else
+      if current_user.answers_for(chapter).count > 0
+        @ans = Answer.where(question_id: chapter.questions.map{ |q| q.id }, user_id: current_user.id)
+        @ans.delete_all
+      end 
+      params[:answers].each_with_index do |answer, index|
+        answer_text = answer[1][:answer_text]
+          if answer_text.class == Array
+            resp = Answer.new(answer_params(answer))
+            resp.answer_text = answer_text.join('\n')
+            resp.save
+          else
+            resp = Answer.new(answer_params(answer))
+            resp.save
+          end
       end
-    end
-
-    @answer = @question.answers.new(answer_params)
-
-    @answer.user = current_user
-
-    @answer.answer_text = sanitize_answer if @question.checkbox?
-
-    @answer.save
-
-    redirect_to_next_content 
-  end
-
-  def edit
-    @answer = Answer.find(params[:id])
-
-    add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
-    add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>#{@question.question_text}</a>".html_safe
+      redirect_to_next_content 
+    end  
   end
 
   def update
-    @answer = Answer.find(params[:id])
+    chapter = @chapter_content.model
 
-    @answer.answer_text = sanitize_answer if @question.checkbox?
+    if params[:answers].map{ |a| a[1][:answer_text]}.include?("")
+      redirect_to :back, alert: "debes contestar todas las preguntas"
+    else
+      params[:answers].each_with_index do |answer, index|
+        answer_text = answer[1][:answer_text]
+        resp = Answer.where(question_id: answer[1][:question_id], user_id: current_user.id).first
+        if resp.nil?
+          resp = Answer.new(answer_params(answer))
+        end
+        if answer_text.class == Array
+          resp.answer_text = answer_text.join('\n')
+        else
+          resp.answer_text = answer_text 
+        end
+        resp.save
+      end
+      redirect_to_next_content 
+    end   
+  end 
 
-    @answer.assign_attributes(answer_params)
-
-    @answer.save
-
-    redirect_to_next_content
-  end
 
   private
   def set_chapter_content
     @chapter_content = ChapterContent.find(params[:chapter_content_id])
   end
 
-  def validate_coursable_type
-    redirect_to root_url unless @chapter_content.coursable_type == 'Question'
+  def answer_params(custom_params)
+    ActionController::Parameters.new(custom_params[1]).permit(:user_id, :question_id, :answer_text)
   end
-
-  def build_question
-    @question = @chapter_content.model
-  end
-
-  def build_answer
-    @question.answers.find_by(user: current_user, question: @question) || @question.answers.new(user: current_user)
-  end
-
-  def answer_params
-    params.require(:answer).permit(:user_id, :question_id, :answer_text)
-  end
-
-  def sanitize_answer
-    params[:answer][:answer_text].join('\n') if params[:answer][:answer_text].present?
-  end
-
+  
   def redirect_to_next_content
-    mensaje= "Cambios guardados con éxito"
-    program=@chapter_content.chapter.program
+    mensaje= "Cambios guardados con éxito"  
+      program=@chapter_content.chapter.program
+
     if current_user.percentage_answered_for(program) > 95 && current_user.percentage_answered_for(program) < 100
       if current_user.program_notifications.where(program: program).more95.first.nil?
         current_user.program_notifications.create(program: program, notification_type: 'more95')
@@ -158,9 +156,10 @@ class Dashboard::AnswersController < ApplicationController
   end
 
   def update_program_stats
+    #program = Program.joins(:chapters => :chapter_contents).where(chapter_contents: {id: @chapter_content.id}).last
     program = @chapter_content.chapter.program
     program_stat = ProgramStat.where(user_id: @current_user.id, program_id: program.id).last
-    progress = @current_user.percentage_questions_answered_for(program)
+    progress = @current_user.percentage_answered_for(program)
     seen = @current_user.percentage_content_visited_for(program)
 
     if program_stat.nil?

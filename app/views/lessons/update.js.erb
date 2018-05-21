@@ -1,0 +1,8 @@
+var id_dom = "#contenedor_" + "<%=@lesson.chapter_content.chapter.get_cc_chapter.id %>" ;
+$("#chapter_content_<%=@lesson.chapter_content.id%>").html("")
+$("#chapter_content_<%=@lesson.chapter_content.id%>").append("<div class='panel-body'><%= escape_javascript(render(:partial => 'lessons/lesson_content', :locals => {contenido: @chapter, content: @lesson.chapter_content}))%></div>");
+$("#form-lesson")[0].reset();
+
+$("#addLesson").modal('hide');
+$(id_dom).collapse('show');
+$("html, body").animate({scrollTop: $("#chapter_content_<%=@lesson.chapter_content.id%>").offset().top}, 1000);

@@ -44,6 +44,15 @@ class Mentor::EvaluationsController < ApplicationController
     @totaleval = allevals.map { |evaluation| evaluation.points }.inject(0, :+) 
 
     @evaluations = @user.user_evaluations.joins(:evaluation).where('evaluations.chapter_id = ?', @chapter.id)
+    questions = []
+    @chapter.chapter_contents.each do |chapter_content|
+      if chapter_content.coursable_type == "Question"
+        questions << chapter_content.model.id
+      elsif chapter_content.coursable_type == "Chapter" 
+        questions += chapter_content.model.questions.pluck(:id)   
+      end  
+    end  
+
 
     @answers = Question.select(
       "answers.*, questions.id as question_id, questions.question_text, count(comments.id) as comments_count, (select id from chapter_contents where coursable_id = questions.id and coursable_type = 'Question' limit 1) as chapter_content_id"
@@ -51,18 +60,15 @@ class Mentor::EvaluationsController < ApplicationController
     .joins("left outer join answers on answers.question_id = questions.id and answers.user_id = #{@user.id}")
     .joins('left join chapter_contents on chapter_contents.coursable_id = questions.id')
     .joins("left outer join comments on comments.question_id = questions.id and comments.owner_id = #{@user.id}")
-    .where('questions.id in (?) and chapter_contents.coursable_type = ?', @chapter.questions.pluck(:id), 'Question')
+    .where('questions.id in (?) and chapter_contents.coursable_type = ?', questions, 'Question')
     .group('answers.id')
     .group('questions.id')
     .group('chapter_contents.position')
     .order('chapter_contents.position asc')
-    @templates = TemplateRefilable.where(id: @chapter.template_refilables.pluck(:id))
-    dp = DelireverablePackage.where(id: @chapter.delireverable_packages.pluck(:id)).pluck(:id)
-    @delireverables = Delireverable.where(delireverable_package_id: dp)
-    @quizzes = Quiz.where(id: @chapter.quizzes.pluck(:id))
+    @answers.sort_by { |x| questions.index(x.question_id) }
     
     @chapters_w_questions = []
-    @chapters.all.map { |chap| if (chap.questions.count > 0 || chap.quizzes.count > 0 || chap.delireverable_packages.count > 0 || chap.delireverable_packages.count > 0 || chap.template_refilables.count > 0 ) then @chapters_w_questions << chap end}
+    @chapters.all.map { |chap| if (set_questions(chap).length > 0) then @chapters_w_questions << chap end}
     
     if @user.student?
       @chapters_w_questions.each_with_index do |chapter, index|
@@ -149,6 +155,18 @@ class Mentor::EvaluationsController < ApplicationController
     @program = Program.includes(:chapters).find(params[:program_id])
   end
 
+  def set_questions(chapter)
+    questions = []
+    chapter.chapter_contents.each do |chapter_content|
+      if chapter_content.coursable_type == "Question"
+        questions << chapter_content.model.id
+      elsif chapter_content.coursable_type == "Chapter" 
+        questions += chapter_content.model.questions.pluck(:id)   
+      end  
+    end
+    return questions  
+  end  
+
   def set_chapters
     @chapters = @program.chapters.select(
       "chapters.*,"\
@@ -181,4 +199,7 @@ class Mentor::EvaluationsController < ApplicationController
   def my_students?
     unless current_user.admin? || @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus grupos" end
   end
+  def get_chapter_questions(chapter)
+
+  end  
 end
