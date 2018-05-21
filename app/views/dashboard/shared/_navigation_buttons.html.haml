@@ -57,4 +57,35 @@
           = link_to edit_dashboard_chapter_content_answer_path(@chapter_content, @answer), class: 'btn btn-sm btn-primary btn-cons m-b-10', style: 'color:#fff;' do
             %i.fa.fa-edit
             %span.bold Editar respuesta
-             
+    
+    - if chapter_content.coursable_type == "Chapter"
+      - capitulo = chapter_content.model
+      - c_preguntas = capitulo.questions_count
+      - contestadas = current_user.answers_for(capitulo).count
+      - new_answers = c_preguntas == contestadas
+
+      .pull-right
+        - if (new_answers == false && edit_mode == true) || (new_answers && edit_mode == true)
+          - if chapter_content.next_content
+            %button.btn.btn-sm.btn-info.btn-cons.m-b-10.redirector{href: dashboard_chapter_content_path(chapter_content.next_content)}
+              %span.bold Sólo continuar
+              %i.fa.fa-forward
+
+          - elsif chapter_content.chapter.program.next_chapter(chapter_content.chapter) && chapter_content.chapter.program.next_chapter(chapter_content.chapter).chapter_contents.first
+            %button.btn.btn-sm.btn-info.btn-cons.m-b-10.redirector{href: dashboard_chapter_content_path(chapter_content.chapter.program.next_chapter(chapter_content.chapter).chapter_contents.first)}
+              %span.bold Siguiente módulo
+              %i.fa.fa-forward
+          - else
+            %button.btn.btn-sm.btn-info.btn-cons.m-b-10.redirector{href: dashboard_program_path(chapter_content.chapter.program)}
+              %span.bold Volver al contenido del programa
+              %i.fa.fa-forward
+
+          %button.btn.btn-sm.btn-success.btn-cons.m-b-10{type: 'submit'}
+            %i.fa.fa-save
+            %span.bold Continuar y guardar los cambios
+            %i.fa.fa-forward
+
+        - elsif (new_answers && edit_mode == false) || (new_answers == false && edit_mode == false)
+          = link_to edit_dashboard_chapter_content_content_path(@chapter_content, capitulo), class: 'btn btn-sm btn-primary btn-cons m-b-10', style: 'color:#fff;' do
+            %i.fa.fa-edit
+            %span.bold Editar respuestas         

@@ -19,19 +19,19 @@ class LessonsController < ApplicationController
   end
 
   def create
-    add_breadcrumb @chapter.program.name, program_path(@chapter.program)
-    add_breadcrumb "<a class='active' href='#{new_chapter_lesson_path(@chapter)}'>Nuevo contenido</a>".html_safe
 
     @lesson = @chapter.lessons.build(lesson_params)
-
-    if @lesson.save
-      @chapter.lessons << @lesson
-      #NewContentNotificationJob.perform_async(@chapter.program,  dashboard_program_url(@chapter.program)) #Se llevó a método program#notify_changes
-      QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "up-lesson-#{@lesson.id}")
-      redirect_to content_chapter_path(@chapter), notice: "Se creo exitosamente el contenido #{@lesson.identifier}"
-    else
-      render :new
-    end
+    respond_to do |format|  
+      if @lesson.save
+        @chapter.lessons << @lesson
+        #NewContentNotificationJob.perform_async(@chapter.program,  dashboard_program_url(@chapter.program)) #Se llevó a método program#notify_changes
+        #QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "up-lesson-#{@lesson.id}")
+        format.html {redirect_to content_chapter_path(@chapter), notice: "Se creo exitosamente el contenido #{@lesson.identifier}"}
+        format.js{}
+      else
+        format.html {render :new}
+      end
+    end  
   end
 
   def edit
@@ -41,19 +41,25 @@ class LessonsController < ApplicationController
   end
 
   def update
-    add_breadcrumb @chapter.program.name, program_path(@chapter.program)
-    add_breadcrumb @lesson.identifier, chapter_lesson_path(@chapter, @lesson)
-    add_breadcrumb "<a class='active' href='#{edit_chapter_lesson_path(@chapter, @lesson)}'>Editar contenido</a>".html_safe
 
-    if @lesson.update_attributes(lesson_params)
-      QueueNotification.create(category: 3, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "edit-lesson-#{@lesson.id}")
-      redirect_to content_chapter_path(@chapter), notice: "Se actualizó exitosamente el contenido #{@lesson.identifier}"
-    else
-      render :edit
+    respond_to do |format|  
+      if @lesson.update_attributes(lesson_params)
+        #QueueNotification.create(category: 3, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "edit-lesson-#{@lesson.id}")
+        format.html {redirect_to content_chapter_path(@chapter), notice: "Se actualizó exitosamente el contenido #{@lesson.identifier}"}
+        format.js {}
+      else
+        format.html {render :edit}
+      end
     end
   end
 
   def destroy
+    capitulo = @lesson.chapter_content.chapter
+    if capitulo.program.nil?
+      content = capitulo.get_cc_chapter.id
+    else
+      content = nil
+    end    
     ActiveRecord::Base.transaction do
       ChapterContent.where({coursable_type: 'Lesson', coursable_id: @lesson.id}).delete_all
       @lesson.destroy
@@ -62,23 +68,32 @@ class LessonsController < ApplicationController
         ChapterContent.find(id).update_attributes({position: index + 1})
       end
     end
-
+=begin
     up_notification = QueueNotification.find_by(category: 2, detail: "up-lesson-#{@lesson.id}", sent: false)
     if !up_notification.nil?
       up_notification.destroy
     else
       QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "down-lesson-#{@lesson.id}")
     end
-
-    redirect_to content_chapter_path(@chapter), notice: "Se eliminó exitosamente el contenido #{@lesson.identifier}"
+=end    
+    flash[:id_aux] = content
+    redirect_to :back, notice: "Se eliminó exitosamente el contenido #{@lesson.identifier}"
   end
 
   def clone
+    capitulo = @lesson.chapter_content.chapter
+    if capitulo.program.nil?
+      content = capitulo.get_cc_chapter.id
+    else
+      content = nil
+    end 
+
     lesson_clone = @lesson.deep_clone
 
     @chapter.lessons << lesson_clone
 
-    redirect_to content_chapter_path(@chapter), notice: "Se creo exitosamente el contenido #{@lesson.identifier}"
+    flash[:id_aux] = content
+    redirect_to :back, notice: "Se creo exitosamente el contenido #{@lesson.identifier}"
   end
 
   private

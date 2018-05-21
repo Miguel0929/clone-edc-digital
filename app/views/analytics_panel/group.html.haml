@@ -138,7 +138,10 @@
 															#{student.user_seen.round(1)}%
 													%td.padding-0
 														.cell-like.text-center
-															#{student.evaluation_result_for(@bienvenido)} de #{@bienvenido.points} pts
+															- if @bienvenido.nil?
+																El grupo no tiene examen diagnóstico
+															- else 
+																#{student.evaluation_result_for(@bienvenido)} de #{@bienvenido.points} pts
 													- coloring = 1
 													- @programs.each do |program|
 														- coloring = (coloring == 1 ? 0 : 1)

@@ -219,7 +219,7 @@
                                 - with_questions.each_with_index do |chapter, index|
                                   %li.squized-li
                                     = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: program) do
-                                      - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions.count.to_f).ceil
+                                      - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.all_questions.count.to_f).ceil
                                       - checked = chapter.chapter_checked?(chapter.id, @user.id)
                                       - if answered_percentage > 95
                                         .label.label-success{:class => "#{checked ? '' : 'p-sides-14'}"}

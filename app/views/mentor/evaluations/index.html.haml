@@ -129,13 +129,13 @@
         %tbody
           - answers_total, rubrics_checked = 0, 0
           - @chapters.each do |chapter|
-            - if chapter.questions.count > 0
+            - if chapter.questions_count > 0
               %tr
                 - result = evaluation_result(chapter)
                 %td
                   = chapter.name
                 %td.text-center
-                  - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions.count.to_f).ceil
+                  - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions_count.to_f).ceil
                   - answered_questions = answered_questions(chapter, @user)
                   - if answered_percentage == 0
                     %div{"data-toggle": "tooltip", "data-original-title": "#{answered_questions} de #{chapter.questions.count} preguntas"}

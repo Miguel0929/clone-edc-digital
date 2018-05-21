@@ -165,7 +165,7 @@ class Mentor::StudentsController < ApplicationController
   def chapter_have_questions?(program)
     with_questions, no_questions = [], []
     program.chapters.each do |chapter|
-      if chapter.questions.count > 0
+      if chapter.all_questions.count > 0
         with_questions << chapter
       else
         no_questions << chapter

@@ -164,7 +164,9 @@ class User < ActiveRecord::Base
   end
 
   def questions_answered_for(program)
-    program.chapters.joins(questions: [:answers]).where('answers.user_id': self.id).count
+    questions = program.all_questions.pluck(:id)
+    Answer.where(question_id: questions, user_id: self.id).count
+    #program.chapters.joins(questions: [:answers]).where('answers.user_id': self.id).count
   end
 
   def refilables_answered_for(program)
@@ -209,25 +211,25 @@ class User < ActiveRecord::Base
   end
 
   def percentage_questions_answered_for(program)
-    total_questions = program.chapters.joins(:questions).select('questions.*').count
+    total_questions = program.all_questions_count
     (questions_answered_for(program) * 100) / total_questions rescue 0
   end
 
   def percentage_answered_for(program)
-    total_questions = program.chapters.joins(:questions).select('questions.*').count
-    total_quizzes = program.chapters.joins(:quizzes).count
-    total_delireverables = program.chapters.joins(:delireverable_packages).count
-    total_refilables = program.chapters.joins(:template_refilables).count
-   
-    ((questions_answered_for(program) + delireverables_answered_for(program)+ refilables_answered_for(program) + quizzes_answered_for(program)) * 100) / (total_questions + total_quizzes + total_delireverables + total_refilables) rescue 0
+    total_questions = program.all_questions_count
+    
+    (questions_answered_for(program) * 100) / (total_questions) rescue 0
   end
 
   def answered_questions_percentage
     return 0 if group.nil?
 
-    total_of_answers = group.all_programs.joins(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
-    total_of_questions = group.all_programs.joins(chapters: [:questions]).select('questions.*').count
-
+    #total_of_answers = group.all_programs.joins(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
+    #total_of_questions = group.all_programs.joins(chapters: [:questions]).select('questions.*').count
+    total_of_answers = 0; total_of_questions = 0; preguntas = [] 
+    group.all_programs.each{|program| total_of_questions += program.all_questions_count}
+    group.all_programs.each{|program| preguntas << program.all_questions.pluck(:id)}
+    total_of_answers = Answer.where(user_id: self.id, question: preguntas).count
     return 0 if (total_of_answers == 0 && total_of_questions == 0) || (total_of_answers != 0 && total_of_questions == 0)
 
     ((total_of_answers.to_f * 100) / total_of_questions.to_f).round(2) rescue 0
@@ -417,7 +419,7 @@ class User < ActiveRecord::Base
 
   def overall_percentage_answered_for(program)
     #calcular preguntas
-    total_questions = program.chapters.joins(:questions).select('questions.*').count
+    total_questions = program.all_questions.count
     answered_questions = questions_answered_for(program)
     #calcular exámenes
     total_quizzes = program.quizzes.count

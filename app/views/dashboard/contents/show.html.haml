@@ -1,0 +1,55 @@
+.container-fluid.container-fixed-lg  
+  .panel.panel-default
+    .panel-heading
+      .panel-title.question-title
+        = @chapter_content.chapter.name  
+      .pull-right
+        %span.pull-left#tour-8  
+          Califica este contenido:
+        %span.pull-right.rating 
+          = render partial: "layouts/stars", locals: {value: @chapter_content, route: ratings_vote_chapter_content_path}
+    = bootstrap_form_tag url: dashboard_chapter_content_contents_path do |form|       
+      - @content.chapter_contents.each do |c_content|
+
+        - model = c_content.model
+        - if c_content.coursable_type == "Lesson"    
+          .panel-body
+            .row
+              .col-md-12#tour-9
+                .p-l-30.p-r-30
+                  %h2
+                    = model.identifier
+                  %div
+                    - if model.video_url.nil? || model.video_url.empty?
+                      = raw model.content
+                    - else
+                      - if model.content.include?("{{video}}")
+                        = raw parse_lesson_content(model)
+                      -# else
+                        = #.embed-responsive.embed-responsive-16by9
+                          =# raw model.video_url
+        - elsif c_content.coursable_type == "Question"
+          - answer = nil; index = 0
+          -@answers.each_with_index{|respuesta, i| answer, index = respuesta, i if c_content.coursable_id == respuesta.question_id}
+          .panel-body
+            = form.fields_for "answers[#{index}]", answer do |f| 
+              .row
+                .col-md-12
+                  .padding-30
+                    %i.fa.fa-tasks.fa-2x.hint-text
+                    .pull-right
+                      - unless model.support_image.nil?
+                        = image_tag(model.support_image.url, class: 'img-responsive')
+                    .clearfix
+                    %h2#tour-16
+                      = model.question_text
+                    = f.hidden_field :user_id
+                    = f.hidden_field :question_id
+
+                    = render partial: "/dashboard/contents/inputs/#{model.question_type}", locals: { disabled: true, f: f, question: model, resp: answer, indice: index}
+
+                    %p.small.hint-text.m-t-15
+                      = model.support_text
+      .panel-body
+        = render partial: '/dashboard/shared/navigation_buttons', locals: { chapter_content: @chapter_content, edit_mode: false}
+                    
