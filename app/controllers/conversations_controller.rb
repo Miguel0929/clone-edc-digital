@@ -9,8 +9,8 @@ class ConversationsController < ApplicationController
     if current_user.mentor? || current_user.profesor?
       ids=[]
       @contacts=[]
-      groups=current_user.groups
-      groups.each do |g|
+      @groups = current_user.groups
+      @groups.each do |g|
         ids.push(g.id)
         g.active_students.each do |s|
           @contacts.push(s)
@@ -31,17 +31,17 @@ class ConversationsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{conversation_path}'>#{@receipts.first.message.subject}</a>".html_safe
   end
   def create
-    recipients=User.where(id: conversation_params[:recipients])
+    recipients = (User.where(id: conversation_params[:loner_recipients]) + User.where(group_id: conversation_params[:group_recipients], role: 0).where.not(invitation_accepted_at: nil)).uniq
     if conversation_params[:attachment].nil?
       conversation = current_user.send_message(recipients,conversation_params[:body],conversation_params[:subject]).conversation
     else
-      conversation=current_user.send_message(recipients,conversation_params[:body],conversation_params[:subject]).conversation
-      att= MailboxAttachment.new
-      att.message_id= conversation.receipts.where(mailbox_type: 'sentbox',receiver_id: current_user.id).last.message.id
-      att.file=conversation_params[:attachment]
+      conversation = current_user.send_message(recipients,conversation_params[:body],conversation_params[:subject]).conversation
+      att = MailboxAttachment.new
+      att.message_id = conversation.receipts.where(mailbox_type: 'sentbox',receiver_id: current_user.id).last.message.id
+      att.file = conversation_params[:attachment]
       att.save!
     end  
-    flash[:success] = "Tu mensaje a sido enviado!"
+    flash[:success] = "Tu mensaje ha sido enviado"
     redirect_to conversation_path(conversation)
   end
   def reply
@@ -68,10 +68,18 @@ class ConversationsController < ApplicationController
     redirect_to mailbox_inbox_path
   end   
 
+  def print_members
+    @members = "hula perrou"
+    respond_to do |format|
+      #format.html
+      format.json {render text: @members}
+    end
+  end
+
   private
 
   def conversation_params
-    params.require(:conversation).permit(:subject, :body, :attachment, :recipients)
+    params.require(:conversation).permit(:subject, :body, :attachment, :loner_recipients => [], :group_recipients => [])
   end 
 
   def message_params

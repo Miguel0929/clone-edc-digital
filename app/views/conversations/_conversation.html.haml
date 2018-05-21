@@ -18,6 +18,30 @@
 			%br 	
 			.p.mensaje
 				= truncate strip_tags(conversation.messages.last.body), length: 60 
+			%div{id: "accordion" + conversation.id.to_s, role: "tablist", "aria-multiselectable": "true"}
+				%div{role: "tab"}
+					%a{"data-toggle": "collapse", "data-parent": "#accordion" + conversation.id.to_s, href: "#collapseBlock" + conversation.id.to_s, "aria-expanded": "true", "aria-controls": "collapseBlock" + conversation.id.to_s, id: "fetchRecipientsNames" + conversation.id.to_s, fetchingKey: conversation.id}
+						%small 
+							%i.fa.fa-caret-right 
+							Ver participantes
+				.collapse.show{id: "collapseBlock" + conversation.id.to_s, role: "tabcard", "aria-expanded": "false", style: "height: 0px;"}
+					%div{id: "fetchingContainer" + conversation.id.to_s}
+						= conversation.id.to_s
+			:javascript
+				$( "#fetchRecipientsNames" + #{conversation.id}).click( function() {
+					$.ajax({
+						type: "GET",
+						url: "/conversations/print_members",
+						dataType: "JSON",
+						data: {some_parameter: #{conversation.id}},
+						success: function(result){
+							alert("hi");
+						},
+						error: function() {
+							alert("Ajax error!")
+						}
+					})
+				});
 - else
 	.media.default-leido
 		.media-left
