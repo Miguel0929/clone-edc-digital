@@ -165,6 +165,32 @@
                     %span.icon-thumbnail Hg   
 
             = display_navbar_link({link: 'Programas', details: 'Cursos en EDC Digital' ,path: dashboard_programs_path, css: ['m-t-30'], icon: 'fa pg-layouts', role: [:mentor]})
+            - if current_user.mentor? && !current_user.group_id.nil?
+              %li.extra-bottom-4
+                %a{:href => "javascript:;"}
+                  %span.title Mi emprendimiento
+                  %span.arrow
+                %span.icon-thumbnail
+                  %i.fa.fa-rocket
+                %ul.sub-menu
+                  %li
+                    %a{:href => dashboard_learning_path_path} Ruta de aprendizaje
+                    %span.icon-thumbnail Lp
+                  %li
+                    %a{:href => dashboard_pathway_path} Fases de una idea viable
+                    %span.icon-thumbnail Fi  
+                  %li
+                    %a{:href => dashboard_quizzes_path} Evaluaciones
+                    %span.icon-thumbnail Ex
+                  %li
+                    %a{:href => dashboard_attachments_path} Mis archivos
+                    %span.icon-thumbnail Ma
+                  %li
+                    %a{:href => dashboard_delireverables_path} Mis entregables
+                    %span.icon-thumbnail Me
+                  %li
+                    %a{:href => dashboard_template_refilables_path} Mis plantillas
+                    %span.icon-thumbnail Mp      
             = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: [''], icon: 'fa fa-users', role: [:mentor]})
             = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
             = display_navbar_link({css: [], link: 'Panel de progreso', details: 'Progreso de estudiantes' ,path: progress_panel_index_path, icon: 'fa fa-line-chart', role: [:mentor]})

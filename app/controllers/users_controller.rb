@@ -126,9 +126,9 @@ class UsersController < ApplicationController
                                    
     @delireverables = @user.group.all_delireverables rescue [] 
                                  
-    @refilables = sort_template_refilables(@user.group) rescue [] # @user.group.all_refilables
+    @refilables = @user.group.all_refilables rescue []
                                 
-    @quizzes = sort_quizzes(@user.group) rescue [] # @user.group.all_quizzes
+    @quizzes = @user.group.all_quizzes rescue []
 
     @key_questions = key_questions_hash
 

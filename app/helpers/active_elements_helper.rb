@@ -3,11 +3,14 @@ module ActiveElementsHelper
 
   def get_active_elements(current_user, class_name)
     ######## Elegir cuál de las clases que le pertenecen a programas se buscará ###
+      complementarios = []
       case class_name
       when "quizzes"
         requested_class = Quiz
+        current_user.group.quizzes.each{|quiz| complementarios << quiz}
       when "template_refilables"
         requested_class = TemplateRefilable
+        current_user.group.template_refilables.each{|refil| complementarios << refil }
       end
     ######## Obtener learning path contents en orden de acuerdo a las rutas #######
     programs_fisica = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position) rescue nil
@@ -54,12 +57,14 @@ module ActiveElementsHelper
     else
       lp_contents_m = (programs_moral).sort_by &:position
     end
-    active_elements = []
+
+    active_elements = complementarios
+
     lp_contents_f.each do |lp|
-      requested_class.where(program_id: Program.find(lp.content_id).id).each do |element| active_elements << element end
+      requested_class.where(program_id: lp.content_id).each do |element| active_elements << element end
     end
     lp_contents_m.each do |lp|
-      requested_class.where(program_id: Program.find(lp.content_id).id).each do |element| active_elements << element end
+      requested_class.where(program_id: lp.content_id).each do |element| active_elements << element end
     end
     if !current_user.group.nil?
       current_user.group.programs.each do |pg|
@@ -70,6 +75,7 @@ module ActiveElementsHelper
     end
     ########################################################################## 
     return active_elements.uniq
+
   end
 
 

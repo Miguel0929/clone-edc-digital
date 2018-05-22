@@ -1,2 +1,0 @@
-module ChapterContentContentsHelper
-end
