@@ -5,9 +5,8 @@ class Chapter < ActiveRecord::Base
   has_many :chapter_contents, -> { order(position: :asc) }, dependent: :destroy
   has_many :lessons, :through => :chapter_contents, :source => :coursable, :source_type => 'Lesson', dependent: :destroy
   has_many :questions, :through => :chapter_contents, :source => :coursable, :source_type => 'Question', dependent: :destroy
-  has_many :quizzes, :through => :chapter_contents, :source => :coursable, :source_type => 'Quiz', dependent: :destroy
-  has_many :delireverable_packages, :through => :chapter_contents, :source => :coursable, :source_type => 'DelireverablePackage', dependent: :destroy
-  has_many :template_refilables, :through => :chapter_contents, :source => :coursable, :source_type => 'TemplateRefilable', dependent: :destroy
+  has_many :content_chapters, :through => :chapter_contents, :source => :coursable, :source_type => 'Chapter', dependent: :destroy
+
   has_many :evaluations, -> { order(position: :asc) }
   belongs_to :program
 
@@ -87,15 +86,32 @@ class Chapter < ActiveRecord::Base
   end
 
   def questions_count
-    self.chapter_contents.where(coursable_type: "Question").count
+    #self.chapter_contents.where(coursable_type: "Question").count
+    questions = []
+    self.chapter_contents.each do |chapter_content|
+      if chapter_content.coursable_type == "Question"
+        questions << chapter_content.model.id
+      elsif chapter_content.coursable_type == "Chapter" 
+        questions += chapter_content.model.questions.pluck(:id)   
+      end  
+    end
+    return questions.length  
   end
-  def quizzes_count
-    self.chapter_contents.where(coursable_type: "Quiz").count
+  
+  def get_cc_chapter
+    ChapterContent.find_by(coursable_id: self.id, coursable_type: 'Chapter')
   end
-  def delireverables_count
-    self.chapter_contents.where(coursable_type: "DelireverablePackage").count
-  end
-  def refilables_count
-    self.chapter_contents.where(coursable_type: "TemplateRefilable").count
-  end
+
+  def all_questions
+    questions = []
+    self.chapter_contents.each do |chapter_content|
+      if chapter_content.coursable_type == "Question"
+        questions << chapter_content.model.id
+      elsif chapter_content.coursable_type == "Chapter" 
+        questions += chapter_content.model.questions.pluck(:id)   
+      end  
+    end
+    q = Question.where(id: questions)
+    q.sort_by { |x| questions.index(x.id) }
+  end  
 end

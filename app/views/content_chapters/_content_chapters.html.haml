@@ -1,0 +1,33 @@
+.row
+  .col-sm-12
+    %span.handle-sort
+      [mover]
+    %span.bold
+      Contenedor
+    .pull-right
+      %span.option.p-r-10.p-l-10
+        %a.cursor{"role" => "button", "data-toggle"=>"collapse", "href"=>"#contenedor_#{content.get_cc_chapter.id}", "aria-expanded"=>"false", "aria-controls"=>"collapse"}
+          %i.fa.fa-eye
+          Ver contenidos   
+      %span.option.p-r-10.p-l-10
+        = link_to clone_chapter_contents_chapter_path(chapter, content), method: :post, data: {confirm: '¿Estás seguro?'} do
+          %i.fa.fa-copy
+          Clonar
+      %span.option.p-r-10.p-l-10
+        = link_to chapter_contents_chapter_path(chapter, content), method: :delete, data: {confirm: '¿Estás seguro?'} do
+          %i.fa.fa-times
+          Eliminar
+
+- cc_chapter = content.get_cc_chapter.id
+- contenido = content
+.sortable.collapse.p-t-20{'data-update-url'=> url_prod_helper(sort_chapter_contents_url), id: "contenedor_#{cc_chapter}", class: "#{check_collapse(cc_chapter)}"}   
+  - content.chapter_contents.each do |content|
+    .panel.panel-default{id: "chapter_content_#{content.id}"}
+      - if content.coursable_type == 'Lesson'
+        .panel-body
+          = render(:partial => 'lessons/lesson_content', :locals => {content: content, contenido: contenido})
+      - elsif content.coursable_type == 'Question'
+        .panel-body
+          = render partial: 'questions/question_content', locals: { question: content.model, chapter: contenido}      
+   
+

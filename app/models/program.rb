@@ -101,6 +101,36 @@ class Program < ActiveRecord::Base
     c == 0 ? false : true 
   end 
 
+  def questions?
+    c = 0  
+    self.chapters.each do |chapter|
+      c += chapter.questions.count 
+    end
+    c == 0 ? false : true 
+  end
+
+  def all_questions_count
+    questions = 0
+    self.chapters.each do |chapter|
+      questions += chapter.all_questions.count 
+    end  
+    questions
+  end
+
+  def all_questions
+    questions = []
+    self.chapters.each do |chapter|
+      chapter.chapter_contents.each do |chapter_content|
+        if chapter_content.coursable_type == "Question"
+          questions << chapter_content.model.id
+        elsif chapter_content.coursable_type == "Chapter" 
+          questions += chapter_content.model.questions.pluck(:id)   
+        end  
+      end
+    end
+    q = Question.where(id: questions)
+  end  
+
   def all_groups(user)
     program_groups = self.groups.pluck(:id)
     path_content = self.learning_path_content
