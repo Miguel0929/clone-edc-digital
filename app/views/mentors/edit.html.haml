@@ -12,6 +12,7 @@
         = f.text_field :last_name
         = f.text_field :email
         = f.text_field :phone_number
+        = f.select :group_id, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupo personal", prompt: "Selecciona el grupo personal"}
         - if current_user.admin? 
           = f.select(:role, User::ROLETYPES, label: "Tipo de usuario")
           = f.select :group_ids, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupos"}, { :multiple => true}

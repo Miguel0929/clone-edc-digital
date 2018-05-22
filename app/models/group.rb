@@ -9,6 +9,7 @@ class Group < ActiveRecord::Base
   has_many :quizzes, through: :group_quizzes, dependent: :nullify
   has_many :students, -> { students }, class_name: 'User', foreign_key: 'group_id'
   has_many :active_students, -> { where('invitation_accepted_at IS NOT NULL and role = 0')}, class_name: 'User', foreign_key: 'group_id'
+  has_many :active_mentors, -> { where('invitation_accepted_at IS NOT NULL and role = 1')}, class_name: 'User', foreign_key: 'group_id'
   has_many :shared_group_attachment_groups
   has_many :shared_group_attachments, through: :shared_group_attachment_groups
   has_one :group_stats
@@ -52,18 +53,40 @@ class Group < ActiveRecord::Base
 
   def all_quizzes
     group_quizzes = self.quizzes.pluck(:id)
-    self.learning_path.nil? ? fisica_quizzes = [] : fisica_quizzes = self.learning_path.learning_path_contents.where(content_type: "Quiz").pluck(:content_id)
-    self.learning_path2.nil? ? moral_quizzes = [] : moral_quizzes = self.learning_path2.learning_path_contents.where(content_type: "Quiz").pluck(:content_id)
-    aux = group_quizzes + fisica_quizzes + moral_quizzes
-    Quiz.where(id: aux)
+    self.learning_path.nil? ? fisica_quizzes = [] : fisica_quizzes = self.learning_path.learning_path_contents.where(content_type: "Program")
+    self.learning_path2.nil? ? moral_quizzes = [] : moral_quizzes = self.learning_path2.learning_path_contents.where(content_type: "Program")
+    fisica_quizzes.sort_by &:position
+    moral_quizzes.sort_by &:position
+    active_elements = []
+    fisica_quizzes.each do |lp|
+      Quiz.where(program_id: lp.content_id).each do |element| active_elements << element.id end
+    end
+    moral_quizzes.each do |lp|
+      Quiz.where(program_id: lp.content_id).each do |element| active_elements << element.id end
+    end
+    active_elements = group_quizzes + active_elements
+    Quiz.where(id: active_elements).sort_by{ |x| active_elements.index(x.id) }
   end
 
   def all_refilables
-    group_refilables = self.template_refilables.pluck(:id)
-    self.learning_path.nil? ? fisica_refilables = [] : fisica_refilables = self.learning_path.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)
-    self.learning_path2.nil? ? moral_refilables = [] : moral_refilables = self.learning_path2.learning_path_contents.where(content_type: "TemplateRefilable").pluck(:content_id)
-    aux = group_refilables + fisica_refilables + moral_refilables
-    TemplateRefilable.where(id: aux)
+    p "-------------------------------------------------------"
+    p group_refilables = self.template_refilables.pluck(:id)
+    p "-------------------------------------------------------"
+    self.learning_path.nil? ? fisica_refilables = [] : fisica_refilables = self.learning_path.learning_path_contents.where(content_type: "Program")
+    self.learning_path2.nil? ? moral_refilables = [] : moral_refilables = self.learning_path2.learning_path_contents.where(content_type: "Program")
+    p fisica_refilables.sort_by &:position
+    p moral_refilables.sort_by &:position
+    active_elements = []
+    fisica_refilables.each do |lp|
+      TemplateRefilable.where(program_id: lp.content_id).each do |element| active_elements << element.id end
+    end
+    moral_refilables.each do |lp|
+      TemplateRefilable.where(program_id: lp.content_id).each do |element| active_elements << element.id end
+    end
+    p "========================================="
+    p active_elements = group_refilables + active_elements
+    p "========================================="
+    TemplateRefilable.where(id: active_elements).sort_by{ |x| active_elements.index(x.id) }
   end
 
   def all_delireverables

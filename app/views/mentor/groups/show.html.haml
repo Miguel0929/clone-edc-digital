@@ -258,7 +258,129 @@
                       }
                     });
       %center
-        =paginate @students
+        =paginate @students, :param_name => "page_students"  
+  .panel.panel-default
+    .panel-body
+      .row.m-b-20
+        .col-sm-6
+          %h4
+            Lista de mentores
+        .col-sm-6
+          .pull-right.m-t-10
+            .col-sm-6
+              %input#group_student.form-control.pull-right{:placeholder => "Buscar", :type => "text"}/ 
+            .col-sm-6
+              = link_to mentor_group_path(@group, format: :xlsx), class: "btn btn-success pull-left" do
+                Exportar a Excel 
+                %i.fa.fa-file-excel-o 
+
+      .table-responsive   
+        %table.table.table-striped
+          %thead
+            %th{width: "27%"}
+              Datos del alumno
+            %th{width: "23%"}
+              Avances del alumno
+            %th
+              Programas inscritos
+            %th
+              Estado de evaluación
+          %tbody
+            - @mentors.each_with_index do |mentor, index|
+              %tr
+                %td.p-b-20
+                  .m-b-5
+                    = link_to mentor.name, mentor_student_path(mentor)
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %i.fa.fa-envelope
+                    %li.inline 
+                      = mentor.email
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      = link_to summary_mentor_student_path(mentor) do
+                        %i.fa.fa-bolt
+                        Ver resumen
+                %td
+                  .m-b-10
+                    %i.fa.fa-edit
+                    %span Preguntas contestadas:
+                    %strong #{mentor.user_progress.ceil}%
+                  .m-b-10
+                    %i.fa.fa-eye
+                    %span Contenido visto:
+                    %strong #{mentor.user_seen.ceil}%
+                %td
+                  %ul.list-inline.no-style.unstyled
+                    - @programs.each_with_index do |program, index|
+                      %li
+                        - program_stat = ProgramStat.where(user_id: program.id, program_id: program.id).last
+                        - review = (program_stat.nil? || program_stat.checked == 0) ? false : true
+                        - progress_percentage = mentor.integral_percentage_progress_for(program)
+                        - if progress_percentage > 0
+                          = link_to mentor_evaluations_path(user_id: mentor, program_id: program) do
+                            - if progress_percentage > 95
+                              .label.label-success.program-labels{:class => "#{review ? '' : 'p-sides-14-2'}", "data-toggle": "tooltip", "data-original-title": "#{program.name}"}
+                                = !program.short_name.nil? ? program.short_name : "P-#{index}"
+                                %i.fa{:class => "#{review ? 'fa-check' : ''}"}
+                            - else
+                              .label.program-labels{:class => "#{(progress_percentage > 0) ? 'label-warning' : ''} #{review ? '' : 'p-sides-14-2'}", "data-toggle": "tooltip", "data-original-title": "#{program.name}"}
+                                = !program.short_name.nil? ? program.short_name : "P-#{index}"
+                                %i.fa{:class => "#{review ? 'fa-check' : ''}"}
+                        - else
+                          = link_to mentor_evaluations_path(user_id: mentor, program_id: program) do
+                            .label.program-labels{"data-toggle": "tooltip", "data-original-title": "Programa sin estadísticos"}
+                              ???
+                %td.text-center
+                  - prepared = mentor.check_ready.nil? ? mentor.ready_to_check? : mentor.check_ready
+                  %input{type: "hidden", id: "student_ready_#{mentor.id}", value: prepared.to_s}
+                  %input{type: "hidden", id: "student_key_#{mentor.id}", value: mentor.id}
+                  - student_eval = (mentor.evaluation_status == 'evaluado') ? 1 : 0
+                  %label.switch{{id: "switch_#{mentor.id}"}, {"data-toggle": "tooltip"}, (student_eval==0) ? {"data-original-title": "Marcar alumno como evaluado"} : {"data-original-title": "Remover marca de evaluado"}}
+                    - if student_eval == 1
+                      %input{{type: "checkbox"}, {id: "checking_eval_#{mentor.id}"}, {value: student_eval}, {name: "student_eval[checked]"}, {checked: :true}, prepared ? {} : { disabled: true }}
+                    - else
+                      %input{{type: "checkbox"}, {id: "checking_eval_#{mentor.id}"}, {value: student_eval}, {name: "student_eval[checked]"}, prepared ? {} : { disabled: true }}
+                    .slider.round
+                  :javascript
+                    $(document).ready(function(){
+                      if ($("#student_ready_" + #{mentor.id}).val() == "false") {
+                        $("#checking_eval_" + #{mentor.id}).each(function() {
+                          $('#switch_' + #{mentor.id}).append('<div id="disabledClick_#{mentor.id}" style="position:absolute;top:0px;left:0px;width:62px;height:36px;background:transparent;cursor:pointer;"></div>');
+                        });
+                        $("#disabledClick_" + #{mentor.id}).click(function() {
+                          $("#alert_text_error").text("El alumno debe tener todos los programas evaluados");
+                          $("#alert-ra-error").css('display','block');
+                          setTimeout(function(){$("#alert-ra-error").css('display','none');},4000);
+                        });
+
+                      } else {
+                      
+                        $("#checking_eval_" + #{mentor.id}).change(function(){
+                          var user_id = $("#student_key_" + #{mentor.id}).val();
+                          $.ajax({
+                            type: "post",
+                            url: "/change_evaluation", 
+                            data: {user_id},
+                            success: function(data){
+                              if (data.eval){
+                                $("#alert_text").text("El alumno ha sido marcado como evaluado");
+                              }else{
+                                $("#alert_text").text("El alumno dejó de estar marcado como evaluado");
+                              }
+                              $("#alert-ra").css('display','block');
+                              setTimeout(function(){$("#alert-ra").css('display','none');},4000);
+                            },
+                            error: function (data) {
+                              console.log(data);
+                            } 
+                          });
+                        });
+
+                      }
+                    });
+      %center
+        =paginate @mentors, :param_name => "page_mentors"      
 #alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
     #al.alert.alert-info

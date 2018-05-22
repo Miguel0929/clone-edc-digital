@@ -78,7 +78,7 @@
                   - else
                     = link_to apply_dashboard_quiz_path(quiz, user_id: (@student.nil? ? current_user.id : @student.id)) do
                       %button.btn.btn-sm.btn-success.bold.m-b-10
-                        #{current_user.student? ? "Contestar" : "Ver examen"}
+                        #{current_user.student? || current_user.mentor? ? "Contestar" : "Ver examen"}
                 .pull-right#accordion.panel.panel-group.panel-transparent.m-b-0.inline-block.m-t-menos
                   .panel
                     .panel-heading

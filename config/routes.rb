@@ -324,11 +324,18 @@ Rails.application.routes.draw do
       member do
         get :analytics_quiz
         get :summary
+        get :quizzes
+        get :refilables
       end
 
       resources :shared_attachments
       resources :delireverable_users, only: [:edit, :update]
-      resources :refilables, only: [:show, :edit, :update]
+      resources :refilables, only: [:show, :edit, :update] do
+        member do
+          get :plantilla
+        end  
+      end  
+      resources :quizzes, only: [:show]
     end
     resources :refilables, only: [:index]
     resources :comments, only: [:index, :create, :update] do

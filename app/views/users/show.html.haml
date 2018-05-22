@@ -7,7 +7,7 @@
       .card.card-borderless{style: "border: none;"}
         %ul.nav.nav-tabs.nav-tabs-simple.m-b-10
           %li.nav-item.tablinks.active{onclick: "openTab(event, 'tabStudent')"}
-            %a{href: "#", onclick: "return false;"} Estudiante
+            %a{href: "#", onclick: "return false;"}= @user.mentor? ? 'Mentor' : 'Estudiante'
           %li.nav-item.tablinks{onclick: "openTab(event, 'tabProgram')"}
             %a{href: "#", onclick: "return false;"} Programas
           %li.nav-item.tablinks{onclick: "openTab(event, 'tabQuizzes')"}
