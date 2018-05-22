@@ -411,12 +411,13 @@ Rails.application.routes.draw do
       post :reply
       post :trash
       post :untrash
+      get :print_members
     end
   end
   get 'mailbox/inbox' => 'mailbox#inbox', as: :mailbox_inbox
   get 'mailbox/sent' => 'mailbox#sent', as: :mailbox_sent
   get 'mailbox/trash' => 'mailbox#trash', as: :mailbox_trash
-  get 'conversations/print_members' => 'conversations#print_members'
+  #get 'conversations/print_members' => 'conversations#print_members'
 
   resources :frequents
   resources :frequent_categories

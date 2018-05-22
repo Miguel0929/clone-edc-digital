@@ -25,13 +25,17 @@ class ConversationsController < ApplicationController
     end  
   end
   def show
-    @receipts= conversation.receipts_for(current_user).order(:created_at)
+    @receipts = conversation.receipts_for(current_user).order(:created_at)
     conversation.mark_as_read(current_user)
     add_breadcrumb "<a href='#{mailbox_inbox_path}'>Mensajes</a>".html_safe
     add_breadcrumb "<a class='active' href='#{conversation_path}'>#{@receipts.first.message.subject}</a>".html_safe
   end
   def create
-    recipients = (User.where(id: conversation_params[:loner_recipients]) + User.where(group_id: conversation_params[:group_recipients], role: 0).where.not(invitation_accepted_at: nil)).uniq
+    if current_user.mentor? || current_user.profesor?
+      recipients = (User.where(id: conversation_params[:loner_recipients]) + User.where(group_id: conversation_params[:group_recipients], role: 0).where.not(invitation_accepted_at: nil)).uniq
+    else
+      recipients = User.where(id: conversation_params[:recipients])
+    end
     if conversation_params[:attachment].nil?
       conversation = current_user.send_message(recipients,conversation_params[:body],conversation_params[:subject]).conversation
     else
@@ -54,7 +58,7 @@ class ConversationsController < ApplicationController
       att.file=message_params[:attachment]
       att.save!
     end  
-    flash[:notice]="Your reply message was succesfully"
+    flash[:notice] = "Your reply message was succesfully"
     redirect_to conversation_path(conversation)
   end 
 
@@ -69,17 +73,19 @@ class ConversationsController < ApplicationController
   end   
 
   def print_members
-    @members = "hula perrou"
+    originator = conversation.originator
+    participants = conversation.participants
+    recipients = participants - [originator]
+    output = { recipients: recipients.map(&:email).join(", "), originator: originator.email, recipientsCount:  recipients.count.to_s}
     respond_to do |format|
-      #format.html
-      format.json {render text: @members}
+      format.json {render json: output}
     end
   end
 
   private
 
   def conversation_params
-    params.require(:conversation).permit(:subject, :body, :attachment, :loner_recipients => [], :group_recipients => [])
+    params.require(:conversation).permit(:subject, :body, :attachment, :recipients, :loner_recipients => [], :group_recipients => [])
   end 
 
   def message_params

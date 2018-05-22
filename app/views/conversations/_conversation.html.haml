@@ -8,7 +8,6 @@
 					%img.leida{src: image_path('mail-no-leido.png'), :alt => "..."}	 
 		.media-body
 			%p.name
-				/= link_to conversation.originator.name, conversation_path(conversation)
 				= link_to recipient_name(conversation), conversation_path(conversation)
 			%small.asunto ASUNTO:
 			%p.text-asunto
@@ -19,26 +18,36 @@
 			.p.mensaje
 				= truncate strip_tags(conversation.messages.last.body), length: 60 
 			%div{id: "accordion" + conversation.id.to_s, role: "tablist", "aria-multiselectable": "true"}
-				%div{role: "tab"}
+				%div.p-t-10.p-b-5{role: "tab"}
 					%a{"data-toggle": "collapse", "data-parent": "#accordion" + conversation.id.to_s, href: "#collapseBlock" + conversation.id.to_s, "aria-expanded": "true", "aria-controls": "collapseBlock" + conversation.id.to_s, id: "fetchRecipientsNames" + conversation.id.to_s, fetchingKey: conversation.id}
-						%small 
+						%small
 							%i.fa.fa-caret-right 
 							Ver participantes
 				.collapse.show{id: "collapseBlock" + conversation.id.to_s, role: "tabcard", "aria-expanded": "false", style: "height: 0px;"}
-					%div{id: "fetchingContainer" + conversation.id.to_s}
-						= conversation.id.to_s
+					%div
+						.p-t-15
+							%p.small
+								%span.text-success Emisor:
+								%span{id: "fetchingEmisor" + conversation.id.to_s}
+							%p.small
+								%span.text-success Receptores
+								%span.text-success{id: "recipientsCount" + conversation.id.to_s}
+								%span{id: "fetchingRecipients" + conversation.id.to_s}
 			:javascript
 				$( "#fetchRecipientsNames" + #{conversation.id}).click( function() {
 					$.ajax({
 						type: "GET",
-						url: "/conversations/print_members",
+						url: "/conversations/" + #{conversation.id.to_s} + "/print_members",
 						dataType: "JSON",
-						data: {some_parameter: #{conversation.id}},
 						success: function(result){
-							alert("hi");
+							console.log(result.recipients);
+							console.log(result.originator);
+							$( "#recipientsCount" + #{conversation.id} ).html( " (" + result.recipientsCount + "):" );
+							$( "#fetchingEmisor" + #{conversation.id} ).html( result.originator );
+							$( "#fetchingRecipients" + #{conversation.id} ).html( result.recipients );
 						},
 						error: function() {
-							alert("Ajax error!")
+							alert("Ocurrió un error, por favor refresca la página.");
 						}
 					})
 				});
@@ -49,7 +58,6 @@
 				%img.leida{src: image_path('mail-leido.png'), :alt => "..."} 
 		.media-body
 			%p.name
-				/= link_to conversation.originator.name, conversation_path(conversation)
 				= link_to recipient_name(conversation), conversation_path(conversation)
 			%small.asunto ASUNTO:
 			%p.text-asunto
@@ -59,3 +67,37 @@
 			%br 	
 			.p.mensaje
 				= truncate strip_tags(conversation.messages.last.body), length: 60 
+			%div{id: "accordion" + conversation.id.to_s, role: "tablist", "aria-multiselectable": "true"}
+				%div.p-t-10.p-b-5{role: "tab"}
+					%a{"data-toggle": "collapse", "data-parent": "#accordion" + conversation.id.to_s, href: "#collapseBlock" + conversation.id.to_s, "aria-expanded": "true", "aria-controls": "collapseBlock" + conversation.id.to_s, id: "fetchRecipientsNames" + conversation.id.to_s, fetchingKey: conversation.id}
+						%small 
+							%i.fa.fa-caret-right 
+							Ver participantes
+				.collapse.show{id: "collapseBlock" + conversation.id.to_s, role: "tabcard", "aria-expanded": "false", style: "height: 0px;"}
+					%div
+						.p-t-15
+							%p.small
+								%span.text-success Emisor:
+								%span{id: "fetchingEmisor" + conversation.id.to_s}
+							%p.small
+								%span.text-success Receptores
+								%span.text-success{id: "recipientsCount" + conversation.id.to_s}
+								%span{id: "fetchingRecipients" + conversation.id.to_s}
+			:javascript
+				$( "#fetchRecipientsNames" + #{conversation.id}).click( function() {
+					$.ajax({
+						type: "GET",
+						url: "/conversations/" + #{conversation.id.to_s} + "/print_members",
+						dataType: "JSON",
+						success: function(result){
+							console.log(result.recipients);
+							console.log(result.originator);
+							$( "#recipientsCount" + #{conversation.id} ).html( " (" + result.recipientsCount + "):" );
+							$( "#fetchingEmisor" + #{conversation.id} ).html( result.originator );
+							$( "#fetchingRecipients" + #{conversation.id} ).html( result.recipients );
+						},
+						error: function() {
+							alert("Ocurrió un error, por favor refresca la página.");
+						}
+					})
+				});
