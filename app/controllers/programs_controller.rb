@@ -10,8 +10,6 @@ class ProgramsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{programs_path}'>Programas</a>".html_safe
 
     @programs = Program.all.order(position: :asc)
-
-
   end
 
   def show

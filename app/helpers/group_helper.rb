@@ -60,7 +60,7 @@ module GroupHelper
     group.template_refilables.each do |temp|
       templates_arry << temp
     end
-    return templates_arry
+    return templates_arry.uniq
   end
 
   def sort_quizzes(group)
@@ -76,7 +76,7 @@ module GroupHelper
     group.quizzes.each do |quiz|
       quizzes << quiz
     end
-    return quizzes
+    return quizzes.uniq
   end
 
   def sort_delireverables(group)
@@ -92,7 +92,7 @@ module GroupHelper
     group.delireverable_packages.each do |del|
       delireverables << del
     end
-    return delireverables
+    return delireverables.uniq
   end
 
 end

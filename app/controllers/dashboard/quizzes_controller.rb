@@ -9,21 +9,23 @@ class Dashboard::QuizzesController < ApplicationController
   include ActiveElementsHelper
 
   def index
-    if current_user.student?
-      add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path}'>Evaluaciones</a>".html_safe
-      @quizzes = get_active_elements(current_user, "quizzes")
+    unless params[:user_id].present?
+      if current_user.student? || current_user.mentor?
+        add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path}'>Evaluaciones</a>".html_safe
+        @quizzes = get_active_elements(current_user, "quizzes")  
+      end
     else
       @student = User.find(params[:user_id])
       add_breadcrumb "Estudiantes", :mentor_students_path
       add_breadcrumb "<a href='#{mentor_student_path(@student)}'>#{@student.email}</a>".html_safe
       add_breadcrumb "<a class='active' href='#{dashboard_quizzes_path(user_id: @student.id)}'>Evaluaciones</a>".html_safe
-      @quizzes = @student.group.all_quizzes
+      @quizzes = @student.group.all_quizzes  
     end
     if !params[:program_id].nil?
       @quizzes = @quizzes.select {|x| x['program_id'] == params[:program_id].to_i }
       @program = Program.find(params[:program_id])
-    end
-  end
+    end    
+  end 
 
   def show
     add_breadcrumb "<a href='#{dashboard_quizzes_path}'>Evaluaciones</a>".html_safe    
@@ -87,7 +89,11 @@ class Dashboard::QuizzesController < ApplicationController
   end
 
   def permiso_quiz
-    !current_user.group.all_quizzes.include?(@quiz)  
+    if current_user.student?
+      !current_user.group.all_quizzes.include?(@quiz)
+    else
+      false
+    end    
   end  
 
   def redirect_to_quizzes

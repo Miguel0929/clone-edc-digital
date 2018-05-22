@@ -1,5 +1,5 @@
 - content_for :title  do
-  Aplicación de evaluación - EDC Digital
+  Evaluación - EDC Digital
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-15{class: (current_user.mentor? || current_user.admin?) ? "panel-title-recursos" : "panel-title-emprendimiento"}
@@ -15,8 +15,8 @@
               Abajo encontrarás una serie de preguntas concernientes al tópico de esta evaluación. Léelas atentamente y una vez que las hayas contestado todas envía tus respuestas para obtener tu resultado.
 
 .container-fluid.container-fixed-lg#quizzDiv
-  = form_tag dashboard_quiz_answers_path do  
-    -@answers.each_with_index do |answer, index|
+  - if @answers.length > 0 
+    - @answers.each_with_index do |answer, index|
       = fields_for "answers[#{index}]", answer do |f| 
         .panel.panel-default
           .row
@@ -56,16 +56,12 @@
           $('#helpBtnQuiz_#{index}').click(function() {
               $('#helpModalQuiz_#{index}').modal('show')
           });
-    
-    - if current_user.student? || current_user.mentor?   
-      .form-group
-        .row.m-b-30.m-t-20
-          .col-sm-1.col-sm-offset-5
-            = hidden_field_tag :quiz_id, @quiz.id
-            = submit_tag "Guardar respuestas", class: "btn btn-success btn-lg"
+  - else
+    %center
+      La evaluación no tiene preguntas
 
-- unless current_user.student? || current_user.mentor?
-  :javascript
-    $("#quizzDiv :input").prop("disabled", true);
+
+:javascript
+  $("#quizzDiv :input").prop("disabled", true);
 
 
