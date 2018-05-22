@@ -1,7 +1,18 @@
 = form_for :conversation , url: :conversations, html: { class: "",:onsubmit => "return validar()"  } do |f|
-	.form-group
-		= f.label current_user.mentor? || current_user.profesor? ? 'Mis estudiantes' : 'Mis Profesores'
-		= f.select(:recipients, @contacts.collect {|p|[p.name, p.id]},{include_blank:"contactos..."},{class: "form-control js-example-basic-single", required: true })  
+	- if current_user.mentor? || current_user.profesor? 
+		.form-group
+			Puedes enviar un mensaje a estudiantes individuales o a todo un grupo:
+		.form-group
+			= f.label 'Mis estudiantes'
+			/= f.select(:recipients, @contacts.collect {|p|[p.name, p.id]}, {include_blank: "contactos..."},{class: "form-control js-example-basic-single", required: true })  
+			= f.select :loner_recipients, @contacts.collect {|p|[p.name, p.id]}, {include_blank: "contactos..."}, multiple: 'multiple', class: "form-control js-example-basic-single"
+		.form-group
+			= f.label 'Mis grupos'
+			= f.select :group_recipients, @groups.collect {|g|[g.name, g.id]}, {include_blank: "grupos..."}, multiple: 'multiple', class: "form-control js-example-basic-single"
+	- else 
+		.form-group
+			= f.label 'Mis Profesores'
+			= f.select(:recipients, @contacts.collect {|p|[p.name, p.id]},{include_blank: "contactos..."},{class: "form-control js-example-basic-single", required: true })
 	.form-group
 		= f.label :asunto
 		= f.text_field :subject, class: "form-control", required: true 

@@ -28,7 +28,32 @@ class MailboxController < ApplicationController
     filtered_participants = conversation.participants.reject do |u| 
       u.id == current_user.id
     end 
-    filtered_participants.first.name.to_s
+    if filtered_participants.count > 1
+      if filtered_participants.count <= 3
+        names = ""
+        filtered_participants.map{|user| names = names + user.first_name + ", " }
+        2.times do names.chop! end
+        names
+      else
+        groups = []
+        filtered_participants.map{|user| groups << user.group}
+        if (groups.uniq.count == 0 || groups.uniq.count > 1)
+          "Múltiples participantes"
+        elsif groups.uniq.count == 1
+          groups.first.name
+        end
+      end
+    else
+      filtered_participants.first.name.to_s
+    end
+  end
+
+  def show_recipients(conversation)
+    filtered_participants = conversation.participants.reject do |u| 
+      u.id == current_user.id
+    end
+    recipients_names = []
+    filtered_participants.map{|user| recipients_names << user.name}
   end
 
 end
