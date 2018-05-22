@@ -39,38 +39,10 @@
                 .well
                   #refilable-content-template
                     = raw replace_fillable(@template.content)
-                .refilable-form
-                  = form_for([:dashboard, @template, Refilable.new]) do |f|
-                    = f.hidden_field :content
-                - if current_user.student? || current_user.mentor?
-                  .pull-right
-                    = link_to dashboard_template_refilables_path, class: "btn btn-danger" do
-                      Cancelar
-                    %button.btn.btn-primary#send-refilable
-                      Enviar respuestas
-
-
 
 :javascript
   $(document).on('turbolinks:load', function(){
     $('.refilable-edit').editable('toggleDisabled');
     $('.refilable-edit').attr('contentEditable', true);
     $('.refilable-edit').addClass('form-control refilable-input');
-
-    $('#send-refilable').click(function() {
-
-      $('.refilable-edit').each(function() {
-        if ($(this).text() == "" || $(this).text() == " (sin respuesta) ") {
-          $(this).addClass('no-answer');
-        } else {
-          $(this).addClass('present-answer');
-        }
-      });
-
-      var $form = $('#new_refilable');
-      var $template_content = $('#refilable-content-template');
-      $('#refilable_content').val($template_content.html());
-
-      $form.submit();
-    })
   });

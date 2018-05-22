@@ -18,9 +18,12 @@ class Mentor::GroupsController < ApplicationController
 
   def show
     @group = current_user.groups.includes(:programs, :users, :active_students).find(params[:id])
-    @students = @group.active_students.order(:id).page(params[:page]).per(20)
-    @students = @group.student_search(params[:query]).page(params[:page]).per(20) if params[:query].present?
+    @students = @group.active_students.order(:id).page(params[:page_students]).per(20)
+    @students = @group.student_search(params[:query]).page(params[:page_students]).per(20) if params[:query].present?
     @programs = sort_programs(@group, @group.all_programs) rescue []
+    
+    @mentors = @group.active_mentors.order(:id).page(params[:page_mentors]).per(20)
+    #@students = @group.student_search(params[:query_mentors]).page(params[:page_mentors]).per(20) if params[:query_mentor].present?
     add_breadcrumb "Grupos", :mentor_groups_path
     add_breadcrumb "<a class='active' href='#{mentor_group_path(@group)}'>#{@group.name}</a>".html_safe
 

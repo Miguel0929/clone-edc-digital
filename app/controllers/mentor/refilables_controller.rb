@@ -1,7 +1,8 @@
 class Mentor::RefilablesController < ApplicationController
   before_action :set_student
   before_action :my_students?, only: [:show, :edit]
-  before_action :set_refilable
+  before_action :set_refilable, only: [:show, :edit, :update]
+  before_action :set_template_refilable, only: [:plantilla]
 
   add_breadcrumb "EDC DIGITAL", :root_path
   before_action :set_user_breadcrum
@@ -26,6 +27,10 @@ class Mentor::RefilablesController < ApplicationController
     end  
   end
 
+  def plantilla
+
+  end  
+
   private
   def set_student
     @user = User.find(params[:student_id])
@@ -33,6 +38,10 @@ class Mentor::RefilablesController < ApplicationController
 
   def set_refilable
     @refilable = Refilable.find(params[:id])
+  end
+
+  def set_template_refilable
+    @template = TemplateRefilable.find(params[:id])
   end
 
   def refilable_params
