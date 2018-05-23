@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180511220903) do
+ActiveRecord::Schema.define(version: 20180522230336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -172,6 +172,21 @@ ActiveRecord::Schema.define(version: 20180511220903) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "evaluation_refilables", force: :cascade do |t|
+    t.integer  "template_refilable_id"
+    t.string   "name"
+    t.integer  "points"
+    t.string   "excelent"
+    t.string   "good"
+    t.string   "regular"
+    t.string   "bad"
+    t.integer  "position"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "evaluation_refilables", ["template_refilable_id"], name: "index_evaluation_refilables_on_template_refilable_id", using: :btree
 
   create_table "evaluations", force: :cascade do |t|
     t.integer "chapter_id"
@@ -743,6 +758,17 @@ ActiveRecord::Schema.define(version: 20180511220903) do
 
   add_index "user_codes", ["user_id"], name: "index_user_codes_on_user_id", using: :btree
 
+  create_table "user_evaluation_refilables", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "evaluation_refilable_id"
+    t.integer  "points"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "user_evaluation_refilables", ["evaluation_refilable_id"], name: "index_user_evaluation_refilables_on_evaluation_refilable_id", using: :btree
+  add_index "user_evaluation_refilables", ["user_id"], name: "index_user_evaluation_refilables_on_user_id", using: :btree
+
   create_table "user_evaluations", force: :cascade do |t|
     t.integer "user_id"
     t.integer "evaluation_id"
@@ -853,6 +879,7 @@ ActiveRecord::Schema.define(version: 20180511220903) do
 
   add_foreign_key "attempts", "quizzes"
   add_foreign_key "attempts", "users"
+  add_foreign_key "evaluation_refilables", "template_refilables"
   add_foreign_key "glossaries", "glossary_categories"
   add_foreign_key "group_quizzes", "groups"
   add_foreign_key "group_quizzes", "quizzes"
@@ -887,5 +914,7 @@ ActiveRecord::Schema.define(version: 20180511220903) do
   add_foreign_key "template_refilables", "programs"
   add_foreign_key "universities", "states"
   add_foreign_key "user_codes", "users"
+  add_foreign_key "user_evaluation_refilables", "evaluation_refilables"
+  add_foreign_key "user_evaluation_refilables", "users"
   add_foreign_key "users", "industries"
 end

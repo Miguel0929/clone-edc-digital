@@ -315,6 +315,7 @@ Rails.application.routes.draw do
     
     resources :sitemap, only: [:index]
     resources :evaluations, only: [:index, :show, :update]
+    resources :evaluation_refilables, only: [:update]
     resources :program_details, only: [:index]
     resources :students, only: [:index, :show, :update] do
       
@@ -449,6 +450,9 @@ Rails.application.routes.draw do
     collection do
       post :sort
     end
+    member do
+      get :rubrics
+    end  
   end
 
   resources :learning_paths,  only: [:index, :new, :create, :destroy, :show, :edit, :update] do

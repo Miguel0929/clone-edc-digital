@@ -1,6 +1,6 @@
 - content_for :title  do
   Ver plantilla - EDC Digital
-
+- template_refilable = @refilable.template_refilable
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-30.panel-title-recursos
     .container-fluid
@@ -37,8 +37,8 @@
                   = link_to dashboard_template_refilables_path(user_id: @user) do
                     %i.fa.fa-arrow-left
                     Regresar a plantillas
-            .col-md-7
-              .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
+            .col-md-8
+              .p-r-30.p-l-30.p-t-0.sm-padding-5.sm-m-t-15
                 .table-responsive.table-invoice
                   %table.table.m-t-0
                     %thead
@@ -52,9 +52,83 @@
                         %td.p-b-30
                           #refilable-content-template
                             = raw remove_class(replace_fillable(@refilable.content))
+                .row
+                  .pull-right
+                    %button.btn.btn-primary{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-target" => "#collapseComentar", "data-toggle" => "collapse", :type => "button"}
+                      Comentar
+                    %button.btn.btn-success{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-target" => "#collapseEvaluar", "data-toggle" => "collapse", :type => "button"}
+                      Evaluar      
+                .row    
+                  #collapseComentar.collapse          
+                    = bootstrap_form_for([:mentor, @user, @refilable], url: mentor_student_refilable_path(@user, @refilable), method: :put) do |f|
+                      = f.text_area :comments, label: 'Agrega comentarios sobre esta plantilla:', rows: 4
+                      - if current_user.mentor?
+                        = link_to "Cancelar", mentor_student_path(@user), class: "btn btn-danger"
+                        = f.submit 'Guardar', class: "btn btn-primary"
+                .row    
+                  #collapseEvaluar.collapse
+                    %h3 Evaluar
+                    - if template_refilable.evaluation_refilables.count > 0      
+                      %ul.nav.nav-tabs.nav-tabs-fillup.nav-tabs-separator.nav-stack-sm
+                        - template_refilable.evaluation_refilables.each_with_index do |refil, index|
+                          %li.litabs{:style => "width:30px;", :class => "#{index==0 ? 'active' : ''}"}
+                            %a.p-l-11.l-h-5.atabs.cursor{:id => "atab#{index}"}
+                              = index + 1 
+
+                      = bootstrap_form_for(template_refilable, url: mentor_evaluation_refilable_path, :html => {:id => "evolve"}) do |f|
+                        %input{type: 'hidden', name: "user_id", value: @user.id, id: "user_id"}
+                        %input{type: 'hidden', name: "template_id", value: template_refilable.id, id: "program_id"}
+                          %div
+                            - template_refilable.evaluation_refilables.each_with_index do |evaluation, index|
+                              .contenedor.padding-20{:id => "tabulador#{index}", :class => "#{index==0 ? 'show' : 'hide'}"}
+                                .row.row-same-height
+                                  %h5
+                                    = evaluation.name
+                                    %em{:style => "font-size:0.9em;"}
+                                      (#{evaluation.points} pts o #{evaluation.points * 100 / @totaleval}%)
+                                  %input{type: 'hidden', name: "evaluation[#{index}][evaluation]", value: evaluation.id}
+                                  .radio.radio-success
+                                    %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_excelent_#{index}", value: '100', checked: evaluation_pointed?(evaluation, 100)}
+                                    %label{for: "radio_excelent_#{index}"}
+                                      %strong Exelente:
+                                      #{evaluation.excelent}
+                                  .radio.radio-success
+                                    %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_good_#{index}", value: '75', checked: evaluation_pointed?(evaluation, 75)}
+                                    %label{for: "radio_good_#{index}"}
+                                      %strong Bueno:
+                                      #{evaluation.good}
+                                  .radio.radio-success
+                                    %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_regular_#{index}", value: '50', checked: evaluation_pointed?(evaluation, 50)}
+                                    %label{for: "radio_regular_#{index}"}
+                                      %strong Regular:
+                                      #{evaluation.regular}
+                                  .radio.radio-success
+                                    %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_bad_#{index}", value: '25', checked: evaluation_pointed?(evaluation, 25)}
+                                    %label{for: "radio_bad_#{index}"}
+                                      %strong Malo:
+                                      #{evaluation.bad}       
+                    - else
+                      .nav-tabs.nav-tabs-separator.m-b-15
+                      %label.label-danger.padding-5.m-b-10
+                        No hay rúbrica para esta plantilla        
 
 :javascript
   $(document).on('turbolinks:load', function(){
     $('.refilable-edit').removeClass('form-control refilable-input');
     $('.no-answer').text(' (sin respuesta) ');
+
+    $(".atabs").click(function(){
+      var tab = $(this).attr("id");
+      $(".litabs").removeClass("active");
+      $(this).parent().addClass("active");
+      id = tab.substring(4)
+      $(".contenedor").removeClass("show");
+      $(".contenedor").addClass("hide");
+      //if ($("#tab"+id).hasClass("hide")){
+        $("#tabulador"+id).removeClass("hide");
+        $("#tabulador"+id).addClass("show");
+      //}
+      
+      console.log(id);
+    });
   });
