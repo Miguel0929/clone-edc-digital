@@ -41,7 +41,7 @@ class AnalyticsPanelController < ApplicationController
       @students = @students.page(params[:page]).per(@pag_max)
       bienvenido_program = Program.where("name like ?", "%" + "¡Bienvenid" + "%").last
       unless bienvenido_program.nil? 
-        @bienvenido.chapters.where("name like ?", "%" + "Diagnóstico" + "%").last
+        @bienvenido = bienvenido_program.chapters.where("name like ?", "%" + "Diagnóstico" + "%").last
       else
         @bienvenido = nil
       end  
