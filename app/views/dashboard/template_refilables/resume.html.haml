@@ -60,7 +60,7 @@
                         %td{colspan: 2}
                           %center
                             %label.label-danger.padding-5.m-b-10
-                              No has contestado esta plantilla
+                              La plantilla no ha sido evaluada
                                 
             - else
               .nav-tabs.nav-tabs-separator.m-b-15
@@ -69,7 +69,6 @@
 - unless @refilable.nil?
   :javascript
     $(document).on('turbolinks:load', function(){
-      $('.refilable-edit').editable('toggleDisabled');
-      $('.refilable-edit').attr('contentEditable', true);
-      $('.refilable-edit').addClass('form-control refilable-input');
+      $('.refilable-edit').removeClass('form-control refilable-input');
+      $('.no-answer').text(' (sin respuesta) ');
     });
