@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   has_many :notifications
   has_many :comment_notifications, :through => :notifications, :source => :notificable, :source_type => 'CommentNotification'
   has_many :program_notifications, :through => :notifications, :source => :notificable, :source_type => 'ProgramNotification'
+  has_many :refilable_notifications, :through => :notifications, :source => :notificable, :source_type => 'RefilableNotification'
   has_many :shared_group_attachment_notifications, :through => :notifications, :source => :notificable, :source_type => 'SharedGroupAttachmentNotification'
   has_many :learning_path_notifications, :through => :notifications, :source => :notificable, :source_type => 'LearningPathNotification'
   has_many :mentor_program_notifications, :through => :notifications, :source => :notificable, :source_type => 'MentorProgramNotification'

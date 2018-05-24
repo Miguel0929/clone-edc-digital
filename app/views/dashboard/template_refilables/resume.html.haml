@@ -1,0 +1,75 @@
+- content_for :title  do
+  Evaluación de plantillas- EDC Digital
+
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-15.panel-title-emprendimiento
+    .container-fluid
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row
+          .col-sm-12.col-md-12.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Evaluacion de plantilla
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}= @template_refilable.name
+    .panel-body
+      %p.m-l-10= @template_refilable.description
+      .col-md-5
+        - if @refilable.nil?
+          .well
+            #refilable-content-template
+              = raw remove_class(replace_fillable_admin(@template_refilable.content))
+        - else
+          .well
+            #refilable-content-template.nueva-tipografia-rellenable
+              = raw remove_class(replace_fillable(@refilable.content)) 
+      .col-md-7
+        .panel.panel-default
+          .panel-heading
+            %h3.panel-title Rubricas
+          .panel-body
+            - if @rubricas.count > 0
+              %table.table
+                %thead
+                  %tr
+                    %th Rubrica
+                    %th Evaluacion
+                    %th Puntaje            
+                %tbody
+                  - @rubricas.each do |rubrica|
+                    - user_eval = rubrica.user_evaluation_refilables.find_by(user: current_user)
+                    - unless user_eval.nil?
+                      %tr
+                        %th=rubrica.name
+                        %td
+                          - if user_eval.points == 100
+                            = rubrica.excelent
+                          - elsif user_eval.points == 75
+                            = rubrica.good
+                          - elsif user_eval.points == 50
+                            = rubrica.regular
+                          - elsif user_eval.points == 25 
+                            = rubrica.bad
+                        %td=user_eval.points                       
+                          
+                    - else
+                      %tr
+                        %th=rubrica.name
+                        %td{colspan: 2}
+                          %center
+                            %label.label-danger.padding-5.m-b-10
+                              No has contestado esta plantilla
+                                
+            - else
+              .nav-tabs.nav-tabs-separator.m-b-15
+                %label.label-danger.padding-5.m-b-10
+                  No hay rúbrica para esta plantilla              
+- unless @refilable.nil?
+  :javascript
+    $(document).on('turbolinks:load', function(){
+      $('.refilable-edit').editable('toggleDisabled');
+      $('.refilable-edit').attr('contentEditable', true);
+      $('.refilable-edit').addClass('form-control refilable-input');
+    });

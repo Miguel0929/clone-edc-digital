@@ -106,7 +106,8 @@
                                     %input{type: 'radio', name: "evaluation[#{index}][points]", id: "radio_bad_#{index}", value: '25', checked: evaluation_pointed?(evaluation, 25)}
                                     %label{for: "radio_bad_#{index}"}
                                       %strong Malo:
-                                      #{evaluation.bad}       
+                                      #{evaluation.bad}
+                        %button.btn.btn-primary{type: "submit"} Guardar                    
                     - else
                       .nav-tabs.nav-tabs-separator.m-b-15
                       %label.label-danger.padding-5.m-b-10

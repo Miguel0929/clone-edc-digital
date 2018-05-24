@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180522230336) do
+ActiveRecord::Schema.define(version: 20180523213353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -614,6 +614,15 @@ ActiveRecord::Schema.define(version: 20180522230336) do
   end
 
   add_index "receptions", ["group_id"], name: "index_receptions_on_group_id", using: :btree
+
+  create_table "refilable_notifications", force: :cascade do |t|
+    t.integer  "template_refilable_id"
+    t.integer  "notification_type"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "refilable_notifications", ["template_refilable_id"], name: "index_refilable_notifications_on_template_refilable_id", using: :btree
 
   create_table "refilables", force: :cascade do |t|
     t.integer  "template_refilable_id"

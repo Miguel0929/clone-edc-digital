@@ -238,6 +238,9 @@ Rails.application.routes.draw do
     end
 
     resources :template_refilables, only: [:index] do
+      member do
+        get :resume
+      end
       resources :refilables, only: [:new, :create, :show, :edit, :update]
     end
   end

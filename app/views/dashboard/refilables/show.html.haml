@@ -35,12 +35,6 @@
                   %h5
                     = link_to dashboard_template_refilables_path do
                       Regresar a plantillas
-                /%h5
-                /  - if @done_refilables.count > 0
-                /    - @done_refilables.each do |refilable|
-                /      - user_refilable = refilable.refilables.find_by(user: current_user)
-                /      = link_to edit_dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "text-danger bold" do
-                /        Editar esta plantilla
             .col-md-8
               .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
                 .table-responsive.table-invoice

@@ -104,7 +104,6 @@ class Mentor::EvaluationsController < ApplicationController
     end
     add_breadcrumb 'Evaluación de programa', mentor_evaluations_path(program_id: @program, user_id: @user)
     add_breadcrumb "<a class='active' href='#{mentor_evaluation_path(@chapter, program_id: @program, user_id: @user)}'>Evaluación de programa</a>".html_safe
-    render :json => {1=> @evaluations}
   end
 
   def update
