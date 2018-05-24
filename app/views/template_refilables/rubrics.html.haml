@@ -1,0 +1,33 @@
+- content_for :title  do
+	Rúbricas de la plantilla - EDCdigital
+
+.container-fluid.container-fixed-lg
+	.row
+		.col-md-12
+			.panel.panel-default
+				.panel-heading
+					.panel-title
+						Rúbricas de la plantilla
+				.panel-body
+					.p-t-20
+						= bootstrap_form_for(@template_refilable) do |f|
+							.evaluation_refilables
+								= f.fields_for :evaluation_refilables do |evaluation|
+									= render 'evaluation_refilable_fields', f: evaluation
+
+								- if @template_refilable.evaluation_refilables.count == 0
+									%h4.p-b-20.text-center
+										Aún no hay rúbricas para esta plantilla
+								.links.pull-left.p-t-20.p-b-20
+									= link_to_add_association f, :evaluation_refilables, class: 'btn btn-primary' do
+										%i.fa.fa-plus
+										Agregar nueva rúbrica
+								.links.pull-right.p-t-20.p-b-20
+									= link_to @template_refilable, class: 'btn' do
+										%i.fa.fa-times
+										Cancelar
+									= f.submit 'Guardar cambios', class: 'btn btn-success'
+
+
+
+

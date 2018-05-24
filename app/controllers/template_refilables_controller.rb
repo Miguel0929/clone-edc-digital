@@ -1,6 +1,6 @@
 class TemplateRefilablesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_template_refilable, only: [:show, :edit, :update, :destroy]
+  before_action :set_template_refilable, only: [:show, :edit, :update, :destroy, :rubrics]
   before_action :require_admin, except: [:show]
   before_action :require_admin_or_mentor_or_profesor, only: [:show]
   add_breadcrumb "EDC DIGITAL", :root_path
@@ -30,6 +30,12 @@ class TemplateRefilablesController < ApplicationController
     add_breadcrumb "Mis plantillas", :template_refilables_path
     add_breadcrumb "<a class='active' href='#{edit_template_refilable_path(@template_refilable)}'>#{@template_refilable.name}</a>".html_safe
   end
+
+  def rubrics
+    add_breadcrumb "<a href='#{template_refilables_path}'>Plantillas</a>".html_safe
+    add_breadcrumb "<a href='#{template_refilable_path(@template_refilable)}'>#{@template_refilable.name}</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{rubrics_template_refilable_path(@template_refilable)}'>Rubricas</a>".html_safe
+  end  
 
   def create
     add_breadcrumb "EDC DIGITAL", :root_path
@@ -78,6 +84,7 @@ class TemplateRefilablesController < ApplicationController
     end
 
     def template_refilable_params
-      params.require(:template_refilable).permit(:name, :description, :content, :program_id, group_ids: [])
+      params.require(:template_refilable).permit(:name, :description, :content, :program_id, group_ids: [], evaluation_refilables_attributes: [
+      :id, :name, :points, :position, :excelent, :good, :regular, :bad, :_destroy])
     end
 end
