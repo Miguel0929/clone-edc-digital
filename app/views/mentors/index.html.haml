@@ -70,7 +70,7 @@
                 %ul.p-l-0.m-b-0
                   %li.inline 
                     %span.bold Grupo personal: 
-                  %li.inline= user.group_id.nil? ? 'Si grupo asignado' : user.group.name        
+                  %li.inline= user.group.nil? ? 'Sin grupo asignado' : user.group.name        
               %td.p-b-15
                 %ul.unstyled.list-unstyled.p-l-0.m-b-0
                   %li
