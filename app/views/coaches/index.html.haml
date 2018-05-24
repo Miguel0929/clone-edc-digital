@@ -1,85 +1,88 @@
 - content_for :title  do
-  Estudiante - EDC Digital
+  Tutores - EDC Digital
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
-    .panel-body
-      .pull-right.w-300
+    .panel-heading
+      .pull-right
         .col-xs-12
           .form-group
             %div.input-group
-              %input#mentor_students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+              %input#search-table.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
               %span.input-group-addon.panel-title-recursos
                 %i.fa.fa-search.text-white
       .clearfix
-      .table-responsive
-        %table.table.table-hover
-          %thead
+    .panel-body
+      %h2
+        Lista de mentores
+        .pull-right
+          = link_to 'Invitar usuario', new_user_invitation_path, class: 'btn btn-default'
+      %table.table.table-hover.datatable
+        %thead
+          %tr
+            %th
+              Id
+            %th
+              Datos de contacto
+            %th
+              Información de usuario
+            %th
+              Acciones
+        %tbody
+          - @coaches.each do |user|
             %tr
-              %th{:width => "5%"}
-                Id
-              %th{:width => "30%"}
-                Datos de contacto
-              %th{:width => "30%"}
-                Info. de tutor
-              %th{:width => "35%"}
-                Acciones
-          %tbody
-            - @coach.each do |coach|
-              %tr
-                %td.p-b-15
-                  = coach.id
-                %td.p-b-15
-                  .m-b-0
-                    = link_to coach.name, mentor_student_path(trainee)
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %i.fa.fa-envelope
-                    %li.inline 
-                      = trainee.email
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %i.fa.fa-phone
-                    %li.inline 
-                      = trainee.phone_number
-                %td.p-b-15
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %span.bold Estado:
-                    %li.inline 
-                      = trainee.status
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %span.bold Grupo:
-                    %li.inline 
-                      = trainee.group.name.capitalize
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %span.bold Última sesión:
-                    %li.inline 
-                      - if !trainee.visits.last.nil?
-                        = l trainee.visits.last.started_at, format: :short_special
-                      - else
-                        %span.text-danger Ninguna
-                %td.p-b-15
-                  - if trainee.student?
-                    %ul.p-l-0.m-b-0
-                      %li.inline
-                        %span.bold Contestado:
-                      %li.inline 
-                        #{trainee.user_progress.ceil}%
-                    %ul.p-l-0.m-b-0
-                      %li.inline
-                        %span.bold Visto:
-                      %li.inline 
-                      #{trainee.user_seen.ceil}%
-                    %ul.p-l-0.m-b-0
-                      %li.inline
-                        %span.bold Status de evaluación:
-                      %li.inline 
-                      #{trainee.evaluation_status}
-
-    .pull-right
-      = paginate @trainees
-      %br
-      %span.text-center= page_entries_info @trainees
+              %td.p-b-15
+                = user.id
+              %td.p-b-15
+                .m-t-0
+                  = link_to user.name,  mentor_path(user)
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %i.fa.fa-envelope
+                  %li.inline 
+                    = user.email
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %i.fa.fa-phone
+                  %li.inline 
+                    = user.phone_number
+              %td.p-b-15
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %strong
+                      Estado: 
+                  %li.inline{:class => "#{(user.status == 'Inactivo') ? 'text-danger' : 'text-primary'}"} 
+                    = user.status
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %strong
+                      Número de grupos: 
+                  %li.inline 
+                    = user.groups.count
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %span.bold Última sesión:
+                  %li.inline 
+                    - if !user.visits.last.nil?
+                      = l user.visits.last.started_at, format: :short_special
+                    - else
+                      %span.text-danger Ninguna
+                %ul.p-l-0.m-b-0
+                  %li.inline 
+                    %span.bold Grupo personal: 
+                  %li.inline= user.group_id.nil? ? 'Si grupo asignado' : user.group.name        
+              %td.p-b-15
+                %ul.unstyled.list-unstyled.p-l-0.m-b-0
+                  %li
+                    = link_to mentor_path(user) do
+                      %i.fa.fa-eye
+                      Ver información
+                  %li
+                    = link_to edit_mentor_path(user) do
+                      %i.fa.fa-edit
+                      Editar
+                  %li
+                    = link_to mentor_path(user), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                      %i.fa.fa-times
+                      Eliminar
+      

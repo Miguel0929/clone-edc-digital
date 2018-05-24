@@ -1,7 +1,7 @@
-class TraineesController < ApplicationController
+class CoachesController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_mentor
-  before_action :set_coach, only: [:destroy]
+  before_action :require_admin
+  #before_action :set_coach, only: [:destroy]
   add_breadcrumb "EDC DIGITAL", :root_path
 
   def index
@@ -33,5 +33,13 @@ class TraineesController < ApplicationController
   private
   def set_coach
     @coach = User.find(params[:id])
+  end
+
+  def user_params
+    params.require(:mentor).permit(:first_name, :last_name, :email, :phone_number, :group_id ,:role, group_ids: [])
+  end
+
+  def validate_student
+    redirect_to users_path unless @user.student?
   end
 end
