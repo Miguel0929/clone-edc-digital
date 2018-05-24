@@ -357,6 +357,7 @@ Rails.application.routes.draw do
         end
       end
     end
+    resources :trainees, only: [:index]
 
   end
 
@@ -491,11 +492,18 @@ Rails.application.routes.draw do
     resources :program_details, only: [:index]
     resources :shared_group_attachments
     
-
     resources :quizzes, only: [] do
       member do
         get :apply
       end
     end  
+  end
+
+  resources :coaches, only: [:index, :new, :create, :destroy] do
+    member do
+      get :trainees
+      get :trainees_deletion
+      get :new_trainees
+    end
   end
 end

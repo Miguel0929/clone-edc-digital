@@ -1,0 +1,85 @@
+- content_for :title  do
+  Estudiante - EDC Digital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      .pull-right.w-300
+        .col-xs-12
+          .form-group
+            %div.input-group
+              %input#mentor_students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+              %span.input-group-addon.panel-title-recursos
+                %i.fa.fa-search.text-white
+      .clearfix
+      .table-responsive
+        %table.table.table-hover
+          %thead
+            %tr
+              %th{:width => "5%"}
+                Id
+              %th{:width => "30%"}
+                Datos de contacto
+              %th{:width => "30%"}
+                Info. de tutor
+              %th{:width => "35%"}
+                Acciones
+          %tbody
+            - @coach.each do |coach|
+              %tr
+                %td.p-b-15
+                  = coach.id
+                %td.p-b-15
+                  .m-b-0
+                    = link_to coach.name, mentor_student_path(trainee)
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %i.fa.fa-envelope
+                    %li.inline 
+                      = trainee.email
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %i.fa.fa-phone
+                    %li.inline 
+                      = trainee.phone_number
+                %td.p-b-15
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %span.bold Estado:
+                    %li.inline 
+                      = trainee.status
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %span.bold Grupo:
+                    %li.inline 
+                      = trainee.group.name.capitalize
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %span.bold Última sesión:
+                    %li.inline 
+                      - if !trainee.visits.last.nil?
+                        = l trainee.visits.last.started_at, format: :short_special
+                      - else
+                        %span.text-danger Ninguna
+                %td.p-b-15
+                  - if trainee.student?
+                    %ul.p-l-0.m-b-0
+                      %li.inline
+                        %span.bold Contestado:
+                      %li.inline 
+                        #{trainee.user_progress.ceil}%
+                    %ul.p-l-0.m-b-0
+                      %li.inline
+                        %span.bold Visto:
+                      %li.inline 
+                      #{trainee.user_seen.ceil}%
+                    %ul.p-l-0.m-b-0
+                      %li.inline
+                        %span.bold Status de evaluación:
+                      %li.inline 
+                      #{trainee.evaluation_status}
+
+    .pull-right
+      = paginate @trainees
+      %br
+      %span.text-center= page_entries_info @trainees

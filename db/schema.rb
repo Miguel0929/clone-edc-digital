@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180511220903) do
+ActiveRecord::Schema.define(version: 20180523173003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -757,6 +757,13 @@ ActiveRecord::Schema.define(version: 20180511220903) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_trainees", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "trainee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                             default: "",                                                                              null: false
     t.string   "encrypted_password",                default: "",                                                                              null: false
@@ -807,6 +814,7 @@ ActiveRecord::Schema.define(version: 20180511220903) do
     t.string   "interest"
     t.text     "challenge"
     t.text     "goal"
+    t.integer  "coach_id"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
@@ -887,5 +895,8 @@ ActiveRecord::Schema.define(version: 20180511220903) do
   add_foreign_key "template_refilables", "programs"
   add_foreign_key "universities", "states"
   add_foreign_key "user_codes", "users"
+  add_foreign_key "user_trainees", "users"
+  add_foreign_key "user_trainees", "users", column: "trainee_id"
   add_foreign_key "users", "industries"
+  add_foreign_key "users", "users", column: "coach_id"
 end

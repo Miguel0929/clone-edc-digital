@@ -43,6 +43,9 @@ class User < ActiveRecord::Base
   has_many :attempts
   has_one :user_code
   has_many :user_trackers
+  belongs_to :coach, :class_name => "User", foreign_key: "coach_id"
+  has_many :user_trainees
+  has_many :trainees, through: :user_trainees, :foreign_key => "trainee_id"
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 
