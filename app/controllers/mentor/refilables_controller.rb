@@ -4,10 +4,16 @@ class Mentor::RefilablesController < ApplicationController
   before_action :set_refilable, only: [:show, :edit, :update]
   before_action :set_template_refilable, only: [:plantilla]
 
+  helper_method :evaluation_pointed?
+  helper_method :evaluation_result
+  helper_method :evaluation_checked?
+
   add_breadcrumb "EDC DIGITAL", :root_path
   before_action :set_user_breadcrum
 
   def show
+    @totaleval = @refilable.template_refilable.evaluation_refilables.sum(:points)
+    @evaluations = @user.user_evaluation_refilables.joins(:evaluation_refilable).where('evaluation_refilables.template_refilable_id = ?', @refilable.template_refilable.id)
     add_breadcrumb "<a href='#{dashboard_template_refilables_path(user_id: @user.id)}'>Plantillas</a>".html_safe
     add_breadcrumb "<a class='active' href='#{mentor_student_refilable_path(@user, @refilable)}'>#{@refilable.template_refilable.name}</a>".html_safe
   end
@@ -17,11 +23,10 @@ class Mentor::RefilablesController < ApplicationController
   end
 
   def update
-    add_breadcrumb "<a class='active' href='#{edit_mentor_student_refilable_path(@user, @refilable)}'>#{@refilable.template_refilable.name}</a>".html_safe
 
     @refilable.update(refilable_params)
     respond_to do |format|
-      format.html { redirect_to mentor_student_path(@user), notice: 'Plantilla actualizada'}
+      format.html { redirect_to :back, notice: 'Plantilla actualizada'}
       format.js { render "notification"}
       format.json { render json: @refilable, status: :update }
     end  
@@ -29,7 +34,20 @@ class Mentor::RefilablesController < ApplicationController
 
   def plantilla
 
-  end  
+  end
+
+  def evaluation_pointed?(evaluation, points)
+    !@evaluations.where(evaluation_refilable_id: evaluation, points: points).empty?
+  end
+
+  def evaluation_result(chapter)
+    (((chapter.evaluation_points * 100) / chapter.total_evaluations_points rescue 0) * chapter.points / 100)
+  end
+
+  def evaluation_checked?(user, evaluation)
+    UserEvaluationRefilable.where(user_id: user, evaluation_refilable_id: evaluation).exists?
+  end
+  
 
   private
   def set_student

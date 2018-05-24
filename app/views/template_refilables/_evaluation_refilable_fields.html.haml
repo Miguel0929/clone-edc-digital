@@ -1,0 +1,31 @@
+#accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
+  - f_index =  f.options[:child_index]
+
+  .panel.panel-default.well.p-t-0.p-b-0.p-l-0{id: "panel_index_#{f_index}"}
+    .panel-heading
+      .row
+        .col-md-1
+          = link_to_remove_association f, {data: { confirm: '¿Estás seguro?' }, wrapper_class: 'panel-group', class: "delete-rubrics", style: "color: #CD4945 !important; opacity: .7; position: relative; top: 6px;"} do
+            %i.fa.fa-trash
+            Eliminar
+        .col-md-11
+          %h3.panel-title.after-lift
+            %a{"aria-controls" => "collapse_#{f_index}", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse_#{f_index}"}
+              .pull-left
+                = f.object.name.nil? ? "Nueva rúbrica" : f.object.name
+              .pull-right.p-r-50
+            
+    .panel-collapse.collapse{:id=>"collapse_#{f_index}", "aria-labelledby" => "heading_#{f_index}", :role => "tabpanel"}
+      .panel-body.p-t-0
+        .col-md-8
+          = f.text_field :name, label: 'Nombre del elemento'
+        .col-md-2
+          = f.number_field :points, label: 'Ponderación'
+        .col-md-2
+          = f.number_field :position, label: 'Orden de aparición', min: 1
+        .col-md-12
+          = f.text_area :excelent, label: 'Criterio de evaluación para "Excelente"'
+          = f.text_area :good, label: 'Criterio de evaluación para "Bueno"'
+          = f.text_area :regular, label: 'Criterio de evaluación para "Regular"'
+          = f.text_area :bad, label: 'Criterio de evaluación para "Malo"'
+
