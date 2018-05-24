@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   has_many :notifications
   has_many :comment_notifications, :through => :notifications, :source => :notificable, :source_type => 'CommentNotification'
   has_many :program_notifications, :through => :notifications, :source => :notificable, :source_type => 'ProgramNotification'
+  has_many :refilable_notifications, :through => :notifications, :source => :notificable, :source_type => 'RefilableNotification'
   has_many :shared_group_attachment_notifications, :through => :notifications, :source => :notificable, :source_type => 'SharedGroupAttachmentNotification'
   has_many :learning_path_notifications, :through => :notifications, :source => :notificable, :source_type => 'LearningPathNotification'
   has_many :mentor_program_notifications, :through => :notifications, :source => :notificable, :source_type => 'MentorProgramNotification'
@@ -29,7 +30,9 @@ class User < ActiveRecord::Base
   has_many :events, class_name: 'Ahoy::Event'
   has_many :comments
   has_many :user_evaluations
+  has_many :user_evaluation_refilables
   has_many :evaluations, through: :user_evaluations
+  has_many :evaluation_refilables, through: :user_evaluation_refilables
   has_many :access_grants, dependent: :delete_all
   has_many :sessions
   has_many :attachments
