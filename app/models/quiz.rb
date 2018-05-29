@@ -56,5 +56,13 @@ class Quiz < ActiveRecord::Base
     else
       return false
     end  
+  end
+
+  def promedio(user)
+    if self.total_points == 0
+      0
+    else  
+      (self.average(user) * 100) / self.total_points 
+    end
   end  
 end

@@ -4,20 +4,21 @@
 .container-fluid.container-fixed-lg
 	.panel.panel-default
 		.panel-heading.p-b-0
-			.row
-				.col-sm-6
+			.row.m-b-20
+				.col-md-4
 					.panel-title
 						Resumen de grupo
 						#{@group.nil? ? '' : ': ' + @group.name}
-				.col-sm-6
-					.pull-right
-						= form_tag(group_analytics_panel_path, method: :get, class: "panel-filter-width", id: "groupAnalytics") do
-							.row.m-b-15
-								.pull-right
-									.col-sm-9{style: "width: 325px;"}
-										= select_tag :group, options_from_collection_for_select(@groups, :id, :name, selected: @group.id ), {include_blank: "Elige uno de tus grupos", class: "form-control"}
-									.col-sm-2
-										= submit_tag 'Ver progreso', class: "btn btn-success btn-xs"
+				.col-md-8
+					.row
+					= form_tag(group_analytics_panel_path, method: :get, class: "panel-filter-width", id: "groupAnalytics") do
+						.row.pull-right
+							.col-md-4{style: "width: 200px"}
+								= select_tag :group, options_from_collection_for_select(@groups, :id, :name, selected: @group.id ), {include_blank: "Elige uno de tus grupos", class: "form-control"}								
+							.col-md-4{style: "width: 200px"}
+								= select_tag :industry, options_from_collection_for_select(@industries, :id, :name, selected: @industry ), {include_blank: "Elige una de industria para filtrar", class: "form-control"}
+							.col-md-2
+								= submit_tag 'Ver progreso', class: "btn btn-success btn-xs"
 					.clearfix
 		.panel-body.p-b-10
 			/Aquí abajo va la tabla, a la altura del .row.m-t-10
@@ -31,12 +32,17 @@
 										%th
 											Nombre
 								%tbody
-									- @students.each_with_index do |student, index|
+									- @students.each do |student|
 										%tr
 											%td.padding-0.border-none
 												.cell-like
-													%span.index-block #{index + 1}
-													= student.name
+													%span.index-block=student.id
+													- if current_user.admin?
+														= link_to student.name, user_path(student)
+													- elsif current_user.mentor?
+														= link_to student.name, mentor_student_path(student)
+													- elsif current_user.profesor?
+														= link_to student.name, profesor_student_path(student)			
 						- if @programs
 							.col-sm-9.p-l-0
 								.horizontal-overflow
@@ -68,8 +74,8 @@
 												%th.text-center.p-r-25
 													Diagnóstico de bienvenida
 												- @programs.each do |program|
-													%th.text-center.fs-10{colspan: "3"}
-														= program.name
+													%th.text-center.fs-10{colspan: "6"}
+														= program.name					
 										%tbody
 											- @students.each do |student|
 												%tr
@@ -146,6 +152,20 @@
 													- @programs.each do |program|
 														- coloring = (coloring == 1 ? 0 : 1)
 														- stat = student.get_program_stat(program)
+														- template_refilables = program.template_refilables
+														- template_refilables_c = program.template_refilables.count
+														- template_refilables_evaluated = student.user_program_refilables_count(template_refilables)
+														- template_refilable_avg = student.user_program_refilables_avg(template_refilables)
+														- quizzes_c = program.quizzes.count
+														- quizzes = program.quizzes
+														- quizzes_answered = user_program_quizzes_count(student, quizzes)
+														- quizzes_avg = user_program_quizzes_avg(student, quizzes)
+														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+															.cell-like
+																Examenes (#{quizzes_answered}/#{quizzes_c}): #{number_to_percentage(quizzes_avg, precision: 1)} 
+														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+															.cell-like
+																Plantillas (#{template_refilables_evaluated}/#{template_refilables_c}):	#{number_to_percentage(template_refilable_avg, precision: 1)}														
 														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
 															.cell-like
 																Contestado:
@@ -157,6 +177,13 @@
 																/= stat.nil? ? "N/A" : stat.round_program_seen + "%"
 																#{student.integral_percentage_visited_for(program).ceil.to_s}%
 														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+															.cell-like.text-center
+																Fecha de Ev.: 
+																- if stat.nil? || stat.evaluation_date.nil?
+																	N/A
+																- else
+																	#{l stat.evaluation_date, format: :super_short unless stat.evaluation_date.nil?}	
+														%td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
 															.cell-like
 																Evaluado:
 																- if stat.nil?
@@ -164,7 +191,7 @@
 																- else
 																	- evalp = stat.checked
 																	%i.fa{class: evalp == 1 ? "fa-check text-success" : "fa-times"}
-																	#{l stat.evaluation_date, format: :super_short unless stat.evaluation_date.nil?}
+
 				- if @records_number > @pag_max	
 					.pull-left
 						= paginate @students
@@ -174,6 +201,10 @@
 				- else @students && @students.count > 0
 					.pull-left.text-complete.text-small.p-l-30.p-t-20.p-b-20
 						* Mostrando un total de #{@students.count} de alumnos
+		.panel-heading
+			%h3.panel-title Usuario activos e inactivos
+		.panel-body
+			= pie_chart	@grafica
 
 :javascript
 	$(document).ready( function() {
@@ -186,7 +217,8 @@
 
 		$("#groupAnalytics").on("submit", function(){
 			var selGroup = $(this).find('select#group').val();
-			window.location.replace("/analytics_panel/" + selGroup + "/group");
+			var selIndustry = $(this).find('select#industry').val();
+			window.location.replace("/analytics_panel/" + selGroup + "/group?industry=" + selIndustry);
 			return false;
 		})
 

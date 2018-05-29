@@ -1,0 +1,6 @@
+$("#rubric_<%=@evaluation.id%>").html("")
+$("#rubric_<%=@evaluation.id%>").append("<%= escape_javascript(render(:partial => 'template_refilables/evaluations', :locals => {template_refilable: @template, evaluation: @evaluation})) %>");
+$("#form-evaluation")[0].reset();
+
+$("#addRubric").modal('hide');
+$("html, body").animate({scrollTop: $("#rubric_<%=@evaluation.id%>").offset().top}, 1000);

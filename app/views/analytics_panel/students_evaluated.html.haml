@@ -1,0 +1,118 @@
+- content_for :title  do
+	Analíticos de grupo - EDC Digital
+
+.container-fluid.container-fixed-lg
+	.panel.panel-default
+		.panel-heading
+			%h4 Alumnos asignados a cada mentor			
+		.panel-body
+			%table.table.table-striped
+				%thead
+					%tr
+						%th Mentor
+						%th.text-center Alumnos asignados
+				%tbody
+					- @mentors.each do |mentor|
+						%tr
+							%td.bold=mentor.name
+							%td.text-center=mentor.linked_students
+					%tr
+						%td.bold En blanco
+						%td.text-center=@enblanco	
+					%tr
+						%td.bold Total:
+						%td.text-center.bold=@total
+		.panel-heading
+			%h4 Alumnos evaluados
+		.panel-body
+			.row
+				.col-sm-3.p-r-0
+					%table.table.colored-columns.m-t-0
+						%thead.static-heads
+							%tr
+								%th
+									Programa
+						%tbody
+							%tr
+								%td.padding-0.border-none.bold
+									.cell-like Total de alumnos
+							%tr
+								%td.padding-0.border-none.bold
+									.cell-like	Evaluaciones realizadas
+							%tr
+								%td.padding-0.border-none.bold
+									.cell-like	Evaluaciones pendientes
+				.col-sm-9.p-r-0
+					.horizontal-overflow
+						%table.table.table-striped.m-t-0
+							%thead.static-heads
+								%tr
+									- @programs.each do |program| 	
+										%th= program.name
+							%tbody
+								%tr
+									- @total_alumnos.each do |alumnos|										
+										%td.padding-0.border-none.text-center
+											.cell-like= alumnos[:alumnos]
+								%tr
+									- @evaluados_alumnos.each do |evaluados|			
+										%td.padding-0.border-none.text-center
+											.cell-like= evaluados[:alumnos]
+								%tr
+									- @no_evaluados_alumnos.each do |no_evaluados|
+										%td.padding-0.border-none.text-center
+											.cell-like= no_evaluados[:alumnos]
+		.panel-heading
+			%h4 Puntajes de todos los alumnos evaluados
+		.panel-body
+			.row
+				.col-sm-3.p-r-0
+					%table.table.colored-columns.m-t-0
+						%thead.static-heads
+							%tr
+								%th.text-center
+									Programa
+						%tbody
+							%tr
+								%td.padding-0.border-none.bold.text-center
+									.cell-like 90% - 100%
+							%tr
+								%td.padding-0.border-none.bold.text-center
+									.cell-like	80% - 89%
+							%tr
+								%td.padding-0.border-none.bold.text-center
+									.cell-like	60% - 79%		
+							%tr
+								%td.padding-0.border-none.bold.text-center
+									.cell-like	0% - 59%
+							%tr
+								%td.padding-0.border-none.bold.text-center
+									.cell-like	Total:		
+				.col-sm-9.p-r-0
+					.horizontal-overflow
+						%table.table.colored-columns.m-t-0
+							%thead.static-heads
+								%tr
+									- @programs.each do |program| 	
+										%th= program.name
+							%tbody
+								%tr
+									- @total_100_90.each do |students| 	
+										%td.padding-0.border-none.text-center
+											.cell-like=students[:alumnos]
+								%tr
+									- @total_89_80.each do |students|
+										%td.padding-0.border-none.text-center
+											.cell-like=students[:alumnos]
+								%tr
+									- @total_79_60.each do |students|
+										%td.padding-0.border-none.text-center
+											.cell-like=students[:alumnos]
+								%tr
+									- @total_59_0.each do |students|
+										%td.padding-0.border-none.text-center
+											.cell-like=students[:alumnos]
+								%tr
+									- @evaluados_alumnos.each do |students|
+										%th.padding-0.border-none.text-center
+											.cell-like=students[:alumnos]																											

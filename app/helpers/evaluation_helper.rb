@@ -37,4 +37,8 @@ module EvaluationHelper
     end
     return percentage
   end
+
+  def user_promedio_program(total_obtenido, total_puntos)
+    (total_obtenido.to_f*100)/total_puntos.to_f rescue 0
+  end 
 end

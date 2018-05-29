@@ -5,6 +5,7 @@ class Mentor::EvaluationsController < ApplicationController
   before_action :my_students?, only: [:index, :show]
   before_action :set_program
   before_action :set_chapters
+  after_action :change_switch_evaluated, only: [:update]
 
   helper_method :evaluation_pointed?
   helper_method :evaluation_result
@@ -199,7 +200,36 @@ class Mentor::EvaluationsController < ApplicationController
   def my_students?
     unless current_user.admin? || @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus grupos" end
   end
-  def get_chapter_questions(chapter)
+  
+  def change_switch_evaluated
+    prog_stat = ProgramStat.where(user_id: @user.id, program_id: @program.id).first
+
+    quizzes_program = Quiz.where(program_id: @program.id)
+    templates_program = TemplateRefilable.where(program_id: @program.id)
+    ##### Programs
+    ids_rubricas = @program.chapters.joins(:evaluations).select("evaluations.*").pluck("evaluations.id")
+    c_rubricas = @program.chapters.joins(:evaluations).select("evaluations.*").count
+    c_user_evaluation =  UserEvaluation.where(evaluation_id: ids_rubricas, user_id: @user.id).count 
+    ##### Templates
+    ids_ev_refil = []
+    c_evaluation_ref = 0
+    templates_program.each do |template|
+      ids_ev_refil += template.evaluation_refilables.pluck(:id)
+      c_evaluation_ref += template.evaluation_refilables.count
+    end
+    c_user_evaluation_ref = UserEvaluationRefilable.where(evaluation_refilable_id: ids_ev_refil, user_id: @user.id).count 
+    #####Quizzes
+    c_quizzes = 0
+    c_quizzes_answered = 0
+    quizzes_program.each do |quiz|
+      c_quizzes += 1
+      if quiz.answered?(@user)
+        c_quizzes_answered += 1
+      end 
+    end
+    if c_rubricas == c_user_evaluation && c_evaluation_ref == c_user_evaluation_ref && c_quizzes == c_quizzes_answered #&& c_quizzes > 0 && c_rubricas > 0 && c_evaluation_ref > 0
+      prog_stat.update(checked: true)
+    end  
 
   end  
 end

@@ -168,5 +168,25 @@ class Program < ActiveRecord::Base
     return [answered_refilables, total_refilables, percentage]
     #return [total_refilables, answered_refilables, (answered_refilables * 100) / total_refilables rescue 0]
   end
+
+  def points_earned(user)
+    puntos = 0
+    self.chapters.each do |chapter|
+      puntos += chapter.points_earned(user)
+    end
+    puntos
+  end
+
+  def total_points
+    puntos = 0
+    self.chapters.each do |chapter|
+      puntos += chapter.total_points
+    end
+    puntos  
+  end  
+
+  def evaluated_avg(user)
+    ((self.points_earned(user).to_f * 100) / self.total_points.to_f) rescue 0
+  end 
 end
 

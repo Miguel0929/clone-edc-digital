@@ -7,6 +7,7 @@ class Dashboard::ProgramsController < ApplicationController
 
   helper_method :last_moved_program
   helper_method :last_visited_content
+  helper_method :evaluation_checked?
   include ActiveElementsHelper
 
   def index
@@ -84,6 +85,12 @@ class Dashboard::ProgramsController < ApplicationController
     add_breadcrumb "programas", :dashboard_programs_path
     add_breadcrumb @program.name, dashboard_program_path(@program)
     add_breadcrumb "<a class='active' href='#{resume_dashboard_program_path @program}'>Rúbrica de evaluación</a>".html_safe
+    @user = current_user
+
+  end
+
+  def evaluation_checked?(user, evaluation)
+    UserEvaluation.where(user_id: user, evaluation_id: evaluation).exists?
   end
 
   private

@@ -35,14 +35,20 @@
                 %thead
                   %tr
                     %th Rubrica
-                    %th Evaluacion
-                    %th Puntaje            
+                    %th.text-center Evaluacion
+                    %th.text-center Puntaje            
                 %tbody
+                  - total_obtenido = 0; total_puntaje = 0
                   - @rubricas.each do |rubrica|
                     - user_eval = rubrica.user_evaluation_refilables.find_by(user: current_user)
                     - unless user_eval.nil?
+                      - obtenido = user_eval.puntaje
+                      - puntaje = rubrica.points
+                      - total_obtenido += obtenido
+                      - total_puntaje += puntaje 
                       %tr
-                        %th=rubrica.name
+                        %td.bold
+                          =rubrica.name
                         %td
                           - if user_eval.points == 100
                             = rubrica.excelent
@@ -52,7 +58,7 @@
                             = rubrica.regular
                           - elsif user_eval.points == 25 
                             = rubrica.bad
-                        %td=user_eval.points                       
+                        %td.text-center="#{obtenido} de #{puntaje} pts"                      
                           
                     - else
                       %tr
@@ -61,7 +67,10 @@
                           %center
                             %label.label-danger.padding-5.m-b-10
                               La plantilla no ha sido evaluada
-                                
+                  %tr
+                    %td.bold Totales:
+                    %td.bold.text-center=number_to_percentage(user_promedio_refilable(total_obtenido, total_puntaje), precision: 1)  
+                    %td.bold.text-center="#{total_obtenido} de #{total_puntaje} pts"               
             - else
               .nav-tabs.nav-tabs-separator.m-b-15
                 %label.label-danger.padding-5.m-b-10

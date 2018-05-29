@@ -1,0 +1,4 @@
+$("#content_rubrics").append("<div class='well' id='rubric_<%=@evaluation.id%>'><%= escape_javascript(render(:partial => 'chapters/evaluations', :locals => {chapter: @chapter, evaluation: @evaluation})) %></div>");
+$("#form-evaluation")[0].reset()
+$("#addRubric").modal('hide');
+$("html, body").animate({scrollTop: $("#rubric_<%=@evaluation.id%>").offset().top}, 1000);

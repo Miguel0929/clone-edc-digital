@@ -95,4 +95,43 @@ module GroupHelper
     return delireverables.uniq
   end
 
+  def user_program_quizzes_count(user, quizzes)
+    total = 0 
+    quizzes.each do |quiz|
+      if quiz.answered(user) > 0
+        total += 1
+      end  
+    end
+    total  
+  end
+  def user_program_quizzes_avg(user, quizzes)
+    total = 0; promedios = 0 
+    quizzes.each do |quiz|
+      p promedios += quiz.promedio(user)
+      p total += 1
+    end
+    promedios/total rescue 0 
+  end
+  def user_program_refilables_count(user, template_refilables)
+    total = 0
+    template_refilables.each do |refil|
+      rubricas = refil.evaluation_refilables.pluck(:id)
+      revisiones = UserEvaluationRefilable.where(evaluation_refilable_id: rubricas, user_id: user.id).count
+      if rubricas.length == revisiones && rubricas.length > 0
+        total+=1
+      end  
+    end 
+    total 
+  end
+  def user_program_refilables_avg(user, template_refilables)
+    total = 0
+    template_refilables.each do |refil|
+      rubricas = refil.evaluation_refilables.pluck(:id)
+      revisiones = UserEvaluationRefilable.where(evaluation_refilable_id: rubricas, user_id: user.id).count
+      if rubricas.length == revisiones && rubricas.length > 0
+        total+=1
+      end  
+    end 
+    total 
+  end    
 end

@@ -5,12 +5,20 @@
 	.panel.panel-default
 		.panel-heading
 			.row
-				.col-sm-12
+				.col-md-12
 					.panel-title
 						Panel de analíticos
 		.panel-body
+			.pull-right
+				%a.btn.btn-primary{href: students_evaluated_analytics_panel_index_path, target: "_blank"} Alumnos Evaluados			
+		.panel-body
 			.row
-				.col-sm-12
+				.col-md-12
+					.col-md-3.col-md-offset-6
+						.pull-right.bold
+							Ver grupo:
+					.col-md-3
+						= select("group", "selected", Group.all.collect {|g| [ g.name, g.id ] }, {prompt: "Selecciona un grupo" })
 					%table.table.table-striped
 						%thead
 							%tr
@@ -19,7 +27,7 @@
 								%th
 									Estadísticos
 								%th{width: '30%'}
-									Ver grupo
+									Ver grafica
 						%tbody
 							- @programs.each_with_index do |program, index|
 								- analytics = program_objects(program)
@@ -47,14 +55,15 @@
 												Grupos con este programa: 
 												%strong #{analytics[0].count}
 									%td.p-t-10.p-b-10
-										= select("group", "selected" + index.to_s, analytics[0].collect {|g| [ g.name, g.id ] }, {prompt: "Selecciona un grupo" })
-
-										:javascript
-											$("#group_selected"+ #{index}).change(function(){
-												var a = document.createElement("a");
-												a.target = "_blank";
-												a.href = "/analytics_panel/" + $(this).val() + "/group";
-												document.body.appendChild(a);
-												a.click();
-											});
+										= link_to group_program_analytics_panel_path(program.id), html_options = {"target"=>"_blank"} do
+											Ver gráfica por grupos
+											%i.glyphicon.glyphicon-signal 
+:javascript
+	$("#group_selected").change(function(){
+		var a = document.createElement("a");
+		a.target = "_blank";
+		a.href = "/analytics_panel/" + $(this).val() + "/group";
+		document.body.appendChild(a);
+		a.click();
+	});
 
