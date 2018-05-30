@@ -81,8 +81,8 @@ class Program < ActiveRecord::Base
     return self.name[0,3]+"."+arr[1][0].capitalize+"."+self.id.to_s
   end
 
-  def anterior(grupo)
-    programas  = grupo.learning_path.learning_path_contents.where(content_type: "Program").order(:position)  
+  def anterior(learning_path)
+    programas  = learning_path.learning_path_contents.where(content_type: "Program").order(:position)  
     anterior=Program.new
     programas.each do |p|
       if p.model==self
@@ -96,18 +96,10 @@ class Program < ActiveRecord::Base
   def questions?
     c = 0  
     self.chapters.each do |chapter|
-      c += chapter.questions.count 
+      c += chapter.all_questions.count 
     end
     c == 0 ? false : true 
   end 
-
-  def questions?
-    c = 0  
-    self.chapters.each do |chapter|
-      c += chapter.questions.count 
-    end
-    c == 0 ? false : true 
-  end
 
   def all_questions_count
     questions = 0
