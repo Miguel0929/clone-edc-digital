@@ -113,5 +113,28 @@ class Chapter < ActiveRecord::Base
     end
     q = Question.where(id: questions)
     q.sort_by { |x| questions.index(x.id) }
-  end  
+  end
+
+  def points_earned(user)
+    rubrics = self.evaluations
+    puntos = 0; total = 0
+    if rubrics.count > 0
+      rubrics.each do |rubric|
+        evaluation = rubric.user_evaluations.find_by(user_id: user.id)
+        unless evaluation.nil?
+          puntos += (evaluation.points * rubric.points) / 100
+        end  
+      end  
+    end
+    puntos
+  end 
+
+  def total_points
+    rubrics = self.evaluations
+    total = 0
+    if rubrics.count > 0
+      total = rubrics.sum(:points)
+    end  
+    total  
+  end 
 end

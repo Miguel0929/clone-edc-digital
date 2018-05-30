@@ -1,32 +1,59 @@
 - content_for :title  do
-	Rúbricas de la plantilla - EDCdigital
+  Rúbricas de la plantilla - EDCdigital
 
 .container-fluid.container-fixed-lg
-	.row
-		.col-md-12
-			.panel.panel-default
-				.panel-heading
-					.panel-title
-						Rúbricas de la plantilla
-				.panel-body
-					.p-t-20
-						= bootstrap_form_for(@template_refilable) do |f|
-							.evaluation_refilables
-								= f.fields_for :evaluation_refilables do |evaluation|
-									= render 'evaluation_refilable_fields', f: evaluation
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .panel-title
+            Rúbricas de la plantilla
+        .panel-body#content_rubrics.sortable{'data-update-url'=> url_prod_helper(sort_template_refilable_evaluation_refilables_path(@template_refilable)) }
+          - evaluaciones = @template_refilable.evaluation_refilables.order(:position)
+          - if evaluaciones.present?
+            - evaluaciones.each do |evaluation|
+              .well{id: "rubric_#{evaluation.id}"}
+                = render partial: 'evaluations', locals: {template_refilable: @template_refilable, evaluation: evaluation}
+          - else
+            %center
+              %h4 La plantilla no tiene rubricas     
+        .panel-footer
+          .row.p-r-20
+            .pull-right
+              %a.cursor.btn.btn-primary{"data-toggle"=>"modal", "data-target"=>"#addRubric", "onclick"=>"add_rubric(#{@template_refilable.id});"}
+                %i.fa.fa-plus
+                Agregar rubrica 
 
-								- if @template_refilable.evaluation_refilables.count == 0
-									%h4.p-b-20.text-center
-										Aún no hay rúbricas para esta plantilla
-								.links.pull-left.p-t-20.p-b-20
-									= link_to_add_association f, :evaluation_refilables, class: 'btn btn-primary' do
-										%i.fa.fa-plus
-										Agregar nueva rúbrica
-								.links.pull-right.p-t-20.p-b-20
-									= link_to @template_refilable, class: 'btn' do
-										%i.fa.fa-times
-										Cancelar
-									= f.submit 'Guardar cambios', class: 'btn btn-success'
+#addRubric.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog"}
+  .modal-dialog.modal-lg{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title Agregar Rúbrica
+      .modal-body
+        = render "evaluation_refilables/form"
+      .modal-footer                                
+:javascript
+  function add_rubric(template){
+    $("#form-evaluation").attr("action", "/template_refilables/" + template + "/evaluation_refilables");
+    $("#form-evaluation").attr("method", "post");
+    $("#form-evaluation")[0].reset();
+  }  
+  function edit_rubric(template, evaluation){
+    $("#form-evaluation").attr("action", "/template_refilables/" + template + "/evaluation_refilables/"+evaluation.id);
+    $("#form-evaluation").attr("method", "put");
+
+    $("#name").val(evaluation.name);
+    $("#points").val(evaluation.points);
+    $("#excelent").val(evaluation.excelent);
+    $("#good").val(evaluation.good);
+    $("#regular").val(evaluation.regular);
+    $("#bad").val(evaluation.bad);
+  }
+
+
+
 
 
 

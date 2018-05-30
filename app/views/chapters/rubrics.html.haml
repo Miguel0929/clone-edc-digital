@@ -1,33 +1,55 @@
 - content_for :title  do
-	Rúbricas de módulo - EDCdigital
+  Rúbricas de módulo - EDCdigital
 
 .container-fluid.container-fixed-lg
-	.row
-		.col-md-12
-			.panel.panel-default
-				.panel-heading
-					.panel-title
-						Rúbricas del módulo
-				.panel-body
-					.p-t-20
-						= bootstrap_form_for([@program, @chapter]) do |f|
-							.evaluations
-								= f.fields_for :evaluations do |evaluation|
-									= render 'evaluation_fields', f: evaluation
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .panel-title
+            Rúbricas del módulo
+        .panel-body#content_rubrics.sortable{'data-update-url'=> url_prod_helper(sort_chapter_evaluations_path(@chapter)) }
+          - evaluaciones = @chapter.evaluations.order(:position)
+          - if evaluaciones.present?
+            - evaluaciones.each do |evaluation|
+              .well{id: "rubric_#{evaluation.id}"}
+                = render partial: 'evaluations', locals: {chapter: @chapter, evaluation: evaluation}
+          - else
+            %center
+              %h4 El módulo no tiene rubricas     
+        .panel-footer
+          .row.p-r-20
+            .pull-right
+              %a.cursor.btn.btn-primary{"data-toggle"=>"modal", "data-target"=>"#addRubric", "onclick"=>"add_rubric(#{@chapter.id});"}
+                %i.fa.fa-plus
+                Agregar rubrica 
 
-								- if @chapter.evaluations.count == 0
-									%h4.p-b-20.text-center
-										Aún no hay rúbricas para este módulo
-								.links.pull-left.p-t-20.p-b-20
-									= link_to_add_association f, :evaluations, class: 'btn btn-primary' do
-										%i.fa.fa-plus
-										Agregar nueva rúbrica
-								.links.pull-right.p-t-20.p-b-20
-									= link_to @program, class: 'btn' do
-										%i.fa.fa-times
-										Cancelar
-									= f.submit 'Guardar cambios', class: 'btn btn-success'
+#addRubric.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog"}
+  .modal-dialog.modal-lg{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title Agregar Rúbrica
+      .modal-body
+        = render "evaluations/form"
+      .modal-footer                                
+:javascript
+  function add_rubric(chapter){
+    $("#form-evaluation").attr("action", "/chapters/" + chapter + "/evaluations");
+    $("#form-evaluation").attr("method", "post");
+    $("#form-evaluation")[0].reset();
+  }  
+  function edit_rubric(chapter, evaluation){
+    $("#form-evaluation").attr("action", "/chapters/" + chapter + "/evaluations/"+evaluation.id);
+    $("#form-evaluation").attr("method", "put");
 
-
+    $("#name").val(evaluation.name);
+    $("#points").val(evaluation.points);
+    $("#excelent").val(evaluation.excelent);
+    $("#good").val(evaluation.good);
+    $("#regular").val(evaluation.regular);
+    $("#bad").val(evaluation.bad);
+  }
 
 
