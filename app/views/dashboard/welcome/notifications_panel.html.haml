@@ -88,6 +88,21 @@
                         %label.switch
                           %input{type: "checkbox", checked: if @noti.complete_student.first.nil? then true else @noti.complete_student.first.status end, value: "9"}/
                           .slider.round
+                    %tr
+                      %td
+                        Tu plantilla ha sido comentada
+                      %td.text-center
+                        %label.switch
+                          %input{type: "checkbox", checked: if @noti.refilable_commented.first.nil? then true else @noti.refilable_commented.first.status end, value: "12"}/
+                          .slider.round
+                    %tr
+                      %td
+                        Rubrica de plantilla evaluada
+                      %td.text-center
+                        %label.switch
+                          %input{type: "checkbox", checked: if @noti.refilable_evaluated.first.nil? then true else @noti.refilable_evaluated.first.status end, value: "13"}/
+                          .slider.round             
+
                   - if current_user.mentor?
                     %tr
                       %td

@@ -2,6 +2,7 @@ class AnalyticsPanelController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin_or_mentor_or_profesor
   before_action :set_group, only: [:group]
+  before_action :set_program, only: [:group_program]
   add_breadcrumb "EDCDIGITAL", :root_path
   include GroupHelper
 
@@ -33,9 +34,16 @@ class AnalyticsPanelController < ApplicationController
     add_breadcrumb "<a class='active' href='#{group_analytics_panel_path(@group)}'>Progreso de grupo</a>".html_safe
     user = current_user
     @groups = (user.mentor? || user.profesor?) ? current_user.groups : Group.all
+    @industries = Industry.all
     if @group
+      if params[:industry].present? 
+        @industry = Industry.find(params[:industry]).id
+        @students = User.where(group: @group, role: 0, industry_id: @industry).where.not(invitation_accepted_at: nil).uniq.order(:first_name) 
+      else 
+        @industry = ""
+        @students = User.where(group: @group, role: 0).where.not(invitation_accepted_at: nil).uniq.order(:first_name) 
+      end
       @programs = sort_programs(@group, @group.all_programs)
-      @students = User.where(group: @group, role: 0).where.not(invitation_accepted_at: nil).uniq.order(:first_name)
       @pag_max = 100
       @records_number = @students.count
       @students = @students.page(params[:page]).per(@pag_max)
@@ -46,11 +54,73 @@ class AnalyticsPanelController < ApplicationController
         @bienvenido = nil
       end  
     end
+    @grafica = [["Activos", @group.active_students.count],["Inactivos", @group.inactive_students.count]]
   end
+
+  def group_program
+    add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{group_program_analytics_panel_path(@program)}'>Estudientes evaluados en #{@program.name}</a>".html_safe
+    grupos = Group.all
+    @grafica = []
+    grupos.each do |group|
+      if group.all_programs.include?(@program) 
+        students = group.active_students
+        checked = students.joins(:program_stats).where(:program_stats => {checked: 1, program_id: @program.id}).count
+        @grafica << [group.name, checked]
+      end   
+    end 
+  end 
+
+  def students_evaluated
+    add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{students_evaluated_analytics_panel_index_path}'>Alumnos evaluados</a>".html_safe
+    @mentors = Mentor.all
+    @groups = Group.all
+    @enblanco = User.students.where(group_id: nil).count
+    @total = User.students.count
+    @programs = Program.all.order(:id)
+    @total_alumnos = []; @evaluados_alumnos = []; @no_evaluados_alumnos = []
+    @total_100_90 = []; @total_89_80 = []; @total_79_60 = []; @total_59_0 = [] 
+    @programs.each do |program|
+      alumnos = 0; evaluados = 0; evaluados100_90 = 0; evaluados89_80 = 0; evaluados79_60 = 0; evaluados59_0 = 0; estudiantes = [];  
+      @groups.each do |group|
+        if group.all_programs.include?(program)
+          alumnos += group.students.count
+          evaluados += group.students.joins(:program_stats).where(:program_stats => {checked: 1, program_id: program.id}).count
+     
+          estudiantes = group.students.joins(:program_stats).where(:program_stats => {checked: 1, program_id: program.id})
+          estudiantes.each do |student|
+            promedio = program.evaluated_avg(student)
+            if promedio <= 100 && promedio >= 90
+              evaluados100_90 += 1
+            elsif promedio <= 89 && promedio >= 80
+              evaluados89_80 += 1
+            elsif promedio <= 79 && promedio >= 60
+              evaluados79_60 += 1
+            elsif promedio <= 59 && promedio >= 0  
+              evaluados59_0 += 1
+            end  
+          end  
+        end
+      end
+      @total_alumnos << {program_id: program.id, alumnos: alumnos}
+      @evaluados_alumnos << {program_id: program.id, alumnos: evaluados}
+      @no_evaluados_alumnos << {program_id: program.id, alumnos: alumnos - evaluados}
+
+      @total_100_90 << {program_id: program.id, alumnos: evaluados100_90} 
+      @total_89_80 << {program_id: program.id, alumnos: evaluados89_80}
+      @total_79_60 << {program_id: program.id, alumnos: evaluados79_60}
+      @total_59_0 << {program_id: program.id, alumnos: evaluados59_0}
+    end  
+  end 
 
   private
   def set_group
     @group = Group.find(params[:id])
+  end
+
+  def set_program
+    @program = Program.find(params[:id])
   end
 
   def program_objects(program)

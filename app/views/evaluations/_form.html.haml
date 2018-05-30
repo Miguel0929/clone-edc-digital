@@ -1,0 +1,15 @@
+.well
+  .row
+    = bootstrap_form_tag url: chapter_evaluations_path(@chapter), method: "post", remote: true, html: {id: "form-evaluation"} do |f|
+      .col-md-8
+        = f.text_field :name, label: 'Nombre del elemento', required: true
+      .col-md-4
+        = f.number_field :points, label: 'Ponderación', required: true
+      .col-md-12
+        = f.text_area :excelent, label: 'Criterio de evaluación para "Excelente"', required: true
+        = f.text_area :good, label: 'Criterio de evaluación para "Bueno"', required: true
+        = f.text_area :regular, label: 'Criterio de evaluación para "Regular"', required: true
+        = f.text_area :bad, label: 'Criterio de evaluación para "Malo"', required: true
+      .col-md-12
+        .pull-right
+          %button.btn.btn-primary{type: "submit"} Guardar   

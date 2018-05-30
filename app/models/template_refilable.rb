@@ -16,4 +16,22 @@ class TemplateRefilable < ActiveRecord::Base
     [['Ruta de aprendizaje', 'ruta'], ['Complementario', 'complementario']]
   end
 
+  def puntaje(user)
+    total_obtenido = 0 
+    self.evaluation_refilables.each do |rubric|
+      user_eval = rubric.user_evaluation_refilables.find_by(user: user)
+      unless user_eval.nil?
+        total_obtenido += user_eval.puntaje
+      end   
+    end
+    total_obtenido  
+  end
+
+  def total_points
+    total_puntaje = 0
+    self.evaluation_refilables.each do |rubric|
+      total_puntaje += rubric.points
+    end
+    total_puntaje  
+  end  
 end

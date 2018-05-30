@@ -23,8 +23,14 @@ class Mentor::RefilablesController < ApplicationController
   end
 
   def update
-
     @refilable.update(refilable_params)
+    @template_refilable = @refilable.template_refilable
+    
+    @user.refilable_notifications.create({ template_refilable_id: @template_refilable.id, notification_type: 1 })
+    if @user.panel_notifications.refilable_commented.first.nil? || @user.panel_notifications.refilable_commented.first.status
+      Refilables.commented(@template_refilable, @user, resume_dashboard_template_refilable_url(@template_refilable))
+    end
+
     respond_to do |format|
       format.html { redirect_to :back, notice: 'Plantilla actualizada'}
       format.js { render "notification"}
