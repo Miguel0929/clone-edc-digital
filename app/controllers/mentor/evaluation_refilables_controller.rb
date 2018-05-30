@@ -12,9 +12,9 @@ class Mentor::EvaluationRefilablesController < ApplicationController
       redirect_to :back, alert: "Debes evaluar todas las rúbricas"
     else
    	  @user.refilable_notifications.create({ template_refilable_id: @template_refilable.id, notification_type: 0 })
-      #if @user.panel_notifications.up_rubric.first.nil? || @user.panel_notifications.up_rubric.first.status
-      #  Programs.up_rubric(@program, @user, resume_dashboard_program_url(@program))
-      #end  
+      if @user.panel_notifications.refilable_evaluated.first.nil? || @user.panel_notifications.refilable_evaluated.first.status
+        Refilables.up_rubric(@template_refilable, @user, resume_dashboard_template_refilable_url(@template_refilable))
+      end  
       redirect_to :back, notice: "Evaluación exitosamente guardada"
     end
   end

@@ -159,7 +159,7 @@ class Dashboard::WelcomeController < ApplicationController
   def store_notifications_panel
     @notification=PanelNotification.where(user: current_user, notification: params[:notification]).first
     if @notification.nil?
-      nt=PanelNotification.create(status: false, user: current_user, notification: params[:notification].to_i)
+      @notification=PanelNotification.create(status: false, user: current_user, notification: params[:notification].to_i)
     else
       @notification.update(status: !@notification.status)
     end

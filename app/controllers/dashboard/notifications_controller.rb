@@ -57,6 +57,8 @@ class Dashboard::NotificationsController < ApplicationController
         notification.update(read: true) unless notification.read
         if notification.model.rubric?
           resume_dashboard_template_refilable_path(notification.model.template_refilable)
+        elsif notification.model.comment?
+          resume_dashboard_template_refilable_path(notification.model.template_refilable)
         end         
     end
 

@@ -63,7 +63,7 @@
 										%td.padding-0.border-none.text-center
 											.cell-like= no_evaluados[:alumnos]
 		.panel-heading
-			%h4 Puntajes de todos los alumnos evaluados
+			%h4 Puntajes de todos los alumnos evaluados *
 		.panel-body
 			.row
 				.col-sm-3.p-r-0
@@ -115,4 +115,7 @@
 								%tr
 									- @evaluados_alumnos.each do |students|
 										%th.padding-0.border-none.text-center
-											.cell-like=students[:alumnos]																											
+											.cell-like=students[:alumnos]																		
+			.row
+				.col-md-12
+					%i * En el puntaje solo se toman en cuenta las rúbricas evaluadas en los programas																	
