@@ -118,13 +118,16 @@
                 %td
                   %ul.list-inline.no-style.unstyled
                     - @template_refilables.each_with_index do |refilable, index|
-                      %li 
-                        = link_to mentor_student_refilable_path(student, refilable) do
-                          -answered = Refilable.where(template_refilable: refilable, user: student).count
-
-                          .label.program-labels{:class => "#{answered == 0? '' : 'p-sides-14-2 label-success'}", "data-toggle": "tooltip", "data-original-title": "#{refilable.name}"}
+                      %li
+                        - refil = Refilable.where(template_refilable: refilable, user: student).first
+                        - if refil.nil?
+                          .label.program-labels{"data-toggle": "tooltip", "data-original-title": "#{refilable.name}"}
                             = "Pla-#{index}"
-                            %i.fa{:class => "#{answered > 0? 'fa-check' : ''}"}
+                        - else
+                          = link_to mentor_student_refilable_path(student, refil) do
+                            .label.program-label.sp-sides-14-2.label-success{"data-toggle": "tooltip", "data-original-title": "#{refilable.name}"}
+                              = "Pla-#{index}"
+                              %i.fa.fa-check
 
       %center
         =paginate @students

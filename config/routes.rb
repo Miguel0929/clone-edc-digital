@@ -81,7 +81,11 @@ Rails.application.routes.draw do
   resources :analytics_panel, only: [:index] do
     member do
       get :group
+      get :group_program
     end
+    collection do
+      get :students_evaluated
+    end  
   end
 
   resources :progress_updater, only: [:show]
@@ -145,6 +149,12 @@ Rails.application.routes.draw do
       get :content
       get :rubrics
     end
+
+    resources :evaluations, only: [:create, :update, :destroy] do
+      collection do
+        post :sort
+      end
+    end  
   end
 
 
@@ -241,7 +251,7 @@ Rails.application.routes.draw do
       member do
         get :resume
       end
-      resources :refilables, only: [:new, :create, :show, :edit, :update]
+      resources :refilables, only: [:new, :create, :show, :edit, :update] 
     end
   end
 
@@ -455,6 +465,11 @@ Rails.application.routes.draw do
     end
     member do
       get :rubrics
+    end
+    resources :evaluation_refilables, only: [:create, :update, :destroy] do
+      collection do
+        post :sort
+      end
     end  
   end
 

@@ -21,8 +21,8 @@
 
 - total_questions = total_qustions(@chapters)
 - total_rubrics = @chapters.map { |chapter| chapter.evaluations.count }.inject(0, :+)
-- obtained_points = @chapters.map { |chapter| evaluation_result(chapter) }.inject(0, :+) 
-- total_points = @chapters.sum(:points)
+- obtained_points = @chapters.map { |chapter| chapter.points_earned(@user) }.inject(0, :+) 
+- total_points = @chapters.map{ |chapter| chapter.evaluations.sum(:points)}.inject(0, :+) 
 
 .container-fluid.container-fixed-lg.m-b-20
   .col-md-3.m-b-10
@@ -131,7 +131,7 @@
           - @chapters.each do |chapter|
             - if chapter.questions_count > 0
               %tr
-                - result = evaluation_result(chapter)
+                -# result = evaluation_result(chapter)
                 %td
                   = chapter.name
                 %td.text-center
@@ -164,11 +164,11 @@
                 %td.p-b-15
                   - if !chapter.evaluations.exists?
                     .text-center.text-danger No hay rúbrica
-                  - elsif chapter.points == 0
+                  - elsif chapter.evaluations.sum(:points) == 0
                     .text-center No hay puntaje
                   - else
                     .text-center{style: "font-size: 1.1em;"}
-                      #{result} de #{chapter.points} pts
+                      #{chapter.points_earned(@user)} de #{chapter.evaluations.sum(:points)} pts
                 %td.text-center
                   = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: @program) do
                     - if current_user.mentor?
@@ -185,4 +185,4 @@
               #{@rubrics_checked} de #{total_rubrics} rúbricas
             %th.text-center.p-t-20.p-b-20
               #{obtained_points} de #{total_points} pts
-            %th
+            %th.text-center.p-t-20.p-b-20 Calificación: #{number_to_percentage(user_promedio_program(obtained_points, total_points), precision: 1)}

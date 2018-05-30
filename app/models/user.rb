@@ -677,6 +677,40 @@ class User < ActiveRecord::Base
     self.group.nil? ? false : mentor.groups.pluck(:id).include?(self.group.id)
   end
 
+  def user_program_refilables_count(template_refilables)
+    total = 0
+    template_refilables.each do |refil|
+      rubricas = refil.evaluation_refilables.pluck(:id)
+      revisiones = UserEvaluationRefilable.where(evaluation_refilable_id: rubricas, user_id: self.id).count
+      if rubricas.length == revisiones && rubricas.length > 0
+        total+=1
+      end  
+    end 
+    total 
+  end
+
+  def user_program_refilables_avg(template_refilables)
+    total = 0
+    template_refilables.each do |refil|
+      rubricas = refil.evaluation_refilables.pluck(:id)
+      revisiones_c = UserEvaluationRefilable.where(evaluation_refilable_id: rubricas, user_id: self.id).count
+      rubricas = UserEvaluationRefilable.where(evaluation_refilable_id: rubricas, user_id: self.id)
+      revisiones = 0
+      rubricas.each do |rev|
+        p total_puntos = rev.evaluation_refilable.points
+        p puntaje = rev.puntaje
+
+        revisiones += (puntaje*100)/total_puntos rescue 0
+      end  
+
+      promedio = revisiones/(revisiones_c) rescue 0 
+      if rubricas.length == revisiones_c && rubricas.length > 0
+        total+=promedio
+      end  
+    end 
+    total/template_refilables.count rescue 0
+  end
+
   private
 
   def set_origin
