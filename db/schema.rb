@@ -792,6 +792,13 @@ ActiveRecord::Schema.define(version: 20180523213353) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_trainees", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "trainee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                             default: "",                                                                              null: false
     t.string   "encrypted_password",                default: "",                                                                              null: false
@@ -842,6 +849,7 @@ ActiveRecord::Schema.define(version: 20180523213353) do
     t.string   "interest"
     t.text     "challenge"
     t.text     "goal"
+    t.integer  "coach_id"
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
@@ -925,5 +933,8 @@ ActiveRecord::Schema.define(version: 20180523213353) do
   add_foreign_key "user_codes", "users"
   add_foreign_key "user_evaluation_refilables", "evaluation_refilables"
   add_foreign_key "user_evaluation_refilables", "users"
+  add_foreign_key "user_trainees", "users"
+  add_foreign_key "user_trainees", "users", column: "trainee_id"
   add_foreign_key "users", "industries"
+  add_foreign_key "users", "users", column: "coach_id"
 end
