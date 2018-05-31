@@ -505,5 +505,9 @@ Rails.application.routes.draw do
       get :trainees_deletion
       get :new_trainees
     end
+    collection do
+      post :post_csv
+      get :uploading_status
+    end
   end
 end
