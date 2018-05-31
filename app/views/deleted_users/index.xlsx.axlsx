@@ -1,0 +1,14 @@
+wb = xlsx_package.workbook
+wb.styles do |style|
+  header_cell = style.add_style(bg_color: "53f94b")
+  content_cell = style.add_style(bg_color: "4bdff9")
+
+  wb.add_worksheet(name: "Usuarios Desactivados") do |sheet|
+    sheet.add_row ["ID","Nombre","Correo electrónico", "Telefono", "Estado", "Rol", "Grupo"], style: [header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell]
+
+    @users.each do |user|
+    	grupo =	user.group.name if !user.group.nil?
+      sheet.add_row [user.id ,user.name, user.email, user.phone_number, user.status, user.huminize_role, grupo], style: [content_cell, content_cell, content_cell, content_cell, content_cell, content_cell, content_cell]
+    end
+  end
+end

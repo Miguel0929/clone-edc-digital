@@ -82,7 +82,6 @@
               Reanudar tus últimos avances
           .panel-body
             .card.status.contenido-reciente.m-b-0{"data-social" => "item"}
-              /.circle{"data-container" => "body", "data-toggle" => "tooltip", :title => "Cerrar", :id => "hide_last"}
               %h5 
                 = distance_of_time_in_words(last_parameters[1].to_i, Time.now.to_i)
               %h4 

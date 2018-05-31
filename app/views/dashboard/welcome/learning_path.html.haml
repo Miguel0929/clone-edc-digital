@@ -46,7 +46,6 @@
                   %a{:href => dashboard_program_path(program)}
                     .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{program.cover.url});" , class: "height-img" }
                   .col-md-7.height-col-md-6
-                    /%a{:href => dashboard_program_path(program)}
                     %h6.text-tipo-card-ruta.b-b
                       - if program.tipo == "construccion"
                         Construcción
@@ -54,16 +53,17 @@
                         e-learning
                       -elsif program.tipo.nil?
                         Emprendimiento 
+                      %small.text-tipo-card-ruta.pull-right{style: "font-size: 12px"}= program.level.capitalize  
                     %h5.text-name-ruta.m-b-5
                       = truncate(program.name, length: 40, separator: ' ')
                     - stats = @current_user.program_stats.find_by(program_id: program)
-                    /- seen_progress = ((!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
+                    -# seen_progress = ((!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
                     - seen_progress = @current_user.percentage_content_visited_for(program)
-                    /- answered_progress = ((!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
-                    /- answered_progress = @current_user.percentage_questions_answered_for(program)
+                    -# answered_progress = ((!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
+                    -# answered_progress = @current_user.percentage_questions_answered_for(program)
                     - answered_progress = @current_user.overall_percentage_answered_for(program)
                     - last_tracker = program.get_last_move(@current_user)
-                    /- last_content = (!last_tracker.nil? ? last_tracker.chapter_content : nil)
+                    -# last_content = (!last_tracker.nil? ? last_tracker.chapter_content : nil)
                     - last_content = last_visited_content(program, stats)
                     .text-black.text-frase
                       = truncate(program.description, length: 60, separator: ' ')
@@ -152,24 +152,24 @@
                   %a{:href => dashboard_program_path(program)}
                     .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{program.cover.url});" , class: "height-img" }
                   .col-md-7.height-col-md-6
-                    /%a{:href => dashboard_program_path(program)}
                     %h6.text-tipo-card-ruta.b-b
                       - if program.tipo == "construccion"
                         Construcción
                       -elsif program.tipo == "elearning"
                         e-learning
                       -elsif program.tipo.nil?
-                        Emprendimiento 
+                        Emprendimiento
+                      %small.text-tipo-card-ruta.pull-right{style: "font-size: 12px"}= program.level.capitalize     
                     %h5.text-name-ruta.m-b-5
                       = truncate(program.name, length: 40, separator: ' ')
                     - stats = @current_user.program_stats.find_by(program_id: program)
-                    /- seen_progress = ((!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
+                    -# seen_progress = ((!stats.nil? && !stats.program_seen.nil?) ? stats.program_seen.ceil : 0)
                     - seen_progress = @current_user.percentage_content_visited_for(program)
-                    /- answered_progress = ((!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
-                    /- answered_progress = @current_user.percentage_questions_answered_for(program)
+                    -# answered_progress = ((!stats.nil? && !stats.program_progress.nil?) ? stats.program_progress.ceil : 0)
+                    -# answered_progress = @current_user.percentage_questions_answered_for(program)
                     - answered_progress = @current_user.overall_percentage_answered_for(program)
                     - last_tracker = program.get_last_move(@current_user)
-                    /- last_content = (!last_tracker.nil? ? last_tracker.chapter_content : nil)
+                    -# last_content = (!last_tracker.nil? ? last_tracker.chapter_content : nil)
                     - last_content = last_visited_content(program, stats)
                     .text-black.text-frase
                       = truncate(program.description, length: 60, separator: ' ')
