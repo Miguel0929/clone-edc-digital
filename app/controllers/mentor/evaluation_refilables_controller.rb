@@ -27,6 +27,9 @@ class Mentor::EvaluationRefilablesController < ApplicationController
   def change_switch_evaluated
     program_id = @template_refilable.program_id
     prog_stat = ProgramStat.where(user_id: @user.id, program_id: program_id).first
+    if program_stat.nil?
+      prog_stat = ProgramStat.create(user_id: @user.id, program_id: program_id)
+    end
     unless program_id.nil?
       program = Program.find(program_id)
       quizzes_program = Quiz.where(program_id: program.id)
