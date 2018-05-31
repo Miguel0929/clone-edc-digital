@@ -76,10 +76,8 @@ class AnalyticsPanelController < ApplicationController
   def students_evaluated
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
     add_breadcrumb "<a class='active' href='#{students_evaluated_analytics_panel_index_path}'>Alumnos evaluados</a>".html_safe
-    @mentors = Mentor.all
+    
     @groups = Group.all
-    @enblanco = User.students.where(group_id: nil).count
-    @total = User.students.count
     @programs = Program.all.order(:id).page(params[:page]).per(15)
     @total_alumnos_program = []
     @total_100_90 = []; @total_89_80 = []; @total_79_60 = []; @total_59_0 = [] 
@@ -89,7 +87,7 @@ class AnalyticsPanelController < ApplicationController
       @groups.each do |group|
         programas_grupo = group.all_programs 
         if programas_grupo.include?(program)
-          alumnos += group.students.count
+          alumnos += group.active_students.count
           evaluados += group.students.joins(:program_stats).where(:program_stats => {checked: 1, program_id: program.id}).count
 =begin   
           estudiantes = group.students.joins(:program_stats).where(:program_stats => {checked: 1, program_id: program.id})
@@ -117,6 +115,14 @@ class AnalyticsPanelController < ApplicationController
       @total_59_0 << {program_id: program.id, alumnos: evaluados59_0}
 =end      
     end  
+  end
+
+  def mentor_alumnos_asignados
+    add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{students_evaluated_analytics_panel_index_path}'>Alumnos asignados por mentor</a>".html_safe
+    @mentors = Mentor.all.page(params[:page]).per(50)
+    @enblanco = User.students.where(group_id: nil).count
+    @total = User.students.count
   end 
 
   private
