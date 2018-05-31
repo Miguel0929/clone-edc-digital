@@ -85,6 +85,7 @@ Rails.application.routes.draw do
     end
     collection do
       get :students_evaluated
+      get :mentor_alumnos_asignados
     end  
   end
 
