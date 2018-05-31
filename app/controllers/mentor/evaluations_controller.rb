@@ -211,7 +211,7 @@ class Mentor::EvaluationsController < ApplicationController
     c_rubricas = @program.chapters.joins(:evaluations).select("evaluations.*").count
     c_user_evaluation =  UserEvaluation.where(evaluation_id: ids_rubricas, user_id: @user.id).count 
     if c_rubricas == c_user_evaluation && c_rubricas > 0
-      prog_stat.update(evaluation_date: Time.now, evaluating_mentor: current_user.email)
+      prog_stat.update(evaluation_date: Time.now, evaluating_mentor: current_user.email, score: @program.evaluated_avg(@user))
     end  
     ##### Templates
     ids_ev_refil = []
