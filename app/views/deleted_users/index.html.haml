@@ -6,7 +6,9 @@
     .panel-heading
       .pull-right
         .col-xs-12
-          /%input#search-table.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
+          = link_to deleted_users_path(format: :xlsx), class: "btn btn-success" do
+            %i.fa.fa-file-excel-o
+            = "Usuarios desactivados"
 
       .clearfix
     .panel-body

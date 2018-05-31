@@ -41,14 +41,14 @@
                   %a{:href => program_permitted_user_path(id: @user.id, program_id: program.id)}
                     .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{program.cover.url});" , class: "height-img" }
                   .col-md-7.height-col-md-6
-                    /%a{:href => learning_path_user_path(program)}
                     %h6.text-tipo-card-ruta.b-b
                       - if program.tipo == "construccion"
                         Construcción
                       -elsif program.tipo == "elearning"
                         e-learning
                       -elsif program.tipo.nil?
-                        Emprendimiento 
+                        Emprendimiento
+                      %small.text-tipo-card-ruta.pull-right{style: "font-size: 12px"}= program.level.capitalize     
                     %h5.text-name-ruta.m-b-5
                       = truncate(program.name, length: 40, separator: ' ')
                     .pull-right
@@ -142,14 +142,14 @@
                   %a{:href => program_permitted_user_path(id: @user.id, program_id: program.id)}
                     .col-md-5.p-l-0.p-r-0.style_img_card{ :style => "background: url(#{program.cover.url});" , class: "height-img" }
                   .col-md-7.height-col-md-6
-                    /%a{:href => dashboard_program_path(program)}
                     %h6.text-tipo-card-ruta.b-b
                       - if program.tipo == "construccion"
                         Construcción
                       -elsif program.tipo == "elearning"
                         e-learning
                       -elsif program.tipo.nil?
-                        Emprendimiento 
+                        Emprendimiento
+                      %small.text-tipo-card-ruta.pull-right{style: "font-size: 12px"}= program.level.capitalize     
                     %h5.text-name-ruta.m-b-5
                       = truncate(program.name, length: 40, separator: ' ')
                     .pull-right  
