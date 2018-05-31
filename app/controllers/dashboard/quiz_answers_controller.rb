@@ -52,10 +52,11 @@ class Dashboard::QuizAnswersController < ApplicationController
     program_id = @quiz.program_id
     @user= current_user
     prog_stat = ProgramStat.where(user_id: @user.id, program_id: program_id).first
-    if program_stat.nil?
-      prog_stat = ProgramStat.create(user_id: @user.id, program_id: program_id)
-    end
+    
     unless program_id.nil?
+      if prog_stat.nil?
+        prog_stat = ProgramStat.create(user_id: @user.id, program_id: program_id)
+      end
       program = Program.find(program_id)
       quizzes_program = Quiz.where(program_id: program.id)
       templates_program = TemplateRefilable.where(program_id: program.id)
