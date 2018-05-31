@@ -62,60 +62,61 @@
 									- @no_evaluados_alumnos.each do |no_evaluados|
 										%td.padding-0.border-none.text-center
 											.cell-like= no_evaluados[:alumnos]
-		.panel-heading
-			%h4 Puntajes de todos los alumnos evaluados *
-		.panel-body
-			.row
-				.col-sm-3.p-r-0
-					%table.table.colored-columns.m-t-0
-						%thead.static-heads
-							%tr
-								%th.text-center
-									Programa
-						%tbody
-							%tr
-								%td.padding-0.border-none.bold.text-center
-									.cell-like 90% - 100%
-							%tr
-								%td.padding-0.border-none.bold.text-center
-									.cell-like	80% - 89%
-							%tr
-								%td.padding-0.border-none.bold.text-center
-									.cell-like	60% - 79%		
-							%tr
-								%td.padding-0.border-none.bold.text-center
-									.cell-like	0% - 59%
-							%tr
-								%td.padding-0.border-none.bold.text-center
-									.cell-like	Total:		
-				.col-sm-9.p-r-0
-					.horizontal-overflow
+		- if false										
+			.panel-heading
+				%h4 Puntajes de todos los alumnos evaluados *
+			.panel-body
+				.row
+					.col-sm-3.p-r-0
 						%table.table.colored-columns.m-t-0
 							%thead.static-heads
 								%tr
-									- @programs.each do |program| 	
-										%th= program.name
+									%th.text-center
+										Programa
 							%tbody
 								%tr
-									- @total_100_90.each do |students| 	
-										%td.padding-0.border-none.text-center
-											.cell-like=students[:alumnos]
+									%td.padding-0.border-none.bold.text-center
+										.cell-like 90% - 100%
 								%tr
-									- @total_89_80.each do |students|
-										%td.padding-0.border-none.text-center
-											.cell-like=students[:alumnos]
+									%td.padding-0.border-none.bold.text-center
+										.cell-like	80% - 89%
 								%tr
-									- @total_79_60.each do |students|
-										%td.padding-0.border-none.text-center
-											.cell-like=students[:alumnos]
+									%td.padding-0.border-none.bold.text-center
+										.cell-like	60% - 79%		
 								%tr
-									- @total_59_0.each do |students|
-										%td.padding-0.border-none.text-center
-											.cell-like=students[:alumnos]
+									%td.padding-0.border-none.bold.text-center
+										.cell-like	0% - 59%
 								%tr
-									- @evaluados_alumnos.each do |students|
-										%th.padding-0.border-none.text-center
-											.cell-like=students[:alumnos]																		
-			.row
-				.col-md-12
-					%i * En el puntaje solo se toman en cuenta las rúbricas evaluadas en los programas																	
+									%td.padding-0.border-none.bold.text-center
+										.cell-like	Total:							
+					.col-sm-9.p-r-0
+						.horizontal-overflow
+							%table.table.colored-columns.m-t-0
+								%thead.static-heads
+									%tr
+										- @programs.each do |program| 	
+											%th= program.name
+								%tbody
+									%tr
+										- @total_100_90.each do |students| 	
+											%td.padding-0.border-none.text-center
+												.cell-like=students[:alumnos]
+									%tr
+										- @total_89_80.each do |students|
+											%td.padding-0.border-none.text-center
+												.cell-like=students[:alumnos]
+									%tr
+										- @total_79_60.each do |students|
+											%td.padding-0.border-none.text-center
+												.cell-like=students[:alumnos]
+									%tr
+										- @total_59_0.each do |students|
+											%td.padding-0.border-none.text-center
+												.cell-like=students[:alumnos]
+									%tr
+										- @evaluados_alumnos.each do |students|
+											%th.padding-0.border-none.text-center
+												.cell-like=students[:alumnos]																				
+				.row
+					.col-md-12
+						%i * En el puntaje solo se toman en cuenta las rúbricas evaluadas en los programas																	
