@@ -80,8 +80,8 @@ class AnalyticsPanelController < ApplicationController
     @groups = Group.all
     @enblanco = User.students.where(group_id: nil).count
     @total = User.students.count
-    @programs = Program.all.order(:id)
-    @total_alumnos = []; @evaluados_alumnos = []; @no_evaluados_alumnos = []
+    @programs = Program.all.order(:id).page(params[:page]).per(15)
+    @total_alumnos_program = []
     @total_100_90 = []; @total_89_80 = []; @total_79_60 = []; @total_59_0 = [] 
     @programs.each do |program|
       alumnos = 0; evaluados = 0; evaluados100_90 = 0; evaluados89_80 = 0; evaluados79_60 = 0; evaluados59_0 = 0; estudiantes = [];  
@@ -109,9 +109,7 @@ class AnalyticsPanelController < ApplicationController
 =end                     
         end
       end
-      @total_alumnos << {program_id: program.id, alumnos: alumnos}
-      @evaluados_alumnos << {program_id: program.id, alumnos: evaluados}
-      @no_evaluados_alumnos << {program_id: program.id, alumnos: alumnos - evaluados}
+      @total_alumnos_program << {program_id: program.id, program_name: program.name ,alumnos: alumnos, evaluados: evaluados, no_evaluados: alumnos - evaluados}
 =begin
       @total_100_90 << {program_id: program.id, alumnos: evaluados100_90} 
       @total_89_80 << {program_id: program.id, alumnos: evaluados89_80}
