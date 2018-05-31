@@ -1,0 +1,89 @@
+- content_for :title  do
+  Tutores - EDC Digital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .pull-right
+        .col-xs-12
+          .form-group
+            %div.input-group
+              = form_tag(coaches_path, method: :get) do
+                = text_field_tag :query, "", class: "form-control text-black", :placeholder => "Buscar"
+              %span.input-group-addon.panel-title-recursos
+                %i.fa.fa-search.text-white
+      .clearfix
+    .panel-body
+      %h2
+        Lista de tutores
+        .pull-right
+          = link_to 'Agregar tutor', new_coach_path, class: 'btn btn-default'
+      .table-responsive
+        %table.table.table-hover
+          %thead
+            %tr
+              %th
+                Id
+              %th
+                Datos de contacto
+              %th
+                Información de usuario
+              %th
+                Acciones
+          %tbody
+            - @coaches.each do |coach|
+              %tr
+                %td.p-b-15
+                  = coach.id
+                %td.p-b-15
+                  .m-t-0
+                    = link_to coach.name,  mentor_path(coach)
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %i.fa.fa-envelope
+                    %li.inline 
+                      = coach.email
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %i.fa.fa-phone
+                    %li.inline 
+                      = coach.phone_number
+                %td.p-b-15
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %strong
+                        Número de aprendices: 
+                    %li.inline
+                      = coach.trainees.count
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %strong
+                        Número de grupos: 
+                    %li.inline 
+                      = coach.groups.count
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %span.bold Última sesión:
+                    %li.inline 
+                      - if !coach.visits.last.nil?
+                        = l coach.visits.last.started_at, format: :short_special
+                      - else
+                        %span.text-danger Ninguna
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %span.bold Grupo personal: 
+                    %li.inline= coach.group.nil? ? 'Sin grupo asignado' : coach.group.name        
+                %td.p-b-15
+                  %ul.unstyled.list-unstyled.p-l-0.m-b-0
+                    %li
+                      = link_to trainees_coach_path(coach) do
+                        %i.fa.fa-eye
+                        Ver lista de aprendices
+                    %li
+                      = link_to coach_path(coach), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                        %i.fa.fa-times
+                        Eliminar tutoría
+      .pull-right
+        = paginate @coaches
+        %br
+        %span.text-center= page_entries_info @coaches

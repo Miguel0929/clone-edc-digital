@@ -63,6 +63,9 @@
                     %a{:href => profesors_path} Profesores
                     %span.icon-thumbnail Mt  
                   %li
+                    %a{:href => coaches_path} Tutores
+                    %span.icon-thumbnail Tr  
+                  %li
                     %a{:href => groups_path} Grupos
                     %span.icon-thumbnail Gp
                   %li
@@ -193,6 +196,7 @@
                     %span.icon-thumbnail Mp      
             = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: [''], icon: 'fa fa-users', role: [:mentor]})
             = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
+            = display_navbar_link({link: 'Aprendices', details: 'Aprendices de la plataforma' ,path: mentor_trainees_path, icon: 'fa fa-graduation-cap', role: [:mentor]})
             = display_navbar_link({css: [], link: 'Panel de progreso', details: 'Progreso de estudiantes' ,path: progress_panel_index_path, icon: 'fa fa-line-chart', role: [:mentor]})
             = display_navbar_link({css: [], link: 'Panel de analíticos', details: 'Progreso en programas' ,path: analytics_panel_index_path, icon: 'fa fa-tachometer', role: [:mentor]})
             = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: mentor_shared_group_attachments_path, icon: 'fa fa-file', role: [:mentor]})
