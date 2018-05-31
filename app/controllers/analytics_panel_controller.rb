@@ -79,7 +79,7 @@ class AnalyticsPanelController < ApplicationController
     
     @groups = Group.all
     @programs = Program.all.order(:id).page(params[:page]).per(10)
-    @total_alumnos_program = []
+    @total_alumnos_program = []; @total_alumnos_program_rango = []
     @total_100_90 = []; @total_89_80 = []; @total_79_60 = []; @total_59_0 = [] 
     @programs.each do |program|
       alumnos = 0; evaluados = 0; evaluados100_90 = 0; evaluados89_80 = 0; evaluados79_60 = 0; evaluados59_0 = 0; estudiantes = [];  
@@ -89,7 +89,7 @@ class AnalyticsPanelController < ApplicationController
         if programas_grupo.include?(program.id)
           alumnos += group.students.count
           evaluados += group.students.joins(:program_stats).where(:program_stats => {checked: 1, program_id: program.id}).count
-=begin   
+          #promedios
           estudiantes = group.students.joins(:program_stats).where(:program_stats => {checked: 1, program_id: program.id})
           estudiantes.each do |student|
             obtenidos = program.points_earned(student)
@@ -104,17 +104,11 @@ class AnalyticsPanelController < ApplicationController
               evaluados59_0 += 1
             end  
           end
-=end                     
+          #end promedios
         end
       end
       @total_alumnos_program << {program_id: program.id, program_name: program.name ,alumnos: alumnos, evaluados: evaluados, no_evaluados: alumnos - evaluados}
-      #@total_alumnos_program_rango << {program_id: program.id, program_name: program.name ,alumnos: alumnos, evaluados: evaluados, no_evaluados: alumnos - evaluados}
-=begin
-      @total_100_90 << {program_id: program.id, alumnos: evaluados100_90} 
-      @total_89_80 << {program_id: program.id, alumnos: evaluados89_80}
-      @total_79_60 << {program_id: program.id, alumnos: evaluados79_60}
-      @total_59_0 << {program_id: program.id, alumnos: evaluados59_0}
-=end      
+      @total_alumnos_program_rango << {program_id: program.id, program_name: program.name ,total_100_90: evaluados100_90, total_89_80: evaluados89_80, total_79_60: evaluados79_60, total_59_0: evaluados59_0}     
     end  
   end
 
