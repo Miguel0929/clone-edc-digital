@@ -26,43 +26,27 @@
 			%h4 Alumnos evaluados
 		.panel-body
 			.row
-				.col-sm-3.p-r-0
-					%table.table.colored-columns.m-t-0
-						%thead.static-heads
+				%table.table.colored-columns.m-t-0
+					%thead.static-heads
+						%tr
+							%th.padding-0.border-none.bold
+								.cell-like Programa
+							%th.padding-0.border-none.bold
+								.cell-like Total de alumnos
+							%th.padding-0.border-none.bold
+								.cell-like	Evaluaciones realizadas
+							%th.padding-0.border-none.bold
+								.cell-like	Evaluaciones pendientes		
+					%tbody
+						- @total_alumnos_program.each do |program| 
 							%tr
-								%th
-									Programa
-						%tbody
-							%tr
-								%td.padding-0.border-none.bold
-									.cell-like Total de alumnos
-							%tr
-								%td.padding-0.border-none.bold
-									.cell-like	Evaluaciones realizadas
-							%tr
-								%td.padding-0.border-none.bold
-									.cell-like	Evaluaciones pendientes
-				.col-sm-9.p-r-0
-					.horizontal-overflow
-						%table.table.table-striped.m-t-0
-							%thead.static-heads
-								%tr
-									- @programs.each do |program| 	
-										%th= program.name
-							%tbody
-								%tr
-									- @total_alumnos.each do |alumnos|										
-										%td.padding-0.border-none.text-center
-											.cell-like= alumnos[:alumnos]
-								%tr
-									- @evaluados_alumnos.each do |evaluados|			
-										%td.padding-0.border-none.text-center
-											.cell-like= evaluados[:alumnos]
-								%tr
-									- @no_evaluados_alumnos.each do |no_evaluados|
-										%td.padding-0.border-none.text-center
-											.cell-like= no_evaluados[:alumnos]
-		- if false										
+								%td= program[:program_name]
+								%td= program[:alumnos]
+								%td= program[:evaluados]
+								%td= program[:no_evaluados]
+				%center
+					= paginate @programs 					
+		-if false						
 			.panel-heading
 				%h4 Puntajes de todos los alumnos evaluados *
 			.panel-body
