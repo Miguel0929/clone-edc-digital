@@ -178,7 +178,12 @@ class Program < ActiveRecord::Base
   end  
 
   def evaluated_avg(user)
-    ((self.points_earned(user).to_f * 100) / self.total_points.to_f) rescue 0
+    total = self.total_points.to_f
+    if total == 0
+      0
+    else
+      ((self.points_earned(user).to_f * 100) / self.total_points.to_f)
+    end  
   end 
 end
 

@@ -6,7 +6,7 @@
 		.panel-heading
 			%h4 Alumnos asignados a cada mentor			
 		.panel-body
-			%table.table.table-striped
+			%table.table
 				%thead
 					%tr
 						%th Mentor
@@ -16,7 +16,7 @@
 						%tr
 							%td.bold=mentor.name
 							%td.text-center=mentor.linked_students
-					%tr.info
+					%tr.warning
 						%td.bold En blanco*
 						%td.text-center=@enblanco	
 					%tr.info

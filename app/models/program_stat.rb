@@ -14,4 +14,13 @@ class ProgramStat < ActiveRecord::Base
   	seen = self.program_seen
   	seen.nil? ? "0" : seen.round.to_s
   end
+
+  def self.add_score
+    stats = ProgramStat.where(checked: 1)
+    stats.each do |stat|
+      user = stat.user
+      program = stat.program
+      stat.update(score: program.evaluated_avg(user))
+    end  
+  end  
 end
