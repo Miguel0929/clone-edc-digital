@@ -5,6 +5,8 @@ class AnalyticsPanelController < ApplicationController
   before_action :set_program, only: [:group_program]
   add_breadcrumb "EDCDIGITAL", :root_path
   include GroupHelper
+  include EvaluationRefilablesHelper
+
 
   helper_method :program_objects
 
@@ -83,6 +85,7 @@ class AnalyticsPanelController < ApplicationController
     @total_100_90 = []; @total_89_80 = []; @total_79_60 = []; @total_59_0 = [] 
     @programs.each do |program|
       alumnos = 0; evaluados = 0; evaluados100_90 = 0; evaluados89_80 = 0; evaluados79_60 = 0; evaluados59_0 = 0; estudiantes = [];  
+      total_puntos_program = program.total_points
       @groups.each do |group|
         if group.all_programs.include?(program)
           alumnos += group.students.count
@@ -90,7 +93,8 @@ class AnalyticsPanelController < ApplicationController
      
           estudiantes = group.students.joins(:program_stats).where(:program_stats => {checked: 1, program_id: program.id})
           estudiantes.each do |student|
-            promedio = program.evaluated_avg(student)
+            obtenidos = program.points_earned(student)
+            promedio = user_promedio_refilable(obtenidos, total_puntos_program)
             if promedio <= 100 && promedio >= 90
               evaluados100_90 += 1
             elsif promedio <= 89 && promedio >= 80

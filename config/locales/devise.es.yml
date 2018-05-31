@@ -13,7 +13,7 @@ es:
       invalid: "Correo o contraseña inválidos."
       invalid_token: "Cadena de autenticación invalida."
       locked: "Su cuenta ha sido bloqueada."
-      not_found_in_database: "Al parecer no estás registrado. Revisa bien tus datos"
+      not_found_in_database: "Te informamos que tu cuenta ha expirado o no has sido registrado dentro de EDC, revisa bien tus datos"
       timeout: "su sesión ha expirado, por favor identifíquese de nuevo para continuar."
       unauthenticated: "Necesita iniciar sesión o registrarse para continuar."
       unconfirmed: "Debe confirmar su cuenta para continuar."

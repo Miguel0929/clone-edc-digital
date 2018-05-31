@@ -9,6 +9,11 @@ class DeletedUsersController < ApplicationController
     add_breadcrumb "<a class='active' href='#{deleted_users_path}'>Usuarios desactivados</a>".html_safe
 
     @users = User.includes(:group).only_deleted
+
+    respond_to do |format|
+      format.html {}
+      format.xlsx
+    end 
   end
 
   def update
