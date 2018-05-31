@@ -87,10 +87,11 @@ class AnalyticsPanelController < ApplicationController
       alumnos = 0; evaluados = 0; evaluados100_90 = 0; evaluados89_80 = 0; evaluados79_60 = 0; evaluados59_0 = 0; estudiantes = [];  
       total_puntos_program = program.total_points
       @groups.each do |group|
-        if group.all_programs.include?(program)
+        programas_grupo = group.all_programs 
+        if programas_grupo.include?(program)
           alumnos += group.students.count
           evaluados += group.students.joins(:program_stats).where(:program_stats => {checked: 1, program_id: program.id}).count
-     
+   
           estudiantes = group.students.joins(:program_stats).where(:program_stats => {checked: 1, program_id: program.id})
           estudiantes.each do |student|
             obtenidos = program.points_earned(student)
@@ -104,7 +105,7 @@ class AnalyticsPanelController < ApplicationController
             elsif promedio <= 59 && promedio >= 0  
               evaluados59_0 += 1
             end  
-          end  
+          end           
         end
       end
       @total_alumnos << {program_id: program.id, alumnos: alumnos}

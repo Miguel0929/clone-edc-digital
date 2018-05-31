@@ -125,7 +125,7 @@
                                     -elsif program.tipo.nil?
                                       Emprendimiento     
                                   = truncate(program.name, length: 50, separator: ' ')
-                                  %small.pull-right.p-t-5{style: "font-size: 12px"} #{program.level.capitalize}
+                                  %small.pull-right.p-t-5{style: "font-size: 12px"} #{program.level.capitalize} unless program.level.nil? 
                             - stats = @current_user.program_stats.find_by(program_id: program)
                             - seen_progress = @current_user.percentage_content_visited_for(program)
                             - answered_progress = @current_user.overall_percentage_answered_for(program)
