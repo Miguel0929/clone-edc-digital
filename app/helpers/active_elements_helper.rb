@@ -69,6 +69,7 @@ module ActiveElementsHelper
     if !current_user.group.nil?
       current_user.group.programs.each do |pg|
         if !ProgramActive.where(user: current_user, program_id: pg).first.nil? && ProgramActive.where(user: current_user, program_id: pg).first.status
+          p "========================================================="
           requested_class.where(program_id: pg.id).each do |element| active_elements << element end
         end
       end
