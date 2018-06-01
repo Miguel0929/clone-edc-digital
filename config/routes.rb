@@ -82,9 +82,10 @@ Rails.application.routes.draw do
     member do
       get :group
       get :group_program
+      get :students_evaluated
     end
     collection do
-      get :students_evaluated
+      post :create_students_evaluated
       get :mentor_alumnos_asignados
     end  
   end
