@@ -1,7 +1,8 @@
 class SharedGroupAttachment < ActiveRecord::Base
-  enum document_type: [:image, :pdf, :office, :other_document]
 
+  enum document_type: [:image, :pdf, :office, :other_document]
   has_many :shared_group_attachment_groups
+  has_many :shared_group_attachment_notifications, dependent: :destroy
   has_many :groups, through: :shared_group_attachment_groups
   belongs_to :owner, foreign_key: 'owner_id', class_name: 'User'
   mount_uploader :file, SharedGroupFileUploader

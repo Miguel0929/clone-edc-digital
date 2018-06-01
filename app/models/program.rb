@@ -1,5 +1,6 @@
 class Program < ActiveRecord::Base
   acts_as_list
+  acts_as_paranoid
 
   mount_uploader :cover, CoverUploader
   mount_uploader :icon, IconProgramUploader
@@ -14,6 +15,7 @@ class Program < ActiveRecord::Base
   has_many :quizzes
   has_many :template_refilables
   has_one :learning_path_content, as: :content, :dependent => :destroy
+  has_many :program_actives, :dependent => :destroy
 
   enum tipo: [ :elearning, :construccion, :fusion ]
   enum level: [:basico, :intermedio, :avanzado]

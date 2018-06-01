@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180531213019) do
+ActiveRecord::Schema.define(version: 20180601203251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -535,7 +535,10 @@ ActiveRecord::Schema.define(version: 20180531213019) do
     t.integer  "tipo"
     t.integer  "content_type"
     t.string   "short_name"
+    t.datetime "deleted_at"
   end
+
+  add_index "programs", ["deleted_at"], name: "index_programs_on_deleted_at", using: :btree
 
   create_table "questions", force: :cascade do |t|
     t.integer  "question_type",  default: 0
