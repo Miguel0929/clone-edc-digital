@@ -113,7 +113,7 @@
             .form-group
               %label.col-sm-3.control-label{:for => "situacion"} Me interesa o mi idea de negocio entra en el tema
               .col-sm-9
-                = f.select :interest, ["Demografía y sociedad", "Economía", "Tecología e innovación", "Medio ambiente y clima", "Gobernabilidad y relaciones exteriores"],  {include_blank: "Selecciona una opción"}, { :class => 'minimal form-control full-width' }  
+                = f.select :interest, ["Demografía y sociedad", "Economía", "Tecnología e innovación", "Medio ambiente y clima", "Gobernabilidad y relaciones exteriores"],  {include_blank: "Selecciona una opción"}, { :class => 'minimal form-control full-width' }  
             .form-group
               %label.col-sm-3.control-label{:for => "reto"} El mayor reto será
               .col-sm-9
@@ -125,7 +125,7 @@
             .form-group
               %label.col-sm-3.control-label{:for => "name"} ¿En qué sector económico se ubica tu producto/servicio?
               .col-sm-9
-                = f.select :industry_id, Industry.all.collect {|p| [ p.name, p.id ] },  {include_blank: "Selecciona el sector económico"}, { :class => 'minimal form-control full-width' }  
+                = f.select :industry_id, Industry.all.order(:id).collect {|p| [ p.name, p.id ] },  {include_blank: "Selecciona el sector económico"}, { :class => 'minimal form-control full-width' }  
             .form-group
               %label.col-sm-3.control-label{:for => "name"} Biografía
               .col-sm-9
