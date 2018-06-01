@@ -64,7 +64,7 @@ class Dashboard::WelcomeController < ApplicationController
       @programs_fisica.each do |p|
         c+=1
         anterior = p.anterior(current_user.group.learning_path)
-        if current_user.percentage_questions_answered_for(anterior) >= 1 || c==1 || (current_user.percentage_content_visited_for(anterior) >= 1 && anterior.questions? == false)
+        if current_user.percentage_questions_answered_for(anterior) >= 60 || c==1 || (current_user.percentage_content_visited_for(anterior) >= 1 && anterior.questions? == false)
           ids.push(p.id)
         else
           break
@@ -81,7 +81,7 @@ class Dashboard::WelcomeController < ApplicationController
       @programs_moral.each do |p|
         c+=1
         anterior = p.anterior(current_user.group.learning_path2)
-        if current_user.percentage_questions_answered_for(anterior) >= 1 || c==1 || (current_user.percentage_content_visited_for(anterior) >= 1 && anterior.questions? == false)
+        if current_user.percentage_questions_answered_for(anterior) >= 60 || c==1 || (current_user.percentage_content_visited_for(anterior) >= 1 && anterior.questions? == false)
           ids.push(p.id)
         else
           break
