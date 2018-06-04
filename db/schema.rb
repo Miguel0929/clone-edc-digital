@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180601203251) do
+ActiveRecord::Schema.define(version: 20180604170907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -683,6 +683,18 @@ ActiveRecord::Schema.define(version: 20180601203251) do
 
   add_index "rubrics", ["question_id"], name: "index_rubrics_on_question_id", using: :btree
 
+  create_table "score_student_stats", force: :cascade do |t|
+    t.integer  "program_id"
+    t.integer  "rango1"
+    t.integer  "rango2"
+    t.integer  "rango3"
+    t.integer  "rango4"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "score_student_stats", ["program_id"], name: "index_score_student_stats_on_program_id", using: :btree
+
   create_table "sessions", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "browser"
@@ -729,6 +741,17 @@ ActiveRecord::Schema.define(version: 20180601203251) do
   create_table "states", force: :cascade do |t|
     t.string "name"
   end
+
+  create_table "student_evaluateds", force: :cascade do |t|
+    t.integer  "program_id"
+    t.integer  "total"
+    t.integer  "evaluados"
+    t.integer  "no_evaluados"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "student_evaluateds", ["program_id"], name: "index_student_evaluateds_on_program_id", using: :btree
 
   create_table "template_refilables", force: :cascade do |t|
     t.string   "name"
