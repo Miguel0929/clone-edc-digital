@@ -21,7 +21,7 @@ module ActiveElementsHelper
       programs_fisica.each do |p|
         c+=1
         anterior = p.anterior(current_user.group.learning_path)
-        if current_user.percentage_questions_answered_for(anterior) >= 1 || c == 1 || (current_user.percentage_content_visited_for(anterior) >= 1 && anterior.questions? == false)
+        if current_user.percentage_questions_answered_for(anterior) >= 1 || c == 1 || (current_user.percentage_content_visited_for(anterior) >= 60 && anterior.questions? == false)
           ids.push(p.id)
         else
           break
@@ -38,7 +38,7 @@ module ActiveElementsHelper
       programs_moral.each do |p|
         c+=1
         anterior = p.anterior(current_user.group.learning_path2)
-        if current_user.percentage_questions_answered_for(anterior) >= 1 || c == 1 || (current_user.percentage_content_visited_for(anterior) >= 1 && anterior.questions? == false)
+        if current_user.percentage_questions_answered_for(anterior) >= 1 || c == 1 || (current_user.percentage_content_visited_for(anterior) >= 60 && anterior.questions? == false)
           ids.push(p.id)
         else
           break
@@ -69,7 +69,6 @@ module ActiveElementsHelper
     if !current_user.group.nil?
       current_user.group.programs.each do |pg|
         if !ProgramActive.where(user: current_user, program_id: pg).first.nil? && ProgramActive.where(user: current_user, program_id: pg).first.status
-          p "========================================================="
           requested_class.where(program_id: pg.id).each do |element| active_elements << element end
         end
       end
@@ -90,7 +89,7 @@ module ActiveElementsHelper
       programs_fisica.each do |p|
         c+=1
         anterior = p.anterior(current_user.group.learning_path)
-        if current_user.percentage_questions_answered_for(anterior) >= 1 || c == 1 || (current_user.percentage_content_visited_for(anterior) >= 1 && anterior.questions? == false)
+        if current_user.percentage_questions_answered_for(anterior) >= 1 || c == 1 || (current_user.percentage_content_visited_for(anterior) >= 60 && anterior.questions? == false)
           ids.push(p.id)
         else
           break
@@ -107,7 +106,7 @@ module ActiveElementsHelper
       programs_moral.each do |p|
         c+=1
         anterior = p.anterior(current_user.group.learning_path2)
-        if current_user.percentage_questions_answered_for(anterior) >= 1 || c == 1 || (current_user.percentage_content_visited_for(anterior) >= 1 && anterior.questions? == false)
+        if current_user.percentage_questions_answered_for(anterior) >= 1 || c == 1 || (current_user.percentage_content_visited_for(anterior) >= 60 && anterior.questions? == false)
           ids.push(p.id)
         else
           break

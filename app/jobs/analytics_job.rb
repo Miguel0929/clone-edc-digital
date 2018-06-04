@@ -34,8 +34,17 @@ class AnalyticsJob
       end
     end
     job["progress"] += 1
-    job["total_alumnos_program"] << {program_id: program.id, program_name: program.name ,alumnos: alumnos, evaluados: evaluados, no_evaluados: alumnos - evaluados}
-    job["total_alumnos_program_rango"] << {program_id: program.id, program_name: program.name ,total_100_90: evaluados100_90, total_89_80: evaluados89_80, total_79_60: evaluados79_60, total_59_0: evaluados59_0}     
+    #job["total_alumnos_program"] << {program_id: program.id, program_name: program.name ,alumnos: alumnos, evaluados: evaluados, no_evaluados: alumnos - evaluados}
+    #job["total_alumnos_program_rango"] << {program_id: program.id, program_name: program.name ,total_100_90: evaluados100_90, total_89_80: evaluados89_80, total_79_60: evaluados79_60, total_59_0: evaluados59_0}     
+    
+    student_evaluated = StudentEvaluated.find_or_initialize_by(program_id: program.id)
+    student_evaluated.total = alumnos; student_evaluated.evaluados = evaluados; student_evaluated.no_evaluados = alumnos - evaluados
+    student_evaluated.save
+
+    score_student_stat = ScoreStudentStat.find_or_initialize_by(program_id: program.id)
+    score_student_stat.rango1 = evaluados100_90; score_student_stat.rango2 = evaluados89_80; score_student_stat.rango3 = evaluados79_60; score_student_stat.rango4 = evaluados59_0
+    score_student_stat.save
+    
     redis.set(job_id, job.to_json)
   end
 end   

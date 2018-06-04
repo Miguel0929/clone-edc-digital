@@ -84,22 +84,21 @@ class AnalyticsPanelController < ApplicationController
     redis = Redis.new
     redis.set("job_#{timestamp}", {
       total: c_programs,
-      progress: 0,
-      total_alumnos_program: [],
-      total_alumnos_program_rango: []
+      progress: 0
     }.to_json) 
 
     @programs.each do |program|
-      AnalyticsJob.perform_async(program, @groups,"job_#{timestamp}")
+      AnalyticsJob.perform_async(program, @groups, "job_#{timestamp}")
     end
     flash[:notice] = "Calculando Avances"
-    redirect_to students_evaluated_analytics_panel_path(timestamp)  
+    redirect_to students_evaluated_progress_analytics_panel_path(timestamp)  
   end
 
   def students_evaluated
-    @job_id = params[:id]
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
-    add_breadcrumb "<a class='active' href='#{students_evaluated_analytics_panel_path(@job_id)}'>Alumnos evaluados</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{students_evaluated_analytics_panel_index_path}'>Alumnos evaluados</a>".html_safe
+    @total_alumnos_program = StudentEvaluated.all.includes(:program)
+    @total_alumnos_program_rango = ScoreStudentStat.all.includes(:program)
   end  
 
   def mentor_alumnos_asignados
@@ -108,6 +107,12 @@ class AnalyticsPanelController < ApplicationController
     @mentors = Mentor.all.page(params[:page]).per(50)
     @enblanco = User.students.where(group_id: nil).count
     @total = User.students.count
+  end
+
+  def students_evaluated_progress
+    @job_id = params[:id]
+    add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{students_evaluated_progress_analytics_panel_path(@job_id)}'>Calculando estadisticas de alumnos evaluados</a>".html_safe
   end 
 
   private
