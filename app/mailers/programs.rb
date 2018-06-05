@@ -254,7 +254,7 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email: "donpancholin50@hotmail.com" } ],
+          to: [ { email: user.email } ],
           substitutions: {
             "-raw_subject-" => "El alumno #{student.name} ha contestado una pregunta clave del programa \"#{program.name}\".",
             "-content-" => "El alumno #{student.name} ha contestado una pregunta clave del programa \"#{program.name}\", te invitamos a que revises sus avances así como la rúbrica de evaluación correspondiente.",
@@ -317,7 +317,7 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email: "donpancholin50@hotmail.com" } ],
+          to: [ { email: mentor.email } ],
           substitutions: {
             "-raw_subject-" => "El estudiante \"#{student.name}\" ha corregido un respuesta EDC Digital",
             "-content-" => "El estudiante \"#{student.name}\" ha corregido un respuesta EDC Digital, ve al enlace para evaluar su nueva respuesta",
