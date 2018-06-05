@@ -69,9 +69,7 @@ class Group < ActiveRecord::Base
   end
 
   def all_refilables
-    p "-------------------------------------------------------"
     p group_refilables = self.template_refilables.pluck(:id)
-    p "-------------------------------------------------------"
     self.learning_path.nil? ? fisica_refilables = [] : fisica_refilables = self.learning_path.learning_path_contents.where(content_type: "Program")
     self.learning_path2.nil? ? moral_refilables = [] : moral_refilables = self.learning_path2.learning_path_contents.where(content_type: "Program")
     p fisica_refilables.sort_by &:position
@@ -83,9 +81,7 @@ class Group < ActiveRecord::Base
     moral_refilables.each do |lp|
       TemplateRefilable.where(program_id: lp.content_id).each do |element| active_elements << element.id end
     end
-    p "========================================="
     p active_elements = group_refilables + active_elements
-    p "========================================="
     TemplateRefilable.where(id: active_elements).sort_by{ |x| active_elements.index(x.id) }
   end
 

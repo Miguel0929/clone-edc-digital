@@ -337,12 +337,12 @@ Rails.application.routes.draw do
       
       collection do
         get :exports
+        get :quizzes
+        get :template_refilables
       end
       member do
         get :analytics_quiz
         get :summary
-        get :quizzes
-        get :refilables
       end
 
       resources :shared_attachments

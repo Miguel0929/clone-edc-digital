@@ -208,6 +208,89 @@ class Mentor::StudentsController < ApplicationController
     end
   end
 
+  def template_refilables
+
+    add_breadcrumb "<a href='#{mentor_students_path}'>Estudiantes</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{quizzes_mentor_students_path}'>Evaluaciones de estudiantes</a>".html_safe
+    
+    @groups = current_user.groups
+    @universities = University.where(id: current_user.groups.pluck(:university_id) )
+
+    @users = User.students.where('users.id in (?)', current_user.groups.joins(:students).pluck('users.id'))
+    if params[:status].present?
+      case params[:status]
+        when 'active'
+          @users = @users.where.not(invitation_accepted_at: nil)
+        when 'inactive'
+          @users = @users.where(invitation_accepted_at: nil)
+      end
+    end
+
+    if params[:group].present?
+      @users = @users.where(group: params[:group])
+    end
+
+    if params[:university].present?
+      @users = @users.joins(:group).where(groups: {university_id: params[:university]})
+    end
+
+    if params[:state].present?
+      @users = @users.joins(:group).where(groups: {state_id: params[:state]})
+    end
+
+    if params[:tipo].present?
+      @users = @users.joins(:group).where(groups: {category: params[:tipo]})
+    end
+
+    if params[:industria].present?
+      @users = @users.where(industry_id: params[:industria])
+    end
+    @users = @users.students_table.where('users.id in (?)', current_user.groups.joins(:students).pluck('users.id')).search_query(params[:query]) if params[:query].present?
+    
+    @users=@users.page(params[:page]).per(20)
+  end
+  
+  def quizzes
+    add_breadcrumb "<a href='#{mentor_students_path}'>Estudiantes</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{template_refilables_mentor_students_path}'>Plantillas de estudiantes</a>".html_safe
+    
+    @groups = current_user.groups
+    @universities = University.where(id: current_user.groups.pluck(:university_id) )
+
+    @users = User.students.where('users.id in (?)', current_user.groups.joins(:students).pluck('users.id'))
+    if params[:status].present?
+      case params[:status]
+        when 'active'
+          @users = @users.where.not(invitation_accepted_at: nil)
+        when 'inactive'
+          @users = @users.where(invitation_accepted_at: nil)
+      end
+    end
+
+    if params[:group].present?
+      @users = @users.where(group: params[:group])
+    end
+
+    if params[:university].present?
+      @users = @users.joins(:group).where(groups: {university_id: params[:university]})
+    end
+
+    if params[:state].present?
+      @users = @users.joins(:group).where(groups: {state_id: params[:state]})
+    end
+
+    if params[:tipo].present?
+      @users = @users.joins(:group).where(groups: {category: params[:tipo]})
+    end
+
+    if params[:industria].present?
+      @users = @users.where(industry_id: params[:industria])
+    end
+    @users = @users.students_table.where('users.id in (?)', current_user.groups.joins(:students).pluck('users.id')).search_query(params[:query]) if params[:query].present?
+    
+    @users=@users.page(params[:page]).per(20)
+  end  
+
   private
   def percentage_condition(percentage, count)
     case count
