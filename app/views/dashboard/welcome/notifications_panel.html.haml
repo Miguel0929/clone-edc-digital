@@ -31,73 +31,73 @@
                       Off/On e-mails	
                 %tbody
                   %tr
-                    %td
-                      Nuevo programa de aprendizaje
+                    %td.bold
+                      Nuevo programa de aprendizaje.
                     %td.text-center
                       %label.switch
                         %input#new_program{:type => "checkbox", checked: if @noti.new_program.first.nil? then true else @noti.new_program.first.status end, value: "0"}/
                         .slider.round
                   %tr
-                    %td
-                      Contenido nuevo en un programa de aprendizaje
+                    %td.bold
+                      Contenido nuevo en un programa de aprendizaje.
                     %td.text-center
                       %label.switch
                         %input#up_program{:type => "checkbox", checked: if @noti.up_program.first.nil? then true else @noti.up_program.first.status end, value: "1"}/
                         .slider.round
                   - if current_user.student?       
                     %tr
-                      %td
-                        Rúbrica de evaluacion actualizada
+                      %td.bold
+                        Rúbrica de evaluación actualizada.
                       %td.text-center
                         %label.switch
                           %input{:type => "checkbox", checked: if @noti.up_rubric.first.nil? then true else @noti.up_rubric.first.status end, value: "2"}/
                           .slider.round 
                   %tr
-                    %td
-                      Nuevo archivo compartido
+                    %td.bold
+                      Nuevo archivo compartido.
                     %td.text-center
                       %label.switch
                         %input{:type => "checkbox", checked: if @noti.shared_file.first.nil? then true else @noti.shared_file.first.status end, value: "3"}/
                         .slider.round
                   - if current_user.student?       
                     %tr
-                      %td
-                        Ruta de aprendizaje 
+                      %td.bold
+                        Ruta de aprendizaje .
                       %td.text-center
                         %label.switch
                           %input{type: "checkbox", checked: if @noti.up_ruta.first.nil? then true else @noti.up_ruta.first.status end, value: "4"}/
                           .slider.round
                     %tr
-                      %td
+                      %td.bold
                         Has sido evaluado
                       %td.text-center
                         %label.switch
                           %input{type: "checkbox", checked: if @noti.up_evaluation.first.nil? then true else @noti.up_evaluation.first.status end, value: "7"}/
                           .slider.round     
                     %tr
-                      %td
-                        Has completado el 95% del curso
+                      %td.bold
+                        Has completado el 95% del curso.
                       %td.text-center
                         %label.switch
                           %input{type: "checkbox", checked: if @noti.more95_student.first.nil? then true else @noti.more95_student.first.status end, value: "8"}/
                           .slider.round
                     %tr
-                      %td
-                        Has completado un curso
+                      %td.bold
+                        Has completado un curso.
                       %td.text-center
                         %label.switch
                           %input{type: "checkbox", checked: if @noti.complete_student.first.nil? then true else @noti.complete_student.first.status end, value: "9"}/
                           .slider.round
                     %tr
-                      %td
-                        Tu plantilla ha sido comentada
+                      %td.bold
+                        Tu plantilla ha sido comentada.
                       %td.text-center
                         %label.switch
                           %input{type: "checkbox", checked: if @noti.refilable_commented.first.nil? then true else @noti.refilable_commented.first.status end, value: "12"}/
                           .slider.round
                     %tr
-                      %td
-                        Rubrica de plantilla evaluada
+                      %td.bold
+                        Rúbrica de plantilla evaluada.
                       %td.text-center
                         %label.switch
                           %input{type: "checkbox", checked: if @noti.refilable_evaluated.first.nil? then true else @noti.refilable_evaluated.first.status end, value: "13"}/
@@ -105,19 +105,33 @@
 
                   - if current_user.mentor?
                     %tr
-                      %td
-                        Un alumno esta por completar un programa
+                      %td.bold
+                        Un alumno está por completar un programa.
                       %td.text-center
                         %label.switch
                           %input{type: "checkbox", checked: if @noti.more95_mentor.first.nil? then true else @noti.more95_mentor.first.status end, value: "10"}/
                           .slider.round
                     %tr
-                      %td
-                        Un alumno completo un programa
+                      %td.bold
+                        Un alumno completó un programa.
                       %td.text-center
                         %label.switch
                           %input{type: "checkbox", checked: if @noti.complete_mentor.first.nil? then true else @noti.complete_mentor.first.status end, value: "11"}/
-                          .slider.round                     
+                          .slider.round
+                    %tr
+                      %td.bold
+                        Un alumno contestó una pregunta clave.
+                      %td.text-center
+                        %label.switch
+                          %input{type: "checkbox", checked: if @noti.key_question.first.nil? then true else @noti.key_question.first.status end, value: "14"}/
+                          .slider.round
+                    %tr
+                      %td.bold
+                        Un alumno actualizó una pregunta.
+                      %td.text-center
+                        %label.switch
+                          %input{type: "checkbox", checked: if @noti.update_question.first.nil? then true else @noti.update_question.first.status end, value: "15"}/
+                          .slider.round                                                        
 #alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
     #al.alert.alert-info

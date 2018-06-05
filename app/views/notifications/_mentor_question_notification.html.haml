@@ -1,0 +1,11 @@
+- case notification.model.notification_type
+- when 'update_question'
+  - programa = notification.model.chapter_content.chapter.program	
+  %i.fa.fa-refresh.m-r-10
+  %span.fs-12.m-l-10
+    El alumno 
+    %strong
+      #{notification.model.user.name}
+    ha corregido una pregunta del programa
+    %strong
+      "#{programa.name}"      

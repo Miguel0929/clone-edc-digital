@@ -26,3 +26,12 @@
     ha respondido una pregunta clave del programa
     %strong
       "#{notification.model.program.name}"
+- when 'update_question'
+  %i.fa.fa-refresh.m-r-10
+  %span.fs-12.m-l-10
+    El alumno 
+    %strong
+      #{notification.model.user.name}
+    ha corregido una pregunta del programa
+    %strong
+      "#{notification.model.program.name}"      
