@@ -77,7 +77,7 @@ class Dashboard::ContentsController < ApplicationController
     chapter = @chapter_content.model
 
     if params[:answers].map{ |a| a[1][:answer_text]}.include?("")
-      redirect_to :back, alert: "debes contestar todas las preguntas"
+      redirect_to :back, alert: "Debes contestar todas las preguntas"
     else
       params[:answers].each_with_index do |answer, index|
         answer_text = answer[1][:answer_text]
@@ -92,6 +92,9 @@ class Dashboard::ContentsController < ApplicationController
         end
         resp.save
       end
+      program = @chapter_content.chapter.program
+      chap = @chapter_content.chapter
+      UpdateQuestionNotificationJob.perform_async(@chapter_content, current_user, mentor_evaluation_url(chap, user_id: current_user.id, program_id: program.id))
       redirect_to_next_content 
     end   
   end 

@@ -50,8 +50,10 @@ class Dashboard::NotificationsController < ApplicationController
           mentor_student_path(notification.model.user)
         elsif notification.model.complete?
           mentor_student_path(notification.model.user)
-        else
+        elsif notification.model.key_question?
           mentor_student_path(notification.model.user)
+        else 
+          mentor_student_path(notification.model.user) 
         end
       when 'RefilableNotification'
         notification.update(read: true) unless notification.read
@@ -59,7 +61,14 @@ class Dashboard::NotificationsController < ApplicationController
           resume_dashboard_template_refilable_path(notification.model.template_refilable)
         elsif notification.model.comment?
           resume_dashboard_template_refilable_path(notification.model.template_refilable)
-        end         
+        end
+      when 'MentorQuestionNotification'
+        notification.update(read: true) unless notification.read
+        if notification.model.update_question?
+          program = notification.model.chapter_content.chapter.program
+          chapter = notification.model.chapter_content.chapter
+          mentor_evaluation_path(chapter, user_id: notification.model.user.id, program_id: program.id)
+        end           
     end
 
     redirect_to path

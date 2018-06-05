@@ -1,4 +1,4 @@
 class PanelNotification < ActiveRecord::Base
   belongs_to :user
-  enum notification: ["new_program","up_program","up_rubric","shared_file","up_ruta","send_mess","reply_mess", "up_evaluation","more95_student","complete_student","more95_mentor","complete_mentor","refilable_commented","refilable_evaluated"]
+  enum notification: ["new_program","up_program","up_rubric","shared_file","up_ruta","send_mess","reply_mess", "up_evaluation","more95_student","complete_student","more95_mentor","complete_mentor","refilable_commented","refilable_evaluated", "key_question","update_question"]
 end

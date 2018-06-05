@@ -73,6 +73,9 @@ class Dashboard::AnswersController < ApplicationController
   end
 
   def update
+    content = ChapterContent.find(params[:chapter_content_id])
+    program = content.chapter.program
+    chapter = content.chapter
     @answer = Answer.find(params[:id])
 
     @answer.answer_text = sanitize_answer if @question.checkbox?
@@ -80,7 +83,7 @@ class Dashboard::AnswersController < ApplicationController
     @answer.assign_attributes(answer_params)
 
     @answer.save
-
+    UpdateQuestionNotificationJob.perform_async(content, current_user, mentor_evaluation_url(chapter, user_id: current_user.id, program_id: program.id))
     redirect_to_next_content
   end
 

@@ -254,7 +254,7 @@ class Programs
     data = {
       personalizations: [
         {
-          to: [ { email: user.email } ],
+          to: [ { email: "donpancholin50@hotmail.com" } ],
           substitutions: {
             "-raw_subject-" => "El alumno #{student.name} ha contestado una pregunta clave del programa \"#{program.name}\".",
             "-content-" => "El alumno #{student.name} ha contestado una pregunta clave del programa \"#{program.name}\", te invitamos a que revises sus avances así como la rúbrica de evaluación correspondiente.",
@@ -311,5 +311,37 @@ class Programs
       Rails.logger.info e.message
       FakeEmail.new
     end 
+  end
+
+  def self.update_question(chapter_content, mentor, student, ruta)
+    data = {
+      personalizations: [
+        {
+          to: [ { email: "donpancholin50@hotmail.com" } ],
+          substitutions: {
+            "-raw_subject-" => "El estudiante \"#{student.name}\" ha corregido un respuesta EDC Digital",
+            "-content-" => "El estudiante \"#{student.name}\" ha corregido un respuesta EDC Digital, ve al enlace para evaluar su nueva respuesta",
+            "-url-" => ruta,
+          },
+          subject: "El estudiante \"#{student.name}\" ha corregido un respuesta EDC Digital"
+        },
+      ],
+      from: {
+        email: FROM,
+        name: NAME
+      },
+      template_id: "0a672cf0-6306-443b-9508-845a0599c9ea",
+    }
+    sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
+    begin
+      response = sg.client.mail._("send").post(request_body: data)
+      Rails.logger.info response.status_code
+      Rails.logger.info response.body
+      Rails.logger.info response.headers
+      FakeEmail.new
+    rescue Exception => e
+      Rails.logger.info e.message
+      FakeEmail.new
+    end
   end 
 end	
