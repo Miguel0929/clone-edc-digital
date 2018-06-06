@@ -8,12 +8,12 @@
         .row.col-md-12
           .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
             %h2.text-white 
-              Tus alumnos
+              Estudiantes
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
-              Todos tus alumnos
+              Evaluaciones
             %p.m-b-25.text-white
-              Accede a la lista completa de los alumnos que son asesorados por ti. Monitorea sus avances en las evaluaciones de manera individual.
+              Accede a la lista completa de los alumnos. Monitorea sus avances en las evaluaciones de manera individual.
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
@@ -21,10 +21,10 @@
         .pull-right
           .btn-group{"role" => "group", "aria-label" => "..."}
             = link_to "Programas", mentor_students_path, class: 'btn btn-default'
-            = link_to "Plantillas", template_refilables_mentor_students_path, class: 'btn btn-default'
-            = link_to "Evaluaciones", quizzes_mentor_students_path, class: 'btn btn-default active'
+            = link_to "Plantillas", template_refilables_users_path, class: 'btn btn-default'
+            = link_to "Evaluaciones", quizzes_users_path, class: 'btn btn-default active'
       .pull-right#filters.row.inline-block
-        = form_tag(quizzes_mentor_students_path, method: :get) do
+        = form_tag(quizzes_users_path, method: :get) do
           %a#collap
             #headingfiltros.panel-title-recursos.font-montserrat.font-search.filter-padding.m-l-15.m-r-15
               %h4.panel-title.search-title.text-white.ver.heding-text-like
@@ -70,12 +70,6 @@
                     %i.fa.fa-industry
                     Industria:
                   = select_tag :industria, options_from_collection_for_select(Industry.all,:id,:name, params[:industria]), {include_blank: "Filtra por industria en la que emprendes", :style => "width: 200px;" }
-              .search-group
-                .col-md-3.col-sm-4.col-xs-12
-                  .s-s-title
-                    %i.fa.fa-file-text
-                    Evaluaciones:
-                  = select_tag :quiz, options_from_collection_for_select(Quiz.all,:id,:name, params[:quiz]), {include_blank: "Filtra por evaluacion contestadas", :style => "width: 200px;" }    
             .col-md-12.m-t-15.m-l-10
               %i.row
                 %i.fa.fa-asterisk.text-primary
@@ -106,7 +100,7 @@
             - @users.each_with_index do |student, index|
               - quizzes = student.group.all_quizzes rescue []
               - quizzes_total = quizzes.count
-              - progreso, total= student.answered_quizzes
+              - progreso, total = student.answered_quizzes
               - if quizzes_total == 0
                 - progreso = 0
               - else
@@ -114,7 +108,7 @@
               %tr
                 %td.p-b-20
                   .m-b-5
-                    = link_to student.name, mentor_student_path(student)
+                    = link_to student.name, user_path(student)
                   %ul.p-l-0.m-b-0
                     %li.inline 
                       %i.fa.fa-envelope
@@ -122,7 +116,7 @@
                       = student.email
                   %ul.p-l-0.m-b-0
                     %li.inline 
-                      = link_to summary_mentor_student_path(student) do
+                      = link_to summary_user_path(student) do
                         %i.fa.fa-bolt
                         Ver resumen
                 %td
@@ -134,7 +128,7 @@
                   %ul.list-inline.no-style.unstyled
                     - quizzes.each_with_index do |quiz, index|
                       %li 
-                        = link_to analytics_quiz_mentor_student_path(student, quiz_id: quiz) do
+                        = link_to analytics_quiz_user_path(student, quiz_id: quiz) do
                           
                           .label.program-labels{:class => "#{quiz.answered?(student) ? 'p-sides-14-2 label-success' : ''}", "data-toggle": "tooltip", "data-original-title": "#{quiz.name}"}
                             = "Ev-#{index}"

@@ -8,12 +8,18 @@
               Tus alumnos
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
-              Todos tus alumnos
+              Plantillas
             %p.m-b-25.text-white
-              Accede a la lista completa de los alumnos que son asesorados por ti. Monitorea sus avances totales y de cada curso de manera individual.
+              Accede a la lista completa de los alumnos que son asesorados por ti.  Monitorea sus avances en las plantillas de manera individual.
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
+      .row.p-r-10.p-b-30
+        .pull-right
+          .btn-group{"role" => "group", "aria-label" => "..."}
+            = link_to "Programas", mentor_students_path, class: 'btn btn-default'
+            = link_to "Plantillas", template_refilables_mentor_students_path, class: 'btn btn-default active'
+            = link_to "Evaluaciones", quizzes_mentor_students_path, class: 'btn btn-default'
       .pull-right#filters.row.inline-block
         = form_tag(template_refilables_mentor_students_path, method: :get) do
           %a#collap
@@ -61,6 +67,12 @@
                     %i.fa.fa-industry
                     Industria:
                   = select_tag :industria, options_from_collection_for_select(Industry.all,:id,:name, params[:industria]), {include_blank: "Filtra por industria en la que emprendes", :style => "width: 200px;" }
+              .search-group
+                .col-md-3.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-columns
+                    Plantillas:
+                  = select_tag :template_refilable, options_from_collection_for_select(@template_refilables ,:id,:name, params[:template_refilable]), {include_blank: "Filtra por plantillas contestadas", :style => "width: 200px;" }    
             .col-md-12.m-t-15.m-l-10
               %i.row
                 %i.fa.fa-asterisk.text-primary
@@ -129,8 +141,10 @@
                               %i.fa.fa-check
                     
 
-      %center
-        =paginate @users       
+      .pull-right
+        = paginate @users
+        %br
+        %span.text-center= page_entries_info @users      
 :javascript
   var x = true;
   $( "a#collap" ).click(function() {

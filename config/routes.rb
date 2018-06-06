@@ -262,6 +262,8 @@ Rails.application.routes.draw do
   resources :users, except: [:create] do
     collection do
       get :students
+      get :template_refilables
+      get :quizzes
       get :exports
     end
 
@@ -500,13 +502,20 @@ Rails.application.routes.draw do
   end
 
   namespace :profesor do
-    resources :groups, only: [:index, :show]
+    resources :groups, only: [:index, :show] do
+      member do
+        get :template_refilables
+        get :quizzes
+      end  
+    end  
     resources :students, only: [:index, :show] do
       resources :refilables, only: [:show, :edit, :update]
       resources :delireverable_users, only: [:edit, :update]
       resources :shared_attachments
       collection do
         get :exports
+        get :template_refilables
+        get :quizzes
       end
       member do
         get :analytics_quiz

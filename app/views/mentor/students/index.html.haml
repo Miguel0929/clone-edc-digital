@@ -18,6 +18,12 @@
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
+      .row.p-r-10.p-b-30
+        .pull-right
+          .btn-group{"role" => "group", "aria-label" => "..."}
+            = link_to "Programas", mentor_students_path, class: 'btn btn-default active'
+            = link_to "Plantillas", template_refilables_mentor_students_path, class: 'btn btn-default'
+            = link_to "Evaluaciones", quizzes_mentor_students_path, class: 'btn btn-default'
       .pull-right#filters.row.inline-block
         = form_tag(mentor_students_path, method: :get) do
           %a#collap
