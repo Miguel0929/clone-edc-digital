@@ -70,6 +70,12 @@
                     %i.fa.fa-industry
                     Industria:
                   = select_tag :industria, options_from_collection_for_select(Industry.all,:id,:name, params[:industria]), {include_blank: "Filtra por industria en la que emprendes", :style => "width: 200px;" }
+              .search-group
+                .col-md-3.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-file-text
+                    Evaluaciones:
+                  = select_tag :quiz, options_from_collection_for_select(Quiz.all,:id,:name, params[:quiz]), {include_blank: "Filtra por evaluacion contestadas", :style => "width: 200px;" }     
             .col-md-12.m-t-15.m-l-10
               %i.row
                 %i.fa.fa-asterisk.text-primary
