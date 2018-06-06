@@ -1,6 +1,7 @@
 class Mentor::RefilablesController < ApplicationController
   before_action :set_student
   before_action :my_students?, only: [:show, :edit]
+  before_action :require_admin_or_mentor
   before_action :set_refilable, only: [:show, :edit, :update]
   before_action :set_template_refilable, only: [:plantilla]
 

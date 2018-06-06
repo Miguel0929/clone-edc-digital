@@ -1,0 +1,158 @@
+- content_for :title  do
+  Estudiante - EDC Digital
+
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-recursos
+    .container-fluid
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Tus alumnos
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Evaluaciones
+            %p.m-b-25.text-white
+              Accede a la lista completa de los alumnos que son asesorados por ti. Monitorea sus avances en las evaluaciones de manera individual.
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      .row.p-r-10.p-b-30
+        .pull-right
+          .btn-group{"role" => "group", "aria-label" => "..."}
+            = link_to "Programas", profesor_students_path, class: 'btn btn-default'
+            = link_to "Plantillas", template_refilables_profesor_students_path, class: 'btn btn-default'
+            = link_to "Evaluaciones", quizzes_profesor_students_path, class: 'btn btn-default active'
+      .pull-right#filters.row.inline-block
+        = form_tag(quizzes_profesor_students_path, method: :get) do
+          %a#collap
+            #headingfiltros.panel-title-recursos.font-montserrat.font-search.filter-padding.m-l-15.m-r-15
+              %h4.panel-title.search-title.text-white.ver.heding-text-like
+                Ver Filtros de búsqueda
+          #ver_collap
+            .col-md-12.learning-img
+              %aside.sidebar-menu
+                /%h4.search-title Filtrar búsqueda:
+                .search-group
+                  .col-md-3.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-check-square-o
+                      Status:
+                    = select_tag :status, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:status]), {include_blank: "Filtra por status", :style => "width: 150px;"} 
+                .search-group
+                  .col-md-3.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-users
+                      Grupo:
+                    = select_tag :group, options_from_collection_for_select(@groups, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "" }
+                .search-group
+                  .col-md-3.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-university
+                      Universidad:
+                    = select_tag :university, options_from_collection_for_select(@universities, :id, :name, params[:university]), {include_blank: "Filtra por universidad", class: "" } 
+                .search-group
+                  .col-md-3.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-map-marker
+                      Estado:
+                    = select_tag :state, options_from_collection_for_select(State.all, :id, :name, params[:state]), {include_blank: "Filtra por estado", class: "" }
+            .col-md-12
+              .search-group
+                .col-md-3.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-graduation-cap
+                    Tipo de grupo:
+                  = select_tag :tipo,  options_for_select(['Escolarizado', ' Autodidacta digital', 'Presencial', 'Experiemental'], params[:tipo]), {include_blank: "Filtra por tipo de grupo", class: "" }
+              .search-group
+                .col-md-3.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-industry
+                    Industria:
+                  = select_tag :industria, options_from_collection_for_select(Industry.all,:id,:name, params[:industria]), {include_blank: "Filtra por industria en la que emprendes", :style => "width: 200px;"}
+              .search-group
+                .col-md-3.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-file-text
+                    Evaluaciones:
+                  = select_tag :quiz, options_from_collection_for_select(Quiz.all,:id,:name, params[:quiz]), {include_blank: "Filtra por evaluacion contestadas", :style => "width: 200px;" }     
+            .col-md-12.m-t-15.m-l-10
+              %i.row
+                %i.fa.fa-asterisk.text-primary
+                Utiliza los siguientes filtros para mejorar tus busquedas de estudiantes EDC-Digital.     
+            %br
+            %br
+            .col-md-12
+              = submit_tag 'Filtrar', class: "btn btn-default"
+      .pull-right.w-300
+        .col-xs-12
+          /%input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+          .form-group
+            %div.input-group
+              %input#mentor_students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+              %span.input-group-addon.panel-title-recursos
+                %i.fa.fa-search.text-white
+      .clearfix
+      .table-responsive   
+        %table.table.table-striped
+          %thead
+            %th{width: "27%"}
+              Datos del alumno
+            %th{width: "23%"}
+              Avances del alumno
+            %th
+              Evaluaciones
+          %tbody
+            - @users.each_with_index do |student, index|
+              - quizzes = student.group.all_quizzes rescue []
+              - quizzes_total = quizzes.count
+              - progreso, total= student.answered_quizzes
+              - if quizzes_total == 0
+                - progreso = 0
+              - else
+                - progreso = (total * 100) / (quizzes_total)  
+              %tr
+                %td.p-b-20
+                  .m-b-5
+                    = link_to student.name, profesor_student_path(student)
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %i.fa.fa-envelope
+                    %li.inline 
+                      = student.email
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      = link_to summary_profesor_student_path(student) do
+                        %i.fa.fa-bolt
+                        Ver resumen
+                %td
+                  .m-b-10
+                    %i.fa.fa-edit
+                    %span Evaluaciones contestadas:
+                    %strong #{progreso}%
+                %td
+                  %ul.list-inline.no-style.unstyled
+                    - quizzes.each_with_index do |quiz, index|
+                      %li 
+                        = link_to analytics_quiz_profesor_student_path(student, quiz_id: quiz) do
+                          
+                          .label.program-labels{:class => "#{quiz.answered?(student) ? 'p-sides-14-2 label-success' : ''}", "data-toggle": "tooltip", "data-original-title": "#{quiz.name}"}
+                            = "Ev-#{index}"
+                    
+
+      .pull-right
+        = paginate @users
+        %br
+        %span.text-center= page_entries_info @users      
+:javascript
+  var x = true;
+  $( "a#collap" ).click(function() {
+    $( "#ver_collap" ).toggle("slow");
+    x = !x;
+    if(x){
+      $(".ver").text("Ver Filtros de búsqueda");
+    } else {
+      $(".ver").text("Ocultar Filtros de búsqueda");
+    }
+    console.log(x);
+  });
