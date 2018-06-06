@@ -103,7 +103,7 @@
             - @users.each_with_index do |student, index|
               - template_refilables = student.group.all_refilables rescue []
               - if template_refilables == [] then ids = [] else ids = template_refilables.map{|x| x.id} end
-              - prog = Refilable.where(template_refilable_id: ids, user_id: student.id).count
+              - prog = Refilable.where(template_refilable_id: ids.uniq, user_id: student.id).count
               - if prog == 0
                 - progreso = 0
               - else 
