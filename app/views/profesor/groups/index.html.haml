@@ -44,6 +44,14 @@
                     = link_to profesor_group_path(group) do
                       %i.fa.fa-eye
                       Ir a detalle de grupo
+                  %li.inline 
+                    = link_to template_refilables_profesor_group_path(group) do
+                      %i.fa.fa-pencil
+                      Ir a plantillas del grupo
+                  %li.inline 
+                    = link_to quizzes_profesor_group_path(group) do
+                      %i.fa.fa-file-text-o
+                      Ir a evaluaciones del grupo      
                 %ul.p-l-0.m-b-10
                   %li.inline 
                     = link_to progress_panel_path(group) do

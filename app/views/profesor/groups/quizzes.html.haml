@@ -15,7 +15,7 @@
           .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
               Monitorea el avance de los grupos a los que estás vinculado, así como el avance de cada alumno. 
-            = link_to mentor_groups_path, class: 'btn btn-sm btn-complete btn-cons m-b-10' do
+            = link_to  mentor_groups_path, class: 'btn btn-sm btn-complete btn-cons m-b-10' do
               %i.fa.fa-reply
               %span.bold Regresar a mis grupos
 
@@ -28,9 +28,9 @@
         .col-md-12
           .pull-right
             .btn-group{"role" => "group", "aria-label" => "..."}
-              = link_to "Programas", mentor_group_path(@group), class: 'btn btn-default'
-              = link_to "Plantillas", template_refilables_mentor_group_path(@group), class: 'btn btn-default'
-              = link_to "Evaluaciones", quizzes_mentor_group_path(@group), class: 'btn btn-default active'
+              = link_to "Programas", profesor_group_path(@group), class: 'btn btn-default'
+              = link_to "Plantillas", template_refilables_profesor_group_path(@group), class: 'btn btn-default'
+              = link_to "Evaluaciones", quizzes_profesor_group_path(@group), class: 'btn btn-default active'
       .row.m-b-20
         .col-md-12
           %h5
@@ -98,7 +98,7 @@
               %tr
                 %td.p-b-20
                   .m-b-5
-                    = link_to student.name, mentor_student_path(student)
+                    = link_to student.name, profesor_student_path(student)
                   %ul.p-l-0.m-b-0
                     %li.inline 
                       %i.fa.fa-envelope
@@ -106,7 +106,7 @@
                       = student.email
                   %ul.p-l-0.m-b-0
                     %li.inline 
-                      = link_to summary_mentor_student_path(student) do
+                      = link_to summary_profesor_student_path(student) do
                         %i.fa.fa-bolt
                         Ver resumen
                 %td
@@ -118,7 +118,7 @@
                   %ul.list-inline.no-style.unstyled
                     - @quizzes.each_with_index do |quiz, index|
                       %li 
-                        = link_to analytics_quiz_mentor_student_path(student, quiz_id: quiz) do
+                        = link_to analytics_quiz_profesor_student_path(student, quiz_id: quiz) do
                           
                           .label.program-labels{:class => "#{quiz.answered?(student) ? 'p-sides-14-2 label-success' : ''}", "data-toggle": "tooltip", "data-original-title": "#{quiz.name}"}
                             = "Ev-#{index}"

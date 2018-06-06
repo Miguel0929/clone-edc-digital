@@ -451,10 +451,12 @@ class User < ActiveRecord::Base
   def answered_quizzes
     total = 0
     results = []
-    self.group.all_quizzes.each do |quiz|
-      if quiz.answered(self) > 0 
-        total += 1
-        results.push( (quiz.average(self).to_f / quiz.total_points.to_f * 100).ceil )
+    if !self.group.nil?
+      self.group.all_quizzes.each do |quiz|
+        if quiz.answered(self) > 0 
+          total += 1
+          results.push( (quiz.average(self).to_f / quiz.total_points.to_f * 100).ceil )
+        end
       end
     end
     average = results.inject(0.0) { |sum, el| sum + el } / results.size
