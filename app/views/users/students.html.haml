@@ -17,7 +17,13 @@
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
-    .panel-body   
+    .panel-body
+      .row.p-r-10.p-b-30
+        .pull-right
+          .btn-group{"role" => "group", "aria-label" => "..."}
+            = link_to "Programas", students_users_path, class: 'btn btn-default active'
+            = link_to "Plantillas", template_refilables_users_path, class: 'btn btn-default'
+            = link_to "Evaluaciones", quizzes_users_path, class: 'btn btn-default'   
       .pull-right#filters.row.inline-block
         - if current_user.admin?
           = form_tag(students_users_path, method: :get) do
