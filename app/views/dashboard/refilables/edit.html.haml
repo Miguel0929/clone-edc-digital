@@ -43,6 +43,14 @@
                     Cancelar
                   %button.btn.btn-primary#send-refilable
                     Actualizar respuestas
+#alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-danger
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      .alert-text
+        Debes contestar todos los espacios.                    
 
 /.container-fluid.container-fixed-lg
 /  .panel.panel-default
@@ -71,21 +79,26 @@
     $('.refilable-edit').addClass('form-control refilable-input');
 
     $('#send-refilable').click(function() {
-
+      var enviar = true;
       $('.refilable-edit').each(function() {
         if ($(this).text() == "" || $(this).text() == " (sin respuesta) ") {
           $(this).removeClass('present-answer');
           $(this).addClass('no-answer');
+          enviar = false;
         } else {
           $(this).removeClass('no-answer');
           $(this).addClass('present-answer');
         }
       });
-
-      var $form = $('.edit_refilable');
-      var $template_content = $('#refilable-content-template');
-      $('#refilable_content').val($template_content.html());
-
-      $form.submit();
+      if (enviar){
+        var $form = $('.edit_refilable');
+        var $template_content = $('#refilable-content-template');
+        $('#refilable_content').val($template_content.html());
+        $form.submit();
+      }else{
+        $("#alert-ra").css('display','block');
+        setTimeout(function(){$("#alert-ra").css('display','none');},4000);
+      }
+      
     })
   });
