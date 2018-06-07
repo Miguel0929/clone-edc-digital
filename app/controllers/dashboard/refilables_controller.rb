@@ -19,13 +19,17 @@ class Dashboard::RefilablesController < ApplicationController
   end
 
   def create
-    refilable = @template.refilables.new(refilable_params)
-    refilable.user = current_user
-    refilable.save
+    if @template.refilables.where(user_id: current_user.id).first.nil?
+      refilable = @template.refilables.new(refilable_params)
+      refilable.user = current_user
+      refilable.save
 
-    AnsweredRefilableNotificationJob.perform_async(@template.program, @template, "soporte2@edc-digital.com", current_user, mentor_student_url(current_user))
+      AnsweredRefilableNotificationJob.perform_async(@template.program, @template, "soporte2@edc-digital.com", current_user, mentor_student_url(current_user))
 
-    redirect_to dashboard_template_refilables_path, notice: 'Plantilla contestada'
+      redirect_to dashboard_template_refilables_path, notice: 'Plantilla contestada'
+    else
+      redirect_to dashboard_template_refilables_path, alert: 'La plantilla ya estaba contestada previemiente.'
+    end  
   end
 
   def show

@@ -42,14 +42,21 @@
                 .refilable-form
                   = form_for([:dashboard, @template, Refilable.new]) do |f|
                     = f.hidden_field :content
-                - if current_user.student? || current_user.mentor?
-                  .pull-right
-                    = link_to dashboard_template_refilables_path, class: "btn btn-danger" do
-                      Cancelar
-                    %button.btn.btn-primary#send-refilable
-                      Enviar respuestas
-
-
+                .row    
+                  - if current_user.student? || current_user.mentor?
+                    .pull-right
+                      = link_to dashboard_template_refilables_path, class: "btn btn-danger" do
+                        Cancelar
+                      %button.btn.btn-primary#send-refilable
+                        Enviar respuestas
+#alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
+  .pgn.push-on-sidebar-open.pgn-simple
+    #al.alert.alert-danger
+      %button.close{"data-dismiss" => "alert", :type => "button"}>
+        %span{"aria-hidden" => "true"} ×
+        %span.sr-only Close
+      .alert-text
+        Debes contestar todos los espacios.
 
 :javascript
   $(document).on('turbolinks:load', function(){
@@ -59,18 +66,25 @@
 
     $('#send-refilable').click(function() {
 
+      var enviar = true;
       $('.refilable-edit').each(function() {
         if ($(this).text() == "" || $(this).text() == " (sin respuesta) ") {
           $(this).addClass('no-answer');
+            enviar = false
         } else {
           $(this).addClass('present-answer');
         }
       });
+      if (enviar){
+        var $form = $('#new_refilable');
+        var $template_content = $('#refilable-content-template');
+        $('#refilable_content').val($template_content.html());
 
-      var $form = $('#new_refilable');
-      var $template_content = $('#refilable-content-template');
-      $('#refilable_content').val($template_content.html());
+        $form.submit();
+      }else{
+        $("#alert-ra").css('display','block');
+        setTimeout(function(){$("#alert-ra").css('display','none');},4000);
+      }
 
-      $form.submit();
     })
   });
