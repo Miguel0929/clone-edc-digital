@@ -1,6 +1,6 @@
 - unless notification.model.nil? 
   - if notification.notificable_type == "CommentNotification"
-    - unless notification.model.comment.question.nil?
+    - if !notification.model.comment.question.nil? && !notification.model.comment.nil?
       .notification-item.clearfix{class: "#{notification.read ? '':'unread'}"}
         .heading
           %a.pull-left{:href => dashboard_notification_path(notification)}

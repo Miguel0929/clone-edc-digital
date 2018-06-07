@@ -3,6 +3,7 @@ class Comment < ActiveRecord::Base
   belongs_to :answer
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
   belongs_to :question
+  has_many :comment_notifications
 
   validates_presence_of :content
   after_create :create_notification
