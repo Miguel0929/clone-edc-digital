@@ -8,7 +8,9 @@ class LearningPathsController < ApplicationController
   add_breadcrumb "EDCDIGITAL", :root_path
   def index
     add_breadcrumb "<a href='#{learning_paths_path}' class='active'>Rutas de aprendizaje</a>".html_safe
-    @learning_path = LearningPath.all
+    @pag_max = 40
+
+    @learning_path = LearningPath.all.page(params[:page]).per(@pag_max)
   end
   def new
     add_breadcrumb "Ruta de aprendizaje", :learning_paths_path

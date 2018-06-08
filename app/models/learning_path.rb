@@ -8,7 +8,7 @@ class LearningPath < ActiveRecord::Base
     	[['Fisica', 'fisica'], ['Moral', 'moral']]
   	end
 	def count_programs
-		return self.learning_path_contents.count
+		return self.learning_path_contents.where(content_type: "Program").count + self.learning_path_contents.where(content_type: "DelireverablePackage").count
 	end
 	def count_groups
 		if self.tipo == "fisica"
