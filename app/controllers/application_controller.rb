@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   layout :layout_by_resource
   helper_method :xeditable?
 
+
   def xeditable? object = nil
     true
   end

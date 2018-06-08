@@ -15,9 +15,9 @@
     = f.submit 'Aceptar'
 
 :javascript
-  $( document ).on('turbolinks:load', function() {
-
-    var editor = CKEDITOR.replace('ckeditor')
+  document.addEventListener("turbolinks:load", function() {
+ 
+    var editor = CKEDITOR.replace('ckeditor');
 
     editor.addCommand("addVideoFrame", {
       exec: function(edt) {
