@@ -14,7 +14,7 @@
 
   div.dialog {
     width: 95%;
-    max-width: 33em;
+    max-width: 50em;
     margin: 4em auto 0;
   }
 
@@ -23,7 +23,7 @@
     border-right-color: #999;
     border-left-color: #999;
     border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
+    border-top: #6d5cae solid 4px;
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
     background-color: white;
@@ -33,7 +33,6 @@
 
   h1 {
     font-size: 100%;
-    color: #730E15;
     line-height: 1.5em;
   }
 
@@ -51,17 +50,56 @@
     color: #666;
     box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
   }
+
+  .topnav {
+    overflow: hidden;
+    background-color: #fff;
+  }
+
+  .topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .footer {
+     position: fixed;
+     left: 0;
+     bottom: 0;
+     width: 100%;
+     background-color: #fff;
+     color: #626262;
+     text-align: center;
+  }
+
+</style>
   </style>
 </head>
-
 <body>
-  <!-- This file lives in public/404.html -->
+  <div class="topnav">
+    <a href="/">
+      <img height="35" src="/assets/logo-edc-color-horizontal-840f6cf5c0bef314cb7b61393be532d519ec4b4beba1d0094cd1112ae40f99c4.png" alt="Logo edc color horizontal" />
+    </a>
+  </div>
   <div class="dialog">
     <div>
-      <h1>The page you were looking for doesn't exist.</h1>
-      <p>You may have the address or the page may have moved.</p>
+      <h1>La página que buscas no existe.</h1>
+      <p>La dirección de ésta página no existe o ha sido eliminada</p>
+      <a href="/">
+        <img height="35" src="/assets/logo-edc-color-horizontal-840f6cf5c0bef314cb7b61393be532d519ec4b4beba1d0094cd1112ae40f99c4.png" alt="Logo edc color horizontal" />
+      </a>
     </div>
-    <p>If you are the application owner check the logs for more information.</p>
+    
+  </div>
+  <div class="footer">
+    <p>Copyright © 2016 <strong>Distrito Emprendedor.</strong> Todos los derechos reservados.</p>
   </div>
 </body>
 </html>
