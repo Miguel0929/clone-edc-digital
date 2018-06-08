@@ -9,7 +9,7 @@ class GroupsController < ApplicationController
 
   def index
     add_breadcrumb "<a class='active' href='#{groups_path}'>Grupos</a>".html_safe
-    @pag_max = 10
+    @pag_max = 40
 
     @groups = Group.all.page(params[:page]).per(@pag_max)
     @groups = Group.all.group_search(params[:query]).page(params[:page]).per(@pag_max) if params[:query].present? 

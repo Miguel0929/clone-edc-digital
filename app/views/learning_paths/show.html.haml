@@ -30,52 +30,7 @@
           %center                
             %button.btn.btn-primary{"data-target" => "#addProgram", "data-toggle" => "modal", :type => "button"}
               Agregar Programa
-      .panel.panel-default
-        .panel-heading
-          %h3.panel-title Evaluaciones
-        .panel-body
-          #cont_sortable_quizzes.sortable3{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
-            - @c_quizzes.each do |quiz|
-              .panel-group{id: "content_#{quiz.id}"}
-                .panel.panel-default
-                  .panel-heading
-                    %span.handle-sort
-                      [mover]
-                    .pull-right  
-                      = link_to learning_path_learning_path_content_path(@learning_path, quiz), method: :delete, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Elimiar' do
-                        %span.glyphicon.glyphicon-remove
-     
-                    %h3.panel-title
-                      = quiz.model.name
-                      .pull-right
-                        %span.label.label-info
-                          Evaluación                  
-          %center                
-            %button.btn.btn-primary{"data-target" => "#addQuiz", "data-toggle" => "modal", :type => "button"}
-              Agregar Evaluación
-      .panel.panel-default
-        .panel-heading
-          %h3.panel-title Plantillas
-        .panel-body
-          #cont_sortable_refilables.sortable3{'data-update-url'=> url_prod_helper( sort_learning_path_learning_path_contents_path(@learning_path))}
-            - @c_refilables.each do |refilable|
-              .panel-group{id: "content_#{refilable.id}"}
-                .panel.panel-default
-                  .panel-heading
-                    %span.handle-sort
-                      [mover]
-                    .pull-right  
-                      = link_to learning_path_learning_path_content_path(@learning_path, refilable), method: :delete, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Elimiar' do
-                        %span.glyphicon.glyphicon-remove
-     
-                    %h3.panel-title
-                      = refilable.model.name
-                      .pull-right
-                        %span.label.label-info
-                          Plantilla                  
-          %center                
-            %button.btn.btn-primary{"data-target" => "#addRefilable", "data-toggle" => "modal", :type => "button"}
-              Agregar Plantilla
+      
       .panel.panel-default
         .panel-heading
           %h3.panel-title Entregables
