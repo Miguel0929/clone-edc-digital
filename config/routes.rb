@@ -376,7 +376,9 @@ Rails.application.routes.draw do
         end
       end
     end
+
     resources :trainees, only: [:index]
+    resources :tickets, only: [:index]
 
   end
 
@@ -444,6 +446,8 @@ Rails.application.routes.draw do
   post '/save_program_stats' => 'program_stats#post'
   post '/save_program_active' => 'program_actives#post', as: :save_program_active
   get '/generate_group_stats/:id' => 'group_stats#post', as: :generate_group_stats
+  post '/switch_ticket_status' => 'tickets#switch'
+  post '/generate_ticket' => 'tickets#generate_ticket'
 
   resources :universities do
     collection do
@@ -544,4 +548,6 @@ Rails.application.routes.draw do
       get :uploading_status
     end
   end
+
+  resources :tickets, only: [:index]
 end

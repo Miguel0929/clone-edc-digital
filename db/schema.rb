@@ -777,6 +777,17 @@ ActiveRecord::Schema.define(version: 20180604214158) do
 
   add_index "template_refilables", ["program_id"], name: "index_template_refilables_on_program_id", using: :btree
 
+  create_table "tickets", force: :cascade do |t|
+    t.integer  "element_id"
+    t.integer  "coach_id"
+    t.integer  "trainee_id"
+    t.integer  "category"
+    t.string   "title"
+    t.boolean  "closed",     default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
   create_table "trackers", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "chapter_content_id"

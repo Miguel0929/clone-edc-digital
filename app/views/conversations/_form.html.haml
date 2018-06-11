@@ -10,9 +10,14 @@
 			= f.label 'Mis grupos'
 			= f.select :group_recipients, @groups.collect {|g|[g.name, g.id]}, {include_blank: "grupos..."}, multiple: 'multiple', class: "form-control js-example-basic-single"
 	- else 
-		.form-group
-			= f.label 'Mis Profesores'
-			= f.select(:recipients, @contacts.collect {|p|[p.name, p.id]},{include_blank: "contactos..."},{class: "form-control js-example-basic-single", required: true })
+		- if current_user.coach.nil?
+			.form-group
+				= f.label 'Mis Profesores'
+				= f.select(:recipients, @contacts.collect {|p|[p.name, p.id]},{include_blank: "contactos..."},{class: "form-control js-example-basic-single", required: true })
+		- else
+			.form-group
+				= f.label 'Este mensaje será enviado a tus mentores'
+				= f.hidden_field :recipients, :value => current_user.coach.id
 	.form-group
 		= f.label :asunto
 		= f.text_field :subject, class: "form-control", required: true 

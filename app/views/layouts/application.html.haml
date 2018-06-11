@@ -193,15 +193,63 @@
                     %span.icon-thumbnail Me
                   %li
                     %a{:href => dashboard_template_refilables_path} Mis plantillas
-                    %span.icon-thumbnail Mp      
-            = display_navbar_link({link: 'Grupos', details: 'Grupos a los que tienes acceso' ,path: mentor_groups_path, css: [''], icon: 'fa fa-users', role: [:mentor]})
-            = display_navbar_link({link: 'Estudiantes', details: 'Estudiantes de la plataforma' ,path: mentor_students_path, icon: 'fa fa-book', role: [:mentor]})
-            = display_navbar_link({link: 'Aprendices', details: 'Aprendices de la plataforma' ,path: mentor_trainees_path, icon: 'fa fa-graduation-cap', role: [:mentor]})
-            = display_navbar_link({css: [], link: 'Panel de progreso', details: 'Progreso de estudiantes' ,path: progress_panel_index_path, icon: 'fa fa-line-chart', role: [:mentor]})
-            = display_navbar_link({css: [], link: 'Panel de analíticos', details: 'Progreso en programas' ,path: analytics_panel_index_path, icon: 'fa fa-tachometer', role: [:mentor]})
-            = display_navbar_link({link: 'Archivos compartidos', details: 'Archivos compartidos' ,path: mentor_shared_group_attachments_path, icon: 'fa fa-file', role: [:mentor]})
-            = display_navbar_link({css: [], link: 'Mensajes', details: 'Mensajes con estudiantes' ,path: mailbox_inbox_path, icon: 'fa fa-comment', role: [:mentor]})
-            = display_navbar_link({css: [], link: 'Panel de notificaciones', details: 'Administra tus emails' ,path: dashboard_notifications_panel_path, icon: 'fa fa-columns', role: [:mentor]})
+                    %span.icon-thumbnail Mp 
+              %li.extra-bottom-4
+                %a{:href => "javascript:;"}
+                  %span.title Mi mentoría
+                  %span.arrow
+                %span.icon-thumbnail
+                  %i.fa.fa-graduation-cap
+                %ul.sub-menu
+                  %li
+                    %a{:href => mentor_groups_path} Grupos
+                    %span.icon-thumbnail Gr  
+                    /fa-users
+                  %li
+                    %a{:href => mentor_students_path} Estudiantes
+                    %span.icon-thumbnail Es   
+                    /fa-child
+                  %li
+                    %a{:href => mentor_trainees_path} Aprendices
+                    %span.icon-thumbnail Es 
+                    /fa-graduation-cap
+                  %li
+                    %a{:href => mentor_tickets_path} Tickets
+                    %span.icon-thumbnail Tk 
+              %li.extra-bottom-4
+                %a{:href => "javascript:;"}
+                  %span.title Avances de usuarios
+                  %span.arrow
+                %span.icon-thumbnail
+                  %i.fa.fa-line-chart
+                %ul.sub-menu
+                  %li
+                    %a{:href => progress_panel_index_path} Panel de progreso
+                    %span.icon-thumbnail Pp 
+                    /fa-line-chart
+                  %li
+                    %a{:href => analytics_panel_index_path} Panel de analíticos
+                    %span.icon-thumbnail Pa  
+                    /fa-tachometer
+              %li.extra-bottom-4
+                %a{:href => "javascript:;"}
+                  %span.title Comunicación
+                  %span.arrow
+                %span.icon-thumbnail
+                  %i.fa.fa-comment
+                %ul.sub-menu
+                  %li
+                    %a{:href => mailbox_inbox_path} Mensajes
+                    %span.icon-thumbnail Ms
+                    /fa-comment
+                  %li
+                    %a{:href => mentor_shared_group_attachments_path} Archivos compartidos
+                    %span.icon-thumbnail Ac
+                    /fa-file
+                  %li
+                    %a{:href => dashboard_notifications_panel_path} Panel de notificaciones
+                    %span.icon-thumbnail Pa
+                    /fa-columns
             = display_navbar_link({css: [], link: 'Mapa del sitio', details: 'Mapa de EDCdigital' ,path:  mentor_sitemap_index_path, icon: 'fa fa-map', role: [:mentor]})
 
             / profesor
