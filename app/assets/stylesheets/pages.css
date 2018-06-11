@@ -195,3 +195,25 @@ input:checked + .slider.slider-small:before {
 .hintish{
   color: #D8DADC;
 }
+
+input[type='checkbox'].double-sized-checkbox {
+  zoom: 1.5;
+  transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+  -o-transform: scale(1.5);
+  -moz-transform: scale(1.5);
+  transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+}
+
+label.zoomed-checkbox {
+  font-size: 13px !important;
+  position: relative;
+  top: 4px;
+  left: 12px;
+}
