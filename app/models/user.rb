@@ -703,8 +703,8 @@ class User < ActiveRecord::Base
       rubricas = UserEvaluationRefilable.where(evaluation_refilable_id: rubricas, user_id: self.id)
       revisiones = 0
       rubricas.each do |rev|
-        p total_puntos = rev.evaluation_refilable.points
-        p puntaje = rev.puntaje
+        total_puntos = rev.evaluation_refilable.points
+        puntaje = rev.puntaje
 
         revisiones += (puntaje*100)/total_puntos rescue 0
       end  
