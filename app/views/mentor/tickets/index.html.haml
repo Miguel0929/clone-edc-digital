@@ -1,0 +1,85 @@
+- content_for :title  do
+  Tickets - EDC Digital
+
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30.panel-title-recursos
+    .container-fluid
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Tus tickets
+          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              Seguimiento para tus alumnos
+            %p.m-b-25.text-white
+              Accede a la lista completa de tus tickets para que puedas dar seguimiento a todos tus alumnos. Administra tus tickets pendientes aquí mismo.
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .pull-right
+        .col-xs-12
+          .form-group
+            %div.input-group
+              = form_tag(mentor_tickets_path, method: :get) do
+                = text_field_tag :query, "", class: "form-control text-black", :placeholder => "Buscar"
+              %span.input-group-addon.panel-title-recursos
+                %i.fa.fa-search.text-white
+      .clearfix
+    .panel-body
+      .widget-11-table.auto-overflow
+        %table.table.table-condensed.table-hover
+          %tbody
+            %tr
+              %td.font-montserrat.b-r.b-dashed.b-grey{width: "50%"}
+              %td.text-center.b-r.b-dashed.b-grey
+                Aprendiz
+              %td.text-center.b-r.b-dashed.b-grey
+                Tipo
+              %td.text-center
+                Estado
+            - @tickets.each do |ticket|
+              %tr
+                %td.font-montserrat.all-caps.b-r.b-dashed.b-grey
+                  - case ticket.category
+                  - when "inbox"
+                    = link_to (ticket.title.nil? ? "Sin título" : ticket.title.truncate(60, separator: ' ')), conversation_path(ticket.element_id), target: :_blank
+                  - when "plantilla"
+                    = link_to (ticket.title.nil? ? "Sin título" : ticket.title.truncate(60, separator: ' ')), mentor_student_refilable_path(student_id: ticket.trainee_id, id: ticket.element_id), target: :_blank
+                %td.text-center.b-r.b-dashed.b-grey
+                  %span.font-montserrat
+                    = link_to User.find(ticket.trainee_id).email, mentor_student_path(ticket.trainee_id), target: :_blank
+                %td.text-center.b-r.b-dashed.b-grey
+                  %span.font-montserrat
+                    - case ticket.category
+                    - when "inbox"
+                      %i.fa.fa-envelope
+                    - when "plantilla"
+                      %i.fa.fa-server
+                    = ticket.category.capitalize
+                %td.text-center
+                  %span.font-montserrat
+                    %button.btn.btn-sm.btn-complete{class: ticket.closed ? "active focus" : "", id: "ticket_" + ticket.id.to_s, type: "button", "data-toggle": "button"}
+                      = ticket.closed ? "Ticket cerrado" : "Ticket abierto"
+              :javascript
+                $("#ticket_" + #{ticket.id}).click(function() {
+                  var ticketJSON = #{ticket.to_json}
+                  var isClosed = ticketJSON["closed"];
+                  $.ajax({
+                    type: "POST",
+                    dataType:'json',
+                    url: "/switch_ticket_status",
+                    data: {"element_id": ticketJSON["element_id"], "category": ticketJSON["category"]},
+                    success: function() {
+                      if (isClosed) { $("#ticket_" + #{ticket.id}).html("Ticket abierto"); } else { $("#ticket_" + #{ticket.id}).html("Ticket cerrado"); }
+                    },
+                    error: function(){
+                      console.log("Ups, esto es vergonzoso...");
+                    }
+                  })
+                });
+        .pull-right
+          = paginate @tickets
+          %br
+          %span.text-center= page_entries_info @tickets

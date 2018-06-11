@@ -22,9 +22,9 @@ class TicketsController < ApplicationController
     coach = params[:coach_id].to_i
     category = params[:category]
     ticket = Ticket.find_by(element_id: element, category: category)
-
-    if category == 0
-      title = "Nuevo mensaje de alumno: " + (Mailboxer::Conversation.find(element).subject[0..50].gsub(/\s\w+$/,'...'))
+    
+    if category == "0"
+      title = "Nuevo mensaje de alumno: " + (Mailboxer::Conversation.find(element).subject)
     end
 
     if ticket.nil?

@@ -16,6 +16,7 @@ class ConversationsController < ApplicationController
           @contacts.push(s)
         end  
       end
+      @contacts = @contacts.push(current_user.trainees).flatten.uniq
     end
     if current_user.student?
       @contacts=current_user.group.users.collect
@@ -63,9 +64,7 @@ class ConversationsController < ApplicationController
     if message_params[:attachment].nil?
       current_user.reply_to_conversation(conversation, message_params[:body])
       auto_ticket(conversation)
-      puts "ah cabrón"
-      puts message_params[:close_ticket]
-      puts message_params[:close_ticket].class
+
       if message_params[:close_ticket] == 'true'
         close_ticket(conversation)
       end
@@ -125,11 +124,11 @@ class ConversationsController < ApplicationController
       if conversation.participants.map{|p| p.id}.include?(current_user.coach.id)
         prev_ticket = Ticket.find_by(element_id: conversation.id, coach_id: current_user.coach.id, trainee_id: current_user.id, category: 0)
         if prev_ticket.nil?
-          title = "Nuevo mensaje de alumno: " + (conversation.subject[0..50].gsub(/\s\w+$/,'...'))
+          title = "Nuevo mensaje de alumno: " + (conversation.subject)
           ticket = Ticket.new(element_id: conversation.id, coach_id: current_user.coach.id, trainee_id: current_user.id, category: 0, title: title, closed: false)
           ticket.save
         else
-          title = "Han respondido tu mensaje: " + (conversation.subject[0..50].gsub(/\s\w+$/,'...'))
+          title = "Han respondido tu mensaje: " + (conversation.subject)
           prev_ticket.update(closed: false, title: title)
         end
       end

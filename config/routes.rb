@@ -373,7 +373,9 @@ Rails.application.routes.draw do
         end
       end
     end
+
     resources :trainees, only: [:index]
+    resources :tickets, only: [:index]
 
   end
 
@@ -536,4 +538,6 @@ Rails.application.routes.draw do
       get :uploading_status
     end
   end
+
+  resources :tickets, only: [:index]
 end
