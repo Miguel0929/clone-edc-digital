@@ -3,12 +3,16 @@
     %span.handle-sort
       [mover]
     %span.bold
-      Contenedor
+      #{content.name}
     .pull-right
+      %span.option.p-r-10.p-l-10
+        %a.cursor{"role" => "button", "data-toggle"=>"modal", "data-target"=>"#editContent", "onclick"=> "edit_content(#{chapter.id}, #{content.to_json})"}
+          %i.fa.fa-pencil-square-o
+          Editar nombre
       %span.option.p-r-10.p-l-10
         %a.cursor{"role" => "button", "data-toggle"=>"collapse", "href"=>"#contenedor_#{content.get_cc_chapter.id}", "aria-expanded"=>"false", "aria-controls"=>"collapse"}
           %i.fa.fa-eye
-          Ver contenidos   
+          Ver contenidos       
       %span.option.p-r-10.p-l-10
         = link_to clone_chapter_contents_chapter_path(chapter, content), method: :post, data: {confirm: '¿Estás seguro?'} do
           %i.fa.fa-copy
