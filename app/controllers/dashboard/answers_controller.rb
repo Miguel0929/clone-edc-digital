@@ -4,6 +4,7 @@ class Dashboard::AnswersController < ApplicationController
   before_action :set_chapter_content
   before_action :validate_coursable_type
   before_action :build_question
+  before_action :is_answered?, only: [:new]
   after_action :update_program_stats, only: [:create, :update]
   after_action only: [:create, :update] do |c|
     c.send(:diagnostic_test_process, params[:chapter_content_id])
@@ -91,6 +92,13 @@ class Dashboard::AnswersController < ApplicationController
   def set_chapter_content
     @chapter_content = ChapterContent.find(params[:chapter_content_id])
   end
+
+  def is_answered?
+    answer = @question.answers.find_by(user: current_user, question: @question)
+    unless answer.nil?
+      redirect_to dashboard_chapter_content_answer_path(@chapter_content, answer)
+    end  
+  end  
 
   def validate_coursable_type
     redirect_to root_url unless @chapter_content.coursable_type == 'Question'

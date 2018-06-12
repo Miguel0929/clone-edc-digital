@@ -1,0 +1,10 @@
+.well
+  = bootstrap_form_tag(url: chapter_contents_chapters_path(@chapter), method: :post, :html =>{id: "form_content"}) do |f|
+    = f.text_field :name, label: 'Nombre del módulo'
+    %button.btn.btn-danger{"data-dismiss" => "modal", :type => "button"} Cancelar
+    = f.submit 'Aceptar', id: "submit_content"
+:javascript
+  $("#form_content").submit(function () {
+      $("#submit_content").attr("disabled", true);
+      return true;
+  });    

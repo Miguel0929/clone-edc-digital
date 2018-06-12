@@ -194,7 +194,7 @@
                                 - elsif content.coursable_type == 'Question'
                                   = link_to truncate(content.model.question_text, length: 120, separator: ' '), dashboard_chapter_content_path(content), class: "pump-link"
                                 - elsif content.coursable_type == 'Chapter'
-                                  = link_to truncate("contenedor #{content.id}", length: 120, separator: ' '), dashboard_chapter_content_path(content), class: "pump-link"
+                                  = link_to truncate(content.model.name, length: 120, separator: ' '), dashboard_chapter_content_path(content), class: "pump-link"
                                   
                               %td
                                 - if content.coursable_type == 'Lesson'

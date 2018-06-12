@@ -2,7 +2,7 @@ class Dashboard::ContentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_chapter_content
   before_action :redirect_to_support, if: :student_have_group?
-
+  before_action :is_answered?, only: [:new]
   after_action :update_program_stats, only: [:create, :update]
   after_action only: [:create, :update] do |c|
     c.send(:diagnostic_test_process, params[:chapter_content_id])
@@ -30,14 +30,14 @@ class Dashboard::ContentsController < ApplicationController
       @answers << Answer.new(question_id: question.id, user_id: current_user.id)
     end
     add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
-    add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>Contenedor</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>Contenedor: #{@chapter_content.model.name}</a>".html_safe
   end
 
   def show
     @content=@chapter_content.model
     @answers = Answer.where(question_id: @content.questions.pluck(:id), user_id: current_user.id)
     add_breadcrumb @chapter_content.chapter.program.name, dashboard_program_path(@chapter_content.chapter.program)
-    add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>Contenedor</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{dashboard_chapter_content_path(@chapter_content)}'>Contenedor: #{@chapter_content.model.name}</a>".html_safe
   end
 
   def edit 
@@ -108,6 +108,16 @@ class Dashboard::ContentsController < ApplicationController
   def answer_params(custom_params)
     ActionController::Parameters.new(custom_params[1]).permit(:user_id, :question_id, :answer_text)
   end
+
+  def is_answered?
+    content = @chapter_content.model
+    questions = content.questions.count
+    answers = Answer.where(question_id: content.questions.pluck(:id), user_id: current_user.id).count
+    contenedor = @chapter_content.model
+    if questions == answers && questions > 0
+      redirect_to dashboard_chapter_content_content_path(@chapter_content, contenedor)
+    end  
+  end  
   
   def redirect_to_next_content
     mensaje= "Cambios guardados con éxito"  
