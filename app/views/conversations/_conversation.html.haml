@@ -121,7 +121,7 @@
 				type: "POST",
 				dataType:'json',
 				url: "/generate_ticket",
-				data: {"element_id": #{conversation.id}, "trainee_id": #{conversation.recipients.find { |r| r != current_user }.id}, "coach_id": #{current_user.id}, "category": 0},
+				data: {"element_id": #{conversation.id}, "trainee_id": #{conversation.recipients.find { |r| r != current_user }.id}, "coach_id": #{current_user.id}, "category": "inbox"},
 				success: function(response) {
 					$("#generatedTicketDiv").html("<div class='text-danger'>Ticket creado</div>");
 				},
@@ -136,7 +136,7 @@
 				type: "POST",
 				dataType:'json',
 				url: "/switch_ticket_status",
-				data: {"element_id": ticketJSON["element_id"], "category": 0},
+				data: {"element_id": ticketJSON["element_id"], "category": "inbox"},
 				success: function() {
 					if (isClosed) { $("#conversation_" + #{conversation.id}).html("Ticket abierto"); } else { $("#conversation_" + #{conversation.id}).html("Ticket cerrado"); }
 				},
