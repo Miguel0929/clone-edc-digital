@@ -1,6 +1,5 @@
 class Chapter < ActiveRecord::Base
-  validates_presence_of :name, :points
-  validates_numericality_of :points
+  validates_presence_of :name
 
   has_many :chapter_contents, -> { order(position: :asc) }, dependent: :destroy
   has_many :lessons, :through => :chapter_contents, :source => :coursable, :source_type => 'Lesson', dependent: :destroy

@@ -1,4 +1,9 @@
 = render partial: '/dashboard/answers/form', locals: { disabled: false}
+:javascript
+  $("#new_answer").submit(function () {
+      $("#btn-save").attr("disabled", true);
+      return true;
+  }); 
 
 .container
   .row.text-center.m-b-40
