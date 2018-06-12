@@ -17,7 +17,8 @@ class Program < ActiveRecord::Base
   has_one :learning_path_content, as: :content, :dependent => :destroy
   has_many :program_actives, :dependent => :destroy
   has_one :score_student_stat
-  has_one :student_evaluated 
+  has_one :student_evaluated
+  has_many :program_attachments 
 
   enum tipo: [ :elearning, :construccion, :fusion ]
   enum level: [:basico, :intermedio, :avanzado]

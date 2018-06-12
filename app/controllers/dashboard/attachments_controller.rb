@@ -4,10 +4,14 @@ class Dashboard::AttachmentsController < ApplicationController
   before_action :set_attachment, only: [:edit, :update, :destroy]
   add_breadcrumb "EDC DIGITAL", :root_path
 
+  include ActiveElementsHelper
+
   def index
     add_breadcrumb "<a class='active' href='#{dashboard_attachments_path}'>Mis archivos</a>".html_safe
 
     @attachments = current_user.attachments
+
+    @program_attachment = get_active_elements(current_user, "program_attachments")
   end
 
   def new

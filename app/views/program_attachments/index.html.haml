@@ -1,0 +1,41 @@
+- content_for :title  do
+  Archivos compartidos - EDC Digital
+
+.container-fluid.container-fixed-lg
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .panel-title.pull-left
+            Archivos
+          .pull-right.m-r-20.m-t-40
+            = link_to 'Subir archivo', new_program_program_attachment_path, class: 'btn btn-lg btn-success'
+          .clearfix
+        .panel-body
+          .table-responsive
+            %table.table.resumen-table.table-striped
+              %thead
+                %tr
+                  %th
+                    Nombre de archivo
+                  %th
+                    Tipo de archivo
+                  %th
+                    Comentarios
+                  %th
+                    Subido en
+                  %th
+              %tbody
+                - @program_attachments.each do |attachment|
+                  %tr
+                    %th
+                      = link_to attachment.display_name, attachment.file.url, target: :_blank
+                    %th.normal-weight
+                      = attachment.humanize_document_type
+                    %th.normal-weight
+                      = attachment.label
+                    %th.normal-weight
+                      = l attachment.created_at, format: :special
+                    %th.normal-weight
+                      = link_to 'Editar', edit_program_program_attachment_path(@program, attachment), class: 'btn btn-default'
+                      = link_to 'Eliminar', program_program_attachment_path(@program, attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'

@@ -102,7 +102,12 @@ Rails.application.routes.draw do
     collection do
       post :sort
     end
-
+    member do
+      post :clone
+      post :notify_changes
+      post :notify_null
+    end
+    resources :program_attachments, except: [:show]
     resources :chapters, except: [:index, :show] do
       collection do
         post :sort
@@ -110,14 +115,7 @@ Rails.application.routes.draw do
 
       member do
         post :clone
-        #get :rubrics
       end
-    end
-
-    member do
-      post :clone
-      post :notify_changes
-      post :notify_null
     end
   end
 
