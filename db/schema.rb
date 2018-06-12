@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180604214158) do
+ActiveRecord::Schema.define(version: 20180612173206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -496,6 +496,18 @@ ActiveRecord::Schema.define(version: 20180604214158) do
   add_index "program_actives", ["program_id"], name: "index_program_actives_on_program_id", using: :btree
   add_index "program_actives", ["user_id"], name: "index_program_actives_on_user_id", using: :btree
 
+  create_table "program_attachments", force: :cascade do |t|
+    t.string   "file"
+    t.string   "label"
+    t.integer  "document_type"
+    t.string   "name"
+    t.integer  "program_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "program_attachments", ["program_id"], name: "index_program_attachments_on_program_id", using: :btree
+
   create_table "program_notifications", force: :cascade do |t|
     t.integer "program_id"
     t.integer "notification_type"
@@ -967,6 +979,7 @@ ActiveRecord::Schema.define(version: 20180604214158) do
   add_foreign_key "panel_notifications", "users"
   add_foreign_key "program_actives", "programs"
   add_foreign_key "program_actives", "users"
+  add_foreign_key "program_attachments", "programs"
   add_foreign_key "program_sequences", "groups"
   add_foreign_key "program_stats", "programs"
   add_foreign_key "program_stats", "users"

@@ -13,7 +13,6 @@
             .col-sm-4
               .pull-right
                 = link_to "<i class='fa fa-plus'></i> Crear programa ".html_safe, new_program_path, class: 'btn btn-primary'
-                /%input#search-table.form-control.pull-right{:placeholder => "Search  |", :type => "text", class: "text-black"}/
           %table.table.table-hover
             %thead
               %tr
@@ -35,12 +34,16 @@
                       Rating: 
                       %span.bold.text-primary #{program.rating.round(2)}
                     .normal-text.hint-text.block.m-t-10.m-b-15
+                      
                       = link_to program_path(program) do
                         %i.fa.fa-list-alt
                         Contenido
                       = link_to rating_program_path(program), class: 'm-l-20' do
                         %i.fa.fa-star
                         Ratings
+                      = link_to program_program_attachments_path(program), class: 'm-l-20' do
+                        %i.fa.fa-file-archive-o
+                        Archivos adjuntos  
                       = link_to edit_program_path(program), class: 'm-l-20' do
                         %i.fa.fa-edit
                         Editar

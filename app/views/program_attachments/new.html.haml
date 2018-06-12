@@ -1,0 +1,24 @@
+- content_for :title  do
+	Subir Archivo - EDC Digital
+
+.container-fluid.container-fixed-lg
+	.row.panel.panel-default
+		.p-t-50
+			.col-md-4
+				.panel-heading
+					.panel-title
+						Subir Archivo
+				.panel-body
+					%i.fa.fa-upload.fa-2x.hint-text.m-t-40
+					.h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+						Usa este formulario para adjuntar archivos con los programas
+			.col-md-8
+				.m-r-70.m-l-30
+					= bootstrap_form_for([@program, @attachment]) do |f|
+						= f.select(:document_type, Attachment.document_type_options, {:label => 'Tipo de documento'}, {:class => 'minimal'})
+						= f.text_field :label, label: 'Detalles / Comentarios'
+						= f.hidden_field :owner_id, value: current_user.id
+						.dropzone
+							= f.file_field :file, label: 'Archivo'
+						.pull-right.m-t-30.m-b-30
+							= f.submit 'Adjuntar archivo', class: 'btn btn-lg btn-success'
