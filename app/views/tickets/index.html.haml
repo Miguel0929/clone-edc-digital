@@ -1,32 +1,21 @@
 - content_for :title  do
   Tickets - EDC Digital
 
-.container-fluid.container-fixed-lg.top-container-padding.minus-30
-  %section.demo-bg-section.p-b-15.p-t-30.panel-title-recursos
-    .container-fluid
-      .md-p-l-20.md-p-r-20.xs-no-padding
-        .row.col-md-12
-          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
-            %h2.text-white 
-              Tus tickets
-          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
-            %h5.text-white
-              Seguimiento para tus alumnos
-            %p.m-b-25.text-white
-              Accede a la lista completa de tus tickets para que puedas dar seguimiento a todos tus alumnos. Administra tus tickets pendientes aquí mismo.
-
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-heading
       .row
-        .col-sm-9.col-sm-offset-3
+        .col-sm-3
+          %h3
+            Tickets
+        .col-sm-9
           .col-sm-6
             .pull-right
-              = link_to mentor_tickets_path, style: "opacity: 1 !important;" do
+              = link_to tickets_path, style: "opacity: 1 !important;" do
                 %button.btn.btn-default{:type => "button"} Todos
-              = link_to mentor_tickets_path(filter: "open"), style: "opacity: 1 !important;" do
+              = link_to tickets_path(filter: "open"), style: "opacity: 1 !important;" do
                 %button.btn.btn-default{:type => "button"} Abiertos
-              = link_to mentor_tickets_path(filter: "closed"), style: "opacity: 1 !important;" do
+              = link_to tickets_path(filter: "closed"), style: "opacity: 1 !important;" do
                 %button.btn.btn-default{:type => "button"} Cerrados
           .col-sm-6
             .pull-right
@@ -55,12 +44,12 @@
                 %td.font-montserrat.all-caps.b-r.b-dashed.b-grey
                   - case ticket.category
                   - when "inbox"
-                    = link_to (ticket.title.nil? ? "Sin título" : ticket.title.truncate(60, separator: ' ')), conversation_path(ticket.element_id), target: :_blank
+                    = ticket.title.nil? ? "Sin título" : ticket.title.truncate(60, separator: ' ')
                   - when "plantilla"
                     = link_to (ticket.title.nil? ? "Sin título" : ticket.title.truncate(60, separator: ' ')), mentor_student_refilable_path(student_id: ticket.trainee_id, id: ticket.element_id), target: :_blank
                 %td.text-center.b-r.b-dashed.b-grey
                   %span.font-montserrat
-                    = link_to User.find(ticket.trainee_id).email, mentor_student_path(ticket.trainee_id), target: :_blank
+                    = link_to User.find(ticket.trainee_id).email, user_path(ticket.trainee_id), target: :_blank
                 %td.text-center.b-r.b-dashed.b-grey
                   %span.font-montserrat
                     - case ticket.category
