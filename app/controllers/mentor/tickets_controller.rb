@@ -6,6 +6,12 @@ class Mentor::TicketsController < ApplicationController
   def index
     add_breadcrumb "<a class='active' href='#{ mentor_tickets_path }'>Tickets</a>".html_safe
     @tickets = Ticket.where(coach_id: current_user.id).order(updated_at: :desc)
+    if params[:filter] == "open"
+      puts "open we"
+      @tickets = @tickets.where(closed: false)
+    elsif params[:filter] == "closed"
+      @tickets = @tickets.where(closed: true)
+    end 
     if params[:query].present?
       users = User.where("email ILIKE ? OR lower(first_name) = ? OR lower(last_name) = ?", params[:query].to_s + "%", params[:query].downcase, params[:query].downcase).pluck(:id)
       arry = "ARRAY" + users.to_s
