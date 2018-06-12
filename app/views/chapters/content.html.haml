@@ -67,7 +67,7 @@
               = link_to new_chapter_question_path(@chapter), class: 'btn btn-primary' do
                 %i.fa.fa-plus
                 Agregar pregunta
-              = link_to  chapter_contents_chapters_path(@chapter) , method: :post, class: 'btn btn-success' do
+              %button{"class"=>'btn btn-success', "data-toggle"=>"modal", "data-target"=>"#addContent"}
                 %i.fa.fa-plus
                 Agregar Contenedor 
 / Modal
@@ -92,6 +92,26 @@
       .modal-body
         = render "content_chapters/form_lesson"
       .modal-footer
+#addContent.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title Agregar Contenedor
+      .modal-body
+        = render "content_chapters/form"
+      .modal-footer
+#editContent.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title Editar Contenedor
+      .modal-body
+        = render "content_chapters/form_edit"
+      .modal-footer            
 :javascript
   // Al cargar
   var editor = CKEDITOR.replace('ckeditor');
@@ -134,7 +154,6 @@
     $("#question_question_type").change();
     setRespuestasOptions();
     $('#answer-option').val('');
-    console.log("preguntas");
   }
 
   function edit_question(chapter,question){
@@ -199,6 +218,11 @@
               formatoTextArea();
             })
           )
+  }
+
+  function edit_content(chapter, content){
+    $("#form_content_edit").attr("action", "/chapters/" + chapter + "/contents_chapters/" + content.id);
+    $("#edit_name").val(content.name)
   }
 
   function formatoTextArea(){
