@@ -1,0 +1,5 @@
+.well
+  = bootstrap_form_tag(url: chapter_contents_chapter_path(@chapter, 1), method: :put, :html =>{id: "form_content_edit"}) do |f|
+    = f.text_field :edit_name, label: 'Nombre del módulo'
+    %button.btn.btn-danger{"data-dismiss" => "modal", :type => "button"} Cancelar
+    = f.submit 'Aceptar', id: "submit_content"

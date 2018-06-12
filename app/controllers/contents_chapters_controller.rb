@@ -8,16 +8,26 @@ class ContentsChaptersController < ApplicationController
   add_breadcrumb "Programas", :programs_path
 	
 	def create
-    @content_chapter = @chapter.content_chapters.new(name: "--", points: 10)
+    @content_chapter = @chapter.content_chapters.new(name: content_params[:name])
 
     if @content_chapter.save
     	@chapter.content_chapters << @content_chapter 
       #QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "up-chapter_content-#{@chapter_content.id}")
-      redirect_to content_chapter_path(@chapter), notice: "Se creo exitosamente el contenido "
+      redirect_to content_chapter_path(@chapter), notice: "Se creó exitosamente el contenido."
     else
-      redirect_to content_chapter_path(@chapter), alert: "No se creo exitosamente el contenido"
-    end	
+      redirect_to content_chapter_path(@chapter), alert: "No se creó exitosamente el contenido."
+    end
+
 	end
+
+  def update
+    if @chapter_content_contents.update(name: content_edit_params[:edit_name])
+      #QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "up-chapter_content-#{@chapter_content.id}")
+      redirect_to content_chapter_path(@chapter), notice: "Se actualizó el nombre del contenido exitosamente."
+    else
+      redirect_to content_chapter_path(@chapter), alert: "No se actualizó el nombre del contenido exitosamente."
+    end
+  end  
 
 	def destroy
     ActiveRecord::Base.transaction do
@@ -62,4 +72,12 @@ class ContentsChaptersController < ApplicationController
   def set_chapter_content_contents
     @chapter_content_contents = Chapter.find(params[:id])
   end
+
+  def content_params
+    params.permit(:name)
+  end
+
+  def content_edit_params
+    params.permit(:edit_name)
+  end   
 end
