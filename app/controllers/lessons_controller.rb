@@ -11,11 +11,14 @@ class LessonsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{new_chapter_lesson_path(@chapter)}'>Nuevo contenido</a>".html_safe
 
     @lesson = @chapter.lessons.new
+
+    @program_attachments = ProgramAttachment.where(program_id: @chapter.program_id)
   end
 
   def show
     add_breadcrumb @chapter.program.name, program_path(@chapter.program)
     add_breadcrumb "<a class='active' href='#{chapter_lesson_path(@chapter, @lesson)}'>#{@lesson.identifier}</a>".html_safe
+    @program_attachments = ProgramAttachment.where(program_id: @chapter.program_id)
   end
 
   def create
@@ -38,6 +41,7 @@ class LessonsController < ApplicationController
     add_breadcrumb @chapter.program.name, program_path(@chapter.program)
     add_breadcrumb @lesson.identifier, chapter_lesson_path(@chapter, @lesson)
     add_breadcrumb "<a class='active' href='#{edit_chapter_lesson_path(@chapter, @lesson)}'>Editar contenido</a>".html_safe
+    @program_attachments = ProgramAttachment.where(program_id: @chapter.program_id)
   end
 
   def update
