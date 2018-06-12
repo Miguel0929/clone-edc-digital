@@ -50,6 +50,12 @@
               .form_group.adjuntar
                 = f.file_field :attachment do
                   %i.glyphicon.glyphicon-paperclip
+              - ticket = Ticket.find_by(element_id: conversation.id, category: 0 )
+              - if (current_user.mentor? || current_user.profesor?) && !ticket.nil?
+                - if !ticket.closed
+                  .form-group
+                    = f.check_box :close_ticket, {class: "double-sized-checkbox", checked: Ticket.find_by(element_id: conversation.id, category: 0 ).closed}, true, false
+                    = f.label :close_ticket, 'Cerrar ticket de esta conversación', class: "m-t-20 m-b-20 zoomed-checkbox"
               = f.submit "Responder", class: "btn-danger btn pull-right", id:"i_submit"
               .clearfix
     :javascript

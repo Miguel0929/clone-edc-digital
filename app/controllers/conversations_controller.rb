@@ -16,6 +16,7 @@ class ConversationsController < ApplicationController
           @contacts.push(s)
         end  
       end
+      @contacts = @contacts.push(current_user.trainees).flatten.uniq
     end
     if current_user.student?
       @contacts=current_user.group.users.collect
@@ -38,6 +39,17 @@ class ConversationsController < ApplicationController
     end
     if conversation_params[:attachment].nil?
       conversation = current_user.send_message(recipients,conversation_params[:body],conversation_params[:subject]).conversation
+      auto_ticket(conversation)
+      ######
+        #if current_user.mentor? || current_user.profesor?
+        #  puts "ay wey create"
+        #  puts conversation
+        #  puts conversation.class
+        #  conversation.recipients.where(receiver_id: current_user.id, is_delivered: false) do |recipient|
+        #    recipient.update(is_delivered: true)
+        #  end
+        #end
+      ######
     else
       conversation = current_user.send_message(recipients,conversation_params[:body],conversation_params[:subject]).conversation
       att = MailboxAttachment.new
@@ -50,7 +62,22 @@ class ConversationsController < ApplicationController
   end
   def reply
     if message_params[:attachment].nil?
-      current_user.reply_to_conversation(conversation,message_params[:body])
+      current_user.reply_to_conversation(conversation, message_params[:body])
+      auto_ticket(conversation)
+
+      if message_params[:close_ticket] == 'true'
+        close_ticket(conversation)
+      end
+      ######
+        #if current_user.mentor? || current_user.profesor?
+        #  puts "ay wey reply"
+        #  puts conversation
+        #  puts conversation.class
+        #  conversation.receipts.where(receiver_id: current_user.id, is_delivered: false) do |recipient|
+        #    recipient.update(is_delivered: true)
+        #  end
+        #end
+      ######
     else
       current_user.reply_to_conversation(conversation,message_params[:body])
       att= MailboxAttachment.new
@@ -89,6 +116,28 @@ class ConversationsController < ApplicationController
   end 
 
   def message_params
-    params.require(:message).permit(:subject,:body, :attachment)
+    params.require(:message).permit(:subject, :body, :attachment, :close_ticket,)
   end 
+
+  def auto_ticket(conversation)
+    if current_user.student? && !current_user.coach.nil? && conversation.participants.count == 2
+      if conversation.participants.map{|p| p.id}.include?(current_user.coach.id)
+        prev_ticket = Ticket.find_by(element_id: conversation.id, coach_id: current_user.coach.id, trainee_id: current_user.id, category: 0)
+        if prev_ticket.nil?
+          title = "Nuevo mensaje de alumno: " + (conversation.subject)
+          ticket = Ticket.new(element_id: conversation.id, coach_id: current_user.coach.id, trainee_id: current_user.id, category: 0, title: title, closed: false)
+          ticket.save
+        else
+          title = "Han respondido tu mensaje: " + (conversation.subject)
+          prev_ticket.update(closed: false, title: title)
+        end
+      end
+    end
+  end
+
+  def close_ticket(conversation)
+    to_close = Ticket.find_by(element_id: conversation.id, category: 0)
+    if !to_close.nil? then to_close.update(closed: true) end
+  end
+
 end

@@ -74,7 +74,6 @@ class CoachesController < ApplicationController
   def uploading_status
     redis = Redis.new
     job = JSON.parse(redis.get("job_" + params[:job_id].to_s)) unless redis.get("job_" + params[:job_id].to_s).nil?
-    puts redis.get("job_" + params[:job_id].to_s)
     if job.nil?
       output = {total: 0, progress: 0, nonexistent_coaches: ["Error, petición no encontrada"], nonexistent_trainees: ["Error, petición no encontrada"], invalid_coaching: ["Error, petición no encontrada"] }
     else 

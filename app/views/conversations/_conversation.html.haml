@@ -19,10 +19,25 @@
 				= truncate strip_tags(conversation.messages.last.body), length: 60 
 			%div{id: "accordion" + conversation.id.to_s, role: "tablist", "aria-multiselectable": "true"}
 				%div.p-t-10.p-b-5{role: "tab"}
-					%a{"data-toggle": "collapse", "data-parent": "#accordion" + conversation.id.to_s, href: "#collapseBlock" + conversation.id.to_s, "aria-expanded": "true", "aria-controls": "collapseBlock" + conversation.id.to_s, id: "fetchRecipientsNames" + conversation.id.to_s, fetchingKey: conversation.id}
-						%small
-							%i.fa.fa-caret-right 
-							Ver participantes
+					.pull-left
+						%a{"data-toggle": "collapse", "data-parent": "#accordion" + conversation.id.to_s, href: "#collapseBlock" + conversation.id.to_s, "aria-expanded": "true", "aria-controls": "collapseBlock" + conversation.id.to_s, id: "fetchRecipientsNames" + conversation.id.to_s, fetchingKey: conversation.id}
+							%small
+								%i.fa.fa-caret-right 
+								Ver participantes
+					- ticket = Ticket.find_by(element_id: conversation.id, category: 0)
+					- if current_user.mentor? || current_user.profesor?
+						- if ticket.nil?
+							.pull-right
+								.p-r-25
+									#generatedTicketDiv
+										%button.btn.btn-sm.btn-warning{id: "conversation_" + conversation.id.to_s}
+											Generar ticket
+						- else 
+							.pull-right
+								.p-r-25
+									%button.btn.btn-sm.btn-complete{class: ticket.closed ? "active focus" : "", id: "conversation_" + conversation.id.to_s, type: "button", "data-toggle": "button", style: "position: relative; top: -10px;"}
+										= ticket.closed ? "Ticket cerrado" : "Ticket abierto"
+					.clearfix
 				.collapse.show{id: "collapseBlock" + conversation.id.to_s, role: "tabcard", "aria-expanded": "false", style: "height: 0px;"}
 					%div
 						.p-t-15
@@ -33,24 +48,7 @@
 								%span.text-success Receptores
 								%span.text-success{id: "recipientsCount" + conversation.id.to_s}
 								%span{id: "fetchingRecipients" + conversation.id.to_s}
-			:javascript
-				$( "#fetchRecipientsNames" + #{conversation.id}).click( function() {
-					$.ajax({
-						type: "GET",
-						url: "/conversations/" + #{conversation.id.to_s} + "/print_members",
-						dataType: "JSON",
-						success: function(result){
-							console.log(result.recipients);
-							console.log(result.originator);
-							$( "#recipientsCount" + #{conversation.id} ).html( " (" + result.recipientsCount + "):" );
-							$( "#fetchingEmisor" + #{conversation.id} ).html( result.originator );
-							$( "#fetchingRecipients" + #{conversation.id} ).html( result.recipients );
-						},
-						error: function() {
-							alert("Ocurrió un error, por favor refresca la página.");
-						}
-					})
-				});
+
 - else
 	.media.default-leido
 		.media-left
@@ -69,10 +67,25 @@
 				= truncate strip_tags(conversation.messages.last.body), length: 60 
 			%div{id: "accordion" + conversation.id.to_s, role: "tablist", "aria-multiselectable": "true"}
 				%div.p-t-10.p-b-5{role: "tab"}
-					%a{"data-toggle": "collapse", "data-parent": "#accordion" + conversation.id.to_s, href: "#collapseBlock" + conversation.id.to_s, "aria-expanded": "true", "aria-controls": "collapseBlock" + conversation.id.to_s, id: "fetchRecipientsNames" + conversation.id.to_s, fetchingKey: conversation.id}
-						%small 
-							%i.fa.fa-caret-right 
-							Ver participantes
+					.pull-left
+						%a{"data-toggle": "collapse", "data-parent": "#accordion" + conversation.id.to_s, href: "#collapseBlock" + conversation.id.to_s, "aria-expanded": "true", "aria-controls": "collapseBlock" + conversation.id.to_s, id: "fetchRecipientsNames" + conversation.id.to_s, fetchingKey: conversation.id}
+							%small 
+								%i.fa.fa-caret-right 
+								Ver participantes
+					- ticket = Ticket.find_by(element_id: conversation.id, category: 0)
+					- if current_user.mentor? || current_user.profesor?
+						- if ticket.nil?
+							.pull-right
+								.p-r-25
+									#generatedTicketDiv
+										%button.btn.btn-sm.btn-warning{id: "conversation_" + conversation.id.to_s}
+											Generar ticket
+						- else 
+							.pull-right
+								.p-r-25
+									%button.btn.btn-sm.btn-complete{class: ticket.closed ? "active focus" : "", id: "conversation_" + conversation.id.to_s, type: "button", "data-toggle": "button", style: "position: relative; top: -10px;"}
+										= ticket.closed ? "Ticket cerrado" : "Ticket abierto"
+					.clearfix
 				.collapse.show{id: "collapseBlock" + conversation.id.to_s, role: "tabcard", "aria-expanded": "false", style: "height: 0px;"}
 					%div
 						.p-t-15
@@ -83,21 +96,54 @@
 								%span.text-success Receptores
 								%span.text-success{id: "recipientsCount" + conversation.id.to_s}
 								%span{id: "fetchingRecipients" + conversation.id.to_s}
-			:javascript
-				$( "#fetchRecipientsNames" + #{conversation.id}).click( function() {
-					$.ajax({
-						type: "GET",
-						url: "/conversations/" + #{conversation.id.to_s} + "/print_members",
-						dataType: "JSON",
-						success: function(result){
-							console.log(result.recipients);
-							console.log(result.originator);
-							$( "#recipientsCount" + #{conversation.id} ).html( " (" + result.recipientsCount + "):" );
-							$( "#fetchingEmisor" + #{conversation.id} ).html( result.originator );
-							$( "#fetchingRecipients" + #{conversation.id} ).html( result.recipients );
-						},
-						error: function() {
-							alert("Ocurrió un error, por favor refresca la página.");
-						}
-					})
-				});
+:javascript
+	$( "#fetchRecipientsNames" + #{conversation.id}).click( function() {
+		$.ajax({
+			type: "GET",
+			url: "/conversations/" + #{conversation.id.to_s} + "/print_members",
+			dataType: "JSON",
+			success: function(result){
+				console.log(result.recipients);
+				console.log(result.originator);
+				$( "#recipientsCount" + #{conversation.id} ).html( " (" + result.recipientsCount + "):" );
+				$( "#fetchingEmisor" + #{conversation.id} ).html( result.originator );
+				$( "#fetchingRecipients" + #{conversation.id} ).html( result.recipients );
+			},
+			error: function() {
+				alert("Ocurrió un error, por favor refresca la página.");
+			}
+		})
+	});
+
+	$("#conversation_" + #{conversation.id}).click(function() {
+		if (#{ticket.nil?}) {
+			$.ajax({
+				type: "POST",
+				dataType:'json',
+				url: "/generate_ticket",
+				data: {"element_id": #{conversation.id}, "trainee_id": #{conversation.recipients.find { |r| r != current_user }.id}, "coach_id": #{current_user.id}, "category": "inbox"},
+				success: function(response) {
+					$("#generatedTicketDiv").html("<div class='text-danger'>Ticket creado</div>");
+				},
+				error: function(){
+					console.log("Ups, esto es vergonzoso...");
+				}
+			})
+		} else {
+			var ticketJSON = #{ticket.to_json}
+			var isClosed = ticketJSON["closed"];
+			$.ajax({
+				type: "POST",
+				dataType:'json',
+				url: "/switch_ticket_status",
+				data: {"element_id": ticketJSON["element_id"], "category": "inbox"},
+				success: function() {
+					if (isClosed) { $("#conversation_" + #{conversation.id}).html("Ticket abierto"); } else { $("#conversation_" + #{conversation.id}).html("Ticket cerrado"); }
+				},
+				error: function(){
+					console.log("Ups, esto es vergonzoso...");
+				}
+			})
+		}
+	});
+
