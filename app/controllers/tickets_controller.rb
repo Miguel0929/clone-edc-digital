@@ -20,10 +20,10 @@ class TicketsController < ApplicationController
     element = params[:element_id].to_i
     trainee = params[:trainee_id].to_i
     coach = params[:coach_id].to_i
-    category = params[:category]
+    category = params[:category].to_i
     ticket = Ticket.find_by(element_id: element, category: category)
     
-    if category == "inbox"
+    if category == 0
       title = "Nuevo mensaje de alumno: " + (Mailboxer::Conversation.find(element).subject)
     end
 
