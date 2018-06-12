@@ -116,14 +116,7 @@
   // Al cargar
   var editor = CKEDITOR.replace('ckeditor');
 
-  editor.addCommand("addVideoFrame", {
-    exec: function(edt) {
-      edt.insertHtml("{{video}}");
-    }
-  });
-
   $('.ver_form_leccion').click( function() {
-
     if (editor) {
         editor.destroy(true); 
     }   
@@ -134,12 +127,50 @@
         edt.insertHtml("{{video}}");
       }
     });
+
+    editor.addCommand("addLinkAttachment", {
+      exec: function(edt) {
+        var link_url = $("#attachment").val();
+
+        if (link_url !== "/"){  
+          var texto = link_url.split('/').pop();
+          
+          edt.insertHtml("<a href='"+ link_url +"'>" + texto + "</a>&nbsp;");
+        }
+      }
+    });
   });
+
+  editor.addCommand("addVideoFrame", {
+    exec: function(edt) {
+      edt.insertHtml("{{video}}");
+    }
+  });
+
+  editor.addCommand("addLinkAttachment", {
+    exec: function(edt) {
+      var link_url = $("#attachment").val();
+      console.log(link_url);
+      if (link_url !== "/"){  
+        var texto = link_url.split('/').pop();
+        
+        edt.insertHtml("<a href='"+ link_url +"'>" + texto + "</a>&nbsp;");
+      }
+    }
+  });
+
  
   $('#addVideoBtn').click(function(e){
     e.preventDefault();
     editor.execCommand( 'addVideoFrame' );
-  })
+  });
+
+  $('#addLink').click(function(e){
+    e.preventDefault();
+    editor.execCommand( 'addLinkAttachment' );
+  });
+
+
   // Funciones
   function add_lesson(chapter){
     $("#form-lesson").attr("action", "/chapters/" + chapter + "/lessons");

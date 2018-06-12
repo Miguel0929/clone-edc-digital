@@ -9,7 +9,20 @@
         .btn.btn-complete#addVideoBtn
           Agregar video
     .hint-text
+
       *Nota: Para colocar el video de la url que agregaste posiciónate en el punto del campo de texto del Contenido donde te gustaría que apareciera. Después da click en el botón azul de 'Agregar video'. Esto último agregará una etiqueta de {{video}}, misma que será reemplazada con el reproductor al momento de ver la lección.
+    - if @program_attachments.present?
+      .row
+        .col-md-10  
+          .form-group  
+            %label.control-label{for: "attachment"} Agregar adjuntos
+            %select.form-control{:name => 'attachment', id:"attachment"}
+              %option{:value => "/"} Selecciona una opción
+              - @program_attachments.each do |p_attach|
+                %option{:value => "#{p_attach.file}"} "#{p_attach.file_identifier}"
+        .col-md-.p-t-15
+          .btn.btn-complete.pull-right#addLink
+            Agregar Vinculo           
     %br
     = link_to 'Cancelar', @chapter.program, class: 'btn btn-danger'
     = f.submit 'Aceptar'
@@ -25,8 +38,25 @@
       }
     });
 
+    editor.addCommand("addLinkAttachment", {
+      exec: function(edt) {
+       
+        var link_url = $("#attachment").val();
+        if (link_url !== "/"){  
+          var texto = link_url.split('/').pop();
+
+          edt.insertHtml("<a href='"+ link_url +"'>" + texto + "</a>&nbsp;");
+        }
+      }
+    });
+
     $('#addVideoBtn').click(function(e){
       e.preventDefault();
       editor.execCommand( 'addVideoFrame' );
+    })
+
+    $('#addLink').click(function(e){
+      e.preventDefault();
+      editor.execCommand( 'addLinkAttachment' );
     })
   });

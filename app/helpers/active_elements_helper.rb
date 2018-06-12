@@ -3,15 +3,17 @@ module ActiveElementsHelper
 
   def get_active_elements(current_user, class_name)
     ######## Elegir cuál de las clases que le pertenecen a programas se buscará ###
-      complementarios = []
-      case class_name
-      when "quizzes"
-        requested_class = Quiz
-        current_user.group.quizzes.each{|quiz| complementarios << quiz}
-      when "template_refilables"
-        requested_class = TemplateRefilable
-        current_user.group.template_refilables.each{|refil| complementarios << refil }
-      end
+    complementarios = []
+    case class_name
+    when "quizzes"
+      requested_class = Quiz
+      current_user.group.quizzes.each{|quiz| complementarios << quiz}
+    when "template_refilables"
+      requested_class = TemplateRefilable
+      current_user.group.template_refilables.each{|refil| complementarios << refil }
+    when "program_attachments"
+      requested_class = ProgramAttachment  
+    end
     ######## Obtener learning path contents en orden de acuerdo a las rutas #######
     programs_fisica = current_user.group.learning_path.learning_path_contents.where(content_type: "Program").order(:position) rescue nil
     c = 0

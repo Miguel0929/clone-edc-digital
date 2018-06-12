@@ -119,6 +119,7 @@ class ChaptersController < ApplicationController
     add_breadcrumb "<a class='active' href='#{content_chapter_path(@chapter)}'>#{@chapter.name}</a>".html_safe
     @lesson=Lesson.new
     @question=Question.new
+    @program_attachments = ProgramAttachment.where(program_id: @chapter.program_id)
   end
 
   def rubrics
