@@ -3,14 +3,14 @@ module ActiveElementsHelper
 
   def get_active_elements(current_user, class_name)
     ######## Elegir cuál de las clases que le pertenecen a programas se buscará ###
-    complementarios = []
+    #complementarios = []
     case class_name
     when "quizzes"
       requested_class = Quiz
-      current_user.group.quizzes.each{|quiz| complementarios << quiz}
+      #current_user.group.quizzes.each{|quiz| complementarios << quiz}
     when "template_refilables"
       requested_class = TemplateRefilable
-      current_user.group.template_refilables.each{|refil| complementarios << refil }
+      #current_user.group.template_refilables.each{|refil| complementarios << refil }
     when "program_attachments"
       requested_class = ProgramAttachment  
     end
@@ -60,7 +60,7 @@ module ActiveElementsHelper
       lp_contents_m = (programs_moral).sort_by &:position
     end
 
-    active_elements = complementarios
+    active_elements = []
 
     lp_contents_f.each do |lp|
       requested_class.where(program_id: lp.content_id).each do |element| active_elements << element end
