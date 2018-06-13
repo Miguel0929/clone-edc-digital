@@ -168,7 +168,7 @@
                         - if chapter.all_questions.count == 0
                           No aplica /
                         - else
-                          #{(answered_questions(chapter, current_user) * 100) / (chapter.questions.count == 0 ? 1 : chapter.all_questions.count) }% /
+                          #{(answered_questions(chapter, current_user) * 100) / (chapter.all_questions.count == 0 ? 1 : chapter.all_questions.count) }% /
                       Porcentaje visto:
                       %span 
                         #{chapter_progress[2]}%

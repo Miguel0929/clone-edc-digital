@@ -42,6 +42,24 @@ class Chapter < ActiveRecord::Base
           event = 1
           viewed << event
         end
+      elsif content.coursable_type == 'Chapter'
+        contenedor = content.model
+        questions = contenedor.questions.count
+        answers = Answer.where(question_id: contenedor.questions.pluck(:id), user_id: current_user.id).count  
+        if questions == answers && questions > 0
+          event = 1
+          record << event
+        else
+          event = 0
+          record << event
+        end
+        if current_user.trackers.find_by(chapter_content: content).nil?
+          event = 0
+          viewed << event
+        else
+          event = 1
+          viewed << event
+        end  
       end
     end
     #Calcular el porcentaje visto (percentage_viewed) y completado (percentage_done) de cada chapter
@@ -49,6 +67,7 @@ class Chapter < ActiveRecord::Base
     total_viewed = viewed.size
     record_ones = record.count(1)
     viewed_ones = viewed.count(1)
+
     if total_record > 0
       percentage_done = (record_ones.to_f / total_record.to_f * 100).round(0)
     else
@@ -69,6 +88,7 @@ class Chapter < ActiveRecord::Base
         status = "progress"
       end
     end
+
     return status, percentage_done, percentage_viewed
   end
 
