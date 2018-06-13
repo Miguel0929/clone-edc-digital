@@ -130,11 +130,11 @@ class Dashboard::ContentsController < ApplicationController
           Programs.more95_student(program, current_user, dashboard_program_url(program))
         end
         #soporte
-        soporte=User.new(email: "soporte@edc-digital.com")
-        Programs.more95_mentor(program,soporte,current_user,user_url(current_user))
+        #soporte=User.new(email: "soporte@edc-digital.com")
+        #Programs.more95_mentor(program,soporte,current_user,user_url(current_user))
         flash[:more95]="Has completado el 95% del curso."  
         #mentores
-        ProgramMore95NotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
+        #ProgramMore95NotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
       end
         mensaje = mensaje + ", has completado el #{current_user.percentage_answered_for(program)}\% del programa." 
     elsif current_user.percentage_answered_for(program)==100
@@ -151,7 +151,7 @@ class Dashboard::ContentsController < ApplicationController
         end
         flash[:complete]="¡Has completado el curso!"
         #mentores
-        ProgramCompleteNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
+        #ProgramCompleteNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
       end
       if program.ruta?  
         mensaje = mensaje + ", has completado el 100% del curso."
