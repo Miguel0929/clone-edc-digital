@@ -81,7 +81,7 @@
     $('#send-refilable').click(function() {
       var enviar = true;
       $('.refilable-edit').each(function() {
-        if ($(this).text() == "" || $(this).text() == " (sin respuesta) ") {
+        if ($(this).text() == "" || $(this).text() == " (sin respuesta) " || $(this).text() == "empty" || $(this).text() == "Empty") {
           $(this).removeClass('present-answer');
           $(this).addClass('no-answer');
           enviar = false;
