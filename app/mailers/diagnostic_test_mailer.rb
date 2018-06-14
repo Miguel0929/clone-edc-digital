@@ -13,7 +13,7 @@ class DiagnosticTestMailer
                         question_7, answer_7, message_7,
                         question_8, answer_8, message_8,
                         points_obtained, points_total, average)
-
+      p "============================================"
 		 data = {
         personalizations: [
           {
@@ -80,7 +80,7 @@ class DiagnosticTestMailer
                         question_7, answer_7, message_7,
                         question_8, answer_8, message_8,
                         points_obtained, points_total, average)
-
+     p "============================================" 
      data = {
         personalizations: [
           {
