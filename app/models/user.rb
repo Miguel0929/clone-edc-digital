@@ -677,7 +677,9 @@ class User < ActiveRecord::Base
   end
 
   def my_student?(mentor)
-    self.group.nil? ? false : mentor.groups.pluck(:id).include?(self.group.id)
+    student = self.group.nil? ? false : mentor.groups.pluck(:id).include?(self.group.id)
+    trainee = self.coach.nil? ? false : (self.coach.id == mentor.id)
+    return (student || trainee)
   end
 
   def user_program_refilables_count(template_refilables)

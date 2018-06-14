@@ -4,6 +4,7 @@ class Dashboard::RefilablesController < ApplicationController
   before_action :set_template_refilable
   before_action :redirect_to_template_refilables, if: :permiso_refilable
   add_breadcrumb "EDCDIGITAL", :root_path
+  include TicketsHelper
 
   def new  
     if current_user.student?
@@ -21,7 +22,10 @@ class Dashboard::RefilablesController < ApplicationController
   def create
     refilable = @template.refilables.new(refilable_params)
     refilable.user = current_user
-    refilable.save
+    
+    if refilable.save
+      create_ticket(current_user, refilable)
+    end
 
     AnsweredRefilableNotificationJob.perform_async(@template.program, @template, "soporte2@edc-digital.com", current_user, mentor_student_url(current_user))
 

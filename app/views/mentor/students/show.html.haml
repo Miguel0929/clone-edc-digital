@@ -634,23 +634,29 @@
                                 - else
                                   No hay comentarios
                           %td.p-t-20.p-b-15.text-center
-                            - if user_refilable
-                              - status = user_refilable.status
-                              .label{class: "#{ status == 'Contestado' ? 'label-success p-r-l-17' : 'label-warning p-r-l-20'}"}
-                                = status
-                            - else
-                              .label
-                                No contestado
-                            %br    
-                            %ul.unstyled.no-style.p-l-0.m-b-10
+                            %ul.unstyled.no-style
+                              - if user_refilable
+                                - status = user_refilable.status
+                                .label{class: "#{ status == 'Contestado' ? 'label-success p-r-l-17' : 'label-warning p-r-l-20'}"}
+                                  = status
+                              - else
+                                .label
+                                  No contestado
+                            %ul.unstyled.no-style.p-l-0.m-b-5
                               %li.inline.text-primary.bold
                                 Puntos:
                               %li.inline #{puntos_obtenidos} de #{total_points} pts
-                            %ul.unstyled.no-style.p-l-0.m-b-10
+                            %ul.unstyled.no-style.p-l-0.m-b-5
                               %li.inline.text-primary.bold
                                 Promedio:
                               %li.inline= number_to_percentage(user_promedio_refilable(puntos_obtenidos, total_points), precision: 1) 
-                                    
+                            %ul.unstyled.no-style.p-l-0.m-b-10
+                              - ticket = get_student_ticket(@user, refilable)
+                              %li.inline.text-primary.bold
+                                Ticket:
+                              %li.inline 
+                                %i.fa{class: ticket.nil? ? "" : (ticket.closed? ? "fa-lock" : "fa-unlock-alt")}
+                                = ticket.nil? ? "Sin ticket" : (ticket.closed? ? "Cerrado" : "Abierto")
 
                           %td.p-t-20.p-b-15
                             %ul.p-l-0.m-b-10
