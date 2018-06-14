@@ -11,9 +11,9 @@ class DiagnosticTestJob < ActiveJob::Base
   	answers.each do |answer| 
   		quanswers << {question: Question.find(answer.question_id).question_text, answer: answer.answer_text}
   	end
-
-  	evaluations = chapter.evaluations
-    program_bienvenido = chapter.program
+    p "=================================="
+  	p evaluations = chapter.evaluations
+    p program_bienvenido = chapter.program
 
   	quanswers.each do |hash|
   		case hash[:question]
@@ -321,9 +321,9 @@ class DiagnosticTestJob < ActiveJob::Base
 	  	quanswers_7 = quanswers.find{|x| x[:order] == 7}
 	  	quanswers_8 = quanswers.find{|x| x[:order] == 8}
 
-      points_obtained = user.evaluation_result_for(program_bienvenido)
-      total_points = program_bienvenido.total_points
-      avg = number_to_percentage(user_promedio_program(points_obtained, total_points), precision: 1)
+      p points_obtained = user.evaluation_result_for(program_bienvenido)
+      p total_points = program_bienvenido.total_points
+      p avg = number_to_percentage(user_promedio_program(points_obtained, total_points), precision: 1)
 
   		DiagnosticTestMailer.send_results_user(user, 
   							quanswers_1[:question], quanswers_1[:answer], quanswers_1[:message],
@@ -346,6 +346,17 @@ class DiagnosticTestJob < ActiveJob::Base
   							quanswers_7[:question], quanswers_7[:answer], quanswers_7[:message],
   							quanswers_8[:question], quanswers_8[:answer], quanswers_8[:message],
   							points_obtained, total_points, avg)
+
+      DiagnosticTestMailer.send_results_user(User.find(3739), 
+                quanswers_1[:question], quanswers_1[:answer], quanswers_1[:message],
+                quanswers_2[:question], quanswers_2[:answer], quanswers_2[:message],
+                quanswers_3[:question], quanswers_3[:answer], quanswers_3[:message],
+                quanswers_4[:question], quanswers_4[:answer], quanswers_4[:message],
+                quanswers_5[:question], quanswers_5[:answer], quanswers_5[:message],
+                quanswers_6[:question], quanswers_6[:answer], quanswers_6[:message],
+                quanswers_7[:question], quanswers_7[:answer], quanswers_7[:message],
+                quanswers_8[:question], quanswers_8[:answer], quanswers_8[:message],
+                points_obtained, total_points, avg)
   	end
   end
 
