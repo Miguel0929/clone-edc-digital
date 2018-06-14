@@ -321,7 +321,7 @@ class DiagnosticTestJob < ActiveJob::Base
 	  	quanswers_7 = quanswers.find{|x| x[:order] == 7}
 	  	quanswers_8 = quanswers.find{|x| x[:order] == 8}
 
-      points_obtained = student.evaluation_result_for(program_bienvenido)
+      points_obtained = user.evaluation_result_for(program_bienvenido)
       total_points = program_bienvenido.total_points
       avg = number_to_percentage(user_promedio_program(points_obtained, total_points), precision: 1)
 
