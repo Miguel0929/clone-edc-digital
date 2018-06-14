@@ -11,9 +11,9 @@ class DiagnosticTestJob < ActiveJob::Base
   	answers.each do |answer| 
   		quanswers << {question: Question.find(answer.question_id).question_text, answer: answer.answer_text}
   	end
-    p "=================================="
-  	p evaluations = chapter.evaluations
-    p program_bienvenido = chapter.program
+    "=================================="
+  	evaluations = chapter.evaluations
+    program_bienvenido = chapter.program
 
   	quanswers.each do |hash|
   		case hash[:question]
@@ -321,7 +321,7 @@ class DiagnosticTestJob < ActiveJob::Base
 	  	quanswers_7 = quanswers.find{|x| x[:order] == 7}
 	  	quanswers_8 = quanswers.find{|x| x[:order] == 8}
 
-      p points_obtained = user.evaluation_result_for(program_bienvenido)
+      p points_obtained = program_bienvenido.points_earned(user)
       p total_points = program_bienvenido.total_points
       p avg = number_to_percentage(user_promedio_program(points_obtained, total_points), precision: 1)
 
