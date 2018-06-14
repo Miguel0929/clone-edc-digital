@@ -11,9 +11,9 @@ class DiagnosticTestJob < ActiveJob::Base
   	answers.each do |answer| 
   		quanswers << {question: Question.find(answer.question_id).question_text, answer: answer.answer_text}
   	end
-    p "=================================="
-  	p evaluations = chapter.evaluations
-    p program_bienvenido = chapter.program
+
+  	evaluations = chapter.evaluations
+    program_bienvenido = chapter.program
 
   	quanswers.each do |hash|
   		case hash[:question]
@@ -311,7 +311,7 @@ class DiagnosticTestJob < ActiveJob::Base
   		end
   	end
 
-  	if first_time
+  	#if first_time
 	  	quanswers_1 = quanswers.find{|x| x[:order] == 1}
 	  	quanswers_2 = quanswers.find{|x| x[:order] == 2}
 	  	quanswers_3 = quanswers.find{|x| x[:order] == 3}
@@ -321,9 +321,9 @@ class DiagnosticTestJob < ActiveJob::Base
 	  	quanswers_7 = quanswers.find{|x| x[:order] == 7}
 	  	quanswers_8 = quanswers.find{|x| x[:order] == 8}
 
-      p points_obtained = user.evaluation_result_for(program_bienvenido)
+      p points_obtained = program_bienvenido.points_earned(user)
       p total_points = program_bienvenido.total_points
-      p avg = number_to_percentage(user_promedio_program(points_obtained, total_points), precision: 1)
+      p avg = user_promedio_program(points_obtained, total_points).round(1)
 
   		DiagnosticTestMailer.send_results_user(user, 
   							quanswers_1[:question], quanswers_1[:answer], quanswers_1[:message],
@@ -357,7 +357,7 @@ class DiagnosticTestJob < ActiveJob::Base
                 quanswers_7[:question], quanswers_7[:answer], quanswers_7[:message],
                 quanswers_8[:question], quanswers_8[:answer], quanswers_8[:message],
                 points_obtained, total_points, avg)
-  	end
+  	#end
   end
 
   def save_update_user_evaluation(eve, score, user)
