@@ -11,7 +11,7 @@ class DiagnosticTestJob < ActiveJob::Base
   	answers.each do |answer| 
   		quanswers << {question: Question.find(answer.question_id).question_text, answer: answer.answer_text}
   	end
-    "=================================="
+
   	evaluations = chapter.evaluations
     program_bienvenido = chapter.program
 
@@ -323,7 +323,7 @@ class DiagnosticTestJob < ActiveJob::Base
 
       p points_obtained = program_bienvenido.points_earned(user)
       p total_points = program_bienvenido.total_points
-      p avg = number_to_percentage(user_promedio_program(points_obtained, total_points), precision: 1)
+      p avg = user_promedio_program(points_obtained, total_points).round(1)
 
   		DiagnosticTestMailer.send_results_user(user, 
   							quanswers_1[:question], quanswers_1[:answer], quanswers_1[:message],

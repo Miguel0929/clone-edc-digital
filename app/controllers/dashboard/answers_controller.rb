@@ -190,9 +190,9 @@ class Dashboard::AnswersController < ApplicationController
         q_ids = d_chapter.questions.pluck(:id)
         q_answers = Answer.where(user_id: current_user, question_id: q_ids)
         first_time = UserEvaluation.where(evaluation_id: d_chapter.evaluations.pluck(:id), user_id: current_user).empty?
-        if (q_ids.sort - q_answers.pluck(:question_id).sort).empty?
+        #if (q_ids.sort - q_answers.pluck(:question_id).sort).empty?
           DiagnosticTestJob.perform_async(q_answers, d_chapter, current_user, first_time)
-        end
+        #end
       end
     end
   end
