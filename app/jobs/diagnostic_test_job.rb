@@ -344,7 +344,7 @@ class DiagnosticTestJob < ActiveJob::Base
   							quanswers_5[:question], quanswers_5[:answer], quanswers_5[:message],
   							quanswers_6[:question], quanswers_6[:answer], quanswers_6[:message],
   							quanswers_7[:question], quanswers_7[:answer], quanswers_7[:message],
-  							quanswers_8[:question], quanswers_8[:answer], quanswers_8[:message]
+  							quanswers_8[:question], quanswers_8[:answer], quanswers_8[:message],
   							points_obtained, total_points, avg)
   	end
   end
