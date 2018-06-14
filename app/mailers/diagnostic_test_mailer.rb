@@ -17,7 +17,7 @@ class DiagnosticTestMailer
 		 data = {
         personalizations: [
           {
-            to: [ { email: "" } ],
+            to: [ { email: user.email } ],
             substitutions: {
               "-user_name-" => user.name,
               "-question_1-" => question_1,
