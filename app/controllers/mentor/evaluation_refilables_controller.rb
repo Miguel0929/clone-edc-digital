@@ -3,6 +3,8 @@ class Mentor::EvaluationRefilablesController < ApplicationController
   before_action :require_admin_or_mentor
   before_action :set_user
   after_action :change_switch_evaluated, only: [:update]
+  include TicketsHelper
+  
   def update
   	@template_refilable = TemplateRefilable.find(params[:template_id])
 
@@ -11,6 +13,7 @@ class Mentor::EvaluationRefilablesController < ApplicationController
     if new_eval.nil?
       redirect_to :back, alert: "Debes evaluar todas las rúbricas"
     else
+      close_ticket(@user, @template_refilable)
    	  @user.refilable_notifications.create({ template_refilable_id: @template_refilable.id, notification_type: 0 })
       if @user.panel_notifications.refilable_evaluated.first.nil? || @user.panel_notifications.refilable_evaluated.first.status
         Refilables.up_rubric(@template_refilable, @user, resume_dashboard_template_refilable_url(@template_refilable))
