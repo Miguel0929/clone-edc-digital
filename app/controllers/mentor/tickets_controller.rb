@@ -7,7 +7,6 @@ class Mentor::TicketsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{ mentor_tickets_path }'>Tickets</a>".html_safe
     @tickets = Ticket.where(coach_id: current_user.id).order(updated_at: :desc)
     if params[:filter] == "open"
-      puts "open we"
       @tickets = @tickets.where(closed: false)
     elsif params[:filter] == "closed"
       @tickets = @tickets.where(closed: true)
