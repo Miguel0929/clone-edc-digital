@@ -281,27 +281,31 @@ class User < ActiveRecord::Base
 
   def answered_questions_percentage
     return 0 if group.nil?
-
+    self.user_progress
     #total_of_answers = group.all_programs.joins(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
     #total_of_questions = group.all_programs.joins(chapters: [:questions]).select('questions.*').count
-    total_of_answers = 0; total_of_questions = 0; preguntas = [] 
-    group.all_programs.each{|program| total_of_questions += program.all_questions_count}
-    group.all_programs.each{|program| preguntas << program.all_questions.pluck(:id)}
-    total_of_answers = Answer.where(user_id: self.id, question: preguntas).count
-    return 0 if (total_of_answers == 0 && total_of_questions == 0) || (total_of_answers != 0 && total_of_questions == 0)
+    #total_of_answers = 0; total_of_questions = 0; preguntas = []
+    #all_programs = group.all_programs
+    #all_programs.each{|program| total_of_questions += program.all_questions_count}
+    #all_programs.each{|program| preguntas << program.all_questions.pluck(:id)}
+    #total_of_answers = Answer.where(user_id: self.id, question: preguntas).count
+    #return 0 if (total_of_answers == 0 && total_of_questions == 0) || (total_of_answers != 0 && total_of_questions == 0)
 
-    ((total_of_answers.to_f * 100) / total_of_questions.to_f).round(2) rescue 0
+    #((total_of_answers.to_f * 100) / total_of_questions.to_f).round(2) rescue 0
   end
 
   def content_visited_percentage
     return 0 if group.nil?
+    self.user_seen
+    #all_programs = group.all_programs
+    #total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id in (?)", all_programs.pluck(:id)).count
+    #total_of_contents = all_programs.joins(chapters: [:chapter_contents]).where("chapter_contents.coursable_type = 'Lesson'").count
+    #total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("programs.id in (?)", all_programs.pluck(:id)).count
+    #total_of_contents = all_programs.joins(chapters: [:chapter_contents]).count
 
-    total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id in (?)", group.all_programs.pluck(:id)).count
-    total_of_contents = group.all_programs.joins(chapters: [:chapter_contents]).where("chapter_contents.coursable_type = 'Lesson'").count
+    #return 0 if (total_of_visited_contents == 0 && total_of_contents == 0) || (total_of_visited_contents != 0 && total_of_contents == 0)
 
-    return 0 if (total_of_visited_contents == 0 && total_of_contents == 0) || (total_of_visited_contents != 0 && total_of_contents == 0)
-
-    ((total_of_visited_contents.to_f * 100) / total_of_contents.to_f).round(2) rescue 0
+    #((total_of_visited_contents.to_f * 100) / total_of_contents.to_f).round(2) rescue 0
 
   end
 
