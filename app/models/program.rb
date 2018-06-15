@@ -7,6 +7,10 @@ class Program < ActiveRecord::Base
   mount_uploader :small_cover, SmallCoverUploader
 
   has_many :chapters, -> { order(position: :asc) }, dependent: :destroy
+  has_many :chapter_contents, through: :chapters
+  has_many :questions, :through => :chapter_contents, :source => :coursable, :source_type => 'Question'
+  has_many :contents, :through => :chapter_contents, :source => :coursable, :source_type => 'Chapter'
+  has_many :chapter_content_contents, through: :contents #, :class_name => "ChapterContent", foreign_key: "chapter_id"
   has_many :group_programs, dependent: :destroy
   has_many :groups, through: :group_programs
   has_many :program_notifications, dependent: :destroy
@@ -107,25 +111,32 @@ class Program < ActiveRecord::Base
   end 
 
   def all_questions_count
-    questions = 0
-    self.chapters.each do |chapter|
-      questions += chapter.all_questions.count 
-    end  
-    questions
+    ids_questions = self.questions.pluck(:id)
+    content = self.contents.pluck(:id)
+    ids_question_contents = ChapterContent.where(chapter_id: content, coursable_type: "Question").pluck(:coursable_id) 
+    Question.where(id: ids_questions + ids_question_contents).count
   end
 
   def all_questions
-    questions = []
-    self.chapters.each do |chapter|
-      chapter.chapter_contents.each do |chapter_content|
-        if chapter_content.coursable_type == "Question"
-          questions << chapter_content.model.id
-        elsif chapter_content.coursable_type == "Chapter" 
-          questions += chapter_content.model.questions.pluck(:id)   
-        end  
-      end
-    end
-    q = Question.where(id: questions)
+    ids_questions = self.questions.pluck(:id)
+    content = self.contents.pluck(:id)
+    ids_question_contents = ChapterContent.where(chapter_id: content, coursable_type: "Question").pluck(:coursable_id) 
+    Question.where(id: ids_questions + ids_question_contents)
+
+    #ChapterContent.where(id: ids_contents, coursable_type: "Question")
+    #ChapterContent.where(id: ids_contents, coursable_type: "Chapter")
+    #s
+    #questions = []
+    #self.chapters.each do |chapter|
+    #  chapter.chapter_contents.each do |chapter_content|
+    #    if chapter_content.coursable_type == "Question"
+    #      questions << chapter_content.model.id
+    #    elsif chapter_content.coursable_type == "Chapter" 
+    #      questions += chapter_content.model.questions.pluck(:id)   
+    #    end  
+    #  end
+    #end
+    #q = Question.where(id: questions)
   end  
 
   def all_groups(user)
