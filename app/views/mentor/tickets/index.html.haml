@@ -57,7 +57,8 @@
                   - when "inbox"
                     = link_to (ticket.title.nil? ? "Sin título" : ticket.title.truncate(60, separator: ' ')), conversation_path(ticket.element_id), target: :_blank
                   - when "plantilla"
-                    = link_to (ticket.title.nil? ? "Sin título" : ticket.title.truncate(60, separator: ' ')), mentor_student_refilable_path(student_id: ticket.trainee_id, id: ticket.element_id), target: :_blank
+                    - refilable = Refilable.find_by(template_refilable_id: ticket.element_id, user_id: ticket.trainee_id)
+                    = link_to (ticket.title.nil? ? "Sin título" : ticket.title.truncate(60, separator: ' ')), mentor_student_refilable_path(student_id: ticket.trainee_id, id: refilable.id), target: :_blank unless refilable.nil?
                 %td.text-center.b-r.b-dashed.b-grey
                   %span.font-montserrat
                     = link_to User.find(ticket.trainee_id).email, mentor_student_path(ticket.trainee_id), target: :_blank
