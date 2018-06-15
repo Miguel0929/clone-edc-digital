@@ -23,7 +23,6 @@ class Dashboard::RefilablesController < ApplicationController
     if @template.refilables.where(user_id: current_user.id).first.nil?
       refilable = @template.refilables.new(refilable_params)
       refilable.user = current_user
-      
       if refilable.save
         create_ticket(current_user, refilable)
       end
