@@ -15,8 +15,8 @@ class StudentsExporterJob
       else
         header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', "Codigo activación", "Género", "Edad", "Situación actual", "Tema de interés", "Mi mayor reto será", "Lo que busco en EDC",]
         Program.all.each do |program|
-          header << "#{program.name} CONTESTADO:"
-          header << "#{program.name} VISTO:"
+          header << "#{program.name} CONTESTADO"
+          header << "#{program.name} VISTO"
         end
       end
       csv << header

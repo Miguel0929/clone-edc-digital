@@ -147,7 +147,7 @@
 															- if @bienvenido.nil?
 																El grupo no tiene examen diagnóstico
 															- else 
-																#{student.evaluation_result_for(@bienvenido)} de #{@bienvenido.points} pts
+																#{student.evaluation_result_for(@bienvenido)} de #{@bienvenido.total_points} pts
 													- coloring = 1
 													- @programs.each do |program|
 														- coloring = (coloring == 1 ? 0 : 1)
