@@ -54,9 +54,9 @@ class UsersController < ApplicationController
       @users = @users.where(industry_id: params[:industria])
     end
 
-    if params[:program].present?
-      program_id = Program.find(params[:program]).id
-    end
+    #if params[:program].present?
+    #  program_id = Program.find(params[:program]).id
+    #end
 
     #ids = []
     if params[:answered].present?
@@ -183,7 +183,7 @@ class UsersController < ApplicationController
   def students
     add_breadcrumb "<a class='active' href='#{students_users_path}'>Estudiantes</a>".html_safe
     ids=[]
-    @users = User.students.includes(:group)
+    @users = User.students.includes(:group, :program_stats)
     uni_groups = Group.where.not(university_id: nil)
     uni_groups.each do |u|
       unless ids.include?(u.university_id)
@@ -196,28 +196,14 @@ class UsersController < ApplicationController
       case params[:status]
         when 'active'
           @users = @users.where.not(invitation_accepted_at: nil)
-          @allusers = User.students.where.not(invitation_accepted_at: nil)
         when 'inactive'
           @users = @users.where(invitation_accepted_at: nil)
-          @allusers = User.students.where(invitation_accepted_at: nil)
       end
     end
 
-    if params[:group].present? && params[:status].present?
-      case params[:status]
-        when 'active'
-          @users = @users.where(group: params[:group]).where.not(invitation_accepted_at: nil)
-          @allusers = User.students.where(group: params[:group]).where.not(invitation_accepted_at: nil)
-        when 'inactive'
-          @users = @users.where(group: params[:group], invitation_accepted_at: nil)
-          @allusers = User.students.where(group: params[:group], invitation_accepted_at: nil)
-      end
-      @group = Group.find(params[:group])
-    elsif params[:group].present? && !params[:status].present?
+    if params[:group].present?
       @users = @users.where(group: params[:group])
-      @allusers = User.students.where(group: params[:group])
-      @group = Group.find(params[:group])
-    end
+    end 
 
     if params[:university].present?
       @users = @users.joins(:group).where(groups: {university_id: params[:university]})
@@ -235,33 +221,15 @@ class UsersController < ApplicationController
       @users = @users.where(industry_id: params[:industria])
     end
 
-    if params[:program].present?
-      program_id = Program.find(params[:program]).id
-    end
-
     #ids = []
     if params[:answered].present?
       lower_a = params[:answered].to_i - ( params[:answered] == "10" ? 10 : 9.999)
       upper_a = params[:answered].to_i
     end
     if params[:answered].present? && !params[:program].present?
-      #@users.each do |user|
-      #  percentage = user.answered_questions_percentage rescue 0
-      #  if params[:answered].to_i >= percentage && params[:answered].to_i-10 < percentage
-      #    ids.push(user.id)
-      #  end
-      #end
-      #@users = @users.where(id: ids)
       @users = @users.where(user_progress: lower_a..upper_a)
     elsif params[:answered].present? && params[:program].present?
-      #@users.each do |user|
-      #  percentage = user.percentage_questions_answered_for(Program.find(params[:program])) rescue 0
-      #  if params[:answered].to_i >= percentage && params[:answered].to_i-10 < percentage
-      #    ids.push(user.id)
-      #  end
-      #end
-      #@users = @users.where(id: ids)
-      @users = @users.joins(:program_stats).where(:program_stats => {program_id: program_id, program_progress: lower_a..upper_a})
+      @users = @users.joins(:program_stats).where(:program_stats => {program_id: params[:program], program_progress: lower_a..upper_a})
     end
 
     #ids = []
@@ -270,23 +238,9 @@ class UsersController < ApplicationController
       upper_s = params[:visited].to_i
     end
     if params[:visited].present? && !params[:program].present?
-      #@users.each do |user|
-      #  percentage = user.content_visited_percentage rescue 0
-      #  if params[:visited].to_i >= percentage && params[:visited].to_i-10 < percentage
-      #    ids.push(user.id)
-      #  end
-      #end
-      #@users=@users.where(id: ids)
       @users = @users.where(user_seen: lower_s..upper_s)
     elsif params[:visited].present? && params[:program].present?
-      #@users.each do |user|
-      #  percentage = user.percentage_content_visited_for(Program.find(params[:program])) rescue 0
-      #  if params[:visited].to_i >= percentage && params[:visited].to_i-10 < percentage
-      #    ids.push(user.id)
-      #  end
-      #end
-      #@users=@users.where(id: ids)
-      @users = @users.joins(:program_stats).where(:program_stats => {program_id: program_id, program_seen: lower_s..upper_s})
+      @users = @users.joins(:program_stats).where(:program_stats => {program_id: params[:program], program_seen: lower_s..upper_s})
     end
 
     @users = @users.search_query(params[:query]) if params[:query].present?
