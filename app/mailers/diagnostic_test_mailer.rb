@@ -44,9 +44,9 @@ class DiagnosticTestMailer
               "-question_8-" => question_8,
               "-answer_8-" => answer_8,
               "-message_8-" => message_8,
-              "-points_obtained-" => points_obtained,
-              "-points_total-" => points_total,
-              "-average-" => average
+              "-points_obtained-" => points_obtained.to_s,
+              "-points_total-" => points_total.to_s,
+              "-average-" => average.to_s
             },
             subject: "Diagnóstico del curso de Bienvenida"
           },
@@ -113,9 +113,9 @@ class DiagnosticTestMailer
               "-question_8-" => question_8,
               "-answer_8-" => answer_8,
               "-message_8-" => message_8,
-              "-points_obtained-" => points_obtained,
-              "-points_total-" => points_total,
-              "-average-" => average
+              "-points_obtained-" => points_obtained.to_s,
+              "-points_total-" => points_total.to_s,
+              "-average-" => average.to_s
             },
             subject: "Diagnóstico de Bienvenida enviado: " + user.name
           },
