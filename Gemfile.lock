@@ -363,6 +363,8 @@ GEM
       pry (>= 0.9.10)
     public_suffix (2.0.4)
     rack (1.6.4)
+    rack-accept (0.4.5)
+      rack (>= 0.4)
     rack-attack (5.0.1)
       rack
     rack-cache (1.6.1)
@@ -527,6 +529,11 @@ GEM
     turbolinks (5.0.0)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.0)
+    turnout (2.4.1)
+      i18n (~> 0.7)
+      rack (>= 1.3, < 3)
+      rack-accept (~> 0.4)
+      tilt (>= 1.4, < 3)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (3.0.0)
@@ -627,6 +634,7 @@ DEPENDENCIES
   sweetify
   time_difference
   turbolinks
+  turnout
   uglifier (>= 1.3.0)
   useragent
   web-console (~> 2.0)
