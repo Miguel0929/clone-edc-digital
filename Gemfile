@@ -64,6 +64,7 @@ gem 'sweetify'
 gem 'sweet-alert-confirm'
 gem 'seed_dump'
 gem 'nilify_blanks'
+gem 'turnout'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
