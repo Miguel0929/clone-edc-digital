@@ -45,41 +45,26 @@ class Mentor::StudentsController < ApplicationController
     if params[:industria].present?
       @users = @users.where(industry_id: params[:industria])
     end
-    ids=[]
-    if params[:answered].present? && params[:program].length==0
-      @users.each do |user|
-        percentage = user.answered_questions_percentage rescue 0
-        if params[:answered].to_i >= percentage && params[:answered].to_i-10 < percentage
-          ids.push(user.id)
-        end
-      end
-      @users=@users.where(id: ids)
-    elsif params[:answered].present? && params[:program].length > 0
-      @users.each do |user|
-        percentage = user.percentage_questions_answered_for(Program.find(params[:program])) rescue 0
-        if params[:answered].to_i >= percentage && params[:answered].to_i-10 < percentage
-          ids.push(user.id)
-        end
-      end
-      @users=@users.where(id: ids)
+    
+    if params[:answered].present?
+      lower_a = params[:answered].to_i - ( params[:answered] == "10" ? 10 : 9.999)
+      upper_a = params[:answered].to_i
     end
-    ids=[]
-    if params[:visited].present? && params[:program].length==0
-      @users.each do |user|
-        percentage = user.content_visited_percentage rescue 0
-        if params[:visited].to_i >= percentage && params[:visited].to_i-10 < percentage
-          ids.push(user.id)
-        end
-      end
-      @users=@users.where(id: ids)
-    elsif params[:visited].present? && params[:program].length > 0
-      @users.each do |user|
-        percentage = user.percentage_content_visited_for(Program.find(params[:program])) rescue 0
-        if params[:visited].to_i >= percentage && params[:visited].to_i-10 < percentage
-          ids.push(user.id)
-        end
-      end
-      @users=@users.where(id: ids)
+    if params[:answered].present? && !params[:program].present?
+      @users = @users.where(user_progress: lower_a..upper_a)
+    elsif params[:answered].present? && params[:program].present?
+      @users = @users.joins(:program_stats).where(:program_stats => {program_id: params[:program], program_progress: lower_a..upper_a})
+    end
+
+    #ids = []
+    if params[:visited].present?
+      lower_s = params[:visited].to_i - ( params[:visited] == "10" ? 10 : 9.999)
+      upper_s = params[:visited].to_i
+    end
+    if params[:visited].present? && !params[:program].present?
+      @users = @users.where(user_seen: lower_s..upper_s)
+    elsif params[:visited].present? && params[:program].present?
+      @users = @users.joins(:program_stats).where(:program_stats => {program_id: params[:program], program_seen: lower_s..upper_s})
     end
     @users=@users.page(params[:page]).per(10)
     #@users = @users.where(group: params[:group]) if params[:group].present?

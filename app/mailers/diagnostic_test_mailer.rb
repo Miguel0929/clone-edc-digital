@@ -11,9 +11,9 @@ class DiagnosticTestMailer
                         question_5, answer_5, message_5,
                         question_6, answer_6, message_6,
                         question_7, answer_7, message_7,
-                        question_8, answer_8, message_8
-                        )
-
+                        question_8, answer_8, message_8,
+                        points_obtained, points_total, average)
+      p "============================================"
 		 data = {
         personalizations: [
           {
@@ -43,7 +43,10 @@ class DiagnosticTestMailer
               "-message_7-" => message_7,
               "-question_8-" => question_8,
               "-answer_8-" => answer_8,
-              "-message_8-" => message_8
+              "-message_8-" => message_8,
+              "-points_obtained-" => points_obtained.to_s,
+              "-points_total-" => points_total.to_s,
+              "-average-" => average.to_s
             },
             subject: "Diagnóstico del curso de Bienvenida"
           },
@@ -75,9 +78,9 @@ class DiagnosticTestMailer
                         question_5, answer_5, message_5,
                         question_6, answer_6, message_6,
                         question_7, answer_7, message_7,
-                        question_8, answer_8, message_8
-                        )
-
+                        question_8, answer_8, message_8,
+                        points_obtained, points_total, average)
+     p "============================================" 
      data = {
         personalizations: [
           {
@@ -109,7 +112,10 @@ class DiagnosticTestMailer
               "-message_7-" => message_7,
               "-question_8-" => question_8,
               "-answer_8-" => answer_8,
-              "-message_8-" => message_8
+              "-message_8-" => message_8,
+              "-points_obtained-" => points_obtained.to_s,
+              "-points_total-" => points_total.to_s,
+              "-average-" => average.to_s
             },
             subject: "Diagnóstico de Bienvenida enviado: " + user.name
           },

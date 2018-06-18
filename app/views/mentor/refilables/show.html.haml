@@ -29,6 +29,11 @@
                   = @refilable.template_refilable.name
                 %p
                   = @refilable.template_refilable.description
+                %p
+                  - ticket = get_student_ticket(@user, @refilable.template_refilable)
+                  %span{class: "#{ticket.nil? ? 'text-danger' : (ticket.closed? ? 'text-success' : 'text-warning')}"}
+                    %i.fa{class: ticket.nil? ? "fa-ticket" : (ticket.closed? ? "fa-lock" : "fa-unlock-alt")}
+                    = ticket.nil? ? "Sin ticket" : (ticket.closed? ? "Ticket cerrado" : "Ticket abierto")
                 - if current_user.admin?
                   = link_to user_path(@user) do
                     %i.fa.fa-arrow-left

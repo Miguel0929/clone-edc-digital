@@ -323,9 +323,9 @@ Rails.application.routes.draw do
     resources :groups, only: [:index, :show] do
       member do
         get :codes
-        get :inactive_students
         get :template_refilables
         get :quizzes
+        get :inactive_students
       end
     end
     
