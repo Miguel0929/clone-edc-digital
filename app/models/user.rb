@@ -50,6 +50,7 @@ class User < ActiveRecord::Base
   belongs_to :coach, :class_name => "User", foreign_key: "coach_id"
   has_many :user_trainees
   has_many :trainees, through: :user_trainees, :foreign_key => "trainee_id"
+  has_one :user_detail
 
   devise :database_authenticatable, :recoverable, :invitable, :validatable, :registerable, :omniauthable
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180612173206) do
+ActiveRecord::Schema.define(version: 20180618161425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -828,6 +828,19 @@ ActiveRecord::Schema.define(version: 20180612173206) do
 
   add_index "user_codes", ["user_id"], name: "index_user_codes_on_user_id", using: :btree
 
+  create_table "user_details", force: :cascade do |t|
+    t.integer  "user_id"
+    t.date     "birthdate"
+    t.string   "situation"
+    t.string   "interest"
+    t.text     "challenge"
+    t.text     "goal"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "user_details", ["user_id"], name: "index_user_details_on_user_id", using: :btree
+
   create_table "user_evaluation_refilables", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "evaluation_refilable_id"
@@ -995,6 +1008,7 @@ ActiveRecord::Schema.define(version: 20180612173206) do
   add_foreign_key "template_refilables", "programs"
   add_foreign_key "universities", "states"
   add_foreign_key "user_codes", "users"
+  add_foreign_key "user_details", "users"
   add_foreign_key "user_evaluation_refilables", "evaluation_refilables"
   add_foreign_key "user_evaluation_refilables", "users"
   add_foreign_key "user_trainees", "users"
