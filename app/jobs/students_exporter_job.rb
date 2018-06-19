@@ -29,8 +29,8 @@ class StudentsExporterJob
           student.phone_number,
           student.status,
           student.group.nil? ? "" : student.group.name,
-          "#{student.answered_questions_percentage}%",
-          "#{student.content_visited_percentage}%",
+          "#{student.user_progress.ceil}%",
+          "#{student.user_seen.ceil}%",
           student.user_code.nil? ? "----------------" : student.user_code.codigo,
         ]
         programs = ''

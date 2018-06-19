@@ -12,7 +12,7 @@ class Group < ActiveRecord::Base
   has_many :active_mentors, -> { where('invitation_accepted_at IS NOT NULL and role = 1')}, class_name: 'User', foreign_key: 'group_id'
   has_many :shared_group_attachment_groups
   has_many :shared_group_attachments, through: :shared_group_attachment_groups
-  has_one :group_stats
+  has_one :group_stat
   has_many :delireverable_packages, through: :group_delireverable_packages
   has_many :template_refilables, through: :group_template_refilables
   has_many :group_delireverable_packages

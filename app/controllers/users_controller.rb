@@ -183,7 +183,7 @@ class UsersController < ApplicationController
   def students
     add_breadcrumb "<a class='active' href='#{students_users_path}'>Estudiantes</a>".html_safe
     ids=[]
-    @users = User.students.includes(:group, :program_stats)
+    @users = User.students.includes(:group, :program_stats, :industry)
     uni_groups = Group.where.not(university_id: nil)
     uni_groups.each do |u|
       unless ids.include?(u.university_id)

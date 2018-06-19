@@ -7,7 +7,7 @@ class QuizzesController < ApplicationController
 
   def index
     add_breadcrumb "<a class='active' href='#{quizzes_path}'>Evaluaciones</a>".html_safe
-    @quizzes = Quiz.all
+    @quizzes = Quiz.all.includes(:program)
   end
 
   def show

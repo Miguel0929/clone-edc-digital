@@ -16,7 +16,7 @@ class Mentor::StudentsController < ApplicationController
     #  .page(params[:page]).per(100)
     @groups = current_user.groups
     @universities = University.where(id: current_user.groups.pluck(:university_id) )
-    @users = User.students.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id'))
+    @users = User.students.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id')).includes(:group)
     if params[:status].present?
       case params[:status]
         when 'active'
