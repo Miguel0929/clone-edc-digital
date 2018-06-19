@@ -11,8 +11,8 @@ wb.styles do |style|
                   style: [header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell] 
 
     @users.each do |user|
-      sheet.add_row [user.id, user.name, user.email, user.phone_number, user.gender_output, user.age, user.situation, 
-                    user.interest, user.challenge, user.goal, user.status, user.group.nil? ? "" : user.group.name, 
+      sheet.add_row [user.id, user.name, user.email, user.phone_number, user.gender_output, user.age, 
+                    user.user_detail.nil? ? nil : user.user_detail.situation, user.user_detail.nil? ? nil : user.user_detail.interest, user.user_detail.nil? ? nil : user.user_detail.challenge, user.user_detail.nil? ? nil : user.user_detail.goal, user.status, user.group.nil? ? "" : user.group.name, 
                 # "#{(user.answers_count * 100) / user.questions_count rescue 0}%",
                 # La línea anterior es reemplazada por la siguiente:
                     user.user_progress,
