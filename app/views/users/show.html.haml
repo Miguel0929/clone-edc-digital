@@ -129,19 +129,19 @@
                     %tr.odd.gradeX
                       %td Mi situación actual
                       %td
-                        = @user.situation.nil? ? "Sin registro" : @user.situation
+                        = @user.user_detail.nil? ? "Sin registro" : (@user.user_detail.situation.nil? ? "Sin registro" : @user.user_detail.situation)
                     %tr.odd.gradeX
                       %td Tema de interés
                       %td
-                        = @user.interest.nil? ? "Sin registro" : @user.interest
+                        = @user.user_detail.nil? ? "Sin registro" : (@user.user_detail.interest.nil? ? "Sin registro" : @user.user_detail.interest)
                     %tr.odd.gradeX
                       %td Mi mayor reto
                       %td
-                        = @user.challenge.nil? ? "Sin registro" : @user.challenge
+                        = @user.user_detail.nil? ? "Sin registro" : (@user.user_detail.challenge.nil? ? "Sin registro" : @user.user_detail.challenge)
                     %tr.odd.gradeX
                       %td Lo que busco en EDC Digital
                       %td
-                        = @user.goal.nil? ? "Sin registro" : @user.goal
+                        = @user.user_detail.nil? ? "Sin registro" : (@user.user_detail.goal.nil? ? "Sin registro" : @user.user_detail.goal)
                     %tr.odd.gradeX
                       %td Industria
                       %td
