@@ -104,24 +104,27 @@
             .form-group
               %label.col-sm-3.control-label.correo{:for => "nacimiento"} Fecha de nacimiento
               .col-sm-9#birthdate_block
-                = f.date_select :birthdate, prompt: {day: 'Elige un día', month: 'Elige un mes', year: 'Elige un año'}, start_year: 1940, end_year: Time.current.year
+                - if current_user.user_detail.nil? || current_user.user_detail.birthdate.nil?
+                  = f.date_select :birthdate, prompt: {day: 'Elige un día', month: 'Elige un mes', year: 'Elige un año'}, start_year: 1940, end_year: Time.current.year
+                - else
+                  = f.date_select :birthdate, default: {day: current_user.user_detail.birthdate.day, month: current_user.user_detail.birthdate.month, year: current_user.user_detail.birthdate.year}, start_year: 1940, end_year: Time.current.year
                 = error_for(resource, :birthdate)
             .form-group
               %label.col-sm-3.control-label{:for => "situacion"} La situación que más me define actualmente
               .col-sm-9
-                = f.select :situation, ["No tengo una idea pero sé que quiero emprender", "Tengo una idea para hacer un negocio", "Ya inicié el proyecto pero aún no tengo ventas", "Ya inicié mi empresa y ya tengo ventas", "Quiero reabir mi negocio"],  {include_blank: "Selecciona una opción"}, { :class => 'minimal form-control full-width' }  
+                = f.select :situation, ["No tengo una idea pero sé que quiero emprender", "Tengo una idea para hacer un negocio", "Ya inicié el proyecto pero aún no tengo ventas", "Ya inicié mi empresa y ya tengo ventas", "Quiero reabrir mi negocio"],  {include_blank: "Selecciona una opción", selected: current_user.user_detail.nil? ? nil : current_user.user_detail.situation}, { :class => 'minimal form-control full-width' }  
             .form-group
               %label.col-sm-3.control-label{:for => "situacion"} Me interesa o mi idea de negocio entra en el tema
               .col-sm-9
-                = f.select :interest, ["Demografía y sociedad", "Economía", "Tecnología e innovación", "Medio ambiente y clima", "Gobernabilidad y relaciones exteriores"],  {include_blank: "Selecciona una opción"}, { :class => 'minimal form-control full-width' }  
+                = f.select :interest, ["Demografía y sociedad", "Economía", "Tecnología e innovación", "Medio ambiente y clima", "Gobernabilidad y relaciones exteriores"], {include_blank: "Selecciona una opción", selected: current_user.user_detail.nil? ? nil : current_user.user_detail.interest}, { :class => 'minimal form-control full-width' }  
             .form-group
               %label.col-sm-3.control-label{:for => "reto"} El mayor reto será
               .col-sm-9
-                = f.text_area :challenge, class: 'form-control', placeholder: 'Describe lo que consideras el mayor reto de tu idea.'
+                = f.text_area :challenge, value: current_user.user_detail.nil? ? nil : current_user.user_detail.challenge, class: 'form-control', placeholder: 'Describe lo que consideras el mayor reto de tu idea.'
             .form-group
               %label.col-sm-3.control-label{:for => "objetivo"} Lo que busco en EDC digital es
               .col-sm-9
-                = f.text_area :goal, class: 'form-control', placeholder: 'Describe lo que esperas conseguir en la plataforma de EDC Digital.'
+                = f.text_area :goal, value: current_user.user_detail.nil? ? nil : current_user.user_detail.goal, class: 'form-control', placeholder: 'Describe lo que esperas conseguir en la plataforma de EDC Digital.'
             .form-group
               %label.col-sm-3.control-label{:for => "name"} ¿En qué sector económico se ubica tu producto/servicio?
               .col-sm-9
