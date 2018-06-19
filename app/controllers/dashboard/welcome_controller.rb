@@ -94,50 +94,54 @@ class Dashboard::WelcomeController < ApplicationController
     end
     ####### Fisica Quizzes y Refilables
     @pf_complementaries = []
-    @programs_fisica.each do |pf|
-      program = pf.model
-      program.quizzes.each do |pf_quiz|
-        promedio = pf_quiz.promedio(current_user)
-        if pf_quiz.answered?(current_user) && promedio < 80
-          @pf_complementaries << {program: program.id, content_name: pf_quiz.name, content_type: "Quiz", avg: promedio, url: apply_dashboard_quiz_path(pf_quiz, user_id: current_user.id)}
+    unless @programs_fisica.nil?     
+      @programs_fisica.each do |pf|
+        program = pf.model
+        program.quizzes.each do |pf_quiz|
+          promedio = pf_quiz.promedio(current_user)
+          if pf_quiz.answered?(current_user) && promedio < 80
+            @pf_complementaries << {program: program.id, content_name: pf_quiz.name, content_type: "Quiz", avg: promedio, url: apply_dashboard_quiz_path(pf_quiz, user_id: current_user.id)}
+          end
         end
+        program.template_refilables.each do |pf_t_refil|
+          ########## Calculos ###########
+          refilable_user = pf_t_refil.refilables.find_by(user: current_user)
+          c_rubrics = pf_t_refil.evaluation_refilables.count
+          ids_rubricas = pf_t_refil.evaluation_refilables.pluck(:id)
+          c_user_evaluation =  UserEvaluationRefilable.where(evaluation_refilable_id: ids_rubricas, user_id: current_user.id).count 
+          promedio = user_promedio_refilable(pf_t_refil.puntaje(current_user), pf_t_refil.total_points)
+          ###########         ########### 
+          if !refilable_user.nil? && (c_rubrics == c_user_evaluation && c_rubrics > 0) && promedio < 80
+            @pf_complementaries << {program: program.id, content_name: pf_t_refil.name, content_type: "TemplateRefilable", avg: promedio, url: edit_dashboard_template_refilable_refilable_path(pf_t_refil, refilable_user)}
+          end
+        end 
       end
-      program.template_refilables.each do |pf_t_refil|
-        ########## Calculos ###########
-        refilable_user = pf_t_refil.refilables.find_by(user: current_user)
-        c_rubrics = pf_t_refil.evaluation_refilables.count
-        ids_rubricas = pf_t_refil.evaluation_refilables.pluck(:id)
-        c_user_evaluation =  UserEvaluationRefilable.where(evaluation_refilable_id: ids_rubricas, user_id: current_user.id).count 
-        promedio = user_promedio_refilable(pf_t_refil.puntaje(current_user), pf_t_refil.total_points)
-        ###########         ########### 
-        if !refilable_user.nil? && (c_rubrics == c_user_evaluation && c_rubrics > 0) && promedio < 80
-          @pf_complementaries << {program: program.id, content_name: pf_t_refil.name, content_type: "TemplateRefilable", avg: promedio, url: edit_dashboard_template_refilable_refilable_path(pf_t_refil, refilable_user)}
-        end
-      end 
-    end 
+    end   
     ####### Moral Quizzes y Refilables
     @pm_complementaries = []
-    @programs_moral.each do |pm|
-      program = pm.model
-      program.quizzes.each do |pm_quiz|
-        promedio = pm_quiz.promedio(current_user)
-        if pm_quiz.answered?(current_user) && promedio < 80
-          @pm_complementaries << {program: program.id, content_name: pm_quiz.name, content_type: "Quiz", avg: promedio, url: apply_dashboard_quiz_path(pm_quiz, user_id: current_user.id)}
+    unless @programs_moral.nil?
+      @programs_moral.each do |pm|
+        program = pm.model
+        program.quizzes.each do |pm_quiz|
+          promedio = pm_quiz.promedio(current_user)
+          if pm_quiz.answered?(current_user) && promedio < 80
+            @pm_complementaries << {program: program.id, content_name: pm_quiz.name, content_type: "Quiz", avg: promedio, url: apply_dashboard_quiz_path(pm_quiz, user_id: current_user.id)}
+          end
         end
+        program.template_refilables.each do |pm_t_refil|
+          ########## Calculos ###########
+          refilable_user = pm_t_refil.refilables.find_by(user: current_user)
+          c_rubrics = pm_t_refil.evaluation_refilables.count
+          ids_rubricas = pm_t_refil.evaluation_refilables.pluck(:id)
+          c_user_evaluation =  UserEvaluationRefilable.where(evaluation_refilable_id: ids_rubricas, user_id: current_user.id).count 
+          promedio = user_promedio_refilable(pm_t_refil.puntaje(current_user), pm_t_refil.total_points)
+          ###########         ########### 
+          if !refilable_user.nil? && (c_rubrics == c_user_evaluation && c_rubrics > 0) && promedio < 80
+            @pm_complementaries << {program: program.id, content_name: pm_t_refil.name, content_type: "TemplateRefilable", avg: promedio, url: edit_dashboard_template_refilable_refilable_path(pm_t_refil, refilable_user)}
+          end
+        end 
       end
-      program.template_refilables.each do |pm_t_refil|
-        ########## Calculos ###########
-        refilable_user = pm_t_refil.refilables.find_by(user: current_user)
-        c_rubrics = pm_t_refil.evaluation_refilables.count
-        ids_rubricas = pm_t_refil.evaluation_refilables.pluck(:id)
-        c_user_evaluation =  UserEvaluationRefilable.where(evaluation_refilable_id: ids_rubricas, user_id: current_user.id).count 
-        promedio = user_promedio_refilable(pm_t_refil.puntaje(current_user), pm_t_refil.total_points)
-        ###########         ########### 
-        if !refilable_user.nil? && (c_rubrics == c_user_evaluation && c_rubrics > 0) && promedio < 80
-          @pm_complementaries << {program: program.id, content_name: pm_t_refil.name, content_type: "TemplateRefilable", avg: promedio, url: edit_dashboard_template_refilable_refilable_path(pm_t_refil, refilable_user)}
-        end
-      end 
-    end  
+    end    
     @modal_trigger = current_user.video_trigger
     @tour_trigger = current_user.tour_trigger
 
