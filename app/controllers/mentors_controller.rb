@@ -8,7 +8,7 @@ class MentorsController < ApplicationController
   def index
     add_breadcrumb "<a class='active' href='#{mentors_path}'>Mentores</a>".html_safe
 
-    @users = Mentor.all
+    @users = Mentor.all.includes(:groups)
   end
 
   def show
