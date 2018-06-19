@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180618161425) do
+ActiveRecord::Schema.define(version: 20180619212953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -918,11 +918,6 @@ ActiveRecord::Schema.define(version: 20180618161425) do
     t.text     "tour_trigger",                      default: "---\n:first: true\n:second: true\n:third: true\n:fourth: true\n:fifth: true\n"
     t.datetime "evaluation_date"
     t.string   "evaluating_mentor"
-    t.date     "birthdate"
-    t.string   "situation"
-    t.string   "interest"
-    t.text     "challenge"
-    t.text     "goal"
     t.integer  "coach_id"
   end
 
