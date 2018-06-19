@@ -8,7 +8,7 @@ class TemplateRefilablesController < ApplicationController
   def index
     add_breadcrumb "<a class='active' href='#{template_refilables_path}'>Mis plantillas</a>".html_safe
 
-    @template_refilables = TemplateRefilable.all
+    @template_refilables = TemplateRefilable.all.includes(:program)
   end
 
   def show

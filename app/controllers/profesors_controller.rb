@@ -6,7 +6,7 @@ class ProfesorsController < ApplicationController
   add_breadcrumb "EDC DIGITAL", :root_path
   def index
   	add_breadcrumb "<a class='active' href='#{profesors_path}'>Profesores</a>".html_safe
-  	@users = Profesor.all
+  	@users = Profesor.all.includes(:groups)
   end
 
   def show
