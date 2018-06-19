@@ -120,8 +120,23 @@
                       .progress.m-b-5
                         .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
               .event-date
-                %h6.font-montserrat.all-caps.hint-text.m-t-0
-                %small.fs-12.hint-text
+                - complementaries_fisica = []
+                - @pf_complementaries.each{|obj| complementaries_fisica << obj if obj[:program] == program.id}
+                - unless complementaries_fisica.empty?
+                  .alert.alert-danger.bordered
+                    %h4.text-center.bold.m-b-0 Rapidez no es sinónimo de calidad 
+                    %p.text-justify{style: "font-size: 13px; line-height: 18px"} Corrige tus plantillas y evaluaciones de acuerdo a las correcciones que tu mentor te envía por correo electrónico para llegar a puntajes mayores al 80%. De no hacerlo, no recibirás retroalimentación de programas siguientes, ya que los errores se verían reflejados en el avance.
+
+                    - complementaries_fisica.each do |c_f|
+                      - if c_f[:content_type] == "TemplateRefilable" 
+                        %p.text-center{style: "font-size: 13px; line-height: 18px"}
+                          %span.bold= link_to "#{c_f[:content_name]}:", c_f[:url], class: "text-danger"
+                          #{c_f[:avg]}%
+                      - if c_f[:content_type] == "Quiz"     
+                        %p.text-center{style: "font-size: 13px; line-height: 18px"} 
+                          %span.bold= link_to "#{c_f[:content_name]}:", c_f[:url], class: "text-danger" 
+                          #{c_f[:avg]}% 
+
 -else
   %center
     .alert.alert-danger{:role => "alert"}
@@ -226,8 +241,21 @@
                       .progress.m-b-5
                         .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
               .event-date
-                %h6.font-montserrat.all-caps.hint-text.m-t-0
-                %small.fs-12.hint-text                
+                - complementaries_moral = []
+                - @pm_complementaries.each{|obj| complementaries_moral << obj if obj[:program] == program.id}
+                - unless complementaries_moral.empty?
+                  .alert.alert-danger.bordered
+                    %h4.text-center.bold.m-b-0 Rapidez no es sinónimo de calidad
+                    %p.text-justify{style: "font-size: 13px; line-height: 18px"} Corrige tus plantillas y evaluaciones de acuerdo a las correcciones que tu mentor te envía por correo electrónico para llegar a puntajes mayores al 80%. De no hacerlo, no recibirás retroalimentación de programas siguientes, ya que los errores se verían reflejados en el avance.
+                    - complementaries_moral.each do |c_m|
+                      - if c_m[:content_type] == "TemplateRefilable" 
+                        %p.text-center{style: "font-size: 13px; line-height: 18px"}
+                          %span.bold= link_to "#{c_m[:content_name]}:", c_m[:url], class: "text-danger"
+                          #{c_m[:avg]}%
+                      - if c_m[:content_type] == "Quiz"      
+                        %p.text-center{style: "font-size: 13px; line-height: 18px"} 
+                          %span.bold= link_to "#{c_m[:content_name]}:", c_m[:url], class: "text-danger" 
+                          #{c_m[:avg]}%                
 -else
   %center
     .alert.alert-danger{:role => "alert"}

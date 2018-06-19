@@ -29,8 +29,8 @@ IntercomRails.config do |config|
     :role => Proc.new { |user| user.role }, #string
     :group => Proc.new { |user| user.group.nil? ? 'Usuario administrador' : user.group.name }, #string
     :phone => Proc.new { |user| user.phone_number }, #string
-    :visto => Proc.new { |user| user.content_visited_percentage.ceil }, #optiimizado
-    :contestado => Proc.new { |user| user.answered_questions_percentage.ceil }, #optimizado
+    :visto => Proc.new { |user| user.user_seen.ceil }, #optiimizado
+    :contestado => Proc.new { |user| user.user_progress.ceil }, #optimizado
     :minutos_por_sesion => Proc.new { |user| user.time_average.round },
     :ruta_fisica => Proc.new { |user| user.physical_route }, #strings
     :ruta_moral => Proc.new { |user| user.moral_route }, #strings

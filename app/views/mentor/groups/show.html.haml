@@ -18,7 +18,7 @@
               %i.fa.fa-reply
               %span.bold Regresar a mis grupos
 
-- current_stats = @group.get_group_stat(@group)
+- current_stats = @group.group_stat
 .container-fluid.container-fixed-lg
   - if !current_stats.nil?
     .panel.panel-transparent
