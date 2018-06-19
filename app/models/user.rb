@@ -654,7 +654,7 @@ class User < ActiveRecord::Base
   end
 
   def profile_info_status
-    if (state.nil? || state.empty?) || (city.nil? || city.empty?) || gender.nil? || industry_id.nil? || birthdate.nil? || (situation.nil? || situation.empty?) || (interest.nil? || interest.empty?) || (challenge.nil? || challenge.empty?) || (goal.nil? || goal.empty?)
+    if (state.nil? || state.empty?) || (city.nil? || city.empty?) || gender.nil? || industry_id.nil? || (self.user_detail.nil? || (self.user_detail.birthdate.nil? || self.user_detail.situation.nil? || self.user_detail.interest.nil? || self.user_detail.challenge.nil? || self.user_detail.goal.nil? ))
       return "Incompleto"
     else
       return "Completo"
