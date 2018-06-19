@@ -97,23 +97,23 @@
 																.hintish
 																	Indefinido
 													%td.padding-0
-														- if !student.situation.nil?
+														- if !student.user_detail.nil? && !student.user_detail.situation.nil?
 															.cell-like
-																= student.situation
+																= student.user_detail.situation
 														- else
 															.cell-like.text-center.hintish
 																Indefinido
 													%td.padding-0
-														- if !student.interest.nil?
+														- if !student.user_detail.nil? && !student.user_detail.interest.nil?
 															.cell-like
-																= student.interest
+																= student.user_detail.interest
 														- else
 															.cell-like.text-center.hintish
 																Indefinido
 													%td.padding-0
 														.cell-like.text-center
-															- if !student.challenge.nil?
-																%a{:href=> "javascript:void(0)", "data-placement" => "top", "data-original-title" => "#{student.challenge}", "data-toggle" => "tooltip", :title => "", :type => "button"}
+															- if !student.user_detail.nil? && !student.user_detail.challenge.nil?
+																%a{:href=> "javascript:void(0)", "data-placement" => "top", "data-original-title" => "#{student.user_detail.challenge}", "data-toggle" => "tooltip", :title => "", :type => "button"}
 																	%i.fa.fa-book
 																	Leer
 															- else
@@ -121,8 +121,8 @@
 																	Indefinido
 													%td.padding-0
 														.cell-like.text-center
-															- if !student.goal.nil?
-																%a{:href=> "javascript:void(0)", "data-placement" => "top", "data-original-title" => "#{student.goal}", "data-toggle" => "tooltip", :title => "", :type => "button"}
+															- if !student.user_detail.nil? && !student.user_detail.goal.nil?
+																%a{:href=> "javascript:void(0)", "data-placement" => "top", "data-original-title" => "#{student.user_detail.goal}", "data-toggle" => "tooltip", :title => "", :type => "button"}
 																	%i.fa.fa-book
 																	Leer
 															- else

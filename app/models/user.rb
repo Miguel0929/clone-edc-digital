@@ -666,15 +666,17 @@ class User < ActiveRecord::Base
   end
 
   def age
-    if !birthdate.nil?
-      bd, d = self.birthdate, Date.today
-      y = d.year - bd.year 
-      y = y - 1 if (
-           bd.month >  d.month or 
-          (bd.month >= d.month and bd.day > d.day)
-      )
-      return y
-    end 
+    if !self.user_detail.nil?
+      if !self.user_detail.birthdate.nil?
+        bd, d = self.user_detail.birthdate, Date.today
+        y = d.year - bd.year 
+        y = y - 1 if (
+             bd.month >  d.month or 
+            (bd.month >= d.month and bd.day > d.day)
+        )
+        return y
+      end 
+    end
   end
 
   def evaluation_result_for(chapter)

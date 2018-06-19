@@ -35,9 +35,17 @@ class StudentsExporterJob
         ]
         programs = ''
         if !fast
-          [student.gender_output, student.age, student.situation, student.interest, student.challenge, student.goal].each do |data|
-            content << data
+          
+          if student.user_detail.nil?
+            [student.gender_output, nil, nil, nil, nil, nil].each do |data|
+              content << data
+            end
+          else
+            [student.gender_output, student.age, student.user_detail.situation, student.user_detail.interest, student.user_detail.challenge, student.user_detail.goal].each do |data|
+              content << data
+            end
           end
+
           unless student.group.nil?
             Program.all.each do |program|
               if student.group.all_programs.exists?(program)
