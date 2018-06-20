@@ -104,10 +104,13 @@
             .form-group
               %label.col-sm-3.control-label.correo{:for => "nacimiento"} Fecha de nacimiento
               .col-sm-9#birthdate_block
-                - if current_user.user_detail.nil? || current_user.user_detail.birthdate.nil?
+                - if current_user.user_detail.nil?
                   = f.date_select :birthdate, prompt: {day: 'Elige un día', month: 'Elige un mes', year: 'Elige un año'}, start_year: 1940, end_year: Time.current.year
                 - else
-                  = f.date_select :birthdate, default: {day: current_user.user_detail.birthdate.day, month: current_user.user_detail.birthdate.month, year: current_user.user_detail.birthdate.year}, start_year: 1940, end_year: Time.current.year
+                  - if current_user.user_detail.birthdate.nil?
+                    = f.date_select :birthdate, prompt: {day: 'Elige un día', month: 'Elige un mes', year: 'Elige un año'}, start_year: 1940, end_year: Time.current.year
+                  - else
+                    = f.date_select :birthdate, default: {day: current_user.user_detail.birthdate.day, month: current_user.user_detail.birthdate.month, year: current_user.user_detail.birthdate.year}, start_year: 1940, end_year: Time.current.year
                 = error_for(resource, :birthdate)
             .form-group
               %label.col-sm-3.control-label{:for => "situacion"} La situación que más me define actualmente

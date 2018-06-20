@@ -17,7 +17,9 @@
       %h2
         Lista de tutores
         .pull-right
-          = link_to 'Agregar tutor', new_coach_path, class: 'btn btn-default'
+          = link_to 'Agregar tutor nuevo', new_coach_path, class: 'btn btn-primary'
+        .pull-right.m-r-15
+          = link_to 'Reasignar tutores', reasign_coaches_path, class: 'btn btn-primary'
       .table-responsive
         %table.table.table-hover
           %thead
