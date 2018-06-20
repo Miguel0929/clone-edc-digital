@@ -544,6 +544,8 @@ Rails.application.routes.draw do
     collection do
       post :post_csv
       get :uploading_status
+      get :reasign
+      post :reasign_function
     end
   end
 
