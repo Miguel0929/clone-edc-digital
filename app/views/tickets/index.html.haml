@@ -33,11 +33,14 @@
           %tbody
             %tr
               %td.font-montserrat.b-r.b-dashed.b-grey{width: "50%"}
+                Título
               %td.text-center.b-r.b-dashed.b-grey
                 Aprendiz
               %td.text-center.b-r.b-dashed.b-grey
+                Tutor
+              %td.text-center.b-r.b-dashed.b-grey{width: "10%"}
                 Tipo
-              %td.text-center
+              %td.text-center{width: "12%"}
                 Estado
             - @tickets.each do |ticket|
               %tr
@@ -48,8 +51,11 @@
                   - when "plantilla"
                     = link_to (ticket.title.nil? ? "Sin título" : ticket.title.truncate(60, separator: ' ')), mentor_student_refilable_path(student_id: ticket.trainee_id, id: ticket.element_id), target: :_blank
                 %td.text-center.b-r.b-dashed.b-grey
-                  %span.font-montserrat
+                  %span.font-montserrat{style: "font-size: 90%;"}
                     = link_to User.find(ticket.trainee_id).email, user_path(ticket.trainee_id), target: :_blank
+                %td.text-center.b-r.b-dashed.b-grey
+                  %span.font-montserrat{style: "font-size: 90%;"}
+                    = link_to User.find(ticket.coach_id).email, mentor_path(ticket.coach_id), target: :_blank
                 %td.text-center.b-r.b-dashed.b-grey
                   %span.font-montserrat
                     - case ticket.category
