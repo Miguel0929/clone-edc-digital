@@ -115,7 +115,8 @@ class DiagnosticTestMailer
               "-message_8-" => message_8,
               "-points_obtained-" => points_obtained.to_s,
               "-points_total-" => points_total.to_s,
-              "-average-" => average.to_s
+              "-average-" => average.to_s,
+              "-situation-" => user.user_detail.nil? ? "Ninguna" : (user.user_detail.situation.nil? ? "Ninguna" : user.user_detail.situation)
             },
             subject: "Diagnóstico de Bienvenida enviado: " + user.name
           },
