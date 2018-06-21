@@ -22,7 +22,7 @@
               .col-xs-12
                 .form-group
                   %div.input-group
-                    = form_tag(mentor_tickets_path, method: :get) do
+                    = form_tag(tickets_path, method: :get) do
                       = text_field_tag :query, "", class: "form-control text-black", :placeholder => "Buscar"
                     %span.input-group-addon.panel-title-recursos
                       %i.fa.fa-search.text-white
