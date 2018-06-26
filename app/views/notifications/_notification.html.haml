@@ -7,6 +7,8 @@
             = render partial: "notifications/#{notification.notificable_type.underscore}", locals: { notification: notification }
           %span.pull-right.time
             = distance_of_time_in_words(notification.created_at.to_i, Time.now.to_i)
+            = link_to dashboard_notification_path(notification), :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+              %i.fa.fa-times
         .option
           %a.mark{:href => "#"}
   - elsif notification.notificable_type == "ProgramNotification"
@@ -17,6 +19,8 @@
             = render partial: "notifications/#{notification.notificable_type.underscore}", locals: { notification: notification }
           %span.pull-right.time
             = distance_of_time_in_words(notification.created_at.to_i, Time.now.to_i)
+            = link_to dashboard_notification_path(notification), :method => :delete, :data => { :confirm => '¿Estás seguro?'} do
+              %i.fa.fa-times
         .option
           %a.mark{:href => "#"}
   - elsif notification.notificable_type == "ReportNotification"
@@ -26,6 +30,8 @@
           = render partial: "notifications/#{notification.notificable_type.underscore}", locals: { notification: notification }
         %span.pull-right.time
           = distance_of_time_in_words(notification.created_at.to_i, Time.now.to_i)
+          = link_to dashboard_notification_path(notification), :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+            %i.fa.fa-times
       .option
         %a.mark{:href => "#"}
   - elsif notification.notificable_type == "SharedGroupAttachmentNotification"
@@ -35,6 +41,8 @@
           = render partial: "notifications/#{notification.notificable_type.underscore}", locals: { notification: notification }
         %span.pull-right.time
           = distance_of_time_in_words(notification.created_at.to_i, Time.now.to_i)
+          = link_to dashboard_notification_path(notification), :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+            %i.fa.fa-times
       .option
         %a.mark{:href => "#"}
   - elsif notification.notificable_type == "LearningPathNotification"
@@ -44,6 +52,8 @@
           = render partial: "notifications/#{notification.notificable_type.underscore}", locals: { notification: notification }
         %span.pull-right.time
           = distance_of_time_in_words(notification.created_at.to_i, Time.now.to_i)
+          = link_to dashboard_notification_path(notification), :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+            %i.fa.fa-times
       .option
         %a.mark{:href => "#"}
   - elsif notification.notificable_type == "MentorProgramNotification"
@@ -53,6 +63,8 @@
           = render partial: "notifications/#{notification.notificable_type.underscore}", locals: { notification: notification }
         %span.pull-right.time
           = distance_of_time_in_words(notification.created_at.to_i, Time.now.to_i)
+          = link_to dashboard_notification_path(notification), :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+            %i.fa.fa-times
       .option
         %a.mark{:href => "#"}
   - elsif notification.notificable_type == "RefilableNotification"
@@ -62,6 +74,8 @@
           = render partial: "notifications/#{notification.notificable_type.underscore}", locals: { notification: notification }
         %span.pull-right.time
           = distance_of_time_in_words(notification.created_at.to_i, Time.now.to_i)
+          = link_to dashboard_notification_path(notification), :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+            %i.fa.fa-times
       .option
         %a.mark{:href => "#"}
   - elsif notification.notificable_type == "MentorQuestionNotification"
@@ -71,6 +85,8 @@
           = render partial: "notifications/#{notification.notificable_type.underscore}", locals: { notification: notification }
         %span.pull-right.time
           = distance_of_time_in_words(notification.created_at.to_i, Time.now.to_i)
+          = link_to dashboard_notification_path(notification), :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+            %i.fa.fa-times            
       .option
         %a.mark{:href => "#"}                                    
 									

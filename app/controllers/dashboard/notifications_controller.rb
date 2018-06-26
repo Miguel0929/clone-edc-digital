@@ -46,14 +46,19 @@ class Dashboard::NotificationsController < ApplicationController
         dashboard_attachments_path
       when 'MentorProgramNotification'
         notification.update(read: true) unless notification.read
-        if notification.model.more95?
-          mentor_student_path(notification.model.user)
-        elsif notification.model.complete?
-          mentor_student_path(notification.model.user)
-        elsif notification.model.key_question?
-          mentor_student_path(notification.model.user)
-        else 
-          mentor_student_path(notification.model.user) 
+        usuario = notification.model.user
+        if notification.model.more95? && !usuario.nil?
+          mentor_student_path(usuario)
+        elsif notification.model.complete? && !usuario.nil?
+          mentor_student_path(usuario)
+        elsif notification.model.key_question? && !usuario.nil?
+          mentor_student_path(usuario)
+        else
+          if usuario.nil? 
+            root_path
+          else  
+            mentor_student_path(usuario)
+          end   
         end
       when 'RefilableNotification'
         notification.update(read: true) unless notification.read
@@ -64,10 +69,13 @@ class Dashboard::NotificationsController < ApplicationController
         end
       when 'MentorQuestionNotification'
         notification.update(read: true) unless notification.read
-        if notification.model.update_question?
+        usuario = notification.model.user
+        if notification.model.update_question? && !usuario.nil?
           program = notification.model.chapter_content.chapter.program
           chapter = notification.model.chapter_content.chapter
           mentor_evaluation_path(chapter, user_id: notification.model.user.id, program_id: program.id)
+        else
+          root_path
         end           
     end
 
@@ -79,4 +87,12 @@ class Dashboard::NotificationsController < ApplicationController
 
     redirect_to dashboard_notifications_path
   end
+
+  def destroy
+    notification = Notification.find(params[:id])
+    polimorfic = notification.model
+    polimorfic.destroy
+    notification.destroy
+    redirect_to :back, notice: "Notificación eliminada."
+  end  
 end
