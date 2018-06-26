@@ -47,6 +47,18 @@ module TicketsHelper
 		end
 	end
 
+	def open_ticket(trainee, element)
+		category = element.class.name
+		case category
+		when "TemplateRefilable"
+			ticket = Ticket.find_by(trainee_id: trainee.id, category: 1, element_id: element.id)
+			ticket.update(closed: false) unless ticket.nil?
+		when "Mailboxer::Conversation"
+			ticket = Ticket.find_by(trainee_id: trainee.id, category: 0, element_id: element.id)
+			ticket.update(closed: false) unless ticket.nil?
+		end
+	end
+
 	def get_student_ticket(trainee, element)
 		category = element.class.name
 		case category
