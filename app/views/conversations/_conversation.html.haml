@@ -121,7 +121,7 @@
 				type: "POST",
 				dataType:'json',
 				url: "/generate_ticket",
-				data: {"element_id": #{conversation.id}, "trainee_id": #{conversation.recipients.find { |r| r != current_user }.id}, "coach_id": #{current_user.id}, "category": 0},
+				data: {"element_id": #{conversation.id}, "trainee_id": #{conversation.recipients.find { |r| r != current_user }.id rescue 0}, "coach_id": #{current_user.id}, "category": 0},
 				success: function(response) {
 					$("#generatedTicketDiv").html("<div class='text-danger'>Ticket creado</div>");
 				},

@@ -198,7 +198,7 @@ Rails.application.routes.draw do
 
     resources :users, only: [:show]
 
-    resources :notifications, only: [:index, :show] do
+    resources :notifications, only: [:index, :show, :destroy] do
       collection do
         post :mark_as_read
       end

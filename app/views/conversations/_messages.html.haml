@@ -1,22 +1,28 @@
 - @receipts.each do |receipt|
   - message= receipt.message
-  - if message.sender.id != current_user.id
+  - if message.sender.nil? && message.sender != current_user
     .media
       .media-left
         %a{"data-toggle" => "tooltip", :title => "#{message.created_at.strftime("%A, %b, %d, %Y at %I:%M%p")}"}
           %img.conversacion{:alt => "...", :src => "#{image_path('verde.png')}"}/
       .media-body.trans{:id => "#{if message.id == @receipts.last.message.id then 'last' else '' end}"}
-        - if message.sender.student?
-          = link_to mentor_student_path(message.sender.id) do
+        - if message.sender.nil?
+          %strong.l
+            Usuario eliminado
+            \:
+          %br/
+        -else
+          - if message.sender.student?
+            = link_to mentor_student_path(message.sender.id) do
+              %strong.l
+                = message.sender.name
+                \:
+              %br/
+          - else
             %strong.l
               = message.sender.name
               \:
             %br/
-        -else
-          %strong.l
-            = message.sender.name
-            \:
-          %br/  
         .l
           = message.body.html_safe
           %br/

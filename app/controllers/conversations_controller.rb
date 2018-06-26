@@ -103,7 +103,8 @@ class ConversationsController < ApplicationController
     originator = conversation.originator
     participants = conversation.participants
     recipients = participants - [originator]
-    output = { recipients: recipients.map(&:email).join(", "), originator: originator.email, recipientsCount:  recipients.count.to_s}
+    
+    output = { recipients: recipients.map(&:email).join(", "), originator: originator.nil? ? "Usuario eliminado" : originator.email , recipientsCount:  recipients.count.to_s}
     respond_to do |format|
       format.json {render json: output}
     end

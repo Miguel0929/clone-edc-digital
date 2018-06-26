@@ -4,7 +4,7 @@
   %span.fs-12.m-l-10
     El alumno
     %strong
-      #{notification.model.user.name}
+      #{notification.model.user.nil? ? "Usuario eliminado" : notification.model.user.name}
     esta a punto de concluir el programa
     %strong
       "#{notification.model.program.name}"
@@ -13,7 +13,7 @@
   %span.fs-12.m-l-10
     El alumno 
     %strong
-      #{notification.model.user.name}
+      #{notification.model.user.nil? ? "Usuario eliminado" : notification.model.user.name}
     ha completado el programa
     %strong
       "#{notification.model.program.name}"
@@ -22,7 +22,7 @@
   %span.fs-12.m-l-10
     El alumno 
     %strong
-      #{notification.model.user.name}
+      #{notification.model.user.nil? ? "Usuario eliminado" : notification.model.user.name}
     ha respondido una pregunta clave del programa
     %strong
       "#{notification.model.program.name}"
@@ -31,7 +31,7 @@
   %span.fs-12.m-l-10
     El alumno 
     %strong
-      #{notification.model.user.name}
+      #{notification.model.user.nil? ? "Usuario eliminado" : notification.model.user.name}
     ha corregido una pregunta del programa
     %strong
       "#{notification.model.program.name}"      
