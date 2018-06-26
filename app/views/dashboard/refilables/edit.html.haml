@@ -35,8 +35,10 @@
                 .well
                   #refilable-content-template
                     = raw replace_fillable(@refilable.content)
-                .refilable-form
-                  = form_for([:dashboard, @template, @refilable]) do |f|
+                #refilable-form
+                  /= form_for([:dashboard, @template, @refilable]) do |f|
+                  /  = f.hidden_field :content
+                  = bootstrap_form_tag url: dashboard_template_refilable_refilables_path, class: "edit_refilable" do |f|
                     = f.hidden_field :content
                 .pull-right
                   = link_to dashboard_template_refilables_path, class: "btn btn-danger" do
@@ -91,9 +93,14 @@
         }
       });
       if (enviar){
-        var $form = $('.edit_refilable');
+        console.log("enviando")
+        var $form = $('#refilable-form').children('form');
         var $template_content = $('#refilable-content-template');
         $('#refilable_content').val($template_content.html());
+
+        var input = $("<input>").attr("type", "hidden").attr("name", "refilable_content").val($template_content.html());
+        $form.append($(input));
+
         $form.submit();
       }else{
         $("#alert-ra").css('display','block');
@@ -101,4 +108,5 @@
       }
       
     })
+
   });

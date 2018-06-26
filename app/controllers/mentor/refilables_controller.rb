@@ -3,7 +3,7 @@ class Mentor::RefilablesController < ApplicationController
   before_action :my_students?, only: [:show, :edit]
   before_action :require_admin_or_mentor
   before_action :set_refilable, only: [:show, :edit, :update]
-  before_action :set_template_refilable, only: [:plantilla]
+  before_action :set_template_refilable, only: [:plantilla, :record]
 
   helper_method :evaluation_pointed?
   helper_method :evaluation_result
@@ -40,7 +40,13 @@ class Mentor::RefilablesController < ApplicationController
   end
 
   def plantilla
+    add_breadcrumb "<a class='active' href='#{plantilla_mentor_student_refilable_path(@user, @template)}'>Visualización de plantilla: #{@template.name}</a>".html_safe
+  end
 
+  def record
+    add_breadcrumb "<a class='active' href='#{record_mentor_student_refilable_path(@user, @template)}'>Historial de plantilla: #{@template.name}</a>".html_safe
+    @refilables = @template.refilables.where(user: @user).order(:created_at)
+    @refilable = @refilables.last
   end
 
   def evaluation_pointed?(evaluation, points)

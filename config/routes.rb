@@ -350,6 +350,7 @@ Rails.application.routes.draw do
       resources :refilables, only: [:show, :edit, :update] do
         member do
           get :plantilla
+          get :record
         end  
       end  
       resources :quizzes, only: [:show]
