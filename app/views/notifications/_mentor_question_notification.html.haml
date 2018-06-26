@@ -5,7 +5,7 @@
   %span.fs-12.m-l-10
     El alumno 
     %strong
-      #{notification.model.user.name}
+      #{notification.model.user.nil? ? "Usuario eliminado" : notification.model.user.name}
     ha corregido una pregunta del programa
     %strong
       "#{programa.name}"      
