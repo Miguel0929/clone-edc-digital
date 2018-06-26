@@ -104,7 +104,7 @@
 
                 - if @done_refilables.count > 0
                   - @done_refilables.each do |refilable|
-                    - user_refilable = refilable.refilables.find_by(user: @this_user)
+                    - user_refilable = refilable.refilables.where(user: @this_user).order(:created_at).last
                     .card.social-card.share.m-b-30{"data-social" => "item"}
                       .card-header{style: "border-bottom: none"}
                         %h5.text-complete.pull-left.fs-12

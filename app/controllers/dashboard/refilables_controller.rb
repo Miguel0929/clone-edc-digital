@@ -20,38 +20,34 @@ class Dashboard::RefilablesController < ApplicationController
   end
 
   def create
-    if @template.refilables.where(user_id: current_user.id).first.nil?
-      refilable = @template.refilables.new(refilable_params)
+      user_refilables = @template.refilables.where(user_id: current_user.id)
+      if user_refilables.count > 4
+        user_refilables.order(:created_at).first.destroy
+      end
+      if params[:refilable_content]
+        refilable = @template.refilables.new(content: params[:refilable_content])
+      else
+        refilable = @template.refilables.new(refilable_params)
+      end
       refilable.user = current_user
       if refilable.save
-        create_ticket(current_user, refilable)
+        ticket = Ticket.find_by(trainee_id: current_user.id, category: 1, element_id: @template.id)
+        if ticket.nil?
+          create_ticket(current_user, refilable)
+        else
+          open_ticket(current_user, @template)
+        end
+        AnsweredRefilableNotificationJob.perform_async(@template.program, @template, "soporte2@edc-digital.com", current_user, mentor_student_url(current_user))
+        redirect_to dashboard_template_refilables_path, notice: 'Plantilla contestada'
+      else
+        redirect_to dashboard_template_refilables_path, alert: 'Error al guardar respuestas, intenta de nuevo'
       end
-
-      AnsweredRefilableNotificationJob.perform_async(@template.program, @template, "soporte2@edc-digital.com", current_user, mentor_student_url(current_user))
-
-      redirect_to dashboard_template_refilables_path, notice: 'Plantilla contestada'
-    else
-      redirect_to dashboard_template_refilables_path, alert: 'La plantilla ya estaba contestada previemiente.'
-    end 
   end
 
   def show
     @refilable = Refilable.find(params[:id])
     add_breadcrumb "Mis plantillas", dashboard_template_refilables_path
-    add_breadcrumb "<a class='active' href='#{dashboard_template_refilable_refilable_path(@template,  @refilable)}'>#{@template.name}</a>".html_safe                            
-
-    @refilables = TemplateRefilable.joins(:groups)
-                                    .where('groups.id = ?', current_user.group.id)
-                                    .order(position: :asc)
-    @done_refilables = []
-    @undone_refilables = []
-    @refilables.each do |refil|
-      if refil.refilables.find_by(user: current_user)
-        @done_refilables.push(refil)
-      else
-        @undone_refilables.push(refil)
-      end
-    end
+    add_breadcrumb "<a class='active' href='#{dashboard_template_refilable_refilable_path(@template,  @refilable)}'>#{@template.name}</a>".html_safe 
 
   end
 

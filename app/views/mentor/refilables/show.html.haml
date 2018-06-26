@@ -84,6 +84,7 @@
                         = bootstrap_form_for(template_refilable, url: mentor_evaluation_refilable_path, :html => {:id => "evolve"}) do |f|
                           %input{type: 'hidden', name: "user_id", value: @user.id, id: "user_id"}
                           %input{type: 'hidden', name: "template_id", value: template_refilable.id, id: "program_id"}
+                          %input{type: 'hidden', name: "refilable_id", value: @refilable.id, id: "program_id"}
                             %div
                               - template_refilable.evaluation_refilables.each_with_index do |evaluation, index|
                                 .contenedor.padding-20{:id => "tabulador#{index}", :class => "#{index==0 ? 'show' : 'hide'}"}
