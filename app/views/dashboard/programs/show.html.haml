@@ -4,41 +4,40 @@
 .container-fluid.container-fixed-lg.top-container-padding.m-b-25.minus-30
   %section.demo-bg-section.p-b-0.p-t-45.panel-title-emprendimiento#tour-5
     .container-fluid
-      .md-p-l-20.md-p-r-20.xs-no-padding
-        %h5.block-title.hint-text.no-margin.text-white Programa de Aprendizaje
+      .md-p-l-20.md-p-r-20
+        %h5.block-title.hint-text.text-white.p-l-10 Programa de Aprendizaje
         .pull-right
           -if current_user.admin?
             Rating: 
             = @program.rating
-        .row.col-md-12
+        .col-md-12
           .col-sm-5.col-md-4
             %h2.m-t-5.text-white
               = @program.name
-          .col-sm-7.col-md-8.no-padding.xs-p-l-15.xs-p-r-15.text-white
-            .p-t-20.p-l-35.md-p-l-5.md-p-t-15
+          .col-sm-7.col-md-8.text-white
+            .p-t-20.p-l-5
               %p
                 = @program.description
-              %p
-                = link_to dashboard_evaluations_path(program_id: @program), class: 'btn btn-sm btn-primary btn-cons m-b-10' do
-                  %i.fa.fa-play
-                  %span.bold Ir a mi evaluación de programa
-                = link_to dashboard_program_path(user_id: current_user, format: :xlsx), class: "btn btn-success btn-sm btn-cons m-b-10" do
-                  %i.fa.fa-file-excel-o
-                  Descargar mi compilación de resultados en Excel
+              = link_to dashboard_evaluations_path(program_id: @program), class: 'btn btn-sm btn-primary btn-cons m-b-10' do
+                %i.fa.fa-play
+                %span.bold Ir a mi evaluación de programa
+              = link_to dashboard_program_path(user_id: current_user, format: :xlsx), class: "btn btn-success btn-sm btn-cons m-b-10", style: "white-space: normal !important; word-wrap: break-word;" do
+                %i.fa.fa-file-excel-o
+                Descargar mi compilación de resultados en Excel
         - if @current_user.overall_percentage_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) == 0
-          %section.col-md-12.demo-bg-section.m-b-10.m-t-65
-          .row.col-sm-6
-            .pull-left.p-b-10
-              %span.m-r-20{:style => "color: #48B0F7; font-size:"}
-                %i.fa.fa-edit
-                Curso no iniciado
-            .clearfix
+          %section.demo-bg-section.m-b-10.m-t-65
+            .col-sm-12
+              .pull-left.p-b-10
+                %span.m-r-20{:style => "color: #48B0F7; font-size:"}
+                  %i.fa.fa-edit
+                  Curso no iniciado
+                .clearfix
         - elsif @current_user.overall_percentage_answered_for(@program) == 0 && @current_user.percentage_content_visited_for(@program) > 0
-          .row.col-sm-12
+          .col-md-12.col-sm-12
             %section.demo-bg-section.m-b-10.m-t-65
               .progress.m-b-5{:style => "background-color: #eef5fb;"}
                 .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.overall_percentage_answered_for(@program)}%"}
-          .row.col-sm-6
+          .col-sm-6.col-md-6
             .pull-left
               %span.m-r-20{:style => "color: #48B0F7;"}
                 %i.fa.fa-edit
@@ -47,12 +46,18 @@
                 %i.fa.fa-eye
                 #{@current_user.percentage_content_visited_for(@program)}% visto
             .clearfix
+          .col-sm-6.col-md-6.p-b-10
+            .pull-right
+              %span.pull-left.m-r-10{:style => "color:#dddddd"}
+                Califica este curso:
+              %span.pull-right.rating
+                = render partial: "layouts/stars", locals: {value: @program, route: ratings_vote_program_path}   
         - else
-          .row.col-sm-12
+          .col-sm-12.col-md-12
             %section.demo-bg-section.m-b-10.m-t-65
               .progress.m-b-5{:style => "background-color: #eef5fb;"}
                 .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.overall_percentage_answered_for(@program)}%"}
-          .row.col-md-6
+          .col-sm-6.col-md-6
             .pull-left
               %span.m-r-20{:style => "color: #48B0F7;"}
                 %i.fa.fa-edit
@@ -65,12 +70,12 @@
                 Nivel 
                 = @program.level == 'basico' ? "básico" : @program.level
             .clearfix
-        .row.col-sm-6.p-b-10
-          .pull-right
-            %span.pull-left.m-r-10{:style => "color:#dddddd"}
-              Califica este curso:
-            %span.pull-right.rating
-              = render partial: "layouts/stars", locals: {value: @program, route: ratings_vote_program_path}  
+          .col-sm-6.col-md-6.p-b-10
+            .pull-right
+              %span.pull-left.m-r-10{:style => "color:#dddddd"}
+                Califica este curso:
+              %span.pull-right.rating
+                = render partial: "layouts/stars", locals: {value: @program, route: ratings_vote_program_path}  
 .container-fluid.container-fixed-lg
   - last_parameters = last_moved_program(@program)
   - if !last_parameters[4].nil?
