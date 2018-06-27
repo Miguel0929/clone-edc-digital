@@ -38,7 +38,7 @@ class Dashboard::TemplateRefilablesController < ApplicationController
 
   def resume
     @template_refilable = TemplateRefilable.find(params[:id])
-    @refilable = @template_refilable.refilables.find_by(user_id: current_user)
+    @refilable = @template_refilable.refilables.where(user_id: current_user).order(:created_at).last
     @rubricas = @template_refilable.evaluation_refilables
     add_breadcrumb "Plantillas", :dashboard_template_refilables_path
     add_breadcrumb "<a class='active' href='#{resume_dashboard_template_refilable_path(@template_refilable)}'>Rúbrica de evaluación</a>".html_safe
