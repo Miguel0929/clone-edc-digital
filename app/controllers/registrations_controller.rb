@@ -12,8 +12,8 @@ class RegistrationsController < Devise::RegistrationsController
 		super do
 			@new_ind = resource.industry_id
 
-			if Date.valid_date?(params[:user]['birthdate(1i)'.to_sym].to_i, params[:user]['birthdate(2i)'.to_sym].to_i, params[:user]['birthdate(3i)'.to_sym].to_i)
-				old_birthdate = (params[:user]['birthdate(3i)'.to_sym] + "/" + params[:user]['birthdate(2i)'.to_sym] + "/" + params[:user]['birthdate(1i)'.to_sym]).to_date
+			if Date.valid_date?(params[:user_detail]['birthdate(1i)'.to_sym].to_i, params[:user_detail]['birthdate(2i)'.to_sym].to_i, params[:user_detail]['birthdate(3i)'.to_sym].to_i)
+				old_birthdate = (params[:user_detail]['birthdate(3i)'.to_sym] + "/" + params[:user_detail]['birthdate(2i)'.to_sym] + "/" + params[:user_detail]['birthdate(1i)'.to_sym]).to_date
 			else
 				old_birthdate = nil
 			end

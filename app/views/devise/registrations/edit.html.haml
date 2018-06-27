@@ -100,18 +100,19 @@
               %label.col-sm-3.control-label.correo{:for => "correo"} Correo electrónico
               .col-sm-9
                 = f.text_field :email, class: 'form-control', placeholder: 'correo@dominio.com', disabled: true
-                = error_for(resource, :email)
+                = error_for(resource, :email)   
             .form-group
               %label.col-sm-3.control-label.correo{:for => "nacimiento"} Fecha de nacimiento
               .col-sm-9#birthdate_block
-                - if current_user.user_detail.nil?
-                  = f.date_select :birthdate, prompt: {day: 'Elige un día', month: 'Elige un mes', year: 'Elige un año'}, start_year: 1940, end_year: Time.current.year
-                - else
-                  - if current_user.user_detail.birthdate.nil?
-                    = f.date_select :birthdate, prompt: {day: 'Elige un día', month: 'Elige un mes', year: 'Elige un año'}, start_year: 1940, end_year: Time.current.year
+                = fields_for :user_detail, current_user.user_detail do |fd|
+                  - if current_user.user_detail.nil?
+                    = fd.date_select :birthdate, prompt: {day: 'Elige un día', month: 'Elige un mes', year: 'Elige un año'}, start_year: 1940, end_year: Time.current.year
                   - else
-                    = f.date_select :birthdate, default: {day: current_user.user_detail.birthdate.day, month: current_user.user_detail.birthdate.month, year: current_user.user_detail.birthdate.year}, start_year: 1940, end_year: Time.current.year
-                = error_for(resource, :birthdate)
+                    - if current_user.user_detail.birthdate.nil?
+                      = fd.date_select :birthdate, prompt: {day: 'Elige un día', month: 'Elige un mes', year: 'Elige un año'}, start_year: 1940, end_year: Time.current.year
+                    - else
+                      = fd.date_select :birthdate, default: {day: current_user.user_detail.birthdate.day, month: current_user.user_detail.birthdate.month, year: current_user.user_detail.birthdate.year}, start_year: 1940, end_year: Time.current.year
+                  = error_for(resource, :birthdate)
             .form-group
               %label.col-sm-3.control-label{:for => "situacion"} La situación que más me define actualmente
               .col-sm-9
