@@ -8,7 +8,7 @@
         .row
           .col-sm-12.col-md-12.no-padding.xs-p-l-15.xs-p-r-15
             %h2.text-white 
-              Evaluacion de plantilla
+              Evaluación de plantilla
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
@@ -40,7 +40,7 @@
                 %tbody
                   - total_obtenido = 0; total_puntaje = 0
                   - @rubricas.each do |rubrica|
-                    - user_eval = rubrica.user_evaluation_refilables.find_by(user: current_user)
+                    - user_eval = rubrica.user_evaluation_refilables.find_by(user: current_user, refilable_id: @refilable.id)
                     - unless user_eval.nil?
                       - obtenido = user_eval.puntaje
                       - puntaje = rubrica.points
