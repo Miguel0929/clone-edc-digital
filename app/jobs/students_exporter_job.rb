@@ -29,15 +29,23 @@ class StudentsExporterJob
           student.phone_number,
           student.status,
           student.group.nil? ? "" : student.group.name,
-          "#{student.answered_questions_percentage}%",
-          "#{student.content_visited_percentage}%",
+          "#{student.user_progress.ceil}%",
+          "#{student.user_seen.ceil}%",
           student.user_code.nil? ? "----------------" : student.user_code.codigo,
         ]
         programs = ''
         if !fast
-          [student.gender_output, student.age, student.situation, student.interest, student.challenge, student.goal].each do |data|
-            content << data
+          
+          if student.user_detail.nil?
+            [student.gender_output, nil, nil, nil, nil, nil].each do |data|
+              content << data
+            end
+          else
+            [student.gender_output, student.age, student.user_detail.situation, student.user_detail.interest, student.user_detail.challenge, student.user_detail.goal].each do |data|
+              content << data
+            end
           end
+
           unless student.group.nil?
             Program.all.each do |program|
               if student.group.all_programs.exists?(program)

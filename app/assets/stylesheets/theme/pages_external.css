@@ -357,7 +357,7 @@ a.unseen-link:hover {
 	background-image: url('images/darkwood.jpg');
 }
 .widget-1-straight{
-	background-image: url("/assets/darkwood.jpg");
+	background-color: #595959;
 	background-size: cover;
 	content: " ";
 	left: 0;

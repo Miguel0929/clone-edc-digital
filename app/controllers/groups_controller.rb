@@ -11,15 +11,15 @@ class GroupsController < ApplicationController
     add_breadcrumb "<a class='active' href='#{groups_path}'>Grupos</a>".html_safe
     @pag_max = 40
 
-    @groups = Group.all.page(params[:page]).per(@pag_max)
-    @groups = Group.all.group_search(params[:query]).page(params[:page]).per(@pag_max) if params[:query].present? 
-    @records_number = Group.all.count
+    @groups = Group.all.includes(:state, :university, :group_stat).page(params[:page]).per(@pag_max)
+    @groups = Group.all.includes(:state, :university, :group_stat).group_search(params[:query]).page(params[:page]).per(@pag_max) if params[:query].present? 
+    @records_number = @groups.count
   end
 
   def show
     @students = @group.active_students.page(params[:page]).per(50)
     @students = @group.student_search(params[:query]).page(params[:page]).per(50) if params[:query].present?
-    @programs = sort_programs(@group, @group.all_programs)
+    @programs = sort_programs(@group, @group.all_programs) rescue []
     @quizzes = sort_quizzes(@group) rescue []
     @template_refilables = sort_template_refilables(@group) rescue []
     @delireverable_packages = sort_delireverables(@group) rescue []

@@ -147,19 +147,19 @@
                     %tr.odd.gradeX
                       %td Mi situación actual
                       %td
-                        = @user.situation.nil? ? "Sin registro" : @user.situation
+                        = @user.user_detail.nil? ? "Sin registro" : (@user.user_detail.situation.nil? ? "Sin registro" : @user.user_detail.situation)
                     %tr.odd.gradeX
                       %td Tema de interés
                       %td
-                        = @user.interest.nil? ? "Sin registro" : @user.interest
+                        = @user.user_detail.nil? ? "Sin registro" : (@user.user_detail.interest.nil? ? "Sin registro" : @user.user_detail.interest)
                     %tr.odd.gradeX
                       %td Mi mayor reto
                       %td
-                        = @user.challenge.nil? ? "Sin registro" : @user.challenge
+                        = @user.user_detail.nil? ? "Sin registro" : (@user.user_detail.challenge.nil? ? "Sin registro" : @user.user_detail.challenge)
                     %tr.odd.gradeX
                       %td Lo que busco en EDC Digital
                       %td
-                        = @user.goal.nil? ? "Sin registro" : @user.goal
+                        = @user.user_detail.nil? ? "Sin registro" : (@user.user_detail.goal.nil? ? "Sin registro" : @user.user_detail.goal)
                     %tr.odd.gradeX
                       %td Industria
                       %td
@@ -613,7 +613,8 @@
                             No hay plantillas asignadas a este estudiante
                     - else
                       - @refilables.each do |refilable|
-                        - user_refilable = refilable.refilables.find_by(user: @user)
+                        /- user_refilable = refilable.refilables.find_by(user: @user)
+                        - user_refilable = refilable.refilables.where(user: @user).order(:created_at).last
                         - total_points = refilable.total_points
                         - puntos_obtenidos = refilable.puntaje(@user)
                         %tr
@@ -644,12 +645,10 @@
                                   No contestado
                             %ul.unstyled.no-style.p-l-0.m-b-5
                               %li.inline.text-primary.bold
-                                Puntos:
-                              %li.inline #{puntos_obtenidos} de #{total_points} pts
-                            %ul.unstyled.no-style.p-l-0.m-b-5
-                              %li.inline.text-primary.bold
                                 Promedio:
-                              %li.inline= number_to_percentage(user_promedio_refilable(puntos_obtenidos, total_points), precision: 1) 
+                              %li.inline
+                                = number_to_percentage(user_promedio_refilable(puntos_obtenidos, total_points), precision: 0) 
+                                (#{puntos_obtenidos} de #{total_points} pts)
                             %ul.unstyled.no-style.p-l-0.m-b-10
                               - ticket = get_student_ticket(@user, refilable)
                               %li.inline.text-primary.bold
@@ -673,11 +672,17 @@
                                   %li.inline
                                     Ver respuestas
                               %ul.p-l-0
-                                = link_to edit_mentor_student_refilable_path(@user, user_refilable) do
+                                = link_to record_mentor_student_refilable_path(@user.id,refilable) do
                                   %li.inline
                                     %i.fa.fa-comment-o
                                   %li.inline
-                                    Comentar
+                                    Historial
+                              /%ul.p-l-0
+                              /  = link_to edit_mentor_student_refilable_path(@user, user_refilable) do
+                              /    %li.inline
+                              /      %i.fa.fa-comment-o
+                              /    %li.inline
+                              /      Comentar
 
 
 #alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}

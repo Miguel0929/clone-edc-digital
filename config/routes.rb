@@ -198,7 +198,7 @@ Rails.application.routes.draw do
 
     resources :users, only: [:show]
 
-    resources :notifications, only: [:index, :show] do
+    resources :notifications, only: [:index, :show, :destroy] do
       collection do
         post :mark_as_read
       end
@@ -350,6 +350,7 @@ Rails.application.routes.draw do
       resources :refilables, only: [:show, :edit, :update] do
         member do
           get :plantilla
+          get :record
         end  
       end  
       resources :quizzes, only: [:show]
@@ -544,6 +545,8 @@ Rails.application.routes.draw do
     collection do
       post :post_csv
       get :uploading_status
+      get :reasign
+      post :reasign_function
     end
   end
 

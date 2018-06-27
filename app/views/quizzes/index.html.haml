@@ -16,12 +16,12 @@
       %table.table.table-over
         %thead
           %tr
-            %th Evaluación
-            %th
+            %th{width: "70%"} Evaluación
+            %th{width: "30%"}
         %tbody
           - @quizzes.each do |quiz|
             %tr
-              %td.p-t-15.p-b-10
+              %td.p-t-15.p-b-10{width: "75%"}
                 %h4.m-t-0.m-b-5
                   = quiz.name
                 %p

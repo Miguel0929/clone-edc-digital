@@ -44,7 +44,7 @@ class MailboxController < ApplicationController
         end
       end
     else
-      filtered_participants.first.name.to_s
+      filtered_participants.first.nil? ?  "Usuario eliminado" : filtered_participants.first.name.to_s
     end
   end
 

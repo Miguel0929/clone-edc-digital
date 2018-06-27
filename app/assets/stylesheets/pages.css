@@ -217,3 +217,21 @@ label.zoomed-checkbox {
   top: 4px;
   left: 12px;
 }
+
+.card.share .card-header.no-hover{
+  pointer-events: none;
+}
+
+.lightblue-background{
+  background-color: #daeffd;
+}
+
+.card-titles{
+  font-size: 14px;
+  margin: 0;
+  
+  font-family: Montserrat;
+  letter-spacing: -0.006em;
+  margin-top: -3px;
+  font-weight: bold;
+}

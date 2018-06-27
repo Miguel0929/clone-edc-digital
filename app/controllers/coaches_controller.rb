@@ -71,6 +71,34 @@ class CoachesController < ApplicationController
     redirect_to coaches_path
   end  
 
+  def reasign
+    add_breadcrumb "<a href='#{ coaches_path }'>Tutores</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{ reasign_coaches_path }'>Reasignar tutores</a>".html_safe
+    @coaches = User.where.not(invitation_accepted_at: nil).where(role: 1)
+    @students = User.where.not(invitation_accepted_at: nil).where(role: 0)
+  end
+
+  def reasign_function
+    tutor = User.find(params[:coach].to_i)
+    users = User.where(id: (params[:students].map(&:to_i) - [0]))
+    students = users.where(coach_id: nil)
+    trainees = users.where.not(coach_id: nil)
+
+    students.each do |student|
+      student.coach = tutor
+      student.save
+      ut = UserTrainee.create(user_id: tutor.id, trainee_id: student.id)
+    end
+
+    trainees.each do |trainee|
+      trainee.update(coach_id: tutor.id)
+      ut = UserTrainee.find_by(trainee_id: trainee.id)
+      ut.update(user_id: tutor.id, trainee_id: trainee.id)
+    end
+
+    redirect_to reasign_coaches_path
+  end
+
   def uploading_status
     redis = Redis.new
     job = JSON.parse(redis.get("job_" + params[:job_id].to_s)) unless redis.get("job_" + params[:job_id].to_s).nil?

@@ -282,31 +282,31 @@ class User < ActiveRecord::Base
 
   def answered_questions_percentage
     return 0 if group.nil?
-    self.user_progress
+    #self.user_progress
     #total_of_answers = group.all_programs.joins(chapters: [questions: [:answers]]).where('answers.user_id': self.id).count
     #total_of_questions = group.all_programs.joins(chapters: [:questions]).select('questions.*').count
-    #total_of_answers = 0; total_of_questions = 0; preguntas = []
-    #all_programs = group.all_programs
-    #all_programs.each{|program| total_of_questions += program.all_questions_count}
-    #all_programs.each{|program| preguntas << program.all_questions.pluck(:id)}
-    #total_of_answers = Answer.where(user_id: self.id, question: preguntas).count
-    #return 0 if (total_of_answers == 0 && total_of_questions == 0) || (total_of_answers != 0 && total_of_questions == 0)
+    total_of_answers = 0; total_of_questions = 0; preguntas = []
+    all_programs = group.all_programs
+    all_programs.each{|program| total_of_questions += program.all_questions_count}
+    all_programs.each{|program| preguntas << program.all_questions.pluck(:id)}
+    total_of_answers = Answer.where(user_id: self.id, question: preguntas).count
+    return 0 if (total_of_answers == 0 && total_of_questions == 0) || (total_of_answers != 0 && total_of_questions == 0)
 
-    #((total_of_answers.to_f * 100) / total_of_questions.to_f).round(2) rescue 0
+    ((total_of_answers.to_f * 100) / total_of_questions.to_f).round(2) rescue 0
   end
 
   def content_visited_percentage
     return 0 if group.nil?
-    self.user_seen
-    #all_programs = group.all_programs
-    #total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id in (?)", all_programs.pluck(:id)).count
-    #total_of_contents = all_programs.joins(chapters: [:chapter_contents]).where("chapter_contents.coursable_type = 'Lesson'").count
-    #total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("programs.id in (?)", all_programs.pluck(:id)).count
-    #total_of_contents = all_programs.joins(chapters: [:chapter_contents]).count
+    #self.user_seen
+    all_programs = group.all_programs
+    total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("chapter_contents.coursable_type = 'Lesson' AND programs.id in (?)", all_programs.pluck(:id)).count
+    total_of_contents = all_programs.joins(chapters: [:chapter_contents]).where("chapter_contents.coursable_type = 'Lesson'").count
+    total_of_visited_contents = trackers.joins(chapter_content: [chapter: [:program]]).where("programs.id in (?)", all_programs.pluck(:id)).count
+    total_of_contents = all_programs.joins(chapters: [:chapter_contents]).count
 
-    #return 0 if (total_of_visited_contents == 0 && total_of_contents == 0) || (total_of_visited_contents != 0 && total_of_contents == 0)
+    return 0 if (total_of_visited_contents == 0 && total_of_contents == 0) || (total_of_visited_contents != 0 && total_of_contents == 0)
 
-    #((total_of_visited_contents.to_f * 100) / total_of_contents.to_f).round(2) rescue 0
+    ((total_of_visited_contents.to_f * 100) / total_of_contents.to_f).round(2) rescue 0
 
   end
 
@@ -654,7 +654,7 @@ class User < ActiveRecord::Base
   end
 
   def profile_info_status
-    if (state.nil? || state.empty?) || (city.nil? || city.empty?) || gender.nil? || industry_id.nil? || birthdate.nil? || (situation.nil? || situation.empty?) || (interest.nil? || interest.empty?) || (challenge.nil? || challenge.empty?) || (goal.nil? || goal.empty?)
+    if (state.nil? || state.empty?) || (city.nil? || city.empty?) || gender.nil? || industry_id.nil? || (self.user_detail.nil? || (self.user_detail.birthdate.nil? || self.user_detail.situation.nil? || self.user_detail.interest.nil? || self.user_detail.challenge.nil? || self.user_detail.goal.nil? ))
       return "Incompleto"
     else
       return "Completo"
@@ -666,15 +666,17 @@ class User < ActiveRecord::Base
   end
 
   def age
-    if !birthdate.nil?
-      bd, d = self.birthdate, Date.today
-      y = d.year - bd.year 
-      y = y - 1 if (
-           bd.month >  d.month or 
-          (bd.month >= d.month and bd.day > d.day)
-      )
-      return y
-    end 
+    if !self.user_detail.nil?
+      if !self.user_detail.birthdate.nil?
+        bd, d = self.user_detail.birthdate, Date.today
+        y = d.year - bd.year 
+        y = y - 1 if (
+             bd.month >  d.month or 
+            (bd.month >= d.month and bd.day > d.day)
+        )
+        return y
+      end 
+    end
   end
 
   def evaluation_result_for(chapter)

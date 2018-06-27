@@ -91,7 +91,7 @@
                       %li.inline
                         Alumnos del grupo:
                         %strong #{group.active_students.count}
-                  - current_stats = group.get_group_stat(group)
+                  - current_stats = group.group_stat
                   - if !current_stats.nil?
                     %li
                       %ul.p-l-5.m-b-0
