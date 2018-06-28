@@ -113,6 +113,25 @@ class AnalyticsPanelController < ApplicationController
     @job_id = params[:id]
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
     add_breadcrumb "<a class='active' href='#{students_evaluated_progress_analytics_panel_path(@job_id)}'>Calculando estadisticas de alumnos evaluados</a>".html_safe
+  end
+
+  def search
+    add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{search_analytics_panel_index_path}'>Buscador</a>".html_safe
+    if params[:query].present?
+      @user = User.find(params[:query]) rescue nil
+      unless @user.nil?
+        @programs = @user.group.all_programs
+        bienvenido_program = Program.where("name like ?", "%" + "¡Bienvenid" + "%").last
+        unless bienvenido_program.nil? 
+          @bienvenido = bienvenido_program.chapters.where("name like ?", "%" + "Diagnóstico" + "%").last
+        else
+          @bienvenido = nil
+        end
+      end
+    else
+      @user = "buscador"
+    end    
   end 
 
   private
