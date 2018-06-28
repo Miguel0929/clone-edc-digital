@@ -88,6 +88,7 @@ Rails.application.routes.draw do
       post :create_students_evaluated
       get :mentor_alumnos_asignados
       get :students_evaluated
+      get :search
     end  
   end
 

@@ -1,0 +1,189 @@
+- content_for :title  do
+  Buscador Analíticos - EDC Digital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .row
+        .col-md-12
+          .panel-title
+            Panel de analíticos
+    .panel-body
+      .col-md-12
+        .col-md-4.col-md-offset-8
+          .pull-right
+            = form_tag(search_analytics_panel_index_path, method: :get, class: "form-inline") do
+              %input#query.form-control{:name => "query", :placeholder => "Buscar ID", :type => "text", style: "width: 100%"}/ 
+      .col-md-12
+        .row
+          - unless @user.nil?
+            - if @user == "buscador"
+              %h2.text-center Buscador de usaurios 
+            - else
+              #staticHeads
+                .col-sm-3.p-r-0
+                  %table.table.colored-columns.m-t-0
+                    %thead.static-heads
+                      %tr
+                        %th
+                          Nombre
+                    %tbody
+                      %tr
+                        %td.padding-0.border-none
+                          .cell-like
+                            %span.index-block=@user.id
+                            - if current_user.admin?
+                              = link_to @user.name, user_path(@user)
+                            - elsif current_user.mentor?
+                              = link_to @user.name, mentor_student_path(@user)
+                            - elsif current_user.profesor?
+                              = link_to @user.name, profesor_student_path(@user)       
+                - if @programs
+                  .col-sm-9.p-l-0
+                    .horizontal-overflow
+                      %table.table.colored-columns.m-t-0
+                        %thead.static-heads
+                          %tr
+                            %th
+                              Correo electrónico
+                            %th.text-center
+                              Género
+                            %th.text-center
+                              Edad
+                            %th.text-center
+                              Situación actual
+                            %th.text-center
+                              Tema de interés
+                            %th.text-center
+                              Mi mayor reto
+                            %th.text-center
+                              Lo que busco en EDC
+                            %th.text-center
+                              Inbox
+                            %th.text-center
+                              Evaluado
+                            %th.text-center
+                              Contestado
+                            %th.text-center.p-l-25.p-r-25
+                              Visto
+                            %th.text-center.p-r-25
+                              Diagnóstico de bienvenida
+                            - @programs.each do |program|
+                              %th.text-center.fs-10{colspan: "6"}
+                                = program.name
+                        %tbody
+                          %tr
+                            %td.padding-0
+                              .cell-like
+                                = @user.email
+                            %td.padding-0
+                              .cell-like.text-center
+                                - if !@user.gender_output.nil?
+                                  = @user.gender_output
+                                - else
+                                  .hintish
+                                    Indefinido
+                            %td.padding-0
+                              .cell-like.text-center
+                                - if !@user.age.nil?
+                                  = @user.age
+                                - else
+                                  .hintish
+                                    Indefinido
+                            %td.padding-0
+                              - if !@user.user_detail.nil? && !@user.user_detail.situation.nil?
+                                .cell-like
+                                  = @user.user_detail.situation
+                              - else
+                                .cell-like.text-center.hintish
+                                  Indefinido
+                            %td.padding-0
+                              - if !@user.user_detail.nil? && !@user.user_detail.interest.nil?
+                                .cell-like
+                                  = @user.user_detail.interest
+                              - else
+                                .cell-like.text-center.hintish
+                                  Indefinido
+                            %td.padding-0
+                              .cell-like.text-center
+                                - if !@user.user_detail.nil? && !@user.user_detail.challenge.nil?
+                                  %a{:href=> "javascript:void(0)", "data-placement" => "top", "data-original-title" => "#{@user.user_detail.challenge}", "data-toggle" => "tooltip", :title => "", :type => "button"}
+                                    %i.fa.fa-book
+                                    Leer
+                                - else
+                                  .hintish
+                                    Indefinido
+                            %td.padding-0
+                              .cell-like.text-center
+                                - if !@user.user_detail.nil? && !@user.user_detail.goal.nil?
+                                  %a{:href=> "javascript:void(0)", "data-placement" => "top", "data-original-title" => "#{@user.user_detail.goal}", "data-toggle" => "tooltip", :title => "", :type => "button"}
+                                    %i.fa.fa-book
+                                    Leer
+                                - else
+                                  .hintish
+                                    Indefinido
+                            %td.padding-0
+                              .cell-like.text-center
+                                = @user.mailbox.inbox.count
+                            %td.padding-0
+                              .cell-like.text-center
+                                - evalu = @user.evaluation_status
+                                %i.fa{class: evalu == "evaluado" ? "fa-check text-success" : "fa-times"}
+                                #{l @user.evaluation_date, format: :super_short unless @user.evaluation_date.nil?}
+                            %td.padding-0
+                              .cell-like.text-center
+                                #{@user.user_progress.round(1)}%
+                            %td.padding-0
+                              .cell-like.text-center
+                                #{@user.user_seen.round(1)}%
+                            %td.padding-0
+                              .cell-like.text-center
+                                - if @bienvenido.nil?
+                                  El grupo no tiene examen diagnóstico
+                                - else 
+                                  #{@user.evaluation_result_for(@bienvenido)} de #{@bienvenido.total_points} pts
+                            - coloring = 1
+                            - @programs.each do |program|
+                              - coloring = (coloring == 1 ? 0 : 1)
+                              - stat = @user.get_program_stat(program)
+                              - template_refilables = program.template_refilables
+                              - template_refilables_c = program.template_refilables.count
+                              - template_refilables_evaluated = @user.user_program_refilables_count(template_refilables)
+                              - template_refilable_avg = @user.user_program_refilables_avg(template_refilables)
+                              - quizzes_c = program.quizzes.count
+                              - quizzes = program.quizzes
+                              - quizzes_answered = user_program_quizzes_count(@user, quizzes)
+                              - quizzes_avg = user_program_quizzes_avg(@user, quizzes)
+                              %td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+                                .cell-like
+                                  Examenes (#{quizzes_answered}/#{quizzes_c}): #{number_to_percentage(quizzes_avg, precision: 1)} 
+                              %td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+                                .cell-like
+                                  Plantillas (#{template_refilables_evaluated}/#{template_refilables_c}): #{number_to_percentage(template_refilable_avg, precision: 1)}                           
+                              %td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+                                .cell-like
+                                  Contestado:
+                                  #{@user.integral_percentage_progress_for(program).ceil.to_s}%
+                              %td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+                                .cell-like
+                                  Visto:
+                                  #{@user.integral_percentage_visited_for(program).ceil.to_s}%
+                              %td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+                                .cell-like.text-center
+                                  Fecha de Ev.: 
+                                  - if stat.nil? || stat.evaluation_date.nil?
+                                    N/A
+                                  - else
+                                    #{l stat.evaluation_date, format: :super_short unless stat.evaluation_date.nil?}  
+                              %td.padding-0{style: "width:115px;", class: coloring == 1 ? 'light' : 'dark'}
+                                .cell-like
+                                  Evaluado:
+                                  - if stat.nil?
+                                    %i.fa.fa-times
+                                  - else
+                                    - evalp = stat.checked
+                                    %i.fa{class: evalp == 1 ? "fa-check text-success" : "fa-times"}
+          - else
+            %h2.text-center El usuario no existe
+
+                
