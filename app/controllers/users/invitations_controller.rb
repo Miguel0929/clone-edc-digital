@@ -54,8 +54,8 @@ class Users::InvitationsController < Devise::InvitationsController
   end
 
   def accept_resource
-  resource = resource_class.accept_invitation!(update_resource_params)
-  BaasstardNotifier.user_invited(resource) rescue nil
-  resource
-end
+    resource = resource_class.accept_invitation!(update_resource_params)
+    BaasstardNotifier.user_invited(resource) rescue nil
+    resource
+  end
 end

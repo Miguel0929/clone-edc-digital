@@ -27,6 +27,16 @@
               = error_for(resource, :phone_number)
           .row
             .col-sm-12
+              .form-group.form-group-default{class: "#{class_for(resource, :curp)}"}
+                = f.label :curp, 'CURP'
+                = f.text_field :curp, class: 'form-control', placeholder: 'Ej. BADD110313HCMLNS09', maxlength: "18"
+              #invalid-curp.text-danger.p-l-10
+                La CURP no es valida, revisa que este escrita correctamente.
+                  
+              = error_for(resource, :curp) 
+
+          .row
+            .col-sm-12
               .form-group.form-group-default{class: "#{class_for(resource, :password)}"}
                 = f.label :password, 'Contraseña'
                 = f.password_field :password, class: 'form-control', placeholder: 'Introduce tu contraseña'
@@ -54,3 +64,21 @@
           .row.m-t-10
             .col-md-12.text-right
               %a.text-info.small{:href => "mailto:soporte@edcdigital.mx"} ¿Necesitas ayuda? Contáctanos
+:javascript
+  $("#invalid-curp").hide();
+  
+  $("#user_curp").keyup(function( event ) {
+    var val =  $("#user_curp").val().toUpperCase();
+    $("#user_curp").val(val);  
+  });
+
+  $("#edit_user").submit(function(e){
+    $("#invalid-curp").hide();
+    var curp = $("#user_curp").val();
+    if(curp.match(/^([A-Z]{4})([0-9]{6})([A-Z]{6})([0-9]{2})$/i)){
+      return true;
+    }
+    $("#invalid-curp").show();
+    e.preventDefault();
+  });
+               
