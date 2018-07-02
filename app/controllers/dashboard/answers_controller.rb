@@ -136,7 +136,8 @@ class Dashboard::AnswersController < ApplicationController
         #mentores
         #ProgramMore95NotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
       end
-        mensaje = mensaje + ", has completado el #{current_user.percentage_answered_for(program)}\% del programa." 
+      
+      mensaje = mensaje + ", has completado el #{current_user.percentage_answered_for(program)}\% del programa." 
     elsif current_user.percentage_answered_for(program)==100
       if current_user.program_notifications.where(program: program).complete.first.nil?
         current_user.program_notifications.create(program: program, notification_type: 'complete')
@@ -151,13 +152,12 @@ class Dashboard::AnswersController < ApplicationController
         end
         flash[:complete]="¡Has completado el curso!"
         #mentores
-        #ProgramCompleteNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
+        if (program.id == 23 || program.id == 24)
+          ProgramCompleteNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
+        end
       end
-      if program.ruta?  
-        mensaje = mensaje + ", has completado el 100% del curso."
-      else
-        mensaje = mensaje + ", has completado el 100% del curso."
-      end      
+
+      mensaje = mensaje + ", has completado el 100% del curso."      
     end   
     if @chapter_content.next_content
       redirect_to dashboard_chapter_content_path(@chapter_content.next_content), notice: mensaje
