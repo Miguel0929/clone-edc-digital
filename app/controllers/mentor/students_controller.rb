@@ -1,7 +1,6 @@
 class Mentor::StudentsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_mentor
-
   add_breadcrumb "EDC DIGITAL", :root_path
   helper_method :get_program_stat
   helper_method :get_program_active
@@ -16,7 +15,14 @@ class Mentor::StudentsController < ApplicationController
     #  .page(params[:page]).per(100)
     @groups = current_user.groups
     @universities = University.where(id: current_user.groups.pluck(:university_id) )
-    @users = User.students.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id')).includes(:group)
+    couching_ids = current_user.trainees.pluck(:id)
+
+    ids = current_user.groups.joins(:students).pluck('users.id') + couching_ids
+  
+    @users = User.students.where('users.id in (?)', ids).includes(:group)
+    @users = @users.students_table.where('users.id in (?)', ids).search_query(params[:query]) if params[:query].present?
+
+
     if params[:status].present?
       case params[:status]
         when 'active'
@@ -67,14 +73,13 @@ class Mentor::StudentsController < ApplicationController
       @users = @users.joins(:program_stats).where(:program_stats => {program_id: params[:program], program_seen: lower_s..upper_s})
     end
     @users=@users.page(params[:page]).per(10)
-    #@users = @users.where(group: params[:group]) if params[:group].present?
-    @users = @users.students_table.where('users.id in (?)', current_user.groups.joins(:active_students).pluck('users.id')).search_query(params[:query]) if params[:query].present?
+
   end
 
 
   def show
     @user = User.find(params[:id])
-    unless @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus grupos" end
+    unless @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus asesorado" end
 
     add_breadcrumb "Estudiantes", :mentor_students_path
     add_breadcrumb "<a class='active' href='#{mentor_student_path(@user)}'>#{@user.email}</a>".html_safe
@@ -121,7 +126,7 @@ class Mentor::StudentsController < ApplicationController
   def analytics_quiz
     @quiz = Quiz.find(params[:quiz_id])
     @user = User.find(params[:id])
-    unless @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus grupos" end
+    unless @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus asesorados." end
     clean_repeated_answers(@quiz, @user)
     add_breadcrumb "Estudiantes", :mentor_students_path
     add_breadcrumb "<a href='#{mentor_student_path(@user)}'>#{@user.email}</a>".html_safe
@@ -201,8 +206,11 @@ class Mentor::StudentsController < ApplicationController
     @groups = current_user.groups
     @universities = University.where(id: current_user.groups.pluck(:university_id))
     @template_refilables = TemplateRefilable.all
+    couching_ids = current_user.trainees.pluck(:id)
+    ids = current_user.groups.joins(:students).pluck('users.id') + couching_ids
 
-    @users = User.students.where('users.id in (?)', current_user.groups.joins(:students).pluck('users.id'))
+    @users = User.students.where('users.id in (?)', ids).includes(:group)
+    @users = @users.students_table.where('users.id in (?)', ids).search_query(params[:query]).includes(:group) if params[:query].present?
     if params[:status].present?
       case params[:status]
         when 'active'
@@ -235,8 +243,6 @@ class Mentor::StudentsController < ApplicationController
     if params[:template_refilable].present?
       @users = @users.joins(:refilables).where(refilables: {template_refilable_id: params[:template_refilable]})
     end
-    #render :json => params
-    @users = @users.students_table.where('users.id in (?)', current_user.groups.joins(:students).pluck('users.id')).search_query(params[:query]) if params[:query].present?
     
     @users=@users.page(params[:page]).per(20)
   end
@@ -247,8 +253,11 @@ class Mentor::StudentsController < ApplicationController
     
     @groups = current_user.groups
     @universities = University.where(id: current_user.groups.pluck(:university_id) )
+    couching_ids = current_user.trainees.pluck(:id)
+    ids = current_user.groups.joins(:students).pluck('users.id') + couching_ids
+    @users = User.students.where('users.id in (?)', ids)
+    @users = @users.students_table.where('users.id in (?)', ids).search_query(params[:query]) if params[:query].present?
 
-    @users = User.students.where('users.id in (?)', current_user.groups.joins(:students).pluck('users.id'))
     if params[:status].present?
       case params[:status]
         when 'active'
@@ -288,9 +297,7 @@ class Mentor::StudentsController < ApplicationController
       end
       @users = User.where(id: ids)  
     end
-    
-    @users = @users.students_table.where('users.id in (?)', current_user.groups.joins(:students).pluck('users.id')).search_query(params[:query]) if params[:query].present?
-    
+        
     @users=@users.page(params[:page]).per(20)
   end  
 
