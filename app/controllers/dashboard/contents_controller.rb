@@ -120,8 +120,8 @@ class Dashboard::ContentsController < ApplicationController
   end  
   
   def redirect_to_next_content
-    mensaje= "Cambios guardados con éxito"  
-      program=@chapter_content.chapter.program
+    mensaje = "Cambios guardados con éxito"  
+    program = @chapter_content.chapter.program
 
     if current_user.percentage_answered_for(program) > 95 && current_user.percentage_answered_for(program) < 100
       if current_user.program_notifications.where(program: program).more95.first.nil?
@@ -151,7 +151,10 @@ class Dashboard::ContentsController < ApplicationController
         end
         flash[:complete]="¡Has completado el curso!"
         #mentores
-        if (program.id == 23 || program.id == 24)
+        p "================================"
+        p program.id
+        p "================================"
+        if !program.name.include?("¡Bienvenido")
           ProgramCompleteNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
         end
       end
