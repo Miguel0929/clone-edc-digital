@@ -111,15 +111,15 @@
                               %button.btn.btn-complete.m-t--10
                                 = "Comenzar"    
                                 %i.fa.fa-angle-double-right.font-size-play        
-                      .row
+                      .row 
                         .pull-left.m-l-15
                           .m-t-5.bold.text-contestado
-                            #{answered_progress}% contestado
+                            #{answered_progress}% Contestado
                         .pull-right.m-r-15
                           .m-t-5.bold.opacity_new
-                            #{seen_progress}% visto
-                      .progress.m-b-5
-                        .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
+                            #{seen_progress}% Visto     
+                      -#.progress.m-b-5
+                        -#.progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}   
               .event-date
                 - complementaries_fisica = []
                 - @pf_complementaries.each{|obj| complementaries_fisica << obj if obj[:program] == program.id}
@@ -239,8 +239,8 @@
                         .pull-right.m-r-15
                           .m-t-5.bold.opacity_new
                             #{seen_progress}% visto
-                      .progress.m-b-5
-                        .progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
+                      -#.progress.m-b-5
+                        -#.progress-bar.progress-bar-primary{:style => "width:#{answered_progress}%"}
               .event-date
                 - complementaries_moral = []
                 - @pm_complementaries.each{|obj| complementaries_moral << obj if obj[:program] == program.id}
