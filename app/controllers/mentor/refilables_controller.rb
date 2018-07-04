@@ -1,4 +1,5 @@
 class Mentor::RefilablesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_student
   before_action :my_students?, only: [:show, :edit]
   before_action :require_admin_or_mentor
@@ -88,6 +89,6 @@ class Mentor::RefilablesController < ApplicationController
   end
 
   def my_students?
-    unless current_user.admin? || @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus grupos" end
+    unless current_user.admin? || @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus asesorados" end
   end
 end

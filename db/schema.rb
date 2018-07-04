@@ -933,6 +933,7 @@ ActiveRecord::Schema.define(version: 20180703163210) do
     t.datetime "evaluation_date"
     t.string   "evaluating_mentor"
     t.integer  "coach_id"
+    t.string   "curp",                   limit: 18
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree

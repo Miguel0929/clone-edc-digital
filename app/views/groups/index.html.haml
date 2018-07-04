@@ -4,20 +4,23 @@
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-heading
-      .pull-right
-        .col-xs-12.no-opacity
-          = link_to new_group_path do
-            .btn.btn-success
-              %i.fa.fa-plus
-              Crear grupo
-      .pull-left
-        .col-xs-12
-          .form-group
+      .row
+        .col-xs-4
+          .pull-left
             = form_tag(groups_path, method: :get) do
-              %div.input-group
-                %input.form-control.pull-right{:placeholder => "Buscar", :type => "text", :name => "query"}/
-                %span.input-group-addon.panel-title-recursos
-                  %i.fa.fa-search.text-white
+              .form-group
+                %div.input-group
+                  %input.form-control.pull-right{:placeholder => "Buscar", :type => "text", :name => "query"}/
+                  %span.input-group-addon.panel-title-recursos
+                    %i.fa.fa-search.text-white
+        .col-xs-2            
+        .col-xs-6
+          .pull-right
+            = link_to new_group_path do
+              .btn.btn-success
+                %i.fa.fa-plus
+                Crear grupo        
+          
       .clearfix
     .panel-body
       %table.table.table-hover

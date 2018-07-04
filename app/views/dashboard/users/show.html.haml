@@ -92,6 +92,9 @@
                   - else
                     = (@user.gender == "male") ? "Hombre" : "Mujer"
               %tr.odd.gradeX
+                %td CURP
+                %td= @user.curp.nil? ? "Sin registro" : @user.curp     
+              %tr.odd.gradeX
                 %td Mi situación actual
                 %td
                   = @user.user_detail.nil? ? "Sin registro" : (@user.user_detail.situation.nil? ? "Sin registro" : @user.user_detail.situation)

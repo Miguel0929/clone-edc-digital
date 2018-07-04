@@ -15,9 +15,9 @@ class ApplicationController < ActionController::Base
   protected
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :phone_number, :email, :industry_id,:password, :password_confirmation, :agreement])
-    devise_parameter_sanitizer.for(:accept_invitation).concat [:first_name, :last_name, :phone_number, :agreement]
+    devise_parameter_sanitizer.for(:accept_invitation).concat [:first_name, :last_name, :phone_number, :agreement, :curp]
     devise_parameter_sanitizer.for(:invite).concat [:role, :group_id]
-    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :phone_number, :email, :password, :password_confirmation, :gender, :bio, :state, :city, :profile_picture, :industry_id])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :phone_number, :email, :password, :password_confirmation, :gender, :bio, :state, :city, :profile_picture, :industry_id, :curp])
   end
 
   def banned?

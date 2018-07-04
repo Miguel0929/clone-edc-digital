@@ -495,3 +495,6 @@ table.colored-columns td.light{
 	left: -13px;
 }
 
+.contenidos-cuadro img {
+	max-width: 100%;
+}

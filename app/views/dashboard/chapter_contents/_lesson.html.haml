@@ -15,7 +15,7 @@
           .padding-20.p-l-30.p-r-30
             %h2
               = model.identifier
-            %div
+            %div.contenidos-cuadro
               - if model.video_url.nil? || model.video_url.empty?
                 = raw model.content
               - else
