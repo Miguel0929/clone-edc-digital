@@ -60,6 +60,18 @@
 
 :javascript
   $(document).on('turbolinks:load', function(){
+    $(".refilable-edit").on('paste', function(e){ 
+      e.preventDefault();
+    });
+
+    $(".refilable-edit").keypress(function(event) {
+      var char = String.fromCharCode(event.charCode);
+
+      if (char == "<" || char == ">" || char == "&"){
+        event.preventDefault();
+      }
+    });
+    
     $('.refilable-edit').editable('toggleDisabled');
     $('.refilable-edit').attr('contentEditable', true);
     $('.refilable-edit').addClass('form-control refilable-input');
