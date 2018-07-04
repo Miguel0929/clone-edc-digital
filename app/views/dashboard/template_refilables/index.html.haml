@@ -120,7 +120,7 @@
                           - if user_refilable.comments
                             %p.m-t-15
                               %span.text-primary Comentarios: 
-                              %span.hint-text #{user_refilable.comments}
+                              %span.hint-text #{raw replace_refilable_data(user_refilable)}
                       .card-footer.clearfix
                         .pull-left
                           %span.hint-text

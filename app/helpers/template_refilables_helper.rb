@@ -16,4 +16,11 @@ module TemplateRefilablesHelper
   def remove_class(content)
     content.gsub("editable",'')
   end
+
+  def replace_refilable_data(refilable)
+    replacements = [ ["{{alumno}}", User.find(refilable.user_id).first_name], ["{{tutor}}", (refilable.mentor_id.nil? ? '<span class="text-danger">dato indefinido</span>' : User.find(refilable.mentor_id).name)], ["{{programa}}", (refilable.template_refilable.nil? ? '<span class="text-danger">dato indefinido</span>' : refilable.template_refilable.program.name)], ["{{plantilla}}", refilable.template_refilable.name], ["{{puntaje}}", (refilable.points.nil? ? '<span class="text-danger">dato indefinido</span>' : refilable.points)] ]
+    user_comments = refilable.comments
+    replacements.each {|replacement| user_comments.gsub!(replacement[0], replacement[1])}
+    return user_comments
+  end
 end

@@ -603,7 +603,7 @@
                     %tr
                       %th{width: "15%"} Nombre
                       %th Descripción
-                      %th.text-center{width: "35%"} Estatus
+                      %th.text-center{width: "30%"} Estatus
                       %th{width: "15%"} Acciones
                   %tbody
                     - if @refilables.count == 0
@@ -631,7 +631,7 @@
                                 Comentarios:
                               %li
                                 - if user_refilable
-                                  = user_refilable.comments ? user_refilable.comments : "No hay comentarios"
+                                  = user_refilable.comments ? ( raw replace_refilable_data(user_refilable)[0..200].gsub(/[^\w]\w+\s*$/, '...') ) : "No hay comentarios"
                                 - else
                                   No hay comentarios
                           %td.p-t-20.p-b-15.text-center

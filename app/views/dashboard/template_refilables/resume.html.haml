@@ -83,7 +83,8 @@
               %p
                 %label.label.label-danger La plantilla aún no ha sido comentada.
             - else
-              %p= comentario                      
+              %p
+                = raw comentario                      
 - unless @refilable.nil?
   :javascript
     $(document).on('turbolinks:load', function(){

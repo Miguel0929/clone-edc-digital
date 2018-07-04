@@ -6,6 +6,7 @@ class TemplateRefilable < ActiveRecord::Base
   has_many :refilables
   has_one :learning_path_content, as: :content, :dependent => :destroy
   has_many :evaluation_refilables
+  has_many :refilable_default_comments
 
   enum tipo: [ :program, :complementario ]
 
@@ -35,10 +36,6 @@ class TemplateRefilable < ActiveRecord::Base
   end
 
   def total_points
-    total_puntaje = 0
-    self.evaluation_refilables.each do |rubric|
-      total_puntaje += rubric.points
-    end
-    total_puntaje  
+    self.evaluation_refilables.pluck(:points).inject(0){|sum,x| sum + x } 
   end  
 end

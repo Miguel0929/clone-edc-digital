@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180625173956) do
+ActiveRecord::Schema.define(version: 20180703163210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -642,6 +642,16 @@ ActiveRecord::Schema.define(version: 20180625173956) do
 
   add_index "receptions", ["group_id"], name: "index_receptions_on_group_id", using: :btree
 
+  create_table "refilable_default_comments", force: :cascade do |t|
+    t.string   "name"
+    t.text     "content"
+    t.integer  "template_refilable_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "refilable_default_comments", ["template_refilable_id"], name: "index_refilable_default_comments_on_template_refilable_id", using: :btree
+
   create_table "refilable_notifications", force: :cascade do |t|
     t.integer  "template_refilable_id"
     t.integer  "notification_type"
@@ -658,6 +668,8 @@ ActiveRecord::Schema.define(version: 20180625173956) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "mentor_id"
+    t.integer  "points"
   end
 
   add_index "refilables", ["template_refilable_id"], name: "index_refilables_on_template_refilable_id", using: :btree
@@ -999,6 +1011,7 @@ ActiveRecord::Schema.define(version: 20180625173956) do
   add_foreign_key "quizzes", "programs"
   add_foreign_key "ratings", "users"
   add_foreign_key "receptions", "groups"
+  add_foreign_key "refilable_default_comments", "template_refilables"
   add_foreign_key "report_notifications", "reports"
   add_foreign_key "reports", "users"
   add_foreign_key "shared_group_attachment_notifications", "shared_group_attachments"

@@ -8,7 +8,7 @@ class Mentor::EvaluationRefilablesController < ApplicationController
   def update
   	@template_refilable = TemplateRefilable.find(params[:template_id])
 
-    new_eval = EvaluatorRefilables.for(@user, params[:refilable_id], params[:evaluation])
+    new_eval = EvaluatorRefilables.for(@user, params[:refilable_id], params[:evaluation], current_user.id)
    
     if new_eval.nil?
       redirect_to :back, alert: "Debes evaluar todas las rúbricas"

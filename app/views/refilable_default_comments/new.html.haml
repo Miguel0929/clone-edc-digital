@@ -1,0 +1,10 @@
+- content_for :title  do
+  Comentarios de plantillas - EDC Digital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      %h3.m-t-10.m-b-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+        %i.fa.fa-plus.hint-text
+        Nuevo comentario de plantilla
+      = render 'form'

@@ -1,0 +1,62 @@
+- content_for :title  do
+  Comentarios de plantillas - EDC Digital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .row
+        .col-sm-5
+          %h3
+            Comentarios de plantillas
+        .col-sm-7
+          .col-sm-7
+            .pull-right.p-t-5{style: "width: 100%;"}
+              = form_tag(refilable_default_comments_path, method: :get, class: "panel-filter-width") do
+                .col-md-9.p-r-0
+                  = select_tag :program, options_from_collection_for_select(Program.all, :id, :name, params[:program]), {include_blank: "Filtra por programa", class: "form-control" }
+                .col-md-3.p-l-5
+                  = submit_tag 'Filtrar', class: "btn btn-success btn-xs"
+          .col-sm-5
+            .pull-right
+              = link_to new_refilable_default_comment_path, class: "total-opacity" do
+                %button.btn.btn-primary
+                  %i.fa.fa-plus
+                  Agregar comentario
+          .clearfix
+    .panel-body
+      .col-md-12
+        - @comments.each_with_index do |comment, index|
+          .card.social-card.share.m-t-20.m-b-20{"data-social" => "item"}
+            .card-header.no-hover.lightblue-background.clearfix
+              .pull-left
+                %h5 #{comment.name}
+                %h6
+                  %span
+                    %i.fa.fa-calendar-check-o
+                    Creada el
+                    = l comment.created_at, format: :special
+                  %span.p-l-15
+                    %i.fa.fa-calendar-plus-o
+                    = (comment.created_at == comment.updated_at) ? "Sin modificar" : ("Modificada el " + (l comment.updated_at, format: :special))
+              .pull-right
+                = link_to edit_refilable_default_comment_path(comment), class: "p-r-10" do
+                  %i.fa.fa-edit
+                  Editar comentario
+                = link_to refilable_default_comment_path(comment), :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+                  %i.fa.fa-times
+                  Eliminar comentario
+            .card-description
+              - template_refilable = comment.template_refilable
+              - program = template_refilable.program
+              .p-b-5{class: template_refilable.nil? ? "" : "text-primary"}
+                %span.card-titles Plantilla:
+                %span #{template_refilable.nil? ? "Sin plantilla asignada" : template_refilable.name}
+              .p-b-5{class: program.nil? ? "" : "text-primary"}
+                %span.card-titles Programa:
+                %span #{program.nil? ? "Sin programa asignado" : program.name}
+              %h5.card-titles Contenido:
+              %p
+                = raw comment.content
+                /= raw remove_class(replace_fillable(refilable.content))
+
+
