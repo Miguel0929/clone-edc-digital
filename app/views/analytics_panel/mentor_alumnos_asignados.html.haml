@@ -6,21 +6,29 @@
 		.panel-heading
 			%h4 Alumnos asignados a cada mentor			
 		.panel-body
-			%table.table
+			%table.table.table-bordered
 				%thead
 					%tr
 						%th Mentor
 						%th.text-center Alumnos asignados
 				%tbody
+					%tr.info
+						%td.bold Total*:
+						%td.text-center.bold=@total
+					%tr.warning
+						%td.bold En blanco*
+						%td.text-center=@enblanco
+					%tr.active
+						%td.bold Activos
+						%td.text-center=@activos
+					%tr.active
+						%td.bold ZZZ
+						%td.text-center=@zzzzz		
+					
 					- @mentors.each do |mentor|
 						%tr
 							%td.bold=mentor.name
 							%td.text-center=mentor.linked_students
-					%tr.warning
-						%td.bold En blanco*
-						%td.text-center=@enblanco	
-					%tr.info
-						%td.bold Total*:
-						%td.text-center.bold=@total
+					
 			%center
 				= paginate @mentors 			

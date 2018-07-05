@@ -1,0 +1,49 @@
+- content_for :title  do
+  Alumnos por estado - EDC Digital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      %h4 Alumnos del estado #{@state.name}   
+    .panel-body
+      .row
+        .pull-right
+          = form_tag(create_avances_estados_analytics_panel_index_path, method: :post) do
+            = hidden_field_tag 'state_id', @state.id
+            %button.btn.btn-primary{type: "submit"}
+              - if @stats.first.nil?
+                %ul.p-l-5.m-b-0
+                  %li.inline.p-l-0
+                    %i.fa.fa-rotate-right
+                  %li.inline
+                    Generar estadísticas
+              - else
+                %ul.p-l-5.m-b-0
+                  %li.inline.p-l-0
+                    %i.fa.fa-rotate-right
+                  %li.inline
+                    Actualizar estadísticas
+                %ul.p-l-20.m-b-0{:style => "font-size: 0.8em;"}
+                  %li.inline
+                    * Última vez:
+                  = l @stats.first.updated_at, format: :short_no_year      
+      .row
+        .table-responsive
+          %table.table.table-bordered
+            %thead
+              %tr
+                %th Programa
+                %th Total de alumnos
+                %th Evaluaciones realizadas
+                %th Evaluaciones pendientes
+            %tbody
+              - unless @stats.first.nil?
+                - @stats.each do |program|
+                  %tr
+                    %td.text-center.bold= program.program.name
+                    %td.text-center= program.total
+                    %td.text-center= program.evaluados
+                    %td.text-center= program.no_evaluados
+              - else
+                %tr
+                  %td.text-center.bold.text-danger{colspan: 4} No hay estadísticas aún.                   

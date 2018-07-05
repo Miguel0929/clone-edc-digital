@@ -1,0 +1,41 @@
+- content_for :title  do
+  Calculando porcentaje de avance - EDC Digital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      %center
+        .progress-section
+          %h3
+            Progreso
+            %span.job-progress
+              0%
+          .progress
+            .progress-bar.progress-bar-success.progress-bar-striped{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "40", :role => "progres    sbar", :style => "width:0%"}
+      %center#results      
+        %a{href: alumnos_estados_analytics_panel_index_path, class: "btn btn-lg btn-primary"}
+          Ver Resultados    
+:javascript            
+  $(document).on('turbolinks:load', function(){
+    $("#results").hide();
+    var interval = setInterval(function(){
+    $.get("/api/v1/async_jobs/#{@job_id}")
+    .done(function(job){
+      console.log(job);
+      var progress = parseInt((job.progress * 100) / job.total);
+
+      $('.job-progress').html(progress + '%');
+      $('.progress-bar').css('width', progress + '%');
+
+      if(progress == 100) {
+        clearInterval(interval);
+        $("#results").show();
+      }  
+
+    }).fail(clean)
+  	}, 1000);
+
+    function clean(){
+      clearInterval(interval);
+    }
+  });             

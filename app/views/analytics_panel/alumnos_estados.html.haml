@@ -1,0 +1,58 @@
+- content_for :title  do
+  Alumnos por estado - EDC Digital
+- actividades = []
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      %h4 Alumnos por estado    
+    .panel-body
+      .row
+        .pull-right
+          = link_to create_alumnos_estados_analytics_panel_index_path, method: :post, class: "btn btn-primary" do
+            - if @ssc.first.nil? 
+              %ul.p-l-5.m-b-0
+                %li.inline.p-l-0
+                  %i.fa.fa-rotate-right
+                %li.inline
+                  Generar estadísticas
+            - else
+              %ul.p-l-5.m-b-0
+                %li.inline.p-l-0
+                  %i.fa.fa-rotate-right
+                %li.inline
+                  Actualizar estadísticas
+              %ul.p-l-20.m-b-0{:style => "font-size: 0.8em;"}
+                %li.inline
+                  * Última vez:
+                  = l @ssc.first.updated_at, format: :short_no_year
+              
+      .row          
+        .table-responsive
+          %table.table.table-bordered
+            %thead
+              %tr
+                %th{rowspan: 2} Mentor
+                %th.text-center{colspan: @states.count} Estados
+              %tr 
+                - @states.each do |state|
+                  - actividades << {state_id: state.id, total: 0}
+                  %th.text-center= state.name
+            %tbody
+              - @mentors.each do |mentor|
+                %tr
+                  %td.bold= mentor.name
+                  - @states.each do |state|
+                    %td.text-center= @ssc.where(state_id: state.id, coach_id: mentor.id, active: true).total rescue 0
+              %tr.active
+                %td.bold Actividad
+                - @states.each do |state|
+                  - total_state =  
+                  %td.text-center.bold= @ssc.where(state_id: state.id, active: true).sum(:total)
+              %tr.active
+                %td.bold ZZ
+                - @states.each do |state|
+                  %td.text-center.bold= @ssc.where(state_id: state.id, active: false).sum(:total)
+              %tr.info
+                %td.bold Total 
+                - @states.each do |state|
+                  %td.text-center.bold= @ssc.where(state_id: state.id).sum(:total)          
