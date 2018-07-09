@@ -619,7 +619,7 @@
                         /- user_refilable = refilable.refilables.find_by(user: @user)
                         - user_refilable = refilable.refilables.where(user: @user).order(:created_at).last
                         - total_points = refilable.total_points
-                        - puntos_obtenidos = refilable.puntaje(@user)
+                        - puntos_obtenidos = refilable.puntaje(@user, user_refilable)
                         %tr
                           %td.p-t-20.p-b-15
                             = refilable.name
@@ -632,7 +632,7 @@
                             %ul.unstyled.no-style.p-l-0.m-b-10
                               %li.inline.text-primary.bold
                                 Comentarios:
-                              %li
+                              %li.font-comments
                                 - if user_refilable
                                   = user_refilable.comments ? ( raw replace_refilable_data(user_refilable)[0..200].gsub(/[^\w]\w+\s*$/, '...') ) : "No hay comentarios"
                                 - else

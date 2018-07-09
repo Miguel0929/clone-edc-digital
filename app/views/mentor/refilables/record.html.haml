@@ -35,7 +35,8 @@
               .pull-right.hint-text
                 %i.fa.fa-check-square-o
                 Promedio: 
-                - evaluation = refilable.evaluation(@user)
+                /- evaluation = refilable.evaluation(@user)
+                - evaluation = refilable.points
                 %span{class: evaluation.nil? ? "text-danger" : "text-primary"}
                   #{evaluation.nil? ? "Sin evaluar" : (evaluation.to_s + "%")}
             .card-description
