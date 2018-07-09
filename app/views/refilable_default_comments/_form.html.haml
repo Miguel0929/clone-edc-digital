@@ -1,0 +1,26 @@
+= bootstrap_form_for @comment do |f|
+  .row
+    .col-md-12
+      = f.text_area :name, label: 'Nombre'
+    .col-md-12
+      = f.select :template_refilable_id,  TemplateRefilable.all.collect{|p| [p.name, p.id]}, {include_blank: true, label: 'Plantilla'}
+  .row
+    .col-md-12
+      = f.text_area :content, ckeditor: { language: 'es'}, id: 'ckeditor', label: 'Contenido'
+  .row
+    .col-md-12
+      .alert.alert-info.m-t-15{role: "alert"}
+        %button.close{'data-dismiss': "alert"}
+        %strong NOTA:
+        Utiliza las siguientes claves para que el texto sea reemplazado por la información requerida: Nombre de alumno -> {{alumno}}, nombre de tutor -> {{tutor}}, nombre de plantilla -> {{plantilla}}, nombre de programa -> {{programa}}, puntaje de evaluación de plantilla -> {{puntaje}}
+  .actions.text-center.m-t-30.m-b-20
+    = link_to 'Cancelar', refilable_default_comments_path, class: 'btn btn-danger'
+    = f.submit 'Guardar plantilla', class: 'btn btn-primary'
+
+:javascript
+  $( document ).on('turbolinks:load', function() {
+
+    var editor = CKEDITOR.replace('ckeditor')
+    console.log(editor)
+
+  });

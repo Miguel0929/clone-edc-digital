@@ -24,4 +24,5 @@ class Refilable < ActiveRecord::Base
   end
 
 end
-#(total_obtenido*100)/total_puntos rescue 0
+
+

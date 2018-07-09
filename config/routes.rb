@@ -551,5 +551,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :refilable_default_comments, only: [:index, :new, :create, :edit, :update, :destroy] do
+    collection do
+      get :get_comment
+    end
+  end
+
   resources :tickets, only: [:index]
 end
