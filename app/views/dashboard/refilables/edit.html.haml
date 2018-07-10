@@ -92,9 +92,16 @@
     $('.refilable-edit').removeAttr('style');
     $('.refilable-edit').addClass('form-control refilable-input');
 
+    var  beforeInputs = [];
+    $('.refilable-edit').each(function() {
+      beforeInputs.push($(this).text());
+    });
+
     $('#send-refilable').click(function() {
       var enviar = true;
+      var afterInputs = [];
       $('.refilable-edit').each(function() {
+        afterInputs.push($(this).text());
         if ($(this).text() == "" || $(this).text() == " (sin respuesta) " || $(this).text() == "empty" || $(this).text() == "Empty") {
           $(this).removeClass('present-answer');
           $(this).addClass('no-answer');
@@ -113,7 +120,14 @@
         var input = $("<input>").attr("type", "hidden").attr("name", "refilable_content").val($template_content.html());
         $form.append($(input));
 
-        $form.submit();
+        //este 'if' revisa si hubo cambios en los inputs, si no, no deja hacer submit
+        if(beforeInputs.length === afterInputs.length && beforeInputs.every(function(v,i) { return v === afterInputs[i]})) { 
+          $(".alert-text").first().text("No has hecho ningún cambio todavía.");
+          $("#alert-ra").css('display','block');
+          setTimeout(function(){$("#alert-ra").css('display','none');},4000);
+        } else {
+          $form.submit();
+        }
       }else{
         $("#alert-ra").css('display','block');
         setTimeout(function(){$("#alert-ra").css('display','none');},4000);
