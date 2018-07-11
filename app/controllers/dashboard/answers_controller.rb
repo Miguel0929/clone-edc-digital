@@ -123,6 +123,7 @@ class Dashboard::AnswersController < ApplicationController
   def redirect_to_next_content
     mensaje = "Cambios guardados con éxito"
     program = @chapter_content.chapter.program
+
     if current_user.percentage_answered_for(program) > 95 && current_user.percentage_answered_for(program) < 100
       if current_user.program_notifications.where(program: program).more95.first.nil?
         current_user.program_notifications.create(program: program, notification_type: 'more95')
@@ -136,7 +137,6 @@ class Dashboard::AnswersController < ApplicationController
         #mentores
         #ProgramMore95NotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
       end
-      
       mensaje = mensaje + ", has completado el #{current_user.percentage_answered_for(program)}\% del programa." 
     elsif current_user.percentage_answered_for(program)==100
       if current_user.program_notifications.where(program: program).complete.first.nil?
@@ -148,7 +148,7 @@ class Dashboard::AnswersController < ApplicationController
         #soporte
         if !program.name.include?("¡Bienvenido")
           soporte=User.new(email: "soporte2@edc-digital.com")
-          Programs.complete_mentor(program,soporte,current_user,user_url(current_user))
+          Programs.complete_mentor(program,soporte,current_user,mentor_student_url(current_user)) #antes la ruta era user_url(current_user)
         end
         flash[:complete]="¡Has completado el curso!"
         #mentores
