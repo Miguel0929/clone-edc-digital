@@ -30,6 +30,11 @@
                 %p
                   = @refilable.template_refilable.description
                 %p
+                  - u_evaluation = @refilable.points
+                  %span{class: "#{u_evaluation.nil? ? 'text-danger' : 'text-success'}"}
+                    %i.fa{class: u_evaluation.nil? ? "fa-times" : "fa-check" }
+                    = u_evaluation.nil? ? "Sin evaluación" : ("Evaluación: " + u_evaluation.to_s + "%")
+                %p
                   - ticket = get_student_ticket(@user, @refilable.template_refilable)
                   %span{class: "#{ticket.nil? ? 'text-danger' : (ticket.closed? ? 'text-success' : 'text-warning')}"}
                     %i.fa{class: ticket.nil? ? "fa-ticket" : (ticket.closed? ? "fa-lock" : "fa-unlock-alt")}
