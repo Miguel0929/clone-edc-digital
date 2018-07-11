@@ -127,6 +127,7 @@
           setTimeout(function(){$("#alert-ra").css('display','none');},4000);
         } else {
           $form.submit();
+          $("#send-refilable").attr("disabled", true);
         }
       }else{
         $("#alert-ra").css('display','block');

@@ -20,28 +20,28 @@ class Dashboard::RefilablesController < ApplicationController
   end
 
   def create
-      user_refilables = @template.refilables.where(user_id: current_user.id)
-      if user_refilables.count > 4
-        user_refilables.order(:created_at).first.destroy
-      end
-      if params[:refilable_content]
-        refilable = @template.refilables.new(content: params[:refilable_content])
+    user_refilables = @template.refilables.where(user_id: current_user.id)
+    if user_refilables.count > 4
+      user_refilables.order(:created_at).first.destroy
+    end
+    if params[:refilable_content]
+      refilable = @template.refilables.new(content: params[:refilable_content])
+    else
+      refilable = @template.refilables.new(refilable_params)
+    end
+    refilable.user = current_user
+    if refilable.save
+      ticket = Ticket.find_by(trainee_id: current_user.id, category: 1, element_id: @template.id)
+      if ticket.nil?
+        create_ticket(current_user, refilable)
       else
-        refilable = @template.refilables.new(refilable_params)
+        open_ticket(current_user, @template)
       end
-      refilable.user = current_user
-      if refilable.save
-        ticket = Ticket.find_by(trainee_id: current_user.id, category: 1, element_id: @template.id)
-        if ticket.nil?
-          create_ticket(current_user, refilable)
-        else
-          open_ticket(current_user, @template)
-        end
-        AnsweredRefilableNotificationJob.perform_async(@template.program, @template, "soporte2@edc-digital.com", current_user, mentor_student_url(current_user))
-        redirect_to dashboard_template_refilables_path, notice: 'Plantilla contestada'
-      else
-        redirect_to dashboard_template_refilables_path, alert: 'Error al guardar respuestas, intenta de nuevo'
-      end
+      AnsweredRefilableNotificationJob.perform_async(@template.program, @template, "soporte2@edc-digital.com", current_user, mentor_student_url(current_user))
+      redirect_to dashboard_template_refilables_path, notice: 'Plantilla contestada'
+    else
+      redirect_to dashboard_template_refilables_path, alert: 'Error al guardar respuestas, intenta de nuevo'
+    end
   end
 
   def show
