@@ -104,9 +104,15 @@ class AnalyticsPanelController < ApplicationController
   def mentor_alumnos_asignados
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
     add_breadcrumb "<a class='active' href='#{students_evaluated_analytics_panel_index_path}'>Alumnos asignados por mentor</a>".html_safe
-    @mentors = Mentor.all.page(params[:page]).per(50)
-    @enblanco = User.students.where(group_id: nil).count
-    @total = User.students.count
+    @mentors = Mentor.all.invitation_accepted.page(params[:page]).per(30)
+    @asignados = User.students.invitation_accepted.where.not(coach_id:  nil).where("user_seen > 0.0").count
+    @sinasignar = User.students.invitation_accepted.where(coach_id: nil).where("user_seen > 0.0").count
+    @sin_actividad_sinasignar = User.students.invitation_accepted.where(coach_id: nil).where(user_seen: 0.0).count
+
+    @enblanco = User.students.invitation_accepted.where(group_id: nil).count
+    @zzzzz = User.students.invitation_accepted.where(user_seen: 0.0).count
+    @activos = User.students.invitation_accepted.where("user_seen > 0.0").count
+    @total = User.students.invitation_accepted.count
   end
 
   def students_evaluated_progress
@@ -132,7 +138,90 @@ class AnalyticsPanelController < ApplicationController
     else
       @user = "buscador"
     end    
+  end
+
+  def alumnos_estados
+    add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{alumnos_estados_analytics_panel_index_path}'>Alumnos por estado (Mentores)</a>".html_safe
+    @mentors = Mentor.all.invitation_accepted.page(params[:page]).per(30)
+    @states = State.all.order(:id)
+
+    @ssc = StudentsStatesCoach.all
+    @sinasignar = {}; @sinactividad_noasignados = {}; @total_alumnos_state = {};
+
+    unless @ssc.first.nil?
+      @states.each do |state|
+        sin_asig = User.students.invitation_accepted.joins(:group).where("groups.state_id = ? and users.user_seen > 0 and users.coach_id is null", state.id).count
+        @sinasignar.merge!(state.id => sin_asig)
+        
+        noacti_noasig = User.students.invitation_accepted.joins(:group).where("groups.state_id = ? and users.user_seen = 0 and users.coach_id is null", state.id).count   
+        @sinactividad_noasignados.merge!(state.id => noacti_noasig)
+        
+        total = User.students.invitation_accepted.joins(:group).where("groups.state_id = ?", state.id).count  
+        @total_alumnos_state.merge!(state.id => total)
+      end  
+    end
   end 
+
+  def create_alumnos_estados
+    @mentors = Mentor.all.invitation_accepted
+    @states = State.all
+    timestamp = Time.current.to_i
+
+    redis = Redis.new
+    redis.set("job_#{timestamp}", {
+      total: @mentors.count,
+      progress: 0
+    }.to_json) 
+
+    @mentors.each do |mentor|
+      AnalyticsMentorStateJob.perform_async(mentor, @states, "job_#{timestamp}")
+    end
+    flash[:notice] = "Calculando Avances"
+    redirect_to alumnos_estados_progress_analytics_panel_path(timestamp)  
+  end
+
+  def alumnos_estados_progress
+    @job_id = params[:id]
+    add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{alumnos_estados_progress_analytics_panel_path(@job_id)}'>Calculando estadisticas - Alumnos por estado (Mentores)</a>".html_safe
+  end
+
+  def state
+    @state = State.find_by(name: params[:id].capitalize)
+    @stats = StudentEvaluatedState.where(state: @state).order(:state_id).includes(:program)
+    @programs = Program.all
+    add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{state_analytics_panel_path((@state.name).downcase)}'>Alumnos por estado</a>".html_safe
+
+  end 
+
+  def create_avances_estados
+    state = State.find(params[:state_id])
+    programs = Program.all
+    groups = Group.where(state: state)
+    timestamp = Time.current.to_i
+    
+    redis = Redis.new
+    redis.set("job_#{timestamp}", {
+      total: programs.count,
+      progress: 0
+    }.to_json) 
+
+    programs.each do |program|
+      AnalyticsAvancesEstadosJob.perform_async(program, groups, state, "job_#{timestamp}")
+    end
+
+    flash[:notice] = "Calculando Avances"
+    redirect_to avances_estados_progress_analytics_panel_path(timestamp, state_id: state.id)     
+  end 
+
+  def avances_estados_progress
+    @job_id = params[:id]
+    @state = State.find(params[:state_id])
+    add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{avances_estados_progress_analytics_panel_path(@job_id, state_id: @state.id)}'>Calculando estadisticas - Alumnos por estado</a>".html_safe
+  end  
 
   private
   def set_group
