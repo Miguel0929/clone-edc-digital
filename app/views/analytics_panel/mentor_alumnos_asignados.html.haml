@@ -1,26 +1,51 @@
 - content_for :title  do
-	Analíticos de grupo - EDC Digital
+  Analíticos de grupo - EDC Digital
 
 .container-fluid.container-fixed-lg
-	.panel.panel-default
-		.panel-heading
-			%h4 Alumnos asignados a cada mentor			
-		.panel-body
-			%table.table
-				%thead
-					%tr
-						%th Mentor
-						%th.text-center Alumnos asignados
-				%tbody
-					- @mentors.each do |mentor|
-						%tr
-							%td.bold=mentor.name
-							%td.text-center=mentor.linked_students
-					%tr.warning
-						%td.bold En blanco*
-						%td.text-center=@enblanco	
-					%tr.info
-						%td.bold Total*:
-						%td.text-center.bold=@total
-			%center
-				= paginate @mentors 			
+  .panel.panel-default
+    .panel-heading
+      %h4 Resumen
+    .panel-body
+      %table.table.table-bordered
+        %thead
+          %tr.warning
+            %td.bold{width: "60%"} En blanco (Sin grupo)*
+            %td.text-center{width: "40%"}=@enblanco
+          %tr.active
+            %td.bold Activos
+            %td.text-center=@activos
+          %tr.active
+            %td.bold Inactivos (ZZZ)
+            %td.text-center=@zzzzz
+          %tr.info
+            %td.bold Total*:
+            %td.text-center.bold=@total 
+        
+    .panel-heading
+      %h4 Alumnos asignados a cada mentor     
+    .panel-body
+      %table.table.table-bordered
+        %thead
+          %tr
+            %th Mentor
+            %th.text-center Alumnos asignados     
+        %tbody     
+          - @mentors.each do |mentor|
+            %tr
+              %td.bold=mentor.name
+              %td.text-center=mentor.linked_students
+          %tr.active
+            %td.bold.p-l-20 Asignados activos
+            %td.bold.text-center= @asignados
+          %tr.active
+            %td.bold.p-l-20 No asignados activos
+            %td.bold.text-center= @sinasignar
+          %tr.warning
+            %td.bold.p-l-20 Sin actividad y No asignados
+            %td.bold.text-center= @sin_actividad_sinasignar
+          %tr.info 
+            %td.bold.p-l-20 Total
+            %td.bold.text-center= @sin_actividad_sinasignar + @asignados + @sinasignar     
+          
+      %center
+        = paginate @mentors       

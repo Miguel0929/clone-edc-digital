@@ -1,4 +1,5 @@
 class LearningPathsController < ApplicationController
+
   before_action :authenticate_user!
   before_action :require_admin
   before_action :set_learning_path, only: [:show, :destroy, :edit, :update, :clone]

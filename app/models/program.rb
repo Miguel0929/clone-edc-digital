@@ -22,7 +22,8 @@ class Program < ActiveRecord::Base
   has_many :program_actives, :dependent => :destroy
   has_one :score_student_stat
   has_one :student_evaluated
-  has_many :program_attachments 
+  has_many :program_attachments
+  has_many :student_evaluated_state  
 
   enum tipo: [ :elearning, :construccion, :fusion ]
   enum level: [:basico, :intermedio, :avanzado]

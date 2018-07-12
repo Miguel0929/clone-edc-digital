@@ -83,12 +83,21 @@ Rails.application.routes.draw do
       get :group
       get :group_program
       get :students_evaluated_progress
+      get :alumnos_estados_progress
+      get :avances_estados_progress
+      get :state
     end
     collection do
       post :create_students_evaluated
+      post :create_alumnos_estados
+      post :create_avances_estados
+
       get :mentor_alumnos_asignados
-      get :students_evaluated
       get :search
+
+      get :students_evaluated
+      get :alumnos_estados
+      get :avances_estados
     end  
   end
 
@@ -324,9 +333,9 @@ Rails.application.routes.draw do
     resources :groups, only: [:index, :show] do
       member do
         get :codes
-        get :inactive_students
         get :template_refilables
         get :quizzes
+        get :inactive_students
       end
     end
     

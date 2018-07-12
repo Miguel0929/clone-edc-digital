@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180703163210) do
+ActiveRecord::Schema.define(version: 20180712182521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -777,6 +777,35 @@ ActiveRecord::Schema.define(version: 20180703163210) do
     t.string "name"
   end
 
+  create_table "student_evaluated_points_states", force: :cascade do |t|
+    t.integer  "program_id"
+    t.integer  "state_id"
+    t.integer  "tipo"
+    t.integer  "puntaje_90_100"
+    t.integer  "puntaje_80_89"
+    t.integer  "puntaje_60_79"
+    t.integer  "puntaje_0_59"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "student_evaluated_points_states", ["program_id"], name: "index_student_evaluated_points_states_on_program_id", using: :btree
+  add_index "student_evaluated_points_states", ["state_id"], name: "index_student_evaluated_points_states_on_state_id", using: :btree
+  add_index "student_evaluated_points_states", ["tipo"], name: "index_student_evaluated_points_states_on_tipo", using: :btree
+
+  create_table "student_evaluated_states", force: :cascade do |t|
+    t.integer  "program_id"
+    t.integer  "state_id"
+    t.integer  "total"
+    t.integer  "evaluados"
+    t.integer  "no_evaluados"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "student_evaluated_states", ["program_id"], name: "index_student_evaluated_states_on_program_id", using: :btree
+  add_index "student_evaluated_states", ["state_id"], name: "index_student_evaluated_states_on_state_id", using: :btree
+
   create_table "student_evaluateds", force: :cascade do |t|
     t.integer  "program_id"
     t.integer  "total"
@@ -787,6 +816,18 @@ ActiveRecord::Schema.define(version: 20180703163210) do
   end
 
   add_index "student_evaluateds", ["program_id"], name: "index_student_evaluateds_on_program_id", using: :btree
+
+  create_table "students_states_coaches", force: :cascade do |t|
+    t.integer  "state_id"
+    t.integer  "coach_id"
+    t.integer  "total"
+    t.boolean  "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "students_states_coaches", ["coach_id"], name: "index_students_states_coaches_on_coach_id", using: :btree
+  add_index "students_states_coaches", ["state_id"], name: "index_students_states_coaches_on_state_id", using: :btree
 
   create_table "template_refilables", force: :cascade do |t|
     t.string   "name"
