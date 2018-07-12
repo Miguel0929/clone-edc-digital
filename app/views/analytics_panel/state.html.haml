@@ -46,4 +46,37 @@
                     %td.text-center= program.no_evaluados
               - else
                 %tr
-                  %td.text-center.bold.text-danger{colspan: 4} No hay estadísticas aún.                   
+                  %td.text-center.bold.text-danger{colspan: 4} No hay estadísticas aún.
+      .row
+        .table-responsive
+          %table.table.table-bordered
+            %thead
+              %tr
+                %th Programa
+                %th Elemento
+                %th 90% - 100%
+                %th 80% - 89%
+                %th 60% - 79%
+                %th 0% - 59%
+            %tbody
+              - @programs.each do |program|
+                %tr
+                  %td.bold{rowspan: 3}= program.name
+                  %td Evaluación 
+                  %td 1 
+                  %td 2
+                  %td 3
+                  %td 4
+                %tr
+                  %td Plantillas 
+                  %td 1 
+                  %td 2
+                  %td 3
+                  %td 4
+                %tr
+                  %td Preguntas
+                  %td 1 
+                  %td 2
+                  %td 3
+                  %td 4  
+                                                     

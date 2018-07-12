@@ -11,10 +11,6 @@ class AnalyticsMentorStateJob
       ssc = StudentsStatesCoach.find_or_initialize_by(state_id: state.id, coach_id: mentor.id, active: true)
       ssc.total = mentor.linked_students_state(state)
       ssc.save
-
-      ssc = StudentsStatesCoach.find_or_initialize_by(state_id: state.id, coach_id: mentor.id, active: false)
-      ssc.total = mentor.linked_students_state_zz(state)
-      ssc.save
     end  
   
     job["progress"] += 1

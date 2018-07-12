@@ -105,6 +105,10 @@ class AnalyticsPanelController < ApplicationController
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
     add_breadcrumb "<a class='active' href='#{students_evaluated_analytics_panel_index_path}'>Alumnos asignados por mentor</a>".html_safe
     @mentors = Mentor.all.invitation_accepted.page(params[:page]).per(30)
+    @asignados = User.students.invitation_accepted.where.not(coach_id:  nil).where("user_seen > 0.0").count
+    @sinasignar = User.students.invitation_accepted.where(coach_id: nil).where("user_seen > 0.0").count
+    @sin_actividad_sinasignar = User.students.invitation_accepted.where(coach_id: nil).where(user_seen: 0.0).count
+
     @enblanco = User.students.invitation_accepted.where(group_id: nil).count
     @zzzzz = User.students.invitation_accepted.where(user_seen: 0.0).count
     @activos = User.students.invitation_accepted.where("user_seen > 0.0").count
@@ -140,9 +144,23 @@ class AnalyticsPanelController < ApplicationController
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
     add_breadcrumb "<a class='active' href='#{alumnos_estados_analytics_panel_index_path}'>Alumnos por estado (Mentores)</a>".html_safe
     @mentors = Mentor.all.invitation_accepted.page(params[:page]).per(30)
-    @states = State.all
+    @states = State.all.order(:id)
 
     @ssc = StudentsStatesCoach.all
+    @sinasignar = {}; @sinactividad_noasignados = {}; @total_alumnos_state = {};
+
+    unless @ssc.first.nil?
+      @states.each do |state|
+        sin_asig = User.students.invitation_accepted.joins(:group).where("groups.state_id = ? and users.user_seen > 0 and users.coach_id is null", state.id).count
+        @sinasignar.merge!(state.id => sin_asig)
+        
+        noacti_noasig = User.students.invitation_accepted.joins(:group).where("groups.state_id = ? and users.user_seen = 0 and users.coach_id is null", state.id).count   
+        @sinactividad_noasignados.merge!(state.id => noacti_noasig)
+        
+        total = User.students.invitation_accepted.joins(:group).where("groups.state_id = ?", state.id).count  
+        @total_alumnos_state.merge!(state.id => total)
+      end  
+    end
   end 
 
   def create_alumnos_estados
@@ -172,6 +190,7 @@ class AnalyticsPanelController < ApplicationController
   def state
     @state = State.find_by(name: params[:id].capitalize)
     @stats = StudentEvaluatedState.where(state: @state).order(:state_id).includes(:program)
+    @programs = Program.all
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
     add_breadcrumb "<a class='active' href='#{state_analytics_panel_path((@state.name).downcase)}'>Alumnos por estado</a>".html_safe
 

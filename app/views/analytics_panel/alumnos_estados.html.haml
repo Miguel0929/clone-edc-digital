@@ -32,27 +32,36 @@
             %thead
               %tr
                 %th{rowspan: 2} Mentor
-                %th.text-center{colspan: @states.count} Estados
+                %th.p-l-40{colspan: @states.count} Estados
               %tr 
                 - @states.each do |state|
                   - actividades << {state_id: state.id, total: 0}
                   %th.text-center= state.name
             %tbody
-              - @mentors.each do |mentor|
+              - if @ssc.first.nil?
                 %tr
-                  %td.bold= mentor.name
+                  %th.p-l-40{colspan: @states.count + 1} No se han generado estadísticas aún.
+              - else 
+                - @mentors.each do |mentor|
+                  %tr
+                    %td.bold= mentor.name
+                    - @states.each do |state|
+                      %td.text-center= @ssc.where(state_id: state.id, coach_id: mentor.id, active: true).first.total rescue 0
+                %tr.active
+                  %td.bold Sin asignar
                   - @states.each do |state|
-                    %td.text-center= @ssc.where(state_id: state.id, coach_id: mentor.id, active: true).total rescue 0
-              %tr.active
-                %td.bold Actividad
-                - @states.each do |state|
-                  - total_state =  
-                  %td.text-center.bold= @ssc.where(state_id: state.id, active: true).sum(:total)
-              %tr.active
-                %td.bold ZZ
-                - @states.each do |state|
-                  %td.text-center.bold= @ssc.where(state_id: state.id, active: false).sum(:total)
-              %tr.info
-                %td.bold Total 
-                - @states.each do |state|
-                  %td.text-center.bold= @ssc.where(state_id: state.id).sum(:total)          
+                    %td.text-center= @sinasignar[state.id]
+                %tr.active
+                  %td.bold Activos asignados    
+                  - @states.each do |state|
+                    %td.text-center= @ssc.where(state_id: state.id, active: true).sum(:total) rescue 0
+                %tr.warning
+                  %td.bold Sin actividad y no asignados    
+                  - @states.each do |state|
+                    %td.text-center= @sinactividad_noasignados[state.id] 
+                %tr.info
+                  %td.bold Total 
+                  - @states.each do |state|
+                    %td.text-center.bold= @total_alumnos_state[state.id]
+
+                              
