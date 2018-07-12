@@ -79,7 +79,7 @@ class Mentor::StudentsController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    #unless @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus asesorado" end
+    unless @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus asesorado" end
 
     add_breadcrumb "Estudiantes", :mentor_students_path
     add_breadcrumb "<a class='active' href='#{mentor_student_path(@user)}'>#{@user.email}</a>".html_safe
@@ -126,7 +126,7 @@ class Mentor::StudentsController < ApplicationController
   def analytics_quiz
     @quiz = Quiz.find(params[:quiz_id])
     @user = User.find(params[:id])
-    #unless @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus asesorados." end
+    unless @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus asesorados." end
     clean_repeated_answers(@quiz, @user)
     add_breadcrumb "Estudiantes", :mentor_students_path
     add_breadcrumb "<a href='#{mentor_student_path(@user)}'>#{@user.email}</a>".html_safe
@@ -166,7 +166,7 @@ class Mentor::StudentsController < ApplicationController
 
   def summary
     @user = User.find(params[:id])
-    #unless @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus grupos" end
+    unless @user.my_student?(current_user) then redirect_to mentor_students_path, notice: "Este alumno no es parte de tus grupos" end
     add_breadcrumb "<a href='#{students_users_path}'>Estudiantes</a>".html_safe
     add_breadcrumb "<a class='active' href='#{summary_user_path(@user)}'>Vista rápida: #{@user.email}</a>".html_safe
     quizzes_results = @user.answered_quizzes
