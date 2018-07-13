@@ -51,5 +51,10 @@ class TemplateRefilable < ActiveRecord::Base
 
   def total_points
     self.evaluation_refilables.pluck(:points).inject(0){|sum,x| sum + x } 
+  end
+
+  def last_calification(user)
+    calificacion = self.refilables.where("user_id = ? and points is not null", user.id).order(:created_at).last.points rescue 0
+    calificacion
   end  
 end
