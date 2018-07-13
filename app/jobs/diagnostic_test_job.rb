@@ -320,6 +320,12 @@ class DiagnosticTestJob < ActiveJob::Base
 	  	quanswers_6 = quanswers.find{|x| x[:order] == 6}
 	  	quanswers_7 = quanswers.find{|x| x[:order] == 7}
 	  	quanswers_8 = quanswers.find{|x| x[:order] == 8}
+      #points_obtained = student.evaluation_result_for(chapter)
+      points_obtained = chapter.points_earned(user)
+      #total_points = program_bienvenido.total_points
+      total_points = chapter.evaluations.sum(:points)
+      avg = user_promedio_program(points_obtained, total_points).ceil
+
 
   		DiagnosticTestMailer.send_results_user(user, 
   							quanswers_1[:question], quanswers_1[:answer], quanswers_1[:message],
