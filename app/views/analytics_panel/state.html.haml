@@ -4,79 +4,101 @@
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-heading
+      %h4 Alumnos evaluados por estado
+    .panel-body 
+      - @states.each do |s|
+        .col-md-2
+          %center
+            = link_to s.name,  state_analytics_panel_path(s.slug), html_options= {class: "btn btn-link"}   
+  .panel.panel-default
+    .panel-heading
       %h4 Alumnos del estado #{@state.name}   
     .panel-body
       .row
-        .pull-right
-          = form_tag(create_avances_estados_analytics_panel_index_path, method: :post) do
-            = hidden_field_tag 'state_id', @state.id
-            %button.btn.btn-primary{type: "submit"}
-              - if @stats.first.nil?
-                %ul.p-l-5.m-b-0
-                  %li.inline.p-l-0
-                    %i.fa.fa-rotate-right
-                  %li.inline
-                    Generar estadísticas
-              - else
-                %ul.p-l-5.m-b-0
-                  %li.inline.p-l-0
-                    %i.fa.fa-rotate-right
-                  %li.inline
-                    Actualizar estadísticas
-                %ul.p-l-20.m-b-0{:style => "font-size: 0.8em;"}
-                  %li.inline
-                    * Última vez:
-                  = l @stats.first.updated_at, format: :short_no_year      
+        .col-md-12
+          .pull-right.p-r-15.p-b-15
+            = form_tag(create_avances_estados_analytics_panel_index_path, method: :post) do
+              = hidden_field_tag 'state_id', @state.id
+              %button.btn.btn-primary{type: "submit"}
+                - if @stats.first.nil?
+                  %ul.p-l-5.m-b-0
+                    %li.inline.p-l-0
+                      %i.fa.fa-rotate-right
+                    %li.inline
+                      Generar estadísticas
+                - else
+                  %ul.p-l-5.m-b-0
+                    %li.inline.p-l-0
+                      %i.fa.fa-rotate-right
+                    %li.inline
+                      Actualizar estadísticas
+                  %ul.p-l-20.m-b-0{:style => "font-size: 0.8em;"}
+                    %li.inline
+                      * Última vez:
+                    = l @stats.order(:updated_at).last.updated_at, format: :short_no_year      
       .row
-        .table-responsive
-          %table.table.table-bordered
-            %thead
-              %tr
-                %th Programa
-                %th Total de alumnos
-                %th Evaluaciones realizadas
-                %th Evaluaciones pendientes
-            %tbody
-              - unless @stats.first.nil?
-                - @stats.each do |program|
+        .col-md-12
+          .table-responsive
+            %table.table.table-bordered
+              %thead
+                %tr
+                  %th Programa
+                  %th Total de alumnos
+                  %th Evaluaciones realizadas
+                  %th Evaluaciones pendientes
+              %tbody
+                - unless @stats.first.nil?
+                  - @stats.each do |program|
+                    %tr
+                      %td.text-center.bold= program.program.name
+                      %td.text-center= program.total
+                      %td.text-center= program.evaluados
+                      %td.text-center= program.no_evaluados
+                - else
                   %tr
-                    %td.text-center.bold= program.program.name
-                    %td.text-center= program.total
-                    %td.text-center= program.evaluados
-                    %td.text-center= program.no_evaluados
-              - else
-                %tr
-                  %td.text-center.bold.text-danger{colspan: 4} No hay estadísticas aún.
+                    %td.text-center.bold.text-danger{colspan: 4} No hay estadísticas aún.
       .row
-        .table-responsive
-          %table.table.table-bordered
-            %thead
-              %tr
-                %th Programa
-                %th Elemento
-                %th 90% - 100%
-                %th 80% - 89%
-                %th 60% - 79%
-                %th 0% - 59%
-            %tbody
-              - @programs.each do |program|
+        .col-md-12
+          .table-responsive
+            %table.table.table-bordered
+              %thead
                 %tr
-                  %td.bold{rowspan: 3}= program.name
-                  %td Evaluación 
-                  %td 1 
-                  %td 2
-                  %td 3
-                  %td 4
-                %tr
-                  %td Plantillas 
-                  %td 1 
-                  %td 2
-                  %td 3
-                  %td 4
-                %tr
-                  %td Preguntas
-                  %td 1 
-                  %td 2
-                  %td 3
-                  %td 4  
-                                                     
+                  %th Programa
+                  %th.text-center Elemento
+                  %th.text-center 90% - 100%
+                  %th.text-center 80% - 89%
+                  %th.text-center 60% - 79%
+                  %th.text-center 0% - 59%
+                  %th.text-center Total
+              %tbody
+                - if @stats_points.count > 0
+                  - @programs.each do |program|
+                    - eva = @stats_points.evaluation.where(program_id: program.id, state_id: @state.id).first
+                    - ref = @stats_points.refilable.where(program_id: program.id, state_id: @state.id).first
+                    - que = @stats_points.questions.where(program_id: program.id, state_id: @state.id).first
+                    %tr
+                      %td.bold{rowspan: 3}= program.name
+                      %td.text-center.bold Evaluación 
+                      %td.text-center= eva.puntaje_90_100 rescue "N/A"
+                      %td.text-center= eva.puntaje_80_89 rescue "N/A"
+                      %td.text-center= eva.puntaje_60_79 rescue "N/A"
+                      %td.text-center= eva.puntaje_0_59 rescue "N/A"
+                      %td.text-center= eva.puntaje_90_100 + eva.puntaje_80_89 + eva.puntaje_60_79 + eva.puntaje_0_59 rescue "N/A"
+
+                    %tr
+                      %td.text-center.bold Plantillas 
+                      %td.text-center= ref.puntaje_90_100 rescue "N/A"
+                      %td.text-center= ref.puntaje_80_89 rescue "N/A"
+                      %td.text-center= ref.puntaje_60_79 rescue "N/A"
+                      %td.text-center= ref.puntaje_0_59 rescue "N/A"
+                      %td.text-center= ref.puntaje_90_100 + ref.puntaje_80_89 + ref.puntaje_60_79 + ref.puntaje_0_59 rescue "N/A"
+                    %tr
+                      %td.text-center.bold Preguntas
+                      %td.text-center= que.puntaje_90_100 rescue "N/A"
+                      %td.text-center= que.puntaje_80_89 rescue "N/A"
+                      %td.text-center= que.puntaje_60_79 rescue "N/A"
+                      %td.text-center= que.puntaje_0_59 rescue "N/A"
+                      %td.text-center= que.puntaje_90_100 + que.puntaje_80_89 + que.puntaje_60_79 + que.puntaje_0_59 rescue "N/A"
+                - else
+                  %tr
+                    %td.text-center.bold.text-danger{colspan: 7} No hay estadísticas aún.

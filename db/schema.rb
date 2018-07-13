@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180712182521) do
+ActiveRecord::Schema.define(version: 20180713210922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -726,6 +726,7 @@ ActiveRecord::Schema.define(version: 20180712182521) do
     t.integer  "rango4"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "tipo"
   end
 
   add_index "score_student_stats", ["program_id"], name: "index_score_student_stats_on_program_id", using: :btree
@@ -775,6 +776,7 @@ ActiveRecord::Schema.define(version: 20180712182521) do
 
   create_table "states", force: :cascade do |t|
     t.string "name"
+    t.string "slug"
   end
 
   create_table "student_evaluated_points_states", force: :cascade do |t|

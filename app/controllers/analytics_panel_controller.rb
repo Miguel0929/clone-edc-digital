@@ -97,6 +97,8 @@ class AnalyticsPanelController < ApplicationController
   def students_evaluated
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
     add_breadcrumb "<a class='active' href='#{students_evaluated_analytics_panel_index_path}'>Alumnos evaluados</a>".html_safe
+    @programs = Program.all
+    @states = State.all.order(:id)
     @total_alumnos_program = StudentEvaluated.all.includes(:program)
     @total_alumnos_program_rango = ScoreStudentStat.all.includes(:program)
   end  
@@ -142,7 +144,7 @@ class AnalyticsPanelController < ApplicationController
 
   def alumnos_estados
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
-    add_breadcrumb "<a class='active' href='#{alumnos_estados_analytics_panel_index_path}'>Alumnos por estado (Mentores)</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{alumnos_estados_analytics_panel_index_path}'>Alumnos por estado (tutores)</a>".html_safe
     @mentors = Mentor.all.invitation_accepted.page(params[:page]).per(30)
     @states = State.all.order(:id)
 
@@ -188,12 +190,17 @@ class AnalyticsPanelController < ApplicationController
   end
 
   def state
-    @state = State.find_by(name: params[:id].capitalize)
-    @stats = StudentEvaluatedState.where(state: @state).order(:state_id).includes(:program)
-    @programs = Program.all
-    add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
-    add_breadcrumb "<a class='active' href='#{state_analytics_panel_path((@state.name).downcase)}'>Alumnos por estado</a>".html_safe
+    slug = params[:id]
 
+    @state = State.find_by(slug: slug)  
+    @stats = StudentEvaluatedState.where(state: @state).order(:state_id).includes(:program)
+    @stats_points = StudentEvaluatedPointsState.where(state: @state).order(:state_id)
+    @programs = Program.all
+    @states = State.all.order(:id)
+    
+    add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
+    add_breadcrumb "<a href='#{students_evaluated_analytics_panel_index_path}'>Alumnos evaluados</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{state_analytics_panel_path(@state.slug)}'>Alumnos evaluados por estado</a>".html_safe
   end 
 
   def create_avances_estados
