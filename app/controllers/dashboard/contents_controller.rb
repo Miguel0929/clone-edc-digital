@@ -145,18 +145,18 @@ class Dashboard::ContentsController < ApplicationController
         #  Programs.complete_student(program, current_user, dashboard_program_url(program))
         #end
         #soporte
-        if !program.name.include?("¡Bienvenido")
+        if program.name.include?("¡Bienvenido") || program.name.include?("Cimientos Comerciales de tu idea de negocio")
           soporte=User.new(email: "soporte2@edc-digital.com")
           Programs.complete_mentor(program,soporte,current_user,mentor_student_url(current_user)) #antes la ruta era user_url(current_user)
+          ProgramCompleteNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
         end
         flash[:complete]="¡Has completado el curso!"
-        #mentores
         p "================================"
         p program.id
         p "================================"
-        if !program.name.include?("¡Bienvenido")
-          ProgramCompleteNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
-        end
+        #if program.name.include?("¡Bienvenido") || program.name.include?("Cimientos Comerciales de tu idea de negocio")
+        #  ProgramCompleteNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
+        #end
       end
       mensaje = mensaje + ", has completado el 100% del curso."    
     end   
