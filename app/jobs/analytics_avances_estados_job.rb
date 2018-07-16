@@ -45,11 +45,14 @@ class AnalyticsAvancesEstadosJob
           if r_program > 0
             ##### Refilables Programa #####
             template_refilables = program.template_refilables
-            c_template_refilables = program.template_refilables.count
+            c_template_refilables = 0
             
             total_template_refilables = 0
             template_refilables.each do |refilable|
-              total_template_refilables += refilable.last_calification(student)
+              if refilable.evaluation_refilables.count > 0
+                c_template_refilables += 1
+                total_template_refilables += refilable.last_calification(student)
+              end  
             end
             promedio_refil = total_template_refilables / c_template_refilables rescue 0 
          
