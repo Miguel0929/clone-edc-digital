@@ -85,32 +85,41 @@
 
           %tbody#total_alumnos_program_rango
             - if @total_alumnos_program_rango.present?
-              - @programs.each do |program|
-                - eva = @total_alumnos_program_rango.evaluation.where(program_id: program.id).first
-                - ref = @total_alumnos_program_rango.refilable.where(program_id: program.id).first
-                - que = @total_alumnos_program_rango.questions.where(program_id: program.id).first 
-                %tr
-                  %td.bold{rowspan: 3}= program.name
+              - @programs.each_with_index do |program, index| 
+                %tr{class: index % 2 == 0 ? 'active' : ''}
+                  %td.bold{rowspan: 3, style: "vertical-align:middle"}= program.name
                   %td.bold.text-center Evaluaciones
-                  %td.text-center= eva.rango1
-                  %td.text-center= eva.rango2
-                  %td.text-center= eva.rango3
-                  %td.text-center= eva.rango4
-                  %td.text-center= eva.rango1 + eva.rango2 + eva.rango3 + eva.rango4
-                %tr
+                  - if program.quizzes.count > 0
+                    - eva = @total_alumnos_program_rango.evaluation.where(program_id: program.id).first
+                    %td.text-center= eva.rango1
+                    %td.text-center= eva.rango2
+                    %td.text-center= eva.rango3
+                    %td.text-center= eva.rango4
+                    %td.text-center= eva.rango1 + eva.rango2 + eva.rango3 + eva.rango4
+                  - else
+                    %td.text-center.bold{colspan: 5} El programa no tiene evaluaciones.  
+                %tr{class: index % 2 == 0 ? 'active' : ''}
                   %td.bold.text-center Plantillas
-                  %td.text-center= ref.rango1
-                  %td.text-center= ref.rango2
-                  %td.text-center= ref.rango3
-                  %td.text-center= ref.rango4
-                  %td.text-center= ref.rango1 + ref.rango2 + ref.rango3 + ref.rango4
-                %tr 
+                  - if program.template_refilables.count > 0
+                    - ref = @total_alumnos_program_rango.refilable.where(program_id: program.id).first
+                    %td.text-center= ref.rango1
+                    %td.text-center= ref.rango2
+                    %td.text-center= ref.rango3
+                    %td.text-center= ref.rango4
+                    %td.text-center= ref.rango1 + ref.rango2 + ref.rango3 + ref.rango4
+                  - else
+                    %td.text-center.bold{colspan: 5} El programa no tiene plantillas.
+                %tr{class: index % 2 == 0 ? 'active' : ''} 
                   %td.bold.text-center Preguntas
-                  %td.text-center= que.rango1
-                  %td.text-center= que.rango2
-                  %td.text-center= que.rango3
-                  %td.text-center= que.rango4
-                  %td.text-center= que.rango1 + que.rango2 + que.rango3 + que.rango4   
+                  - if program.questions?
+                    - que = @total_alumnos_program_rango.questions.where(program_id: program.id).first 
+                    %td.text-center= que.rango1
+                    %td.text-center= que.rango2
+                    %td.text-center= que.rango3
+                    %td.text-center= que.rango4
+                    %td.text-center= que.rango1 + que.rango2 + que.rango3 + que.rango4
+                  - else 
+                    %td.text-center.bold{colspan: 5} El programa no tiene pregunta.   
             - else    
               %tr
                 %td.bold.text-center{colspan: 7}

@@ -50,7 +50,7 @@
                 - unless @stats.first.nil?
                   - @stats.each do |program|
                     %tr
-                      %td.text-center.bold= program.program.name
+                      %td.bold= program.program.name
                       %td.text-center= program.total
                       %td.text-center= program.evaluados
                       %td.text-center= program.no_evaluados
@@ -72,33 +72,41 @@
                   %th.text-center Total
               %tbody
                 - if @stats_points.count > 0
-                  - @programs.each do |program|
-                    - eva = @stats_points.evaluation.where(program_id: program.id, state_id: @state.id).first
-                    - ref = @stats_points.refilable.where(program_id: program.id, state_id: @state.id).first
-                    - que = @stats_points.questions.where(program_id: program.id, state_id: @state.id).first
-                    %tr
-                      %td.bold{rowspan: 3}= program.name
-                      %td.text-center.bold Evaluación 
-                      %td.text-center= eva.puntaje_90_100 rescue "N/A"
-                      %td.text-center= eva.puntaje_80_89 rescue "N/A"
-                      %td.text-center= eva.puntaje_60_79 rescue "N/A"
-                      %td.text-center= eva.puntaje_0_59 rescue "N/A"
-                      %td.text-center= eva.puntaje_90_100 + eva.puntaje_80_89 + eva.puntaje_60_79 + eva.puntaje_0_59 rescue "N/A"
-
-                    %tr
+                  - @programs.each_with_index do |program, index|         
+                    %tr{class: index % 2 == 0 ? 'active' : ''}
+                      %td.bold{rowspan: 3, style: "vertical-align:middle"}= program.name
+                      %td.text-center.bold Evaluación
+                      - if program.quizzes.count > 0 
+                        - eva = @stats_points.evaluation.where(program_id: program.id, state_id: @state.id).first
+                        %td.text-center= eva.puntaje_90_100 rescue "N/A"
+                        %td.text-center= eva.puntaje_80_89 rescue "N/A"
+                        %td.text-center= eva.puntaje_60_79 rescue "N/A"
+                        %td.text-center= eva.puntaje_0_59 rescue "N/A"
+                        %td.text-center= eva.puntaje_90_100 + eva.puntaje_80_89 + eva.puntaje_60_79 + eva.puntaje_0_59 rescue "N/A"
+                      - else
+                        %td.text-center.bold{colspan: 5} El programa no tiene evaluaciones.  
+                    %tr{class: index % 2 == 0 ? 'active' : ''}
                       %td.text-center.bold Plantillas 
-                      %td.text-center= ref.puntaje_90_100 rescue "N/A"
-                      %td.text-center= ref.puntaje_80_89 rescue "N/A"
-                      %td.text-center= ref.puntaje_60_79 rescue "N/A"
-                      %td.text-center= ref.puntaje_0_59 rescue "N/A"
-                      %td.text-center= ref.puntaje_90_100 + ref.puntaje_80_89 + ref.puntaje_60_79 + ref.puntaje_0_59 rescue "N/A"
-                    %tr
+                      - if program.template_refilables.count > 0
+                        - ref = @stats_points.refilable.where(program_id: program.id, state_id: @state.id).first
+                        %td.text-center= ref.puntaje_90_100 rescue "N/A"
+                        %td.text-center= ref.puntaje_80_89 rescue "N/A"
+                        %td.text-center= ref.puntaje_60_79 rescue "N/A"
+                        %td.text-center= ref.puntaje_0_59 rescue "N/A"
+                        %td.text-center= ref.puntaje_90_100 + ref.puntaje_80_89 + ref.puntaje_60_79 + ref.puntaje_0_59 rescue "N/A"
+                      - else
+                        %td.text-center.bold{colspan: 5} El programa no tiene plantillas.  
+                    %tr{class: index % 2 == 0 ? 'active' : ''}
                       %td.text-center.bold Preguntas
-                      %td.text-center= que.puntaje_90_100 rescue "N/A"
-                      %td.text-center= que.puntaje_80_89 rescue "N/A"
-                      %td.text-center= que.puntaje_60_79 rescue "N/A"
-                      %td.text-center= que.puntaje_0_59 rescue "N/A"
-                      %td.text-center= que.puntaje_90_100 + que.puntaje_80_89 + que.puntaje_60_79 + que.puntaje_0_59 rescue "N/A"
+                      - if program.questions?
+                        - que = @stats_points.questions.where(program_id: program.id, state_id: @state.id).first
+                        %td.text-center= que.puntaje_90_100 rescue "N/A"
+                        %td.text-center= que.puntaje_80_89 rescue "N/A"
+                        %td.text-center= que.puntaje_60_79 rescue "N/A"
+                        %td.text-center= que.puntaje_0_59 rescue "N/A"
+                        %td.text-center= que.puntaje_90_100 + que.puntaje_80_89 + que.puntaje_60_79 + que.puntaje_0_59 rescue "N/A"
+                      - else
+                        %td.text-center.bold{colspan: 5} El programa no tiene preguntas.  
                 - else
                   %tr
                     %td.text-center.bold.text-danger{colspan: 7} No hay estadísticas aún.
