@@ -65,5 +65,7 @@
                     %td.bold Total 
                     - @states.each do |state|
                       %td.text-center.bold= @total_alumnos_state[state.id]
+            %center
+              = paginate @mentors              
 
                               
