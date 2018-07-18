@@ -70,9 +70,10 @@ class Users::InvitationsController < Devise::InvitationsController
     more_link = "https://www.edc-megatendencias.com"
     privacy_link = user.student? ? (request.base_url + dashboard_privacy_path) : (request.base_url + progress_panel_index_path)
     faqs_link = user.student? ? (request.base_url + frequent_questions_path) : (request.base_url + mentor_shared_group_attachments_path)
+    mailer_template = user.student? ? "41b96136-9eb4-4943-9a39-455dbfd3e1cc" : "400655aa-4a5f-4e73-8f09-11d243d48e0e"
     variable_text = user.student? ? 
                     "Tenemos la misión de darte la mejor experiencia en nuestra plataforma, es por eso que te presentamos a continuación los <strong>4 grandes beneficios</strong> que comprende tu membresía:" : 
                     "Nuestra misión es darte la mejor experiencia en la plataforma y ayudarte a dar un acompañamiento oportuno a tus alumnos.<br><br><strong>Te presentamos las principales herramientas que usarás en EDC Digital</strong>:"
-    WelcomeAfterInvitation.send_welcome_message(user, chosen_subject, root_link, route_link, more_link, privacy_link, faqs_link, variable_text)
+    WelcomeAfterInvitation.send_welcome_message(user, chosen_subject, root_link, route_link, more_link, privacy_link, faqs_link, variable_text, mailer_template)
   end
 end
