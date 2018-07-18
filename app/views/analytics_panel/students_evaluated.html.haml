@@ -9,7 +9,7 @@
       - @states.each do |s|
         .col-md-2
           %center
-            = link_to s.name,  state_analytics_panel_path(s.slug), html_options= {class: "btn btn-link"}   
+            = link_to s.name,  analytics_state_path(s.slug), html_options= {class: "btn btn-link"}   
   .panel.panel-default    
     .panel-body
       .row.p-r-15
