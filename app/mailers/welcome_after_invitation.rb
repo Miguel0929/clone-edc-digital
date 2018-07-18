@@ -1,6 +1,6 @@
 class WelcomeAfterInvitation
 
-	FROM = "soporte@edc-digital.com"
+	FROM = "soporte2@edc-digital.com"
   NAME = "EDC Digital"
 
 	def self.send_welcome_message(user, chosen_subject, root_link, route_link, more_link, privacy_link, faqs_link, variable_text, mailer_template)
