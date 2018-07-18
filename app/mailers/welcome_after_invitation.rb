@@ -3,7 +3,7 @@ class WelcomeAfterInvitation
 	FROM = "soporte@edc-digital.com"
   NAME = "EDC Digital"
 
-	def self.send_welcome_message(user, chosen_subject, root_link, route_link, more_link, privacy_link, faqs_link, variable_text)
+	def self.send_welcome_message(user, chosen_subject, root_link, route_link, more_link, privacy_link, faqs_link, variable_text, mailer_template)
     puts "ay wey, dentro del mailer"
 
 		 data = {
@@ -26,7 +26,7 @@ class WelcomeAfterInvitation
           email: FROM,
           name: NAME
         },
-        template_id: "41b96136-9eb4-4943-9a39-455dbfd3e1cc",
+        template_id: mailer_template,
       }
       sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
       begin
