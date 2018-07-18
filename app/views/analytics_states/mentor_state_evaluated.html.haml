@@ -64,7 +64,7 @@
                       %td.text-center= eva.puntaje_60_79 
                       %td.text-center= eva.puntaje_0_59 
                       %td.text-center= total = eva.puntaje_0_59 + eva.puntaje_60_79 + eva.puntaje_80_89 + eva.puntaje_90_100
-                      %td.text-center= "#{((@mentor.linked_students_state(@state) / total) * 100).round rescue 0} %"
+                      %td.text-center= "#{(( total / @mentor.linked_students_state(@state) ) * 100).round rescue 0} %"
                     - else
                       %td.text-center.bold{colspan: 6} El programa no tiene evaluaciones.
                   %tr{class: index % 2 == 0 ? 'active' : ''}
@@ -76,7 +76,7 @@
                       %td.text-center= ref.puntaje_60_79
                       %td.text-center= ref.puntaje_0_59
                       %td.text-center= total = ref.puntaje_0_59 + ref.puntaje_60_79 + ref.puntaje_80_89 + ref.puntaje_90_100
-                      %td.text-center= "#{((@mentor.linked_students_state(@state) / total) * 100).round rescue 0} %"
+                      %td.text-center= "#{(( total / @mentor.linked_students_state(@state) ) * 100).round rescue 0} %"
                     - else
                       %td.text-center.bold{colspan: 6} El programa no tiene plantillas.
                   %tr{class: index % 2 == 0 ? 'active' : ''}
@@ -88,7 +88,7 @@
                       %td.text-center= que.puntaje_60_79 
                       %td.text-center= que.puntaje_0_59 
                       %td.text-center= total = que.puntaje_0_59 + que.puntaje_60_79 + que.puntaje_80_89 + que.puntaje_90_100 
-                      %td.text-center= "#{((@mentor.linked_students_state(@state) / total) * 100).round rescue 0} %"
+                      %td.text-center= "#{(( total / @mentor.linked_students_state(@state) ) * 100).round rescue 0} %"
                     - else
                       %td.text-center.bold{colspan: 6} El programa no tiene preguntas.
               - else
