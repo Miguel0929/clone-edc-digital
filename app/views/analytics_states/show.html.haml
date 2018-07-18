@@ -9,15 +9,17 @@
       - @states.each do |s|
         .col-md-2
           %center
-            = link_to s.name,  state_analytics_panel_path(s.slug), html_options= {class: "btn btn-link"}   
+            = link_to s.name,  analytics_state_path(s.slug), html_options= {class: "btn btn-link"}   
   .panel.panel-default
     .panel-heading
       %h4 Alumnos del estado #{@state.name}   
     .panel-body
       .row
         .col-md-12
+          .pull-left.p-l-15.p-b-15
+            = link_to "Funnel Mentores (#{@state.name})", mentor_state_evaluated_analytics_state_path(@state.slug), class: "btn btn-success"
           .pull-right.p-r-15.p-b-15
-            = form_tag(create_avances_estados_analytics_panel_index_path, method: :post) do
+            = form_tag(create_state_advance_analytics_states_path, method: :post) do
               = hidden_field_tag 'state_id', @state.id
               %button.btn.btn-primary{type: "submit"}
                 - if @stats.first.nil?

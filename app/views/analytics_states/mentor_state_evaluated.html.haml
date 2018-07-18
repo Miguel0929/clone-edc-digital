@@ -1,0 +1,102 @@
+- content_for :title  do
+  Funnel tutores (#{@state.name}) - EDC Digital
+
+.container-fluid.container-fixed-lg
+  %h2.p-l-20.p-t-0 Funnel tutores (#{@state.name}) 
+  .panel.panel-default
+    .panel-heading
+      .row
+        = form_tag(mentor_state_evaluated_analytics_state_path, method: :get, class: "form-inline") do
+          .col-md-6
+            %strong #{@mentor.name rescue ""}
+          .col-md-4
+            = select_tag :mentor_id, options_from_collection_for_select(@mentors, :id, :name, selected: (@mentor.id rescue "")), {include_blank: "Elige el mentor", class: "form-control"}
+          .col-md-2.text-center
+            = submit_tag 'Buscar mentor', class: "btn btn-success btn-xs"
+      - if @mentor != nil
+        .row
+          .col-md-12.p-t-15
+            .pull-right
+              = form_tag(create_mentor_state_evaluated_analytics_states_path, method: :post) do
+                %input{type: "hidden", value: "#{@mentor.id rescue ''}", name: "mentor_id"}
+                %input{type: "hidden", value: "#{@state.id}", name: "state_id"}
+                %button.btn.btn-primary{type: "submit"}
+                  - if @sepsm.first.nil?
+                    %ul.p-l-5.m-b-0
+                      %li.inline.p-l-0
+                        %i.fa.fa-rotate-right
+                      %li.inline
+                        Generar estadísticas
+                  - else
+                    %ul.p-l-5.m-b-0
+                      %li.inline.p-l-0
+                        %i.fa.fa-rotate-right
+                      %li.inline
+                        Actualizar estadísticas
+                    %ul.p-l-20.m-b-0{:style => "font-size: 0.8em;"}
+                      %li.inline
+                        * Última vez:
+                      = l @sepsm.order(:updated_at).last.updated_at, format: :short_no_year             
+    .panel-body
+      - if @mentor != nil
+        .table-responsive
+          %table.table.table-bordered
+            %thead
+              %tr
+                %th{width: "25%"} Programa
+                %th.text-center{width: "13%"} Elemento
+                %th.text-center{width: "10%"} 90% - 100%
+                %th.text-center{width: "10%"} 80% - 89%
+                %th.text-center{width: "10%"} 60% - 79%
+                %th.text-center{width: "10%"} 0% - 59%
+                %th.text-center{width: "10%"} Total
+                %th.text-center{width: "12%"} Índice de evaluación
+            %tbody
+              -if @sepsm.count > 0
+                - @programs.each_with_index do |program, index| 
+                  %tr{class: index % 2 == 0 ? 'active' : ''}
+                    %td.bold{rowspan: 3, style: "vertical-align:middle"}= program.name
+                    %td.text-center.bold Evaluación
+                    - if program.quizzes.count > 0
+                      - eva = @sepsm.evaluation.where(program_id: program.id).first 
+                      %td.text-center= eva.puntaje_90_100 
+                      %td.text-center= eva.puntaje_80_89 
+                      %td.text-center= eva.puntaje_60_79 
+                      %td.text-center= eva.puntaje_0_59 
+                      %td.text-center= total = eva.puntaje_0_59 + eva.puntaje_60_79 + eva.puntaje_80_89 + eva.puntaje_90_100
+                      %td.text-center= "#{((@mentor.linked_students_state(@state) / total) * 100).round rescue 0} %"
+                    - else
+                      %td.text-center.bold{colspan: 6} El programa no tiene evaluaciones.
+                  %tr{class: index % 2 == 0 ? 'active' : ''}
+                    %td.text-center.bold Plantillas 
+                    - if program.template_refilables.count > 0
+                      - ref = @sepsm.refilable.where(program_id: program.id).first 
+                      %td.text-center= ref.puntaje_90_100
+                      %td.text-center= ref.puntaje_80_89
+                      %td.text-center= ref.puntaje_60_79
+                      %td.text-center= ref.puntaje_0_59
+                      %td.text-center= total = ref.puntaje_0_59 + ref.puntaje_60_79 + ref.puntaje_80_89 + ref.puntaje_90_100
+                      %td.text-center= "#{((@mentor.linked_students_state(@state) / total) * 100).round rescue 0} %"
+                    - else
+                      %td.text-center.bold{colspan: 6} El programa no tiene plantillas.
+                  %tr{class: index % 2 == 0 ? 'active' : ''}
+                    %td.text-center.bold Preguntas
+                    - if program.questions?
+                      - que = @sepsm.questions.where(program_id: program.id).first 
+                      %td.text-center= que.puntaje_90_100 
+                      %td.text-center= que.puntaje_80_89 
+                      %td.text-center= que.puntaje_60_79 
+                      %td.text-center= que.puntaje_0_59 
+                      %td.text-center= total = que.puntaje_0_59 + que.puntaje_60_79 + que.puntaje_80_89 + que.puntaje_90_100 
+                      %td.text-center= "#{((@mentor.linked_students_state(@state) / total) * 100).round rescue 0} %"
+                    - else
+                      %td.text-center.bold{colspan: 6} El programa no tiene preguntas.
+              - else
+                %tr
+                  %td.text-center.bold.text-danger{colspan: 8} No hay estadísticas aún.        
+      - else
+        %center
+          %h4 Elige un mentor           
+
+
+                 

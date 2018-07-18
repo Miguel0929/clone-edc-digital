@@ -188,7 +188,7 @@ class AnalyticsPanelController < ApplicationController
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
     add_breadcrumb "<a class='active' href='#{alumnos_estados_progress_analytics_panel_path(@job_id)}'>Calculando estadisticas - Alumnos por estado (Mentores)</a>".html_safe
   end
-
+=begin
   def state
     slug = params[:id]
 
@@ -202,6 +202,7 @@ class AnalyticsPanelController < ApplicationController
     add_breadcrumb "<a href='#{students_evaluated_analytics_panel_index_path}'>Alumnos evaluados</a>".html_safe
     add_breadcrumb "<a class='active' href='#{state_analytics_panel_path(@state.slug)}'>Alumnos evaluados por estado</a>".html_safe
   end 
+
 
   def create_avances_estados
     state = State.find(params[:state_id])
@@ -229,7 +230,7 @@ class AnalyticsPanelController < ApplicationController
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
     add_breadcrumb "<a class='active' href='#{avances_estados_progress_analytics_panel_path(@job_id, state_id: @state.id)}'>Calculando estadisticas - Alumnos por estado</a>".html_safe
   end  
-
+=end
   private
   def set_group
     @group = Group.find(params[:id])
