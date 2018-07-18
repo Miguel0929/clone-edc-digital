@@ -1,6 +1,7 @@
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
+      = request.base_url + progress_panel_index_path
       %h2.text-center
         Enviar invitación
       = bootstrap_form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f|

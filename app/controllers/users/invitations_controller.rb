@@ -8,6 +8,8 @@ class Users::InvitationsController < Devise::InvitationsController
   private
 
   def invite_resource
+    puts "ay wey, invitations invite_resource"
+    accept_resource
     user = super do |u|
       u.skip_invitation = true if Rails.env.production?
     end
@@ -51,10 +53,20 @@ class Users::InvitationsController < Devise::InvitationsController
   def set_breadcrumb
     add_breadcrumb "Administrador", :root_path
     add_breadcrumb "<a class='active' href='#{new_user_invitation_path}'>Enviar invitación</a>".html_safe
+    puts "ay wey, invitations set_breadcrumb"
   end
 
   def accept_resource
+    puts "ay wey, invitations accept_resource"
     resource = resource_class.accept_invitation!(update_resource_params)
+    puts "current_user.nil?"
+    puts current_user.nil?
+    if current_user.nil?
+      puts "ay wey, enviando mailer"
+      puts resource.id
+      puts User.find_by(curp: params[:curp]).nil? ? "Es nil we" : User.find_by(curp: params[:curp]).id
+      WelcomeAfterInvitation.send_welcome_message(resource)
+    end
     BaasstardNotifier.user_invited(resource) rescue nil
     resource
   end

@@ -1,14 +1,17 @@
 class RegistrationsController < Devise::RegistrationsController
 
 	def new
+		puts "ay wey, registrations new"
 		super
 	end
 
 	def create
+		puts "ay wey, registrations create"
 		super
 	end
 
 	def update
+		puts "ay wey, registrations update"
 		super do
 			@new_ind = resource.industry_id
 
