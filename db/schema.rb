@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180713210922) do
+ActiveRecord::Schema.define(version: 20180718195740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -778,6 +778,24 @@ ActiveRecord::Schema.define(version: 20180713210922) do
     t.string "name"
     t.string "slug"
   end
+
+  create_table "student_evaluated_points_state_mentors", force: :cascade do |t|
+    t.integer  "program_id"
+    t.integer  "state_id"
+    t.integer  "mentor_id"
+    t.integer  "tipo"
+    t.integer  "puntaje_90_100"
+    t.integer  "puntaje_80_89"
+    t.integer  "puntaje_60_79"
+    t.integer  "puntaje_0_59"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "student_evaluated_points_state_mentors", ["mentor_id"], name: "index_student_evaluated_points_state_mentors_on_mentor_id", using: :btree
+  add_index "student_evaluated_points_state_mentors", ["program_id"], name: "index_student_evaluated_points_state_mentors_on_program_id", using: :btree
+  add_index "student_evaluated_points_state_mentors", ["state_id"], name: "index_student_evaluated_points_state_mentors_on_state_id", using: :btree
+  add_index "student_evaluated_points_state_mentors", ["tipo"], name: "index_student_evaluated_points_state_mentors_on_tipo", using: :btree
 
   create_table "student_evaluated_points_states", force: :cascade do |t|
     t.integer  "program_id"
