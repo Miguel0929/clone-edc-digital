@@ -3,16 +3,23 @@ class WelcomeAfterInvitation
 	FROM = "soporte@edc-digital.com"
   NAME = "EDC Digital"
 
-	def self.send_welcome_message(user)
+	def self.send_welcome_message(user, chosen_subject, root_link, route_link, more_link, privacy_link, faqs_link, variable_text)
     puts "ay wey, dentro del mailer"
+
 		 data = {
         personalizations: [
           {
             to: [ { email: user.email } ],
             substitutions: {
-              "-user_name-" => user.name
+              "-user_name-" => user.name,
+              "-log_in_link-" => root_link,
+              "-edc_route_link-" => route_link,
+              "-edc_more_link-" => more_link,
+              "-edc_privacy_link-" => privacy_link,
+              "-edc_faqs_link-" => faqs_link,
+              "-variable_text-" => variable_text
             },
-            subject: user.student? ? "¡Bienvenidos, alumnos!" : "¡Bienvenidos, profesores!"
+            subject: chosen_subject
           },
         ],
         from: {
