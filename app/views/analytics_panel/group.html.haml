@@ -56,13 +56,15 @@
                         %th
                           Correo electrónico
                         %th.text-center
-                          Género
-                        %th.text-center
-                          Edad
+                          Tutor
+                        /%th.text-center
+                        /  Género
+                        /%th.text-center
+                        /  Edad
                         %th.text-center
                           Situación actual
-                        %th.text-center
-                          Tema de interés
+                        /%th.text-center
+                        /  Tema de interés
                         %th.text-center
                           Mi mayor reto
                         %th.text-center
@@ -75,8 +77,8 @@
                           Contestado
                         %th.text-center.p-l-25.p-r-25
                           Visto
-                        %th.text-center.p-r-25
-                          Diagnóstico de bienvenida
+                        /%th.text-center.p-r-25
+                        /  Diagnóstico de bienvenida
                         - @programs.each do |program|
                           %th.text-center.fs-10{colspan: "6"}
                             = program.name          
@@ -87,19 +89,26 @@
                             .cell-like
                               = student.email
                           %td.padding-0
-                            .cell-like.text-center
-                              - if !student.gender_output.nil?
-                                = student.gender_output
+                            .cell-like
+                              - if !student.coach.nil?
+                                = student.coach.name
                               - else
                                 .hintish
-                                  Indefinido
-                          %td.padding-0
-                            .cell-like.text-center
-                              - if !student.age.nil?
-                                = student.age
-                              - else
-                                .hintish
-                                  Indefinido
+                                  Sin tutor
+                          /%td.padding-0
+                          /  .cell-like.text-center
+                          /    - if !student.gender_output.nil?
+                          /      = student.gender_output
+                          /    - else
+                          /      .hintish
+                          /        Indefinido
+                          /%td.padding-0
+                          /  .cell-like.text-center
+                          /    - if !student.age.nil?
+                          /      = student.age
+                          /    - else
+                          /      .hintish
+                          /        Indefinido
                           %td.padding-0
                             - if !student.user_detail.nil? && !student.user_detail.situation.nil?
                               .cell-like
@@ -107,13 +116,13 @@
                             - else
                               .cell-like.text-center.hintish
                                 Indefinido
-                          %td.padding-0
-                            - if !student.user_detail.nil? && !student.user_detail.interest.nil?
-                              .cell-like
-                                = student.user_detail.interest
-                            - else
-                              .cell-like.text-center.hintish
-                                Indefinido
+                          /%td.padding-0
+                          /  - if !student.user_detail.nil? && !student.user_detail.interest.nil?
+                          /    .cell-like
+                          /      = student.user_detail.interest
+                          /  - else
+                          /    .cell-like.text-center.hintish
+                          /      Indefinido
                           %td.padding-0
                             .cell-like.text-center
                               - if !student.user_detail.nil? && !student.user_detail.challenge.nil?
@@ -146,12 +155,12 @@
                           %td.padding-0
                             .cell-like.text-center
                               #{student.user_seen.round(1)}%
-                          %td.padding-0
-                            .cell-like.text-center
-                              - if @bienvenido.nil?
-                                El grupo no tiene examen diagnóstico
-                              - else 
-                                #{student.evaluation_result_for(@bienvenido)} de #{@bienvenido.total_points} pts
+                          /%td.padding-0
+                          /  .cell-like.text-center
+                          /    - if @bienvenido.nil?
+                          /      El grupo no tiene examen diagnóstico
+                          /    - else 
+                          /      #{student.evaluation_result_for(@bienvenido)} de #{@bienvenido.total_points} pts
                           - coloring = 1
                           - @programs.each do |program|
                             - coloring = (coloring == 1 ? 0 : 1)
