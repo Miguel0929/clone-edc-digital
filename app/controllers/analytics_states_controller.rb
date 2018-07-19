@@ -48,12 +48,12 @@ class AnalyticsStatesController < ApplicationController
   		@mentor = Mentor.find(params[:mentor_id])
   		@programs = Program.all
   		@sepsm = StudentEvaluatedPointsStateMentor.where(mentor_id: @mentor.id, state_id: @state.id)
-  		#render :json => {1=>@sepsm}
+  		add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
+    	add_breadcrumb "<a href='#{students_evaluated_analytics_panel_index_path}'>Alumnos evaluados</a>".html_safe
+    	add_breadcrumb "<a href='#{analytics_state_path(@state.slug)}'>Alumnos evaluados por estado</a>".html_safe	
+  		add_breadcrumb "<a class='active' href='#{mentor_state_evaluated_analytics_state_path(@state.slug, mentor_id: @mentor.id)}'>Alumnos evaluados por estado (Funnel Mentores)</a>".html_safe	
   	end
-  	add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
-    add_breadcrumb "<a href='#{students_evaluated_analytics_panel_index_path}'>Alumnos evaluados</a>".html_safe
-    add_breadcrumb "<a href='#{analytics_state_path(@state.slug)}'>Alumnos evaluados por estado</a>".html_safe	
-  	add_breadcrumb "<a class='active' href='#{analytics_state_path(@state.slug)}'>Alumnos evaluados por estado (Funnel Mentores)</a>".html_safe	
+  	
   end
 
   def create_mentor_state_evaluated
@@ -82,10 +82,15 @@ class AnalyticsStatesController < ApplicationController
 	  end
 	  def mentor_state_progress
 	  	@job_id = params[:id]
-    	@state = State.find(params[:state_id])
-    	@mentor = Mentor.find(params[:mentor_id])
-
-    	#render :json => {1 => @state}
+	  	if params[:state_id].present?
+    		@state = State.find(params[:state_id])
+    	end
+    	if params[:mentor_id].present?	
+    		@mentor = Mentor.find(params[:mentor_id])
+    	end
+    	add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
+    	add_breadcrumb "<a href='#{students_evaluated_analytics_panel_index_path}'>Alumnos evaluados</a>".html_safe
+    	add_breadcrumb "<a href='#{analytics_state_path(@state.slug)}'>Alumnos evaluados por estado</a>".html_safe		
 	  end  
    
   end	
