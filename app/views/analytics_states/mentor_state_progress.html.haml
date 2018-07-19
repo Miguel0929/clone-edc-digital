@@ -12,7 +12,7 @@
           .progress
             .progress-bar.progress-bar-success.progress-bar-striped{"aria-valuemax" => "100", "aria-valuemin" => "0", "aria-valuenow" => "40", :role => "progres    sbar", :style => "width:0%"}
       %center#results      
-        %a{href: mentor_state_evaluated_analytics_state_path(@state.slug, mentor_id: @mentor.id), class: "btn btn-lg btn-primary"}
+        %a{href: mentor_state_evaluated_analytics_state_path(State.find(params[:state_id]).slug, mentor_id: Mentor.find(params[:mentor_id]).id), class: "btn btn-lg btn-primary"}
           Ver Resultados    
 :javascript            
   $(document).on('turbolinks:load', function(){
