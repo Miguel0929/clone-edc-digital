@@ -20,28 +20,48 @@ class Dashboard::RefilablesController < ApplicationController
   end
 
   def create
-    user_refilables = @template.refilables.where(user_id: current_user.id)
+ 
+    user_refilables = @template.refilables.where(user_id: current_user.id, draft: false)
+    refilable_draft = 
     if user_refilables.count > 4
       user_refilables.order(:created_at).first.destroy
     end
-    if params[:refilable_content]
-      refilable = @template.refilables.new(content: params[:refilable_content])
+
+    if params[:draft] == 'true'
+      refilable = Refilable.find_or_initialize_by(user_id: current_user.id, template_refilable_id: @template.id, draft: true)
+      refilable.content = refilable_params[:content]
+      refilable.draft = params[:draft] 
+      mensaje = "Borrador de la plantilla #{@template.name} guardado."
     else
       refilable = @template.refilables.new(refilable_params)
-    end
+      refilable.draft = params[:draft]
+      #if params[:refilable_content]
+      #  refilable = @template.refilables.new(content: params[:refilable_content])
+      #else
+      #  refilable = @template.refilables.new(refilable_params)
+      #end
+      mensaje = 'Felicidades por haber contestado tu plantilla. En un máximo de 72 horas recibirás respuesta de los mentores Te pedimos paciencia'  
+    end    
     refilable.user = current_user
+ 
     if refilable.save
-      ticket = Ticket.find_by(trainee_id: current_user.id, category: 1, element_id: @template.id)
-      if ticket.nil?
-        create_ticket(current_user, refilable)
-      else
-        open_ticket(current_user, @template)
+      if refilable.draft == false
+        ticket = Ticket.find_by(trainee_id: current_user.id, category: 1, element_id: @template.id)
+        if ticket.nil?
+          create_ticket(current_user, refilable)
+        else
+          open_ticket(current_user, @template)
+        end
+        AnsweredRefilableNotificationJob.perform_async(@template.program, @template, "soporte2@edc-digital.com", current_user, mentor_student_url(current_user))
+        if params["is-draft"].present?
+          Refilable.where(user_id: current_user.id, template_refilable_id: @template.id, draft: true).destroy_all
+        end
       end
-      AnsweredRefilableNotificationJob.perform_async(@template.program, @template, "soporte2@edc-digital.com", current_user, mentor_student_url(current_user))
-      redirect_to dashboard_template_refilables_path, notice: 'Plantilla contestada'
+      
+      redirect_to dashboard_template_refilables_path, notice: mensaje
     else
       redirect_to dashboard_template_refilables_path, alert: 'Error al guardar respuestas, intenta de nuevo'
-    end
+    end 
   end
 
   def show

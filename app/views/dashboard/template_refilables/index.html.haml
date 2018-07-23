@@ -55,6 +55,7 @@
 
                 - if @undone_refilables.count > 0
                   - @undone_refilables.each do |refilable|
+                    - user_refilable = refilable.refilables.where(user: @this_user, draft: true).last
                     .card.social-card.share.m-b-30{"data-social" => "item"}
                       .card-header{style: "border-bottom: none"}
                         %h5.text-complete.pull-left.fs-12
@@ -74,8 +75,12 @@
                             = refilable.program.nil? ? "Ninguno" : refilable.program.name
                             /(link_to refilable.program.name,dashboard_program_path(refilable.program))
                         .pull-right.hint-text
-                          = link_to new_dashboard_template_refilable_refilable_path(refilable, user_id: @this_user.id), class: "btn btn-tag #{ is_student ? 'btn-tag-light' : 'btn-tag-dark' } btn-tag-rounded m-l-5" do
-                            #{ is_student ? "Contestar" : "Ver plantilla" }
+                          - if user_refilable
+                            = link_to edit_dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
+                              Borrador pendiente
+                          - else  
+                            = link_to new_dashboard_template_refilable_refilable_path(refilable, user_id: @this_user.id), class: "btn btn-tag #{ is_student ? 'btn-tag-light' : 'btn-tag-dark' } btn-tag-rounded m-l-5" do
+                              #{ is_student ? "Contestar" : "Ver plantilla" }
                         .clearfix
                 - else
                   %h4.text-complete
@@ -104,11 +109,13 @@
 
                 - if @done_refilables.count > 0
                   - @done_refilables.each do |refilable|
-                    - user_refilable = refilable.refilables.where(user: @this_user).order(:created_at).last
+                    - user_refilable = refilable.refilables.where(user: @this_user, draft: false).order(:created_at).last
+                    - borrador = refilable.refilables.where(user: @this_user, draft: true).first
                     .card.social-card.share.m-b-30{"data-social" => "item"}
                       .card-header{style: "border-bottom: none"}
                         %h5.text-complete.pull-left.fs-12
-                          #{user_refilable.status}
+                          -#{user_refilable.status} 
+                          Contestado
                         .pull-right.small.hint-text
                           = l user_refilable.updated_at, format: :short_no_year
                           %i.fa.fa-calendar-o
@@ -132,6 +139,12 @@
                           .pull-right.hint-text
                             = link_to edit_dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
                               Editar
+                          
+                          -if borrador != nil
+                            .pull-right.hint-text
+                              = link_to edit_dashboard_template_refilable_refilable_path(refilable, borrador), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
+                                Borrador Guardado
+                                
                           .pull-right.hint-text
                             = link_to dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-dark btn-tag-rounded m-l-5" do
                               Ver

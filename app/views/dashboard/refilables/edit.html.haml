@@ -36,13 +36,18 @@
                   #refilable-content-template
                     = raw replace_fillable(@refilable.content)
                 #refilable-form
-                  /= form_for([:dashboard, @template, @refilable]) do |f|
-                  /  = f.hidden_field :content
+                  -#= form_for([:dashboard, @template, @refilable]) do |f|
+                  -#  = f.hidden_field :content
                   = bootstrap_form_tag url: dashboard_template_refilable_refilables_path, class: "edit_refilable" do |f|
-                    = f.hidden_field :content
+                    %input{type: :hidden, id: :refilable_content, name: "refilable[content]"}
+                    - if @refilable.draft
+                      %input{type: :hidden, name: "is-draft", value: "true"}
+
                 .pull-right
                   = link_to dashboard_template_refilables_path, class: "btn btn-danger" do
-                    Cancelar
+                    Cancelar 
+                  %button.btn.btn-info#send-draft
+                    Guardar Borrador   
                   %button.btn.btn-primary#send-refilable
                     Actualizar respuestas
 #alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
@@ -53,25 +58,6 @@
         %span.sr-only Close
       .alert-text
         Debes contestar todos los espacios.                    
-
-/.container-fluid.container-fixed-lg
-/  .panel.panel-default
-/    .panel-body
-/      %h2
-/        = @template.name
-/      %p
-/        = @template.description
-/
-/      .col-md-10.col-md-offset-1.well
-/        #refilable-content-template
-/          = raw replace_fillable(@refilable.content)
-/
-/        .refilable-form
-/          = form_for([:dashboard, @template, @refilable]) do |f|
-/            = f.hidden_field :content
-/
-/  %button.btn.btn-primary#send-refilable
-/    Actualizar
 
 :javascript
   $(document).on('turbolinks:load', function(){
@@ -112,13 +98,12 @@
         }
       });
       if (enviar){
-        console.log("enviando")
         var $form = $('#refilable-form').children('form');
         var $template_content = $('#refilable-content-template');
         $('#refilable_content').val($template_content.html());
-
-        var input = $("<input>").attr("type", "hidden").attr("name", "refilable_content").val($template_content.html());
-        $form.append($(input));
+        $form.append('<input name="draft" value="false" type="hidden"/>');
+        //var input = $("<input>").attr("type", "hidden").attr("name", "refilable_content").val($template_content.html());
+        //$form.append($(input));
 
         //este 'if' revisa si hubo cambios en los inputs, si no, no deja hacer submit
         if(beforeInputs.length === afterInputs.length && beforeInputs.every(function(v,i) { return v === afterInputs[i]})) { 
@@ -134,6 +119,26 @@
         setTimeout(function(){$("#alert-ra").css('display','none');},4000);
       }
       
-    })
+    });
+
+    $('#send-draft').click(function() {
+
+      $('.refilable-edit').each(function() {
+        if ($(this).text() == "") {
+          $(this).addClass('no-answer');
+        } else {
+          $(this).addClass('present-answer');
+        }
+      });
+
+      var $form = $('#refilable-form').children('form');
+      var $template_content = $('#refilable-content-template');
+      $('#refilable_content').val($template_content.html());
+      //var input = $("<input>").attr("type", "hidden").attr("name", "refilable_content").val($template_content.html());
+      //$form.append($(input));
+      $form.append('<input name="draft" value="true" type="hidden"/>');
+      $form.submit();
+
+    });
 
   });

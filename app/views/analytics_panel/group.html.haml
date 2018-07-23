@@ -95,20 +95,20 @@
                               - else
                                 .hintish
                                   Sin tutor
-                          /%td.padding-0
-                          /  .cell-like.text-center
-                          /    - if !student.gender_output.nil?
-                          /      = student.gender_output
-                          /    - else
-                          /      .hintish
-                          /        Indefinido
-                          /%td.padding-0
-                          /  .cell-like.text-center
-                          /    - if !student.age.nil?
-                          /      = student.age
-                          /    - else
-                          /      .hintish
-                          /        Indefinido
+                          -#%td.padding-0
+                          -#  .cell-like.text-center
+                          -#    - if !student.gender_output.nil?
+                          -#      = student.gender_output
+                          -#    - else
+                          -#      .hintish
+                          -#        Indefinido
+                          -#%td.padding-0
+                          -#  .cell-like.text-center
+                          -#    - if !student.age.nil?
+                          -#      = student.age
+                          -#    - else
+                          -#      .hintish
+                          -#        Indefinido
                           %td.padding-0
                             - if !student.user_detail.nil? && !student.user_detail.situation.nil?
                               .cell-like
@@ -116,13 +116,13 @@
                             - else
                               .cell-like.text-center.hintish
                                 Indefinido
-                          /%td.padding-0
-                          /  - if !student.user_detail.nil? && !student.user_detail.interest.nil?
-                          /    .cell-like
-                          /      = student.user_detail.interest
-                          /  - else
-                          /    .cell-like.text-center.hintish
-                          /      Indefinido
+                          -#%td.padding-0
+                          -#  - if !student.user_detail.nil? && !student.user_detail.interest.nil?
+                          -#    .cell-like
+                          -#      = student.user_detail.interest
+                          -#  - else
+                          -#    .cell-like.text-center.hintish
+                          -#      Indefinido
                           %td.padding-0
                             .cell-like.text-center
                               - if !student.user_detail.nil? && !student.user_detail.challenge.nil?
@@ -155,12 +155,12 @@
                           %td.padding-0
                             .cell-like.text-center
                               #{student.user_seen.round(1)}%
-                          /%td.padding-0
-                          /  .cell-like.text-center
-                          /    - if @bienvenido.nil?
-                          /      El grupo no tiene examen diagnóstico
-                          /    - else 
-                          /      #{student.evaluation_result_for(@bienvenido)} de #{@bienvenido.total_points} pts
+                          -#%td.padding-0
+                          -#  .cell-like.text-center
+                          -#    - if @bienvenido.nil?
+                          -#      El grupo no tiene examen diagnóstico
+                          -#    - else 
+                          -#      #{student.evaluation_result_for(@bienvenido)} de #{@bienvenido.total_points} pts
                           - coloring = 1
                           - @programs.each do |program|
                             - coloring = (coloring == 1 ? 0 : 1)
