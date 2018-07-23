@@ -43,4 +43,11 @@ class Dashboard::TemplateRefilablesController < ApplicationController
     add_breadcrumb "Plantillas", :dashboard_template_refilables_path
     add_breadcrumb "<a class='active' href='#{resume_dashboard_template_refilable_path(@template_refilable)}'>Rúbrica de evaluación</a>".html_safe
   end 
+
+  def evaluations
+    add_breadcrumb "<a href='#{dashboard_template_refilables_path}'>Mis plantillas</a>".html_safe 
+    add_breadcrumb "<a class='active' href='#{evaluations_dashboard_template_refilables_path}'>Evaluaciones de plantillas</a>".html_safe 
+    template_ids = get_active_elements(current_user, "template_refilables").map{|t| t.id}
+    @template_refilables = TemplateRefilable.where(id: template_ids).includes(:refilables).where(refilables: {user_id: current_user})
+  end
 end
