@@ -269,6 +269,9 @@ Rails.application.routes.draw do
       member do
         get :resume
       end
+      collection do
+        get :evaluations 
+      end
       resources :refilables, only: [:new, :create, :show, :edit, :update] 
     end
   end

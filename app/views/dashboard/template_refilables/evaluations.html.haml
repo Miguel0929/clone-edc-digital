@@ -1,0 +1,68 @@
+- content_for :title  do
+  Evaluaciones - EDC Digital
+
+.container-fluid.container-fixed-lg.top-container-padding.minus-30
+  %section.demo-bg-section.p-b-15.p-t-30{class: (current_user.mentor? || current_user.admin?) ? "panel-title-recursos" : "panel-title-emprendimiento"}
+    .container-fluid
+      .md-p-l-20.md-p-r-20.xs-no-padding
+        .row.col-md-12
+          .col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
+            %h2.text-white 
+              Mis plantillas
+          .col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
+            %h5.text-white
+              ¡Hora de ver tus resultados!
+            %p.m-b-25.text-white
+              Aquí presentamos los resultados de tus respuestas de plantillas. Fue muy sencillo, ¿verdad? Pero si no estás satisfecho con los resultados no te preocupes, puedes volver a intentarlo y mejorar.
+
+.container-fluid.container-fixed-lg
+  - @template_refilables.each do |template|
+    - grades = template.last_calification(current_user)
+    - last_refilable = template.refilables.where(user_id: current_user.id).order(:created_at).last
+    - evaluated = !last_refilable.points.nil?
+    - refilables_number = template.refilables.where(user_id: current_user.id).count
+    .card.share.share-other.height-card-quizzes
+      .card-content
+        .panel-body.p-t-0.p-b-0
+          .row
+            .col-md-9
+              %h6.bot-left.text-complete
+                %span.pull-right #{ (refilables_number >= 5)  ? "5 o más " : refilables_number} intentos 
+                .clearfix
+              %h4 
+                = template.name
+              %h6
+                -if evaluated && grades >= 80
+                  ¡Bien hecho!
+                -else
+                  Sabemos que lo harás bien la próxima.
+              -if grades > 0  
+                = link_to resume_dashboard_template_refilable_path(template) do
+                  %button.btn.btn-sm.btn-complete.bold.m-b-10
+                    Ver evaluación
+                = link_to edit_dashboard_template_refilable_refilable_path(template, last_refilable) do
+                  %button.btn.btn-sm.btn-warning.bold.m-b-10
+                    Nuevo intento
+              .pull-right#accordion.panel.panel-group.panel-transparent.m-b-0.inline-block.m-t-menos
+                .panel
+                  .panel-heading
+                    %h4.panel-title
+                      %a.collapsed.collap.new-top-collapse-quiz{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{template.id}", id: "collap#{template.id}", class: "#{evaluated ? 'quizze-contestado' : 'quizze-no-contestado'}"}
+                    .m-r-20.text_descripcion_quiz{style: "position: relative; top: -6px; right: 5px;"}
+                      Descripción
+            - this_user = @student.nil? ? current_user : @student
+            .col-md-3.pos-relative-quiz{:class => "#{evaluated ? 'colorsote2' : 'colorsote1'}"}
+              .c100.center.white.new-font-size{:class=> "p" + grades.to_s, :id => "#{evaluated ? 'color-circle2' : 'color-circle1'}"}
+                %span.bold.text-white
+                  = grades.to_s + "%"
+                .slice
+                  .bar
+                  .fill
+          .panel-collapse.collapse.row{:id => "collapsee#{template.id}"}
+            .panel-body
+              .p-b-10
+                %strong Programa:
+                = template.program.nil? ? "Ninguno" : template.program.name
+              %div
+                %strong Descripción:
+                = truncate(template.description, length: 100, separator: ' ')
