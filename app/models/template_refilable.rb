@@ -54,7 +54,7 @@ class TemplateRefilable < ActiveRecord::Base
   end
 
   def last_calification(user)
-    calificacion = self.refilables.where("user_id = ? and points is not null", user.id).order(:created_at).last.points rescue 0
+    calificacion = self.refilables.where("user_id = ? and points is not null and draft=false", user.id).order(:created_at).last.points rescue 0
     calificacion
   end  
 end

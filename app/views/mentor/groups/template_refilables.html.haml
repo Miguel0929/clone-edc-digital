@@ -90,11 +90,13 @@
               Plantillas
           %tbody
             - @students.each_with_index do |student, index|
-              - prog = Refilable.where(template_refilable_id: @group.all_refilables, user_id: student).count
+              - template_refilables = student.group.all_refilables rescue []
+              - if template_refilables == [] then ids = [] else ids = template_refilables.map{|x| x.id} end
+              - prog = Refilable.where(template_refilable_id: ids, user_id: student.id).pluck(:template_refilable_id).uniq.count
               - if prog == 0
                 - progreso = 0
               - else 
-                - progreso = (prog * 100)/(@template_refilables.count) 
+                - progreso = (prog * 100)/(template_refilables.count) 
               %tr
                 %td.p-b-20
                   .m-b-5
@@ -114,11 +116,12 @@
                     %i.fa.fa-edit
                     %span Plantillas contestadas:
                     %strong #{progreso}%
+                    %strong #{prog}%
                 %td
                   %ul.list-inline.no-style.unstyled
                     - @template_refilables.each_with_index do |refilable, index|
                       %li
-                        - refil = Refilable.where(template_refilable: refilable, user: student).first
+                        - refil = Refilable.where(template_refilable: refilable, user: student, draft: false).order(:created_at).last
                         - if refil.nil?
                           .label.program-labels{"data-toggle": "tooltip", "data-original-title": "#{refilable.name}"}
                             = "Pla-#{index}"

@@ -28,7 +28,7 @@ class Dashboard::TemplateRefilablesController < ApplicationController
     @done_refilables = []
     @undone_refilables = []
     @template_refilables.each do |refil|
-    	if refil.refilables.find_by(user: @this_user)
+    	if refil.refilables.find_by(user: @this_user, draft: false)
     		@done_refilables.push(refil)
     	else
     		@undone_refilables.push(refil)

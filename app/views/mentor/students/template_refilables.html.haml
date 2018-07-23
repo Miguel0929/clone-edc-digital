@@ -131,7 +131,7 @@
                   %ul.list-inline.no-style.unstyled
                     - template_refilables.each_with_index do |refilable, index|
                       %li
-                        - refil = Refilable.where(template_refilable: refilable, user: student).first
+                        - refil = Refilable.where(template_refilable: refilable, user: student, draft: false).order(:created_at).last
                         - if refil.nil?
                           .label.program-labels{"data-toggle": "tooltip", "data-original-title": "#{refilable.name}"}
                             = "Pla-#{index}"
