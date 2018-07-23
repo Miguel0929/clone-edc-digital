@@ -95,14 +95,15 @@
                       %i.fa.fa-check-square-o.hint-text
                       Plantillas cumplidas
                   .pull-right
-                    /.p-t-15
-                    /  %a.slow_scroll.small-text{href: "#pending", style: "opacity: 1;"}
-                    /    %i.fa.fa-chevron-circle-up
-                    /    Plantillas pendientes
                     .p-t-15
-                      = link_to evaluations_dashboard_template_refilables_path do
-                        %btn.btn.sm-btn.btn-complete
-                          Ver mis resultados
+                      - if @done_refilables.count > 0
+                        = link_to evaluations_dashboard_template_refilables_path do
+                          %btn.btn.sm-btn.btn-complete
+                            Ver mis resultados
+                      - else
+                        %a.slow_scroll.small-text{href: "#pending", style: "opacity: 1;"}
+                          %i.fa.fa-chevron-circle-up
+                          Plantillas pendientes
                   .clearfix
                   %p.m-b-15 Una vez que hayas contestado tus plantillas podrás verlas en esta columna. Podrás editarlas aunque estén clasificadas como complidas. 
 
