@@ -706,7 +706,13 @@ class User < ActiveRecord::Base
 
   def user_program_refilables_avg(template_refilables)
     total = 0
+    c_template_refilables = 0
     template_refilables.each do |refil|
+      if refil.evaluation_refilables.count > 0
+        c_template_refilables += 1
+        total += refil.last_calification(self)
+      end
+=begin      
       rubricas = refil.evaluation_refilables.pluck(:id)
       revisiones_c = UserEvaluationRefilable.where(evaluation_refilable_id: rubricas, user_id: self.id).count
       rubricas = UserEvaluationRefilable.where(evaluation_refilable_id: rubricas, user_id: self.id)
@@ -721,9 +727,10 @@ class User < ActiveRecord::Base
       promedio = revisiones/(revisiones_c) rescue 0 
       if rubricas.length == revisiones_c && rubricas.length > 0
         total+=promedio
-      end  
+      end
+=end        
     end 
-    total/template_refilables.count rescue 0
+    total/c_template_refilables rescue 0
   end
 
   private

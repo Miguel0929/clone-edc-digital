@@ -47,8 +47,12 @@
                     .pull-right
                       = link_to dashboard_template_refilables_path, class: "btn btn-danger" do
                         Cancelar
+                      %button.btn.btn-info#send-draft
+                        Guardar Borrador 
                       %button.btn.btn-primary#send-refilable
                         Enviar respuestas
+                       
+
 #alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
     #al.alert.alert-danger
@@ -91,12 +95,31 @@
         var $form = $('#new_refilable');
         var $template_content = $('#refilable-content-template');
         $('#refilable_content').val($template_content.html());
-
+        $form.append('<input name="draft" value="false" type="hidden"/>');
         $form.submit();
       }else{
         $("#alert-ra").css('display','block');
         setTimeout(function(){$("#alert-ra").css('display','none');},4000);
       }
 
-    })
+    });
+
+    $('#send-draft').click(function() {
+
+      $('.refilable-edit').each(function() {
+        if ($(this).text() == "") {
+          $(this).addClass('no-answer');
+        } else {
+          $(this).addClass('present-answer');
+        }
+      });
+
+      var $form = $('#new_refilable');
+      var $template_content = $('#refilable-content-template');
+      $('#refilable_content').val($template_content.html());
+      $form.append('<input name="draft" value="true" type="hidden"/>');
+      $form.submit();
+
+    });
+
   });
