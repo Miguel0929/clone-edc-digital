@@ -243,3 +243,16 @@ label.zoomed-checkbox {
 .font-comments p{
   font-size: 12.5px !important;
 }
+
+.card-header-like-row {
+  margin-left: 0px;
+  margin-right: 0px;
+  padding: 20px 30px 10px 30px;
+}
+
+.card-header-like-text {
+  font-family: montserrat;
+  font-size: 11px;
+  font-weight: 501 !important;
+  letter-spacing: .06em;
+}

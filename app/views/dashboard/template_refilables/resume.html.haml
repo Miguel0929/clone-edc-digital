@@ -7,86 +7,146 @@
       .md-p-l-20.md-p-r-20.xs-no-padding
         .col-sm-12.col-md-12.xs-p-l-15.xs-p-r-15
           %h2.text-white 
-            Evaluacion de plantilla
+            Evaluación de plantilla
 
-.container-fluid.container-fixed-lg
+.container-fluid.container-fixed-lg#last_answer
   .panel.panel-default
-    .panel-heading
-      .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}= @template_refilable.name
+    .row.card-header-like-row
+      .pull-left.card-header-like-text
+        %span.text-complete.p-r-5
+          ÚLTIMA RESPUESTA
+        = @template_refilable.name.upcase
+      .pull-right
+        %a.slow_scroll.small-text{href: "#records", style: "opacity: 1;"}
+          %i.fa.fa-chevron-circle-down
+          Ver historial de respuestas
+      .clearfix
     .panel-body
-      %p.m-l-10= @template_refilable.description
-      .col-md-5
-        - if @refilable.nil?
-          .well
-            #refilable-content-template
-              = raw remove_class(replace_fillable_admin(@template_refilable.content))
-        - else
-          .well
-            #refilable-content-template.nueva-tipografia-rellenable
-              = raw remove_class(replace_fillable(@refilable.content)) 
-      .col-md-7
-        .panel.panel-default
-          .panel-heading
-            %h3.panel-title Rubricas
-          .panel-body
-            - if @rubricas.count > 0
-              %table.table
-                %thead
-                  %tr
-                    %th Rubrica
-                    %th.text-center Evaluacion
-                    %th.text-center Puntaje            
-                %tbody
-                  - total_obtenido = 0; total_puntaje = 0
-                  - @rubricas.each do |rubrica|
-                    - user_eval = rubrica.user_evaluation_refilables.find_by(user: current_user, refilable_id: @refilable.id)
-                    - unless user_eval.nil?
-                      - obtenido = user_eval.puntaje
-                      - puntaje = rubrica.points
-                      - total_obtenido += obtenido
-                      - total_puntaje += puntaje 
-                      %tr
-                        %td.bold
-                          =rubrica.name
-                        %td
-                          - if user_eval.points == 100
-                            = rubrica.excelent
-                          - elsif user_eval.points == 75
-                            = rubrica.good
-                          - elsif user_eval.points == 50
-                            = rubrica.regular
-                          - elsif user_eval.points == 25 
-                            = rubrica.bad
-                        %td.text-center="#{obtenido} de #{puntaje} pts"                      
-                          
-                    - else
-                      %tr
-                        %th=rubrica.name
-                        %td{colspan: 2}
-                          %center
-                            %label.label-danger.padding-5.m-b-10
-                              La plantilla no ha sido evaluada
-                  %tr
-                    %td.bold Totales:
-                    %td.bold.text-center=number_to_percentage(user_promedio_refilable(total_obtenido, total_puntaje), precision: 1)  
-                    %td.bold.text-center="#{total_obtenido} de #{total_puntaje} pts"               
-            - else
-              .nav-tabs.nav-tabs-separator.m-b-15
-                %label.label-danger.padding-5.m-b-10
-                  No hay rúbrica para esta plantilla
-          .panel-heading
-            %h3.panel-title Comentarios
-          .panel-body
-            - comentario = @refilable.comments 
-            - if comentario.nil?
+      .row.p-r-15.p-l-15
+        .col-md-5
+          - if @refilable.nil?
+            .well
+              #refilable-content-template
+                = raw remove_class(replace_fillable_admin(@template_refilable.content))
+          - else
+            .well
+              #refilable-content-template.nueva-tipografia-rellenable
+                = raw remove_class(replace_fillable(@refilable.content)) 
+        .col-md-7
+          .panel.panel-default
+            .panel-heading
+              %h3.panel-title Rubricas
+            .panel-body
+              - if @rubricas.count > 0
+                %table.table
+                  %thead
+                    %tr
+                      %th Rubrica
+                      %th.text-center Evaluacion
+                      %th.text-center Puntaje            
+                  %tbody
+                    - total_obtenido = 0; total_puntaje = 0
+                    - @rubricas.each do |rubrica|
+                      - user_eval = rubrica.user_evaluation_refilables.find_by(user: current_user, refilable_id: @refilable.id)
+                      - unless user_eval.nil?
+                        - obtenido = user_eval.puntaje
+                        - puntaje = rubrica.points
+                        - total_obtenido += obtenido
+                        - total_puntaje += puntaje 
+                        %tr
+                          %td.bold
+                            =rubrica.name
+                          %td
+                            - if user_eval.points == 100
+                              = rubrica.excelent
+                            - elsif user_eval.points == 75
+                              = rubrica.good
+                            - elsif user_eval.points == 50
+                              = rubrica.regular
+                            - elsif user_eval.points == 25 
+                              = rubrica.bad
+                          %td.text-center="#{obtenido} de #{puntaje} pts"                      
+                            
+                      - else
+                        %tr
+                          %th=rubrica.name
+                          %td{colspan: 2}
+                            %center
+                              %label.label-danger.padding-5.m-b-10
+                                La plantilla no ha sido evaluada
+                    %tr
+                      %td.bold Totales:
+                      %td.bold.text-center=number_to_percentage(user_promedio_refilable(total_obtenido, total_puntaje), precision: 1)  
+                      %td.bold.text-center="#{total_obtenido} de #{total_puntaje} pts"               
+              - else
+                .nav-tabs.nav-tabs-separator.m-b-15
+                  %label.label-danger.padding-5.m-b-10
+                    No hay rúbrica para esta plantilla
+            .panel-heading
+              %h3.panel-title Comentarios
+            .panel-body
+              - comentario = @refilable.comments 
+              - if comentario.nil?
+                %p
+                  %label.label.label-danger La plantilla aún no ha sido comentada.
+              - else
+                %p
+                  = raw replace_refilable_data(@refilable) 
+
+.container-fluid.container-fixed-lg#records
+  .panel.panel-default
+    .row.card-header-like-row
+      .pull-left.card-header-like-text
+        %span.text-complete.p-r-5
+          HISTORIAL DE RESPUESTAS
+        = @template_refilable.name.upcase
+      .pull-right
+        %a.slow_scroll.small-text{href: "#last_answer", style: "opacity: 1;"}
+          %i.fa.fa-chevron-circle-up
+          Ver última respuesta
+      .clearfix
+    .panel-body
+      .col-md-10.col-md-offset-1
+        - @refilables.each_with_index do |refilable, index|
+          .card.social-card.share.m-t-20.m-b-20{"data-social" => "item"}
+            .card-header.no-hover.lightblue-background.clearfix
+              .pull-left
+                %h5 Respuesta número #{index + 1}
+                %h6
+                  %span
+                    %i.fa.fa-calendar-check-o
+                    Creada el
+                    = l refilable.created_at, format: :special
+                  %span.p-l-15
+                    %i.fa.fa-calendar-plus-o
+                    = (refilable.created_at == refilable.updated_at) ? "Sin modificar" : ("Modificada el " + (l refilable.updated_at, format: :special))
+              .pull-right.hint-text
+                %i.fa.fa-check-square-o
+                Promedio: 
+                /- evaluation = refilable.evaluation(@user)
+                - evaluation = refilable.points
+                %span{class: evaluation.nil? ? "text-danger" : "text-primary"}
+                  #{evaluation.nil? ? "Sin evaluar" : (evaluation.to_s + "%")}
+            .card-description
+              %h5.card-titles Contenido
               %p
-                %label.label.label-danger La plantilla aún no ha sido comentada.
-            - else
-              %p
-                = raw replace_refilable_data(@refilable)                    
+                = raw remove_class(replace_fillable(refilable.content))
+              .m-b-20.m-t-20.b-b.b-dashed.sm-b-b.b-grey
+              %h5.card-titles Comentario
+              %p{class: refilable.comments.nil? ? "text-complete" : ""}
+                = refilable.comments.nil? ? "No hay comentarios para esta respuesta" : (raw replace_refilable_data(refilable))
+
 - unless @refilable.nil?
   :javascript
     $(document).on('turbolinks:load', function(){
       $('.refilable-edit').removeClass('form-control refilable-input');
       $('.no-answer').text(' (sin respuesta) ');
     });
+
+:javascript
+  $('.slow_scroll').click(function(){
+    $('html, body').animate({
+      scrollTop: $( $(this).attr('href') ).offset().top
+    }, 500);
+    return false;
+  });
