@@ -105,11 +105,15 @@ class Dashboard::WelcomeController < ApplicationController
         end
         program.template_refilables.each do |pf_t_refil|
           ########## Calculos ###########
+          promedio = pf_t_refil.last_calification(current_user)
           refilable_user = pf_t_refil.refilables.where(user: @user).order(:created_at).last
           c_rubrics = pf_t_refil.evaluation_refilables.count
           ids_rubricas = pf_t_refil.evaluation_refilables.pluck(:id)
           c_user_evaluation =  UserEvaluationRefilable.where(evaluation_refilable_id: ids_rubricas, user_id: current_user.id).count 
-          promedio = user_promedio_refilable(pf_t_refil.puntaje(current_user, refilable_user), pf_t_refil.total_points)
+          promedio2 = user_promedio_refilable(pf_t_refil.puntaje(current_user, refilable_user), pf_t_refil.total_points)
+          puts "olvv " + program.name 
+          puts promedio
+          puts promedio2
           ###########         ########### 
           if !refilable_user.nil? && (c_rubrics == c_user_evaluation && c_rubrics > 0) && promedio < 80
             @pf_complementaries << {program: program.id, content_name: pf_t_refil.name, content_type: "TemplateRefilable", avg: promedio, url: edit_dashboard_template_refilable_refilable_path(pf_t_refil, refilable_user)}
