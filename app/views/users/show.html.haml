@@ -484,7 +484,7 @@
                     - else 
                       - @refilables.each do |refilable|
                         /- user_refilable = refilable.refilables.find_by(user: @user)
-                        - user_refilable = refilable.refilables.where(user: @user).order(:created_at).last
+                        - user_refilable = refilable.refilables.where(user: @user, draft: false).order(:created_at).last
                         - total_points = refilable.total_points
                         - puntos_obtenidos = refilable.puntaje(@user, user_refilable)
                         %tr
