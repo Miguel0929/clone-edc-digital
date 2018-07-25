@@ -287,11 +287,11 @@ class Programs
         {
           to: [ { email: soporte2 } ],
           substitutions: {
-            "-raw_subject-" => "El estudiente #{student.name} ha contestado la plantilla \"#{template_refilable.name}\".",
-            "-content-" => "El estudiente #{student.name} (Email: #{student.email}) ha contestado la plantilla \"#{template_refilable.name}\" del programa \"#{program.nil? ? 'Plantilla sin programa' : program.name}\", te invitamos a que revises sus avances.",
+            "-raw_subject-" => "El estudiante #{student.name} ha contestado la plantilla \"#{template_refilable.name}\".",
+            "-content-" => "El estudiante #{student.name} (Email: #{student.email}) ha contestado la plantilla \"#{template_refilable.name}\" del programa \"#{program.nil? ? 'Plantilla sin programa' : program.name}\", te invitamos a que revises sus avances.",
             "-url-" => ruta,
           },
-          subject: "El estudiente #{student.name} ha contestado la plantilla \"#{template_refilable.name}\"."
+          subject: "El estudiante #{student.name} ha contestado la plantilla \"#{template_refilable.name}\"."
         },
       ],
       from: {

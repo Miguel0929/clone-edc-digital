@@ -84,40 +84,49 @@
     });
 
     $('#send-refilable').click(function() {
-      var enviar = true;
-      var afterInputs = [];
-      $('.refilable-edit').each(function() {
-        afterInputs.push($(this).text());
-        if ($(this).text() == "" || $(this).text() == " (sin respuesta) " || $(this).text() == "empty" || $(this).text() == "Empty") {
-          $(this).removeClass('present-answer');
-          $(this).addClass('no-answer');
-          enviar = false;
-        } else {
-          $(this).removeClass('no-answer');
-          $(this).addClass('present-answer');
-        }
-      });
-      if (enviar){
-        var $form = $('#refilable-form').children('form');
-        var $template_content = $('#refilable-content-template');
-        $('#refilable_content').val($template_content.html());
-        $form.append('<input name="draft" value="false" type="hidden"/>');
-        //var input = $("<input>").attr("type", "hidden").attr("name", "refilable_content").val($template_content.html());
-        //$form.append($(input));
+      swal({
+        title: "¿Seguro que quieres enviar tu respuesta tal cómo está? Aprovecha tu mentoría sin costo y crece tu idea de negocio",
+        showCancelButton: true,
+        confirmButtonText: "Si, enviar!",
+        cancelButtonText: 'No, Cancelar.',
+      }, function(){
+        var enviar = true;
+        var afterInputs = [];
+        $('.refilable-edit').each(function() {
+          afterInputs.push($(this).text());
+          if ($(this).text() == "" || $(this).text() == " (sin respuesta) " || $(this).text() == "empty" || $(this).text() == "Empty") {
+            $(this).removeClass('present-answer');
+            $(this).addClass('no-answer');
+            enviar = false;
+          } else {
+            $(this).removeClass('no-answer');
+            $(this).addClass('present-answer');
+          }
+        });
+        if (enviar){
+          var $form = $('#refilable-form').children('form');
+          var $template_content = $('#refilable-content-template');
+          $('#refilable_content').val($template_content.html());
+          $form.append('<input name="draft" value="false" type="hidden"/>');
+          //var input = $("<input>").attr("type", "hidden").attr("name", "refilable_content").val($template_content.html());
+          //$form.append($(input));
 
-        //este 'if' revisa si hubo cambios en los inputs, si no, no deja hacer submit
-        if(beforeInputs.length === afterInputs.length && beforeInputs.every(function(v,i) { return v === afterInputs[i]})) { 
-          $(".alert-text").first().text("No has hecho ningún cambio todavía.");
+          //este 'if' revisa si hubo cambios en los inputs, si no, no deja hacer submit
+          if(beforeInputs.length === afterInputs.length && beforeInputs.every(function(v,i) { return v === afterInputs[i]})) { 
+            $(".alert-text").first().text("No has hecho ningún cambio todavía.");
+            $("#alert-ra").css('display','block');
+            setTimeout(function(){$("#alert-ra").css('display','none');},4000);
+          } else {
+            $form.submit();
+            $("#send-refilable").attr("disabled", true);
+          }
+        }else{
           $("#alert-ra").css('display','block');
           setTimeout(function(){$("#alert-ra").css('display','none');},4000);
-        } else {
-          $form.submit();
-          $("#send-refilable").attr("disabled", true);
         }
-      }else{
-        $("#alert-ra").css('display','block');
-        setTimeout(function(){$("#alert-ra").css('display','none');},4000);
-      }
+      });
+
+      
       
     });
 

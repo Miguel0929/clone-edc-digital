@@ -41,3 +41,5 @@
 //= stub landings/velocity.ui
 //= require typeahead.js.js
 //= require bootstrap-tour
+//= require moment
+//= require bootstrap-datetimepicker
