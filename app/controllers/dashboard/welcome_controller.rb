@@ -107,13 +107,6 @@ class Dashboard::WelcomeController < ApplicationController
           ########## Calculos ###########
           refilable_user = pf_t_refil.refilables.where("user_id = ? and points is not null", current_user.id).order(:created_at).last
           promedio = refilable_user.nil? ? nil : refilable_user.points
-          #c_rubrics = pf_t_refil.evaluation_refilables.count
-          #ids_rubricas = pf_t_refil.evaluation_refilables.pluck(:id)
-          #c_user_evaluation =  UserEvaluationRefilable.where(evaluation_refilable_id: ids_rubricas, user_id: current_user.id).count 
-          #promedio2 = user_promedio_refilable(pf_t_refil.puntaje(current_user, refilable_user), pf_t_refil.total_points)
-          #puts "olvv " + program.name 
-          #puts promedio
-          #puts promedio2
           ###########         ########### 
           if !refilable_user.nil? && !promedio.nil? && promedio < 80
             @pf_complementaries << {program: program.id, content_name: pf_t_refil.name, content_type: "TemplateRefilable", avg: promedio, url: edit_dashboard_template_refilable_refilable_path(pf_t_refil, refilable_user)}
@@ -136,11 +129,6 @@ class Dashboard::WelcomeController < ApplicationController
           ########## Calculos ###########
           refilable_user = pm_t_refil.refilables.where("user_id = ? and points is not null", current_user.id).order(:created_at).last
           promedio = refilable_user.nil? ? nil : refilable_user.points
-          #refilable_user = pm_t_refil.refilables.where(user: current_user).order(:created_at).last
-          #c_rubrics = pm_t_refil.evaluation_refilables.count
-          #ids_rubricas = pm_t_refil.evaluation_refilables.pluck(:id)
-          #c_user_evaluation =  UserEvaluationRefilable.where(evaluation_refilable_id: ids_rubricas, user_id: current_user.id).count 
-          #promedio = user_promedio_refilable(pm_t_refil.puntaje(current_user, refilable_user), pm_t_refil.total_points)
           ###########         ########### 
           if !refilable_user.nil? && !promedio.nil? && promedio < 80
             @pm_complementaries << {program: program.id, content_name: pm_t_refil.name, content_type: "TemplateRefilable", avg: promedio, url: edit_dashboard_template_refilable_refilable_path(pm_t_refil, refilable_user)}
