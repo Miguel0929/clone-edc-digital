@@ -192,15 +192,27 @@ class AnalyticsPanelController < ApplicationController
   def seguimiento
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
     add_breadcrumb "<a class='active' href='#{seguimiento_analytics_panel_index_path}'>Seguimiento de EDC Digital</a>".html_safe
-    @mentors = Mentor.all.invitation_accepted
+    @mentors = Mentor.all.invitation_accepted.page(params[:page]).per(50)
     if params[:date].present?
       @today = Date.parse(params[:date])
     else
       @today = Date.today # Today's date
     end
-    @basics = Program.basico
-    @medium = Program.intermedio
-    @advanced = Program.avanzado
+ 
+    @basics = []
+    Program.basico.each do |program|
+      @basics += program.template_refilables.pluck(:id)
+    end 
+
+    @medium = []
+    Program.intermedio.each do |program|
+      @medium += program.template_refilables.pluck(:id)
+    end
+
+    @advanced = []
+    Program.avanzado.each do |program|
+      @advanced += program.template_refilables.pluck(:id)
+    end
     @days_from_this_week = (@today.at_beginning_of_week..@today.at_beginning_of_week + 4.days).map.to_a
     @total_tickets = Ticket.where(closed: true, category: 1).count
     @total_basics = tickets_type(@basics)
@@ -226,12 +238,7 @@ class AnalyticsPanelController < ApplicationController
   	return [program_groups, actives, checked]
   end
 
-  def tickets_type(programs)
-    ids = []
-    programs.each do |program|
-      p program.template_refilables.pluck(:id)
-      ids += program.template_refilables.pluck(:id)
-    end
+  def tickets_type(ids)
     Ticket.where(element_id: ids, closed: true, category: 1).count 
   end  
 end

@@ -110,4 +110,6 @@
               %td.text-center V
               %td.text-center= mentor.seguimiento_tickets(@basics, @days_from_this_week[4])
               %td.text-center= mentor.seguimiento_tickets(@medium, @days_from_this_week[4])
-              %td.text-center= mentor.seguimiento_tickets(@advanced, @days_from_this_week[4])                                 
+              %td.text-center= mentor.seguimiento_tickets(@advanced, @days_from_this_week[4]) 
+      %center
+        = paginate @mentors                                        
