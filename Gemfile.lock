@@ -74,6 +74,8 @@ GEM
     bootstrap-kaminari-views (0.0.5)
       kaminari (>= 0.13)
       rails (>= 3.1)
+    bootstrap3-datetimepicker-rails (4.14.30)
+      momentjs-rails (>= 2.8.1)
     bootstrap_form (2.3.0)
     breadcrumbs_on_rails (3.0.1)
     browser (2.3.0)
@@ -336,6 +338,8 @@ GEM
     mini_portile2 (2.1.0)
     minitest (5.9.0)
     modernizr-rails (2.7.1)
+    momentjs-rails (2.20.1)
+      railties (>= 3.1)
     multi_json (1.12.1)
     multipart-post (2.0.0)
     netrc (0.11.0)
@@ -568,6 +572,7 @@ DEPENDENCIES
   axlsx_rails
   bootstrap-editable-rails
   bootstrap-kaminari-views
+  bootstrap3-datetimepicker-rails (~> 4.14.30)
   bootstrap_form
   breadcrumbs_on_rails
   bullet
@@ -602,6 +607,7 @@ DEPENDENCIES
   medium-editor-rails
   mini_magick
   modernizr-rails
+  momentjs-rails (>= 2.9.0)
   nilify_blanks
   non-stupid-digest-assets
   omniauth
@@ -645,4 +651,4 @@ RUBY VERSION
    ruby 2.2.1p85
 
 BUNDLED WITH
-   1.16.1
+   1.16.2

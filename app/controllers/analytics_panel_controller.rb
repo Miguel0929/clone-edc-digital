@@ -188,49 +188,26 @@ class AnalyticsPanelController < ApplicationController
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
     add_breadcrumb "<a class='active' href='#{alumnos_estados_progress_analytics_panel_path(@job_id)}'>Calculando estadisticas - Alumnos por estado (Mentores)</a>".html_safe
   end
-=begin
-  def state
-    slug = params[:id]
 
-    @state = State.find_by(slug: slug)  
-    @stats = StudentEvaluatedState.where(state: @state).order(:state_id).includes(:program)
-    @stats_points = StudentEvaluatedPointsState.where(state: @state).order(:state_id)
-    @programs = Program.all
-    @states = State.all.order(:id)
-    
+  def seguimiento
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
-    add_breadcrumb "<a href='#{students_evaluated_analytics_panel_index_path}'>Alumnos evaluados</a>".html_safe
-    add_breadcrumb "<a class='active' href='#{state_analytics_panel_path(@state.slug)}'>Alumnos evaluados por estado</a>".html_safe
-  end 
-
-
-  def create_avances_estados
-    state = State.find(params[:state_id])
-    programs = Program.all
-    groups = Group.where(state: state)
-    timestamp = Time.current.to_i
-    
-    redis = Redis.new
-    redis.set("job_#{timestamp}", {
-      total: programs.count,
-      progress: 0
-    }.to_json) 
-
-    programs.each do |program|
-      AnalyticsAvancesEstadosJob.perform_async(program, groups, state, "job_#{timestamp}")
+    add_breadcrumb "<a class='active' href='#{seguimiento_analytics_panel_index_path}'>Seguimiento de EDC Digital</a>".html_safe
+    @mentors = Mentor.all.invitation_accepted
+    if params[:date].present?
+      @today = Date.parse(params[:date])
+    else
+      @today = Date.today # Today's date
     end
-
-    flash[:notice] = "Calculando Avances"
-    redirect_to avances_estados_progress_analytics_panel_path(timestamp, state_id: state.id)     
-  end 
-
-  def avances_estados_progress
-    @job_id = params[:id]
-    @state = State.find(params[:state_id])
-    add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
-    add_breadcrumb "<a class='active' href='#{avances_estados_progress_analytics_panel_path(@job_id, state_id: @state.id)}'>Calculando estadisticas - Alumnos por estado</a>".html_safe
-  end  
-=end
+    @basics = Program.basico
+    @medium = Program.intermedio
+    @advanced = Program.avanzado
+    @days_from_this_week = (@today.at_beginning_of_week..@today.at_beginning_of_week + 4.days).map.to_a
+    @total_tickets = Ticket.where(closed: true, category: 1).count
+    @total_basics = tickets_type(@basics)
+    @total_medium = tickets_type(@medium)
+    @total_advanced = tickets_type(@advanced)
+  end
+    
   private
   def set_group
     @group = Group.find(params[:id])
@@ -241,11 +218,20 @@ class AnalyticsPanelController < ApplicationController
   end
 
   def program_objects(program)
-  	#program_groups = @groups.includes(:group_programs).where(:group_programs => {program_id: program})
+  	#program_groups = @groups.includes(:group_programs).wher(:group_programs => {program_id: program})
     program_groups = program.all_groups(current_user)
   	my_students = User.where(group_id: program_groups.pluck(:id), role: 0).where.not(invitation_accepted_at: nil)
   	actives = my_students.count
   	checked = my_students.joins(:program_stats).where(:program_stats => {checked: 1, program_id: program}).count
   	return [program_groups, actives, checked]
   end
+
+  def tickets_type(programs)
+    ids = []
+    programs.each do |program|
+      p program.template_refilables.pluck(:id)
+      ids += program.template_refilables.pluck(:id)
+    end
+    Ticket.where(element_id: ids, closed: true, category: 1).count 
+  end  
 end

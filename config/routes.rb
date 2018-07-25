@@ -93,6 +93,7 @@ Rails.application.routes.draw do
       get :students_evaluated
       get :alumnos_estados
       get :avances_estados
+      get :seguimiento
 
       resources :analytics_states, only: [:show] do 
         member do
