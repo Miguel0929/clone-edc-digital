@@ -1,0 +1,115 @@
+- content_for :title  do
+  Seguimiento - EDC Digital
+
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-heading
+      .panel-title Seguimiento
+    .panel-body
+      .col-md-3.m-b-10
+        .widget-8.panel.no-border.bg-primary.no-margin.widget-loader-bar
+          .container-xs-height.full-height
+            .row-xs-height
+              .col-xs-height.col-top
+                .panel-heading.top-left.top-right
+                  %span.font-montserrat.fs-11.all-caps
+                    Total de tickets resultados
+            .row-xs-height 
+              .col-xs-height.col-top.relative
+                .row
+                  .col-sm-10
+                    .p-l-20
+                      %h3.no-margin.p-b-5.text-white.pull-right= @total_tickets
+      .col-md-3.m-b-10
+        .widget-8.panel.no-border.bg-complete.no-margin.widget-loader-bar
+          .container-xs-height.full-height
+            .row-xs-height
+              .col-xs-height.col-top
+                .panel-heading.top-left.top-right
+                  %span.font-montserrat.fs-11.all-caps
+                    Total de seguimiento básico
+            .row-xs-height 
+              .col-xs-height.col-top.relative
+                .row
+                  .col-sm-10
+                    .p-l-20
+                      %h3.no-margin.p-b-5.text-white.pull-right= @total_basics
+      .col-md-3.m-b-10
+        .widget-8.panel.no-border.bg-success.no-margin.widget-loader-bar
+          .container-xs-height.full-height
+            .row-xs-height
+              .col-xs-height.col-top
+                .panel-heading.top-left.top-right
+                  %span.font-montserrat.fs-11.all-caps
+                    Total de seguimiento intermedio
+            .row-xs-height 
+              .col-xs-height.col-top.relative
+                .row
+                  .col-sm-10
+                    .p-l-20
+                      %h3.no-margin.p-b-5.text-white.pull-right= @total_medium
+      .col-md-3.m-b-10
+        .widget-8.panel.no-border.bg-warning.no-margin.widget-loader-bar
+          .container-xs-height.full-height
+            .row-xs-height
+              .col-xs-height.col-top
+                .panel-heading.top-left.top-right
+                  %span.font-montserrat.fs-11.all-caps
+                    Total de seguimiento avanzado
+            .row-xs-height 
+              .col-xs-height.col-top.relative
+                .row
+                  .col-sm-10
+                    .p-l-20
+                      %h3.no-margin.p-b-5.text-white.pull-right= @total_advanced 
+      .pull-right.p-b-10
+        = form_tag(seguimiento_analytics_panel_index_path, method: :get) do
+          %input#date{type: "date", value: @today.strftime("%F"), name: "date", placeholder: "Ej. 2017-11-19"}
+          = submit_tag "Buscar", class: "btn btn-xs btn-default"
+      .clearfix                                                                                           
+      %table.table.table-bordered
+        %thead
+          %tr.text-center
+            %th.text-center{colspan: 5} Seguimiento de la semana #{@today.at_beginning_of_week.strftime("%d de %b")} al #{(@today.at_beginning_of_week + 4.days).strftime("%d de %b")}
+          %tr
+            %th{width: "30%"}
+              Mentor
+            %th.text-center
+              Dia
+            %th.text-center
+              Básica
+            %th.text-center
+              Intermedio
+            %th.text-center
+              Avanzada        
+        %tbody
+          - @mentors.each_with_index do |mentor, index|
+            - tr_class = index % 2 == 0 ? 'active' : ''
+            %tr{class: tr_class}
+              %td{rowspan: 5}= mentor.name               
+              %td.text-center.p-l-20 L
+              %td.text-center= mentor.seguimiento_tickets(@basics, @days_from_this_week[0])
+              %td.text-center= mentor.seguimiento_tickets(@medium, @days_from_this_week[0])
+              %td.text-center= mentor.seguimiento_tickets(@advanced, @days_from_this_week[0])   
+            %tr{class: tr_class} 
+              %td.text-center M
+              %td.text-center= mentor.seguimiento_tickets(@basics, @days_from_this_week[1])
+              %td.text-center= mentor.seguimiento_tickets(@medium, @days_from_this_week[1])
+              %td.text-center= mentor.seguimiento_tickets(@advanced, @days_from_this_week[1])
+            %tr{class: tr_class}   
+              %td.text-center M
+              %td.text-center= mentor.seguimiento_tickets(@basics, @days_from_this_week[2])
+              %td.text-center= mentor.seguimiento_tickets(@medium, @days_from_this_week[2])
+              %td.text-center= mentor.seguimiento_tickets(@advanced, @days_from_this_week[2])
+            %tr{class: tr_class}   
+              %td.text-center J
+              %td.text-center= mentor.seguimiento_tickets(@basics, @days_from_this_week[3])
+              %td.text-center= mentor.seguimiento_tickets(@medium, @days_from_this_week[3])
+              %td.text-center= mentor.seguimiento_tickets(@advanced, @days_from_this_week[3])
+            %tr{class: tr_class}   
+              %td.text-center V
+              %td.text-center= mentor.seguimiento_tickets(@basics, @days_from_this_week[4])
+              %td.text-center= mentor.seguimiento_tickets(@medium, @days_from_this_week[4])
+              %td.text-center= mentor.seguimiento_tickets(@advanced, @days_from_this_week[4]) 
+      %center
+        = paginate @mentors                                        

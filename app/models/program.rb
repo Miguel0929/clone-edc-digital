@@ -18,6 +18,7 @@ class Program < ActiveRecord::Base
   has_many :program_stats, dependent: :destroy
   has_many :quizzes
   has_many :template_refilables
+  has_many :refilables, through: :template_refilables 
   has_one :learning_path_content, as: :content, :dependent => :destroy
   has_many :program_actives, :dependent => :destroy
   has_one :score_student_stat

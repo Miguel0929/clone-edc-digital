@@ -81,26 +81,32 @@
     $('.refilable-edit').addClass('form-control refilable-input');
 
     $('#send-refilable').click(function() {
-
-      var enviar = true;
-      $('.refilable-edit').each(function() {
-        if ($(this).text() == "" || $(this).text() == " (sin respuesta) " || $(this).text() == "empty" || $(this).text() == "Empty") {
-          $(this).addClass('no-answer');
-            enviar = false
-        } else {
-          $(this).addClass('present-answer');
+      swal({
+        title: "¿Seguro que quieres enviar tu respuesta tal cómo está? Aprovecha tu mentoría sin costo y crece tu idea de negocio",
+        showCancelButton: true,
+        confirmButtonText: "Si, enviar!",
+        cancelButtonText: 'No, Cancelar.',
+      }, function(){
+        var enviar = true;
+        $('.refilable-edit').each(function() {
+          if ($(this).text() == "" || $(this).text() == " (sin respuesta) " || $(this).text() == "empty" || $(this).text() == "Empty") {
+            $(this).addClass('no-answer');
+              enviar = false
+          } else {
+            $(this).addClass('present-answer');
+          }
+        });
+        if (enviar){
+          var $form = $('#new_refilable');
+          var $template_content = $('#refilable-content-template');
+          $('#refilable_content').val($template_content.html());
+          $form.append('<input name="draft" value="false" type="hidden"/>');
+          $form.submit();
+        }else{
+          $("#alert-ra").css('display','block');
+          setTimeout(function(){$("#alert-ra").css('display','none');},4000);
         }
-      });
-      if (enviar){
-        var $form = $('#new_refilable');
-        var $template_content = $('#refilable-content-template');
-        $('#refilable_content').val($template_content.html());
-        $form.append('<input name="draft" value="false" type="hidden"/>');
-        $form.submit();
-      }else{
-        $("#alert-ra").css('display','block');
-        setTimeout(function(){$("#alert-ra").css('display','none');},4000);
-      }
+      });  
 
     });
 
