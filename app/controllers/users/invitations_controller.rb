@@ -60,12 +60,12 @@ class Users::InvitationsController < Devise::InvitationsController
       send_welcome_after_invitation(resource)
     end
     BaasstardNotifier.user_invited(resource) rescue nil
-    if Date.valid_date?(params[:user_detail]['birthdate(1i)'.to_sym].to_i, params[:user_detail]['birthdate(2i)'.to_sym].to_i, params[:user_detail]['birthdate(3i)'.to_sym].to_i)
-      new_birthdate = (params[:user_detail]['birthdate(3i)'.to_sym] + "/" + params[:user_detail]['birthdate(2i)'.to_sym] + "/" + params[:user_detail]['birthdate(1i)'.to_sym]).to_date
-    else
-      new_birthdate = nil
-    end
-    resource.create_user_detail(birthdate: new_birthdate)
+    #if Date.valid_date?(params[:user_detail]['birthdate(1i)'.to_sym].to_i, params[:user_detail]['birthdate(2i)'.to_sym].to_i, params[:user_detail]['birthdate(3i)'.to_sym].to_i)
+    #  new_birthdate = (params[:user_detail]['birthdate(3i)'.to_sym] + "/" + params[:user_detail]['birthdate(2i)'.to_sym] + "/" + params[:user_detail]['birthdate(1i)'.to_sym]).to_date
+    #else
+    #  new_birthdate = nil
+    #end
+    #resource.create_user_detail(birthdate: new_birthdate)
     resource
   end
 
