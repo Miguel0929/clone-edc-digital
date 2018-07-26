@@ -113,6 +113,10 @@
     ev.preventDefault();
   });
 
+  $(document).ready(function(){
+    $('div.contenidos-cuadro').find('img').wrap('<div class="contents_img_wrapper"></div>')
+  });
+
 
 - if @tour_trigger[:third]
   = javascript_include_tag '/javascripts/lib/bootstraptour/tour_third_step', 'data-turbolinks-track' => false

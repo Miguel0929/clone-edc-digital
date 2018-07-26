@@ -494,7 +494,14 @@ table.colored-columns td.light{
 	position: relative;
 	left: -13px;
 }
-
+/*
 .contenidos-cuadro img {
 	max-width: 100%;
 }
+*/
+.contents_img_wrapper {
+    overflow: scroll;
+    max-width: 100%;
+    max-height: 1000px;
+}
+
