@@ -1,5 +1,5 @@
 .register-container.full-height.sm-p-t-30
-  .container-sm-height.full-height
+  .container-sm-height.full-height.m-t-30.m-b-30
     .row.row-sm-height
       .col-sm-12.col-sm-height.col-middle
         = image_tag('logo-edc-color-horizontal.png', width: "200")
@@ -25,6 +25,12 @@
                 = f.label :phone_number, 'Número de teléfono'
                 = f.text_field :phone_number, class: 'form-control', placeholder: '(xx)xxxx-xxxx'
               = error_for(resource, :phone_number)
+          .row
+            .col-sm-12#birthdate_block
+              .form-group.form-group-default{class: "#{resource.user_detail.nil? ? '' : 'has-error'}"}
+                = fields_for :user_detail, resource.user_detail do |fd|
+                  = f.label :birthdate, 'Fecha de nacimiento'
+                  = fd.date_select :birthdate, prompt: {day: 'Elige un día', month: 'Elige un mes', year: 'Elige un año'}, start_year: 1940, end_year: Time.current.year
           .row
             .col-sm-12
               .form-group.form-group-default{class: "#{class_for(resource, :curp)}"}
@@ -71,4 +77,9 @@
     var val =  $("#user_curp").val().toUpperCase();
     $("#user_curp").val(val);  
   });
-               
+
+  $(document).ready(function(){
+    setTimeout(function () {
+      $("#birthdate_block").find(".select2").removeClass( "select2" );
+    }, 1000);
+  });
