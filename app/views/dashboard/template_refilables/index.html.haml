@@ -75,12 +75,13 @@
                             = refilable.program.nil? ? "Ninguno" : refilable.program.name
                             /(link_to refilable.program.name,dashboard_program_path(refilable.program))
                         .pull-right.hint-text
-                          - if user_refilable
-                            = link_to edit_dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
-                              Borrador pendiente
-                          - else  
-                            = link_to new_dashboard_template_refilable_refilable_path(refilable, user_id: @this_user.id), class: "btn btn-tag #{ is_student ? 'btn-tag-light' : 'btn-tag-dark' } btn-tag-rounded m-l-5" do
-                              #{ is_student ? "Contestar" : "Ver plantilla" }
+                          .cell-blockbtn
+                            - if user_refilable
+                              = link_to edit_dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5 top-btn" do
+                                Borrador pendiente
+                            - else  
+                              = link_to new_dashboard_template_refilable_refilable_path(refilable, user_id: @this_user.id), class: "btn btn-tag top-btn #{ is_student ? 'btn-tag-light' : 'btn-tag-dark' } btn-tag-rounded m-l-5" do
+                                #{ is_student ? "Contestar" : "Ver plantilla" }
                         .clearfix
                 - else
                   %h4.text-complete
@@ -99,7 +100,7 @@
                     %h3.text-success 
                       %i.fa.fa-check-square-o.hint-text
                       Plantillas cumplidas
-                  .pull-right
+                  .pull-right.cell-unfloat.cell-mt10.cell-mb10
                     .p-t-15
                       - if @done_refilables.count > 0
                         = link_to evaluations_dashboard_template_refilables_path do
@@ -142,17 +143,18 @@
                             /(link_to refilable.program.name,dashboard_program_path(refilable.program))
                         - if is_student
                           .pull-right.hint-text
-                            = link_to edit_dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
-                              Editar
-                          
-                          -if borrador != nil
-                            .pull-right.hint-text
-                              = link_to edit_dashboard_template_refilable_refilable_path(refilable, borrador), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
-                                Borrador Guardado
+                            .cell-blockbtn
+                              = link_to dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-dark btn-tag-rounded m-l-5 top-btn" do
+                                Ver
+                              - if borrador != nil
+                                = link_to edit_dashboard_template_refilable_refilable_path(refilable, borrador), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
+                                  Borrador
+                              = link_to edit_dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
+                                Editar
                                 
-                          .pull-right.hint-text
-                            = link_to dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-dark btn-tag-rounded m-l-5" do
-                              Ver
+                          /.pull-right.hint-text
+                          /  = link_to dashboard_template_refilable_refilable_path(refilable, user_refilable), class: "btn btn-tag btn-tag-dark btn-tag-rounded m-l-5" do
+                          /    Ver
                         - else
                           .pull-right.hint-text 
                             = link_to mentor_student_refilable_path(@this_user, user_refilable), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do

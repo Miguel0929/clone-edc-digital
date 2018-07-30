@@ -256,3 +256,111 @@ label.zoomed-checkbox {
   font-weight: 501 !important;
   letter-spacing: .06em;
 }
+
+/* Celulares Pequeños */
+@media screen and (max-width: 320px) {
+  .sm-cell {
+
+  }
+}
+
+/* Celulares Medianos */
+@media screen and (max-width: 425px) and (min-width: 321px) {
+  .md-cell {
+
+  }
+}
+
+/* Celulares Grandes */
+@media screen and (max-width: 767px) and (min-width: 426px) {
+  .lg-cell {
+
+  }
+}
+
+/* Todos los Celulares */
+@media screen and (max-width: 480px) {
+  .cell-mt5{
+    margin-top: 5px;
+  }
+  .cell-mt10{
+    margin-top: 10px;
+  }
+  .cell-mb5{
+    margin-bottom: 5px;
+  }
+  .cell-mb10{
+    margin-bottom: 10px;
+  }
+  .cell-pt5{
+    padding-top: 5px;
+  }
+  .cell-pt10{
+    padding-top: 10px;
+  }
+  .cell-pb5{
+    padding-bottom: 5px;
+  }
+  .cell-pb10{
+    padding-bottom: 10px;
+  }
+  .cell-blockbtn button, .cell-blockbtn a {
+    display: block;
+    margin-bottom: 5px;
+  }
+  .cell-blockbtn button.top-btn, .cell-blockbtn a.top-btn {
+    margin-top: 10px;
+  }
+  .cell-block {
+    display: block;
+  }
+  .cell-unfloat {
+    float: none !important;
+  }
+}
+
+/* Tablets */
+@media screen and (max-width: 991px) and (min-width: 481px) {
+  .tablet-mt5{
+    margin-top: 5px;
+  }
+  .tablet-mt10{
+    margin-top: 10px;
+  }
+  .tablet-mb5{
+    margin-bottom: 5px;
+  }
+  .tablet-mb10{
+    margin-bottom: 10px;
+  }
+  .tablet-pt5{
+    padding-top: 5px;
+  }
+  .tablet-pt10{
+    padding-top: 10px;
+  }
+  .tablet-pb5{
+    padding-bottom: 5px;
+  }
+  .tablet-pb10{
+    padding-bottom: 10px;
+  }
+  .tablet-unfloat {
+    float: none !important;
+  }
+}
+
+/* Laptops */
+@media screen and (max-width: 1280px) and (min-width: 992px) {
+  .laptop {
+
+  }
+}
+
+/* Desktops */
+@media screen and (min-width: 1281px) {
+  .desktop {
+
+  }
+}
+

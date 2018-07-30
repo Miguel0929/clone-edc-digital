@@ -36,20 +36,22 @@
                   ¡Bien hecho!
                 -else
                   Sabemos que lo harás bien la próxima.
-              -if grades > 0  
-                = link_to resume_dashboard_template_refilable_path(template) do
-                  %button.btn.btn-sm.btn-complete.bold.m-b-10
-                    Ver evaluación
-                = link_to edit_dashboard_template_refilable_refilable_path(template, last_refilable) do
-                  %button.btn.btn-sm.btn-warning.bold.m-b-10
-                    Nuevo intento
-              .pull-right#accordion.panel.panel-group.panel-transparent.m-b-0.inline-block.m-t-menos
+              -if grades > 0 
+                .pull-left 
+                  = link_to resume_dashboard_template_refilable_path(template) do
+                    %button.btn.btn-sm.btn-complete.bold.m-b-10
+                      Ver evaluación
+                  = link_to edit_dashboard_template_refilable_refilable_path(template, last_refilable) do
+                    %button.btn.btn-sm.btn-warning.bold.m-b-10
+                      Nuevo intento
+              .pull-right#accordion.panel.panel-group.panel-transparent.m-b-0.inline-block.m-t-menos.cell-unfloat
                 .panel
                   .panel-heading
                     %h4.panel-title
                       %a.collapsed.collap.new-top-collapse-quiz{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{template.id}", id: "collap#{template.id}", class: "#{evaluated ? 'quizze-contestado' : 'quizze-no-contestado'}"}
                     .m-r-20.text_descripcion_quiz{style: "position: relative; top: -6px; right: 5px;"}
                       Descripción
+              .clearfix
             - this_user = @student.nil? ? current_user : @student
             .col-md-3.pos-relative-quiz{:class => "#{evaluated ? 'colorsote2' : 'colorsote1'}"}
               .c100.center.white.new-font-size{:class=> "p" + grades.to_s, :id => "#{evaluated ? 'color-circle2' : 'color-circle1'}"}
