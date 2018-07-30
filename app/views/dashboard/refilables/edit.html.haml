@@ -82,13 +82,14 @@
     $('.refilable-edit').each(function() {
       beforeInputs.push($(this).text());
     });
+    var isDraft = #{Refilable.find(params[:id]).draft};
 
     $('#send-refilable').click(function() {
       swal({
         title: "¿Seguro que quieres enviar tu respuesta tal cómo está? Aprovecha tu mentoría sin costo y crece tu idea de negocio",
         showCancelButton: true,
-        confirmButtonText: "Si, enviar!",
-        cancelButtonText: 'No, Cancelar.',
+        confirmButtonText: "Sí, ¡enviar!",
+        cancelButtonText: 'No, cancelar',
       }, function(){
         var enviar = true;
         var afterInputs = [];
@@ -112,7 +113,7 @@
           //$form.append($(input));
 
           //este 'if' revisa si hubo cambios en los inputs, si no, no deja hacer submit
-          if(beforeInputs.length === afterInputs.length && beforeInputs.every(function(v,i) { return v === afterInputs[i]})) { 
+          if(beforeInputs.length === afterInputs.length && beforeInputs.every(function(v,i) { return v === afterInputs[i]}) && isDraft == false) { 
             $(".alert-text").first().text("No has hecho ningún cambio todavía.");
             $("#alert-ra").css('display','block');
             setTimeout(function(){$("#alert-ra").css('display','none');},4000);
