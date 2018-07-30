@@ -38,7 +38,7 @@ class Dashboard::TemplateRefilablesController < ApplicationController
 
   def resume
     @template_refilable = TemplateRefilable.find(params[:id])
-    @refilable = @template_refilable.refilables.where(user_id: current_user).order(:created_at).last
+    @refilable = @template_refilable.refilables.where(user_id: current_user, draft: false).order(:created_at).last
     @rubricas = @template_refilable.evaluation_refilables
     @refilables = @template_refilable.refilables.where(user: current_user).order(:created_at)
     add_breadcrumb "Plantillas", :dashboard_template_refilables_path
