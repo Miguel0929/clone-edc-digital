@@ -63,7 +63,9 @@ class Users::InvitationsController < Devise::InvitationsController
       else
         new_birthdate = nil
       end
-      resource.create_user_detail(birthdate: new_birthdate)
+      user_detail = UserDetail.find_or_initialize_by(user_id: resource.id)
+      user_detail.birthdate =  new_birthdate
+      user_detail.save
     end
     BaasstardNotifier.user_invited(resource) rescue nil
     resource
