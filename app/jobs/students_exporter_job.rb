@@ -11,9 +11,9 @@ class StudentsExporterJob
 
     csv_string = CSV.generate(encoding: "UTF-8") do |csv|
       if fast
-        header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', "Codigo activación"]
+        header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Status', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', "Codigo activación"]
       else
-        header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Estado', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', "Codigo activación", "Género", "Edad", "Situación actual", "Tema de interés", "Mi mayor reto será", "Lo que busco en EDC",]
+        header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Status', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', "Codigo activación", "Estado", "Universidad", "Sector económico", "Género", "Edad", "Situación actual", "Tema de interés", "Mi mayor reto será", "Lo que busco en EDC", "Biografía"]
         Program.all.each do |program|
           header << "#{program.name} CONTESTADO"
           header << "#{program.name} VISTO"
@@ -28,20 +28,23 @@ class StudentsExporterJob
           student.email,
           student.phone_number,
           student.status,
-          student.group.nil? ? "" : student.group.name,
+          student.group.nil? ? "n/a" : student.group.name,
           "#{student.user_progress.ceil}%",
           "#{student.user_seen.ceil}%",
           student.user_code.nil? ? "----------------" : student.user_code.codigo,
+          student.state,
+          student.group.nil? || student.group.university.nil? ? "n/a" : student.group.university.name,
+          student.industry.nil? ? "n/a" : student.industry.name,
         ]
         programs = ''
         if !fast
           
           if student.user_detail.nil?
-            [student.gender_output, nil, nil, nil, nil, nil].each do |data|
+            [student.gender_output, "n/a", "n/a", "n/a", "n/a", "n/a", "n/a"].each do |data|
               content << data
             end
           else
-            [student.gender_output, student.age, student.user_detail.situation, student.user_detail.interest, student.user_detail.challenge, student.user_detail.goal].each do |data|
+            [student.gender_output, student.age, student.user_detail.situation, student.user_detail.interest, student.user_detail.challenge, student.user_detail.goal, student.bio].each do |data|
               content << data
             end
           end
@@ -52,8 +55,8 @@ class StudentsExporterJob
                 content << "#{student.integral_percentage_progress_for(program).ceil}%"
                 content << "#{student.integral_percentage_visited_for(program).ceil}%"
               else
-                content << "N/A"
-                content << "N/A"
+                content << "n/a"
+                content << "n/a"
               end
             end
           end
