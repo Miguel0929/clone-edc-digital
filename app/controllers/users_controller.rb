@@ -497,7 +497,7 @@ class UsersController < ApplicationController
       @user.save  
     end
 
-    redirect_to :back, alert: "El usuario #{@user.name} ahora es premium."  
+    redirect_to :back, notice: "El usuario #{@user.name} ahora es premium."  
   end  
 
   private
