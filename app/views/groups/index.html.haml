@@ -46,9 +46,29 @@
                       = group.key
                 %ul.p-l-0.m-b-0.unstyled.no-style
                   %li
-                    = link_to group_analytics_panel_path(group), target: "_blanck" do
+                    = link_to group_analytics_panel_path(group), target: "_blank" do
                       %i.fa.fa-line-chart
-                      Panel de analiticos    
+                      Panel de analiticos
+                - if !group.group_trial.nil? && group.group_trial.trial == true
+                  = link_to group_path(group.group_trial), target: "_blank" do
+                    %i.fa.fa-users
+                    %strong Trial: 
+                    %span= group.group_trial.name        
+                - if group.trial       
+                  %ul.p-l-0.m-b-0.unstyled.no-style
+                    %li 
+                      %i.fa.fa-flask 
+                      %span Grupo Free Trial
+                    %li
+                      - unless group.group_premium.nil?
+                        = link_to group_path(group.group_premium), target: "_blank" do
+                          %i.fa.fa-users
+                          %strong Premium: 
+                          %span= group.group_premium.name        
+                      - else
+                        %i.fa.fa-users 
+                        %span No tiene grupo premium asignado
+
               %td.p-b-15
                 %ul.p-l-0.m-b-0
                   %li.inline

@@ -295,6 +295,7 @@ Rails.application.routes.draw do
       get :change_state
       get :summary
       get :learning_path
+      post :change_premium
     end
     resources :programs, only: [] do
       resources :answers, only: [:index, :edit, :update]

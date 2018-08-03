@@ -97,6 +97,7 @@ class GroupsController < ApplicationController
     @quizzes = Quiz.where.not(id: lpf_quizzes + lpm_quizzes)
     @refilables = TemplateRefilable.where.not(id: lpf_refilables + lpm_refilables)
     @delireverables = DelireverablePackage.where.not(id: lpf_delireverables + lpm_delireverables)
+
   end
 
   def create
@@ -272,7 +273,7 @@ class GroupsController < ApplicationController
   end
 
   def group_params
-    params.require(:group).permit(:name, :key, :state_id, :university_id, :category, :learning_path_id, :learning_path2_id, :hit_n_run, program_ids: [], user_ids: [], student_ids: [], quiz_ids: [], delireverable_package_ids: [], template_refilable_ids: [])
+    params.require(:group).permit(:name, :key, :state_id, :university_id, :category, :learning_path_id, :learning_path2_id, :hit_n_run, :trial, :group_premium_id, program_ids: [], user_ids: [], student_ids: [], quiz_ids: [], delireverable_package_ids: [], template_refilable_ids: [])
   end
 
   def update_program_sequences
