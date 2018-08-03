@@ -7,6 +7,11 @@
   = f.select :category, ['Escolarizado', 'Autodidacta digital', 'Presencial', 'Experiemental'], label: 'Tipo de grupo', include_blank: true
   
   = f.select :user_ids, User.mentors.invitation_accepted.collect{|u| [u.name, u.id]}, {include_blank: false, label: 'Mentores'}, multiple: 'multiple'
+
+  = f.select :trial, [["No", false], ["Si", true]], {include_blank: false, label: '¿Es un grupo de prueba gratuita?'}, required: "required"
+  #group-premium{style: "display: none"}
+    = f.select :group_premium_id, Group.where(trial: false).where.not(id: @group.id).collect{|u| [u.name, u.id]}, {include_blank: "Selecciona el grupo con la ruta premium", label: 'Grupo premium'}
+
   .panel.panel-info
     .panel-heading
       %h3.panel-title Ruta de Aprendizaje (Persona Física)
@@ -308,6 +313,22 @@
 
 :javascript
   $(document).on('turbolinks:load', function(){
+
+    if ($("#group_trial").val() == "true"){
+      $("#group-premium").css("display", "block");
+      $("#group_group_premium_id").attr("required", "required");
+    }
+
+    $("#group_trial").change(function() {
+      if ($(this).val() == "true"){
+        $("#group-premium").css("display", "block");
+        $("#group_group_premium_id").attr("required", "required");
+      }else{
+        $("#group-premium").css("display", "none");
+        $("#group_group_premium_id").val();
+        $("#group_group_premium_id").attr("required", null);
+      }
+    });
     
     o_ids_programs = $("#group_program_ids").val();
     o_ids_quizzes = $("#group_quiz_ids").val();

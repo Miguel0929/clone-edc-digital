@@ -37,7 +37,12 @@
               %td
                 .m-b-10
                   %h5
-                    = link_to group.name, mentor_group_path(group)
+                    = link_to mentor_group_path(group) do 
+                      = group.name
+                      - if group.trial
+                        .label.label-success Trial
+                      - if !group.group_trial.nil? && group.group_trial.trial == true
+                        .label.label-success Premium
                   - group.key
                 %ul.p-l-0.m-b-10
                   %li.inline 

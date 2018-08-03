@@ -23,6 +23,8 @@ class Group < ActiveRecord::Base
   belongs_to :learning_path2, class_name: "LearningPath"
   has_one :reception
   has_one :program_sequence
+  belongs_to :group_premium, class_name: 'Group', foreign_key: 'group_premium_id'
+  has_one :group_trial, class_name: 'Group', foreign_key: 'group_premium_id'
 
   validates_presence_of :name, :key
   validates_uniqueness_of :key

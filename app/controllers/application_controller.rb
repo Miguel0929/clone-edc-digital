@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   skip_before_filter :verify_authenticity_token, if: -> { controller_name == 'sessions' && action_name == 'create' }
   before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :set_breadcrumb, if: :devise_controller?
+  before_filter :ban_free_trial
+  before_filter :premium?
   before_filter :banned?
   layout :layout_by_resource
   helper_method :xeditable?
@@ -19,6 +21,24 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:invite).concat [:role, :group_id]
     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :phone_number, :email, :password, :password_confirmation, :gender, :bio, :state, :city, :profile_picture, :industry_id, :curp])
   end
+
+  def ban_free_trial
+    if current_user.present? && !current_user.group.nil? && current_user.group.trial
+      if (current_user.invitation_accepted_at + 5.days) < Time.now
+        user = current_user
+        user.premium = false
+        user.save
+      end  
+    end  
+  end 
+
+  def premium?
+    if current_user.present? && !current_user.premium
+      sign_out current_user
+      flash[:premium] = "Tu prueba gratis ha vencido. ¿Quieres continuar mejorando tu idea de negocio? Ingresa aquí para obtener tu cuenta <a href='https://www.emprendiendodesdecero.com/edcdigital' target='_blank'>www.emprendiendodesdecero.com/edcdigital</a>"
+      redirect_to new_user_session_path
+    end
+  end 
 
   def banned?
     if current_user.present? && current_user.banned?

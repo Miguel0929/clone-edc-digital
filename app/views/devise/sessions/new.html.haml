@@ -16,13 +16,20 @@
       = image_tag('logo-edc-color-horizontal.png', width: 270)
       %p.p-t-35 Inicia sesión en tu cuenta EDC Digital
       = devise_error_messages!
-      - flash.each do |key, value|
+      - flash.each do |key, value| 
         - if value
-          .alert.alert-danger.dimiss
-            %button.close{"data-dismiss" => "alert", :type => "button"}>
-              %span{"aria-hidden" => "true"} ×
-              %span.sr-only Close
-            = value
+          - if key == "premium"
+            .alert.alert-danger
+              %button.close{"data-dismiss" => "alert", :type => "button"}>
+                %span{"aria-hidden" => "true"} ×
+                %span.sr-only Close
+              = value.html_safe 
+          - else  
+            .alert.alert-danger.dimiss
+              %button.close{"data-dismiss" => "alert", :type => "button"}>
+                %span{"aria-hidden" => "true"} ×
+                %span.sr-only Close
+              = value
       = bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
         = f.email_field :email, label: 'CORREO ELECTRÓNICO', placeholder: 'micorreo@dominio.com',wrapper: { class: 'form-group-default' }
         = f.password_field :password, label: 'CONTRASEÑA', placeholder: 'Introduce tu contraseña', autocomplete: "off", wrapper: { class: 'form-group-default' }
