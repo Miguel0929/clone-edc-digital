@@ -257,40 +257,125 @@ label.zoomed-checkbox {
   letter-spacing: .06em;
 }
 
-/* Celulares Pequeños */
+.h-basetext {
+  margin: 10px 0;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  font-weight: 300;
+  color: #2c2c2c;
+}
+
+.center-div{
+  display: table;
+  margin: 0 auto;
+}
+
+.scroll-div > div {
+  overflow: scroll;
+}
+
+.conversation-titles{
+  padding: 15px 15px 10px 0px;
+}
+
+.respond-btn-m{
+  margin-bottom: 10px !important;
+  margin-top: 15px !important;
+}
+
+/* ********** Celulares Pequeños ********** */
 @media screen and (max-width: 320px) {
   .sm-cell {
 
   }
+  .sm-cell-prl15{
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+  }
+  .sm-cell-none{
+    display: none;
+  }
+  .contenidos-cuadro img {
+    width: 250px;
+  }
+  .sm-cell-none{
+    display: none;
+  }
+  .sm-cell-block{
+    display: block;
+  }
+  .nav-tabs li a {
+    font-size: 9px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .sm-cell-fsize-9{
+    font-size: 9px !important;
+  }
+  .sm-cell-fsize-105{
+    font-size: 10.5px;
+  }
 }
 
-/* Celulares Medianos */
-@media screen and (max-width: 425px) and (min-width: 321px) {
+/* ********** Celulares Medianos ********** */
+@media screen and (max-width: 424px) and (min-width: 321px) {
   .md-cell {
 
   }
-}
-
-/* Celulares Grandes */
-@media screen and (max-width: 767px) and (min-width: 426px) {
-  .lg-cell {
-
+  .nav-tabs li a {
+    font-size: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .sm-cell-prl15{
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+  }
+  .md-cell-none{
+    display: none;
+  }
+  .md-cell-block{
+    display: block;
+  }
+  .contenidos-cuadro img {
+    width: 300px;
+  }
+  .md-cell-fsize-105{
+    font-size: 10.5px;
   }
 }
 
-/* Todos los Celulares */
+/* ********** Celulares Grandes ********** */
+@media screen and (max-width: 767px) and (min-width: 425px) {
+  .lg-cell {
+
+  }
+  .contenidos-cuadro img {
+    width: 400px;
+  }
+}
+
+/* ********** Todos los Celulares ********** */
 @media screen and (max-width: 480px) {
+  .cell-mt0{
+    margin-top: 0px !important;
+  }
   .cell-mt5{
     margin-top: 5px;
   }
   .cell-mt10{
     margin-top: 10px;
   }
+  .cell-mt15{
+    margin-top: 15px !important;
+  }
   .cell-mb5{
     margin-bottom: 5px;
   }
   .cell-mb10{
-    margin-bottom: 10px;
+    margin-bottom: 10px !important;
   }
   .cell-pt5{
     padding-top: 5px;
@@ -298,11 +383,17 @@ label.zoomed-checkbox {
   .cell-pt10{
     padding-top: 10px;
   }
+  .cell-pt15{
+    padding-top: 15px !important;
+  }
   .cell-pb5{
     padding-bottom: 5px;
   }
   .cell-pb10{
     padding-bottom: 10px;
+  }
+  .cell-pb20{
+    padding-bottom: 20px !important;
   }
   .cell-blockbtn button, .cell-blockbtn a {
     display: block;
@@ -317,9 +408,102 @@ label.zoomed-checkbox {
   .cell-unfloat {
     float: none !important;
   }
+  .cell-none {
+    display: none;
+  }
+  .viewport-fix .modal-content{
+    width: 95vw;
+  }
+  .h-title-content{
+    font-size: 18px;
+    line-height: 23px;
+  }
+  .h-3{
+    font-size: 19.5px;
+    line-height: 30px;
+  }
+  .cell-center-div{
+    display: table;
+    margin: 0 auto;
+  }
 }
 
-/* Tablets */
+/* ********** De Celulares Pa'Abajo ********** */
+@media screen and (max-width: 767px) {
+  .cell-down-pr15{
+    padding-right: 15px;
+  }
+  .cell-down-pl15{
+    padding-left: 15px;
+  }
+  .cell-down-pr30{
+    padding-right: 30px;
+  }
+  .cell-down-pl30{
+    padding-left: 30px;
+  }
+  .cell-down-mt30 {
+    margin-top: 30px;
+  }
+  .cell-down-unfloat {
+    float: none !important;
+  }
+  .cell-down-none {
+    display: none;
+  }
+  .padding-population {
+    padding: 30px 30px 10px 15px;
+  }
+}
+
+/* ********** De Tablets Pa'Abajo ********** */
+@media screen and (max-width: 991px) {
+  .tablet-down-block{
+    display: block;
+  }
+  .tablet-down-mb5{
+    margin-bottom: 5px;
+  }
+  .tablet-down-mb10{
+    margin-bottom: 10px;
+  }
+  .tablet-down-mb20{
+    margin-bottom: 20px;
+  }
+  .tablet-down-fs12{
+    font-size: 12px;
+  }
+  .quiz-result-message{
+    padding: 30px;
+  }
+  .custom-width-card{
+    width: 95% !important;
+  }
+  .custom-width-alert{
+    width: 95% !important;
+  }
+}
+
+/* ********** De High Tablets Pa'Arriba ********** */
+@media screen and (min-width: 992px) {
+  .quiz-result-message{
+    padding: 30px;
+    margin-top: 50px;
+    padding-bottom: 100px;
+  }
+  .custom-width-card{
+    width: 106% !important;
+  }
+}
+
+/* ********** De Tablets Pa'Arriba ********** */
+@media screen and (min-width: 768px) {
+  .tablet-up-p30{
+    padding: 30px;
+  }
+}
+
+/* ********** Tablets ********** */
 @media screen and (max-width: 991px) and (min-width: 481px) {
   .tablet-mt5{
     margin-top: 5px;
@@ -348,19 +532,68 @@ label.zoomed-checkbox {
   .tablet-unfloat {
     float: none !important;
   }
+  .viewport-fix .modal-content{
+    width: 100vw;
+  }
+  .h-title-content{
+    font-size: 21px;
+    line-height: 30px;
+  }
+  .h-3{
+    font-size: 24px;
+    line-height: 35.88px;
+  }
 }
 
-/* Laptops */
+/* ********** Laptops ********** */
 @media screen and (max-width: 1280px) and (min-width: 992px) {
   .laptop {
 
   }
+  .h-title-content{
+    font-size: 28px;
+    line-height: 40px;
+  }
+  .h-3{
+    font-size: 24px;
+    line-height: 35.88px;
+  }
 }
 
-/* Desktops */
+/* ********** Desktops ********** */
 @media screen and (min-width: 1281px) {
   .desktop {
 
   }
+  .h-title-content{
+    font-size: 28px;
+    line-height: 40px;
+  }
+  .h-3{
+    font-size: 24px;
+    line-height: 35.88px;
+  }
 }
 
+/* ********** CUSTOMS: para imágenes de contenido ********** */
+@media screen and (max-width: 1000px) and (min-width: 768px) {
+  .contenidos-cuadro img {
+    width: 100%;
+  }
+  .explore-fsize li {
+    font-size: 12px;
+  }
+}
+
+/* ********** CUSTOMS: De 1024 Pa'Abajo ********** */
+@media screen and (max-width: 1023px) {
+  .slaptop-down-unfloat {
+    float: none !important;
+  }
+  .slaptop-block{
+    display: block;
+  }
+  .slaptop-none{
+    display: none;
+  }
+}

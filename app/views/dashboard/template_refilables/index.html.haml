@@ -41,15 +41,15 @@
             .col-md-12
               .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
                 .m-b-30.b-b.b-dashed.sm-b-b
-                  .pull-left
-                    %h3.text-primary 
-                      %i.fa.fa-edit.hint-text
-                      Plantillas pendientes
                   .pull-right
                     .p-t-15
                       %a.slow_scroll.small-text{href: "#accomplished", style: "opacity: 1;"}
                         %i.fa.fa-chevron-circle-down
                         Plantillas cumplidas
+                  .pull-left
+                    %h3.text-primary 
+                      %i.fa.fa-edit.hint-text
+                      Plantillas pendientes
                   .clearfix
                   %p.m-b-15 Aquí puedes ver aquellas plantillas que te son asignadas por nuestro equipo de mentores. Recuerda siempre mantenerte al tanto de ellas.
 
@@ -96,10 +96,6 @@
             .col-md-12
               .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
                 .m-b-30.b-b.b-dashed.sm-b-b
-                  .pull-left
-                    %h3.text-success 
-                      %i.fa.fa-check-square-o.hint-text
-                      Plantillas cumplidas
                   .pull-right.cell-unfloat.cell-mt10.cell-mb10
                     .p-t-15
                       - if @done_refilables.count > 0
@@ -110,6 +106,10 @@
                         %a.slow_scroll.small-text{href: "#pending", style: "opacity: 1;"}
                           %i.fa.fa-chevron-circle-up
                           Plantillas pendientes
+                  .pull-left
+                    %h3.text-success 
+                      %i.fa.fa-check-square-o.hint-text
+                      Plantillas cumplidas
                   .clearfix
                   %p.m-b-15 Una vez que hayas contestado tus plantillas podrás verlas en esta columna. Podrás editarlas aunque estén clasificadas como complidas. 
 

@@ -16,17 +16,17 @@
 
 .container-fluid.container-fixed-lg#quizzDiv
   = form_tag dashboard_quiz_answers_path do  
-    -@answers.each_with_index do |answer, index|
+    - @answers.each_with_index do |answer, index|
       = fields_for "answers[#{index}]", answer do |f| 
         .panel.panel-default
           .row
-            .col-sm-9
+            .col-sm-9.cell-none
               .panel-heading
                 .panel-title.question-title
                   = @quiz.name
             .col-sm-3
               - if answer.quiz_question.support_text.present?
-                .pull-right.p-r-30.p-t-20
+                .pull-right.p-r-30.p-t-20.tablet-down-fs12
                   %a{href: "javascript:void(0);", id: "helpBtnQuiz_#{index}"}
                     %i.fa.fa-question-circle
                     Información de apoyo
@@ -35,13 +35,13 @@
               .col-md-10.col-md-offset-1
                 .padding-30.m-t-15.p-b-50
                   %i.fa.fa-tasks.fa-2x.hint-text
-                  %h2
+                  .h-basetext.h-title-content
                     = answer.quiz_question.question_text
                   = f.hidden_field :user_id
                   = f.hidden_field :quiz_question_id
                   = render partial: "/dashboard/quiz_answers/inputs/#{answer.quiz_question.question_type}", locals: { disabled: false, f: f, question: answer.quiz_question, answers: answer, i: index, detail: false}
       - if answer.quiz_question.support_text.present?
-        .modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1", id: "helpModalQuiz_#{index}"}
+        .modal.fade.slide-up.viewport-fix{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1", id: "helpModalQuiz_#{index}"}
           .modal-dialog.modal-lg{style: "width: 900px;"}
             .modal-content-wrapper
               .modal-content
@@ -61,8 +61,9 @@
       .form-group
         .row.m-b-30.m-t-20
           .col-sm-1.col-sm-offset-5
-            = hidden_field_tag :quiz_id, @quiz.id
-            = submit_tag "Guardar respuestas", class: "btn btn-success btn-lg"
+            .center-div
+              = hidden_field_tag :quiz_id, @quiz.id
+              = submit_tag "Guardar respuestas", class: "btn btn-success btn-lg"
 
 - unless current_user.student? || current_user.mentor?
   :javascript

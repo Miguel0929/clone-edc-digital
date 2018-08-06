@@ -6,21 +6,21 @@
 		.container-fluid
 			.md-p-l-20.md-p-r-20.xs-no-padding
 				.row.col-md-12
-					.col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+					.col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
 						%h3.text-white 
 							Estimación del numero de encuestas a aplicar
 					.col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
 						= bootstrap_form_for :calculator, url: dashboard_calculator_method_path, method: :get do |f|
 							.col-sm-12.text-white
-								= f.number_field :population, step: "any", label: 'Introduce la Población Total previamente determinada con el uso de herramientas digitales II: "Identificación del posible cliente"', :required => true
+								= f.number_field :population, step: "any", label: 'Introduce la Población Total previamente determinada con el uso de herramientas digitales II: "Identificación del posible cliente"', :required => true, class: "m-t-15"
 								.pull-right
 									= f.submit 'Calcular', :class => "btn"
 
 .container-fluid.container-fixed-lg
 	.panel.panel-default
 		- if !@population.nil?
-			.padding-30
-				.pull-right.sm-m-t-20
+			.padding-population.tablet-up-p30
+				.pull-right.sm-m-t-20.cell-down-unfloat
 					%h4.font-montserrat.all-caps
 						%span.hint-text Población total: 
 						%span #{number_with_delimiter(@population.to_i, :delimiter => ',')}

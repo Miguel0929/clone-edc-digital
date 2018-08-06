@@ -63,28 +63,28 @@
                     Sabemos que lo harás bien.
                 -if quiz.answered(current_user) > 0  
                   = link_to dashboard_quiz_path(quiz) do
-                    %button.btn.btn-sm.btn-complete.bold.m-b-10
+                    %button.btn.btn-sm.btn-complete.bold.m-b-10.sm-cell-fsize-105
                       Ver evaluación
                   - if Attempt.where(quiz_id: quiz.id, user_id: current_user.id).count < 3
                     = link_to apply_dashboard_quiz_path(quiz) do
-                      %button.btn.btn-sm.btn-warning.bold.m-b-10
+                      %button.btn.btn-sm.btn-warning.bold.m-b-10.sm-cell-fsize-105
                         Nuevo intento
                       
                 -else
                   - if current_user.profesor?
                     = link_to apply_profesor_quiz_path(quiz, user_id: (@student.nil? ? current_user.id : @student.id)) do
-                      %button.btn.btn-sm.btn-success.bold.m-b-10
+                      %button.btn.btn-sm.btn-success.bold.m-b-10.sm-cell-fsize-105
                         Ver examen
                   - else
                     = link_to apply_dashboard_quiz_path(quiz, user_id: (@student.nil? ? current_user.id : @student.id)) do
-                      %button.btn.btn-sm.btn-success.bold.m-b-10
+                      %button.btn.btn-sm.btn-success.bold.m-b-10.sm-cell-fsize-105
                         #{current_user.student? || current_user.mentor? ? "Contestar" : "Ver examen"}
                 .pull-right#accordion.panel.panel-group.panel-transparent.m-b-0.inline-block.m-t-menos
                   .panel
                     .panel-heading
                       %h4.panel-title
                         %a.collapsed.collap.new-top-collapse-quiz{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapsee#{quiz.id}", id: "collap#{quiz.id}", class: "#{(quiz.answered(current_user) > 0) ? 'quizze-contestado' : 'quizze-no-contestado'}"}
-                      .m-r-20.text_descripcion_quiz{style: "position: relative; top: -6px; right: 5px;"}
+                      .m-r-20.text_descripcion_quiz.sm-cell-none.md-cell-none{style: "position: relative; top: -6px; right: 5px;"}
                         Descripción
               - this_user = @student.nil? ? current_user : @student
               .col-md-3.pos-relative-quiz{:class => "#{(quiz.answered(this_user) > 0) ? 'colorsote2' : 'colorsote1'}"}
