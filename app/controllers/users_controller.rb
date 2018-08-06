@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin, except: [:students, :show, :change_evaluation]
   before_action :require_creator, only: [:students, :show]
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state, :summary, :learning_path, :program_permitted]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state, :summary, :learning_path, :program_permitted, :change_premium]
   before_action :set_program, only:[:program_permitted]
   add_breadcrumb "EDCDIGITAL", :root_path
   
@@ -484,6 +484,20 @@ class UsersController < ApplicationController
     else
       redirect_to learning_path_user_path(@user), notice: "El curso \"#{@program.name}\" si esta disponible para el alumno  #{@user.name}" 
     end  
+  end
+
+  def change_premium
+    group = @user.group
+    if group.trial
+      @user.premium = true
+      group_premium = group.group_premium
+      unless group_premium.nil?
+        @user.group_id = group_premium.id
+      end
+      @user.save  
+    end
+
+    redirect_to :back, notice: "El usuario #{@user.name} ahora es premium."  
   end  
 
   private

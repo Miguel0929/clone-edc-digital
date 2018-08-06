@@ -8,7 +8,7 @@
         Detalle del grupo: #{@group.name}
 
     .panel-body
-      .row.p-b-30
+      .row.p-b-10
         - current_stats = @group.get_group_stat(@group)
         .col-md-12
           %h5
@@ -19,6 +19,10 @@
                 = link_to "Actualizar estadísticos,", generate_group_stats_path(@group)
                 * Última vez: #{l current_stats.updated_at, format: :short_no_year}
                 )
+            - if @group.trial
+              .label.label-success Grupo Free Trial
+            - if !@group.group_trial.nil? && @group.group_trial.trial == true
+              .label.label-success Grupo Premium    
           .m-t-10.p-l-20
             - if !current_stats.nil?
               .hint-text
@@ -42,7 +46,27 @@
               = link_to generate_group_stats_path(@group) do
                 generar estadísticos
                 %i.fa.fa-arrow-right
-      .row.p-b-30
+      - if !@group.group_trial.nil? && @group.group_trial.trial == true
+        .row.p-b-10
+          .col-md-12
+            %h5
+              Grupo Free Trial
+              = link_to group_path(@group.group_trial), target: "_blank", class: "text-success font-montserrat", style: "font-size: 12px !important;" do
+                (
+                %i.fa.fa-users
+                %span= @group.group_trial.name
+                )
+      - unless @group.group_premium.nil?
+        .row.p-b-10
+          .col-md-12
+            %h5
+              Grupo Premium 
+              = link_to group_path(@group.group_premium), target: "_blank", class: "text-success font-montserrat", style: "font-size: 12px !important;" do
+                (
+                %i.fa.fa-users
+                %span= @group.group_premium.name
+                )          
+      .row.p-b-10
         .col-md-12
           %h5
             Profesores vinculados
@@ -55,7 +79,7 @@
                   #{ (index != 0) ? "/ " : ""} 
                 %span.m-l-5
                   #{user.name}
-      .row.p-b-30
+      .row.p-b-10
         .col-md-12
           %h5
             Rutas de grupo
@@ -68,7 +92,7 @@
               %span.m-l-5.text-success /
               %span.m-l-5 Ruta moral:
               %strong #{@group.learning_path2.nil? ? "Sin ruta" : @group.learning_path2.name}
-      .row.p-b-30
+      .row.p-b-10
         .col-md-12
           %h5
             Archivos compartidos de grupo
@@ -160,14 +184,17 @@
       .table-responsive   
         %table.table.table-striped
           %thead
-            %th{width: "27%"}
+            %th{width: "23%"}
               Datos del alumno
             %th{width: "23%"}
               Avances del alumno
             %th
               Programas inscritos
-            %th{width: ""}
+            %th{width: "10"}
               Estado de evaluación
+            - if @group.trial  
+              %th{width: "10"}
+                Activar cuenta 
           %tbody
             - @students.each_with_index do |student, index|
               %tr
@@ -228,8 +255,13 @@
                         setTimeout(function(){$("#alert-ra-warning").css('display','none');},4000);
                       });
                     });
-    = paginate @students
-    = page_entries_info @students
+                - if @group.trial     
+                  %td.text-center
+                    = link_to change_premium_user_path(student), method: "post", class: "btn btn-primary" do
+                      Premium   
+    .p-l-15.p-b-15                
+      = paginate @students
+      = page_entries_info @students
 #alert-ra-warning.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
     #al.alert.alert-warning
