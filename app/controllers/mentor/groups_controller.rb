@@ -38,6 +38,7 @@ class Mentor::GroupsController < ApplicationController
     @students = @group.active_students.order(:id).page(params[:page]).per(20)
     @students = @group.student_search(params[:query]).page(params[:page]).per(20) if params[:query].present?
     @template_refilables = @group.all_refilables rescue []
+    @mentors = @group.active_mentors.order(:id).page(params[:page_mentors]).per(20)
     add_breadcrumb "Grupos", :mentor_groups_path
     add_breadcrumb "<a class='active' href='#{mentor_group_path(@group)}'>#{@group.name}</a>".html_safe
     add_breadcrumb "<a class='active' href='#{template_refilables_mentor_group_path(@group)}'>Plantillas</a>".html_safe
@@ -48,6 +49,7 @@ class Mentor::GroupsController < ApplicationController
     @students = @group.active_students.order(:id).page(params[:page]).per(20)
     @students = @group.student_search(params[:query]).page(params[:page]).per(20) if params[:query].present?
     @quizzes = @group.all_quizzes rescue []
+    @mentors = @group.active_mentors.order(:id).page(params[:page_mentors]).per(20)
     add_breadcrumb "Grupos", :mentor_groups_path
     add_breadcrumb "<a class='active' href='#{mentor_group_path(@group)}'>#{@group.name}</a>".html_safe
     add_breadcrumb "<a class='active' href='#{quizzes_mentor_group_path(@group)}'>Examenes</a>".html_safe

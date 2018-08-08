@@ -6,12 +6,12 @@
 		.container-fluid
 			.md-p-l-20.md-p-r-20.xs-no-padding
 				.row.col-md-12
-					.col-sm-5.col-md-5.no-padding.xs-p-l-15.xs-p-r-15
+					.col-sm-5.col-md-5.xs-p-l-15.xs-p-r-15
 						%h5.text-white.m-b-0 
 							Detalle del programa:
 						%h3.text-white.m-t-0
 							#{@program.name}
-					.col-sm-7.col-md-7.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+					.col-sm-7.col-md-7.resp-p-l-50.xs-p-l-15.xs-p-r-15
 						%h5.text-white
 							Aquí verás el avance de los alumnos de este programa en el grupo actual
 						= link_to  mentor_group_path(@group), class: 'btn btn-sm btn-complete btn-cons m-b-10' do
@@ -19,174 +19,177 @@
 							%span.bold Regresar al grupo
 
 .container-fluid.container-fixed-lg
-	.panel.panel-transparent
-		.col-sm-4.p-l-0
-			.panel.panel-default
-				.widget-10.panel.no-border.bg-white.no-margin.widget-loader-bar{style: "height: 120px; !important;"}
-					.panel-heading.top-left.top-right
-						.panel-title.text-black.hint-text
-							%span.font-montserrat.fs-11.all-caps
-								Grupo
-								%i.fa.fa-chevron-right
-					.panel-body.p-t-40
-						.row
-							.col-sm-12
-								%h4.no-margin.p-b-5.text-success.semi-bold #{@group.name}
-								.pull-left.small
-									%span.font-montserrat
-										%i.fa.fa-users.m-l-10
-										%span.text-danger #{@students.count}
-										estudiantes
-								.clearfix
-		.col-sm-8.p-r-0
-			.panel.panel-default
-				.widget-10.panel.no-border.bg-white.no-margin.widget-loader-bar{style: "height: 120px; !important;"}
-					.panel-heading.top-left.top-right
-						.panel-title.text-black.hint-text
-							%span.font-montserrat.fs-11.all-caps
-								Avances del programa en este grupo
-								%i.fa.fa-chevron-right
-					.col-sm-6.p-l-0
-						.panel-body.p-t-40
-							.row.p-t-5
-								.col-sm-11
-									.small.p-b-5
-										%span.small-text Promedio visto: 
-										%span.text-success.font-montserrat.small-text #{@program_av_seen.ceil}%
-									.progress.progress-small.m-b-5
-										.progress-bar.progress-bar-primary{:style => "width: #{@program_av_seen.ceil}%"}
-								.col-sm-11
-									.small.p-b-5
-										%span.small-text Promedio contestado: 
-										%span.text-success.font-montserrat.small-text #{@program_av_progress.ceil}%
-									.progress.progress-small.m-b-5
-										.progress-bar.progress-bar-primary{:style => "width: #{@program_av_progress.ceil}%"}
-					.col-sm-6.p-l-0
-						.panel-body.p-t-40
-							.row.p-t-5
-								.col-sm-12
-									%h4.no-margin.p-b-5.text-success.semi-bold #{@evaluated} alumno(s) evaluados
-									.pull-left.small
-										%span ESTADO:
-										%span.text-danger.font-montserrat.small-text
-											#{((@evaluated.to_f / @students.count)*100).ceil}% 
-										%span de los alumnos han sido evaluados
-									.clearfix
+	.col-sm-4
+		.panel.panel-default
+			.widget-10.panel.no-border.bg-white.no-margin.widget-loader-bar{style: "height: 120px; !important;"}
+				.panel-heading.top-left.top-right
+					.panel-title.text-black.hint-text
+						%span.font-montserrat.fs-11.all-caps
+							Grupo
+							%i.fa.fa-chevron-right
+				.panel-body.p-t-40
+					.row
+						.col-sm-12
+							%h4.no-margin.p-b-5.text-success.semi-bold #{@group.name}
+							.pull-left.small
+								%span.font-montserrat
+									%i.fa.fa-users.m-l-10
+									%span.text-danger #{@students.count}
+									estudiantes
+							.clearfix
+	.col-sm-4
+		.panel.panel-default
+			.widget-10.panel.no-border.bg-white.no-margin.widget-loader-bar{style: "height: 120px; !important;"}
+				.panel-heading
+					.panel-title.text-black.hint-text
+						%span.font-montserrat.fs-11.all-caps
+							Avances del programa en este grupo
+							%i.fa.fa-chevron-right
+				.panel-body
+					.row.p-l-5.p-r-5
+						.small.p-b-5
+							%span.small-text Promedio visto: 
+							%span.text-success.font-montserrat.small-text #{@program_av_seen.ceil}%
+						.progress.progress-small.m-b-5
+							.progress-bar.progress-bar-primary{:style => "width: #{@program_av_seen.ceil}%"}
+						.small.p-b-5
+							%span.small-text Promedio contestado: 
+							%span.text-success.font-montserrat.small-text #{@program_av_progress.ceil}%
+						.progress.progress-small.m-b-5
+							.progress-bar.progress-bar-primary{:style => "width: #{@program_av_progress.ceil}%"}						
+	.col-sm-4
+		.panel.panel-default
+			.widget-10.panel.no-border.bg-white.no-margin.widget-loader-bar{style: "height: 120px; !important;"}
+				.panel-heading
+					.panel-title.text-black.hint-text
+						%span.font-montserrat.fs-11.all-caps
+							Avances del programa en este grupo
+							%i.fa.fa-chevron-right
+				.panel-body
+					.row.p-l-5.p-r-5
+						%h4.no-margin.p-b-5.text-success.semi-bold.text-center #{@evaluated} alumno(s) evaluados
+						.small.text-center
+							%span ESTADO:
+							%span.text-danger.font-montserrat.small-text
+								#{((@evaluated.to_f / @students.count)*100).ceil}% 
+							%span de los alumnos han sido evaluados
+						.clearfix
 
 .container-fluid.container-fixed-lg
-	.panel.panel-default
-		.panel-body
-			.row.m-b-20
-				.col-sm-6
-					%h4
-						Lista de alumnos
-				.col-sm-6
-					.pull-right.m-t-10
-						%form
-							%input{type: "number", name: "search_group", value: @group.id, hidden: true}
-							%input{type: "number", name: "search_program", value: @program.id, hidden: true}
-							%input.form-control.pull-right{name: "query", :placeholder => "Buscar", :type => "text", onkeydown: "if (event.keyCode == 13) { this.form.submit(); return false; }"}/ 
-			.table-responsive   
-				%table.table.table-striped
-					%thead
-						%th{width: "27%"}
-							Datos del alumno
-						%th{width: "23%"}
-							Avances del alumno
-						%th
-							Módulos del programa
-					%tbody
-						- @students.each_with_index do |student, index|
-							%tr
-								%td.p-b-20
-									.m-b-10
-										#{student.name}
-									%ul.p-l-0.m-b-10
-										%li.inline 
-											%i.fa.fa-envelope
-										%li.inline 
-											#{student.email}
-									= link_to mentor_evaluations_path(user_id: student, program_id: @program) do
-										%ul.p-l-0.m-b-0
+	.col-sm-12
+		.panel.panel-default
+			.panel-body.p-r-0.p-l-0
+				.row.m-b-20
+					.col-sm-6
+						%h4
+							Lista de alumnos
+					.col-sm-6
+						.pull-right.m-t-10
+							%form
+								%input{type: "number", name: "search_group", value: @group.id, hidden: true}
+								%input{type: "number", name: "search_program", value: @program.id, hidden: true}
+								%input.form-control.pull-right{name: "query", :placeholder => "Buscar", :type => "text", onkeydown: "if (event.keyCode == 13) { this.form.submit(); return false; }"}/ 
+				.table-responsive   
+					%table.table.table-striped
+						%thead
+							%th{width: "27%"}
+								Datos del alumno
+							%th{width: "23%"}
+								Avances del alumno
+							%th
+								Módulos del programa
+						%tbody
+							- @students.each_with_index do |student, index|
+								%tr
+									%td.p-b-20
+										.m-b-10
+											#{student.name}
+										%ul.p-l-0.m-b-10
 											%li.inline 
-												%i.fa.fa-edit
+												%i.fa.fa-envelope
 											%li.inline 
-												Ir a evaluación de programa
-								%td
-									- stats = get_program_stat(student, @program)
-									.m-b-10
-										%i.fa.fa-edit
-										%span Preguntas contestadas:
-										%strong #{stats.nil? ? '---' : stats.program_progress.ceil}%
-									.m-b-10
-										%i.fa.fa-eye
-										%span Contenido visto:
-										%strong #{stats.nil? ? '---' : stats.program_seen.ceil}%
-									.m-b-10
-										%input{type: "hidden", id: "user_key_#{student.id}", value: student.id}
-										.btn-like-switch.btn-like-switch-small
-											%label.switch.switch-small
-												%form{:action => program_stats_path, 'data-remote': "true", method: :post, id: "edit_program_stat_#{@program.id}"}
-													- if stats.nil?
-														%input{type: "checkbox", id: "checking_program_#{@program.id}_#{student.id}", name: "program_stat[checked]"}
-													- else
-														- if stats.checked == 1
-															%input{type: "checkbox", id: "checking_program_#{@program.id}_#{student.id}", value: stats.checked, name: "program_stat[checked]", checked: :true}
+												#{student.email}
+										= link_to mentor_evaluations_path(user_id: student, program_id: @program) do
+											%ul.p-l-0.m-b-0
+												%li.inline 
+													%i.fa.fa-edit
+												%li.inline 
+													Ir a evaluación de programa
+									%td
+										- stats = get_program_stat(student, @program)
+										.m-b-10
+											%i.fa.fa-edit
+											%span Preguntas contestadas:
+											%strong #{stats.nil? ? '---' : stats.program_progress.ceil}%
+										.m-b-10
+											%i.fa.fa-eye
+											%span Contenido visto:
+											%strong #{stats.nil? ? '---' : stats.program_seen.ceil}%
+										.m-b-10
+											%input{type: "hidden", id: "user_key_#{student.id}", value: student.id}
+											.btn-like-switch.btn-like-switch-small
+												%label.switch.switch-small
+													%form{:action => program_stats_path, 'data-remote': "true", method: :post, id: "edit_program_stat_#{@program.id}"}
+														- if stats.nil?
+															%input{type: "checkbox", id: "checking_program_#{@program.id}_#{student.id}", name: "program_stat[checked]"}
 														- else
-															%input{type: "checkbox", id: "checking_program_#{@program.id}_#{student.id}", value: stats.checked, name: "program_stat[checked]"}
-													.slider.slider-small.round
-											.label-for-switch.label-for-switch-small.p-l-5
-												Estado de evaluación
-										%script{ :type => 'text/javascript' }
-											$(document).ready(function(){
-											$("#checking_program_" + #{@program.id} + "_" + #{student.id}).change(function(){
-											var src = $(this).val();
-											var src2 = $("#user_key_" + #{student.id}).val();
-											var src3 = #{@program.id};
-											$.ajax({
-											type: "post",
-											url: "/save_program_stats",
-											data: {src, src2, src3},
-											success: function(data){
-											data.parents('form:first').submit();
-											}});
-											$("#alert-ra").css('display','block');setTimeout(function(){$("#alert-ra").css('display','none');},3000);
-											});
-											});
-								%td
-									%p.m-b-5 Módulos con preguntas:
-									%ul.list-inline.no-style.unstyled
-										- if @questioned_chapters.count > 0
-											- @questioned_chapters.each_with_index do |chapter, index|
-												- answered_percentage = answered_questions(chapter, student) * (100 / chapter.questions.count.to_f).ceil
-												- checked = chapter.chapter_checked?(chapter.id, student.id)
-												%li
-													= link_to mentor_evaluation_path(chapter, user_id: student, program_id: @program) do
-														- if answered_percentage > 95
-															.label.label-success{:class => "#{checked ? '' : 'p-sides-14'}"}
+															- if stats.checked == 1
+																%input{type: "checkbox", id: "checking_program_#{@program.id}_#{student.id}", value: stats.checked, name: "program_stat[checked]", checked: :true}
+															- else
+																%input{type: "checkbox", id: "checking_program_#{@program.id}_#{student.id}", value: stats.checked, name: "program_stat[checked]"}
+														.slider.slider-small.round
+												.label-for-switch.label-for-switch-small.p-l-5
+													Estado de evaluación
+											%script{ :type => 'text/javascript' }
+												$(document).ready(function(){
+												$("#checking_program_" + #{@program.id} + "_" + #{student.id}).change(function(){
+												var src = $(this).val();
+												var src2 = $("#user_key_" + #{student.id}).val();
+												var src3 = #{@program.id};
+												$.ajax({
+												type: "post",
+												url: "/save_program_stats",
+												data: {src, src2, src3},
+												success: function(data){
+												data.parents('form:first').submit();
+												}});
+												$("#alert-ra").css('display','block');setTimeout(function(){$("#alert-ra").css('display','none');},3000);
+												});
+												});
+									%td
+										%p.m-b-5 Módulos con preguntas:
+										%ul.list-inline.no-style.unstyled
+											- if @questioned_chapters.count > 0
+												- @questioned_chapters.each_with_index do |chapter, index|
+													- answered_percentage = answered_questions(chapter, student) * (100 / chapter.questions.count.to_f).ceil
+													- checked = chapter.chapter_checked?(chapter.id, student.id)
+													%li
+														= link_to mentor_evaluation_path(chapter, user_id: student, program_id: @program) do
+															- if answered_percentage > 95
+																.label.label-success{:class => "#{checked ? '' : 'p-sides-14'}"}
+																	M#{index+1}
+																	%i.fa{:class => "#{checked ? 'fa-check' : ''}"}
+															- else
+																.label{:class => "#{(answered_percentage > 0) ? 'label-warning' : ''} #{checked ? '' : 'p-sides-14'}"}
+																	M#{index+1}
+																	%i.fa{:class => "#{checked ? 'fa-check' : ''}"}
+											- else
+												.hint_text.p-l-10 Ninguno
+										%p.m-b-5 Módulos sin preguntas:
+										%ul.list-inline.no-style.unstyled
+											- if @unquestioned_chapters.count > 0
+												- @unquestioned_chapters.each_with_index do |chapter, index|
+													- seen_percentage = seen_percentage_chapter(chapter, student)
+													%li
+														- if seen_percentage > 95
+															.label.label-success
 																M#{index+1}
-																%i.fa{:class => "#{checked ? 'fa-check' : ''}"}
+																%i.fa.fa-check
 														- else
-															.label{:class => "#{(answered_percentage > 0) ? 'label-warning' : ''} #{checked ? '' : 'p-sides-14'}"}
+															.label.p-sides-14{:class => "#{ (seen_percentage > 0) ? 'label-warning' : '' }"}
 																M#{index+1}
-																%i.fa{:class => "#{checked ? 'fa-check' : ''}"}
-										- else
-											.hint_text.p-l-10 Ninguno
-									%p.m-b-5 Módulos sin preguntas:
-									%ul.list-inline.no-style.unstyled
-										- if @unquestioned_chapters.count > 0
-											- @unquestioned_chapters.each_with_index do |chapter, index|
-												- seen_percentage = seen_percentage_chapter(chapter, student)
-												%li
-													- if seen_percentage > 95
-														.label.label-success
-															M#{index+1}
-															%i.fa.fa-check
-													- else
-														.label.p-sides-14{:class => "#{ (seen_percentage > 0) ? 'label-warning' : '' }"}
-															M#{index+1}
-										- else
-											.hint_text.p-l-10 Ninguno
+											- else
+												.hint_text.p-l-10 Ninguno
 
 #alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
 	.pgn.push-on-sidebar-open.pgn-simple

@@ -7,12 +7,12 @@
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
-          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+          .col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
             %h5.text-white.m-b-0 
               Evaluaciones del grupo
             %h2.text-white.m-t-0
               #{@group.name}
-          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+          .col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
               Monitorea el avance de los grupos a los que estás vinculado, así como el avance de cada alumno. 
             = link_to mentor_groups_path, class: 'btn btn-sm btn-complete btn-cons m-b-10' do
@@ -22,107 +22,183 @@
 - current_stats = @group.get_group_stat(@group)
 
 .container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-body
-      .row
-        .col-md-12
-          .pull-right
-            .btn-group{"role" => "group", "aria-label" => "..."}
-              = link_to "Programas", mentor_group_path(@group), class: 'btn btn-default'
-              = link_to "Plantillas", template_refilables_mentor_group_path(@group), class: 'btn btn-default'
-              = link_to "Evaluaciones", quizzes_mentor_group_path(@group), class: 'btn btn-default active'
-      .row.m-b-20
-        .col-md-12
-          %h5
-            Evaluaciones habilitadas
-            %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
-              (#{@quizzes.count} evaluaciones)
-          .m-t-10.p-l-20
-            - @quizzes.each_with_index do |quiz, index|
-              .label.program-labels{"data-toggle": "tooltip", "data-original-title": "#{quiz.name}"}
-                = "Ev-#{index}"    
-      .row.m-b-20
-        .col-md-12
-          %h5
-            Profesores vinculados
-            %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
-              (#{@group.users.count} profesores)
-          .m-t-10.p-l-20
-            - @group.users.each_with_index do |user, index|
-              %span.m-l-5.text-success
-                #{ (index != 0) ? "/ " : ""} 
-              %span.m-l-5
-                #{user.name}
-      - if !current_stats.nil?
-        .row
-          .row.p-l-15
-            .col-md-4
-              %h5
-                Alumnos del grupo
-                %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
-                  (#{current_stats.group_students} alumnos) 
-            .col-md-6.col-md-offset-2
-              .small.p-b-5
-                %span.small-text Promedio contestado:
-                %span.text-success.font-montserrat.small-text #{average}%
-              .progress.progress-small.m-b-5
-                .progress-bar.progress-bar-primary{:style => "width: #{average}%"}           
+  .panel.panel-transparent
+    .row.p-l-5.p-r-5
+      .col-sm-12
+        .panel.panel-default
+          .panel-body
+            .row
+              .col-md-12
+                .pull-right
+                  .btn-group.hidden-xs.m-t-10{"role" => "group", "aria-label" => "..."}
+                    = link_to "Programas", mentor_group_path(@group), class: 'btn btn-default'
+                    = link_to "Plantillas", template_refilables_mentor_group_path(@group), class: 'btn btn-default'
+                    = link_to "Evaluaciones", quizzes_mentor_group_path(@group), class: 'btn btn-default active'
+                .btn-group-vertical.visible-xs.m-t-10{"role" => "group", "aria-label" => "..."}
+                  = link_to "Programas", mentor_group_path(@group), class: 'btn btn-default '
+                  = link_to "Plantillas", template_refilables_mentor_group_path(@group), class: 'btn btn-default'
+                  = link_to "Evaluaciones", quizzes_mentor_group_path(@group), class: 'btn btn-default active'  
+            .row.m-b-10
+              .col-md-12
+                %h5
+                  Evaluaciones habilitadas
+                  %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
+                    (#{@quizzes.count} evaluaciones)
+                .m-t-10.p-l-20
+                  - @quizzes.each_with_index do |quiz, index|
+                    .label.program-labels{"data-toggle": "tooltip", "data-original-title": "#{quiz.name}"}
+                      = "Ev-#{index}"    
+            .row.m-b-10
+              .col-md-12
+                %h5
+                  Profesores vinculados
+                  %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
+                    (#{@group.users.count} profesores)
+                .m-t-10.p-l-20
+                  - @group.users.each_with_index do |user, index|
+                    %span.m-l-5.text-success
+                      #{ (index != 0) ? "/ " : ""} 
+                    %span.m-l-5
+                      #{user.name}
+            - if !current_stats.nil?
+              .row
+                .row.p-l-15
+                  .col-md-4
+                    %h5
+                      Alumnos del grupo
+                      %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
+                        (#{current_stats.group_students} alumnos) 
+                  .col-md-6.col-md-offset-2
+                    .small.p-b-5
+                      %span.small-text Promedio contestado:
+                      %span.text-success.font-montserrat.small-text #{average}%
+                    .progress.progress-small.m-b-5
+                      .progress-bar.progress-bar-primary{:style => "width: #{average}%"}           
 
 .container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-body
-      .row.m-b-20
-        .col-sm-6
-          %h4
-            Lista de alumnos
-        .col-sm-6
-          .pull-right.m-t-10
-            %input#group_student.form-control.pull-right{:placeholder => "Buscar", :type => "text"}/ 
+  .panel.panel-transparent
+    .row.p-l-5.p-r-5
+      .col-sm-12
+        .panel.panel-default
+          .panel-body
+            .row.m-b-20
+              .col-sm-6
+                %h4
+                  Lista de alumnos
+              .col-sm-6
+                .pull-right.m-t-10
+                  %input#group_student.form-control.pull-right{:placeholder => "Buscar", :type => "text"}/ 
 
-      .table-responsive   
-        %table.table.table-striped
-          %thead
-            %th{width: "27%"}
-              Datos del alumno
-            %th{width: "23%"}
-              Avances del alumno
-            %th
-              Evaluaciones
-          %tbody
-            - @students.each_with_index do |student, index|
-              - progreso, total= student.answered_quizzes
-              - if quizzes_total == 0
-                - progreso = 0
-              - else
-                - progreso = (total * 100) / (quizzes_total)  
-              %tr
-                %td.p-b-20
-                  .m-b-5
-                    = link_to student.name, mentor_student_path(student)
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %i.fa.fa-envelope
-                    %li.inline 
-                      = student.email
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      = link_to summary_mentor_student_path(student) do
-                        %i.fa.fa-bolt
-                        Ver resumen
-                %td
-                  .m-b-10
-                    %i.fa.fa-edit
-                    %span Evaluaciones contestadas:
-                    %strong #{progreso}%
-                %td
-                  %ul.list-inline.no-style.unstyled
-                    - @quizzes.each_with_index do |quiz, index|
-                      %li 
-                        = link_to analytics_quiz_mentor_student_path(student, quiz_id: quiz) do
-                          
-                          .label.program-labels{:class => "#{quiz.answered?(student) ? 'p-sides-14-2 label-success' : ''}", "data-toggle": "tooltip", "data-original-title": "#{quiz.name}"}
-                            = "Ev-#{index}"
-                            /%i.fa{:class => "#{answered > 0? 'fa-check' : ''}"}
+            .table-responsive   
+              %table.table.table-striped
+                %thead
+                  %th{width: "27%"}
+                    Datos del alumno
+                  %th{width: "23%"}
+                    Avances del alumno
+                  %th
+                    Evaluaciones
+                %tbody
+                  - if @students.count > 0
+                    - @students.each_with_index do |student, index|
+                      - progreso, total= student.answered_quizzes
+                      - if quizzes_total == 0
+                        - progreso = 0
+                      - else
+                        - progreso = (total * 100) / (quizzes_total)  
+                      %tr
+                        %td.p-b-20
+                          .m-b-5
+                            = link_to student.name, mentor_student_path(student)
+                          %ul.p-l-0.m-b-0
+                            %li.inline 
+                              %i.fa.fa-envelope
+                            %li.inline 
+                              = student.email
+                          %ul.p-l-0.m-b-0
+                            %li.inline 
+                              = link_to summary_mentor_student_path(student) do
+                                %i.fa.fa-bolt
+                                Ver resumen
+                        %td
+                          .m-b-10
+                            %i.fa.fa-edit
+                            %span Evaluaciones contestadas:
+                            %strong #{progreso}%
+                        %td
+                          %ul.list-inline.no-style.unstyled
+                            - @quizzes.each_with_index do |quiz, index|
+                              %li 
+                                = link_to analytics_quiz_mentor_student_path(student, quiz_id: quiz) do
+                                  .label.program-labels{:class => "#{quiz.answered?(student) ? 'p-sides-14-2 label-success' : ''}", "data-toggle": "tooltip", "data-original-title": "#{quiz.name}"}
+                                    = "Ev-#{index}"
+                  - else
+                    %tr
+                      %td.text-center{colspan: 3}
+                        %strong No hay estudiantes en este grupo                  
+            %center
+              =paginate @students
+.container-fluid.container-fixed-lg
+  .panel.panel-transparent
+    .row.p-l-5.p-r-5
+      .col-sm-12
+        .panel.panel-default
+          .panel-body
+            .row.m-b-20
+              .col-sm-6
+                %h4
+                  Lista de mentores
+              .col-sm-6
+                .pull-right.m-t-10
+                  %input#group_student.form-control.pull-right{:placeholder => "Buscar", :type => "text"}/ 
 
-      %center
-        =paginate @students
+            .table-responsive   
+              %table.table.table-striped
+                %thead
+                  %th{width: "27%"}
+                    Datos del alumno
+                  %th{width: "23%"}
+                    Avances del alumno
+                  %th
+                    Evaluaciones
+                %tbody
+                  - if @mentors.count > 0
+                    - @mentors.each_with_index do |mentor, index|
+                      - progreso, total= mentor.answered_quizzes
+                      - if quizzes_total == 0
+                        - progreso = 0
+                      - else
+                        - progreso = (total * 100) / (quizzes_total)  
+                      %tr
+                        %td.p-b-20
+                          .m-b-5
+                            = link_to mentor.name, mentor_student_path(mentor)
+                          %ul.p-l-0.m-b-0
+                            %li.inline 
+                              %i.fa.fa-envelope
+                            %li.inline 
+                              = mentor.email
+                          %ul.p-l-0.m-b-0
+                            %li.inline 
+                              = link_to summary_mentor_student_path(mentor) do
+                                %i.fa.fa-bolt
+                                Ver resumen
+                        %td
+                          .m-b-10
+                            %i.fa.fa-edit
+                            %span Evaluaciones contestadas:
+                            %strong #{progreso}%
+                        %td
+                          %ul.list-inline.no-style.unstyled
+                            - @quizzes.each_with_index do |quiz, index|
+                              %li 
+                                = link_to analytics_quiz_mentor_student_path(mentor, quiz_id: quiz) do
+                                  
+                                  .label.program-labels{:class => "#{quiz.answered?(mentor) ? 'p-sides-14-2 label-success' : ''}", "data-toggle": "tooltip", "data-original-title": "#{quiz.name}"}
+                                    = "Ev-#{index}"
+                  - else
+                    %tr
+                      %td.text-center{colspan: 3}
+                        %strong No hay mentores en este grupo
+            %center
+              =paginate @mentors              
