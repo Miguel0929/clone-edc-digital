@@ -276,6 +276,10 @@ label.zoomed-checkbox {
   overflow: scroll;
 }
 
+.scrolling {
+  overflow: scroll;
+}
+
 .conversation-titles{
   padding: 15px 15px 10px 0px;
 }
@@ -386,6 +390,9 @@ label.zoomed-checkbox {
   .cell-pt15{
     padding-top: 15px !important;
   }
+  .cell-pt20{
+    padding-top: 20px;
+  }
   .cell-pb5{
     padding-bottom: 5px;
   }
@@ -433,6 +440,9 @@ label.zoomed-checkbox {
   .cell-down-pr15{
     padding-right: 15px;
   }
+  .cell-down-pl0{
+    padding-left: 0px;
+  }
   .cell-down-pl15{
     padding-left: 15px;
   }
@@ -454,12 +464,22 @@ label.zoomed-checkbox {
   .padding-population {
     padding: 30px 30px 10px 15px;
   }
+  .question-btn-padding{
+    padding-top: 0px !important;
+    padding-bottom: 30px !important;
+  }
 }
 
 /* ********** De Tablets Pa'Abajo ********** */
 @media screen and (max-width: 991px) {
   .tablet-down-block{
     display: block;
+  }
+  .tablet-down-pl10{
+    padding-left: 10px;
+  }
+  .tablet-down-mb0{
+    margin-bottom: 0px;
   }
   .tablet-down-mb5{
     margin-bottom: 5px;
@@ -472,6 +492,9 @@ label.zoomed-checkbox {
   }
   .tablet-down-fs12{
     font-size: 12px;
+  }
+  .tablet-down-leftpull{
+    float: left;
   }
   .quiz-result-message{
     padding: 30px;
@@ -486,6 +509,15 @@ label.zoomed-checkbox {
 
 /* ********** De High Tablets Pa'Arriba ********** */
 @media screen and (min-width: 992px) {
+  .htablet-up-pr0{
+    padding-right: 0px;
+  }
+  .htablet-up-pl0{
+    padding-left: 0px;
+  }
+  .htablet-up-rightpull{
+    float: right;
+  }
   .quiz-result-message{
     padding: 30px;
     margin-top: 50px;
@@ -581,7 +613,7 @@ label.zoomed-checkbox {
     width: 100%;
   }
   .explore-fsize li {
-    font-size: 12px;
+    font-size: 11px;
   }
 }
 
@@ -597,3 +629,8 @@ label.zoomed-checkbox {
     display: none;
   }
 }
+
+.toggle-sidebar[data-toggle=sidebar]{
+  touch-action: none;
+}
+

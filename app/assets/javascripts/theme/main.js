@@ -2026,12 +2026,13 @@
          $target.data('pg.sidebar').togglePinSidebar();
          return false;
      })
+
      $(document).on('click.pg.sidebar.data-api touchstart', '[data-toggle="sidebar"]', function(e) {
          e.preventDefault();
          var $this = $(this);
          var $target = $('[data-pages="sidebar"]');
          $target.data('pg.sidebar').toggleSidebar();
-         return false
+         return false;
      })
 
  })(window.jQuery);

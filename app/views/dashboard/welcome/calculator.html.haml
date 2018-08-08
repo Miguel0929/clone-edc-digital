@@ -34,19 +34,19 @@
 						.col-sm-2.text-left.bg-menu.col-sm-height.padding-15
 							%h5.font-montserrat.all-caps.small.no-margin.hint-text.text-white.bold Muestra resultante:
 							%h4.no-margin.text-white #{'%.2f' % @sample_size}
-						.col-sm-2.text-left.bg-menu.col-sm-height.padding-15
+						.col-sm-2.text-left.bg-menu.col-sm-height.padding-15.question-btn-padding
 							%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.p-l-12.p-r-12.activeModalBtn{:value => "sample"} 
 								?
 						.col-sm-3.text-left.bg-menu.col-sm-height.padding-15
 							%h5.font-montserrat.all-caps.small.no-margin.hint-text.text-white.bold Innovadores + Adoptadores tempranos:
 							%h4.no-margin.text-white #{'%.2f' % @inn_early_s}
-						.col-sm-1.text-left.bg-menu.col-sm-height.padding-15
+						.col-sm-1.text-left.bg-menu.col-sm-height.padding-15.question-btn-padding
 							%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.p-l-12.p-r-12.activeModalBtn{:value => "early"} 
 								?
 						.col-sm-3.text-left.bg-menu.col-sm-height.padding-15
 							%h5.font-montserrat.all-caps.small.no-margin.hint-text.text-white.bold Cantidad de personas que validen los resultados:
 							%h4.no-margin.text-white #{'%.2f' % @eighty_s_y}
-						.col-sm-1.text-left.bg-menu.col-sm-height.padding-15
+						.col-sm-1.text-left.bg-menu.col-sm-height.padding-15.question-btn-padding
 							%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.p-l-12.p-r-12.activeModalBtn{:value => "validation"}
 								?
 		- else
@@ -93,7 +93,7 @@
 					%p
 						Número de personas que permiten considerarlo representativo de una población. El tamaño de la muestra se calcula a partir del tamaño de la población indicada. Calculado a partir del método de cálculo tradicional, con un nivel de confianza del 95%.
 
-#activeModalBtnEarly.modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1"}
+#activeModalBtnEarly.modal.fade.slide-up{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1"}
 	.modal-dialog
 		.modal-content-wrapper
 			.modal-content
