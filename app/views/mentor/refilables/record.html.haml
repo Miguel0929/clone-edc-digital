@@ -5,10 +5,10 @@
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
-          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+          .col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
             %h2.text-white 
               Historial de plantilla
-          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+          .col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
             .m-t-20
               %span.text-white.flag-text-size.p-r-10
                 Plantilla:
@@ -18,76 +18,77 @@
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
-      .col-md-10.col-md-offset-1
-        - @refilables.each_with_index do |refilable, index|
-          .card.social-card.share.m-t-20.m-b-20{"data-social" => "item"}
-            .card-header.no-hover.lightblue-background.clearfix
-              .pull-left
-                %h5 Respuesta número #{index + 1}
-                %h6
-                  %span
-                    %i.fa.fa-calendar-check-o
-                    Creada el
-                    = l refilable.created_at, format: :special
-                  %span.p-l-15
-                    %i.fa.fa-calendar-plus-o
-                    = (refilable.created_at == refilable.updated_at) ? "Sin modificar" : ("Modificada el " + (l refilable.updated_at, format: :special))
-              .pull-right.hint-text
-                %i.fa.fa-check-square-o
-                Promedio: 
-                /- evaluation = refilable.evaluation(@user)
-                - evaluation = refilable.points
-                %span{class: evaluation.nil? ? "text-danger" : "text-primary"}
-                  #{evaluation.nil? ? "Sin evaluar" : (evaluation.to_s + "%")}
-            .card-description
-              %h5.card-titles Contenido
-              %p
-                = raw remove_class(replace_fillable(refilable.content))
-              .m-b-20.m-t-20.b-b.b-dashed.sm-b-b.b-grey
-              %h5.card-titles Comentario
-              %p{class: refilable.comments.nil? ? "text-complete" : ""}
-                = refilable.comments.nil? ? "No hay comentarios para esta respuesta" : (raw replace_refilable_data(refilable))
+      .row
+        .col-md-10.col-md-offset-2
+          - @refilables.each_with_index do |refilable, index|
+            .card.social-card.share.m-t-20.m-b-20{"data-social" => "item"}
+              .card-header.no-hover.lightblue-background.clearfix
+                .pull-left
+                  %h5 Respuesta número #{index + 1}
+                  %h6
+                    %span
+                      %i.fa.fa-calendar-check-o
+                      Creada el
+                      = l refilable.created_at, format: :special
+                    %span.p-l-15
+                      %i.fa.fa-calendar-plus-o
+                      = (refilable.created_at == refilable.updated_at) ? "Sin modificar" : ("Modificada el " + (l refilable.updated_at, format: :special))
+                .pull-right.hint-text
+                  %i.fa.fa-check-square-o
+                  Promedio: 
+                  /- evaluation = refilable.evaluation(@user)
+                  - evaluation = refilable.points
+                  %span{class: evaluation.nil? ? "text-danger" : "text-primary"}
+                    #{evaluation.nil? ? "Sin evaluar" : (evaluation.to_s + "%")}
+              .card-description
+                %h5.card-titles Contenido
+                %p
+                  = raw remove_class(replace_fillable(refilable.content))
+                .m-b-20.m-t-20.b-b.b-dashed.sm-b-b.b-grey
+                %h5.card-titles Comentario
+                %p{class: refilable.comments.nil? ? "text-complete" : ""}
+                  = refilable.comments.nil? ? "No hay comentarios para esta respuesta" : (raw replace_refilable_data(refilable))
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
-      .tab-content
-        #tab1.tab-pane.padding-20.sm-no-padding.active.slide-left
-          .row.row-same-height
-            .col-md-4.b-r.b-dashed.b-grey.sm-b-b
-              .p-r-30.p-l-30.p-b-30.p-t-15.sm-padding-5.sm-m-t-15
-                %i.fa.fa-comment.fa-2x.hint-text
-                .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
-                  = @refilable.template_refilable.name
-                %p
-                  = @refilable.template_refilable.description
-                %small.text-danger
-                  Nota: el comentario será agregado sobre la última respuesta de este historial (Respuesta número
-                  = @refilables.count.to_s
-                  ).
-                - if current_user.admin?
-                  %div
-                    = link_to user_path(@user) do
-                      %i.fa.fa-arrow-left
-                      Regresar al perfil del estudiante
-            .col-md-8
-              .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
-                = bootstrap_form_for([:mentor, @user, @refilable], url: mentor_student_refilable_path(@user, @refilable), method: :put) do |f|
-                  = f.text_area :comments, ckeditor: { language: 'es'}, id: 'ckeditor', label: 'Agrega o edita comentarios sobre este rellenable:'
-                  .row.m-b-15
-                    /%button.btn.btn-complete.m-t-20#addComment
-                    /  Agregar rellenable
-                    /= form_tag(refilable_default_comments_path, method: :get) do
-                    .col-md-10
-                      = select_tag :comment, options_from_collection_for_select(RefilableDefaultComment.all, :id, :name, params[:comment]), {include_blank: "Selecciona un comentario", class: "form-control"}
-                    .col-md-2
-                      /= submit_tag 'Seleccionar', class: "btn btn-success btn-xs"
-                      %button.btn.btn-success.btn-xs#selectComment
-                        Seleccionar
-                  - if current_user.mentor?
-                    .row
-                      = link_to "Cancelar", mentor_student_path(@user), class: "btn btn-danger"
-                      = f.submit 'Guardar', class: "btn btn-primary"
+      .row.row-same-height
+        .col-md-4.b-r.b-dashed.b-grey.sm-b-b
+          .p-r-30.p-l-30.p-b-30.p-t-15.sm-padding-5.sm-m-t-15
+            %i.fa.fa-comment.fa-2x.hint-text
+            .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+              = @refilable.template_refilable.name
+            %p
+              = @refilable.template_refilable.description
+            %small.text-danger
+              Nota: el comentario será agregado sobre la última respuesta de este historial (Respuesta número
+              = @refilables.count.to_s
+              ).
+            - if current_user.admin?
+              %div
+                = link_to user_path(@user) do
+                  %i.fa.fa-arrow-left
+                  Regresar al perfil del estudiante
+        .col-md-8
+          .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
+            = bootstrap_form_for([:mentor, @user, @refilable], url: mentor_student_refilable_path(@user, @refilable), method: :put) do |f|
+              = f.text_area :comments, ckeditor: { language: 'es'}, id: 'ckeditor', label: 'Agrega o edita comentarios sobre este rellenable:'
+              .row.m-b-15
+                .col-md-10
+                  = select_tag :comment, options_from_collection_for_select(RefilableDefaultComment.all, :id, :name, params[:comment]), {include_blank: "Selecciona un comentario", class: "form-control"}
+                .col-md-2
+                  %button.btn.btn-success.btn-xs#selectComment.hidden-xs
+                    Seleccionar
+                  .p-t-10.pull-right.visible-xs  
+                    %button.btn.btn-success.btn-xs#selectComment
+                      Seleccionar  
+              - if current_user.mentor?
+                .row.hidden-xs
+                  = link_to "Cancelar", mentor_student_path(@user), class: "btn btn-danger"
+                  = f.submit 'Guardar', class: "btn btn-primary"
+                %center.visible-xs
+                  = link_to "Cancelar", mentor_student_path(@user), class: "btn btn-danger"
+                  = f.submit 'Guardar', class: "btn btn-primary"  
 
 :javascript
   $( document ).on('turbolinks:load', function() {

@@ -6,10 +6,10 @@
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
-          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+          .col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
             %h2.text-white 
               Tus alumnos
-          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+          .col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
               Todos tus alumnos
             %p.m-b-25.text-white
@@ -18,19 +18,27 @@
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
-      .row.p-r-10.p-b-30
-        .pull-right
+      .row.p-b-20.p-r-15.p-l-15.p-t-15
+        .pull-right.hidden-xs
           .btn-group{"role" => "group", "aria-label" => "..."}
             = link_to "Programas", mentor_students_path, class: 'btn btn-default active'
             = link_to "Plantillas", template_refilables_mentor_students_path, class: 'btn btn-default'
             = link_to "Evaluaciones", quizzes_mentor_students_path, class: 'btn btn-default'
-      .pull-right#filters.row.inline-block
-        = form_tag(mentor_students_path, method: :get) do
-          %a#collap
-            #headingfiltros.panel-title-recursos.font-montserrat.font-search.filter-padding.m-l-15.m-r-15
-              %h4.panel-title.search-title.text-white.ver.heding-text-like
-                Ver Filtros de búsqueda
-          #ver_collap
+        .btn-group-vertical.visible-xs{"role" => "group", "aria-label" => "..."}
+          = link_to "Programas", mentor_students_path, class: 'btn btn-default active'
+          = link_to "Plantillas", template_refilables_mentor_students_path, class: 'btn btn-default'
+          = link_to "Evaluaciones", quizzes_mentor_students_path, class: 'btn btn-default'    
+      #filters.row.p-t-0    
+        %a#collap.pull-left.hidden-xs.p-t-20
+          #headingfiltros.panel-title-recursos.font-montserrat.font-search.filter-padding.m-l-15.m-r-15
+            %h4.panel-title.search-title.text-white.ver.heding-text-like
+              Ver Filtros de búsqueda
+        %a#collap.visible-xs    
+          #headingfiltros.panel-title-recursos.font-montserrat.font-search.filter-padding.m-l-15.m-r-15
+            %h4.panel-title.search-title.text-white.ver.heding-text-like
+              Ver Filtros de búsqueda    
+        #ver_collap
+          = form_tag(mentor_students_path, method: :get) do
             .col-md-12.learning-img
               %aside.sidebar-menu
                 /%h4.search-title Filtrar búsqueda:
@@ -100,111 +108,110 @@
             .col-md-12
               = submit_tag 'Filtrar', class: "btn btn-default"
               = link_to "Exportar a excel", exports_mentor_students_path(format: :xlsx), class: "btn btn-success"
-      .pull-right.w-300
-        .col-xs-12
-          /%input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
-          .form-group
-            %div.input-group
-              %input#mentor_students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
-              %span.input-group-addon.panel-title-recursos
-                %i.fa.fa-search.text-white
-      .clearfix
-
-    .table-responsive
-      %table.table.table-hover
-        %thead
-          %tr
-            %th{:width => "3%"}
-              Id
-            %th{:width => "25%"}
-              Datos de contacto
-            %th{:width => "20%"}
-              Info. de estudiante
-            %th{:width => "15%"}
-              Avances totales
-            %th
-              Cursos inscritos          
-        %tbody
-          - @users.each do |user|
+        .pull-right.w-300.p-t-20
+          .col-xs-12
+            .form-group
+              %div.input-group
+                %input#mentor_students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+                %span.input-group-addon.panel-title-recursos
+                  %i.fa.fa-search.text-white
+        .clearfix 
+    .panel-body     
+      .table-responsive
+        %table.table.table-hover
+          %thead
             %tr
-              %td
-                = user.id
-              %td
-                .m-b-0
-                  = link_to user.name, mentor_student_path(user)
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %i.fa.fa-envelope
-                  %li.inline 
-                    = user.email
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %i.fa.fa-phone
-                  %li.inline 
-                    = user.phone_number
-                %ul.p-l-0.m-b-0
-                  = link_to mentor_student_path(user) do
-                    %li.inline 
-                      %i.fa.fa-eye
-                    %li.inline 
-                      Ver perfil de usuario   
-                  %sup
-                    = link_to  summary_mentor_student_path(user),class: "p-l-5" do
-                      %i.fa.fa-bolt
-              %td
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %span.bold Estado:
-                  %li.inline 
-                    = user.status
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %span.bold Grupo:
-                  %li.inline 
-                    = user.group.name.capitalize
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %span.bold Última sesión:
-                  %li.inline 
-                    - if !user.visits.last.nil?
-                      = l user.visits.last.started_at, format: :short_special
-                    - else
-                      %span.text-danger Ninguna
-              %td
-                - if user.student?
-                  %ul.p-l-0.m-b-0
-                    %li.inline
-                      %span.bold Contestado:
-                    %li.inline 
-                      #{user.user_progress.ceil}%
-                  %ul.p-l-0.m-b-0
-                    %li.inline
-                      %span.bold Visto:
-                    %li.inline 
-                    #{user.user_seen.ceil}%
-                  %ul.p-l-0.m-b-0
-                    %li.inline
-                      %span.bold Status de evaluación:
-                    %li.inline 
-                    #{user.evaluation_status}
+              %th{:width => "3%"}
+                Id
+              %th{:width => "25%"}
+                Datos de contacto
+              %th{:width => "20%"}
+                Info. de estudiante
+              %th{:width => "15%"}
+                Avances totales
+              %th
+                Cursos inscritos          
+          %tbody
+            - @users.each do |user|
+              %tr
                 %td
-                  - unless user.group.nil?
-                    %ul.unstyled.no-style
-                      - sort_programs(user.group, user.group.all_programs).each do |program|
-                        %li.inline.p-b-5
-                          %i.fa.fa-check
-                          #{program.name}. 
-                          %strong
-                            Contestado:
-                          #{user.integral_percentage_progress_for(program).round}%
-                          %strong
-                            Visto:
-                          #{user.integral_percentage_visited_for(program).round}%
+                  = user.id
+                %td
+                  .m-b-0
+                    = link_to user.name, mentor_student_path(user)
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %i.fa.fa-envelope
+                    %li.inline 
+                      = user.email
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %i.fa.fa-phone
+                    %li.inline 
+                      = user.phone_number
+                  %ul.p-l-0.m-b-0
+                    = link_to mentor_student_path(user) do
+                      %li.inline 
+                        %i.fa.fa-eye
+                      %li.inline 
+                        Ver perfil de usuario   
+                    %sup
+                      = link_to  summary_mentor_student_path(user),class: "p-l-5" do
+                        %i.fa.fa-bolt
+                %td
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %span.bold Estado:
+                    %li.inline 
+                      = user.status
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %span.bold Grupo:
+                    %li.inline 
+                      = user.group.name.capitalize
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %span.bold Última sesión:
+                    %li.inline 
+                      - if !user.visits.last.nil?
+                        = l user.visits.last.started_at, format: :short_special
+                      - else
+                        %span.text-danger Ninguna
+                %td
+                  - if user.student?
+                    %ul.p-l-0.m-b-0
+                      %li.inline
+                        %span.bold Contestado:
+                      %li.inline 
+                        #{user.user_progress.ceil}%
+                    %ul.p-l-0.m-b-0
+                      %li.inline
+                        %span.bold Visto:
+                      %li.inline 
+                      #{user.user_seen.ceil}%
+                    %ul.p-l-0.m-b-0
+                      %li.inline
+                        %span.bold Status de evaluación:
+                      %li.inline 
+                      #{user.evaluation_status}
+                  %td
+                    - unless user.group.nil?
+                      %ul.unstyled.no-style
+                        - sort_programs(user.group, user.group.all_programs).each do |program|
+                          %li.inline.p-b-5
+                            %i.fa.fa-check
+                            #{program.name}. 
+                            %strong
+                              Contestado:
+                            #{user.integral_percentage_progress_for(program).round}%
+                            %strong
+                              Visto:
+                            #{user.integral_percentage_visited_for(program).round}%
 
-    .pull-right
-      = paginate @users
-      %br
-      %span.text-center= page_entries_info @users
+      .pull-right
+        = paginate @users
+        %br
+        %span.text-center= page_entries_info @users
 
 :javascript
   var x = true;

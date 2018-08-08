@@ -28,6 +28,8 @@ class Mentor::SharedGroupAttachmentsController < ApplicationController
   end
 
   def edit
+    add_breadcrumb "Archivos compartidos", :mentor_shared_group_attachments_path
+    add_breadcrumb "<a class='active' href='#{edit_mentor_shared_group_attachment_path}'>Editar archivo</a>".html_safe
   end
 
   def update

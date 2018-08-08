@@ -3,74 +3,96 @@
 
 .container-fluid.sm-padding-10.m-b-25
   .row
-    .col-md-6.col-xlg-5
+    .col-md-6
       .row
         .col-md-12.m-b-10
           .ar-3-2.widget-1-wrapper
             .widget-1-straight{style: 'background-color: #595959;'}
               .pull-top
                 .row
-                  .col-md-12.p-b-10
+                  .col-xs-12
                     .pull-left
-                      %h4.text-white
+                      %h4.text-white{style: 'line-height: 20px'}
                         = @user.name
                         %span
                           = link_to  mentor_student_path(@user), class: "redish-link m-l-20", style: "font-size: 0.7em;" do
                             ( Ver perfil completo )
                 .row.text-white
-                  .col-md-12.col-xs-6
-                    .p-t-10.col-md-3
+                  .col-md-12
+                    .col-md-3
                       .h5.no-margin.text-complete
                         = @user.phone_number
                       .small-text.no-margin
                         Teléfono
-                    .p-t-10.col-md-3
+                    .col-md-3
                       .h5.no-margin.text-complete
                         = @user.city
                       .small-text.no-margin
                         Ubicación
-                    .p-t-10.col-md-3
+                    .col-md-3
                       .h5.no-margin.text-complete
                         = @user.email
                       .small-text.no-margin
                         Correo
-                  .col-md-12.col-xs-6.p-t-30
-                    .col-md-6
+                  .col-md-12.visible-xs
+                    .col-md-6.m-t-0
                       .font-montserrat.bold.fs-11
                         PORCENTAJE CONTESTADO
-                      .progress.m-t-5.m-b-5
-                        .progress-bar.progress-bar-white{style: "width: #{@user.user_progress}%"}
-                      %h4.text-complete.m-t-0
+                      %h4.text-complete.m-t-0.m-b-0
                         #{@user.user_progress}%
-                    .col-md-6
+                    .col-md-6.m-t-0
                       .font-montserrat.bold.fs-11
                         PORCENTAJE VISTO
-                      .progress.m-t-5.m-b-5
-                        .progress-bar.progress-bar-white{style: "width: #{@user.user_seen}%"}
-                      %h4.text-complete.m-t-0
+                      %h4.text-complete.m-t-0.m-b-0
                         #{@user.user_seen}%
-                .pull-bottom.bottom-left.bottom-right.p-l-30.p-r-30.p-b-30
-                  .col-xs-4
-                    /.font-montserrat.bold.fs-16.text-primary.white-shadow
-                    .label
-                      #{ @user.last_time }
-                    .font-montserrat.bold.fs-11.text-white
-                      ÚLTIMA VEZ
-                  .col-xs-4
-                    /.font-montserrat.bold.fs-16.text-primary.white-shadow
-                    .label
-                      #{ @user.time_average.round(1) } min
-                    .font-montserrat.bold.fs-11.text-white
-                      USO PROMEDIO
-                  .col-xs-4
-                    /.font-montserrat.bold.fs-16.text-primary.white-shadow
-                    .label
-                      #{ @user.total_time.round(1) } min
-                    .font-montserrat.bold.fs-11.text-white
-                      USO TOTAL
-            }
+                  .col-md-12.hidden-xs
+                    .col-md-6.m-t-15
+                      .font-montserrat.bold.fs-11
+                        PORCENTAJE CONTESTADO
+                      %h4.text-complete.m-t-5.m-b-5{style: 'line-height: 17px'}
+                        #{@user.user_progress}%
+                    .col-md-6.m-t-15
+                      .font-montserrat.bold.fs-11
+                        PORCENTAJE VISTO
+                      %h4.text-complete.m-t-5.m-b-5{style: 'line-height: 17px'}
+                        #{@user.user_seen}%      
+              
+                  .pull-bottom.bottom-left.bottom-right.p-l-30.p-r-30.p-b-30.hidden-xs
+                    .col-md-4
+                      .label
+                        #{ @user.last_time }
+                      .font-montserrat.bold.fs-11.text-white
+                        ÚLTIMA VEZ
+                    .col-md-4
+                      .label
+                        #{ @user.time_average.round(1)} min
+                      .font-montserrat.bold.fs-11.text-white
+                        USO PROMEDIO
+                    .col-md-4
+                      .label
+                        #{ @user.total_time.round(1)} min
+                      .font-montserrat.bold.fs-11.text-white
+                        USO TOTAL
 
       .row
+        .col-sm-6.m-b-10.visible-xs
+          .ar-2-1
+            .widget-4.no-border.no-margin.widget-loader-bar.bg-info-light
+              .col-xs-12.p-t-15
+                .label
+                  #{ @user.last_time }
+                .font-montserrat.bold.fs-11.text-white
+                  ÚLTIMA VEZ
+              .col-xs-6
+                .label
+                  #{ @user.time_average.round(1) } min
+                .font-montserrat.bold.fs-11.text-white
+                  USO PROMEDIO
+              .col-xs-6
+                .label
+                  #{ @user.total_time.round(1) } min
+                .font-montserrat.bold.fs-11.text-white
+                  USO TOTAL
         .col-sm-6.m-b-10
           .ar-2-1
             .widget-4.no-border.no-margin.widget-loader-bar.bg-primary-light
