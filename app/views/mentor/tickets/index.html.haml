@@ -6,10 +6,10 @@
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
-          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+          .col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
             %h2.text-white 
               Tus tickets
-          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+          .col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
               Seguimiento para tus alumnos
             %p.m-b-25.text-white
@@ -19,31 +19,42 @@
   .panel.panel-default
     .panel-heading
       .row
-        .col-sm-9.col-sm-offset-3
-          .col-sm-6
-            .pull-right
-              = link_to mentor_tickets_path, style: "opacity: 1 !important;" do
-                %button.btn.btn-default{:type => "button"} Todos
-              = link_to mentor_tickets_path(filter: "open"), style: "opacity: 1 !important;" do
-                %button.btn.btn-default{:type => "button"} Abiertos
-              = link_to mentor_tickets_path(filter: "closed"), style: "opacity: 1 !important;" do
-                %button.btn.btn-default{:type => "button"} Cerrados
-          .col-sm-6
-            .pull-right
-              .col-xs-12
-                .form-group
-                  %div.input-group
-                    = form_tag(mentor_tickets_path, method: :get) do
-                      = text_field_tag :query, "", class: "form-control text-black", :placeholder => "Buscar"
-                    %span.input-group-addon.panel-title-recursos
-                      %i.fa.fa-search.text-white
-          .clearfix
+        .col-md-4.col-md-offset-4
+          .row
+            %center
+              .btn-group.hidden-xs.m-t-10{"role" => "group", "aria-label" => "..."}
+                = link_to "Todos", mentor_tickets_path, style: "opacity: 1 !important;", class: "btn btn-default"
+                = link_to "Abiertos",mentor_tickets_path(filter: "open"), style: "opacity: 1 !important;", class: "btn btn-default"
+                = link_to "Cerrados", mentor_tickets_path(filter: "closed"), style: "opacity: 1 !important;", class: "btn btn-default"
+
+            .btn-group-vertical.visible-xs.m-t-10.p-l-15.p-r-15{"role" => "group", "aria-label" => "..."}
+              = link_to "Todos", mentor_tickets_path, style: "opacity: 1 !important;", class: "btn btn-default"
+              = link_to "Abiertos",mentor_tickets_path(filter: "open"), style: "opacity: 1 !important;", class: "btn btn-default"
+              = link_to "Cerrados", mentor_tickets_path(filter: "closed"), style: "opacity: 1 !important;", class: "btn btn-default"    
+        .col-md-4
+          .pull-right.hidden-xs
+            .row.m-t-10
+              .form-group
+                .input-group
+                  = form_tag(mentor_tickets_path, method: :get) do
+                    = text_field_tag :query, "", class: "form-control text-black", :placeholder => "Buscar"
+                  %span.input-group-addon.panel-title-recursos
+                    %i.fa.fa-search.text-white
+          .visible-xs.p-l-15.p-r-15
+            .row.m-t-10
+              .form-group
+                .input-group
+                  = form_tag(mentor_tickets_path, method: :get) do
+                    = text_field_tag :query, "", class: "form-control text-black", :placeholder => "Buscar"
+                  %span.input-group-addon.panel-title-recursos
+                    %i.fa.fa-search.text-white          
+        .clearfix
     .panel-body
-      .widget-11-table.auto-overflow
-        %table.table.table-condensed.table-hover
+      .table-responsive
+        %table.table.table-hover
           %tbody
             %tr
-              %td.font-montserrat.b-r.b-dashed.b-grey{width: "50%"}
+              %td.font-montserrat.b-r.b-dashed.b-grey{width: "40%"}
               %td.text-center.b-r.b-dashed.b-grey
                 Aprendiz
               %td.text-center.b-r.b-dashed.b-grey
@@ -91,7 +102,7 @@
                     }
                   })
                 });
-        .pull-right
-          = paginate @tickets
-          %br
-          %span.text-center= page_entries_info @tickets
+      .pull-right
+        = paginate @tickets
+        %br
+        %span.text-center= page_entries_info @tickets

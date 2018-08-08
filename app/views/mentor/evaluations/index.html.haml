@@ -6,10 +6,10 @@
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
-          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+          .col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
             %h2.text-white 
               Evaluación de programa
-          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+          .col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h3.text-white
               %span.p-r-10{style: "font-size:16px !important;"}
                 Programa:
@@ -112,77 +112,79 @@
                   .progress-bar.progress-bar-primary{:style => "width:#{((obtained_points.to_f/total_points.to_f)*100).ceil}%"}
 
 .container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-body
-      %table.table.table-striped
-        %thead
-          %tr
-            %th
-              Módulo
-            %th.text-center{:width => "21%"}
-              Avance del alumno
-            %th.text-center{:width => "20%"}
-              Revisión del mentor
-            %th.text-center{:width => "20%"}
-              Resultado obtenido
-            %th{:width => "15%"}
-        %tbody
-          - answers_total, rubrics_checked = 0, 0
-          - @chapters.each do |chapter|
-            - if chapter.questions_count > 0
+  .col-md-12
+    .panel.panel-default
+      .panel-body.p-r-0.p-l-0
+        .table-responsive
+          %table.table.table-striped
+            %thead
               %tr
-                -# result = evaluation_result(chapter)
-                %td
-                  = chapter.name
-                %td.text-center
-                  - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions_count.to_f).ceil
-                  - answered_questions = answered_questions(chapter, @user)
-                  - if answered_percentage == 0
-                    %div{"data-toggle": "tooltip", "data-original-title": "#{answered_questions} de #{chapter.questions.count} preguntas"}
-                      %span.label
-                        No contestado
-                  - else
-                    %div{"data-toggle": "tooltip", "data-original-title": "#{answered_questions} de #{chapter.questions.count} preguntas"}
-                      %span.label{class: "#{ (answered_percentage > 95) ? 'label-success' : 'label-warning' }"}
-                        #{ (answered_percentage > 95) ? 'Contestado' : 'En progreso' }
-                  - answers_total += answered_questions
-                %td
-                  - if chapter.evaluations.exists?
-                    - total, counter = chapter.evaluations.count, 0
-                    - chapter.evaluations.each do |evaluation|
-                      - evaluation_checked?(@user, evaluation) ? (counter += 1; rubrics_checked += 1) : counter += 0
-                    .p-r-10
-                      .progress.m-b-10.m-l-20.m-r-10
-                        .progress-bar{:style => "width: #{((counter.to_f/total.to_f)*100).ceil}%", :class => "#{((counter/total) == 1) ? 'progress-bar-success' : 'progress-bar-warning'}"}
-                    .text-center
-                      = counter 
-                      %span de
-                      = total
-                      %span rúbricas
-                  - else
-                    .text-center.text-danger No hay rúbrica
-                %td.p-b-15
-                  - if !chapter.evaluations.exists?
-                    .text-center.text-danger No hay rúbrica
-                  - elsif chapter.evaluations.sum(:points) == 0
-                    .text-center No hay puntaje
-                  - else
-                    .text-center{style: "font-size: 1.1em;"}
-                      #{chapter.points_earned(@user)} de #{chapter.evaluations.sum(:points)} pts
-                %td.text-center
-                  = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: @program) do
-                    - if current_user.mentor?
-                      .fa.fa-edit
-                      Evaluar módulo
-                    - else
-                      .fa.fa-eye
-                      Ver evaluación
-          %tr
-            %th.p-t-20.p-b-20.p-l-20
-            %th.text-center.p-t-20.p-b-20
-              #{@answers_total} de #{total_questions} preguntas
-            %th.text-center.p-t-20.p-b-20
-              #{@rubrics_checked} de #{total_rubrics} rúbricas
-            %th.text-center.p-t-20.p-b-20
-              #{obtained_points} de #{total_points} pts
-            %th.text-center.p-t-20.p-b-20 Calificación: #{number_to_percentage(user_promedio_program(obtained_points, total_points), precision: 1)}
+                %th
+                  Módulo
+                %th.text-center{:width => "21%"}
+                  Avance del alumno
+                %th.text-center{:width => "20%"}
+                  Revisión del mentor
+                %th.text-center{:width => "20%"}
+                  Resultado obtenido
+                %th{:width => "15%"}
+            %tbody
+              - answers_total, rubrics_checked = 0, 0
+              - @chapters.each do |chapter|
+                - if chapter.questions_count > 0
+                  %tr
+                    -# result = evaluation_result(chapter)
+                    %td
+                      = chapter.name
+                    %td.text-center
+                      - answered_percentage = answered_questions(chapter, @user) * (100 / chapter.questions_count.to_f).ceil
+                      - answered_questions = answered_questions(chapter, @user)
+                      - if answered_percentage == 0
+                        %div{"data-toggle": "tooltip", "data-original-title": "#{answered_questions} de #{chapter.questions.count} preguntas"}
+                          %span.label
+                            No contestado
+                      - else
+                        %div{"data-toggle": "tooltip", "data-original-title": "#{answered_questions} de #{chapter.questions.count} preguntas"}
+                          %span.label{class: "#{ (answered_percentage > 95) ? 'label-success' : 'label-warning' }"}
+                            #{ (answered_percentage > 95) ? 'Contestado' : 'En progreso' }
+                      - answers_total += answered_questions
+                    %td
+                      - if chapter.evaluations.exists?
+                        - total, counter = chapter.evaluations.count, 0
+                        - chapter.evaluations.each do |evaluation|
+                          - evaluation_checked?(@user, evaluation) ? (counter += 1; rubrics_checked += 1) : counter += 0
+                        .p-r-10
+                          .progress.m-b-10.m-l-20.m-r-10
+                            .progress-bar{:style => "width: #{((counter.to_f/total.to_f)*100).ceil}%", :class => "#{((counter/total) == 1) ? 'progress-bar-success' : 'progress-bar-warning'}"}
+                        .text-center
+                          = counter 
+                          %span de
+                          = total
+                          %span rúbricas
+                      - else
+                        .text-center.text-danger No hay rúbrica
+                    %td.p-b-15
+                      - if !chapter.evaluations.exists?
+                        .text-center.text-danger No hay rúbrica
+                      - elsif chapter.evaluations.sum(:points) == 0
+                        .text-center No hay puntaje
+                      - else
+                        .text-center{style: "font-size: 1.1em;"}
+                          #{chapter.points_earned(@user)} de #{chapter.evaluations.sum(:points)} pts
+                    %td.text-center
+                      = link_to mentor_evaluation_path(chapter, user_id: @user, program_id: @program) do
+                        - if current_user.mentor?
+                          .fa.fa-edit
+                          Evaluar módulo
+                        - else
+                          .fa.fa-eye
+                          Ver evaluación
+              %tr
+                %th.p-t-20.p-b-20.p-l-20
+                %th.text-center.p-t-20.p-b-20
+                  #{@answers_total} de #{total_questions} preguntas
+                %th.text-center.p-t-20.p-b-20
+                  #{@rubrics_checked} de #{total_rubrics} rúbricas
+                %th.text-center.p-t-20.p-b-20
+                  #{obtained_points} de #{total_points} pts
+                %th.text-center.p-t-20.p-b-20 Calificación: #{number_to_percentage(user_promedio_program(obtained_points, total_points), precision: 1)}
