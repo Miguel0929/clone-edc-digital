@@ -1,6 +1,6 @@
 .container-fluid.container-fixed-lg
   .panel.panel-default
-    .panel-heading
+    .panel-heading.cell-none
       .panel-title.question-title
         = @chapter_content.chapter.name  
       .pull-right
@@ -13,7 +13,7 @@
       .row
         .col-md-12#tour-9
           .padding-20.p-l-30.p-r-30
-            %h2
+            .h-basetext.h-title-content
               = model.identifier
             %div.contenidos-cuadro
               - if model.video_url.nil? || model.video_url.empty?
@@ -113,6 +113,16 @@
     ev.preventDefault();
   });
 
+  $(document).ready(function(){
+    // AGREGAR COSAS A LAS IMÁGENES DEL CONTENIDO
+    $('div.contenidos-cuadro').find('img').removeAttr('style');
+    var viewportWidth = $(window).width();
+    if(viewportWidth < 768) {
+      $('div.contenidos-cuadro').find('img').attr('data-action', 'zoom');
+    }
+  });
+
+= javascript_include_tag '/javascripts/lib/enhance.js', 'data-turbolinks-track' => false
 
 - if @tour_trigger[:third]
   = javascript_include_tag '/javascripts/lib/bootstraptour/tour_third_step', 'data-turbolinks-track' => false

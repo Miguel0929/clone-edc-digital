@@ -7,14 +7,14 @@
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-15.panel-title-emprendimiento
     .container-fluid
-      .md-p-l-20.md-p-r-20.xs-no-padding
+      .md-p-l-20.md-p-r-20
         .row
-          .col-sm-12.col-md-12.no-padding.xs-p-l-15.xs-p-r-15
+          .col-sm-12.col-md-12.cell-down-pr30.cell-down-pl30
             %h2.text-white 
               Compilación de resultados
 
 .container-fluid.container-fixed-lg
-  %h2
+  .h-basetext.h-title-content.cell-down-pr15.cell-down-pl15
     Resultados generales de evaluación
   .panel.panel-default
     .panel-body
@@ -61,7 +61,7 @@
             %th.text-center.p-t-20.p-b-20
               #{obtained_points} de #{total_points} pts          
 
-  %h2
+  .h-basetext.h-title-content.cell-down-pr15.cell-down-pl15
     Resumen del programa
   #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}  
     - chapters.each do |chapter|
@@ -111,7 +111,7 @@
                       %th{style: "width:50%"}
                       %th.text-center{style: "width:30%"}
                         Respuesta
-                      %th.text-center{style: "width:20%"}
+                      %th.text-center.sm-cell-none{style: "width:20%"}
                         ACCIONES
                   %tbody
                     - all_questions = chapter.all_questions
@@ -123,7 +123,7 @@
                           %td.text-center
                             - unless current_user.answer_for(question).nil?
                               = current_user.answer_for(question).humanize_answer
-                          %td.table-actions.text-center
+                          %td.table-actions.text-center.sm-cell-none
                             .btn-toolbar{role: 'toolbar'}
                               .btn-group.sm-m-t-10
                                 - if current_user.answer_for(question).nil?
