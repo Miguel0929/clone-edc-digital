@@ -8,6 +8,6 @@ class Mentor::QuestionsController < ApplicationController
     @answer = Answer.find_by(user: @user, question: @question)
     @comments = @question.comments.includes(:user).where(owner: @user).order(created_at: :asc)
 
-    add_breadcrumb @user.email, mentor_student_path(@user)
+	add_breadcrumb "<a class='active' href='#{mentor_student_path(@user)}'>#{@user.email}</a>".html_safe    
   end
 end
