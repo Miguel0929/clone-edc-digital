@@ -24,15 +24,15 @@
             .col-md-12
               .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
                 .m-b-30.b-b.b-dashed.sm-b-b
-                  .pull-left
-                    %h3.text-primary
-                      %i.fa.fa-clock-o.hint-text
-                      Entregables pendientes
                   .pull-right
                     .p-t-15
                       %a.slow_scroll.small-text{href: "#accomplished", style: "opacity: 1;"}
                         %i.fa.fa-chevron-circle-down
                         Entregables cumplidos
+                  .pull-left
+                    .h-basetext.h-3.text-primary
+                      %i.fa.fa-clock-o.hint-text
+                      Entregables pendientes
                   .clearfix
                   %p.m-b-15 Aquí puedes ver aquellos entregables que te son asignados por nuestro equipo de mentores. Recuerda siempre mantenerte al tanto de ellos.
 
@@ -41,10 +41,10 @@
                     - package = deliv.delireverable_package
                     .card.social-card.share.m-b-30{"data-social" => "item"}
                       .card-header{style: "border-bottom: none"}
-                        %h5.text-complete.pull-left.fs-12
+                        %h5.text-complete.pull-left.fs-12.cell-unfloat
                           = package.name
                           /%i.fa.fa-circle.text-complete.fs-11
-                        .pull-right.small.hint-text
+                        .pull-right.small.hint-text.cell-unfloat
                           = l package.updated_at, format: :short_no_year
                           %i.fa.fa-calendar-o
                         .clearfix
@@ -53,11 +53,11 @@
                         %p #{deliv.description}
                       .card-footer.clearfix
                         .pull-right.hint-text
-                          = link_to new_dashboard_delireverable_delireverable_user_path(deliv), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-10" do
-                            Subir entregable
-                        .pull-right.hint-text
-                          = link_to deliv.file.url, target: '_blank', class: "btn btn-tag btn-tag-dark btn-tag-rounded m-l-10" do
-                            Ver ejemplo
+                          .cell-blockbtn
+                            = link_to deliv.file.url, target: '_blank', class: "btn btn-tag btn-tag-dark btn-tag-rounded m-l-10 top-btn" do
+                              Ver ejemplo
+                            = link_to new_dashboard_delireverable_delireverable_user_path(deliv), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-10" do
+                              Subir entregable
                         .clearfix
                 - else
                   %h4.text-complete
@@ -72,15 +72,15 @@
             .col-md-12
               .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
                 .m-b-30.b-b.b-dashed.sm-b-b
-                  .pull-left
-                    %h3.text-success
-                      %i.fa.fa-check-square-o.hint-text
-                      Entregables cumplidos
                   .pull-right
                     .p-t-15
                       %a.slow_scroll.small-text{href: "#pending", style: "opacity: 1;"}
                         %i.fa.fa-chevron-circle-up
                         Entregables pendientes
+                  .pull-left
+                    .h-basetext.h-3.text-success
+                      %i.fa.fa-check-square-o.hint-text
+                      Entregables cumplidos
                   .clearfix
                   %p.m-b-15 Una vez que hayas subido tus entregables podrás verlos en esta columna. Podrás editarlos aunque estén clasificados como complidos. 
 
@@ -114,11 +114,11 @@
                               %span.hint-text #{user_delireverable.comments}
                       .card-footer.clearfix
                         .pull-right.hint-text
-                          = link_to new_dashboard_delireverable_delireverable_user_path(deliv), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
-                            Editar entregable
-                        .pull-right.hint-text
-                          = link_to deliv.file.url, target: '_blank', class: "btn btn-tag btn-tag-dark btn-tag-rounded m-l-5" do
-                            Ver ejemplo
+                          .cell-blockbtn
+                            = link_to deliv.file.url, target: '_blank', class: "btn btn-tag btn-tag-dark btn-tag-rounded m-l-5 top-btn" do
+                              Ver ejemplo
+                            = link_to new_dashboard_delireverable_delireverable_user_path(deliv), class: "btn btn-tag btn-tag-light btn-tag-rounded m-l-5" do
+                              Editar entregable
                         .clearfix
                 - else
                   %h4.text-complete

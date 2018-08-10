@@ -6,10 +6,10 @@
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
-          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+          .col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
             %h2.text-white 
               Tus mensajes
-          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+          .col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
               Asunto:
             %h3.m-b-20.text-white
@@ -56,8 +56,9 @@
                   .form-group
                     = f.check_box :close_ticket, {class: "double-sized-checkbox", checked: Ticket.find_by(element_id: conversation.id, category: 0 ).closed}, true, false
                     = f.label :close_ticket, 'Cerrar ticket de esta conversación', class: "m-t-20 m-b-20 zoomed-checkbox"
-              = f.submit "Responder", class: "btn-danger btn pull-right", id:"i_submit"
-              .clearfix
+              .cell-center-div.respond-btn-m
+                = f.submit "Responder", class: "btn-danger btn pull-right", id:"i_submit"
+                .clearfix
     :javascript
       document.getElementById('last').scrollIntoView(true );
       function validar() {

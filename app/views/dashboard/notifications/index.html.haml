@@ -6,10 +6,10 @@
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
-          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+          .col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
             %h2.text-white 
               Notificaciones
-          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+          .col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
               =current_user.mentor? ? '' : '¿Qué hay de nuevo?'
             %p.m-b-25.text-white
@@ -20,7 +20,7 @@
   .row
     .col-sm-12
       .panel.panel-transparent
-        .panel-heading.text-right
+        .panel-heading.text-right.p-t-0
           .panel-title
             = form_tag(mark_as_read_dashboard_notifications_path)do
               %button.btn.btn-primary.m-b-10.btn-xs{:type => "submit"}

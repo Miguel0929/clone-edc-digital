@@ -40,10 +40,10 @@
                 %a.collapsed.b-b.b-grey.p-b-15{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseOne"} 
                   .text_ultimos_avances 
                     Tus últimos avances
-                    %i.fa.fa-circle.opacity1
-                    %i.fa.fa-circle.opacity2
-                    %i.fa.fa-circle.opacity3
-                    %i.fa.fa-circle.opacity4
+                    %i.fa.fa-circle.opacity1.cell-none
+                    %i.fa.fa-circle.opacity2.cell-none
+                    %i.fa.fa-circle.opacity3.cell-none
+                    %i.fa.fa-circle.opacity4.cell-none
             #collapseOne.panel-collapse.collapse
               .panel-body.p-t-0
                 - current_user.get_update_move.each do |stat|
@@ -125,7 +125,7 @@
                                     -elsif program.tipo.nil?
                                       Emprendimiento     
                                   = truncate(program.name, length: 50, separator: ' ')
-                                  %small.pull-right.p-t-5{style: "font-size: 12px"}#{program.level.capitalize unless program.level.nil?} 
+                                  %small.pull-right.p-t-5.slaptop-none{style: "font-size: 12px"}#{program.level.capitalize unless program.level.nil?} 
                             - stats = @current_user.program_stats.find_by(program_id: program)
                             - seen_progress = @current_user.percentage_content_visited_for(program)
                             - answered_progress = @current_user.overall_percentage_answered_for(program)
@@ -177,7 +177,7 @@
                                             = "Comenzar"    
                                             %i.fa.fa-angle-double-right.font-size-play
                                   .panel-collapse.collapse.row{:id => "collapsee#{program.id}"}
-                                    .panel-body.m-t-3
+                                    .panel-body.m-t-3.cell-pt15
                                       .text-color-dificultad.bold
                                         - if program.level == "basico"
                                           Basico

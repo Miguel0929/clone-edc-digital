@@ -39,15 +39,15 @@
                 .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.overall_percentage_answered_for(@program)}%"}
           .col-sm-6.col-md-6
             .pull-left
-              %span.m-r-20{:style => "color: #48B0F7;"}
+              %span.m-r-20.tablet-down-block{:style => "color: #48B0F7;"}
                 %i.fa.fa-edit
                 Curso no contestado
-              %span{:style => "color: #b1d3eb;"}
+              %span.tablet-down-block.tablet-down-mb20{:style => "color: #b1d3eb;"}
                 %i.fa.fa-eye
                 #{@current_user.percentage_content_visited_for(@program)}% visto
             .clearfix
           .col-sm-6.col-md-6.p-b-10
-            .pull-right
+            .pull-right.cell-none
               %span.pull-left.m-r-10{:style => "color:#dddddd"}
                 Califica este curso:
               %span.pull-right.rating
@@ -59,19 +59,19 @@
                 .progress-bar.progress-bar-complete-dark{:style => "width:#{@current_user.overall_percentage_answered_for(@program)}%"}
           .col-sm-6.col-md-6
             .pull-left
-              %span.m-r-20{:style => "color: #48B0F7;"}
+              %span.m-r-20.tablet-down-block{:style => "color: #48B0F7;"}
                 %i.fa.fa-edit
                 #{@current_user.overall_percentage_answered_for(@program)}% contestado
-              %span.m-r-20{:style => "color: #b1d3eb;"}
+              %span.m-r-20.tablet-down-block{:style => "color: #b1d3eb;"}
                 %i.fa.fa-eye
                 #{@current_user.percentage_content_visited_for(@program)}% visto
-              %span{:style => "color:#dddddd"}
+              %span.tablet-down-block.tablet-down-mb20{:style => "color:#dddddd"}
                 %i.fa.fa-flask
                 Nivel 
                 = @program.level == 'basico' ? "básico" : @program.level
             .clearfix
           .col-sm-6.col-md-6.p-b-10
-            .pull-right
+            .pull-right.cell-none
               %span.pull-left.m-r-10{:style => "color:#dddddd"}
                 Califica este curso:
               %span.pull-right.rating
@@ -155,18 +155,19 @@
                   .panel-heading.p-b-0{:role => "tab", :id=>"heading_#{chapter.id}"}
                     %h4.panel-title
                       %a{"aria-controls" => "collapse_#{chapter.id}", "aria-expanded" => "false", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse_#{chapter.id}"}
-                        .col-xs-6
+                        .col-xs-12.col-md-6.tablet-down-mb10
                           = "#{chapter.name} "
-                        .col-xs-5
-                        - if chapter_progress[0] == "complete"
-                          %span.label{class: "label-success"}
-                            Módulo completo
-                        - elsif chapter_progress[0] == "progress"
-                          %span.label{class: "label-warning"}
-                            Módulo en progreso
-                        - else
-                          %span.label{class: "label-master"}
-                            Módulo no iniciado
+                        .col-xs-12.col-md-5.tablet-down-mb5
+                          .p-b-5
+                            - if chapter_progress[0] == "complete"
+                              %span.label{class: "label-success"}
+                                Módulo completo
+                            - elsif chapter_progress[0] == "progress"
+                              %span.label{class: "label-warning"}
+                                Módulo en progreso
+                            - else
+                              %span.label{class: "label-master"}
+                                Módulo no iniciado
                     %p.subtitle-module-text.p-l-15
                       Porcentaje contestado:
                       %span
@@ -184,7 +185,7 @@
                         %tbody
                           - chapter.chapter_contents.each do |content|
                             %tr.odd.gradeX
-                              %td{style: "width: 5%;"}
+                              %td.cell-none{style: "width: 5%;"}
                                 = link_to dashboard_chapter_content_path(content), class: "btn btn-rounded redirector" do
                                   - if content.coursable_type == 'Lesson'
                                     %i.fa.fa-youtube-play
@@ -193,7 +194,7 @@
                                   - elsif content.coursable_type == 'Chapter'
                                     %i.fa.fa-book     
 
-                              %td{style: "width: 60%;"}
+                              %td.cell-pb20{style: "width: 60%;"}
                                 - if content.coursable_type == 'Lesson'
                                   = link_to content.model.identifier, dashboard_chapter_content_path(content), class: "pump-link"
                                 - elsif content.coursable_type == 'Question'
@@ -203,18 +204,18 @@
                                   
                               %td
                                 - if content.coursable_type == 'Lesson'
-                                  %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master m-t-10' : 'label-success p-r-17 p-l-17 m-t-10'}"}
+                                  .label.cell-block.cell-mt0{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master m-t-10' : 'label-success p-r-17 p-l-17 m-t-10'}"}
                                     = current_user.trackers.find_by(chapter_content: content).nil? ? 'No visto' : 'Visto'
                                 - elsif content.coursable_type == 'Question'
-                                  %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master m-r-10' : 'label-success p-r-17 p-l-17 m-r-10'}"}
+                                  .label.cell-block.cell-mt0{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master m-r-10' : 'label-success p-r-17 p-l-17 m-r-10'}"}
                                     = current_user.trackers.find_by(chapter_content: content).nil? ? 'No visto' : 'Visto'
-                                  %span.label{class: "#{current_user.has_answer_question?(content.model) ? 'label-info p-r-17 p-l-17 m-t-20' : 'label-master m-t-20'}"}
+                                  .label.cell-block.cell-mt10{class: "#{current_user.has_answer_question?(content.model) ? 'label-info p-r-17 p-l-17 m-t-20' : 'label-master m-t-20'}"}
                                     = current_user.has_answer_question?(content.model) ? 'Contestado' : 'No contestado'
                                 - elsif content.coursable_type == 'Chapter'
-                                  %span.label{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master m-r-10' : 'label-success p-r-17 p-l-17 m-r-10'}"}
+                                  .label.cell-block.cell-mt0{class: "#{current_user.trackers.find_by(chapter_content: content).nil? ? 'label-master m-r-10' : 'label-success p-r-17 p-l-17 m-r-10'}"}
                                     = current_user.trackers.find_by(chapter_content: content).nil? ? 'No visto' : 'Visto'
                                   - if content.model.questions_count > 0  
-                                    %span.label{class: "#{current_user.answers_for(content.model).count == content.model.questions_count ? 'label-info p-r-17 p-l-17 m-t-20' : 'label-master m-t-20'}"}
+                                    .label.cell-block.cell-mt10{class: "#{current_user.answers_for(content.model).count == content.model.questions_count ? 'label-info p-r-17 p-l-17 m-t-20' : 'label-master m-t-20'}"}
                                       = current_user.answers_for(content.model).count == content.model.questions_count ? 'Contestado' : 'No contestado'            
 
 :javascript

@@ -6,7 +6,7 @@
 		.container-fluid
 			.md-p-l-20.md-p-r-20.xs-no-padding
 				.row.col-md-12
-					.col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+					.col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
 						%h2.text-white 
 							Glosario de EDC Digital
 						- if current_user.admin?
@@ -14,7 +14,7 @@
 								%button.btn.btn-tag.btn-tag-light.btn-tag-rounded.m-r-20
 									%i.fa.fa-plus-circle
 									Agregar término al vocabulario
-					.col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+					.col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
 						%h5.text-white
 							Expande tu vocabulario
 						%p.m-b-25.text-white
@@ -98,7 +98,7 @@
 				.panel-title Explora por categorías:
 			.panel-body
 				- if @categories.exists?
-					%ul.no-style.unstyled
+					%ul.no-style.unstyled.explore-fsize
 						- @categories.each do |category|
 							%li.m-b-20
 								.pull-left

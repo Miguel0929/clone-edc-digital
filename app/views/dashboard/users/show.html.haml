@@ -6,10 +6,10 @@
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
-          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+          .col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
             %h2.text-white 
               Información de perfil
-          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+          .col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
               Tus datos en un solo lugar.
             %p.m-b-25.text-white
@@ -17,54 +17,54 @@
 
 .container-fluid.container-fixed-lg
   .row
-    .col-md-6
-      %h3
-        Detalles del Alumno: #{@user.name}
-    .col-md-3
-      %h4.pull-right.m-t-18
-        = link_to dashboard_attachments_path, class: "btn btn-primary pull-right m-l-10" do
-          %span.glyphicon.glyphicon-file
-          Mis Archivos
-    .col-md-3
-      %h4.pull-right.m-t-18
+    .col-xs-12.col-md-7
+      .h-basetext.h-3.tablet-down-pl10.tablet-down-mb0
+        = (@user.first_name.nil? && @user.last_name.nil?) ? @user.email : @user.name
+    .col-xs-12.col-md-5
+      .htablet-up-rightpull.tablet-down-leftpull.m-t-10.m-b-15
         - if current_user.id == @user.id
           = link_to edit_user_registration_path, class: "btn btn-primary pull-right m-l-10" do
             %span.glyphicon.glyphicon-edit
-            Editar perfil de usuario
+            Editar perfil
+      .htablet-up-rightpull.tablet-down-leftpull.m-t-10.m-b-15
+        = link_to dashboard_attachments_path, class: "btn btn-primary pull-right m-l-10" do
+          %span.glyphicon.glyphicon-file
+          Mis Archivos
   .panel.panel-default
     .panel-body
       .row
         .col-md-2
           .share.share-other.m-t-5
             .card-content
-              - if @user.profile_picture.url.nil?
-                = image_tag('person-1-square.jpg', class: 'img-responsive')
-              - else
-                = image_tag(@user.profile_picture.url, class: 'img-responsive')
-              .card-header.clearfix
-                %h6
-                  = @user.name
-                %p.small.hint-text.m-t-5 #{@user.state}, #{@user.city}
-                %p.small.hint-text.m-t-5
-                  %span
-                    Porcentaje contestado #{@user.answered_questions_percentage} %
+              .col-xs-12.col-sm-6.col-md-12.htablet-up-pl0.htablet-up-pr0.p-b-20.cell-pt20
+                - if @user.profile_picture.url.nil?
+                  = image_tag('person-1-square.jpg', class: 'img-responsive')
+                - else
+                  = image_tag(@user.profile_picture.url, class: 'img-responsive')
+              .col-xs-12.col-sm-6.col-md-12.htablet-up-pl0.htablet-up-pr0.p-b-20
+                .card-header.clearfix
+                  %h6
+                    = @user.name
+                  %p.small.hint-text.m-t-5 
+                    #{@user.state}, #{@user.city}
+                  %p.small.hint-text.m-t-5
                     %i.fa.fa-line-chart
-                  %br
-                  %span
-                    Porcentaje de avance #{@user.content_visited_percentage} %
+                    #{@user.answered_questions_percentage} % contestado
+                  %p.small.hint-text.m-t-5
                     %i.fa.fa-line-chart
-                %p.small.hint-text.m-t-5 
-                  Ultima vez:
-                  %span
-                    #{ @user.last_time }
-                %p.small.hint-text.m-t-5 
-                  Promedio de uso:
-                  %span
-                    #{ @user.time_average.round(2) } minutos.
-                %p.small.hint-text.m-t-5 
-                  Total de uso 
-                  %span
-                    #{ @user.total_time.round(2) } minutos.
+                    #{@user.content_visited_percentage} % de avance
+                  %p.small.hint-text.m-t-5 
+                    Ultima vez:
+                    %span
+                      #{ @user.last_time }
+                  %p.small.hint-text.m-t-5 
+                    Promedio de uso:
+                    %span
+                      #{ @user.time_average.round(2) } minutos.
+                  %p.small.hint-text.m-t-5 
+                    Total de uso 
+                    %span
+                      #{ @user.total_time.round(2) } minutos.
         .col-md-10
           %table.table.resumen-table.table-striped.table-top-border.perfil-table
             %tbody
@@ -129,7 +129,7 @@
                     = program.name
                     %br
   - if current_user.id == @user.id
-    %h3
+    .h-basetext.h-3.tablet-down-pl10
       Estadísticas generales de programas inscritos
 
     .panel.panel-default
