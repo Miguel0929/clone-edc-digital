@@ -498,3 +498,6 @@ table.colored-columns td.light{
 .contenidos-cuadro img {
 	max-width: 100%;
 }
+.justificado{
+	text-align: justify;
+}
