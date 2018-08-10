@@ -394,6 +394,12 @@
                     %a{:href =>  dashboard_privacy_path} Política de privacidad
                     %span.icon-thumbnail Pr
                   %li
+                    %a{:href =>  dashboard_politicas_uso_path} Política de uso
+                    %span.icon-thumbnail Pu
+                  %li
+                    %a{:href =>  dashboard_principios_path} Principios
+                    %span.icon-thumbnail Ps    
+                  %li
                     %a{:href =>   dashboard_service_path } Confidencialidad y Propiedad
                     %span.icon-thumbnail Cp
 
@@ -534,7 +540,7 @@
         .container-fluid.container-fixed-lg.footer
           .copyright.sm-text-center
             %p.small.no-margin.pull-left.sm-pull-reset
-              %span.hint-text Copyright © 2016
+              %span.hint-text Copyright © 2018
               = succeed "." do
                 %span.font-montserrat Distrito Emprendedor
               %span.hint-text Todos los derechos reservados.
@@ -542,6 +548,10 @@
                 %a.m-l-10.m-r-10{:href => dashboard_terms_path} Términos de uso
                 |
                 %a.m-l-10.m-r-10{:href => dashboard_privacy_path } Política de Privacidad
+                |
+                %a.m-l-10.m-r-10{:href => dashboard_politicas_uso_path } Política de Uso
+                |
+                %a.m-l-10.m-r-10{:href => dashboard_principios_path } Principios
                 |
                 %a.m-l-10{:href => dashboard_service_path } Confidencialidad y Propiedad Industrial
             .clearfix
