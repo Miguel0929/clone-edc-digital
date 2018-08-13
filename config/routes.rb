@@ -198,6 +198,8 @@ Rails.application.routes.draw do
     get 'acerca-de',              to: 'welcome#index', as: :about
     get 'terminos-y-condiciones', to: 'welcome#terms', as: :terms
     get 'politica-de-privacidad', to: 'welcome#privacy', as: :privacy
+    get 'politicas-de-uso', to: 'welcome#politicas_uso', as: :politicas_uso
+    get 'principios', to: 'welcome#principios', as: :principios
     get 'politicas-privacidad', to: 'welcome#privacy_noregister', as: :privacy_noregister
     get 'ayuda',                  to: 'welcome#support', as: :support
     get 'contact_admin',          to: 'welcome#contact_admin', as: :support_admin

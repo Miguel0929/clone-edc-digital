@@ -13,6 +13,14 @@ class Dashboard::WelcomeController < ApplicationController
     add_breadcrumb "<a class='active' href='#{root_path}'>Inicio</a>".html_safe
   end
 
+  def principios
+    add_breadcrumb "<a class='active' href='#{dashboard_principios_path}'>PRINCIPIOS</a>".html_safe
+  end
+
+  def politicas_uso
+    add_breadcrumb "<a class='active' href='#{dashboard_politicas_uso_path}'>PÓLITICA DE USO</a>".html_safe
+  end    
+
   def terms
     add_breadcrumb "<a class='active' href='#{dashboard_terms_path}'>TÉRMINOS DE SERVICIO</a>".html_safe
   end
