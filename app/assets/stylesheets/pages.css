@@ -289,6 +289,10 @@ label.zoomed-checkbox {
   margin-top: 15px !important;
 }
 
+.refilables-img img {
+  width: 100%;
+}
+
 /* ********** Celulares Pequeños ********** */
 @media screen and (max-width: 320px) {
   .sm-cell {
@@ -321,6 +325,9 @@ label.zoomed-checkbox {
   .sm-cell-fsize-105{
     font-size: 10.5px;
   }
+  .refilable-input {
+    width: 200px !important;
+  }
 }
 
 /* ********** Celulares Medianos ********** */
@@ -349,6 +356,9 @@ label.zoomed-checkbox {
   .md-cell-fsize-105{
     font-size: 10.5px;
   }
+  .refilable-input {
+    width: 200px !important;
+  }
 }
 
 /* ********** Celulares Grandes ********** */
@@ -363,6 +373,9 @@ label.zoomed-checkbox {
 
 /* ********** Todos los Celulares ********** */
 @media screen and (max-width: 480px) {
+  .cell-ml0{
+    margin-left: 0px;
+  }
   .cell-mt0{
     margin-top: 0px !important;
   }
@@ -402,6 +415,9 @@ label.zoomed-checkbox {
   .cell-pb20{
     padding-bottom: 20px !important;
   }
+  .cell-pr5{
+    padding-right: 5px;
+  }
   .cell-blockbtn button, .cell-blockbtn a {
     display: block;
     margin-bottom: 5px;
@@ -432,6 +448,13 @@ label.zoomed-checkbox {
   .cell-center-div{
     display: table;
     margin: 0 auto;
+  }
+}
+
+/* ********** De Celulares Pa'Arriba ********** */
+@media screen and (min-width: 481px) {
+  .cell-up-pr5{
+    padding-right: 5px;
   }
 }
 
@@ -478,6 +501,12 @@ label.zoomed-checkbox {
   .tablet-down-pl10{
     padding-left: 10px;
   }
+  .tablet-down-pl0{
+    padding-left: 0px;
+  }
+  .tablet-down-pr0{
+    padding-right: 0px;
+  }
   .tablet-down-mb0{
     margin-bottom: 0px;
   }
@@ -505,6 +534,9 @@ label.zoomed-checkbox {
   .custom-width-alert{
     width: 95% !important;
   }
+  .p-refilable-content-box{
+    padding: 20px 20px 30px 30px;
+  }
 }
 
 /* ********** De High Tablets Pa'Arriba ********** */
@@ -525,6 +557,9 @@ label.zoomed-checkbox {
   }
   .custom-width-card{
     width: 106% !important;
+  }
+  .p-refilable-content-box{
+    padding: 20px 0px 30px 20px;
   }
 }
 

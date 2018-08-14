@@ -32,25 +32,28 @@
                   = link_to dashboard_template_refilables_path(user_id: @student) do
                     %i.fa.fa-arrow-left
                     Regresar a plantillas
-            .col-md-8
-              .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
+            .col-md-8.tablet-down-pr0.tablet-down-pl0
+              .p-refilable-content-box.sm-padding-5.sm-m-t-15
                 .p-b-15.tipografia-textos-rellenables
                   Introduce tus respuestas en el siguiente recuadro:
                 .well
-                  #refilable-content-template
+                  #refilable-content-template.refilables-img
                     = raw replace_fillable(@template.content)
                 .refilable-form
                   = form_for([:dashboard, @template, Refilable.new]) do |f|
                     = f.hidden_field :content
-                .row    
+                .row.m-l-0.m-r-0
                   - if current_user.student? || current_user.mentor?
-                    .pull-right
-                      = link_to dashboard_template_refilables_path, class: "btn btn-danger" do
-                        Cancelar
-                      %button.btn.btn-info#send-draft
-                        Guardar Borrador 
+                    .pull-right.cell-unfloat.cell-pb5
                       %button.btn.btn-primary#send-refilable
                         Enviar respuestas
+                    .pull-right.cell-unfloat.cell-pb5.cell-up-pr5
+                      %button.btn.btn-info#send-draft
+                        Guardar Borrador 
+                    .pull-right.cell-unfloat.cell-pb5.cell-up-pr5
+                      = link_to dashboard_template_refilables_path, class: "btn btn-danger" do
+                        Cancelar
+                    .clearfix
                        
 #alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
@@ -78,6 +81,12 @@
     $('.refilable-edit').editable('toggleDisabled');
     $('.refilable-edit').attr('contentEditable', true);
     $('.refilable-edit').addClass('form-control refilable-input');
+    // AGREGAR COSAS A LAS IMÁGENES DEL CONTENIDO
+    $('div.refilables-img').find('img').css({'width': '', 'height': ''});
+    var viewportWidth = $(window).width();
+    if(viewportWidth < 768) {
+      $('div.refilables-img').find('img').attr('data-action', 'zoom');
+    }
 
     $('#send-refilable').click(function() {
       swal({
@@ -128,3 +137,5 @@
     });
 
   });
+
+= javascript_include_tag '/javascripts/lib/enhance.js', 'data-turbolinks-track' => false
