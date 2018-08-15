@@ -376,6 +376,9 @@ label.zoomed-checkbox {
   .cell-ml0{
     margin-left: 0px;
   }
+  .cell-ml5{
+    margin-left: 5px;
+  }
   .cell-mt0{
     margin-top: 0px !important;
   }
@@ -453,6 +456,9 @@ label.zoomed-checkbox {
 
 /* ********** De Celulares Pa'Arriba ********** */
 @media screen and (min-width: 481px) {
+  .cell-up-ml5{
+    margin-left: 5px;
+  }
   .cell-up-pr5{
     padding-right: 5px;
   }
@@ -490,6 +496,16 @@ label.zoomed-checkbox {
   .question-btn-padding{
     padding-top: 0px !important;
     padding-bottom: 30px !important;
+  }
+  .td-program-labels {
+    min-width: 350px;
+  }
+  .td-program-labels .label { 
+    float: left; 
+    margin-right: 5px;
+  }
+  .td-program-labels .label:nth-child(6) { 
+    clear: left; 
   }
 }
 
@@ -669,3 +685,17 @@ label.zoomed-checkbox {
   touch-action: none;
 }
 
+/* ********** Table Responsive ********** */
+@media screen and (max-width: 1150px) and (min-width: 768px) {
+  .table-responsive .table {
+    width: 1100px;
+  }
+  .table-responsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -ms-overflow-style: -ms-autohiding-scrollbar;
+      border: 1px solid #ddd;
+  }
+}
