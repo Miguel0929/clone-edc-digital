@@ -415,6 +415,9 @@ label.zoomed-checkbox {
   .cell-pb10{
     padding-bottom: 10px;
   }
+  .cell-pb15{
+    padding-bottom: 15px;
+  }
   .cell-pb20{
     padding-bottom: 20px !important;
   }
@@ -436,6 +439,9 @@ label.zoomed-checkbox {
   }
   .cell-none {
     display: none;
+  }
+  .cell-w100p{
+    min-width: 100%;
   }
   .viewport-fix .modal-content{
     width: 95vw;
