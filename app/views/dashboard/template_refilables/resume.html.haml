@@ -46,7 +46,7 @@
                       %th.text-center Puntaje            
                   %tbody
                     - total_obtenido = 0; total_puntaje = 0
-                    - @rubricas.each do |rubrica|
+                    - @rubricas.order(:position).each do |rubrica|
                       - user_eval = rubrica.user_evaluation_refilables.find_by(user: current_user, refilable_id: @refilable.id)
                       - unless user_eval.nil?
                         - obtenido = user_eval.puntaje

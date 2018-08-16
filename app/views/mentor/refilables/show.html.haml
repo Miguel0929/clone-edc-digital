@@ -80,7 +80,7 @@
                     %h3 Evaluar
                     - if template_refilable.evaluation_refilables.count > 0      
                       %ul.nav.nav-tabs.nav-tabs-fillup.nav-tabs-separator
-                        - template_refilable.evaluation_refilables.each_with_index do |refil, index|
+                        - template_refilable.evaluation_refilables.order(:position).each_with_index do |refil, index|
                           %li.litabs{:style => "width:30px;", :class => "#{index==0 ? 'active' : ''}"}
                             %a.p-l-11.l-h-5.atabs.cursor{:id => "atab#{index}"}
                               = index + 1 
@@ -90,7 +90,7 @@
                         %input{type: 'hidden', name: "template_id", value: template_refilable.id, id: "program_id"}
                         %input{type: 'hidden', name: "refilable_id", value: @refilable.id, id: "program_id"}
                           %div
-                            - template_refilable.evaluation_refilables.each_with_index do |evaluation, index|
+                            - template_refilable.evaluation_refilables.order(:position).each_with_index do |evaluation, index|
                               .contenedor.padding-20{:id => "tabulador#{index}", :class => "#{index==0 ? 'show' : 'hide'}"}
                                 .row.row-same-height
                                   %h5
