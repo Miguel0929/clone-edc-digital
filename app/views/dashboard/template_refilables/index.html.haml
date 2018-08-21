@@ -58,8 +58,9 @@
                     - user_refilable = refilable.refilables.where(user: @this_user, draft: true).last
                     .card.social-card.share.m-b-30{"data-social" => "item"}
                       .card-header{style: "border-bottom: none"}
-                        %h5.text-complete.pull-left.fs-12
-                          No contestado
+                        - answerable = @this_user.refilable_permitted?(refilable)
+                        %h5.pull-left.fs-12{class: answerable ? "text-complete" : "text-primary"}
+                          #{answerable ? "No contestado" : "Bloqueado"}
                         .pull-right.small.hint-text
                           = l refilable.updated_at, format: :short_no_year
                           %i.fa.fa-calendar-o

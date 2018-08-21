@@ -733,6 +733,15 @@ class User < ActiveRecord::Base
     total/c_template_refilables rescue 0
   end
 
+  def refilable_permitted?(template_refilable_id)
+    program = TemplateRefilable.find(template_refilable_id).program
+    if program.nil?
+      true
+    else
+      self.integral_percentage_progress_for(program.id) > 95.0 && self.integral_percentage_visited_for(program.id) > 95.0
+    end
+  end
+
   private
 
   def set_origin

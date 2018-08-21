@@ -54,7 +54,7 @@
                         = link_to attachment.display_name, attachment.file.url, target: :_blank
                       %th.normal-weight
                         = attachment.humanize_document_type
-                      %th.normal-weight
+                      %th.normal-weight.td-contained-text
                         = attachment.label
                       %th.normal-weight
                         = l attachment.created_at, format: :special
@@ -103,7 +103,7 @@
                         = link_to attachment.display_name, attachment.file.url, target: :_blank
                       %th.normal-weight
                         = attachment.humanize_document_type
-                      %th.normal-weight
+                      %th.normal-weight.td-contained-text
                         = attachment.label
                       %th.normal-weight
                         = l attachment.created_at, format: :special
@@ -140,7 +140,7 @@
                         = link_to attachment.display_name, attachment.file.url, target: :_blank
                       %th.normal-weight
                         = attachment.humanize_document_type
-                      %th.normal-weight
+                      %th.normal-weight.td-contained-text
                         = attachment.label
                       %th.normal-weight
                         = l attachment.created_at, format: :special
@@ -167,22 +167,28 @@
                   %th
                     Compartido por
               %tbody
-                - if current_user.group.shared_group_attachments.empty?
-                  %tr
-                    %td{colspan: 6}
-                      %span{style: "color: red;"} No tienes archivos de grupo compartidos por el momento
-                - else
-                  - current_user.group.shared_group_attachments.each do |attachment|
-                    %tr
-                      %th.normal-weight
-                        = link_to attachment.display_name, attachment.file.url, target: :_blank
-                      %th.normal-weight
-                        = attachment.humanize_document_type
-                      %th.normal-weight
-                        = attachment.label
-                      %th.normal-weight
-                        = l attachment.created_at, format: :special
-                      %th.normal-weight
-                        = l attachment.updated_at, format: :special
-                      %th.normal-weight
-                        = attachment.owner.name
+                /- if current_user.group.shared_group_attachments.empty?
+                /  %tr
+                /    %td{colspan: 6}
+                /      %span{style: "color: red;"} No tienes archivos de grupo compartidos por el momento
+                /- else
+                /  - current_user.group.shared_group_attachments.each do |attachment|
+                %tr
+                  %th.normal-weight
+                    /= link_to attachment.display_name, attachment.file.url, target: :_blank
+                    Teaser_de_Inversion.pptx
+                  %th.normal-weight
+                    /= attachment.humanize_document_type
+                    Documento Office
+                  %th.normal-weight.td-contained-text
+                    /= attachment.label
+                    Este documento te permitirá plasmar de manera general, práctica y concisa tu proyecto con los puntos más importantes, aquellos que compartirías ante posibles inversionistas y que son relevantes para conocer más sobre el mismo. Apóyate de este documento para tener contacto con el ecosistema emprendedor.
+                  %th.normal-weight
+                    /= l attachment.created_at, format: :special
+                    15 diciembre 2017, 16:24 PM
+                  %th.normal-weight
+                    /= l attachment.updated_at, format: :special
+                    27 abril 2018, 16:51 PM
+                  %th.normal-weight
+                    /= attachment.owner.name
+                    Daniel Rodríguez
