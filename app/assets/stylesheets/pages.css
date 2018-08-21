@@ -506,12 +506,24 @@ label.zoomed-checkbox {
   .td-program-labels {
     min-width: 350px;
   }
-  .td-program-labels .label { 
+  .td-program-labels-wide {
+    min-width: 420px;
+    white-space: normal !important;
+  } 
+  .td-program-labels, .td-program-labels-wide .label { 
     float: left; 
     margin-right: 5px;
   }
-  .td-program-labels .label:nth-child(6) { 
+  .td-program-labels, .td-program-labels-wide .label:nth-child(6) { 
     clear: left; 
+  }
+  .td-contained-text {
+    min-width: 450px;
+    white-space: normal !important;
+  }
+  .h-group-title {
+    font-size: 22px;
+    line-height: 30px;
   }
 }
 
@@ -559,6 +571,9 @@ label.zoomed-checkbox {
   .p-refilable-content-box{
     padding: 20px 20px 30px 30px;
   }
+  .widget-8, .widget-9, .widget-10{
+    max-height: 150px;
+  }
 }
 
 /* ********** De High Tablets Pa'Arriba ********** */
@@ -589,6 +604,10 @@ label.zoomed-checkbox {
 @media screen and (min-width: 768px) {
   .tablet-up-p30{
     padding: 30px;
+  }
+  .h-group-title {
+    font-size: 24px;
+    line-height: 40px;
   }
 }
 
