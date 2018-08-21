@@ -458,6 +458,10 @@ label.zoomed-checkbox {
     display: table;
     margin: 0 auto;
   }
+  .h-group-title {
+    font-size: 22px;
+    line-height: 30px;
+  }
 }
 
 /* ********** De Celulares Pa'Arriba ********** */
@@ -520,10 +524,6 @@ label.zoomed-checkbox {
   .td-contained-text {
     min-width: 450px;
     white-space: normal !important;
-  }
-  .h-group-title {
-    font-size: 22px;
-    line-height: 30px;
   }
 }
 
@@ -598,16 +598,16 @@ label.zoomed-checkbox {
   .p-refilable-content-box{
     padding: 20px 0px 30px 20px;
   }
+  .h-group-title {
+    font-size: 24px;
+    line-height: 30px;
+  }
 }
 
 /* ********** De Tablets Pa'Arriba ********** */
 @media screen and (min-width: 768px) {
   .tablet-up-p30{
     padding: 30px;
-  }
-  .h-group-title {
-    font-size: 24px;
-    line-height: 40px;
   }
 }
 
@@ -650,6 +650,10 @@ label.zoomed-checkbox {
   .h-3{
     font-size: 24px;
     line-height: 35.88px;
+  }
+  .h-group-title {
+    font-size: 18px;
+    line-height: 30px;
   }
 }
 
