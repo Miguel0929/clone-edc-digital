@@ -10,7 +10,7 @@
           .col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
             %h5.text-white.m-b-0 
               Evaluaciones del grupo
-            %h2.text-white.m-t-0
+            .h-group-title.text-white.m-t-0
               #{@group.name}
           .col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
@@ -82,11 +82,11 @@
         .panel.panel-default
           .panel-body
             .row.m-b-20
-              .col-sm-6
+              .col-sm-6.col-xs-12
                 %h4
                   Lista de alumnos
-              .col-sm-6
-                .pull-right.m-t-10
+              .col-sm-6.col-xs-12
+                .pull-right.m-t-10.cell-unfloat
                   %input#group_student.form-control.pull-right{:placeholder => "Buscar", :type => "text"}/ 
 
             .table-responsive   
@@ -125,7 +125,7 @@
                             %i.fa.fa-edit
                             %span Evaluaciones contestadas:
                             %strong #{progreso}%
-                        %td
+                        %td.td-program-labels-wide
                           %ul.list-inline.no-style.unstyled
                             - @quizzes.each_with_index do |quiz, index|
                               %li 
@@ -145,11 +145,11 @@
         .panel.panel-default
           .panel-body
             .row.m-b-20
-              .col-sm-6
+              .col-sm-6.col-xs-12
                 %h4
                   Lista de mentores
-              .col-sm-6
-                .pull-right.m-t-10
+              .col-sm-6.col-xs-12
+                .pull-right.m-t-10.cell-unfloat
                   %input#group_student.form-control.pull-right{:placeholder => "Buscar", :type => "text"}/ 
 
             .table-responsive   
@@ -188,7 +188,7 @@
                             %i.fa.fa-edit
                             %span Evaluaciones contestadas:
                             %strong #{progreso}%
-                        %td
+                        %td.td-program-labels-wide
                           %ul.list-inline.no-style.unstyled
                             - @quizzes.each_with_index do |quiz, index|
                               %li 

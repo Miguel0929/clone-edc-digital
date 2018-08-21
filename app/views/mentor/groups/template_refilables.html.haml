@@ -10,12 +10,12 @@
           .col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
             %h5.text-white.m-b-0 
               Detalle de grupo
-            %h2.text-white.m-t-0
+            .h-group-title.text-white.m-t-0
               #{@group.name}
           .col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
               Monitorea el avance de los grupos a los que estás vinculado, así como el avance de cada alumno. 
-            = link_to  mentor_groups_path, class: 'btn btn-sm btn-complete btn-cons m-b-10' do
+            = link_to mentor_groups_path, class: 'btn btn-sm btn-complete btn-cons m-b-10' do
               %i.fa.fa-reply
               %span.bold Regresar a mis grupos
 
@@ -81,11 +81,11 @@
         .panel.panel-default
           .panel-body
             .row.m-b-20
-              .col-sm-6
+              .col-sm-6.col-xs-12
                 %h4
                   Lista de alumnos
-              .col-sm-6
-                .pull-right.m-t-10
+              .col-sm-6.col-xs-12
+                .pull-right.m-t-10.cell-unfloat
                   %input#group_student.form-control{:placeholder => "Buscar", :type => "text"}/ 
             .table-responsive   
               %table.table.table-striped
@@ -125,7 +125,7 @@
                             %i.fa.fa-edit
                             %span Plantillas contestadas:
                             %strong #{progreso}%
-                        %td
+                        %td.td-program-labels-wide
                           %ul.list-inline.no-style.unstyled
                             - @template_refilables.each_with_index do |refilable, index|
                               %li
@@ -151,11 +151,11 @@
         .panel.panel-default
           .panel-body
             .row.m-b-20
-              .col-sm-6
+              .col-sm-6.col-xs-12
                 %h4
                   Lista de mentores
-              .col-sm-6
-                .pull-right.m-t-10
+              .col-sm-6.col-xs-12
+                .pull-right.m-t-10.cell-unfloat
                   %input#group_student.form-control{:placeholder => "Buscar", :type => "text"}/ 
             .table-responsive   
               %table.table.table-striped
@@ -195,7 +195,7 @@
                             %i.fa.fa-edit
                             %span Plantillas contestadas:
                             %strong #{progreso}%
-                        %td
+                        %td.td-program-labels-wide
                           %ul.list-inline.no-style.unstyled
                             - @template_refilables.each_with_index do |refilable, index|
                               %li
