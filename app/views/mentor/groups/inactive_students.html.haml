@@ -35,4 +35,7 @@
                   %li.inline
                     = l user.created_at, format: :special
 
-
+:javascript
+  $(document).on('turbolinks:load', function(){
+    $('.dataTables_paginate').css({'padding-left': '15px', 'padding-right': '15px'});
+  });
