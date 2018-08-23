@@ -2955,8 +2955,15 @@ h6.cabecera_card-programas {
 .cabecera_card-programas{
   padding: 15px 15px 12px;
 }
-.card_height-programas{
-  height: 210px;
+@media screen and (min-width: 920px) {
+  .card_height-programas{
+    height: 210px;
+  }
+}
+@media screen and (max-width: 921px) {
+  .card_height-programas{
+    height: 225px;
+  }
 }
 .color_naranja{
   background-color: #ED9C54;

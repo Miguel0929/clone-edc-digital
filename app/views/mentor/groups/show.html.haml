@@ -9,7 +9,7 @@
           .col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
             %h5.text-white.m-b-0 
               Detalle de grupo
-            %h2.text-white.m-t-0
+            .h-group-title.text-white.m-t-0
               #{@group.name}
               - if @group.trial
                 .label.label-success Trial
@@ -132,12 +132,7 @@
                   - @programs.each_with_index do |program, index|
                     = link_to mentor_program_details_path(group_id: @group, program_id: program) do
                       .label.program-labels{"data-toggle": "tooltip", "data-original-title": "#{program.name}"}
-                        = !program.short_name.nil? ? program.short_name : "P-#{index}"
-                .pull-right.hidden-xs
-                  = link_to codes_mentor_group_path(@group, format: :xlsx), class: "btn btn-success" do
-                    = "Códigos de activación (#{@group.inactive_students.count} inactivos)"
-                    %i.fa.fa-file-excel-o
-                .clearfix              
+                        = !program.short_name.nil? ? program.short_name : "P-#{index}"          
             .row.m-b-10
               .col-md-12
                 %h5
@@ -149,12 +144,7 @@
                     %span.m-l-5.text-success
                       #{ (index != 0) ? "/ " : ""} 
                     %span.m-l-5
-                      #{user.name}
-            .row.m-b-10
-              %center.visible-xs.p-t-10
-                = link_to codes_mentor_group_path(@group, format: :xlsx), class: "btn btn-success" do
-                  = "Códigos de activación (#{@group.inactive_students.count})"
-                  %i.fa.fa-file-excel-o          
+                      #{user.name}      
                      
 
 .container-fluid.container-fixed-lg
@@ -167,13 +157,17 @@
               .col-xs-12
                 %h4
                   Lista de alumnos
-              .col-xs-6
-                .pull-left.m-t-10
+              .col-xs-12.col-sm-4
+                .m-t-10
                   %input#group_student.form-control{:placeholder => "Buscar", :type => "text" }/
-              .col-xs-6     
-                .pull-right.m-t-10    
+              .col-xs-12.col-sm-8
+                .pull-right.m-t-10.cell-up-ml5.cell-ml5   
                   = link_to mentor_group_path(@group, format: :xlsx), class: "btn btn-success" do
                     Exportar xls
+                    %i.fa.fa-file-excel-o
+                .pull-right.m-t-10
+                  = link_to codes_mentor_group_path(@group, format: :xlsx), class: "btn btn-success" do
+                    = "Códigos de activación (#{@group.inactive_students.count})"
                     %i.fa.fa-file-excel-o
                 .clearfix       
 
@@ -214,7 +208,7 @@
                             %i.fa.fa-eye
                             %span Contenido visto:
                             %strong #{student.user_seen.ceil}%
-                        %td
+                        %td.td-program-labels-wide
                           %ul.list-inline.no-style.unstyled
                             - @programs.each_with_index do |program, index|
                               %li
@@ -341,7 +335,7 @@
                       %i.fa.fa-eye
                       %span Contenido visto:
                       %strong #{mentor.user_seen.ceil}%
-                  %td
+                  %td.td-program-labels-wide
                     %ul.list-inline.no-style.unstyled
                       - @programs.each_with_index do |program, index|
                         %li

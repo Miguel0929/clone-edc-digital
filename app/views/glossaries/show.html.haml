@@ -6,28 +6,21 @@
 		.container-fluid
 			.md-p-l-20.md-p-r-20.xs-no-padding
 				.row.col-md-12
-					.col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+					.col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
 						%h2.text-white 
 							Glosario de EDC Digital
-					.col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+					.col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
 						.panel-body
 							= form_tag(glossaries_path, method: :get) do
-								.form-group.form-group-default.col-xs-9
+								.form-group.form-group-default.col-sm-9.col-xs-12
 									= label_tag nil, 'Realiza una búsqueda', class: 'highlight'
 									= text_field_tag :term, params[:term], class: "form-control notification-message", value: @glossary.term
-								.form-group.col-xs-2
+								.form-group.col-sm-2.col-xs-12.cell-down-pl0
 									= submit_tag 'Buscar', class: "btn btn-lg btn-success show-notification", :style => 'height:54px;'
 
 .container-fluid.container-fixed-lg
 	.widget-11-2.panel.no-border
 		.padding-25
-			.pull-left
-				%h3.text-success 
-					= @glossary.term
-				%h5.no-margin
-					Grupo: 
-					- category = GlossaryCategory.find(@glossary.glossary_category_id)
-					= link_to category.title, glossary_category_path(category)
 			.pull-right.p-r-20
 				%h6
 					- if current_user.admin?
@@ -43,13 +36,21 @@
 					= link_to glossary_categories_path do
 						%i.fa.fa-chevron-circle-left
 						Regresar
+			.pull-left
+				%h3.text-success 
+					= @glossary.term
+				%h5.no-margin
+					Grupo: 
+					- category = GlossaryCategory.find(@glossary.glossary_category_id)
+					= link_to category.title, glossary_category_path(category)
 			.clearfix
 		.padding-25
 			.row
-				.col-sm-6
+				%div{class: @glossary.image.file.nil? ? 'col-sm-12' : 'col-sm-6'}
 					%h5.no-margin 
 						Definición:
 					%p.m-t-15
-						= raw @glossary.definition
-				.col-sm-6
-					= image_tag(@glossary.image, height: '350')
+						.scrolling
+							= raw @glossary.definition
+				%div{class: @glossary.image.file.nil? ? 'col-sm-12' : 'col-sm-6'}
+					= image_tag(@glossary.image, width: '100%')

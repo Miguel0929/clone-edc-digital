@@ -1,6 +1,7 @@
 - content_for :title  do
   Mis plantillas - EDC Digital
 
+- answerable = current_user.mentor? || current_user.refilable_permitted?(@template)
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
     .container-fluid
@@ -15,6 +16,18 @@
             %h3.m-b-20.text-white
               = @template.name
 
+- if !answerable
+  .container-fluid.container-fixed-lg
+    .alert.alert-info
+      %button.close{"data-dismiss": "alert"}
+      .pull-left
+        Debes completar el programa 
+        "
+        %u
+          = link_to @template.program.name, dashboard_program_path(@template.program)
+        " antes de contestar esta plantilla.
+      .clearfix
+
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
@@ -28,12 +41,12 @@
                   = @template.name
                 %p
                   = @template.description
-            .col-md-8
-              .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
+            .col-md-8.tablet-down-pr0.tablet-down-pl0
+              .p-refilable-content-box.sm-padding-5.sm-m-t-15
                 .tipografia-textos-rellenables.p-b-15
                   Edita tus respuestas en el siguiente recuadro:
                 .well
-                  #refilable-content-template
+                  #refilable-content-template.refilables-img
                     = raw replace_fillable(@refilable.content)
                 #refilable-form
                   -#= form_for([:dashboard, @template, @refilable]) do |f|
@@ -42,14 +55,26 @@
                     %input{type: :hidden, id: :refilable_content, name: "refilable[content]"}
                     - if @refilable.draft
                       %input{type: :hidden, name: "is-draft", value: "true"}
+                .row.m-l-0.m-r-0
+                  - if !current_user.admin? && answerable
+                    .pull-right.cell-unfloat.cell-pb5
+                      %button.btn.btn-primary#send-refilable
+                        Actualizar respuestas
+                    .pull-right.cell-unfloat.cell-pb5.cell-up-pr5
+                      %button.btn.btn-info#send-draft
+                        Guardar Borrador 
+                  - else 
+                    .pull-right.cell-unfloat.cell-pb5
+                      %button.btn.btn-primary#send-refilable{disabled: "true"}
+                        Enviar respuestas
+                    .pull-right.cell-unfloat.cell-pb5.cell-up-pr5
+                      %button.btn.btn-info#send-draft{disabled: "true"}
+                        Guardar Borrador 
+                  .pull-right.cell-unfloat.cell-pb5.cell-up-pr5
+                    = link_to dashboard_template_refilables_path, class: "btn btn-danger" do
+                      Cancelar
+                  .clearfix
 
-                .pull-right
-                  = link_to dashboard_template_refilables_path, class: "btn btn-danger" do
-                    Cancelar 
-                  %button.btn.btn-info#send-draft
-                    Guardar Borrador   
-                  %button.btn.btn-primary#send-refilable
-                    Actualizar respuestas
 #alert-ra.pgn-wrapper{"data-position" => "top-right", "style"=>"display:none;"}
   .pgn.push-on-sidebar-open.pgn-simple
     #al.alert.alert-danger
@@ -77,6 +102,12 @@
     $('.refilable-edit').attr('contentEditable', true);
     $('.refilable-edit').removeAttr('style');
     $('.refilable-edit').addClass('form-control refilable-input');
+    // AGREGAR COSAS A LAS IMÁGENES DEL CONTENIDO
+    $('div.refilables-img').find('img').css({'width': '', 'height': ''});
+    var viewportWidth = $(window).width();
+    if(viewportWidth < 768) {
+      $('div.refilables-img').find('img').attr('data-action', 'zoom');
+    }
 
     var  beforeInputs = [];
     $('.refilable-edit').each(function() {
@@ -152,3 +183,5 @@
     });
 
   });
+
+= javascript_include_tag '/javascripts/lib/enhance.js', 'data-turbolinks-track' => false

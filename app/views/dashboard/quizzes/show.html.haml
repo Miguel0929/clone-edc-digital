@@ -34,31 +34,32 @@
         .panel-body
           .panel.panel-default
             .panel-body
-              %table.table.table-hover
-                %thead
+              .table-responsive.cell-down-mt30
+                %table.table.table-hover
+                  %thead
+                    %tr
+                      %th{width: "35%"} Pregunta
+                      %th{width: "30%"} Respuesta correcta
+                      %th.text-center{width: "20%"} Evaluación
+                      %th.text-center Valor
+                      %th.text-center Obtenido
+                  - @quiz.quiz_questions.each do |question|
+                    %tr
+                      %td.p-b-20
+                        %span
+                          = question.question_text
+                        - answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: current_user.id)
+                      %td.p-b-20
+                        = QuizAnswer.respuesta(question.id, current_user.id)
+                      %td.text-center.p-b-20
+                        = answer.nil? ? "Sin contestar" : QuizAnswer.proporcion(question.id, current_user.id).html_safe
+                      %td.text-center
+                        = answer.nil? ? "No hay puntos" : answer.quiz_question.points
+                      %td.text-center
+                        %strong
+                          = points_quiz_question(question, current_user)
                   %tr
-                    %th{width: "35%"} Pregunta
-                    %th{width: "30%"} Respuesta correcta
-                    %th.text-center{width: "20%"} Evaluación
-                    %th.text-center Valor
-                    %th.text-center Obtenido
-                - @quiz.quiz_questions.each do |question|
-                  %tr
-                    %td.p-b-20
-                      %span
-                        = question.question_text
-                      - answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: current_user.id)
-                    %td.p-b-20
-                      = QuizAnswer.respuesta(question.id, current_user.id)
-                    %td.text-center.p-b-20
-                      = answer.nil? ? "Sin contestar" : QuizAnswer.proporcion(question.id, current_user.id).html_safe
-                    %td.text-center
-                      = answer.nil? ? "No hay puntos" : answer.quiz_question.points
-                    %td.text-center
-                      %strong
-                        = points_quiz_question(question, current_user)
-                %tr
-                  %td{colspan: '4'}
-                    %h5.pull-right Total:
-                  %td
-                    %h5= @quiz.average(current_user)
+                    %td{colspan: '4'}
+                      %h5.pull-right Total:
+                    %td
+                      %h5= @quiz.average(current_user)

@@ -39,42 +39,42 @@
               Ver Filtros de búsqueda    
         #ver_collap
           = form_tag(mentor_students_path, method: :get) do
-            .col-md-12.learning-img
+            .col-xs-12.learning-img
               %aside.sidebar-menu
                 /%h4.search-title Filtrar búsqueda:
                 .search-group
-                  .col-md-3.col-sm-4.col-xs-12
+                  .col-md-3.col-sm-6.col-xs-12
                     .s-s-title
                       %i.fa.fa-check-square-o
                       Status:
                     = select_tag :status, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:status]), {include_blank: "Filtra por status", :style => "width: 150px;"} 
                 .search-group
-                  .col-md-3.col-sm-4.col-xs-12
+                  .col-md-3.col-sm-6.col-xs-12
                     .s-s-title
                       %i.fa.fa-users
                       Grupo:
                     = select_tag :group, options_from_collection_for_select(@groups, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "" }
                 .search-group
-                  .col-md-3.col-sm-4.col-xs-12
+                  .col-md-3.col-sm-6.col-xs-12
                     .s-s-title
                       %i.fa.fa-university
                       Universidad:
                     = select_tag :university, options_from_collection_for_select(@universities, :id, :name, params[:university]), {include_blank: "Filtra por universidad", class: "" } 
                 .search-group
-                  .col-md-3.col-sm-4.col-xs-12
+                  .col-md-3.col-sm-6.col-xs-12
                     .s-s-title
                       %i.fa.fa-map-marker
                       Estado:
                     = select_tag :state, options_from_collection_for_select(State.all, :id, :name, params[:state]), {include_blank: "Filtra por estado", class: "" }
-            .col-md-12
+            .col-xs-12
               .search-group
-                .col-md-3.col-sm-4.col-xs-12
+                .col-md-3.col-sm-6.col-xs-12
                   .s-s-title
                     %i.fa.fa-graduation-cap
                     Tipo de grupo:
                   = select_tag :tipo,  options_for_select(['Escolarizado', ' Autodidacta digital', 'Presencial', 'Experiemental'], params[:tipo]), {include_blank: "Filtra por tipo de grupo", class: "" }
               .search-group
-                .col-md-3.col-sm-4.col-xs-12
+                .col-md-3.col-sm-6.col-xs-12
                   .s-s-title
                     %i.fa.fa-industry
                     Industria:
@@ -91,7 +91,7 @@
                     %i.fa.fa-eye
                     Porcentaje visto
                   = select_tag :visited, options_for_select(OptionsRange.percentages, params[:visited]), {include_blank: "Filtra por porcentaje visto", :style => "width: 200px;" }
-            .col-md-12.m-t-15        
+            .col-xs-12.m-t-15        
               .search-group
                 .col-md-3.col-sm-6.col-xs-12
                   .s-s-title
@@ -99,7 +99,7 @@
                     Programa
                     %i.fa.fa-asterisk.text-primary
                   = select_tag :program, options_from_collection_for_select(Program.all,:id, :name, params[:program]), {include_blank: "Seleccionar programa", class: "" }
-            .col-md-12.m-t-15.m-l-10
+            .col-xs-12.m-t-15.m-l-10
               %i.row
                 %i.fa.fa-asterisk.text-primary
                 Selecciona un programa para filtrar por el porcentaje de contenido contestado/visto    
@@ -108,7 +108,7 @@
             .col-md-12
               = submit_tag 'Filtrar', class: "btn btn-default"
               = link_to "Exportar a excel", exports_mentor_students_path(format: :xlsx), class: "btn btn-success"
-        .pull-right.w-300.p-t-20
+        .pull-right.w-300.cell-w100p.p-t-20
           .col-xs-12
             .form-group
               %div.input-group
@@ -194,7 +194,7 @@
                         %span.bold Status de evaluación:
                       %li.inline 
                       #{user.evaluation_status}
-                  %td
+                  %td.td-contained-text
                     - unless user.group.nil?
                       %ul.unstyled.no-style
                         - sort_programs(user.group, user.group.all_programs).each do |program|

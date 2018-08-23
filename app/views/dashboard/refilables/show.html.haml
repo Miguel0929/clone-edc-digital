@@ -35,9 +35,9 @@
                   %h5
                     = link_to dashboard_template_refilables_path do
                       Regresar a plantillas
-            .col-md-8
-              .p-r-30.p-l-30.p-b-30.p-t-0.sm-padding-5.sm-m-t-15
-                .table-responsive.table-invoice
+            .col-md-8.tablet-down-pr0.tablet-down-pl0
+              .p-refilable-content-box.p-t-0.sm-padding-5.sm-m-t-15
+                .table-responsive.table-invoice.no-border
                   %table.table.m-t-0
                     %thead
                       %tr
@@ -49,7 +49,7 @@
                       %tr
                         %td.p-b-30
                           .well
-                            #refilable-content-template.nueva-tipografia-rellenable
+                            #refilable-content-template.nueva-tipografia-rellenable.refilables-img
                               = raw remove_class(replace_fillable(@refilable.content))
 
 :javascript
@@ -57,6 +57,8 @@
     $('.refilable-edit').removeClass('form-control refilable-input');
     $('.no-answer').text(' (sin respuesta) ');
   });
+
+= javascript_include_tag '/javascripts/lib/enhance.js', 'data-turbolinks-track' => false
 
 /.container-fluid.container-fixed-lg
 /  .panel.panel-default

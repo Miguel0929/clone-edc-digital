@@ -256,3 +256,525 @@ label.zoomed-checkbox {
   font-weight: 501 !important;
   letter-spacing: .06em;
 }
+
+.h-basetext {
+  margin: 10px 0;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  font-weight: 300;
+  color: #2c2c2c;
+}
+
+.center-div{
+  display: table;
+  margin: 0 auto;
+}
+
+.scroll-div > div {
+  overflow: scroll;
+}
+
+.scrolling {
+  overflow: scroll;
+}
+
+.conversation-titles{
+  padding: 15px 15px 10px 0px;
+}
+
+.respond-btn-m{
+  margin-bottom: 10px !important;
+  margin-top: 15px !important;
+}
+
+.refilables-img img {
+  width: 100%;
+}
+
+/* ********** Celulares Pequeños ********** */
+@media screen and (max-width: 320px) {
+  .sm-cell {
+
+  }
+  .sm-cell-prl15{
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+  }
+  .sm-cell-none{
+    display: none;
+  }
+  .contenidos-cuadro img {
+    width: 250px;
+  }
+  .sm-cell-none{
+    display: none;
+  }
+  .sm-cell-block{
+    display: block;
+  }
+  .nav-tabs li a {
+    font-size: 9px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .sm-cell-fsize-9{
+    font-size: 9px !important;
+  }
+  .sm-cell-fsize-105{
+    font-size: 10.5px;
+  }
+  .refilable-input {
+    width: 185px !important;
+  }
+}
+
+/* ********** Celulares Medianos ********** */
+@media screen and (max-width: 424px) and (min-width: 321px) {
+  .md-cell {
+
+  }
+  .nav-tabs li a {
+    font-size: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .sm-cell-prl15{
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+  }
+  .md-cell-none{
+    display: none;
+  }
+  .md-cell-block{
+    display: block;
+  }
+  .contenidos-cuadro img {
+    width: 300px;
+  }
+  .md-cell-fsize-105{
+    font-size: 10.5px;
+  }
+  .refilable-input {
+    width: 200px !important;
+  }
+}
+
+/* ********** Celulares Grandes ********** */
+@media screen and (max-width: 767px) and (min-width: 425px) {
+  .lg-cell {
+
+  }
+  .contenidos-cuadro img {
+    width: 400px;
+  }
+}
+
+/* ********** Todos los Celulares ********** */
+@media screen and (max-width: 480px) {
+  .cell-ml0{
+    margin-left: 0px;
+  }
+  .cell-ml5{
+    margin-left: 5px;
+  }
+  .cell-mt0{
+    margin-top: 0px !important;
+  }
+  .cell-mt5{
+    margin-top: 5px;
+  }
+  .cell-mt10{
+    margin-top: 10px;
+  }
+  .cell-mt15{
+    margin-top: 15px !important;
+  }
+  .cell-mb5{
+    margin-bottom: 5px;
+  }
+  .cell-mb10{
+    margin-bottom: 10px !important;
+  }
+  .cell-pt5{
+    padding-top: 5px;
+  }
+  .cell-pt10{
+    padding-top: 10px;
+  }
+  .cell-pt15{
+    padding-top: 15px !important;
+  }
+  .cell-pt20{
+    padding-top: 20px;
+  }
+  .cell-pb5{
+    padding-bottom: 5px;
+  }
+  .cell-pb10{
+    padding-bottom: 10px;
+  }
+  .cell-pb15{
+    padding-bottom: 15px;
+  }
+  .cell-pb20{
+    padding-bottom: 20px !important;
+  }
+  .cell-pr5{
+    padding-right: 5px;
+  }
+  .cell-blockbtn button, .cell-blockbtn a {
+    display: block;
+    margin-bottom: 5px;
+  }
+  .cell-blockbtn button.top-btn, .cell-blockbtn a.top-btn {
+    margin-top: 10px;
+  }
+  .cell-block {
+    display: block;
+  }
+  .cell-unfloat {
+    float: none !important;
+  }
+  .cell-none {
+    display: none;
+  }
+  .cell-w100p{
+    min-width: 100%;
+  }
+  .viewport-fix .modal-content{
+    width: 95vw;
+  }
+  .h-title-content{
+    font-size: 18px;
+    line-height: 23px;
+  }
+  .h-3{
+    font-size: 19.5px;
+    line-height: 30px;
+  }
+  .cell-center-div{
+    display: table;
+    margin: 0 auto;
+  }
+  .h-group-title {
+    font-size: 22px;
+    line-height: 30px;
+  }
+  .mailbox-ticket-cell{
+    top: 0 !important;
+    margin-top: 10px;
+  }
+}
+
+/* ********** De Celulares Pa'Arriba ********** */
+@media screen and (min-width: 481px) {
+  .cell-up-pr5{
+    padding-right: 5px;
+  }
+  .cell-up-ml5{
+    margin-left: 5px;
+  }
+}
+
+/* ********** De Celulares Pa'Abajo ********** */
+@media screen and (max-width: 767px) {
+  .cell-down-pt15{
+    padding-top: 15px;
+  }
+  .cell-down-pb10{
+    padding-bottom: 10px;
+  }
+  .cell-down-pb50{
+    padding-bottom: 50px;
+  }
+  .cell-down-pr15{
+    padding-right: 15px;
+  }
+  .cell-down-pl0{
+    padding-left: 0px;
+  }
+  .cell-down-pl15{
+    padding-left: 15px;
+  }
+  .cell-down-pr30{
+    padding-right: 30px;
+  }
+  .cell-down-pl30{
+    padding-left: 30px;
+  }
+  .cell-down-mb20 {
+    margin-bottom: 20px;
+  }
+  .cell-down-mt30 {
+    margin-top: 30px;
+  }
+  .cell-down-unfloat {
+    float: none !important;
+  }
+  .cell-down-none {
+    display: none;
+  }
+  .padding-population {
+    padding: 30px 30px 10px 15px;
+  }
+  .question-btn-padding{
+    padding-top: 0px !important;
+    padding-bottom: 30px !important;
+  }
+  .td-program-labels {
+    min-width: 350px;
+  }
+  .td-program-labels-wide {
+    min-width: 420px;
+    white-space: normal !important;
+  } 
+  .td-program-labels, .td-program-labels-wide .label { 
+    float: left; 
+    margin-right: 5px;
+  }
+  .td-program-labels, .td-program-labels-wide .label:nth-child(6) { 
+    clear: left; 
+  }
+  .td-contained-text {
+    min-width: 450px;
+    white-space: normal !important;
+  }
+}
+
+/* ********** De Tablets Pa'Abajo ********** */
+@media screen and (max-width: 991px) {
+  .tablet-down-block{
+    display: block;
+  }
+  .tablet-down-pb10{
+    padding-bottom: 10px;
+  }
+  .tablet-down-pl10{
+    padding-left: 10px;
+  }
+  .tablet-down-pl0{
+    padding-left: 0px;
+  }
+  .tablet-down-pr0{
+    padding-right: 0px;
+  }
+  .tablet-down-mb0{
+    margin-bottom: 0px;
+  }
+  .tablet-down-mb5{
+    margin-bottom: 5px;
+  }
+  .tablet-down-mb10{
+    margin-bottom: 10px;
+  }
+  .tablet-down-mb20{
+    margin-bottom: 20px;
+  }
+  .tablet-down-mb40{
+    margin-bottom: 40px;
+  }
+  .tablet-down-mt5{
+    margin-top: 5px;
+  }
+  .tablet-down-fs12{
+    font-size: 12px;
+  }
+  .tablet-down-leftpull{
+    float: left;
+  }
+  .tablet-down-unfloat {
+    float: none !important;
+  }
+  .quiz-result-message{
+    padding: 30px;
+  }
+  .custom-width-card{
+    width: 95% !important;
+  }
+  .custom-width-alert{
+    width: 95% !important;
+  }
+  .p-refilable-content-box{
+    padding: 20px 20px 30px 30px;
+  }
+  .widget-8, .widget-9, .widget-10{
+    max-height: 150px;
+  }
+}
+
+/* ********** De High Tablets Pa'Arriba ********** */
+@media screen and (min-width: 992px) {
+  .htablet-up-pr0{
+    padding-right: 0px;
+  }
+  .htablet-up-pl0{
+    padding-left: 0px;
+  }
+  .htablet-up-rightpull{
+    float: right;
+  }
+  .htablet-w500 {
+    width: 500px;
+  }
+  .quiz-result-message{
+    padding: 30px;
+    margin-top: 50px;
+    padding-bottom: 100px;
+  }
+  .custom-width-card{
+    width: 106% !important;
+  }
+  .p-refilable-content-box{
+    padding: 20px 0px 30px 20px;
+  }
+  .h-group-title {
+    font-size: 24px;
+    line-height: 30px;
+  }
+}
+
+/* ********** De Tablets Pa'Arriba ********** */
+@media screen and (min-width: 768px) {
+  .tablet-up-p30{
+    padding: 30px;
+  }
+  .tablet-up-pb20{
+    padding-bottom: 20px;
+  }
+  .tablet-up-mt10{
+    margin-top: 10px;
+  }
+  .tablet-up-mb40{
+    margin-bottom: 40px;
+  }
+  .tablet-up-mb80{
+    margin-bottom: 80px;
+  }
+}
+
+/* ********** Tablets ********** */
+@media screen and (max-width: 991px) and (min-width: 481px) {
+  .tablet-mt5{
+    margin-top: 5px;
+  }
+  .tablet-mt10{
+    margin-top: 10px;
+  }
+  .tablet-mt60{
+    margin-top: 60px;
+  }
+  .tablet-mb5{
+    margin-bottom: 5px;
+  }
+  .tablet-mb10{
+    margin-bottom: 10px;
+  }
+  .tablet-pt5{
+    padding-top: 5px;
+  }
+  .tablet-pt10{
+    padding-top: 10px;
+  }
+  .tablet-pb5{
+    padding-bottom: 5px;
+  }
+  .tablet-pb10{
+    padding-bottom: 10px;
+  }
+  .tablet-unfloat {
+    float: none !important;
+  }
+  .viewport-fix .modal-content{
+    width: 100vw;
+  }
+  .h-title-content{
+    font-size: 21px;
+    line-height: 30px;
+  }
+  .h-3{
+    font-size: 24px;
+    line-height: 35.88px;
+  }
+  .h-group-title {
+    font-size: 18px;
+    line-height: 30px;
+  }
+}
+
+/* ********** Laptops ********** */
+@media screen and (max-width: 1280px) and (min-width: 992px) {
+  .laptop {
+
+  }
+  .h-title-content{
+    font-size: 28px;
+    line-height: 40px;
+  }
+  .h-3{
+    font-size: 24px;
+    line-height: 35.88px;
+  }
+}
+
+/* ********** Desktops ********** */
+@media screen and (min-width: 1281px) {
+  .desktop {
+
+  }
+  .h-title-content{
+    font-size: 28px;
+    line-height: 40px;
+  }
+  .h-3{
+    font-size: 24px;
+    line-height: 35.88px;
+  }
+}
+
+/* ********** CUSTOMS: para imágenes de contenido ********** */
+@media screen and (max-width: 1000px) and (min-width: 768px) {
+  .contenidos-cuadro img {
+    width: 100%;
+  }
+  .explore-fsize li {
+    font-size: 11px;
+  }
+}
+
+/* ********** CUSTOMS: De 1024 Pa'Abajo ********** */
+@media screen and (max-width: 1023px) {
+  .slaptop-down-unfloat {
+    float: none !important;
+  }
+  .slaptop-block{
+    display: block;
+  }
+  .slaptop-none{
+    display: none;
+  }
+}
+
+.toggle-sidebar[data-toggle=sidebar]{
+  touch-action: none;
+}
+
+/* ********** Table Responsive ********** */
+@media screen and (max-width: 1150px) and (min-width: 768px) {
+  .table-responsive .table {
+    width: 1100px;
+  }
+  .table-responsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -ms-overflow-style: -ms-autohiding-scrollbar;
+      border: 1px solid #ddd;
+  }
+  .nav.nav-tabs.nav-tablet li a {
+    padding: 15px 15px;
+    font-size: 11px;
+  }
+}

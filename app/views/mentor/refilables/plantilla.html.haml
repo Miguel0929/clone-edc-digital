@@ -20,7 +20,7 @@
     .panel-body
       .row.row-same-height
         .col-md-4.b-r.b-dashed.b-grey.sm-b-b
-          .p-r-10.p-l-10.p-b-30.p-t-15.sm-padding-5.sm-m-t-15
+          .p-r-10.p-l-10.p-b-30.p-t-15.sm-padding-5.sm-m-t-15.cell-pb20
             %i.fa.fa-edit.fa-2x.hint-text
             .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
               = @template.name
@@ -35,7 +35,7 @@
             .p-b-15.tipografia-textos-rellenables
               Introduce tus respuestas en el siguiente recuadro:
             .well
-              #refilable-content-template
+              #refilable-content-template.nueva-tipografia-rellenable.refilables-img
                 = raw replace_fillable(@template.content)
 
 :javascript
@@ -43,4 +43,12 @@
     $('.refilable-edit').editable('toggleDisabled');
     $('.refilable-edit').attr('contentEditable', true);
     $('.refilable-edit').addClass('form-control refilable-input');
+    // AGREGAR COSAS A LAS IMÁGENES DEL CONTENIDO
+    $('div.contenidos-cuadro').find('img').removeAttr('style');
+    var viewportWidth = $(window).width();
+    if(viewportWidth < 768) {
+      $('div.refilables-img').find('img').attr('data-action', 'zoom');
+    }
   });
+
+= javascript_include_tag '/javascripts/lib/enhance.js', 'data-turbolinks-track' => false

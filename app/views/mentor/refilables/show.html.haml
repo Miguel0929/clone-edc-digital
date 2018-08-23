@@ -21,7 +21,7 @@
     .panel-body
       .row.row-same-height
         .col-md-4.b-r.b-dashed.b-grey.sm-b-b
-          .p-b-30.p-t-15.sm-padding-5.sm-m-t-15
+          .p-b-30.p-t-15.sm-padding-5.sm-m-t-15.cell-pb20
             %i.fa.fa-eye.fa-2x.hint-text
             .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
               = @refilable.template_refilable.name
@@ -58,7 +58,7 @@
                 %tbody
                   %tr
                     %td.p-b-30
-                      #refilable-content-template
+                      #refilable-content-template.nueva-tipografia-rellenable.refilables-img
                         = raw remove_class(replace_fillable(@refilable.content))
             -if current_user.mentor?
               .col-md-12            
@@ -80,7 +80,7 @@
                     %h3 Evaluar
                     - if template_refilable.evaluation_refilables.count > 0      
                       %ul.nav.nav-tabs.nav-tabs-fillup.nav-tabs-separator
-                        - template_refilable.evaluation_refilables.each_with_index do |refil, index|
+                        - template_refilable.evaluation_refilables.order(:position).each_with_index do |refil, index|
                           %li.litabs{:style => "width:30px;", :class => "#{index==0 ? 'active' : ''}"}
                             %a.p-l-11.l-h-5.atabs.cursor{:id => "atab#{index}"}
                               = index + 1 
@@ -90,7 +90,7 @@
                         %input{type: 'hidden', name: "template_id", value: template_refilable.id, id: "program_id"}
                         %input{type: 'hidden', name: "refilable_id", value: @refilable.id, id: "program_id"}
                           %div
-                            - template_refilable.evaluation_refilables.each_with_index do |evaluation, index|
+                            - template_refilable.evaluation_refilables.order(:position).each_with_index do |evaluation, index|
                               .contenedor.padding-20{:id => "tabulador#{index}", :class => "#{index==0 ? 'show' : 'hide'}"}
                                 .row.row-same-height
                                   %h5
@@ -140,6 +140,14 @@
         $("#tabulador"+id).removeClass("hide");
         $("#tabulador"+id).addClass("show");
       //}
-      
+      // AGREGAR COSAS A LAS IMÁGENES DEL CONTENIDO
+      $('div.contenidos-cuadro').find('img').removeAttr('style');
+      var viewportWidth = $(window).width();
+      if(viewportWidth < 768) {
+        $('div.refilables-img').find('img').attr('data-action', 'zoom');
+      }
     });
   });
+
+= javascript_include_tag '/javascripts/lib/enhance.js', 'data-turbolinks-track' => false
+  

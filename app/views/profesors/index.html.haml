@@ -14,9 +14,11 @@
       .clearfix
     .panel-body
       %h2
-        Lista de profesores
-        .pull-right
-          = link_to 'Invitar usuario', new_user_invitation_path, class: 'btn btn-default'
+        .pull-right.cell-w100p.cell-pb15
+          = link_to 'Invitar usuario', new_user_invitation_path, class: 'btn btn-default cell-w100p'
+        .pull-left
+          Lista de profesores
+      .clearfix.cell-pb15
       %table.table.table-hover.datatable
         %thead
           %tr
