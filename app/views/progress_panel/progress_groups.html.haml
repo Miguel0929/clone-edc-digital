@@ -5,24 +5,24 @@
 	.panel.panel-default
 		.panel-heading
 			.row.m-b-20
-				.col-sm-6
+				.col-sm-6.col-xs-12
 					.panel-title
 						Progreso por grupos 
-				.col-sm-6.no-opacity
-					.pull-right
+				.col-sm-6.col-xs-12.no-opacity.cell-down-pt15
+					.pull-right.cell-down-unfloat
 						= link_to progress_panel_index_path do
 							.btn.btn-info
 								%i.fa.fa-globe
 								Regresar a progreso general de EDC
 		.panel-body
-			.panel-heading
+			.panel-heading.cell-down-mb20
 				.pull-left
 					.col-sm-12.no-opacity.p-l-0
-						%h3.p-b-20 Reporte de avances por grupo
-				.pull-right
-					.col-sm-12
-						%input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
-			.clearfix
+						%h3.tablet-up-pb20 Reporte de avances por grupo
+				.pull-right.cell-down-unfloat
+					.col-sm-12.cell-down-pl0
+						%input#search-table.form-control.pull-right.tablet-up-mt10.cell-down-unfloat{:placeholder => "Search", :type => "text"}/
+				.clearfix
 			.row.m-b-80
 				.col-sm-12
 					%table.table.table-hover.datatable

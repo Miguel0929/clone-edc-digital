@@ -13,14 +13,7 @@
 		.panel-body
 			.row.m-b-40.m-t-10
 				.col-sm-12
-					.pull-left.w-500
-						= form_tag(progress_panel_index_path, method: :get) do
-							.row.m-b-15
-								.col-md-7
-									= select_tag :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "form-control" }
-								.col-md-5
-									= submit_tag 'Filtrar por grupo', class: "btn btn-success btn-xs"  
-					.pull-right
+					.pull-right.tablet-down-unfloat.tablet-down-pb10
 						- if current_user.admin?
 							= link_to massive_program_progress_path do
 								.btn.btn-info
@@ -30,8 +23,15 @@
 							.btn.btn-info
 								%i.fa.fa-globe
 								Regresar a progreso general de EDC
-			.row.m-b-80
-				.col-sm-4
+					.pull-left.htablet-w500.tablet-down-unfloat
+						= form_tag(progress_panel_index_path, method: :get) do
+							.row.m-b-15
+								.col-md-7.tablet-down-pb10
+									= select_tag :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "form-control" }
+								.col-md-5
+									= submit_tag 'Filtrar por grupo', class: "btn btn-success btn-xs"  
+			.row.tablet-up-mb80
+				.col-sm-4.cell-down-pb50
 					.col-sm-12
 						%h3.p-b-20 Alumos del programa
 						= pie_chart [["Alumnos activos", @active_users.count], ["Alumnos inactivos", @inactive_users]]
@@ -40,7 +40,7 @@
 						#{@active_users.count} /
 						%span.text-primary Alumnos inactivos: 
 						#{@inactive_users}
-				.col-sm-8
+				.col-sm-8.cell-down-pb50
 					%h3.p-b-20 Distribución general de avances de alumnos	
 					- #total_sum = @hundred + @seventy + @fifty + @thirty
 					- #column_chart [["0% a 29%", ((@thirty.to_f / total_sum) * 100).round(1)], ["30% a 49%", ((@fifty.to_f / total_sum) * 100).round(1)], ["50% a 69%", ((@seventy.to_f / total_sum) * 100).round(1)], ["70% a 100%", ((@hundred.to_f / total_sum) * 100).round(1)]], colors: ["#6D5CAE"]
@@ -54,8 +54,8 @@
 						#{@seventy} /
 						%span.text-primary Progreso 70%-100%: 
 						#{@hundred}
-			.row.m-b-80
-				.col-sm-12
+			.row.tablet-up-mb80
+				.col-sm-12.cell-down-pb50
 					%h3.p-b-10 Distribución de avances del programa por grupos
 					%table.table.table-hover.datatable
 						%thead
