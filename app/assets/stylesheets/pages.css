@@ -462,20 +462,33 @@ label.zoomed-checkbox {
     font-size: 22px;
     line-height: 30px;
   }
+  .mailbox-ticket-cell{
+    top: 0 !important;
+    margin-top: 10px;
+  }
 }
 
 /* ********** De Celulares Pa'Arriba ********** */
 @media screen and (min-width: 481px) {
-  .cell-up-ml5{
-    margin-left: 5px;
-  }
   .cell-up-pr5{
     padding-right: 5px;
+  }
+  .cell-up-ml5{
+    margin-left: 5px;
   }
 }
 
 /* ********** De Celulares Pa'Abajo ********** */
 @media screen and (max-width: 767px) {
+  .cell-down-pt15{
+    padding-top: 15px;
+  }
+  .cell-down-pb10{
+    padding-bottom: 10px;
+  }
+  .cell-down-pb50{
+    padding-bottom: 50px;
+  }
   .cell-down-pr15{
     padding-right: 15px;
   }
@@ -490,6 +503,9 @@ label.zoomed-checkbox {
   }
   .cell-down-pl30{
     padding-left: 30px;
+  }
+  .cell-down-mb20 {
+    margin-bottom: 20px;
   }
   .cell-down-mt30 {
     margin-top: 30px;
@@ -532,6 +548,9 @@ label.zoomed-checkbox {
   .tablet-down-block{
     display: block;
   }
+  .tablet-down-pb10{
+    padding-bottom: 10px;
+  }
   .tablet-down-pl10{
     padding-left: 10px;
   }
@@ -553,11 +572,20 @@ label.zoomed-checkbox {
   .tablet-down-mb20{
     margin-bottom: 20px;
   }
+  .tablet-down-mb40{
+    margin-bottom: 40px;
+  }
+  .tablet-down-mt5{
+    margin-top: 5px;
+  }
   .tablet-down-fs12{
     font-size: 12px;
   }
   .tablet-down-leftpull{
     float: left;
+  }
+  .tablet-down-unfloat {
+    float: none !important;
   }
   .quiz-result-message{
     padding: 30px;
@@ -587,6 +615,9 @@ label.zoomed-checkbox {
   .htablet-up-rightpull{
     float: right;
   }
+  .htablet-w500 {
+    width: 500px;
+  }
   .quiz-result-message{
     padding: 30px;
     margin-top: 50px;
@@ -608,6 +639,18 @@ label.zoomed-checkbox {
 @media screen and (min-width: 768px) {
   .tablet-up-p30{
     padding: 30px;
+  }
+  .tablet-up-pb20{
+    padding-bottom: 20px;
+  }
+  .tablet-up-mt10{
+    margin-top: 10px;
+  }
+  .tablet-up-mb40{
+    margin-bottom: 40px;
+  }
+  .tablet-up-mb80{
+    margin-bottom: 80px;
   }
 }
 
@@ -729,5 +772,9 @@ label.zoomed-checkbox {
       overflow-x: scroll;
       -ms-overflow-style: -ms-autohiding-scrollbar;
       border: 1px solid #ddd;
+  }
+  .nav.nav-tabs.nav-tablet li a {
+    padding: 15px 15px;
+    font-size: 11px;
   }
 }

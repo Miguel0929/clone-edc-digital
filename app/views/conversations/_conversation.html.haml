@@ -23,7 +23,7 @@
 					= truncate strip_tags(conversation.messages.last.body), length: 60 
 			%div{id: "accordion" + conversation.id.to_s, role: "tablist", "aria-multiselectable": "true"}
 				%div.p-t-10.p-b-5{role: "tab"}
-					.pull-left
+					.pull-left.cell-unfloat
 						%a{"data-toggle": "collapse", "data-parent": "#accordion" + conversation.id.to_s, href: "#collapseBlock" + conversation.id.to_s, "aria-expanded": "true", "aria-controls": "collapseBlock" + conversation.id.to_s, id: "fetchRecipientsNames" + conversation.id.to_s, fetchingKey: conversation.id}
 							%small
 								%i.fa.fa-caret-right 
@@ -31,15 +31,15 @@
 					- ticket = Ticket.find_by(element_id: conversation.id, category: 0)
 					- if current_user.mentor? || current_user.profesor?
 						- if ticket.nil?
-							.pull-right
+							.pull-right.cell-unfloat
 								.p-r-25
 									#generatedTicketDiv
-										%button.btn.btn-sm.btn-warning{id: "conversation_" + conversation.id.to_s}
+										%button.btn.btn-sm.mailbox-ticket-cell.btn-warning{id: "conversation_" + conversation.id.to_s}
 											Generar ticket
 						- else 
-							.pull-right
+							.pull-right.cell-unfloat
 								.p-r-25
-									%button.btn.btn-sm.btn-complete{class: ticket.closed ? "active focus" : "", id: "conversation_" + conversation.id.to_s, type: "button", "data-toggle": "button", style: "position: relative; top: -10px;"}
+									%button.btn.btn-sm.mailbox-ticket-cell.btn-complete{class: ticket.closed ? "active focus" : "", id: "conversation_" + conversation.id.to_s, type: "button", "data-toggle": "button", style: "position: relative; top: -10px;"}
 										= ticket.closed ? "Ticket cerrado" : "Ticket abierto"
 					.clearfix
 				.collapse.show{id: "collapseBlock" + conversation.id.to_s, role: "tabcard", "aria-expanded": "false", style: "height: 0px;"}
@@ -75,7 +75,7 @@
 					= truncate strip_tags(conversation.messages.last.body), length: 60
 			%div{id: "accordion" + conversation.id.to_s, role: "tablist", "aria-multiselectable": "true"}
 				%div.p-t-10.p-b-5{role: "tab"}
-					.pull-left
+					.pull-left.cell-unfloat
 						%a{"data-toggle": "collapse", "data-parent": "#accordion" + conversation.id.to_s, href: "#collapseBlock" + conversation.id.to_s, "aria-expanded": "true", "aria-controls": "collapseBlock" + conversation.id.to_s, id: "fetchRecipientsNames" + conversation.id.to_s, fetchingKey: conversation.id}
 							%small 
 								%i.fa.fa-caret-right 
@@ -83,15 +83,15 @@
 					- ticket = Ticket.find_by(element_id: conversation.id, category: 0)
 					- if current_user.mentor? || current_user.profesor?
 						- if ticket.nil?
-							.pull-right
+							.pull-right.cell-unfloat
 								.p-r-25
 									#generatedTicketDiv
-										%button.btn.btn-sm.btn-warning{id: "conversation_" + conversation.id.to_s}
+										%button.btn.btn-sm.mailbox-ticket-cell.btn-warning{id: "conversation_" + conversation.id.to_s}
 											Generar ticket
 						- else 
-							.pull-right
+							.pull-right.cell-unfloat
 								.p-r-25
-									%button.btn.btn-sm.btn-complete{class: ticket.closed ? "active focus" : "", id: "conversation_" + conversation.id.to_s, type: "button", "data-toggle": "button", style: "position: relative; top: -10px;"}
+									%button.btn.btn-sm.mailbox-ticket-cell.btn-complete{class: ticket.closed ? "active focus" : "", id: "conversation_" + conversation.id.to_s, type: "button", "data-toggle": "button", style: "position: relative; top: -10px;"}
 										= ticket.closed ? "Ticket cerrado" : "Ticket abierto"
 					.clearfix
 				.collapse.show{id: "collapseBlock" + conversation.id.to_s, role: "tabcard", "aria-expanded": "false", style: "height: 0px;"}

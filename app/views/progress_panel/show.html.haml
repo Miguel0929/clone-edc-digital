@@ -13,69 +13,71 @@
 		.panel-body
 			.row.m-b-40.m-t-10
 				.col-sm-12
-					.pull-left.w-500
-						= form_tag(progress_panel_path(@group), method: :get) do
-							.row.m-b-15
-								.col-md-7
-									= select_tag :group, options_from_collection_for_select(current_user.user_groups, :id, :name, params[:group]), {include_blank: "Elige otro grupo", class: "form-control" }
-								.col-md-5
-									= submit_tag 'Filtrar grupo', class: "btn btn-success btn-xs"
-					.pull-right
+					.pull-right.tablet-down-unfloat.tablet-down-pb10
 						= link_to progress_panel_index_path do
 							.btn.btn-info
 								%i.fa.fa-globe
 								Regresar a progreso general de EDC
+					.pull-left.htablet-w500.tablet-down-unfloat
+						= form_tag(progress_panel_path(@group), method: :get) do
+							.row.m-b-15
+								.col-sm-7.col-xs-12.cell-down-pb10
+									= select_tag :group, options_from_collection_for_select(current_user.user_groups, :id, :name, params[:group]), {include_blank: "Elige otro grupo", class: "form-control" }
+								.col-sm-5.col-xs-12
+									= submit_tag 'Filtrar grupo', class: "btn btn-success btn-xs"
+					.clearfix
 
-			.row.m-b-80
-				.col-sm-4
+			.row.tablet-up-mb80
+				.col-sm-4.cell-down-pb50
 					.col-sm-12
 						%h3.p-b-20 Alumos de grupo
 						= pie_chart [["Alumnos activos", @active_users.count], ["Alumnos inactivos", @inactive_users]]
 					.col-sm-12.text-center
 						Alumnos activos: #{@active_users.count} / Alumnos inactivos: #{@inactive_users}
-				.col-sm-8
+				.col-sm-8.cell-down-pb50
 					%h3.p-b-20 Distribución general de avances de alumnos	
 					- #total_sum = @hundred + @seventy + @fifty + @thirty
 					= #column_chart [["0% a 29%", ((@thirty.to_f / total_sum) * 100).round(1)], ["30% a 49%", ((@fifty.to_f / total_sum) * 100).round(1)], ["50% a 69%", ((@seventy.to_f / total_sum) * 100).round(1)], ["70% a 100%", ((@hundred.to_f / total_sum) * 100).round(1)]], colors: ["#6D5CAE"]
 					= column_chart [["0% a 29%", @thirty], ["30% a 49%", @fifty], ["50% a 69%", @seventy], ["70% a 100%", @hundred]], colors: ["#6D5CAE"]
-			.row.m-b-80
-				.col-sm-12
+			.row.tablet-up-mb80
+				.col-sm-12.cell-down-pb50
 					%h3.p-b-10 Distribución de avances por programa
-					%table.table.table-striped
-						%thead
-							%tr
-								%th
-									Programa
-								%th.text-center
-									0% a 29%
-								%th.text-center
-									30% a 49%
-								%th.text-center
-									50% a 69%
-								%th.text-center
-									70% a 100%
-								%th.text-center{width: "10%"}
-									Total
-						%tbody
-							- @progress_per_program_per_group.each do |program|
+					.table-responsive
+						%table.table.table-striped
+							%thead
 								%tr
-									%td.p-b-15
-										= program[:name]
-									%td.text-center.p-b-15
-										=# ((thirty.to_f / sumatory) * 100).round(1)
-										= program[:thirty]
-									%td.text-center.p-b-15
-										=# ((fifty.to_f / sumatory) * 100).round(1)
-										= program[:fifty]
-									%td.text-center.p-b-15
-										=# ((seventy.to_f / sumatory) * 100).round(1)
-										= program[:seventy]
-									%td.text-center.p-b-15
-										=# ((hundred.to_f / sumatory) * 100).round(1)
-										= program[:hundred]
-									%td.text-center.p-b-15
-										= program[:sumatory]
-			.row.m-b-40
+									%th
+										Programa
+									%th.text-center
+										0% a 29%
+									%th.text-center
+										30% a 49%
+									%th.text-center
+										50% a 69%
+									%th.text-center
+										70% a 100%
+									%th.text-center{width: "10%"}
+										Total
+							%tbody
+								- @progress_per_program_per_group.each do |program|
+									%tr
+										%td.p-b-15
+											= program[:name]
+										%td.text-center.p-b-15
+											=# ((thirty.to_f / sumatory) * 100).round(1)
+											= program[:thirty]
+										%td.text-center.p-b-15
+											=# ((fifty.to_f / sumatory) * 100).round(1)
+											= program[:fifty]
+										%td.text-center.p-b-15
+											=# ((seventy.to_f / sumatory) * 100).round(1)
+											= program[:seventy]
+										%td.text-center.p-b-15
+											=# ((hundred.to_f / sumatory) * 100).round(1)
+											= program[:hundred]
+										%td.text-center.p-b-15
+											= program[:sumatory]
+			.row.tablet-up-mb40.cell-down-pb50
 				%h3.p-b-10.p-l-15 Distribución de avances por programa
 				- @progress_per_program_per_group.each do |program|
 					.col-sm-6
