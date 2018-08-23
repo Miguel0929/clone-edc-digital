@@ -11,19 +11,17 @@
 				.col-sm-6.no-opacity
 					.pull-right
 						= link_to progress_panel_index_path do
-							.btn.btn-info
+							.btn.btn-info{style: "white-space: normal !important; word-wrap: break-word;"}
 								%i.fa.fa-globe
 								Regresar a progreso general de EDC
 		.panel-body
-			.panel-heading
-				.pull-left
-					.col-sm-12.no-opacity.p-l-0
-						%h3.p-b-20 Reporte de avances por grupo
-				.pull-right
-					.col-sm-12
-						%input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+			.pull-left.p-b-10
+				.no-opacity.p-l-0
+					%h3 Reporte de avances por grupo
+			.pull-right.p-b-10
+				%input#search-table.form-control{:placeholder => "Search", :type => "text"}/
 			.clearfix
-			.row.m-b-80
+			.row
 				.col-sm-12
 					%table.table.table-hover.datatable
 						%thead

@@ -19,12 +19,12 @@
                     %span.handle-sort
                       [mover]
                     .pull-right  
-                      = link_to learning_path_learning_path_content_path(@learning_path, program), method: :delete, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Elimiar' do
+                      = link_to learning_path_learning_path_content_path(@learning_path, program), method: :delete, data: {confirm: '¿Estás seguro?'}, 'data-toggle'=>'tooltip', 'data-placement'=>'top', title: 'Eliminar' do
                         %span.glyphicon.glyphicon-remove
      
                     %h3.panel-title
                       = program.model.name
-                      .pull-right
+                      .pull-right.p-t-5
                         %span.label.label-info
                           Programa                  
           %center                

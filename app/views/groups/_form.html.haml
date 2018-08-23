@@ -1,16 +1,19 @@
-= bootstrap_form_for @group do |f|
-  = f.text_field :name, label: 'Nombre del grupo'
-  = f.text_field :key, label: 'Clave'
-  = f.collection_select(:state_id, State.all, :id, :name, label: 'Estado', include_blank: "Selecciona un estado")
-  
-  = f.select :university_id, University.where(state_id: @group.state_id).collect{|p| [ p.name, p.id ] }, {label: 'Universidad', include_blank: "Selecciona un estado primero"}
-  = f.select :category, ['Escolarizado', 'Autodidacta digital', 'Presencial', 'Experiemental'], label: 'Tipo de grupo', include_blank: true
-  
-  = f.select :user_ids, User.mentors.invitation_accepted.collect{|u| [u.name, u.id]}, {include_blank: false, label: 'Mentores'}, multiple: 'multiple'
 
-  = f.select :trial, [["No", false], ["Si", true]], {include_blank: false, label: '¿Es un grupo de prueba gratuita?'}, required: "required"
-  #group-premium{style: "display: none"}
-    = f.select :group_premium_id, Group.where(trial: false).where.not(id: @group.id).collect{|u| [u.name, u.id]}, {include_blank: "Selecciona el grupo con la ruta premium", label: 'Grupo premium'}
+= bootstrap_form_for @group do |f|
+  .panel.panel-transparent
+    .panel-body
+      = f.text_field :name, label: 'Nombre del grupo'
+      = f.text_field :key, label: 'Clave'
+      = f.collection_select(:state_id, State.all, :id, :name, label: 'Estado', include_blank: "Selecciona un estado")
+      
+      = f.select :university_id, University.where(state_id: @group.state_id).collect{|p| [ p.name, p.id ] }, {label: 'Universidad', include_blank: "Selecciona un estado primero"}
+      = f.select :category, ['Escolarizado', 'Autodidacta digital', 'Presencial', 'Experiemental'], label: 'Tipo de grupo', include_blank: true
+      
+      = f.select :user_ids, User.mentors.invitation_accepted.collect{|u| [u.name, u.id]}, {include_blank: false, label: 'Mentores'}, multiple: 'multiple'
+
+      = f.select :trial, [["No", false], ["Si", true]], {include_blank: false, label: '¿Es un grupo de prueba gratuita?'}, required: "required"
+      #group-premium{style: "display: none"}
+        = f.select :group_premium_id, Group.where(trial: false).where.not(id: @group.id).collect{|u| [u.name, u.id]}, {include_blank: "Selecciona el grupo con la ruta premium", label: 'Grupo premium'}
 
   .panel.panel-info
     .panel-heading
@@ -20,7 +23,7 @@
       - if (edit_mode)  
         #learning_path_content.row
           #learning_path_content.row
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -40,7 +43,7 @@
                       %td.text-center= index + 1
                       %td= content.model.name
           
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -59,7 +62,7 @@
                     %tr
                       %td.text-center= index + 1
                       %td= content.model.name
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -78,7 +81,7 @@
                     %tr
                       %td.text-center= index + 1
                       %td= content.model.name
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -100,7 +103,7 @@
                
       - else
         #learning_path_content.row
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -113,7 +116,7 @@
                 %tr
                   %th.text-center{colspan: 3}
                     Ruta de aprendizaje sin programas
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -126,7 +129,7 @@
                 %tr
                   %th.text-center{colspan: 3}
                     Ruta de aprendizaje sin evaluaciones
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -139,7 +142,7 @@
                 %tr
                   %th.text-center{colspan: 3}
                     Ruta de aprendizaje sin entregables
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -159,7 +162,7 @@
       = f.select :learning_path2_id, LearningPath.moral.collect{|l|[l.name, l.id]},  {include_blank: "Selecciona una Ruta de Aprendizaje (Moral)", label: 'Ruta de aprendizaje (Moral)'}, class: "learning_paths"
       - if (edit_mode)  
         #learning_path_content.row
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -179,7 +182,7 @@
                       %td.text-center= index + 1
                       %td= content.model.name
           
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -198,7 +201,7 @@
                     %tr
                       %td.text-center= index + 1
                       %td= content.model.name
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -217,7 +220,7 @@
                     %tr
                       %td.text-center= index + 1
                       %td= content.model.name
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -239,7 +242,7 @@
                
       - else
         #learning_path_content.row
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -252,7 +255,7 @@
                 %tr
                   %th.text-center{colspan: 3}
                     Ruta de aprendizaje sin programas
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -265,7 +268,7 @@
                 %tr
                   %th.text-center{colspan: 3}
                     Ruta de aprendizaje sin evaluaciones
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -278,7 +281,7 @@
                 %tr
                   %th.text-center{colspan: 3}
                     Ruta de aprendizaje sin entregables
-          .col-md-3.col-xs-6.col-sm-6
+          .col-md-3
             %table.table.table-striped
               %thead
                 %tr
@@ -295,19 +298,26 @@
     .panel-heading
       %h3.panel-title Contenidos complementarios
     .panel-body 
-      /= f.select :program_ids,  @programs.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Programas (Complementarios)'}, multiple: 'multiple'
-      /= f.select :quiz_ids, @quizzes.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Evaluaciones (Complemantarios)' }, multiple: 'multiple'
-      /= f.select :delireverable_package_ids, @delireverables.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Entregables (Complementarios)' }, multiple: 'multiple'
-      /= f.select :template_refilable_ids, @refilables.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Plantillas (Complementarios)' }, multiple: 'multiple'
+      =# f.select :program_ids,  @programs.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Programas (Complementarios)'}, multiple: 'multiple'
+      =# f.select :quiz_ids, @quizzes.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Evaluaciones (Complemantarios)' }, multiple: 'multiple'
+      =# f.select :delireverable_package_ids, @delireverables.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Entregables (Complementarios)' }, multiple: 'multiple'
+      =# f.select :template_refilable_ids, @refilables.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Plantillas (Complementarios)' }, multiple: 'multiple'
       = f.select :program_ids,  Program.all.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Programas (Complementarios)'}, multiple: 'multiple'
       = f.select :quiz_ids, Quiz.all.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Evaluaciones (Complemantarios)' }, multiple: 'multiple'
       = f.select :delireverable_package_ids, DelireverablePackage.all.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Entregables (Complementarios)' }, multiple: 'multiple'
       = f.select :template_refilable_ids, TemplateRefilable.all.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Plantillas (Complementarios)' }, multiple: 'multiple'
   
-  .pull-left.p-b-30
+  .pull-left.p-b-30.hidden-xs
     = link_to "Cancelar", groups_path, class: "btn btn-danger"
     = f.submit 'Guardar', class: "btn btn-primary"
     %button.btn.btn-primary#hitNrun Guardar y salir
+  .pull-left.p-b-50.visible-xs  
+    .col-md-12
+      = link_to "Cancelar", groups_path, class: "btn btn-danger"
+    .col-md-12.p-t-5
+      = f.submit 'Guardar', class: "btn btn-primary"
+    .col-md-12.p-t-5
+      %button.btn.btn-primary#hitNrun Guardar y salir  
   .clearfix
 
 
