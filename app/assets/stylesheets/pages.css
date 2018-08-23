@@ -466,6 +466,9 @@ label.zoomed-checkbox {
     top: 0 !important;
     margin-top: 10px;
   }
+  .pager.wizard.min-padding li button {
+    min-width: 95px;
+  }
 }
 
 /* ********** De Celulares Pa'Arriba ********** */
@@ -541,6 +544,9 @@ label.zoomed-checkbox {
     min-width: 450px;
     white-space: normal !important;
   }
+  .nav.nav-tabs.nav-stack-sm.float-items li {
+    float: left;
+  }
 }
 
 /* ********** De Tablets Pa'Abajo ********** */
@@ -601,6 +607,9 @@ label.zoomed-checkbox {
   }
   .widget-8, .widget-9, .widget-10{
     max-height: 150px;
+  }
+  .fsize-tablet-questions {
+    font-size: 14px;
   }
 }
 
@@ -762,10 +771,10 @@ label.zoomed-checkbox {
 
 /* ********** Table Responsive ********** */
 @media screen and (max-width: 1150px) and (min-width: 768px) {
-  .table-responsive .table {
+  .table-responsive.tablet-responsive .table {
     width: 1100px;
   }
-  .table-responsive {
+  .table-responsive.tablet-responsive {
       width: 100%;
       margin-bottom: 15px;
       overflow-y: hidden;
@@ -776,5 +785,18 @@ label.zoomed-checkbox {
   .nav.nav-tabs.nav-tablet li a {
     padding: 15px 15px;
     font-size: 11px;
+  }
+  .tablet-evals-padding{
+    padding: 0px !important;
+  }
+  .pager.wizard.min-padding li button {
+    min-width: 95px;
+  }
+}
+
+/* ********** Table Particular ********** */
+@media screen and (max-width: 800px) and (min-width: 750px) {
+  .fsize-responsive-evaluation{
+    font-size: 12px;
   }
 }

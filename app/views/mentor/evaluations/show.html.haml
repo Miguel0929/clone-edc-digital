@@ -26,7 +26,7 @@
                 = link_to mentor_evaluation_path(@chapter, program_id: @program, user_id: @next_student), class: 'btn btn-sm btn-complete btn-cons m-b-10' do
                   %span.bold Siguiente alumno
                   %i.fa.fa-arrow-right
-              %center.visible-xs
+              .visible-xs
                 = link_to mentor_evaluation_path(@chapter, program_id: @program, user_id: @prev_student), class: 'btn btn-sm btn-complete btn-cons m-b-10' do
                   %i.fa.fa-arrow-left
                   %span.bold Alumno anterior
@@ -85,9 +85,9 @@
         - if current_user.mentor?
           .col-sm-5
             .p.text-right
-              %button.btn.btn-success.btn-cons{:type => "submit", :form => "evolve", :name => "path", :value => "store"} 
+              %button.btn.btn-success.btn-cons.fsize-responsive-evaluation{:type => "submit", :form => "evolve", :name => "path", :value => "store"} 
                 Guardar
-              %button.btn.btn-info.btn-cons{:type => "submit", :form => "evolve", :name => "path", :value => "out"}
+              %button.btn.btn-info.btn-cons.fsize-responsive-evaluation{:type => "submit", :form => "evolve", :name => "path", :value => "out"}
                 Guardar y salir      
         - else
           .col-sm-5
@@ -116,13 +116,13 @@
                       - if @answers.exists?
                         - @answers.each do |answer|
                           %li.m-b-30
-                            %h5.m-b-10
+                            %h5.m-b-10.fsize-tablet-questions
                               = answer.question_text
                             - if !answer.answer_text.nil?
-                              %p.answer-lead
+                              %p.answer-lead.fsize-tablet-questions
                                 = answer.answer_text
                             - else
-                              %p.answer-lead-red
+                              %p.answer-lead-red.fsize-tablet-questions
                                 Sin respuesta
                       - else
                         %label.label-danger.padding-5.m-b-10
@@ -138,7 +138,7 @@
                 #rootwizard
                   - if @chapter.evaluations.exists?
                     / Nav tabs
-                    %ul.nav.nav-tabs.nav-tabs-fillup.nav-tabs-separator.nav-stack-sm
+                    %ul.nav.nav-tabs.nav-tabs-fillup.nav-tabs-separator.nav-stack-sm.float-items
                       - @chapter.evaluations.each_with_index do |chapter, index|
                         %li{:style => "width:30px;", :class => "#{index==0 ? 'active' : ''}"}
                           %a.p-l-11.l-h-5{"data-toggle" => "tab", :href => "#tab#{index}"}
@@ -151,7 +151,7 @@
                           - @chapter.evaluations.each_with_index do |evaluation, index|
                             .tab-pane.padding-20.slide-left{:id => "tab#{index}", :class => "#{index==0 ? 'active' : ''}"}
                               .row.row-same-height
-                                %h5
+                                %h5.fsize-tablet-questions
                                   = evaluation.name
                                   %em{:style => "font-size:0.9em;"}
                                     (#{evaluation.points} pts o #{evaluation.points * 100 / @totaleval}%)
@@ -177,20 +177,20 @@
                                     %strong Malo:
                                     #{evaluation.bad}
                         
-                      .padding-20.bg-white
-                        %ul.pager.wizard
+                      .padding-20.bg-white.tablet-evals-padding
+                        %ul.pager.wizard.min-padding
                           %li.next
-                            %button.btn.btn-primary.btn-cons.btn-animated.from-left.fa.fa-arrow-right.pull-right{:type => "button"}
+                            %button.btn.btn-sm.btn-primary.btn-cons.btn-animated.from-left.fa.fa-arrow-right.pull-right{:type => "button"}
                               %span Siguiente
                           - if current_user.mentor?
                             %li.next.finish.hidden
-                              %button.btn.btn-info.btn-cons.btn-animated.from-left.fa.fa-check.pull-right{:type => "submit", :name => "path", :value => "out"}
+                              %button.btn.btn-sm.btn-info.btn-cons.btn-animated.from-left.fa.fa-check.pull-right{:type => "submit", :name => "path", :value => "out"}
                                 %span Guardar y salir
                           %li.previous.first.hidden
-                            %button.btn.btn-default.btn-cons.btn-animated.from-left.fa.fa-check.pull-right{:type => "button"}
+                            %button.btn.btn-sm.btn-default.btn-cons.btn-animated.from-left.fa.fa-check.pull-right{:type => "button"}
                               %span Primero
                           %li.previous
-                            %button.btn.btn-default.btn-cons.pull-right{:type => "button"}
+                            %button.btn.btn-sm.btn-default.btn-cons.pull-right{:type => "button"}
                               %span Anterior
                   - else 
                     .nav-tabs.nav-tabs-separator.m-b-15

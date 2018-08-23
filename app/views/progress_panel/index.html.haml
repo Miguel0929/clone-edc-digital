@@ -45,7 +45,7 @@
 								%i.fa.fa-group
 								Progreso por grupos
 			.row.tablet-up-mb80
-				.col-sm-4
+				.col-sm-4.cell-down-pb50
 					.col-sm-12
 						%h3.p-b-20 Alumos de EDC
 						= pie_chart [["Alumnos activos", @active_users.count], ["Alumnos inactivos", @inactive_users]]
@@ -54,7 +54,7 @@
 						#{@active_users.count} /
 						%span.text-primary Alumnos inactivos: 
 						#{@inactive_users}
-				.col-sm-8
+				.col-sm-8.cell-down-pb50
 					%h3.p-b-20 Distribución general de avances de alumnos	
 					- #total_sum = @hundred + @seventy + @fifty + @thirty
 					- #column_chart [["0% a 29%", ((@thirty.to_f / total_sum) * 100).round(1)], ["30% a 49%", ((@fifty.to_f / total_sum) * 100).round(1)], ["50% a 69%", ((@seventy.to_f / total_sum) * 100).round(1)], ["70% a 100%", ((@hundred.to_f / total_sum) * 100).round(1)]], colors: ["#6D5CAE"]
@@ -69,42 +69,43 @@
 						%span.text-primary Progreso 70%-100%: 
 						#{@hundred}
 			.row.tablet-up-mb80
-				.col-sm-12
+				.col-sm-12.cell-down-pb50
 					%h3.p-b-10 Distribución de avances por programa
-					%table.table.table-striped
-						%thead
-							%tr
-								%th
-									Programa
-								%th.text-center
-									0% a 29%
-								%th.text-center
-									30% a 49%
-								%th.text-center
-									50% a 69%
-								%th.text-center
-									70% a 100%
-								%th.text-center{width: "10%"}
-									Total
-						%tbody
-							- @progress_per_program.each do |program|
+					.table-responsive
+						%table.table.table-striped
+							%thead
 								%tr
-									%td.p-b-15
-										= link_to program[:name], {:controller => "progress_panel", :action => "program_detail", :requested_program => program[:id] }
-									%td.text-center.p-b-15
-										= #((thirty.to_f / sumatory) * 100).round(1)
-										= program[:thirty]
-									%td.text-center.p-b-15
-										= #((fifty.to_f / sumatory) * 100).round(1)
-										= program[:fifty]
-									%td.text-center.p-b-15
-										= #((seventy.to_f / sumatory) * 100).round(1)
-										= program[:seventy]
-									%td.text-center.p-b-15
-										= #((hundred.to_f / sumatory) * 100).round(1)
-										= program[:hundred]
-									%td.text-center.p-b-15
-										= program[:sumatory]
+									%th
+										Programa
+									%th.text-center
+										0% a 29%
+									%th.text-center
+										30% a 49%
+									%th.text-center
+										50% a 69%
+									%th.text-center
+										70% a 100%
+									%th.text-center{width: "10%"}
+										Total
+							%tbody
+								- @progress_per_program.each do |program|
+									%tr
+										%td.p-b-15.td-contained-text
+											= link_to program[:name], {:controller => "progress_panel", :action => "program_detail", :requested_program => program[:id] }
+										%td.text-center.p-b-15
+											= #((thirty.to_f / sumatory) * 100).round(1)
+											= program[:thirty]
+										%td.text-center.p-b-15
+											= #((fifty.to_f / sumatory) * 100).round(1)
+											= program[:fifty]
+										%td.text-center.p-b-15
+											= #((seventy.to_f / sumatory) * 100).round(1)
+											= program[:seventy]
+										%td.text-center.p-b-15
+											= #((hundred.to_f / sumatory) * 100).round(1)
+											= program[:hundred]
+										%td.text-center.p-b-15
+											= program[:sumatory]
 
 			.row.tablet-up-mb40.cell-down-pb50
 				%h3.p-b-10.p-l-15 Distribución de avances por programa
