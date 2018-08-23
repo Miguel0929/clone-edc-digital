@@ -462,6 +462,10 @@ label.zoomed-checkbox {
     font-size: 22px;
     line-height: 30px;
   }
+  .mailbox-ticket-cell{
+    top: 0 !important;
+    margin-top: 10px;
+  }
 }
 
 /* ********** De Celulares Pa'Arriba ********** */
@@ -729,5 +733,9 @@ label.zoomed-checkbox {
       overflow-x: scroll;
       -ms-overflow-style: -ms-autohiding-scrollbar;
       border: 1px solid #ddd;
+  }
+  .nav.nav-tabs.nav-tablet li a {
+    padding: 15px 15px;
+    font-size: 11px;
   }
 }

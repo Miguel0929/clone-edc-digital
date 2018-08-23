@@ -50,7 +50,7 @@
             %li.nav-item.tablinks.col-xs-6{onclick: "openTab(event, 'tabRefilables')"}
               %a.text-center{href: "#", onclick: "return false;"} Plantillas
         / Desktop    
-        %ul.nav.nav-tabs.nav-tabs-simple.m-b-10.hidden-xs
+        %ul.nav.nav-tabs.nav-tabs-simple.nav-tablet.m-b-10.hidden-xs
           %li.nav-item.tablinks.active{onclick: "openTab(event, 'tabStudent')"}
             %a{href: "#", onclick: "return false;"}= @user.mentor? ? 'Mentor' : 'Estudiante'
           %li.nav-item.tablinks{onclick: "openTab(event, 'tabProgram')"}
@@ -176,11 +176,11 @@
                           = @user.user_detail.nil? ? "Sin registro" : (@user.user_detail.interest.nil? ? "Sin registro" : @user.user_detail.interest)
                       %tr.odd.gradeX
                         %td Mi mayor reto
-                        %td
+                        %td.td-contained-text
                           = @user.user_detail.nil? ? "Sin registro" : (@user.user_detail.challenge.nil? ? "Sin registro" : @user.user_detail.challenge)
                       %tr.odd.gradeX
                         %td Lo que busco en EDC Digital
-                        %td
+                        %td.td-contained-text
                           = @user.user_detail.nil? ? "Sin registro" : (@user.user_detail.goal.nil? ? "Sin registro" : @user.user_detail.goal)
                       %tr.odd.gradeX
                         %td Industria
@@ -199,7 +199,8 @@
                           = @user.group.learning_path.name unless @user.group.nil? || @user.group.learning_path.nil?
                       %tr.odd.gradeX
                         %td Ruta de aprendizaje: "P. Moral"
-                        %td= @user.group.learning_path2.name unless @user.group.nil? || @user.group.learning_path2.nil?         
+                        %td
+                          = @user.group.learning_path2.name unless @user.group.nil? || @user.group.learning_path2.nil?         
                       %tr.odd.gradeX
                         %td Fecha de creación de cuenta
                         %td #{l @user.created_at, format: :special}
@@ -574,7 +575,7 @@
                           %tr
                             %td.p-t-20.p-b-15
                               = delireverable.name
-                            %td.p-t-20.p-b-15
+                            %td.p-t-20.p-b-15.td-contained-text
                               - if user_delireverable
                                 - if user_delireverable.comments
                                   .text-primary
@@ -646,7 +647,7 @@
                           %tr
                             %td.p-t-20.p-b-15
                               = refilable.name
-                            %td.p-t-20.p-b-15
+                            %td.p-t-20.p-b-15.td-contained-text
                               %ul.p-l-0.m-b-10
                                 %li.inline.text-primary.bold
                                   Decripción:
