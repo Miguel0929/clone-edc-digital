@@ -4,17 +4,15 @@
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
-      .tab-content
-        .tab-pane.padding-20.sm-no-padding.active.slide-left
-          .row.row-same-height
-            .col-md-3.b-r.b-dashed.b-grey.sm-b-b
-              .p-r-15.p-l-30.p-b-30.p-t-15.sm-padding-5.sm-m-t-15
-                %i.fa.fa-plus.fa-2x.hint-text
-                .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
-                  Nuevo paquete
-                %p
-                  Usa este formulario para crear y asignar grupos a un paquete nuevo de entregables.
-            .col-md-8
-              .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
-                = render 'form'
+      .row.row-same-height
+        .col-md-3.b-r.b-dashed.b-grey.sm-b-b
+          .p-r-15.p-l-30.p-b-30.p-t-15.sm-padding-5.sm-m-t-15
+            %i.fa.fa-plus.fa-2x.hint-text
+            .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+              Nuevo paquete
+            %p
+              Usa este formulario para crear y asignar grupos a un paquete nuevo de entregables.
+        .col-md-8
+          .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
+            = render 'form'
 

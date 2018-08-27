@@ -6,10 +6,10 @@
     .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
-          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+          .col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
             %h2.text-white 
               Estudiantes
-          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+          .col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
               Evaluaciones
             %p.m-b-25.text-white
@@ -17,46 +17,52 @@
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
-      .row.p-r-10.p-b-30
-        .pull-right
+      .row.p-r-15.p-l-15.p-b-30.p-t-15
+        .pull-right.hidden-xs
           .btn-group{"role" => "group", "aria-label" => "..."}
-            = link_to "Programas", mentor_students_path, class: 'btn btn-default'
+            = link_to "Programas", students_users_path, class: 'btn btn-default'
             = link_to "Plantillas", template_refilables_users_path, class: 'btn btn-default'
             = link_to "Evaluaciones", quizzes_users_path, class: 'btn btn-default active'
-      .pull-right#filters.row.inline-block
-        = form_tag(quizzes_users_path, method: :get) do
-          %a#collap
-            #headingfiltros.panel-title-recursos.font-montserrat.font-search.filter-padding.m-l-15.m-r-15
-              %h4.panel-title.search-title.text-white.ver.heding-text-like
-                Ver Filtros de búsqueda
-          #ver_collap
+        .btn-group-vertical.visible-xs{"role" => "group", "aria-label" => "..."}
+          = link_to "Programas", students_users_path, class: 'btn btn-default'
+          = link_to "Plantillas", template_refilables_users_path, class: 'btn btn-default'
+          = link_to "Evaluaciones", quizzes_users_path, class: 'btn btn-default active'    
+      #filters.row 
+        %a#collap.pull-left.hidden-xs.p-t-20
+          #headingfiltros.panel-title-recursos.font-montserrat.font-search.filter-padding.m-l-15.m-r-15
+            %h4.panel-title.search-title.text-white.ver.heding-text-like
+              Ver Filtros de búsqueda
+        %a#collap.visible-xs    
+          #headingfiltros.panel-title-recursos.font-montserrat.font-search.filter-padding.m-l-15.m-r-15
+            %h4.panel-title.search-title.text-white.ver.heding-text-like
+              Ver Filtros de búsqueda 
+        #ver_collap
+          = form_tag(quizzes_users_path, method: :get) do
             .col-md-12.learning-img
-              %aside.sidebar-menu
-                /%h4.search-title Filtrar búsqueda:
-                .search-group
-                  .col-md-3.col-sm-4.col-xs-12
-                    .s-s-title
-                      %i.fa.fa-check-square-o
-                      Status:
-                    = select_tag :status, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:status]), {include_blank: "Filtra por status", :style => "width: 150px;"} 
-                .search-group
-                  .col-md-3.col-sm-4.col-xs-12
-                    .s-s-title
-                      %i.fa.fa-users
-                      Grupo:
-                    = select_tag :group, options_from_collection_for_select(@groups, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "" }
-                .search-group
-                  .col-md-3.col-sm-4.col-xs-12
-                    .s-s-title
-                      %i.fa.fa-university
-                      Universidad:
-                    = select_tag :university, options_from_collection_for_select(@universities, :id, :name, params[:university]), {include_blank: "Filtra por universidad", class: "" } 
-                .search-group
-                  .col-md-3.col-sm-4.col-xs-12
-                    .s-s-title
-                      %i.fa.fa-map-marker
-                      Estado:
-                    = select_tag :state, options_from_collection_for_select(State.all, :id, :name, params[:state]), {include_blank: "Filtra por estado", class: "" }
+              .search-group
+                .col-md-3.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-check-square-o
+                    Status:
+                  = select_tag :status, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:status]), {include_blank: "Filtra por status", :style => "width: 150px;"} 
+              .search-group
+                .col-md-3.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-users
+                    Grupo:
+                  = select_tag :group, options_from_collection_for_select(@groups, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "" }
+              .search-group
+                .col-md-3.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-university
+                    Universidad:
+                  = select_tag :university, options_from_collection_for_select(@universities, :id, :name, params[:university]), {include_blank: "Filtra por universidad", class: "" } 
+              .search-group
+                .col-md-3.col-sm-4.col-xs-12
+                  .s-s-title
+                    %i.fa.fa-map-marker
+                    Estado:
+                  = select_tag :state, options_from_collection_for_select(State.all, :id, :name, params[:state]), {include_blank: "Filtra por estado", class: "" }
             .col-md-12
               .search-group
                 .col-md-3.col-sm-4.col-xs-12
@@ -84,14 +90,14 @@
             %br
             .col-md-12
               = submit_tag 'Filtrar', class: "btn btn-default"
-      .pull-right.w-300
-        .col-xs-12
-          /%input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
-          .form-group
-            %div.input-group
-              %input#mentor_students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
-              %span.input-group-addon.panel-title-recursos
-                %i.fa.fa-search.text-white
+        .pull-right.w-300.p-t-20
+          .col-xs-12
+            /%input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+            .form-group
+              %div.input-group
+                %input#mentor_students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+                %span.input-group-addon.panel-title-recursos
+                  %i.fa.fa-search.text-white
       .clearfix
       .table-responsive   
         %table.table.table-striped

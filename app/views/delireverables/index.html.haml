@@ -12,17 +12,17 @@
               #{@delireverable_package.name}
         .col-sm-4
           .pull-right
-            = link_to new_delireverable_package_delireverable_path(@delireverable_package), class: 'btn btn-primary m-t-10 m-r-15' do
+            = link_to new_delireverable_package_delireverable_path(@delireverable_package), class: 'btn btn-primary m-t-10' do
               %i.fa.fa-plus
               Agregar nuevo entregable
       .table-responsive
         %table.table.table-hover
           %thead
             %tr
-              %th{width: "10%"}
+              %th{width: "15%"}
               %th
                 Entregable
-              %th{width: "15%"}
+              %th{width: "20%"}
                 Acciones
           %tbody.sortable{'data-update-url'=> url_prod_helper(sort_delireverable_package_delireverables_path(@delireverable_package))}
             - @delireverables.each do |delireverable|

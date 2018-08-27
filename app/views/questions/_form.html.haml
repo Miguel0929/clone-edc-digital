@@ -14,14 +14,15 @@
       .row
         .col-md-4
           .input-group
-            %input#answer-option.form-control{:placeholder => "Respuesta", :type => "text"}/
+            %input#answer-option.form-control{:placeholder => "Respuesta", :type => "text"}/   
             %span.input-group-btn
               %button#addAnswer.btn.btn-default{:type => "button"}
                 Agregar
       .row
-        %h6
-          Respuestas
-        %ul#answers-list
+        .col-xs-12
+          %h6
+            Respuestas
+          %ul#answers-list
     %br
     = f.text_field :points, label: 'Valor de esta pregunta'
 

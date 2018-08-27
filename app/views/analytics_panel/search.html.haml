@@ -14,6 +14,7 @@
           .pull-right
             = form_tag(search_analytics_panel_index_path, method: :get, class: "form-inline") do
               %input#query.form-control{:name => "query", :placeholder => "Buscar ID", :type => "text", style: "width: 100%"}/ 
+          .clearfix    
       .col-md-12
         .row
           - unless @user.nil?
@@ -21,7 +22,7 @@
               %h2.text-center Buscador de usaurios 
             - else
               #staticHeads
-                .col-sm-3.p-r-0
+                .col-xs-3.p-r-0
                   %table.table.colored-columns.m-t-0
                     %thead.static-heads
                       %tr
@@ -39,7 +40,7 @@
                             - elsif current_user.profesor?
                               = link_to @user.name, profesor_student_path(@user)       
                 - if @programs
-                  .col-sm-9.p-l-0
+                  .col-xs-9.p-l-0
                     .horizontal-overflow
                       %table.table.colored-columns.m-t-0
                         %thead.static-heads

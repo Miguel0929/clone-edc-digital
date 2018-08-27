@@ -9,27 +9,27 @@
           %h3
             Tickets
         .col-sm-9
-          .col-sm-6
-            .pull-right
-              = link_to tickets_path, style: "opacity: 1 !important;" do
-                %button.btn.btn-default{:type => "button"} Todos
-              = link_to tickets_path(filter: "open"), style: "opacity: 1 !important;" do
-                %button.btn.btn-default{:type => "button"} Abiertos
-              = link_to tickets_path(filter: "closed"), style: "opacity: 1 !important;" do
-                %button.btn.btn-default{:type => "button"} Cerrados
-          .col-sm-6
-            .pull-right
-              .col-xs-12
+          .row
+            .col-sm-6
+              .pull-right
+                = link_to tickets_path, style: "opacity: 1 !important;" do
+                  %button.btn.btn-default{:type => "button"} Todos
+                = link_to tickets_path(filter: "open"), style: "opacity: 1 !important;" do
+                  %button.btn.btn-default{:type => "button"} Abiertos
+                = link_to tickets_path(filter: "closed"), style: "opacity: 1 !important;" do
+                  %button.btn.btn-default{:type => "button"} Cerrados
+            .col-sm-6
+              .pull-right
                 .form-group
                   %div.input-group
                     = form_tag(tickets_path, method: :get) do
                       = text_field_tag :query, "", class: "form-control text-black", :placeholder => "Buscar"
                     %span.input-group-addon.panel-title-recursos
                       %i.fa.fa-search.text-white
-          .clearfix
+              .clearfix
     .panel-body
       .widget-11-table.auto-overflow
-        %table.table.table-condensed.table-hover
+        %table.table.table-hover
           %tbody
             %tr
               %td.font-montserrat.b-r.b-dashed.b-grey{width: "50%"}

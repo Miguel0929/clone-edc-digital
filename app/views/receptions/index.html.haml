@@ -18,40 +18,41 @@
   .panel.panel-default
     .panel-heading
       .pull-right
-        .col-xs-12.no-opacity
+        .no-opacity
           .btn.btn-success{"data-toggle"=>"modal", "data-target"=>"#myModal"}
             %i.fa.fa-plus
             Crear ruta de recepcion
       .clearfix
     .panel-body
-      %table.table.table-hover
-        %thead
-          %tr
-            %th #
-            %th Nombre
-            %th Grupo
-            %th.text-center Acciones
-
-        %tbody
-          - @receptions.each_with_index do |r, key|
+      .table-responsive
+        %table.table.table-hover
+          %thead
             %tr
-              %td
-                = key + 1
-              %td 
-                = r.name
-              %td 
-                - unless r.group.nil?
-                  = link_to r.group.name, group_path(r.group_id)   
-              %td.text-center
-                %ul.unstyled.list-unstyled.p-l-0.m-b-0  
-                  %li
-                    %a{type: "button", onclick: "edit_reception(#{r.id}, '#{r.name}')"}
-                      %i.fa.fa-edit
-                      Editar     
-                  %li
-                    = link_to reception_path(r.id), method: :delete, data: { confirm: '¿Estás seguro?' } do
-                      %i.fa.fa-times
-                      Eliminar
+              %th #
+              %th Nombre
+              %th Grupo
+              %th.text-center Acciones
+
+          %tbody
+            - @receptions.each_with_index do |r, key|
+              %tr
+                %td
+                  = key + 1
+                %td 
+                  = r.name
+                %td 
+                  - unless r.group.nil?
+                    = link_to r.group.name, group_path(r.group_id)   
+                %td.text-center
+                  %ul.unstyled.list-unstyled.p-l-0.m-b-0  
+                    %li
+                      %a{type: "button", onclick: "edit_reception(#{r.id}, '#{r.name}')"}
+                        %i.fa.fa-edit
+                        Editar     
+                    %li
+                      = link_to reception_path(r.id), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                        %i.fa.fa-times
+                        Eliminar
 #myModal.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
   .modal-dialog{:role => "document"}
     .modal-content   

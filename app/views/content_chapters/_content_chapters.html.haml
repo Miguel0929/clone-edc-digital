@@ -4,23 +4,19 @@
       [mover]
     %span.bold
       #{content.name}
-    .pull-right
-      %span.option.p-r-10.p-l-10
-        %a.cursor{"role" => "button", "data-toggle"=>"modal", "data-target"=>"#editContent", "onclick"=> "edit_content(#{chapter.id}, #{content.to_json})"}
-          %i.fa.fa-pencil-square-o
-          Editar nombre
-      %span.option.p-r-10.p-l-10
-        %a.cursor{"role" => "button", "data-toggle"=>"collapse", "href"=>"#contenedor_#{content.get_cc_chapter.id}", "aria-expanded"=>"false", "aria-controls"=>"collapse"}
-          %i.fa.fa-eye
-          Ver contenidos       
-      %span.option.p-r-10.p-l-10
-        = link_to clone_chapter_contents_chapter_path(chapter, content), method: :post, data: {confirm: '¿Estás seguro?'} do
-          %i.fa.fa-copy
-          Clonar
-      %span.option.p-r-10.p-l-10
-        = link_to chapter_contents_chapter_path(chapter, content), method: :delete, data: {confirm: '¿Estás seguro?'} do
-          %i.fa.fa-times
-          Eliminar
+    .pull-right.cell-down.modules-menu-list
+      %a.cursor.p-r-10{"role" => "button", "data-toggle"=>"modal", "data-target"=>"#editContent", "onclick"=> "edit_content(#{chapter.id}, #{content.to_json})"}
+        %i.fa.fa-pencil-square-o
+        Editar nombre
+      %a.cursor.p-r-10{"role" => "button", "data-toggle"=>"collapse", "href"=>"#contenedor_#{content.get_cc_chapter.id}", "aria-expanded"=>"false", "aria-controls"=>"collapse"}
+        %i.fa.fa-eye
+        Ver contenidos (#{content.chapter_contents.count})      
+      = link_to clone_chapter_contents_chapter_path(chapter, content), class: "p-r-10", method: :post, data: {confirm: '¿Estás seguro?'} do
+        %i.fa.fa-copy
+        Clonar
+      = link_to chapter_contents_chapter_path(chapter, content), class: "p-r-10", method: :delete, data: {confirm: '¿Estás seguro?'} do
+        %i.fa.fa-times
+        Eliminar
 
 - cc_chapter = content.get_cc_chapter.id
 - contenido = content

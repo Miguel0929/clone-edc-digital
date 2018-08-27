@@ -5,18 +5,16 @@
   .panel.panel-default
     .panel-heading
       .pull-right
-        .col-xs-12
-          .form-group
-            %div.input-group
-              = form_tag(trainees_coach_path(@coach), method: :get) do
-                = text_field_tag :query, "", class: "form-control text-black", :placeholder => "Buscar"
-              %span.input-group-addon.panel-title-recursos
-                %i.fa.fa-search.text-white
+        .form-group
+          .input-group
+            = form_tag(trainees_coach_path(@coach), method: :get) do
+              = text_field_tag :query, "", class: "form-control text-black", :placeholder => "Buscar"
+            %span.input-group-addon.panel-title-recursos
+              %i.fa.fa-search.text-white
       .clearfix
     .panel-body
       %h2
         Aprendices de #{@coach.first_name.nil? ? @coach.email : @coach.name}
-
       .table-responsive
         %table.table.table-hover
           %thead

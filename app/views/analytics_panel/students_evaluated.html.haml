@@ -12,7 +12,7 @@
             = link_to s.name,  analytics_state_path(s.slug), html_options= {class: "btn btn-link"}   
   .panel.panel-default    
     .panel-body
-      .row.p-r-15
+      .row.p-r-15.p-t-15
         .pull-right
           = link_to create_students_evaluated_analytics_panel_index_path, method: :post, class: "btn btn-primary" do
             - if @total_alumnos_program.first.nil?
@@ -35,92 +35,94 @@
       %h4 Alumnos evaluados
     .panel-body                     
       .row
-        %table.table.colored-columns.m-t-0
-          %thead.static-heads
-            %tr
-              %th.padding-0.border-none.bold
-                .cell-like Programa
-              %th.padding-0.border-none.bold
-                .cell-like Total de alumnos
-              %th.padding-0.border-none.bold
-                .cell-like  Evaluaciones realizadas
-              %th.padding-0.border-none.bold
-                .cell-like  Evaluaciones pendientes   
-          %tbody#total_alumnos_program
-            - if @total_alumnos_program.present?
-              - @total_alumnos_program.each do |students|
-                %tr
-                  %td.bold
-                    = students.program.name
-                  %td.text-center= students.total 
-                  %td.text-center= students.evaluados 
-                  %td.text-center= students.no_evaluados
-            - else 
+        .table-responsive
+          %table.table.colored-columns.m-t-0
+            %thead.static-heads
               %tr
-                %td.bold.text-center{colspan: 4}
-                  Estadisticas no generadas     
+                %th.padding-0.border-none.bold
+                  .cell-like Programa
+                %th.padding-0.border-none.bold
+                  .cell-like Total de alumnos
+                %th.padding-0.border-none.bold
+                  .cell-like  Evaluaciones realizadas
+                %th.padding-0.border-none.bold
+                  .cell-like  Evaluaciones pendientes   
+            %tbody#total_alumnos_program
+              - if @total_alumnos_program.present?
+                - @total_alumnos_program.each do |students|
+                  %tr
+                    %td.bold
+                      = students.program.name
+                    %td.text-center= students.total 
+                    %td.text-center= students.evaluados 
+                    %td.text-center= students.no_evaluados
+              - else 
+                %tr
+                  %td.bold.text-center{colspan: 4}
+                    Estadisticas no generadas     
 
                      
     .panel-heading
       %h4 Puntajes de todos los alumnos evaluados
     .panel-body
       .row
-        %table.table.table-bordered
-          %thead.static-heads
-            %tr
-              %th.text-center
-                Programa
-              %th.text-center
-                Tipo 
-              %th.bold.text-center
-                90% - 100%
-              %th.bold.text-center
-                80% - 89%
-              %th.bold.text-center
-                60% - 79%   
-              %th.bold.text-center
-                0% - 59%
-              %th.bold.text-center
-                Total           
-
-          %tbody#total_alumnos_program_rango
-            - if @total_alumnos_program_rango.present?
-              - @programs.each_with_index do |program, index| 
-                %tr{class: index % 2 == 0 ? 'active' : ''}
-                  %td.bold{rowspan: 3, style: "vertical-align:middle"}= program.name
-                  %td.bold.text-center Evaluaciones
-                  - if program.quizzes.count > 0
-                    - eva = @total_alumnos_program_rango.evaluation.where(program_id: program.id).first
-                    %td.text-center= eva.rango1
-                    %td.text-center= eva.rango2
-                    %td.text-center= eva.rango3
-                    %td.text-center= eva.rango4
-                    %td.text-center= eva.rango1 + eva.rango2 + eva.rango3 + eva.rango4
-                  - else
-                    %td.text-center.bold{colspan: 5} El programa no tiene evaluaciones.  
-                %tr{class: index % 2 == 0 ? 'active' : ''}
-                  %td.bold.text-center Plantillas
-                  - if program.template_refilables.count > 0
-                    - ref = @total_alumnos_program_rango.refilable.where(program_id: program.id).first
-                    %td.text-center= ref.rango1
-                    %td.text-center= ref.rango2
-                    %td.text-center= ref.rango3
-                    %td.text-center= ref.rango4
-                    %td.text-center= ref.rango1 + ref.rango2 + ref.rango3 + ref.rango4
-                  - else
-                    %td.text-center.bold{colspan: 5} El programa no tiene plantillas.
-                %tr{class: index % 2 == 0 ? 'active' : ''} 
-                  %td.bold.text-center Preguntas
-                  - if program.questions?
-                    - que = @total_alumnos_program_rango.questions.where(program_id: program.id).first 
-                    %td.text-center= que.rango1
-                    %td.text-center= que.rango2
-                    %td.text-center= que.rango3
-                    %td.text-center= que.rango4
-                    %td.text-center= que.rango1 + que.rango2 + que.rango3 + que.rango4
-                  - else 
-                    %td.text-center.bold{colspan: 5} El programa no tiene pregunta.   
-            - else    
+        .table-responsive
+          %table.table.table-bordered
+            %thead.static-heads
               %tr
-                %td.bold.text-center{colspan: 7}
-                  Estadisticas no generadas    
+                %th.text-center
+                  Programa
+                %th.text-center
+                  Tipo 
+                %th.bold.text-center
+                  90% - 100%
+                %th.bold.text-center
+                  80% - 89%
+                %th.bold.text-center
+                  60% - 79%   
+                %th.bold.text-center
+                  0% - 59%
+                %th.bold.text-center
+                  Total           
+
+            %tbody#total_alumnos_program_rango
+              - if @total_alumnos_program_rango.present?
+                - @programs.each_with_index do |program, index| 
+                  %tr{class: index % 2 == 0 ? 'active' : ''}
+                    %td.bold{rowspan: 3, style: "vertical-align:middle"}= program.name
+                    %td.bold.text-center Evaluaciones
+                    - if program.quizzes.count > 0
+                      - eva = @total_alumnos_program_rango.evaluation.where(program_id: program.id).first
+                      %td.text-center= eva.rango1
+                      %td.text-center= eva.rango2
+                      %td.text-center= eva.rango3
+                      %td.text-center= eva.rango4
+                      %td.text-center= eva.rango1 + eva.rango2 + eva.rango3 + eva.rango4
+                    - else
+                      %td.text-center.bold{colspan: 5} El programa no tiene evaluaciones.  
+                  %tr{class: index % 2 == 0 ? 'active' : ''}
+                    %td.bold.text-center Plantillas
+                    - if program.template_refilables.count > 0
+                      - ref = @total_alumnos_program_rango.refilable.where(program_id: program.id).first
+                      %td.text-center= ref.rango1
+                      %td.text-center= ref.rango2
+                      %td.text-center= ref.rango3
+                      %td.text-center= ref.rango4
+                      %td.text-center= ref.rango1 + ref.rango2 + ref.rango3 + ref.rango4
+                    - else
+                      %td.text-center.bold{colspan: 5} El programa no tiene plantillas.
+                  %tr{class: index % 2 == 0 ? 'active' : ''} 
+                    %td.bold.text-center Preguntas
+                    - if program.questions?
+                      - que = @total_alumnos_program_rango.questions.where(program_id: program.id).first 
+                      %td.text-center= que.rango1
+                      %td.text-center= que.rango2
+                      %td.text-center= que.rango3
+                      %td.text-center= que.rango4
+                      %td.text-center= que.rango1 + que.rango2 + que.rango3 + que.rango4
+                    - else 
+                      %td.text-center.bold{colspan: 5} El programa no tiene pregunta.   
+              - else    
+                %tr
+                  %td.bold.text-center{colspan: 7}
+                    Estadisticas no generadas    

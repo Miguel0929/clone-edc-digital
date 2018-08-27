@@ -221,7 +221,7 @@
         %h3.p-l-15 Usuarios activos e inactivos
       .panel-body
         .row
-          .col-sm-4
+          .col-md-4
             = pie_chart [["Estudiantes activos", @actives], ["Estudiantes inactivos", @inactives]]
             .row.p-t-20
               .col-md-12
@@ -232,8 +232,8 @@
                       %button.btn.btn-complete.btn-sm
                         %i.fa.fa-plus
                         Ver más
-          .col-sm-8
-            = bar_chart [["Grupos con estudiantes activos", @active_groups], ["Grupos con estudiantes inactivos", @inactive_groups]]
+          .col-md-8
+            = column_chart [["Con activos", @active_groups], ["Con inactivos", @inactive_groups]]
             .row.p-t-20
               .col-md-12
                 .text-center.sub-title-graphs
@@ -250,7 +250,6 @@
         %h3.p-l-15 Usuarios nuevos por semana
       .panel-body
         = column_chart @track, stacked: true
-        /= area_chart [{name: "usuarios activados", data: @activados}, {name: "usuarios inactivos", data: @inactivos}], colors: ["#10CFBD", "#F8D053"], stacked: true
 
   .row
     .panel.panel-default

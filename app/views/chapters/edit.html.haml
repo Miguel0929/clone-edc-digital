@@ -3,25 +3,22 @@
 
 .container-fluid.container-fixed-lg
   .row
-    .col-md-12
-      .panel.panel-default
-        .panel-heading
+    .panel.panel-default
+      .panel-heading
+        .col-md-12
           %h3.panel-title
             Editar módulo
-        .panel-body
-          .row
-            .col-sm-8
-              %h3
-                = @chapter.name
-          .row.padding-20
-            .well
-              = bootstrap_form_for([@program, @chapter]) do |f|
-                = f.text_field :name, label: 'Nombre del módulo'
-                = f.text_field :points, label: 'Valor del módulo'
-                .p-t-20.p-b-20.pull-right
-                  = link_to @program, class: 'btn btn-default' do
-                    %i.fa.fa-times
-                    Cancelar
-                  = f.submit 'Aceptar', class: 'btn btn-success'
-                .clearfix
+      .panel-body
+        .col-md-12
+          %h3
+            = @chapter.name
+        .well
+          = bootstrap_form_for([@program, @chapter]) do |f|
+            = f.text_field :name, label: 'Nombre del módulo'
+            .p-t-20.p-b-20.pull-right
+              = link_to @program, class: 'btn btn-default' do
+                %i.fa.fa-times
+                Cancelar
+              = f.submit 'Aceptar', class: 'btn btn-success'
+            .clearfix
                 

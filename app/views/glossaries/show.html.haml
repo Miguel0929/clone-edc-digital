@@ -11,46 +11,51 @@
 							Glosario de EDC Digital
 					.col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
 						.panel-body
-							= form_tag(glossaries_path, method: :get) do
-								.form-group.form-group-default.col-sm-9.col-xs-12
-									= label_tag nil, 'Realiza una búsqueda', class: 'highlight'
-									= text_field_tag :term, params[:term], class: "form-control notification-message", value: @glossary.term
-								.form-group.col-sm-2.col-xs-12.cell-down-pl0
-									= submit_tag 'Buscar', class: "btn btn-lg btn-success show-notification", :style => 'height:54px;'
+							.row
+								= form_tag(glossaries_path, method: :get) do
+									.form-group.form-group-default.col-sm-9.col-xs-12
+										= label_tag nil, 'Realiza una búsqueda', class: 'highlight'
+										= text_field_tag :term, params[:term], class: "form-control notification-message", value: @glossary.term
+									.form-group.col-sm-2.col-xs-12.cell-down-pl0
+										= submit_tag 'Buscar', class: "btn btn-lg btn-success show-notification", :style => 'height:54px;'
 
 .container-fluid.container-fixed-lg
-	.widget-11-2.panel.no-border
-		.padding-25
-			.pull-right.p-r-20
-				%h6
-					- if current_user.admin?
-						%span.m-r-15
-						= link_to edit_glossary_path(@glossary) do
-							%i.fa.fa-edit
-							Editar
-						%span.m-r-15
-						= link_to glossary_path(@glossary), method: :delete, data: { confirm: '¿Estás seguro?' } do
-							%i.fa.fa-times
-							Eliminar
-					%span.m-r-15
-					= link_to glossary_categories_path do
-						%i.fa.fa-chevron-circle-left
-						Regresar
-			.pull-left
-				%h3.text-success 
-					= @glossary.term
-				%h5.no-margin
-					Grupo: 
-					- category = GlossaryCategory.find(@glossary.glossary_category_id)
-					= link_to category.title, glossary_category_path(category)
-			.clearfix
-		.padding-25
+	.panel.panel-default
+		.panel-body
 			.row
-				%div{class: @glossary.image.file.nil? ? 'col-sm-12' : 'col-sm-6'}
+				.col-md-12
+					.pull-right
+						%h6
+							- if current_user.admin?
+								%span.m-r-15
+								= link_to edit_glossary_path(@glossary) do
+									%i.fa.fa-edit
+									Editar
+								%span.m-r-15
+								= link_to glossary_path(@glossary), method: :delete, data: { confirm: '¿Estás seguro?' } do
+									%i.fa.fa-times
+									Eliminar
+							%span.m-r-15
+							= link_to glossary_categories_path do
+								%i.fa.fa-chevron-circle-left
+								Regresar
+					.pull-left
+						%h3.text-success 
+							= @glossary.term
+						%h5.no-margin
+							Grupo: 
+							- category = GlossaryCategory.find(@glossary.glossary_category_id)
+							= link_to category.title, glossary_category_path(category)
+					.clearfix
+
+		.panel-body
+			%div{class: @glossary.image.file.nil? ? 'col-sm-12' : 'col-sm-6'}
+				.row
 					%h5.no-margin 
 						Definición:
 					%p.m-t-15
 						.scrolling
 							= raw @glossary.definition
-				%div{class: @glossary.image.file.nil? ? 'col-sm-12' : 'col-sm-6'}
+			%div{class: @glossary.image.file.nil? ? 'col-sm-12' : 'col-sm-6'}
+				.row
 					= image_tag(@glossary.image, width: '100%')
