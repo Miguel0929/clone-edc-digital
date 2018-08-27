@@ -25,6 +25,8 @@ class SharedGroupAttachmentsController < ApplicationController
   end
 
   def edit
+    add_breadcrumb "Archivos compartidos", :shared_group_attachments_path
+    add_breadcrumb "<a class='active' href='#{edit_shared_group_attachment_path(@attachment)}'>Editar archivo</a>".html_safe
   end
 
   def update

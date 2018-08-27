@@ -493,7 +493,10 @@ label.zoomed-checkbox {
     padding-right: 15px;
   }
   .cell-down-pl0{
-    padding-left: 0px;
+    padding-left: 0px !important;
+  }
+  .cell-down-pl5{
+    padding-left: 5px !important;
   }
   .cell-down-pl15{
     padding-left: 15px;
@@ -541,6 +544,13 @@ label.zoomed-checkbox {
     min-width: 450px;
     white-space: normal !important;
   }
+  .cell-down.modules-menu-list li, a {
+    display: inline-block;
+  }
+  .cell-down.input-group-list{
+    display: block;
+  }
+
 }
 
 /* ********** De Tablets Pa'Abajo ********** */
@@ -651,6 +661,9 @@ label.zoomed-checkbox {
   }
   .tablet-up-mb80{
     margin-bottom: 80px;
+  }
+  .tablet-up-ml20{
+    margin-left: 20px;
   }
 }
 

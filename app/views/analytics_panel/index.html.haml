@@ -9,63 +9,72 @@
           .panel-title
             Panel de analíticos
     .panel-body
-      .pull-right
+      .pull-right.hidden-xs
         .btn-group
           %a.btn.btn-default{href: seguimiento_analytics_panel_index_path, target: "_blank"}Seguimiento
           %a.btn.btn-default{href: mentor_alumnos_asignados_analytics_panel_index_path, target: "_blank"} Alumnos por tutores
           %a.btn.btn-default{href: alumnos_estados_analytics_panel_index_path, target: "_blank"} Alumnos por estado (tutores)   
           =link_to("Alumnos Evaluados", students_evaluated_analytics_panel_index_path, target: "_blank", class: "btn btn-default")
+      %center.visible-xs
+        .btn-group-vertical
+          %a.btn.btn-default{href: seguimiento_analytics_panel_index_path, target: "_blank"}Seguimiento
+          %a.btn.btn-default{href: mentor_alumnos_asignados_analytics_panel_index_path, target: "_blank"} Alumnos por tutores
+          %a.btn.btn-default{href: alumnos_estados_analytics_panel_index_path, target: "_blank"} Alumnos por estado (tutores)   
+          =link_to("Alumnos Evaluados", students_evaluated_analytics_panel_index_path, target: "_blank", class: "btn btn-default")    
 
     .panel-body
       .row
         .col-md-12
-          .col-md-2.col-md-offset-4
-            .pull-right.bold
-              Ver grupo:
-          .col-md-3
+          .col-md-2.col-md-offset-4.p-t-5.p-b-5
+            .row
+              .pull-right.bold
+                Ver grupo:
+          .col-md-3.p-t-5.p-b-5
             = select("group", "selected", Group.all.collect {|g| [ g.name, g.id ] }, {prompt: "Selecciona un grupo" })
-          .col-md-3
+          .col-md-3.p-t-5.p-b-5
             = form_tag(search_analytics_panel_index_path, method: :get, class: "form-inline") do
-              %input#query.form-control{:name => "query", :placeholder => "Buscar ID", :type => "text", style: "width: 100%"}/  
-          %table.table.table-striped
-            %thead
-              %tr
-                %th{width: '35%'}
-                  Programa
-                %th
-                  Estadísticos
-                %th{width: '30%'}
-                  Ver grafica
-            %tbody
-              - @programs.each_with_index do |program, index|
-                - analytics = program_objects(program)
+              %input#query.form-control{:name => "query", :placeholder => "Buscar ID", :type => "text", style: "width: 100%"}/ 
+        .col-md-12
+          .table-responsive         
+            %table.table.table-striped
+              %thead
                 %tr
-                  %td.p-t-10.p-b-10
-                    .fs-15.text-primary
-                      = program.name
-                  %td.p-t-10.p-b-10
-                    %ul.p-l-5.m-b-0
-                      %li.inline.p-l-0
-                        %i.fa.fa-user 
-                      %li.inline 
-                        Estudiantes activos: 
-                        %strong #{analytics[1]}
-                    %ul.p-l-5.m-b-0
-                      %li.inline.p-l-0
-                        %i.fa.fa-check 
-                      %li.inline
-                        Estudiantes revisados: 
-                        %strong #{analytics[2]}
-                    %ul.p-l-5.m-b-0
-                      %li.inline.p-l-0
-                        %i.fa.fa-users 
-                      %li.inline 
-                        Grupos con este programa: 
-                        %strong #{analytics[0].count}
-                  %td.p-t-10.p-b-10
-                    = link_to group_program_analytics_panel_path(program.id), html_options = {"target"=>"_blank"} do
-                      Ver gráfica por grupos
-                      %i.fa.fa-line-chart
+                  %th{width: '35%'}
+                    Programa
+                  %th
+                    Estadísticos
+                  %th{width: '30%'}
+                    Ver grafica
+              %tbody
+                - @programs.each_with_index do |program, index|
+                  - analytics = program_objects(program)
+                  %tr
+                    %td.p-t-10.p-b-10
+                      .fs-15.text-primary
+                        = program.name
+                    %td.p-t-10.p-b-10
+                      %ul.p-l-5.m-b-0
+                        %li.inline.p-l-0
+                          %i.fa.fa-user 
+                        %li.inline 
+                          Estudiantes activos: 
+                          %strong #{analytics[1]}
+                      %ul.p-l-5.m-b-0
+                        %li.inline.p-l-0
+                          %i.fa.fa-check 
+                        %li.inline
+                          Estudiantes revisados: 
+                          %strong #{analytics[2]}
+                      %ul.p-l-5.m-b-0
+                        %li.inline.p-l-0
+                          %i.fa.fa-users 
+                        %li.inline 
+                          Grupos con este programa: 
+                          %strong #{analytics[0].count}
+                    %td.p-t-10.p-b-10
+                      = link_to group_program_analytics_panel_path(program.id), html_options = {"target"=>"_blank"} do
+                        Ver gráfica por grupos
+                        %i.fa.fa-line-chart
 :javascript
   $("#group_selected").change(function(){
     var a = document.createElement("a");

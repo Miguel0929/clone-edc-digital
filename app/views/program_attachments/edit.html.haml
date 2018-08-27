@@ -9,11 +9,11 @@
 					.panel-title
 						Editar Archivo
 				.panel-body
-					%i.fa.fa-upload.fa-2x.hint-text.m-t-40
-					.h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+					%i.fa.fa-upload.fa-2x.hint-text
+					%h3.m-t-10{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
 						Usa este formulario para modificar tus archivos adjuntos al programa #{@program.name}
 			.col-md-8
-				.m-r-70.m-l-30
+				.panel-body
 					= bootstrap_form_for([@program, @attachment]) do |f|
 						= f.select(:document_type, Attachment.document_type_options, {:label => 'Tipo de documento'}, {:class => 'minimal'})
 						= f.text_field :label, label: 'Detalles / Comentarios'

@@ -1,14 +1,17 @@
 - content_for :title  do
   Universidad - EDC Digital
 
-.container
+.container-fluid
   .row
     .col-md-12
-      %h2.text-center
-        Universidad 
-      %h4
-        = @university.name
-      %span
-        = @university.state.name
+      .panel.panel-default
+        .panel-body 
+          %h2.text-center
+            Universidad 
+          %h4
+            = @university.name
+          %span.bold
+            Estado: 
+          #{@university.state.name}
 
-    
+      

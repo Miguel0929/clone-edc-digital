@@ -13,7 +13,7 @@
             = @program.rating.round(2)  
         .panel-body
           .row
-            .col-sm-8
+            .col-sm-12
               %h3
                 = @program.name
           - @program.chapters.each do |chapter|
@@ -25,34 +25,36 @@
                       = chapter.name
                 .panel-collapse.collapse{:id=>"collapse_#{chapter.id}", "aria-labelledby" => "heading_#{chapter.id}", :role => "tabpanel"}
                   .panel-body
-                    %table.table.table-hover
-                      %thead
-                        %tr
-                          %th
-                            Contenido 
-                          %th.text-center
-                            Votos
-                          %th.text-center
-                            Rating
-                          %th.text-center
-                      %tbody 
-                        - if any_lesson?(chapter)     
-                          - chapter.chapter_contents.each do |content|
-                            - if content.coursable_type == 'Lesson'
+                    .row
+                      .table-responsive
+                        %table.table.table-hover
+                          %thead
+                            %tr
+                              %th
+                                Contenido 
+                              %th.text-center
+                                Votos
+                              %th.text-center
+                                Rating
+                              %th.text-center
+                          %tbody 
+                            - if any_lesson?(chapter)     
+                              - chapter.chapter_contents.each do |content|
+                                - if content.coursable_type == 'Lesson'
+                                  %tr
+                                    %td.p-b-15
+                                      = content.model.identifier
+                                    %td.text-center.p-b-15
+                                      = content.rating_count
+                                    %td.text-center.p-b-15
+                                      = content.rating.round(2)
+                                    %td.text-center.p-b-15
+                                      = link_to dashboard_chapter_content_path(content) do
+                                        %i.fa.fa-eye
+                                        Ver contenido
+                            - else
                               %tr
-                                %td.p-b-15
-                                  = content.model.identifier
-                                %td.text-center.p-b-15
-                                  = content.rating_count
-                                %td.text-center.p-b-15
-                                  = content.rating.round(2)
-                                %td.text-center.p-b-15
-                                  = link_to dashboard_chapter_content_path(content) do
-                                    %i.fa.fa-eye
-                                    Ver contenido
-                        - else
-                          %tr
-                            %td.p-b-15{colspan: "4"}
-                              Este módulo no contiene lecciones
+                                %td.p-b-15{colspan: "4"}
+                                  Este módulo no contiene lecciones
                                   
                         

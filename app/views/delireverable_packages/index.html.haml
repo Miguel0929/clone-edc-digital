@@ -6,28 +6,26 @@
     .panel-body
       .row
         .col-sm-8
-          %h3
+          %h3.p-t-5.p-b-10
             Paquetes de entregables
         .col-sm-4
-          .pull-right
-            = link_to new_delireverable_package_path, class: 'btn btn-primary m-t-15 m-r-15' do
+          .pull-right.p-t-10.p-b-10
+            = link_to new_delireverable_package_path, class: 'btn btn-primary' do
               %i.fa.fa-plus
               Agregar paquete
       .table-responsive
         %table.table.table-hover
           %thead
             %tr
-              %th{width: "5%"}
-              %th{width: "25%"}
+              %th{width: "30%"}
                 Paquete
               %th
                 Grupos
-              %th{width: "20%"}
+              %th{width: "25%"}
                 Acciones
           %tbody
             - @delireverable_packages.each do |package|
               %tr
-                %td
                 %td
                   %h5.m-t-0.m-b-5
                     = link_to package.name, edit_delireverable_package_path(package)

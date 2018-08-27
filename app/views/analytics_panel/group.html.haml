@@ -17,11 +17,11 @@
             .col-md-9
               = form_tag(group_analytics_panel_path, method: :get, class: "panel-filter-width", id: "groupAnalytics") do
                 .row.pull-right
-                  .col-md-4{style: "width: 200px"}
+                  .col-md-4.p-t-5.p-b-5{style: "width: 200px"}
                     = select_tag :group, options_from_collection_for_select(@groups, :id, :name, selected: @group.id ), {include_blank: "Elige uno de tus grupos", class: "form-control"}               
-                  .col-md-4{style: "width: 200px"}
+                  .col-md-4.p-t-5.p-b-5{style: "width: 200px"}
                     = select_tag :industry, options_from_collection_for_select(@industries, :id, :name, selected: @industry ), {include_blank: "Elige una de industria para filtrar", class: "form-control"}
-                  .col-md-2
+                  .col-md-2.p-t-5.p-b-5
                     = submit_tag 'Ver progreso', class: "btn btn-success btn-xs"
           .clearfix
     .panel-body.p-b-10
@@ -29,7 +29,7 @@
       - if @programs
         .row
           #staticHeads
-            .col-sm-3.p-r-0
+            .col-xs-3.p-r-0
               %table.table.colored-columns.m-t-0
                 %thead.static-heads
                   %tr
@@ -48,7 +48,7 @@
                           - elsif current_user.profesor?
                             = link_to student.name, profesor_student_path(student)      
             - if @programs
-              .col-sm-9.p-l-0
+              .col-xs-9.p-l-0
                 .horizontal-overflow
                   %table.table.colored-columns.m-t-0
                     %thead.static-heads
