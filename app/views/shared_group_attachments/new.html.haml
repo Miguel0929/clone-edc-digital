@@ -9,13 +9,13 @@
 					.panel-title
 						Subir Archivo
 				.panel-body
-					%i.fa.fa-upload.fa-2x.hint-text.m-t-40
+					%i.fa.fa-upload.fa-2x.hint-text
 					.h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
 						Usa este formulario para compartir archivos con los grupos
 					%p.m-b-30{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
 						Puedes escoger los grupos con los que se compartirán los archivos
 			.col-md-8
-				.m-r-70.m-l-30
+				.panel-body
 					= bootstrap_form_for(@attachment) do |f|
 						= f.select(:document_type, Attachment.document_type_options, {:label => 'Tipo de documento'}, {:class => 'minimal'})
 						= f.text_field :label, label: 'Detalles / Comentarios'

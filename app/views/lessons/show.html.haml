@@ -1,37 +1,38 @@
 - content_for :title  do
   Lecciones - EDC Digital
 
-.container
-  .row
-    .col-md-12
-      .panel.panel-transparent
-        .panel-heading
-          .pull-left
-            .panel-title
-              Contenido de lección
-          .pull-right
-            %ul.no-style.unstyled.m-b-0.p-l-40.modules-menu-list
-              %li
-                = link_to content_chapter_path(@chapter) do
-                  %i.fa.fa-reply
-                  Regresar
-              %li
-                = link_to edit_chapter_lesson_path(@chapter, @lesson) do
-                  %i.fa.fa-edit
-                  Editar
-              %li
-                = link_to clone_chapter_lesson_path(@chapter, @lesson), method: :post, data: {confirm: '¿Estás seguro?'} do
-                  %i.fa.fa-copy
-                  Clonar 
-              %li
-                = link_to chapter_lesson_path(@chapter, @lesson), method: :delete, data: {confirm: '¿Estás seguro?'} do
-                  %i.fa.fa-times
-                  Eliminar 
+.container-fluid
+  .row 
+    .panel.panel-transparent
+      .panel-heading
+        .pull-left
+          .panel-title
+            Contenido de lección
+        .pull-right
+          %ul.no-style.unstyled.m-b-0.p-l-40.modules-menu-list
+            %li
+              = link_to content_chapter_path(@chapter) do
+                %i.fa.fa-reply
+                Regresar
+            %li
+              = link_to edit_chapter_lesson_path(@chapter, @lesson) do
+                %i.fa.fa-edit
+                Editar
+            %li
+              = link_to clone_chapter_lesson_path(@chapter, @lesson), method: :post, data: {confirm: '¿Estás seguro?'} do
+                %i.fa.fa-copy
+                Clonar 
+            %li
+              = link_to chapter_lesson_path(@chapter, @lesson), method: :delete, data: {confirm: '¿Estás seguro?'} do
+                %i.fa.fa-times
+                Eliminar 
 
-      %h2.text-center
-        = @lesson.identifier
+    %h2.text-center
+      = @lesson.identifier
 
-      %div
+    %div
+    .panel.panel-transparent
+      .panel-body
         - if @lesson.video_url.nil? || @lesson.video_url.empty?
           = raw @lesson.content
         - else
@@ -40,11 +41,11 @@
           - else
             .embed-responsive.embed-responsive-16by9
               = raw @lesson.video_url
-        /- if @lesson.content.nil? || @lesson.content.empty?
-        /  .embed-responsive.embed-responsive-16by9
-        /    = raw @lesson.video_url
-        /- else
-        /  = raw parse_lesson_content(@lesson)
+        -# if @lesson.content.nil? || @lesson.content.empty?
+        -#  .embed-responsive.embed-responsive-16by9
+        -#    = raw @lesson.video_url
+        -# else
+        -#  = raw parse_lesson_content(@lesson)
 
 :javascript
   //$( ".embed-responsive" ).wrap( "<div class='row'></div>" );

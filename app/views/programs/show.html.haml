@@ -25,11 +25,11 @@
               - @program.chapters.each do |chapter|
                 #accordion.card.card-default{"aria-multiselectable" => "true", :role => "tablist", id: "chapter_#{chapter.id}"}
                   .modules-heading-card
-                    .pull-left
+                    .pull-left.cell-down-unfloat
                       %span.handle-sort
                         [mover]
-                    .pull-right
-                      %ul.no-style.unstyled.m-b-0.p-l-40.modules-menu-list
+                    .pull-right.cell-down-unfloat
+                      %ul.no-style.unstyled.m-b-0.p-l-40.modules-menu-list.cell-down-pl0.cell-down
                         %li
                           = link_to content_chapter_path(chapter) do
                             %i.fa.fa-briefcase
@@ -94,22 +94,20 @@
                               - elsif content.coursable_type == 'DelireverablePackage'
                                 .well{id: "chapter_content_#{content.id}"}
                                   = render partial: 'delireverable_programs/delireverable', locals: { delireverable: content, chapter: chapter}         
-      
-
                         .text-center
                           = link_to 'Agregar contenido', new_chapter_lesson_path(chapter), class: 'btn btn-success'
                           = link_to 'Agregar pregunta', new_chapter_question_path(chapter), class: 'btn btn-primary'
-                          /= link_to 'Agregar evaluación', new_chapter_quiz_program_path(chapter), class: 'btn btn-success'
-                          /= link_to 'Agregar plantilla', new_chapter_refillable_program_path(chapter), class: 'btn btn-primary'
-                          /= link_to 'Agregar entregable', new_chapter_delireverable_program_path(chapter), class: 'btn btn-success'
+                          =# link_to 'Agregar evaluación', new_chapter_quiz_program_path(chapter), class: 'btn btn-success'
+                          =# link_to 'Agregar plantilla', new_chapter_refillable_program_path(chapter), class: 'btn btn-primary'
+                          =# link_to 'Agregar entregable', new_chapter_delireverable_program_path(chapter), class: 'btn btn-success'
           .row.p-r-20.p-l-20
             - if @pending_content_notifications.count > 0
-              = link_to  notify_changes_program_path,:method => 'post', class: 'btn btn-success pull-right m-l-10' do
+              = link_to  notify_changes_program_path, :method => 'post', class: 'btn btn-success pull-right m-l-10 m-t-5 m-b-5', style: "white-space: normal !important; word-wrap: break-word;" do
                 %i.fa.fa-send
-                %span Enviar notificación de cambios ( #{@pending_content_notifications.count} )
-            = link_to new_program_chapter_path(@program), class: 'btn btn-primary pull-right' do
+                Enviar notificación de cambios ( #{@pending_content_notifications.count} )
+            = link_to new_program_chapter_path(@program), class: 'btn btn-primary pull-right m-t-5 m-b-5' do
               %i.fa.fa-plus
-              %span Agregar módulo
+              Agregar módulo
           .row.p-r-20.p-l-20
             - if @pending_content_notifications.count > 0
               .small-text.text-primary.pull-right.p-t-10

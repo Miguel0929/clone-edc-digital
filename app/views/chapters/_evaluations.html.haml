@@ -4,16 +4,16 @@
       [mover]
     %span.bold
       = evaluation.name
-    .pull-right
-      %span.option.p-r-10.p-l-10
+    .pull-right.cell-down.modules-menu-list
+      %span.option.p-r-10
         %strong Puntos: 
         =evaluation.points
-      %span.option.p-r-10.p-l-10
+      %span.option.p-r-10
         %a.cursor{"data-toggle"=>"modal", "data-target"=>"#addRubric", "onclick"=>"edit_rubric(\'#{chapter.id}\',#{ evaluation.to_json});"} 
           %i.fa.fa-edit
           Editar
       
-      %span.option.p-r-10.p-l-10
+      %span.option.p-r-10
         = link_to chapter_evaluation_path(chapter, evaluation), method: :delete, data: { confirm: '¿Estás seguro?'} do
           %i.fa.fa-times
           Eliminar

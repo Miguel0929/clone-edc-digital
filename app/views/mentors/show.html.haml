@@ -2,16 +2,18 @@
   Mentor - EDC Digital
 
 .container-fluid.container-fixed-lg
-  %h3
-    Detalles del Mentor: #{@user.name}
-    = link_to edit_mentor_path(@user) do
-      %span.glyphicon.glyphicon-edit
-    - if current_user.admin?
-      - color = @user.banned? ? "btn-success" : "btn-danger"
-      = link_to change_state_mentor_path(@user), class: "btn #{color}  pull-right", data: { confirm: '¿Estás seguro?' } do
-        - @user.banned? ? "Desbloquear usuario" :  "Bloquear usuario"    
   .panel.panel-default
     .panel-body
+      .row
+        .col-md-12
+          %h3
+            Detalles del Mentor: #{@user.name}
+            = link_to edit_mentor_path(@user) do
+              %span.glyphicon.glyphicon-edit
+            - if current_user.admin?
+              - color = @user.banned? ? "btn-success" : "btn-danger"
+              = link_to change_state_mentor_path(@user), class: "btn #{color}  pull-right", data: { confirm: '¿Estás seguro?' } do
+                - @user.banned? ? "Desbloquear usuario" :  "Bloquear usuario" 
       .row
         .col-md-2
           .share.share-other.m-t-5
@@ -72,12 +74,11 @@
           %h3
             Alumnos de #{@user.name}
         .pull-right
-          .col-xs-12
-            .form-group
-              %div.input-group
-                %input#search-table.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
-                %span.input-group-addon.panel-title-recursos
-                  %i.fa.fa-search.text-white
+          .form-group
+            %div.input-group
+              %input#search-table.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+              %span.input-group-addon.panel-title-recursos
+                %i.fa.fa-search.text-white
         .clearfix
       .panel-body
         %table.table.table-hover.datatable

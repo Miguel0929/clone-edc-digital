@@ -5,15 +5,14 @@
   .panel.panel-default
     .panel-heading
       .pull-right
-        /.col-xs-6
-        /  %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
-        .col-xs-6
-          %button#btnToggleSlideUpSize.btn.btn-primary 
-            %i.fa.fa-plus
-            Marcar pregunta
+        .col-md-6
+          .row
+            %button#btnToggleSlideUpSize.btn.btn-primary 
+              %i.fa.fa-plus
+              Marcar pregunta
       .clearfix
     .panel-body
-      %table.table.table-over
+      %table.table.table-hover
         %thead
           %tr
             %th Pregunta
@@ -26,7 +25,7 @@
               - chapter = chapter_c.chapter
               - program = chapter.program
               %tr
-                %td.p-t-15.p-b-10
+                %td.p-t-15.p-b-10{width: "70%"}
                   %h4.m-t-0.m-b-5
                     = question.question_text
                   %p
@@ -39,13 +38,10 @@
                       Programa:
                     %span
                       = link_to program.name, program
-                %td.p-t-15.p-b-10.text-center
+                %td.p-t-15.p-b-10.text-center{width: "30%"}
                   = link_to key, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
-                    %ul.p-l-0.m-b-0
-                      %li.inline 
-                        %i.fa.fa-times
-                      %li.inline 
-                        Eliminar marca
+                    %i.fa.fa-times 
+                    Eliminar marca
 
 #modalSlideUp.modal.fade.slide-up.disable-scroll{"aria-hidden" => "false", :role => "dialog", :tabindex => "-1"}
   .modal-dialog

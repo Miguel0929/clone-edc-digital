@@ -3,9 +3,9 @@
     = f.text_field :identifier, label: 'Identificador'
     = f.text_area :content, ckeditor: { language: 'es'}, id: 'ckeditor', label: 'Contenido'
     .row
-      .col-sm-10.p-l-0
+      .col-sm-10
         = f.text_area :video_url, label: 'URL del video'
-      .col-sm-2.videoBtn-padding.p-l-0
+      .col-sm-2.videoBtn-padding
         .btn.btn-complete#addVideoBtn
           Agregar video
     .hint-text
@@ -20,7 +20,7 @@
               %option{:value => "/"} Selecciona una opción
               - @program_attachments.each do |p_attach|
                 %option{:value => "#{p_attach.file}"} "#{p_attach.file_identifier}"
-        .col-md-.p-t-15
+        .col-md-2.p-t-15
           .btn.btn-complete.pull-right#addLink
             Agregar Vinculo           
     %br

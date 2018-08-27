@@ -32,9 +32,9 @@
 .container-fluid.container-fixed-lg							
 	- if @category.glossaries.exists?
 		- @category.glossaries.each do |glossary|
-			.widget-11-2.panel.no-border
-				.p-r-25.p-l-25.p-t-10.p-b-10
-					.pull-right.p-r-20
+			.widget-11-2.panel.no-border	
+				.panel-body
+					.pull-right
 						%h6
 							- if current_user.admin?
 								%span.m-r-15
@@ -52,8 +52,8 @@
 					.pull-left
 						%h4.text-success 
 							= link_to glossary.term, glossary_path(glossary)
-					.clearfix
-				.p-r-25.p-l-25.p-t-10.p-b-10
+				.clearfix
+				.panel-body
 					.row
 						.col-sm-8
 							%h5.no-margin

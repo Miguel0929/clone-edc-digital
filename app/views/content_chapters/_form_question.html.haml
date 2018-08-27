@@ -19,9 +19,10 @@
               %button#addAnswer.btn.btn-default{:type => "button"}
                 Agregar
       .row
-        %h6
-          Respuestas
-        %ul#answers-list
+        .col-md-12
+          %h6
+            Respuestas
+          %ul#answers-list
     %br
     = f.text_field :points, label: 'Valor de esta pregunta'
 

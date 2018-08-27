@@ -2,17 +2,14 @@
   Editar programa - EDC Digital
 
 .container-fluid.container-fixed-lg
-  .row
-    .col-md-12
-      .panel.panel-default
-        .panel-heading
-          %h3.panel-title
-            Editar programa
-        .panel-body
-          .row
-            .col-sm-8
-              %h3
-                = @program.name
-          .row.padding-20
-            = render 'form'
+  .panel.panel-default
+    .panel-heading
+      %h3.panel-title
+        Editar programa
+    .panel-body
+      .row
+        %h3.text-center
+          = @program.name
+      .row
+        = render 'form'
 

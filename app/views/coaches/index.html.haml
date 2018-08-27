@@ -3,91 +3,91 @@
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
-    .panel-heading
-      .pull-right
-        .col-xs-12
-          .form-group
-            %div.input-group
-              = form_tag(coaches_path, method: :get) do
-                = text_field_tag :query, "", class: "form-control text-black", :placeholder => "Buscar"
-              %span.input-group-addon.panel-title-recursos
-                %i.fa.fa-search.text-white
-      .clearfix
     .panel-body
       %h2
-        .pull-right.cell-w100p.cell-pb15
-          = link_to 'Agregar tutor nuevo', new_coach_path, class: 'btn btn-primary cell-w100p'
-        .pull-right.m-r-15.cell-w100p.cell-pb15
-          = link_to 'Reasignar tutores', reasign_coaches_path, class: 'btn btn-primary cell-w100p'
-        .pull-left
-          Lista de tutores
-        .clearfix.cell-pb15
-      .table-responsive
-        %table.table.table-hover
-          %thead
-            %tr
-              %th
-                Id
-              %th
-                Datos de contacto
-              %th
-                Información de usuario
-              %th
-                Acciones
-          %tbody
-            - @coaches.each do |coach|
-              %tr
-                %td.p-b-15
-                  = coach.id
-                %td.p-b-15
-                  .m-t-0
-                    = link_to coach.name,  mentor_path(coach)
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %i.fa.fa-envelope
-                    %li.inline 
-                      = coach.email
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %i.fa.fa-phone
-                    %li.inline 
-                      = coach.phone_number
-                %td.p-b-15
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %strong
-                        Número de aprendices: 
-                    %li.inline
-                      = coach.trainees.count
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %strong
-                        Número de grupos: 
-                    %li.inline 
-                      = coach.groups.count
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %span.bold Última sesión:
-                    %li.inline 
-                      - if !coach.visits.last.nil?
-                        = l coach.visits.last.started_at, format: :short_special
-                      - else
-                        %span.text-danger Ninguna
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %span.bold Grupo personal: 
-                    %li.inline= coach.group.nil? ? 'Sin grupo asignado' : coach.group.name        
-                %td.p-b-15
-                  %ul.unstyled.list-unstyled.p-l-0.m-b-0
-                    %li
-                      = link_to trainees_coach_path(coach) do
-                        %i.fa.fa-eye
-                        Ver lista de aprendices
-                    %li
-                      = link_to coach_path(coach), method: :delete, data: { confirm: '¿Estás seguro?' } do
-                        %i.fa.fa-times
-                        Eliminar tutoría
+        Lista de tutores
       .pull-right
-        = paginate @coaches
-        %br
-        %span.text-center= page_entries_info @coaches
+        .form-group
+          .input-group
+            = form_tag(coaches_path, method: :get) do
+              = text_field_tag :query, "", class: "form-control text-black", :placeholder => "Buscar"
+            %span.input-group-addon.panel-title-recursos
+              %i.fa.fa-search.text-white     
+      .row
+        .col-md-offset-8.col-md-2
+          .pull-right.p-t-5.p-b-5       
+            = link_to 'Agregar tutor nuevo', new_coach_path, class: 'btn btn-primary'
+        .col-md-2
+          .pull-right.p-t-5.p-b-5  
+            = link_to 'Reasignar tutores', reasign_coaches_path, class: 'btn btn-primary'
+      .row
+        .col-md-12  
+          .table-responsive
+            %table.table.table-hover
+              %thead
+                %tr
+                  %th
+                    Id
+                  %th
+                    Datos de contacto
+                  %th
+                    Información de usuario
+                  %th
+                    Acciones
+              %tbody
+                - @coaches.each do |coach|
+                  %tr
+                    %td.p-b-15
+                      = coach.id
+                    %td.p-b-15
+                      .m-t-0
+                        = link_to coach.name,  mentor_path(coach)
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %i.fa.fa-envelope
+                        %li.inline 
+                          = coach.email
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %i.fa.fa-phone
+                        %li.inline 
+                          = coach.phone_number
+                    %td.p-b-15
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %strong
+                            Número de aprendices: 
+                        %li.inline
+                          = coach.trainees.count
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %strong
+                            Número de grupos: 
+                        %li.inline 
+                          = coach.groups.count
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %span.bold Última sesión:
+                        %li.inline 
+                          - if !coach.visits.last.nil?
+                            = l coach.visits.last.started_at, format: :short_special
+                          - else
+                            %span.text-danger Ninguna
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %span.bold Grupo personal: 
+                        %li.inline= coach.group.nil? ? 'Sin grupo asignado' : coach.group.name        
+                    %td.p-b-15
+                      %ul.unstyled.list-unstyled.p-l-0.m-b-0
+                        %li
+                          = link_to trainees_coach_path(coach) do
+                            %i.fa.fa-eye
+                            Ver lista de aprendices
+                        %li
+                          = link_to coach_path(coach), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                            %i.fa.fa-times
+                            Eliminar tutoría
+          .pull-right
+            = paginate @coaches
+            %br
+            %span.text-center= page_entries_info @coaches

@@ -5,40 +5,41 @@
   .panel.panel-default
     .panel-heading
       .pull-right
-        .col-xs-12
-          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
+        %input#search-table.form-control{:placeholder => "Search", :type => "text"}/
       .clearfix
     .panel-body
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Usuario
-            %th
-              Navegador
-            %th
-              Dispositivo
-            %th
-              Sistema operativo
-            %th
-              Inició de sesión
-        %tbody
-          - @visits.each do |visit|
+      .table-responsive
+        %table.table.table-hover
+          %thead
             %tr
-              %td
-                = visit.user.email
-              %td
-                = visit.browser
-              %td
-                = visit.device_type
-              %td
-                = visit.os
-              %td
-                = l visit.started_at, format: :special
+              %th
+                Usuario
+              %th
+                Navegador
+              %th
+                Dispositivo
+              %th
+                Sistema operativo
+              %th
+                Inició de sesión
+          %tbody
+            - @visits.each do |visit|
+              %tr
+                %td
+                  = visit.user.email
+                %td
+                  = visit.browser
+                %td
+                  = visit.device_type
+                %td
+                  = visit.os
+                %td
+                  = l visit.started_at, format: :special
       .row
-        .pull-right
-          %p= page_entries_info @visits
-          %p= paginate @visits
+        .col-md-12
+          .pull-right
+            %p= page_entries_info @visits
+            %p= paginate @visits
 
       .row
         %h2.text-center

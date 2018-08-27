@@ -10,60 +10,61 @@
             Plantillas
         .col-sm-4
           .pull-right
-            = link_to new_template_refilable_path, class: 'btn btn-primary m-t-15 m-r-15' do
+            = link_to new_template_refilable_path, class: 'btn btn-primary m-t-10 m-b-10' do
               %i.fa.fa-plus
               Agregar plantilla
-      %table.table.table-hover
-        %thead
-          %tr
-            %th{width: "5%"}
-            %th{width: "40%"} Plantilla
-            %th Grupos
-            %th{width: "15%"} Acciones
+      .table-responsive        
+        %table.table.table-hover
+          %thead
+            %tr
+              %th{width: "5%"}
+              %th{width: "40%"} Plantilla
+              %th Grupos
+              %th{width: "20%"} Acciones
 
-        %tbody.sortable{'data-update-url'=> url_prod_helper(sort_template_refilables_path())}
-          - @template_refilables.each do |template_refilable|
-            %tr{id: "template_refilable_#{template_refilable.id}"}
-              %td.handle-sort
-                [mover]
-              %td
-                %h5.m-t-0.m-b-5
-                  = link_to template_refilable.name, edit_template_refilable_path(template_refilable)
-                %ul.p-l-0.m-b-10  
-                  %li.inline 
-                    = template_refilable.description
-                %ul.p-l-0.m-b-10  
-                  %li.inline
-                    %span.bold Programa: 
-                    = template_refilable.program.nil? ? "Ninguno" :  (link_to template_refilable.program.name,  program_path(template_refilable.program))
-              %td
-                - template_refilable.groups.each do |group|
-                  .label.m-r-5.m-b-5
-                    = group.name.titleize
-              %td
-                %ul.p-l-0.m-b-10
-                  = link_to template_refilable do
-                    %li.inline
-                      %i.fa.fa-eye
+          %tbody.sortable{'data-update-url'=> url_prod_helper(sort_template_refilables_path())}
+            - @template_refilables.each do |template_refilable|
+              %tr{id: "template_refilable_#{template_refilable.id}"}
+                %td.handle-sort
+                  [mover]
+                %td
+                  %h5.m-t-0.m-b-5
+                    = link_to template_refilable.name, edit_template_refilable_path(template_refilable)
+                  %ul.p-l-0.m-b-10  
                     %li.inline 
-                      Ver plantilla
-                %ul.p-l-0.m-b-10
-                  = link_to edit_template_refilable_path(template_refilable) do
+                      = template_refilable.description
+                  %ul.p-l-0.m-b-10  
                     %li.inline
-                      %i.fa.fa-edit
-                    %li.inline 
-                      Editar plantilla
-                %ul.p-l-0.m-b-10
-                  = link_to rubrics_template_refilable_path(template_refilable) do
-                    %li.inline
-                      %i.fa.fa-tasks
-                    %li.inline 
-                    Rubricas de evaluación(#{template_refilable.evaluation_refilables.count})
+                      %span.bold Programa: 
+                      = template_refilable.program.nil? ? "Ninguno" :  (link_to template_refilable.program.name,  program_path(template_refilable.program))
+                %td
+                  - template_refilable.groups.each do |group|
+                    .label.m-r-5.m-b-5
+                      = group.name.titleize
+                %td
+                  %ul.p-l-0.m-b-10
+                    = link_to template_refilable do
+                      %li.inline
+                        %i.fa.fa-eye
+                      %li.inline 
+                        Ver plantilla
+                  %ul.p-l-0.m-b-10
+                    = link_to edit_template_refilable_path(template_refilable) do
+                      %li.inline
+                        %i.fa.fa-edit
+                      %li.inline 
+                        Editar plantilla
+                  %ul.p-l-0.m-b-10
+                    = link_to rubrics_template_refilable_path(template_refilable) do
+                      %li.inline
+                        %i.fa.fa-tasks
+                      %li.inline 
+                      Rubricas de evaluación(#{template_refilable.evaluation_refilables.count})
 
-                %ul.p-l-0.m-b-10
-                  = link_to template_refilable, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
-                    %li.inline
-                      %i.fa.fa-times
-                    %li.inline 
-                      Eliminar plantilla
+                  %ul.p-l-0.m-b-10
+                    = link_to template_refilable, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+                      %li.inline
+                        %i.fa.fa-times
+                      %li.inline 
+                        Eliminar plantilla
 
