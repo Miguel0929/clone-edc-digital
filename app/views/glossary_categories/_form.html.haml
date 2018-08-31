@@ -2,8 +2,8 @@
 	= f.text_field :title, label: 'Nombre de la categoría:'
 	.pull-right
 		=link_to glossary_categories_path do
-			%button.btn.btn-info.m-l-10
+			%button.btn.btn-info
 				%i.fa.fa-times
 				Cancelar
-		= f.submit 'Guardar categoría', class: 'btn btn-success m-l-10'
+		= f.submit 'Guardar categoría', class: 'btn btn-success'
 	

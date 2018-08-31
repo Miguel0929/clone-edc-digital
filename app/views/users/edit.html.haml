@@ -2,19 +2,25 @@
   Editar usuario - EDC Digital
 
 .container
-  .row
-    .col-md-12
-      %h2.text-center
-        Editar información
+  .panel.panel-default
+    .panel-body
+      .row
+        .col-md-12
+          %h2.text-center
+            Editar información
 
-      = bootstrap_form_for(@user) do |f|
-        = f.text_field :first_name
-        = f.text_field :last_name
-        = f.text_field :email
-        = f.text_field :phone_number
-        = f.collection_select(:group_id, Group.all, :id, :name, label: 'Grupo al que pertenece')
-        - if current_user.admin?
-          = f.select(:role, User::ROLETYPES, label: "Tipo de usuario")
+          = bootstrap_form_for(@user) do |f|
+            = f.text_field :first_name
+            = f.text_field :last_name
+            = f.text_field :email
+            = f.text_field :phone_number
+            = f.collection_select(:group_id, Group.all, :id, :name, label: 'Grupo al que pertenece')
+            - if current_user.admin?
+              = f.select(:role, User::ROLETYPES, label: "Tipo de usuario")
 
-        = link_to 'Cancelar', user_path(@user), class: 'btn btn-danger'
-        = f.submit 'Aceptar'
+            = link_to 'Cancelar', user_path(@user), class: 'btn btn-danger hidden-xs'
+            = f.submit 'Aceptar', class: "btn btn-default hidden-xs"
+            %center.visible-xs
+              = link_to 'Cancelar', user_path(@user), class: 'btn btn-danger'
+              = f.submit 'Aceptar', class: "btn btn-default"
+

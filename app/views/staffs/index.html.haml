@@ -5,54 +5,54 @@
   .panel.panel-default
     .panel-heading
       .pull-right
-        .col-xs-12
-          .form-group
-            %div.input-group
-              %input#search-table.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
-              %span.input-group-addon.panel-title-recursos
-                %i.fa.fa-search.text-white
+        .form-group
+          .input-group
+            %input#search-table.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+            %span.input-group-addon.panel-title-recursos
+              %i.fa.fa-search.text-white
       .clearfix
     .panel-body
       %h2
         Personal del staff
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Id
-            %th
-              Nombre
-            %th
-              Correo electrónico
-            %th
-              Teléfono
-            %th
-              Estado
-            %th
-        %tbody
-          - @users.each do |user|
+      .table-responsive  
+        %table.table.table-hover
+          %thead
             %tr
-              %td
-                = user.id
-              %td
-                = user.name
-              %td
-                = user.email
-              %td
-                = user.phone_number
-              %td
-                = user.status
-              %td
-                .btn-group
-                  %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-                    %span.glyphicon.glyphicon-pencil
-                    %span.caret
-                  %ul.dropdown-menu
-                    %li
-                      = link_to 'Ver información', staff_path(user)
-                    %li.divider
-                    %li
-                      = link_to 'Eliminar usuario', staff_path(user), method: :delete, data: { confirm: '¿Estás seguro?' }
+              %th
+                Id
+              %th
+                Nombre
+              %th
+                Correo electrónico
+              %th
+                Teléfono
+              %th
+                Estado
+              %th
+          %tbody
+            - @users.each do |user|
+              %tr
+                %td
+                  = user.id
+                %td
+                  = user.name
+                %td
+                  = user.email
+                %td
+                  = user.phone_number
+                %td
+                  = user.status
+                %td
+                  .btn-group
+                    %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+                      %span.glyphicon.glyphicon-pencil
+                      %span.caret
+                    %ul.dropdown-menu
+                      %li
+                        = link_to 'Ver información', staff_path(user)
+                      %li.divider
+                      %li
+                        = link_to 'Eliminar usuario', staff_path(user), method: :delete, data: { confirm: '¿Estás seguro?' }
       .pull-right
         = paginate @users
         = page_entries_info @users

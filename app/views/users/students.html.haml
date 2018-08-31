@@ -3,13 +3,13 @@
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-30.panel-title-emprendimiento
-    .container
+    .container-fluid
       .md-p-l-20.md-p-r-20.xs-no-padding
         .row.col-md-12
-          .col-sm-4.col-md-4.no-padding.xs-p-l-15.xs-p-r-15
+          .col-sm-4.col-md-4.xs-p-l-15.xs-p-r-15
             %h2.text-white 
               Estudiantes
-          .col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
+          .col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
             %h5.text-white
               Es tiempo de construir y validar tu idea de negocio...
             %p.m-b-25.text-white
@@ -18,47 +18,53 @@
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
-      .row.p-r-10.p-b-30
-        .pull-right
+      .row.p-r-15.p-l-15.p-t-15.p-b-30
+        .pull-right.hidden-xs
           .btn-group{"role" => "group", "aria-label" => "..."}
             = link_to "Programas", students_users_path, class: 'btn btn-default active'
             = link_to "Plantillas", template_refilables_users_path, class: 'btn btn-default'
-            = link_to "Evaluaciones", quizzes_users_path, class: 'btn btn-default'   
-      .pull-right#filters.row.inline-block
-        - if current_user.admin?
-          = form_tag(students_users_path, method: :get) do
-            %a#collap
-              .font-montserrat.font-search.filter-padding.m-l-15.m-r-15
-                %h4.panel-title.search-title.text-white.ver.heding-text-like
-                  Ver filtros de búsqueda
-            #ver_collap
+            = link_to "Evaluaciones", quizzes_users_path, class: 'btn btn-default'
+        .btn-group-vertical.visible-xs{"role" => "group", "aria-label" => "..."}
+          = link_to "Programas", students_users_path, class: 'btn btn-default active'
+          = link_to "Plantillas", template_refilables_users_path, class: 'btn btn-default'
+          = link_to "Evaluaciones", quizzes_users_path, class: 'btn btn-default'     
+      #filters.row
+        - if current_user.admin?   
+          %a#collap.pull-left.hidden-xs.p-t-20
+            #headingfiltros.panel-title-recursos.font-montserrat.font-search.filter-padding.m-l-15.m-r-15
+              %h4.panel-title.search-title.text-white.ver.heding-text-like
+                Ver Filtros de búsqueda
+          %a#collap.visible-xs    
+            #headingfiltros.panel-title-recursos.font-montserrat.font-search.filter-padding.m-l-15.m-r-15
+              %h4.panel-title.search-title.text-white.ver.heding-text-like
+                Ver Filtros de búsqueda  
+          #ver_collap
+            = form_tag(students_users_path, method: :get) do
               .col-md-12.learning-img
-                %aside.sidebar-menu
-                  /%h4.search-title Filtrar búsqueda:
-                  .search-group
-                    .col-md-3.col-sm-4.col-xs-12
-                      .s-s-title
-                        %i.fa.fa-check-square-o
-                        Status:
-                      = select_tag :status, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:status]), {include_blank: "Filtra por status", :style => "width: 150px;"} 
-                  .search-group
-                    .col-md-3.col-sm-4.col-xs-12
-                      .s-s-title
-                        %i.fa.fa-users
-                        Grupo:
-                      = select_tag :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "" }
-                  .search-group
-                    .col-md-3.col-sm-4.col-xs-12
-                      .s-s-title
-                        %i.fa.fa-university
-                        Universidad:
-                      = select_tag :university, options_from_collection_for_select(@universities, :id, :name, params[:university]), {include_blank: "Filtra por universidad", class: "" }
-                  .search-group
-                    .col-md-3.col-sm-4.col-xs-12
-                      .s-s-title
-                        %i.fa.fa-map-marker
-                        Estado:
-                      = select_tag :state, options_from_collection_for_select(State.all, :id, :name, params[:state]), {include_blank: "Filtra por estado", class: "" }  
+                .search-group
+                  .col-md-3.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-check-square-o
+                      Status:
+                    = select_tag :status, options_for_select([['Activo', 'active'], ['Inactivo', 'inactive']], params[:status]), {include_blank: "Filtra por status", :style => "width: 150px;"} 
+                .search-group
+                  .col-md-3.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-users
+                      Grupo:
+                    = select_tag :group, options_from_collection_for_select(Group.all, :id, :name, params[:group]), {include_blank: "Filtra por grupo", class: "" }
+                .search-group
+                  .col-md-3.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-university
+                      Universidad:
+                    = select_tag :university, options_from_collection_for_select(@universities, :id, :name, params[:university]), {include_blank: "Filtra por universidad", class: "" }
+                .search-group
+                  .col-md-3.col-sm-4.col-xs-12
+                    .s-s-title
+                      %i.fa.fa-map-marker
+                      Estado:
+                    = select_tag :state, options_from_collection_for_select(State.all, :id, :name, params[:state]), {include_blank: "Filtra por estado", class: "" }  
               .col-md-12
                 .search-group
                   .col-md-3.col-sm-4.col-xs-12
@@ -119,132 +125,132 @@
                       = link_to 'Formato rápido', students_users_path(format: :xlsx, fast: true)
                     %li
                       = link_to 'Formato completo', students_users_path(format: :xlsx, fast: false)
-      .pull-right.w-300
-        .col-xs-12
-          .form-group
-            %div.input-group
-              %input#admin_students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
-              %span.input-group-addon.font-search
-                %i.fa.fa-search.text-white
+          .pull-right.w-300.p-t-20
+            .col-xs-12
+              .form-group
+                %div.input-group
+                  %input#admin_students.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+                  %span.input-group-addon.font-search
+                    %i.fa.fa-search.text-white
       .pull-left
         .p-t-10
           %span.hint-text Mostrando:
           = @total_users
           %span.hint-text estudiante(s)
       .clearfix
-
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Id
-            %th{:width => "25%"}
-              Datos de contacto
-            %th{:width => "25%"}
-              Información de usuario
-            - if current_user.admin?
-              %th{:width => "25%"}
-                Porcentaje de avances
-            %th
-              Acciones
-        %tbody
-          - @users.each do |user|
+      .table-responsive
+        %table.table.table-hover
+          %thead
             %tr
-              %td
-                = user.id
-              %td  
-                .m-b-0
-                  = link_to user.name, user_path(user)
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %i.fa.fa-envelope
-                  %li.inline 
-                    = user.email
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %i.fa.fa-phone
-                  %li.inline 
-                    = user.phone_number
-              %td
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %span.bold Estado:
-                  %li.inline{:class => "#{(user.status == 'Inactivo') ? 'text-danger' : 'text-primary'}"} 
-                    = user.status
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %span.bold Rol:
-                  %li.inline 
-                    = user.huminize_role
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %span.bold Grupo:
-                  %li.inline 
-                    = user.group.name.capitalize unless user.group.nil?
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %span.bold Última sesión:
-                  %li.inline 
-                    - if !user.sessions.last.nil?
-                      = l user.sessions.last.start, format: :short_special
-                    - else
-                      %span.text-danger Ninguna
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %span.bold Industria:
-                  %li.inline 
-                    = if user.industry.nil? then "No seleccionado" else user.industry.name end
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %span.bold Ruta P. Fisica:
-                  %li.inline 
-                    = if user.group.nil? || user.group.learning_path.nil? then "No seleccionada" else user.group.learning_path.name end
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %span.bold Ruta P. Moral:
-                  %li.inline 
-                    = if user.group.nil? || user.group.learning_path2.nil? then "No seleccionada" else user.group.learning_path2.name end               
+              %th
+                Id
+              %th{:width => "25%"}
+                Datos de contacto
+              %th{:width => "25%"}
+                Información de usuario
               - if current_user.admin?
+                %th{:width => "25%"}
+                  Porcentaje de avances
+              %th
+                Acciones
+          %tbody
+            - @users.each do |user|
+              %tr
+                %td
+                  = user.id
+                %td  
+                  .m-b-0
+                    = link_to user.name, user_path(user)
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %i.fa.fa-envelope
+                    %li.inline 
+                      = user.email
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %i.fa.fa-phone
+                    %li.inline 
+                      = user.phone_number
                 %td
                   %ul.p-l-0.m-b-0
                     %li.inline 
-                      %span.bold Contestado:
-                    %li.inline 
-                      #{user.user_progress.ceil}%
+                      %span.bold Estado:
+                    %li.inline{:class => "#{(user.status == 'Inactivo') ? 'text-danger' : 'text-primary'}"} 
+                      = user.status
                   %ul.p-l-0.m-b-0
                     %li.inline 
-                      %span.bold Visto:
+                      %span.bold Rol:
                     %li.inline 
-                      #{user.user_seen.ceil}%
+                      = user.huminize_role
                   %ul.p-l-0.m-b-0
                     %li.inline 
-                      %span.bold Estatus de evaluación:
+                      %span.bold Grupo:
                     %li.inline 
-                      #{user.evaluation_status}
-              %td
-                %ul.unstyled.list-unstyled.p-l-0.m-b-0
-                  %li 
-                    = link_to user_path(user) do
-                      %i.fa.fa-eye
-                      Ver información
-                  %li
-                    = link_to summary_user_path(user) do
-                      %i.fa.fa-bolt.bolt-margin
-                      Resumen de avances
-                  - if user.student?
-                    - if current_user.admin?
-                      %li
-                        = link_to edit_user_path(user) do
-                          %i.fa.fa-edit
-                          Editar
-                      %li
-                        = link_to user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' } do
-                          %i.fa.fa-times
-                          Eliminar
-                      %li
-                        = link_to new_user_invitation_path, :target => "_blank" do
-                          %i.fa.fa-send-o
-                          Enviar invitación
+                      = user.group.name.capitalize unless user.group.nil?
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %span.bold Última sesión:
+                    %li.inline 
+                      - if !user.sessions.last.nil?
+                        = l user.sessions.last.start, format: :short_special
+                      - else
+                        %span.text-danger Ninguna
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %span.bold Industria:
+                    %li.inline 
+                      = if user.industry.nil? then "No seleccionado" else user.industry.name end
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %span.bold Ruta P. Fisica:
+                    %li.inline 
+                      = if user.group.nil? || user.group.learning_path.nil? then "No seleccionada" else user.group.learning_path.name end
+                  %ul.p-l-0.m-b-0
+                    %li.inline 
+                      %span.bold Ruta P. Moral:
+                    %li.inline 
+                      = if user.group.nil? || user.group.learning_path2.nil? then "No seleccionada" else user.group.learning_path2.name end               
+                - if current_user.admin?
+                  %td
+                    %ul.p-l-0.m-b-0
+                      %li.inline 
+                        %span.bold Contestado:
+                      %li.inline 
+                        #{user.user_progress.ceil}%
+                    %ul.p-l-0.m-b-0
+                      %li.inline 
+                        %span.bold Visto:
+                      %li.inline 
+                        #{user.user_seen.ceil}%
+                    %ul.p-l-0.m-b-0
+                      %li.inline 
+                        %span.bold Estatus de evaluación:
+                      %li.inline 
+                        #{user.evaluation_status}
+                %td
+                  %ul.unstyled.list-unstyled.p-l-0.m-b-0
+                    %li 
+                      = link_to user_path(user) do
+                        %i.fa.fa-eye
+                        Ver información
+                    %li
+                      = link_to summary_user_path(user) do
+                        %i.fa.fa-bolt.bolt-margin
+                        Resumen de avances
+                    - if user.student?
+                      - if current_user.admin?
+                        %li
+                          = link_to edit_user_path(user) do
+                            %i.fa.fa-edit
+                            Editar
+                        %li
+                          = link_to user_path(user), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                            %i.fa.fa-times
+                            Eliminar
+                        %li
+                          = link_to new_user_invitation_path, :target => "_blank" do
+                            %i.fa.fa-send-o
+                            Enviar invitación
       .pull-right
         = paginate @users
         %br

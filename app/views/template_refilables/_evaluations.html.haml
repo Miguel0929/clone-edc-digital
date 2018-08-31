@@ -5,18 +5,19 @@
     %span.bold
       = evaluation.name
     .pull-right
-      %span.option.p-r-10.p-l-10
-        %strong Puntos: 
-        =evaluation.points
-      %span.option.p-r-10.p-l-10
-        %a.cursor{"data-toggle"=>"modal", "data-target"=>"#addRubric", "onclick"=>"edit_rubric(\'#{template_refilable.id}\',#{ evaluation.to_json});"} 
-          %i.fa.fa-edit
-          Editar
-      
-      %span.option.p-r-10.p-l-10
-        = link_to template_refilable_evaluation_refilable_path(template_refilable, evaluation), method: :delete, data: { confirm: '¿Estás seguro?'} do
-          %i.fa.fa-times
-          Eliminar
+      %ul.list-inline
+        %li.option.p-r-10
+          %strong Puntos: 
+          =evaluation.points
+        %li.option.p-r-10
+          %a.cursor{"data-toggle"=>"modal", "data-target"=>"#addRubric", "onclick"=>"edit_rubric(\'#{template_refilable.id}\',#{ evaluation.to_json});"} 
+            %i.fa.fa-edit
+            Editar
+        
+        %li.option
+          = link_to template_refilable_evaluation_refilable_path(template_refilable, evaluation), method: :delete, data: { confirm: '¿Estás seguro?'} do
+            %i.fa.fa-times
+            Eliminar
          
 .row.p-t-15
   .col-md-12

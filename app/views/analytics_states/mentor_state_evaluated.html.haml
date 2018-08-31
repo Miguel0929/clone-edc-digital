@@ -7,11 +7,11 @@
     .panel-heading
       .row
         = form_tag(mentor_state_evaluated_analytics_state_path, method: :get, class: "form-inline") do
-          .col-md-6
+          .col-md-6.p-t-5.p-b-5
             %strong #{@mentor.name rescue ""}
-          .col-md-4
+          .col-md-4.p-t-5.p-b-5
             = select_tag :mentor_id, options_from_collection_for_select(@mentors, :id, :name, selected: (@mentor.id rescue "")), {include_blank: "Elige el mentor", class: "form-control"}
-          .col-md-2.text-center
+          .col-md-2.text-center.p-t-5.p-b-5
             = submit_tag 'Buscar mentor', class: "btn btn-success btn-xs"
       - if @mentor != nil
         .row

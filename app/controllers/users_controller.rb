@@ -426,7 +426,7 @@ class UsersController < ApplicationController
       @users = User.where(id: ids)  
     end
 
-    @users = @users.students_table.where('users.id in (?)', current_user.groups.joins(:students).pluck('users.id')).search_query(params[:query]) if params[:query].present?
+    @users = @users.students_table.search_query(params[:query]) if params[:query].present?
     
     @users=@users.page(params[:page]).per(20)
   end
@@ -473,7 +473,7 @@ class UsersController < ApplicationController
       @users = @users.joins(:refilables).where(refilables: {template_refilable_id: params[:template_refilable]})
     end
     
-    @users = @users.students_table.where('users.id in (?)', current_user.groups.joins(:students).pluck('users.id')).search_query(params[:query]) if params[:query].present?
+    @users = @users.students_table.search_query(params[:query]) if params[:query].present?
     
     @users=@users.page(params[:page]).per(20)
   end  

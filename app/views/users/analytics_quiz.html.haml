@@ -1,35 +1,38 @@
 .container-fluid.container-fixed-lg
-  %h3
+  %h3.p-l-15.p-r-15
     Detalles de la evaluación: #{@quiz.name}
   .panel.panel-default
     .panel-body
-      %table.table.table-hover
-        %thead
-          %tr
-            %th Pregunta
-            %th Respuesta
-            %th Revisada
-            %th Valor
-            %th Obtenido
-        - @quiz.quiz_questions.each do |question|
-          %tr
-            %td
-              = link_to "#", class: "btn btn-success btn-rounded" do
-                %i.fa.fa-tasks 
-              = question.question_text
-              - answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: @user.id)
-            %td
-              = QuizAnswer.respuesta(question.id, @user.id)
-            %td
-              = answer.nil? ? "Sin contestar" : QuizAnswer.revisada(question.id, @user.id).html_safe
-            %td
-              = answer.nil? ? question.points : answer.quiz_question.points
-            %td
-              %strong
-                = points_quiz_question(question, @user)
-        %tr
-          %td{colspan: '4'}
-            %h5.pull-right Total
-          %td
-            %h5
-              = @quiz.average(@user)
+      .row
+        .col-md-12
+          .table-responsive
+            %table.table.table-hover
+              %thead
+                %tr
+                  %th Pregunta
+                  %th Respuesta
+                  %th Revisada
+                  %th Valor
+                  %th Obtenido
+              - @quiz.quiz_questions.each do |question|
+                %tr
+                  %td
+                    = link_to "#", class: "btn btn-success btn-rounded" do
+                      %i.fa.fa-tasks 
+                    = question.question_text
+                    - answer = QuizAnswer.find_by(quiz_question_id: question.id, user_id: @user.id)
+                  %td
+                    = QuizAnswer.respuesta(question.id, @user.id)
+                  %td
+                    = answer.nil? ? "Sin contestar" : QuizAnswer.revisada(question.id, @user.id).html_safe
+                  %td
+                    = answer.nil? ? question.points : answer.quiz_question.points
+                  %td
+                    %strong
+                      = points_quiz_question(question, @user)
+              %tr
+                %td{colspan: '4'}
+                  %h5.pull-right Total
+                %td
+                  %h5
+                    = @quiz.average(@user)

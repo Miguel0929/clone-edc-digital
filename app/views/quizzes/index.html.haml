@@ -3,54 +3,53 @@
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
-    .panel-heading
-      .pull-right
-        .col-xs-6
-          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/
-        .col-xs-6
+    .panel-heading   
+      .col-md-6
+        .row.p-t-5.p-b-5
           = link_to new_quiz_path, class: 'btn btn-primary' do
             %i.fa.fa-plus
             Crear evaluación
-      .clearfix
+      .col-md-offset-3.col-md-3
+        .row.p-t-5.p-b-5
+          %input#search-table.form-control.pull-right{:placeholder => "Search", :type => "text"}/    
+          .clearfix
     .panel-body
-      %table.table.table-over
-        %thead
-          %tr
-            %th{width: "70%"} Evaluación
-            %th{width: "30%"}
-        %tbody
-          - @quizzes.each do |quiz|
-            %tr
-              %td.p-t-15.p-b-10{width: "75%"}
-                %h4.m-t-0.m-b-5
-                  = quiz.name
-                %p
-                  %span.text-primary
-                    Descripción:
-                  %span.hint-text
-                    = quiz.description
-                %p
-                  %span.text-primary
-                    Programa:
-                  %span.hint-text
-                    = quiz.program.nil? ? "Ninguno" :  (link_to quiz.program.name,  program_path(quiz.program))
-              %td.p-t-15.p-b-10
-                = link_to quiz do
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %i.fa.fa-list-alt
-                    %li.inline 
-                      Ver preguntas
-                = link_to edit_quiz_path(quiz) do
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %i.fa.fa-edit
-                    %li.inline 
-                      Editar evaluación
-                = link_to quiz, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %i.fa.fa-times
-                    %li.inline 
-                      Eliminar evaluación
+      .row
+        .col-md-12
+          .table-responsive
+            %table.table.table-hover
+              %thead
+                %tr
+                  %th{width: "70%"} Evaluación
+                  %th{width: "30%"}
+              %tbody
+                - @quizzes.each do |quiz|
+                  %tr
+                    %td.p-t-15.p-b-10{width: "75%"}
+                      %h4.m-t-0.m-b-5
+                        = quiz.name
+                      %p
+                        %span.text-primary
+                          Descripción:
+                        %span.hint-text
+                          = quiz.description
+                      %p
+                        %span.text-primary
+                          Programa:
+                        %span.hint-text
+                          = quiz.program.nil? ? "Ninguno" :  (link_to quiz.program.name,  program_path(quiz.program))
+                    %td.p-t-15.p-b-10
+                      %ul{style: "display: block; list-style:none;"}
+                        %li
+                          = link_to quiz do
+                            %i.fa.fa-list-alt
+                            Ver preguntas
+                        %li    
+                          = link_to edit_quiz_path(quiz) do
+                            %i.fa.fa-edit
+                            Editar evaluación
+                        %li    
+                          = link_to quiz, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do 
+                            %i.fa.fa-times
+                            Eliminar evaluación
 

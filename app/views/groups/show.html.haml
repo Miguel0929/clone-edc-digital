@@ -171,15 +171,19 @@
         .col-md-7
           .row
             .col-md-7
-              = link_to codes_group_path(@group, format: :xlsx), class: "btn btn-success" do
-                %i.fa.fa-code
-                = "Exportar codigos de activación (#{@group.inactive_students.count} inactivos)"
+              .p-t-5.p-b-5
+                .pull-right
+                  = link_to codes_group_path(@group, format: :xlsx), class: "btn btn-success" do
+                    %i.fa.fa-code
+                    = "Exportar codigos (#{@group.inactive_students.count})"
+                .clearfix    
             .col-md-5
-              .form-group
-                %div.input-group
-                  %input#group_student.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
-                  %span.input-group-addon.font-search
-                    %i.fa.fa-search.text-white
+              .p-t-5.p-b-5
+                .form-group
+                  %div.input-group
+                    %input#group_student.form-control.pull-right{:placeholder => "Buscar", :type => "text", class: "text-black"}/
+                    %span.input-group-addon.font-search
+                      %i.fa.fa-search.text-white
       
       .table-responsive   
         %table.table.table-striped

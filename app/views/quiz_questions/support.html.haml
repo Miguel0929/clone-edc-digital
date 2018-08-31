@@ -6,29 +6,27 @@
     .col-md-12
       .panel.panel-default
         .panel-body
-          .p-l-20.p-r-20
-            %h4
-              %span.text-success
-                Pregunta:
-              %span.hint-text.p-l-20
-                = @quiz_question.question_text
-          .padding-20
-            .well.padding-0
-              .panel.panel-transparent
-                .panel-heading                    
-                  .panel-title.pull-left
-                    Información de apoyo
-                  .pull-right
-                    = link_to edit_quiz_quiz_question_path(@quiz, @quiz_question), style: "opacity: .9;" do
-                      %i.fa.fa-edit
-                      Editar
-                    = link_to @quiz, style: "opacity: .9;", class: "p-l-20" do
-                      %i.fa.fa-reply
-                      Regresar
-                  .clearfix
-                .panel-body.m-t-15
-                  = raw @quiz_question.support_text
-                  - if !@quiz_question.support_text.present?
-                    %h4.text-center
-                      No hay información de apoyo aún
+          %h4
+            %span.text-success
+              Pregunta:
+            %span.hint-text.p-l-20
+              = @quiz_question.question_text
+          .well.padding-0
+            .panel.panel-transparent
+              .panel-heading                    
+                .panel-title.pull-left
+                  Información de apoyo
+                .pull-right
+                  = link_to edit_quiz_quiz_question_path(@quiz, @quiz_question), style: "opacity: .9;" do
+                    %i.fa.fa-edit
+                    Editar
+                  = link_to @quiz, style: "opacity: .9;", class: "p-l-20" do
+                    %i.fa.fa-reply
+                    Regresar
+                .clearfix
+              .panel-body.m-t-15
+                = raw @quiz_question.support_text
+                - if !@quiz_question.support_text.present?
+                  %h4.text-center
+                    No hay información de apoyo aún
           
