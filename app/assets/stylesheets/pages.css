@@ -477,6 +477,9 @@ label.zoomed-checkbox {
     font-size: 18px !important; 
     line-height: 28px !important;
   }
+  .height-img {
+    height: 150px !important;
+  }
 }
 
 /* ********** De Celulares Pa'Arriba ********** */
