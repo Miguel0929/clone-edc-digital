@@ -473,6 +473,10 @@ label.zoomed-checkbox {
     width: 100% !important;
     height: auto !important;
   }
+  .swap-cell-h2{
+    font-size: 18px !important; 
+    line-height: 28px !important;
+  }
 }
 
 /* ********** De Celulares Pa'Arriba ********** */
