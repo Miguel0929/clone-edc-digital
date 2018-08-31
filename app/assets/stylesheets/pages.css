@@ -564,6 +564,9 @@ label.zoomed-checkbox {
   .cell-down.input-group-list{
     display: block;
   }
+  .card.share .card-content a {
+    display: block;
+  }
 
 }
 
