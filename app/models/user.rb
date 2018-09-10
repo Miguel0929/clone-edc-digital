@@ -738,7 +738,12 @@ class User < ActiveRecord::Base
     if program.nil?
       true
     else
-      self.integral_percentage_progress_for(program.id) > 95.0 && self.integral_percentage_visited_for(program.id) > 95.0
+      total_questions = program.all_questions_count
+      if total_questions == 0
+        self.integral_percentage_visited_for(program.id) > 95.0
+      else
+        self.integral_percentage_progress_for(program.id) > 95.0 && self.integral_percentage_visited_for(program.id) > 95.0
+      end
     end
   end
 
