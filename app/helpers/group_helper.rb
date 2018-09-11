@@ -42,6 +42,7 @@ module GroupHelper
   end
 
   def sort_programs(group, programs)
+    if Program.count == 0 then return Program.all end
     if group.program_sequence.nil? then set_program_order(group) end
     order = group.program_sequence.sequence
     return programs.sort_by do |program| order.index(program[:id]) end 
