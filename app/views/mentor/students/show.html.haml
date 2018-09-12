@@ -196,12 +196,11 @@
                       %tr.odd.gradeX
                         %td Ruta de aprendizaje: "P. Fisica"
                         %td
-                          /= @user.group.learning_path.name unless @user.group.nil? || @user.group.learning_path.nil?
                           #{ (@user.group.nil? || @user.group.learning_path.nil?) ? "Sin ruta" : @user.group.learning_path.name }
                       %tr.odd.gradeX
                         %td Ruta de aprendizaje: "P. Moral"
                         %td
-                          = @user.group.learning_path2.name unless @user.group.nil? || @user.group.learning_path2.nil?         
+                          #{ (@user.group.nil? || @user.group.learning_path2.nil?) ? "Sin ruta" : @user.group.learning_path2.name }          
                       %tr.odd.gradeX
                         %td Fecha de creación de cuenta
                         %td #{l @user.created_at, format: :special}
