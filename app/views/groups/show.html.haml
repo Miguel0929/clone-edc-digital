@@ -71,10 +71,10 @@
           %h5
             Profesores vinculados
             %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
-              ( #{@group.users.count} profesores )
+              ( #{@group.users.where(role: [1, 4]).count} profesores )
           .m-t-10.p-l-20
             .hint-text
-              - @group.users.invitation_accepted.each_with_index do |user, index|
+              - @group.users.where(role: [1, 4]).invitation_accepted.each_with_index do |user, index|
                 %span.text-success{class: (index == 0) ? "" : "m-l-5" }
                   #{ (index != 0) ? "/ " : ""} 
                 %span.m-l-5

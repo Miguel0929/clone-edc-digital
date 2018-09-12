@@ -311,7 +311,7 @@
                     %tbody
                       - if @user.group.nil? || @quizzes.count == 0
                         %tr
-                          %td.p-t-20.p-b-15{colspan: "4"}
+                          %td.p-t-20.p-b-15{colspan: "5"}
                             .text-primary.bold
                               No hay evaluaciones asignados a este estudiante
                       - else
@@ -581,12 +581,12 @@
                         %th
                           Duración de la sesión
                     %tbody
-                      - if @refilables.count == 0
+                      - if @user.sessions.count == 0
                         %tr
                           %td.p-t-20.p-b-15{colspan: "6"}
                             .text-primary.bold
-                              Este estudiante no ha comenzado ninguna
-                      - elsif
+                              Este estudiante no ha comenzado ninguna sesión
+                      - else
                         - @user.sessions.each do |visit|
                           %tr
                             %td
