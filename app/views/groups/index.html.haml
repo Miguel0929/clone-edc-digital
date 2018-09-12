@@ -75,7 +75,7 @@
                         %i.fa.fa-angle-right
                         %span Profesores:
                     %li.inline
-                      = group.users.count
+                      = group.users.where(role: [1, 4]).count
                   %ul.p-l-0.m-b-0
                     %li.inline
                       %strong
