@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_action :require_creator, only: [:students, :show]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state, :summary, :learning_path, :program_permitted, :change_premium]
   before_action :set_program, only:[:program_permitted]
+  after_create :update_group_stats
   add_breadcrumb "EDCDIGITAL", :root_path
   
   helper_method :get_program_active
@@ -499,6 +500,15 @@ class UsersController < ApplicationController
 
     redirect_to :back, notice: "El usuario #{@user.name} ahora es premium."  
   end  
+
+  def update_group_stats
+    group = User.where(role: 0).last.group
+    unless group.nil? 
+      unless group.group_stat.nil?
+        group.group_stat.update(group_students: group.active_students.count)
+      end
+    end
+  end
 
   private
   def set_user
