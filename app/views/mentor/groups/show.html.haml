@@ -138,9 +138,9 @@
                 %h5
                   Profesores vinculados
                   %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
-                    (#{@group.users.count} profesores)
+                    (#{@group.users.where(role: [1, 4]).count} profesores)
                 .m-t-10.p-l-20
-                  - @group.users.each_with_index do |user, index|
+                  - @group.users.where(role: [1, 4]).each_with_index do |user, index|
                     %span.m-l-5.text-success
                       #{ (index != 0) ? "/ " : ""} 
                     %span.m-l-5
