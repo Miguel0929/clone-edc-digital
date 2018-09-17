@@ -256,7 +256,8 @@ class User < ActiveRecord::Base
   def integral_percentage_visited_for(program)
     program_stat = self.program_stats.find_by(program_id: program)
     if program_stat.nil? #Primero busca porgram_stat y si no está lo calcula
-      return self.percentage_content_visited_for(program)
+      prog = Program.find(program)
+      return self.percentage_content_visited_for(prog)
     else
       return program_stat.program_seen
     end
