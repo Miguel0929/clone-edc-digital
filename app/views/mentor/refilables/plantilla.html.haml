@@ -27,7 +27,7 @@
             %p
               = @template.description
             - if current_user.mentor?
-              = link_to mentor_student_path(@student.id) do
+              = link_to mentor_student_path(@user.id) do
                 %i.fa.fa-arrow-left
                 Regresar a estudiante
         .col-md-8
