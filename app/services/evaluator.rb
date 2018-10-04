@@ -6,6 +6,8 @@ class Evaluator
   def initialize(user, evaluations)
     @user = user
     @evaluations = evaluations
+    p "////////////////////////////////"
+    p @evaluations
   end
 
   def evaluate
