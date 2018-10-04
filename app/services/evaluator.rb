@@ -14,6 +14,8 @@ class Evaluator
         user_evaluation = UserEvaluation.find_or_initialize_by(user: @user, evaluation_id: value[:evaluation])
         user_evaluation.points = value[:points]
         user_evaluation.save!
+        p "+++++++++++++++++++++++"
+        p user_evaluation
       end
     end
 
