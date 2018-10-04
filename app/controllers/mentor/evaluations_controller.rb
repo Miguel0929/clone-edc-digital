@@ -111,10 +111,7 @@ class Mentor::EvaluationsController < ApplicationController
     @chapter = Chapter.find(params[:id])
 
     new_eval = Evaluator.for(@user, params[:evaluation])
-    p "============================="
-    p params[:evaluation]
-    p "-----------------------------"
-    p new_eval
+
     if new_eval.nil?
       redirect_to mentor_evaluation_path(@chapter, user_id: @user, program_id: @program), alert: "Debes evaluar todas las rúbricas"
     else
