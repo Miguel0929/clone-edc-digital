@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.1'
+ruby '2.2.6'
 
 gem 'rails', '4.2.6'
 gem 'pg', '~> 0.15'
@@ -83,7 +83,15 @@ group :development do
   gem 'bullet'
   gem 'xray-rails'
   gem 'rack-mini-profiler'
+  gem 'capistrano',         require: false
+  gem 'capistrano-rvm',     require: false
+  gem 'capistrano-rails',   require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma',   require: false
+  gem 'capistrano-figaro-yml', '~> 1.0.2'
 end
+
+gem 'puma'
 
 group :test do
   gem 'factory_girl_rails'
