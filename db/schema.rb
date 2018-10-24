@@ -548,6 +548,7 @@ ActiveRecord::Schema.define(version: 20180802175548) do
     t.datetime "updated_at"
     t.text     "description"
     t.string   "cover"
+    t.datetime "deleted_at"
     t.integer  "position"
     t.string   "category"
     t.text     "objetive"
@@ -560,7 +561,6 @@ ActiveRecord::Schema.define(version: 20180802175548) do
     t.integer  "tipo"
     t.integer  "content_type"
     t.string   "short_name"
-    t.datetime "deleted_at"
   end
 
   add_index "programs", ["deleted_at"], name: "index_programs_on_deleted_at", using: :btree
