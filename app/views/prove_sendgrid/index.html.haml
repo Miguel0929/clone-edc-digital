@@ -10,3 +10,14 @@
 			= bootstrap_form_tag url: testing_sendgrid_mail_path do |f| 
 				= f.email_field :email_to, placeholder: 'tu_correo@dominio.com', required: true, label: "Enviar este correo de prueba a:"
 				= f.submit "Enviar correo", class: "btn btn-primary"
+
+.container-fluid
+	.row
+		.col-md-12
+			%h3.text-center
+				Comprobar la ruta de "notification_route" para notificar cambio de ruta a la gente de un grupo
+
+			= bootstrap_form_tag url: testing_sendgrid_mail_path do |f| 
+				= f.select :id, Group.all.pluck(:name, :id), { label: "Elige un grupo:" }
+				= f.hidden_field :learning_path_path, :value => root_url.chop + dashboard_learning_path_path
+				= f.submit "Enviar notificación", class: "btn btn-primary"
