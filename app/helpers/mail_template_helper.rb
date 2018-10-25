@@ -121,7 +121,7 @@ module MailTemplateHelper
 		if result.nil?
 		  result = ''
 		end
-		result.force_encoding(Encoding::UTF_8).to_s
+		result.dup.force_encoding(Encoding::UTF_8)
 	end
 
 	def company_link_helper
