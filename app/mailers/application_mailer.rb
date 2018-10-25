@@ -1,4 +1,6 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'soporte@edc-digital.com'
+  extend MailTemplateHelper
+  
+  default from: mailer_from_helper('')
   layout 'mailer'
 end
