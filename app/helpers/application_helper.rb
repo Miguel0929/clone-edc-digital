@@ -95,7 +95,7 @@ module ApplicationHelper
     if company_name.nil?
       company_name = "Cursos Digitales"
     end
-    custom + " - " + company_name.to_s
+    custom + " - " + company_name.dup.force_encoding(Encoding::UTF_8)
   end
 
 end
