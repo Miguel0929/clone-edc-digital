@@ -1,6 +1,7 @@
 module MailTemplateHelper
 	require 'sendgrid-ruby'
 	include SendGrid
+	include ApplicationHelper
 	require 'json'
 
 	def send_mail_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject)
