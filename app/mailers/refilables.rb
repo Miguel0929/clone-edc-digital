@@ -1,66 +1,28 @@
 class Refilables
-	FROM = "soporte@edc-digital.com"
-  NAME = "EDC Digital"
+  extend MailTemplateHelper
+
 	def self.up_rubric(template, user, ruta)
-		data = {
-      personalizations: [
-        {
-          to: [ { email: user.email } ],
-          substitutions: {
-            "-raw_subject-" => "Se ha actualizado tu rúbrica de evaluación en EDC Digital",
-            "-content-" => "Tu rúbrica de evaluación en la plantilla \"#{template.name}\" ha sido actualizada recientemente",
-            "-url-" => ruta,
-          },
-          subject: "Se ha actualizado tu rúbrica de evaluación en EDC Digital"
-        },
-      ],
-      from: {
-        email: FROM,
-        name: NAME
-      },
-      template_id: "0a672cf0-6306-443b-9508-845a0599c9ea",
-    }
-    sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
-    begin
-      response = sg.client.mail._("send").post(request_body: data)
-      Rails.logger.info response.status_code
-      Rails.logger.info response.body
-      Rails.logger.info response.headers
-      FakeEmail.new
-    rescue Exception => e
-      Rails.logger.info e.message
-      FakeEmail.new
-    end
+
+    template_title = "Rúbrica de plantilla actualizada"
+    template_name = (user.first_name.nil? ? "Hola" : user.name)
+    template_message = "Tu rúbrica de evaluación en la plantilla <strong>" + template.name + "</strong> ha sido actualizada recientemente.</p><p><a href='" + ruta + "'>Visita este enlace para verla >></a></p><p>Estamos para servirte, que tengas un excelente día."
+    template_footer = company_name_helper('Nuestro equipo')
+    mail_recipient = user.email
+    mail_subject = "Se ha actualizado tu rúbrica de evaluación de plantilla"
+
+    send_mail_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject)
 	end
+
 	def self.commented(template, user, ruta)
-		data = {
-      personalizations: [
-        {
-          to: [ { email: user.email } ],
-          substitutions: {
-            "-raw_subject-" => "Tus respuestas a una plantilla han sido comentadas en EDC Digital",
-            "-content-" => "Tus respuestas a la plantilla \"#{template.name}\" han sido comentadas por un mentor",
-            "-url-" => ruta,
-          },
-          subject: "Tus respuestas a una plantilla han sido comentadas en EDC Digital"
-        },
-      ],
-      from: {
-        email: FROM,
-        name: NAME
-      },
-      template_id: "0a672cf0-6306-443b-9508-845a0599c9ea",
-    }
-    sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
-    begin
-      response = sg.client.mail._("send").post(request_body: data)
-      Rails.logger.info response.status_code
-      Rails.logger.info response.body
-      Rails.logger.info response.headers
-      FakeEmail.new
-    rescue Exception => e
-      Rails.logger.info e.message
-      FakeEmail.new
-    end
+
+    template_title = "Nuevos comentarios en plantilla"
+    template_name = (user.first_name.nil? ? "Hola" : user.name)
+    template_message = "Tus respuestas a la plantilla <strong>" + template.name + "</strong> han sido comentadas por un mentor.</p><p><a href='" + ruta + "'>Visita este enlace para leer más >></a></p><p>Estamos para servirte, que tengas un excelente día."
+    template_footer = company_name_helper('Nuestro equipo')
+    mail_recipient = user.email
+    mail_subject = "Tus respuestas a una plantilla han sido comentadas"
+
+    send_mail_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject)
 	end
+
 end		
