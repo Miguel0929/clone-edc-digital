@@ -88,18 +88,17 @@ module MailTemplateHelper
 			}'
 
 		data = JSON.parse(string1 + string2 + string3 + string4 + string5 + string6 + string7 + string8 + string9 + string10 + string11 + string12 + string13)
-    sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'], host: 'https://api.sendgrid.com')
-    begin
-      response = sg.client.mail._("send").post(request_body: data)
-      Rails.logger.info response.status_code
-      Rails.logger.info response.body
-      Rails.logger.info response.headers
-      FakeEmail.new
-    rescue Exception => e
-      Rails.logger.info e.message
-      FakeEmail.new
-    end
-
+	    sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'], host: 'https://api.sendgrid.com')
+	    begin
+	      response = sg.client.mail._("send").post(request_body: data)
+	      Rails.logger.info response.status_code
+	      Rails.logger.info response.body
+	      Rails.logger.info response.headers
+	      FakeEmail.new
+	    rescue Exception => e
+	      Rails.logger.info e.message
+	      FakeEmail.new
+	    end
 	end
 
 end
