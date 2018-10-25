@@ -129,6 +129,8 @@ module MailTemplateHelper
 		if result.nil?
 		  result = ''
 		end
+		puts "cabroon"
+		puts result
 		result.dup.force_encoding(Encoding::UTF_8)
 	end
 
