@@ -1,5 +1,5 @@
 - content_for :title do
-	Hola
+	= 'Prueba del mailer general' + (ENV['COMPANY_NAME'].nil? ? '' : ' - ' + ENV['COMPANY_NAME'])
 
 .container-fluid
 	.row
