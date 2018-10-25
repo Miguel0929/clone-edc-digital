@@ -89,4 +89,8 @@ module ApplicationHelper
     end
     return aux  
   end 
+
+  def title_text_helper
+    "Holi"
+  end
 end
