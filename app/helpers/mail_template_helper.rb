@@ -8,7 +8,7 @@ module MailTemplateHelper
 		company_name = company_name_helper
 		company_mail = mailer_from_helper
 		company_address = company_address_helper
-		company_link = "example.com"
+		company_link = company_link_helper
 		mail_message = IO.read(Rails.root + "app/views/generic_mailer_template/mail_template.txt") #Template tomado de aquí: https://github.com/derekpunsalan/responsive-email/blob/master/simple.html
 		replacements = [["-template_title-", template_title], ["-template_name-", (template_name.empty? ? "Hola" : template_name)], 
 										["-template_message-", template_message], 
@@ -105,7 +105,7 @@ module MailTemplateHelper
 		if result.nil?
 		  result = ''
 		end
-		result.to_s
+		result.dup.force_encoding(Encoding::UTF_8)
 	end
 
 	def mailer_from_helper
@@ -113,7 +113,7 @@ module MailTemplateHelper
 		if result.nil?
 		  result = ''
 		end
-		result.to_s
+		result.dup.force_encoding(Encoding::UTF_8)
 	end
 
 	def company_address_helper
@@ -129,7 +129,7 @@ module MailTemplateHelper
 		if result.nil?
 		  result = ''
 		end
-		result.to_s
+		result.dup.force_encoding(Encoding::UTF_8)
 	end
 
 end
