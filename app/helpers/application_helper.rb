@@ -107,7 +107,11 @@ module ApplicationHelper
   end
 
   def mailer_from_helper
-    
+    result = ENV['MAILER_FROM']
+    if result.nil?
+      result = ''
+    end
+    result.to_s
   end
 
   def company_address_helper
