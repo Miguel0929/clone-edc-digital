@@ -21,4 +21,7 @@ Mailboxer.setup do |config|
   
   config.email_method = :mailboxer_email
   config.name_method = :mailboxer_name
+
+  config.notification_mailer = Mailboxer::NotificationMailer
+  config.message_mailer = Mailboxer::MessageMailer
 end
