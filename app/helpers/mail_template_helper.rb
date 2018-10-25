@@ -5,10 +5,10 @@ module MailTemplateHelper
 
 	def send_mail_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject)
 
-		company_name = company_name_helper
-		company_mail = mailer_from_helper
-		company_address = company_address_helper
-		company_link = company_link_helper
+		company_name = company_name_helper('')
+		company_mail = mailer_from_helper('')
+		company_address = company_address_helper('')
+		company_link = company_link_helper('')
 		mail_message = IO.read(Rails.root + "app/views/generic_mailer_template/mail_template.txt") #Template tomado de aquí: https://github.com/derekpunsalan/responsive-email/blob/master/simple.html
 		replacements = [["-template_title-", template_title], ["-template_name-", (template_name.empty? ? "Hola" : template_name)], 
 										["-template_message-", template_message], 
@@ -100,37 +100,35 @@ module MailTemplateHelper
 	    end
 	end
 
-	def company_name_helper
+	def company_name_helper(nil_replacement)
 		result = ENV['COMPANY_NAME']
 		if result.nil?
-		  result = ''
+		  result = nil_replacement
 		end
 		result.dup.force_encoding(Encoding::UTF_8)
 	end
 
-	def mailer_from_helper
+	def mailer_from_helper(nil_replacement)
 		result = ENV['MAILER_FROM']
 		if result.nil?
-		  result = ''
+		  result = nil_replacement
 		end
 		result.dup.force_encoding(Encoding::UTF_8)
 	end
 
-	def company_address_helper
+	def company_address_helper(nil_replacement)
 		result = ENV['COMPANY_ADDRESS']
 		if result.nil?
-		  result = ''
+		  result = nil_replacement
 		end
 		result.dup.force_encoding(Encoding::UTF_8)
 	end
 
-	def company_link_helper
+	def company_link_helper(nil_replacement)
 		result = ENV['COMPANY_LINK']
 		if result.nil?
-		  result = ''
+		  result = nil_replacement
 		end
-		puts "cabroon"
-		puts result
 		result.dup.force_encoding(Encoding::UTF_8)
 	end
 

@@ -1,4 +1,5 @@
 class Users::InvitationsController < Devise::InvitationsController
+  include MailTemplateHelper
   before_action :require_creator, only: [:new]
   before_action :set_breadcrumb, only: [:new, :create]
   def after_invite_path_for(resource)
@@ -16,38 +17,65 @@ class Users::InvitationsController < Devise::InvitationsController
     BaasstardNotifier.user_invited(user) rescue nil
 
     if Rails.env.production?
-      data = {
-        personalizations: [
-          {
-            to: [ { email: user.email } ],
-            substitutions: {
-              "-confirmation_link-" => accept_user_invitation_url(:invitation_token => user.raw_invitation_token)
-            },
-            subject: "Tu cuenta en EDC Digital ha sido creada"
-          },
-        ],
-        from: {
-          email: "soporte@edc-digital.com"
-        },
-        template_id: "506fcba3-80ce-4de9-bb7f-41e1e752ce0f"
-      }
 
-      sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
-      begin
-        response = sg.client.mail._("send").post(request_body: data)
-        Rails.logger.info response.status_code
-        Rails.logger.info response.body
-        Rails.logger.info response.headers
-        FakeEmail.new
-      rescue Exception => e
-        Rails.logger.info e.message
-        FakeEmail.new
-      end
+      invitation_link = accept_user_invitation_url(:invitation_token => user.raw_invitation_token).to_s
+
+      template_title = "¡Es tiempo de iniciar!"
+      template_name = ""
+      template_message = "Te informamos que tu cuenta en " + company_name_helper('nuestra plataforma') + " ha sido creada. Para comenzar, debes activar tu cuenta dando clic en el siguiente botón: </p> <table width='100%' cellspacing='0' cellpadding='0' border='0'><tbody><tr><td style='padding: 10px 10px 10px 10px' bgcolor: '#f8f8f8' align: 'center'><table cellspacing='0' cellpadding='0' border='0'><tbody><tr><td><a href='" + invitation_link + "' class='button'>ACTIVA TU CUENTA AQUÍ</a></td></tr></tbody></table></td></tr></tbody></table></br><p style='margin-top: 20px;'>En caso de que no logres acceder, puedes copiar la siguiente liga y pegarla en una ventana de tu navegador:</p><a href='" + invitation_link + "' >" + invitation_link + "</a></br></br><p style='margin-top: 20px;'>Si tienes alguna duda o comentario, no dudes en escribirnos a <strong>" + mailer_from_helper('') + "</strong>. Nuestro equipo de atención a clientes enseguida te antenderá."
+      template_footer = "¡Bienvenido!"
+      mail_recipient = user.email
+      mail_subject = "Tu cuenta en " + company_name_helper('nuestra plataforma') + " ha sido creada"
+
+      send_mail_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject)
+      
     end
 
     flash[:notice] = "Se ha enviado una invitación de nuevo usuario al correo #{user.email}"
     user
   end
+
+  #def invite_resource
+  #  accept_resource
+  #  user = super do |u|
+  #    u.skip_invitation = true if Rails.env.production?
+  #  end
+  #     
+  #  BaasstardNotifier.user_invited(user) rescue nil
+  #
+  #  if Rails.env.production?
+  #    data = {
+  #      personalizations: [
+  #        {
+  #          to: [ { email: user.email } ],
+  #          substitutions: {
+  #            "-confirmation_link-" => accept_user_invitation_url(:invitation_token => user.raw_invitation_token)
+  #          },
+  #          subject: "Tu cuenta en EDC Digital ha sido creada"
+  #        },
+  #      ],
+  #      from: {
+  #        email: "soporte@edc-digital.com"
+  #      },
+  #      template_id: "506fcba3-80ce-4de9-bb7f-41e1e752ce0f"
+  #    }
+  #
+  #    sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
+  #    begin
+  #      response = sg.client.mail._("send").post(request_body: data)
+  #      Rails.logger.info response.status_code
+  #      Rails.logger.info response.body
+  #      Rails.logger.info response.headers
+  #      FakeEmail.new
+  #    rescue Exception => e
+  #      Rails.logger.info e.message
+  #      FakeEmail.new
+  #    end
+  #  end
+  #
+  #  flash[:notice] = "Se ha enviado una invitación de nuevo usuario al correo #{user.email}"
+  #  user
+  #end
 
   def set_breadcrumb
     add_breadcrumb "Administrador", :root_path
