@@ -115,7 +115,11 @@ module ApplicationHelper
   end
 
   def company_address_helper
-    
+    result = ENV['COMPANY_ADDRESS']
+    if result.nil?
+      result = ''
+    end
+    result.to_s
   end
 
   def company_link_helper
