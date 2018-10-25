@@ -123,6 +123,10 @@ module ApplicationHelper
   end
 
   def company_link_helper
-    
+    result = ENV['COMPANY_LINK']
+    if result.nil?
+      result = ''
+    end
+    result.to_s
   end
 end
