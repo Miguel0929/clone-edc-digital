@@ -5,10 +5,10 @@ module MailTemplateHelper
 
 	def send_mail_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject)
 
-		company_name = ENV['COMPANY_NAME'].nil? ? '' : ENV['COMPANY_NAME']
-		company_mail = ENV['MAILER_FROM'].nil? ? '' : ENV['MAILER_FROM']
-		company_address = ENV['COMPANY_ADDRESS'].nil? ? '' : ENV['COMPANY_ADDRESS']
-		company_link = ENV['COMPANY_WEBPAGE'].nil? ? '' : ENV['COMPANY_WEBPAGE']
+		company_name = "hola"
+		company_mail = "ejemplo@dominio.com"
+		company_address = "Las Lomas Jodidas 23"
+		company_link = "example.com"
 		mail_message = IO.read(Rails.root + "app/views/generic_mailer_template/mail_template.txt") #Template tomado de aquí: https://github.com/derekpunsalan/responsive-email/blob/master/simple.html
 		replacements = [["-template_title-", template_title], ["-template_name-", (template_name.empty? ? "Hola" : template_name)], 
 										["-template_message-", template_message], 
