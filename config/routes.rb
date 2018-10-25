@@ -456,6 +456,8 @@ Rails.application.routes.draw do
   resources :glossaries
   resources :glossary_categories
   get '/glossary', to: "glossary_categories#index"
+  get '/prove_sendgrid', to: "prove_sendgrid#index"
+  post '/testing_sendgrid_mail', to: "prove_sendgrid#testing_sendgrid_mail"
 
   resources :route_texts
   resources :route_covers
