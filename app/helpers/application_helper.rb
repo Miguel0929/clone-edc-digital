@@ -91,10 +91,6 @@ module ApplicationHelper
   end 
 
   def title_text_helper(custom)
-    company_name = ENV['COMPANY_NAME']
-    if company_name.nil?
-      company_name = "Cursos Digitales"
-    end
-    custom + " - " + company_name.to_s
+    "holi " + custom
   end
 end
