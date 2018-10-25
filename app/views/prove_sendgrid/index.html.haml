@@ -2,3 +2,8 @@
 	.row
 		.col-md-12
 			%h3.text-center
+				Comprobar el correcto funcionamiento de la API key de Sendgrid
+
+			= bootstrap_form_tag url: testing_sendgrid_mail_path do |f| 
+				= f.email_field :email_to, placeholder: 'tu_correo@dominio.com', required: true, label: "Enviar este correo de prueba a:"
+				= f.submit "Enviar correo", class: "btn btn-primary"
