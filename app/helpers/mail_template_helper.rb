@@ -1,7 +1,6 @@
 module MailTemplateHelper
 	require 'sendgrid-ruby'
 	include SendGrid
-	include ApplicationHelper
 	require 'json'
 
 	def send_mail_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject)
@@ -99,6 +98,38 @@ module MailTemplateHelper
 	      Rails.logger.info e.message
 	      FakeEmail.new
 	    end
+	end
+
+	def company_name_helper
+		result = ENV['COMPANY_NAME']
+		if result.nil?
+		  result = ''
+		end
+		result.to_s
+	end
+
+	def mailer_from_helper
+		result = ENV['MAILER_FROM']
+		if result.nil?
+		  result = ''
+		end
+		result.to_s
+	end
+
+	def company_address_helper
+		result = ENV['COMPANY_ADDRESS']
+		if result.nil?
+		  result = ''
+		end
+		result.to_s
+	end
+
+	def company_link_helper
+		result = ENV['COMPANY_LINK']
+		if result.nil?
+		  result = ''
+		end
+		result.to_s
 	end
 
 end
