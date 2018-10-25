@@ -5,7 +5,7 @@ module MailTemplateHelper
 
 	def send_mail_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject)
 
-		company_name = "hola"
+		company_name = company_name_helper
 		company_mail = "ejemplo@dominio.com"
 		company_address = "Las Lomas Jodidas 23"
 		company_link = "example.com"

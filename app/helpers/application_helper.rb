@@ -97,4 +97,24 @@ module ApplicationHelper
     end
     custom + " - " + company_name.to_s
   end
+
+  def company_name_helper
+    result = ENV['COMPANY_NAME']
+    if result.nil?
+      result = ''
+    end
+    result.to_s
+  end
+
+  def mailer_from_helper
+    
+  end
+
+  def company_address_helper
+    
+  end
+
+  def company_link_helper
+    
+  end
 end
