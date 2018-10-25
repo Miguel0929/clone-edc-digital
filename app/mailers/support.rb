@@ -13,7 +13,7 @@ class Support
     if attachment.nil?  
       template_title = "Solicitud de soporte de plataforma"
       template_name = "Hola administrador"
-      template_message = "El usuario " + user.name + " (email: " + user.email + ", teléfono: " + user.phone_number + ") solicita soporte.</p><strong>Nivel de urgencia: </strong>" + urgency + "<br><strong>Clasificación del mensaje: </strong>" + matter + "<br><strong>Programa seleccionado: </strong>" + program + "<br><strong>Último contenido visitado: </strong>" + chaptercontent + "<br><br><h4 style='margin-bottom:0px;'>Mensaje:</h4><p style='margin-bottom:35px;'>" + message
+      template_message = "El usuario " + user.name + " (email: " + user.email + ", teléfono: " + user.phone_number + ") solicita soporte.</p><strong>Nivel de urgencia: </strong>" + urgency + "<br><strong>Clasificación del mensaje: </strong>" + matter + "<br><strong>Programa seleccionado: </strong>" + program + "<br><strong>Último contenido visitado: </strong>" + chaptercontent + "<br><br><h4 style='margin-bottom:15px;'>Mensaje:</h4><p style='margin-bottom:35px;'>" + message
       template_footer = company_name_helper('Nuestro equipo')
       mail_recipient = mailer_support_helper
       mail_subject = subject
@@ -22,7 +22,7 @@ class Support
     else
       template_title = "Solicitud de soporte de plataforma"
       template_name = "Hola administrador"
-      template_message = "El usuario " + user.name + " (email: " + user.email + ", teléfono: " + user.phone_number + ") solicita soporte.</p><strong>Nivel de urgencia: </strong>" + urgency + "<br><strong>Clasificación del mensaje: </strong>" + matter + "<br><strong>Programa seleccionado: </strong>" + program + "<br><strong>Último contenido visitado: </strong>" + chaptercontent + "<br><br><h4 style='margin-bottom:0px;'>Mensaje:</h4><p style='margin-bottom:35px;'>" + message + "</p><p>[Este mensaje contiene un archivo adjunto]"
+      template_message = "El usuario " + user.name + " (email: " + user.email + ", teléfono: " + user.phone_number + ") solicita soporte.</p><strong>Nivel de urgencia: </strong>" + urgency + "<br><strong>Clasificación del mensaje: </strong>" + matter + "<br><strong>Programa seleccionado: </strong>" + program + "<br><strong>Último contenido visitado: </strong>" + chaptercontent + "<br><br><h4 style='margin-bottom:15px;'>Mensaje:</h4><p style='margin-bottom:35px;'>" + message + "</p><p>[Este mensaje contiene un archivo adjunto]"
       template_footer = company_name_helper('Nuestro equipo')
       mail_recipient = mailer_support_helper
       mail_subject = subject
