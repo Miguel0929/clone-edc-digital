@@ -132,4 +132,12 @@ module MailTemplateHelper
 		result.dup.force_encoding(Encoding::UTF_8)
 	end
 
+	def mailer_support_helper
+		result = ENV['MAILER_SUPPORT']
+		if result.nil?
+		  result = 'ruben@onestartup.mx'
+		end
+		result.dup.force_encoding(Encoding::UTF_8)
+	end
+
 end
