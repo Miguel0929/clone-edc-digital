@@ -90,7 +90,7 @@ module ApplicationHelper
     return aux  
   end 
 
-  def title_text_helper
-    "Holi"
+  def title_text_helper(custom)
+    "holi " + custom
   end
 end
