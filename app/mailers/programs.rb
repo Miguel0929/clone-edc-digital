@@ -124,10 +124,10 @@ class Programs
   def self.update_question(chapter_content, mentor, student, ruta)
 
     template_title = "Tu alumno corrigió una respuesta"
-    template_name = (user.first_name.nil? ? "Hola" : user.name)
+    template_name = (mentor.first_name.nil? ? "Hola" : mentor.name)
     template_message = "El alumno " + student.name + " ha corregido un respuesta de programa, te invitamos a que revises sus avances.</p><p><a href='" + ruta + "'>Visita este enlace para revisar avances >></a></p><p>Estamos para servirte, que tengas un excelente día."
     template_footer = company_name_helper('Nuestro equipo')
-    mail_recipient = user.email
+    mail_recipient = mentor.email
     mail_subject = "El alumno " + student.name + " ha corregido una respuesta de programa"
 
     send_mail_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject)
