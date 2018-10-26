@@ -1,10 +1,5 @@
 class Reports
   extend MailTemplateHelper
-  delegate :url_helpers, to: 'Rails.application.routes'
-
-  def project_path
-    url_helpers.project_path(self)
-  end
 
   def self.report(report, root_url)
 
