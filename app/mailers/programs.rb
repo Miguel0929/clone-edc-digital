@@ -112,10 +112,10 @@ class Programs
   def self.answered_refilable(program, template_refilable, soporte2, student, ruta)
 
     template_title = "Tu alumno contestó una plantilla"
-    template_name = (user.first_name.nil? ? "Hola" : user.name)
+    template_name = "Hola"
     template_message = "El alumno " + student.name + " ha contestado la plantilla <strong>" + template_refilable.name + "</strong> del programa <strong>" + (program.nil? ? "Plantilla sin programa" : program.name) + "</strong>, te invitamos a que revises sus avances.</p><p><a href='" + ruta + "'>Visita este enlace para revisar avances >></a></p><p>Estamos para servirte, que tengas un excelente día."
     template_footer = company_name_helper('Nuestro equipo')
-    mail_recipient = user.email
+    mail_recipient = soporte2
     mail_subject = "El alumno " + student.name + " ha contestado la plantilla " + template_refilable.name
 
     send_mail_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject)
