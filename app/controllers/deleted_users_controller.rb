@@ -1,4 +1,5 @@
 class DeletedUsersController < ApplicationController
+  include MailTemplateHelper
   before_action :authenticate_user!
   before_action :require_admin
   before_action :set_user, only: [:update]
@@ -20,9 +21,9 @@ class DeletedUsersController < ApplicationController
     @user.restore
 
     if @user.invitation_accepted_at.nil?
-      send_reactivation_email(90816, @user.email)
+      send_reactivation_email(90816, @user)
     else
-      send_reactivation_email(90812, @user.email)
+      send_reactivation_email(90812, @user)
     end
 
     redirect_to deleted_users_path, notice: "Se reactivó exitosamente al usuario #{@user.email}"
@@ -33,34 +34,16 @@ class DeletedUsersController < ApplicationController
     @user = User.only_deleted.find(params[:id])
   end
 
-  def send_reactivation_email(template_id, email_address)
-    data = {
-      personalizations: [
-        {
-          to: [ { email: email_address } ],
-          substitutions: {
-            "-user_emailaddress-"=> email_address,
-            "-confirmation_link-" => ''
-          },
-          subject: "Tu cuenta de EDC Digital ha sido reactivada"
-        },
-      ],
-      from: {
-        email: "soporte-edcdigital@distritoemprendedor.com"
-      },
-      template_id: "21fa670a-a5f8-484c-960c-00fda450a692"
-    }
+  def self.send_reactivation_email(template_id, user)
 
-    sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
-    begin
-      response = sg.client.mail._("send").post(request_body: data)
-      Rails.logger.info response.status_code
-      Rails.logger.info response.body
-      Rails.logger.info response.headers
-      FakeEmail.new
-    rescue Exception => e
-      Rails.logger.info e.message
-      FakeEmail.new
-    end
+    template_title = "¡Reactivamos tu cuenta!"
+    template_name = (user.first_name.nil? ? "Hola" : user.name)
+    template_message = "Te informamos que tu cuenta en " + company_name_helper('la plataforma') + " ha sido reactivada. Utiliza el siguiente botón para ingresar nuevamente a la plataforma y hacer inicio de sesión:</p><p><a href='" + "#" + "'>Iniciar sesión >></a></p><p>Estamos para servirte, que tengas un excelente día."
+    template_footer = company_name_helper('Nuestro equipo')
+    mail_recipient = user.email
+    mail_subject = "Tu cuenta ha sido reactivada"
+
+    send_mail_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject)
   end
+
 end

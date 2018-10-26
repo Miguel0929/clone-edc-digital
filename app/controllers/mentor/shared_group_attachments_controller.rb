@@ -4,7 +4,6 @@ class Mentor::SharedGroupAttachmentsController < ApplicationController
   before_action :set_attachment, only: [:edit, :update, :destroy]
   add_breadcrumb "EDC DIGITAL", :root_path
 
-
   def index
     add_breadcrumb "<a class='active' href='#{mentor_shared_group_attachments_path}'>Archivos compartidos</a>".html_safe
     @shared_group_attachments = SharedGroupAttachment.joins(:shared_group_attachment_groups).where('shared_group_attachment_groups.group_id in (?)', current_user.groups.pluck(:id))
