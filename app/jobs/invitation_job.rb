@@ -1,4 +1,5 @@
 class InvitationJob
+  include MailTemplateHelper
   include SuckerPunch::Job
   workers 1
 
