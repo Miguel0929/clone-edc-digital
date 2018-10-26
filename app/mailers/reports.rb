@@ -9,7 +9,7 @@ class Reports
   def self.report(report, root_url)
 
     cause = report.cause.to_s
-    content_reported = root_url + "dashboard/course" + report.reportable_id.to_s
+    content_reported = root_url + "dashboard/course/" + report.reportable_id.to_s
     email_report = report.user.email
     user_name = report.user.email
     id = report.user.id.to_s
