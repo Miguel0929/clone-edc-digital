@@ -11,7 +11,7 @@ class Reports
     cause = report.cause.to_s
     content_reported = root_url + "dashboard/course/" + report.reportable_id.to_s
     email_report = report.user.email
-    user_name = report.user.email
+    user_name = (report.user.first_name.nil? ? report.user.email : report.user.name)
     id = report.user.id.to_s
     program = report.model.chapter.program.name
     chapter = report.model.chapter.name
