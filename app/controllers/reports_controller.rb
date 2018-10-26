@@ -17,7 +17,7 @@ class ReportsController < ApplicationController
     User.admin.each do |usr|
       Notification.create(user_id: usr.id, notificable: rn)
     end  
-    Reports.report(report)
+    Reports.report(report, root_url)
   	render json: {status: "Ok"}
   end
   def destroy

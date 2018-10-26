@@ -1,7 +1,12 @@
 class Reports
   extend MailTemplateHelper
+  delegate :url_helpers, to: 'Rails.application.routes'
 
-  def self.report(report)
+  def project_path
+    url_helpers.project_path(self)
+  end
+
+  def self.report(report, root_url)
 
     cause = report.cause.to_s
     content_reported = root_url + "dashboard/course" + report.reportable_id.to_s
