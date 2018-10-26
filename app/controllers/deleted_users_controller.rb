@@ -34,7 +34,7 @@ class DeletedUsersController < ApplicationController
     @user = User.only_deleted.find(params[:id])
   end
 
-  def self.send_reactivation_email(template_id, user)
+  def self.send_reactivation_email(template, user)
 
     template_title = "¡Reactivamos tu cuenta!"
     template_name = (user.first_name.nil? ? "Hola" : user.name)
