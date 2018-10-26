@@ -1,46 +1,25 @@
 class Reports
-	FROM = "soporte-edcdigital@distritoemprendedor.com"
-	NAME = "EDC Digital"
+  extend MailTemplateHelper
 
-	def self.report(report)
-		data = {
-      personalizations: [
-        {
-          to: [ { email: "soporte@edc-digital.com" } ],
-          substitutions: {
-            "-raw_subject-"=> "EDC Digital: Contenido Reportado ID: #{report.id.to_s}",
-            "-cause-" => report.cause.to_s,
-            "-content_reported-" => report.reportable_id.to_s,
-            "-email-" => report.user.email,
-            "-user_name-" => report.user.name,
-            "-id-" => report.user.id.to_s,
-            "-program-" => report.model.chapter.program.name,
-            "-chapter-" => report.model.chapter.name,
-            "-content-" => report.model.model.identifier,
-          },
-          subject: "EDC Digital: Contenido Reportado ID: #{report.id.to_s}"
-        },
-      ],
-      from: {
-        email: FROM,
-        name: NAME,
-      },
-      reply_to: {
-          email: report.user.email, 
-          name: report.user.name
-        },
-      template_id: "6aa47aef-e064-46c2-9a50-cc744517c7c9",
-    }
-    sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
-    begin
-      response = sg.client.mail._("send").post(request_body: data)
-      Rails.logger.info response.status_code
-      Rails.logger.info response.body
-      Rails.logger.info response.headers
-      FakeEmail.new
-    rescue Exception => e
-      Rails.logger.info e.message
-      FakeEmail.new
-    end
-	end	
+  def self.report(report)
+
+    cause = report.cause.to_s
+    content_reported = root_url + "dashboard/course" + report.reportable_id.to_s
+    email_report = report.user.email
+    user_name = report.user.email
+    id = report.user.id.to_s
+    program = report.model.chapter.program.name
+    chapter = report.model.chapter.name
+    content = report.model.model.identifier
+
+    template_title = "Reporte del contenido"
+    template_name = "Hola administrador"
+    template_message = "Hay un nuevo reporte de contenido. El usuario " + user_name + " (email: " + email_report + " , ID de usuario: " + id + ") ha reportado el contenido en la liga <a href=" + content_reported + ">" + content_reported + "</a>.<br><strong>Causa: </strong>" + cause + "<br><strong>Programa: </strong>" + program + "<br><strong>Capítulo: </strong>" + chapter + "<br><strong>Contenido: </strong>" + content + "<br>"
+    template_footer = company_name_helper('Nuestro equipo')
+    mail_recipient = mailer_support_helper
+    mail_subject = "Contenido de plataforma reportado, ID: " + report.id.to_s
+
+    send_mail_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject)
+  end
+
 end	
