@@ -59,17 +59,13 @@
 
             
 :javascript
-  console.log("inició este pedo");
   function exportar(){
 
   }
   $(document).on('turbolinks:load', function(){
-    console.log("se cargó este pedo");
     var interval = setInterval(function(){
-      console.log("entró al loop");
       $.get("/api/v1/async_jobs/#{@job_id}")
       .done(function(job){
-        console.log("done este pedo");
         var progress = parseInt((job.progress * 100) / job.total);
         $('.job-progress').html(progress + '%');
         $('.progress-bar').css('width', progress + '%');

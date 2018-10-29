@@ -1,43 +1,15 @@
 class WelcomeAfterInvitation
+  extend MailTemplateHelper
 
-	FROM = "soporte2@edc-digital.com"
-  NAME = "EDC Digital"
+  def send_welcome_after_invitation(user, chosen_subject, root_link)
+    template_title = "¡Es tiempo de iniciar!"
+    template_name = "Hola"
+    template_message = "Te damos la bienvenida a " + company_name_helper('nuestra plataforma') + ". Nos alegramos de tenerte con nosotros, puedes entrar a la plataforma desde aquí: </p> <table width='100%' cellspacing='0' cellpadding='0' border='0'><tbody><tr><td style='padding: 10px 10px 10px 10px' bgcolor: '#f8f8f8' align: 'center'><table cellspacing='0' cellpadding='0' border='0'><tbody><tr><td><a href='" + root_link + "' class='button'> INICIO >> </a></td></tr></tbody></table></td></tr></tbody></table></br><p style='margin-top: 20px;'>En caso de que no logres acceder, puedes copiar la siguiente liga y pegarla en una ventana de tu navegador:</p><a href='" + root_link + "' >" + root_link + "</a></br></br><p style='margin-top: 20px;'>Si tienes alguna duda o comentario, no dudes en escribirnos a <strong>" + mailer_from_helper('') + "</strong>. Nuestro equipo de atención a clientes enseguida te antenderá."
+    template_footer = "¡Bienvenido!"
+    mail_recipient = user.email
+    mail_subject = chosen_subject
 
-	def self.send_welcome_message(user, chosen_subject, root_link, route_link, more_link, privacy_link, faqs_link, variable_text, mailer_template)
-
-		 data = {
-        personalizations: [
-          {
-            to: [ { email: user.email } ],
-            substitutions: {
-              "-user_name-" => user.name,
-              "-log_in_link-" => root_link,
-              "-edc_route_link-" => route_link,
-              "-edc_more_link-" => more_link,
-              "-edc_privacy_link-" => privacy_link,
-              "-edc_faqs_link-" => faqs_link,
-              "-variable_text-" => variable_text
-            },
-            subject: chosen_subject
-          },
-        ],
-        from: {
-          email: FROM,
-          name: NAME
-        },
-        template_id: mailer_template,
-      }
-      sg = SendGrid::API.new(api_key: ENV['SENDGRID_API_KEY'])
-      begin
-        response = sg.client.mail._("send").post(request_body: data)
-        Rails.logger.info response.status_code
-        Rails.logger.info response.body
-        Rails.logger.info response.headers
-        FakeEmail.new
-      rescue Exception => e
-        Rails.logger.info e.message
-        FakeEmail.new
-      end
-	end
+    send_mail_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject)
+  end
 
 end		

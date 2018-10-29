@@ -50,7 +50,7 @@ class InvitationJob
       invitation_link = url + "?invitation_token=" + user.raw_invitation_token
 
       template_title = "¡Es tiempo de iniciar!"
-      template_name = ""
+      template_name = "Hola"
       template_message = "Te informamos que tu cuenta en " + company_name_helper('nuestra plataforma') + " ha sido creada. Para comenzar, debes activar tu cuenta dando clic en el siguiente botón: </p> <table width='100%' cellspacing='0' cellpadding='0' border='0'><tbody><tr><td style='padding: 10px 10px 10px 10px' bgcolor: '#f8f8f8' align: 'center'><table cellspacing='0' cellpadding='0' border='0'><tbody><tr><td><a href='" + invitation_link + "' class='button'>ACTIVA TU CUENTA AQUÍ</a></td></tr></tbody></table></td></tr></tbody></table></br><p style='margin-top: 20px;'>En caso de que no logres acceder, puedes copiar la siguiente liga y pegarla en una ventana de tu navegador:</p><a href='" + invitation_link + "' >" + invitation_link + "</a></br></br><p style='margin-top: 20px;'>Si tienes alguna duda o comentario, no dudes en escribirnos a <strong>" + mailer_from_helper('') + "</strong>. Nuestro equipo de atención a clientes enseguida te antenderá."
       template_footer = "¡Bienvenido!"
       mail_recipient = user.email
