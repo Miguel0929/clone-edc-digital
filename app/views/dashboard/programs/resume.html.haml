@@ -1,5 +1,5 @@
 - content_for :title  do
-  Compilación de resultados - EDC Digital
+  = title_text_helper("Compilación de resultados")
 - chapters = @program.chapters
 - total_rubrics = chapters.map { |chapter| chapter.evaluations.count }.inject(0, :+)
 - obtained_points = chapters.map { |chapter| chapter.points_earned(@user) }.inject(0, :+) 
