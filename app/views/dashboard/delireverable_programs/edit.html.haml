@@ -1,5 +1,5 @@
 - content_for :title  do
-  Entregables - EDCdigital
+  = title_text_helper("Entregables")
 
 .container-fluid.container-fixed-lg
 = form_tag(dashboard_chapter_content_delireverable_program_path, method: :put, multipart: true) do 
