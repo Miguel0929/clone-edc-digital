@@ -1,5 +1,5 @@
 - content_for :title  do
-  Mis plantillas - EDC Digital
+  = title_text_helper("Mis plantillas")
 
 - is_student = current_user.student? || current_user.mentor?
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
