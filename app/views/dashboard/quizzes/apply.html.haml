@@ -1,5 +1,5 @@
 - content_for :title  do
-  Aplicación de evaluación - EDC Digital
+  = title_text_helper("Aplicación de evaluación")
 
 .container-fluid.container-fixed-lg.top-container-padding.minus-30
   %section.demo-bg-section.p-b-15.p-t-15{class: (current_user.mentor? || current_user.admin?) ? "panel-title-recursos" : "panel-title-emprendimiento"}
