@@ -6,7 +6,7 @@ class Dashboard::WelcomeController < ApplicationController
 
   helper_method :last_moved_program
   helper_method :last_visited_content
-  add_breadcrumb "EDC DIGITAL", :root_path, except: [:privacy_noregister]
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Cursos Digitales" : ENV['COMPANY_NAME']), :root_path, except: [:privacy_noregister]
   include EvaluationRefilablesHelper
 
   def index
