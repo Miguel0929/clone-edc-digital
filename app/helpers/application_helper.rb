@@ -98,7 +98,7 @@ module ApplicationHelper
     custom + " - " + company_name.dup.force_encoding(Encoding::UTF_8)
   end
 
-  def la_plataforma_helper
+  def the_platform_name_helper
     company_name = ENV['COMPANY_NAME']
     if company_name.nil?
       company_name = "la plataforma"
