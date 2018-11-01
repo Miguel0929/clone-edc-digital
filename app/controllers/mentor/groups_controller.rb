@@ -4,7 +4,7 @@ class Mentor::GroupsController < ApplicationController
   before_action :my_groups?, only: [:show, :inactive_students, :template_refilables, :quizzes]
   include GroupHelper
 
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{mentor_groups_path}'>Grupos</a>".html_safe

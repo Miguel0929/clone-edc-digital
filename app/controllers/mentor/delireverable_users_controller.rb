@@ -2,7 +2,7 @@ class Mentor::DelireverableUsersController < ApplicationController
   before_action :set_student
   before_action :set_delireverable_user
 
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   add_breadcrumb "Estudiantes", :mentor_students_path
 
   def edit

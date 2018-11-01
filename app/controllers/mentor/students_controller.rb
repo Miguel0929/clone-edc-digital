@@ -1,7 +1,7 @@
 class Mentor::StudentsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_mentor
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   helper_method :get_program_stat
   helper_method :get_program_active
   helper_method :chapter_have_questions?

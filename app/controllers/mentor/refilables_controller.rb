@@ -10,7 +10,7 @@ class Mentor::RefilablesController < ApplicationController
   helper_method :evaluation_result
   helper_method :evaluation_checked?
 
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   before_action :set_user_breadcrum
 
   def show

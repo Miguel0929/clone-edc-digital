@@ -12,7 +12,7 @@ class Mentor::EvaluationsController < ApplicationController
   helper_method :evaluation_checked?
   include EvaluationHelper
 
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   add_breadcrumb "Estudiantes", :mentor_students_path
 
   def index

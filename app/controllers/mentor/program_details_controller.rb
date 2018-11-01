@@ -7,7 +7,7 @@ class Mentor::ProgramDetailsController < ApplicationController
   helper_method :get_program_stat
   helper_method :chapter_have_questions?
 
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   add_breadcrumb "Grupos", :mentor_groups_path
 
 	def index

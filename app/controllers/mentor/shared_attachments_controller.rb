@@ -4,7 +4,7 @@ class Mentor::SharedAttachmentsController < ApplicationController
   before_action :find_user
   before_action :set_attachment, only: [:edit, :update, :destroy]
 
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   add_breadcrumb "Estudiantes", :mentor_students_path
 
   def new

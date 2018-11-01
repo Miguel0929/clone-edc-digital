@@ -1,5 +1,7 @@
 class Mentor::QuestionsController < ApplicationController
-  add_breadcrumb "EDC DIGITAL", :root_path
+  before_action :authenticate_user!
+  before_action :require_admin_or_mentor
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   add_breadcrumb "Estudiantes", :mentor_students_path
 
   def show

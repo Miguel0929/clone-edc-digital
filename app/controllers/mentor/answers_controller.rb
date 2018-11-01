@@ -1,11 +1,11 @@
 class Mentor::AnswersController < ApplicationController
-	 before_action :authenticate_user!
+	before_action :authenticate_user!
   before_action :set_chapter_content
   before_action :validate_coursable_type
   before_action :build_question
 
-  add_breadcrumb "EDC DIGITAL", :root_path
-  add_breadcrumb "programas", :mentor_programs_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
+  add_breadcrumb "Programas", :mentor_programs_path
 	def router
     answer = build_answer
     redirect_to new_mentor_chapter_content_answer_path(@chapter_content)

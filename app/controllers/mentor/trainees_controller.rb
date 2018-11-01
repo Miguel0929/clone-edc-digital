@@ -2,7 +2,7 @@ class Mentor::TraineesController < ApplicationController
   before_action :authenticate_user!
   before_action :require_mentor
   before_action :set_coach, only: [:destroy]
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{ mentor_trainees_path }'>Aprendices</a>".html_safe
