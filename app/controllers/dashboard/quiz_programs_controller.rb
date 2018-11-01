@@ -69,7 +69,7 @@ class Dashboard::QuizProgramsController < ApplicationController
           Programs.more80_student(program, current_user, dashboard_program_url(program))
         end
         #soporte
-        soporte=User.new(email: "soporte@edc-digital.com")
+        soporte=User.new(email: ENV['MAILER_SUPPORT'])
         Programs.more80_mentor(program,soporte,current_user,user_url(current_user))
         if program.ruta?
           flash[:more80]="Haz completado el 80% del curso, pronto desbloquearas el siguiente contenido!"
@@ -93,7 +93,7 @@ class Dashboard::QuizProgramsController < ApplicationController
         #end
         #soporte
         if !program.name.include?("¡Bienvenido")
-          soporte=User.new(email: "soporte2@edc-digital.com")
+          soporte=User.new(email: ENV['MAILER_SUPPORT'])
           Programs.complete_mentor(program,soporte,current_user,user_url(current_user))
         end
         flash[:complete]="Haz completado el curso!"

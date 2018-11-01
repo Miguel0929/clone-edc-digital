@@ -216,7 +216,7 @@ class ApplicationController < ActionController::Base
 
   def set_breadcrumb
     if (action_name == 'edit' || action_name == 'update') && controller_name == 'registrations'
-      add_breadcrumb "EDC DIGITAL", :root_path
+      add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
       add_breadcrumb "<a class='active' href='#{edit_user_registration_path}'>Edita tu perfil</a>".html_safe
     end
   end

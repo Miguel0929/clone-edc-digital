@@ -13,7 +13,7 @@ class StudentsExporterJob
       if fast
         header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Status', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', "Codigo activación"]
       else
-        header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Status', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', "Codigo activación", "Estado", "Universidad", "Sector económico", "Género", "Edad", "Situación actual", "Tema de interés", "Mi mayor reto será", "Lo que busco en EDC", "Biografía"]
+        header = ['Id', 'Nombre', 'Correo electrónico', 'Teléfono', 'Status', 'Grupo', 'Porcentaje contestado', 'Porcentaje avance', "Codigo activación", "Estado", "Universidad", "Sector económico", "Género", "Edad", "Situación actual", "Tema de interés", "Mi mayor reto será", "Lo que busco en la plataforma", "Biografía"]
         Program.all.each do |program|
           header << "#{program.name} CONTESTADO"
           header << "#{program.name} VISTO"

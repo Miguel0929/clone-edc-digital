@@ -5,7 +5,7 @@
         = image_tag('logo-edc-color-horizontal.png', width: "200")
         %h3 Acompañando emprendedores sin importar la distancia
         %p
-          Activa tu cuenta de EDC Digital en segundos.
+          Activa tu cuenta de #{the_platform_name_helper} en segundos.
         = form_for resource, label_errors: false, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f|
           = f.hidden_field :invitation_token
           .row
@@ -69,7 +69,7 @@
 
           .row.m-t-10
             .col-md-12.text-right
-              %a.text-info.small{:href => "mailto:soporte@edcdigital.mx"} ¿Necesitas ayuda? Contáctanos
+              %a.text-info.small{:href => "mailto:" + (ENV['MAILER_SUPPORT'].nil? ? "soporte@ejemplo.com" : ENV['MAILER_SUPPORT'])} ¿Necesitas ayuda? Contáctanos
 :javascript
   $("#invalid-curp").hide();
   

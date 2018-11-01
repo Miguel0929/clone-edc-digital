@@ -17,11 +17,11 @@ class Mobile::SupportsController < Mobile::BaseController
         uploaded_io=params[:file][:attachment]
         p uploaded_io.content_type
       end
-      chapter = "Sección de ayuda (<a class='active' href='https://www.edcdigital.mx/dashboard/ayuda'>puedes verla aquí</a>)".html_safe
-      @recipients = [{adress: 'soporte@edc-digital.com', type: 'soporte'}, {adress: current_user.email, type: 'usuario'}]
+      chapter = ("Sección de ayuda (<a class='active' href='" + root_url + "dashboard/ayuda'>puedes verla aquí</a>)").html_safe
+      @recipients = [{adress: (ENV['MAILER_SUPPORT'].nil? ? "soporte@ejemplo.com" : ENV['MAILER_SUPPORT']), type: 'soporte'}, {adress: current_user.email, type: 'usuario'}]
       @recipients.each do |recipient, index|
         if recipient[:type] == 'soporte'
-          subject = "Solicitud de soporte EDC Digital: " + params[:raw_subject]
+          subject = "Solicitud de soporte de " + (ENV['COMPANY_NAME'].nil? ? "la plataforma" : ENV['COMPANY_NAME']) + ": " + params[:raw_subject]
           Support.contact(subject, params[:message], params[:urgency], params[:matter], current_user, chapter, params[:signature], recipient[:adress], params[:program], params[:last_content], uploaded_io).deliver_now
           flash_message = { notice: 'Su mensaje ha sido enviado.'}
         else

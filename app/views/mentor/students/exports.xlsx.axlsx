@@ -6,7 +6,7 @@ wb.styles do |style|
 
   wb.add_worksheet(name: "Lista de estudiantes") do |sheet|
     sheet.add_row ["id", "Nombre", "Correo electrónico", "Teléfono", "Género", "Edad", "Situación actual", 
-                  "Tema de interés", "Mi mayor reto será", "Lo que busco en EDC", "Estado", "Grupo", "Porcentage contestado",
+                  "Tema de interés", "Mi mayor reto será", "Lo que busco en la plataforma", "Estado", "Grupo", "Porcentage contestado",
                   "Porcentaje avance", "Total comentarios", "Cursos inscritos", ""], 
                   style: [header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell, header_cell] 
 

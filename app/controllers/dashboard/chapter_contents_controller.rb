@@ -32,7 +32,7 @@ class Dashboard::ChapterContentsController < ApplicationController
     elsif params[:urgency] == 'none' || params[:matter] == 'none'
       flash_message = { alert: 'ERROR: Recuerda seleccionar nivel de urgencia y clasificación.'}
     else
-      @recipients = [{adress: 'soporte@edc-digital.com', type: 'soporte'}, {adress: current_user.email, type: 'usuario'}]
+      @recipients = [{adress: (ENV['MAILER_SUPPORT'].nil? ? "soporte@ejemplo.com" : ENV['MAILER_SUPPORT']), type: 'soporte'}, {adress: current_user.email, type: 'usuario'}]
       @recipients.each do |recipient, index|
         if recipient[:type] == 'soporte'
           subject = "Solicitud de soporte: " + params[:raw_subject]

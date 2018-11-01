@@ -38,7 +38,7 @@ class Support
     if attachment.nil?
       template_title = "¡Hemos recibido tu solicitud de ayuda!"
       template_name = (user.first_name.nil? ? "Hola" : user.name)
-      template_message = "Recibimos tu mensaje: <em>" + raw_subject + "</em>. Estamos por atenderlo. Te pedimos te mantengas al tanto de tu correo y de la plataforma EDCdigital para tener retroalimentación cuanto antes.</p>" +
+      template_message = "Recibimos tu mensaje: <em>" + raw_subject + "</em>. Estamos por atenderlo. Te pedimos te mantengas al tanto de tu correo y de la plataforma para tener retroalimentación cuanto antes.</p>" +
                          "<p>Nuestros mentores y expertos pueden demorar un poco para responder cada caso, por lo que te pedimos ser paciente :) </p> <p>Estamos para servirte, que tengas un excelente día."
       template_footer = company_name_helper('Nuestro equipo')
       mail_recipient = recipient
@@ -48,7 +48,7 @@ class Support
     else 
       template_title = "¡Hemos recibido tu solicitud de ayuda!"
       template_name = (user.first_name.nil? ? "Hola" : user.name)
-      template_message = "Recibimos tu mensaje: <em>" + raw_subject + "</em>. Estamos por atenderlo. Te pedimos te mantengas al tanto de tu correo y de la plataforma EDCdigital para tener retroalimentación cuanto antes.</p>" +
+      template_message = "Recibimos tu mensaje: <em>" + raw_subject + "</em>. Estamos por atenderlo. Te pedimos te mantengas al tanto de tu correo y de la plataforma para tener retroalimentación cuanto antes.</p>" +
                          "<p>Nuestros mentores y expertos pueden demorar un poco para responder cada caso, por lo que te pedimos ser paciente :) </p> <p>Estamos para servirte, que tengas un excelente día.</p> <p>[Este mensaje contiene un archivo adjunto]"
       template_footer = company_name_helper('Nuestro equipo')
       mail_recipient = recipient

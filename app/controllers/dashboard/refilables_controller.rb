@@ -52,7 +52,7 @@ class Dashboard::RefilablesController < ApplicationController
         else
           open_ticket(current_user, @template)
         end
-        AnsweredRefilableNotificationJob.perform_async(@template.program, @template, "soporte2@edc-digital.com", current_user, mentor_student_url(current_user))
+        AnsweredRefilableNotificationJob.perform_async(@template.program, @template, (ENV['MAILER_SUPPORT'].nil? ? "soporte@ejemplo.com" : ENV['MAILER_SUPPORT']), current_user, mentor_student_url(current_user))
         if params["is-draft"].present?
           Refilable.where(user_id: current_user.id, template_refilable_id: @template.id, draft: true).destroy_all
         end

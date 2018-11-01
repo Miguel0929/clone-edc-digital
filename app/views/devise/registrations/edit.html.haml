@@ -132,9 +132,9 @@
               .col-sm-9
                 = f.text_area :challenge, value: current_user.user_detail.nil? ? nil : current_user.user_detail.challenge, class: 'form-control', placeholder: 'Describe lo que consideras el mayor reto de tu idea.'
             .form-group
-              %label.col-sm-3.control-label{:for => "objetivo"} Lo que busco en EDC digital es
+              %label.col-sm-3.control-label{:for => "objetivo"} Lo que busco en #{the_platform_name_helper} es
               .col-sm-9
-                = f.text_area :goal, value: current_user.user_detail.nil? ? nil : current_user.user_detail.goal, class: 'form-control', placeholder: 'Describe lo que esperas conseguir en la plataforma de EDC Digital.'
+                = f.text_area :goal, value: current_user.user_detail.nil? ? nil : current_user.user_detail.goal, class: 'form-control', placeholder: 'Describe lo que esperas conseguir en la plataforma.'
             .form-group
               %label.col-sm-3.control-label{:for => "name"} ¿En qué sector económico se ubica tu producto/servicio?
               .col-sm-9

@@ -130,7 +130,7 @@ class Dashboard::ContentsController < ApplicationController
           Programs.more95_student(program, current_user, dashboard_program_url(program))
         end
         #soporte
-        #soporte=User.new(email: "soporte@edc-digital.com")
+        #soporte=User.new(email: (ENV['MAILER_SUPPORT'].nil? ? "soporte@ejemplo.com" : ENV['MAILER_SUPPORT']) )
         #Programs.more95_mentor(program,soporte,current_user,user_url(current_user))
         flash[:more95]="Has completado el 95% del curso."  
         #mentores
@@ -146,7 +146,7 @@ class Dashboard::ContentsController < ApplicationController
         #end
         #soporte
         if program.name.include?("¡Bienvenido") || program.name.include?("Cimientos Comerciales de tu idea de negocio")
-          soporte=User.new(email: "soporte2@edc-digital.com")
+          soporte=User.new(email: (ENV['MAILER_SUPPORT'].nil? ? "soporte@ejemplo.com" : ENV['MAILER_SUPPORT']) )
           Programs.complete_mentor(program,soporte,current_user,mentor_student_url(current_user)) #antes la ruta era user_url(current_user)
           ProgramCompleteNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
         end

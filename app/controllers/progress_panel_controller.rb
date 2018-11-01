@@ -11,7 +11,7 @@ class ProgressPanelController < ApplicationController
   add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def index
-  	add_breadcrumb "<a class='active' href='#{progress_panel_index_path}'>Panel de progreso de EDC Digital</a>".html_safe
+  	add_breadcrumb "<a class='active' href='#{progress_panel_index_path}'>Panel de progreso</a>".html_safe
     if current_user.admin?
       @users = User.students.all
       programs = Program.all

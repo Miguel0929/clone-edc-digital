@@ -2,8 +2,8 @@ class DiagnosticTestJob < ActiveJob::Base
   include SuckerPunch::Job
   include EvaluationHelper
 
-  FROM = "soporte-edcdigital@distritoemprendedor.com"
-  NAME = "EDC Digital"
+  FROM = (ENV['MAILER_SUPPORT'].nil? ? "soporte@ejemplo.com" : ENV['MAILER_SUPPORT'])
+  NAME = (ENV['COMPANY_NAME'].nil? ? "Plataforma de cursos digitales" : ENV['COMPANY_NAME'])
 
   def perform(answers, chapter, user, first_time)
 

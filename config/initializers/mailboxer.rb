@@ -4,7 +4,7 @@ Mailboxer.setup do |config|
   config.uses_emails = true
 
   #Configures the default from for emails sent for Messages and Notifications
-  config.default_from = " soporte-edcdigital@distritoemprendedor.com"
+  config.default_from = (ENV['MAILER_SUPPORT'].nil? ? "soporte@ejemplo.com" : ENV['MAILER_SUPPORT'])
 
   #Configures the methods needed by mailboxer
   config.email_method = :mailboxer_email
