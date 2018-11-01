@@ -312,12 +312,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :profesors, except: [:create] do
-    member do
-      get :change_state
-    end  
-  end  
-
   resources :staffs, except: [:create]
 
   resources :groups do
@@ -528,38 +522,6 @@ Rails.application.routes.draw do
       get :populate_chapter_options
       get :populate_content_options
     end
-  end
-
-  namespace :profesor do
-    resources :groups, only: [:index, :show] do
-      member do
-        get :template_refilables
-        get :quizzes
-      end  
-    end  
-    resources :students, only: [:index, :show] do
-      resources :refilables, only: [:show, :edit, :update]
-      resources :delireverable_users, only: [:edit, :update]
-      resources :shared_attachments
-      collection do
-        get :exports
-        get :template_refilables
-        get :quizzes
-      end
-      member do
-        get :analytics_quiz
-        get :summary
-      end
-    end
-    resources :evaluations, only: [:index, :show]
-    resources :program_details, only: [:index]
-    resources :shared_group_attachments
-    
-    resources :quizzes, only: [] do
-      member do
-        get :apply
-      end
-    end  
   end
 
   resources :coaches, only: [:index, :new, :create, :destroy] do
