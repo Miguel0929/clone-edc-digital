@@ -4,7 +4,7 @@ class Dashboard::DelireverableProgramsController < ApplicationController
   before_action :set_delireverables_package, only: [:new, :create, :show, :edit, :update]
   after_action :update_program_stats, only: [:create, :update]
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   add_breadcrumb "programas", :dashboard_programs_path
 
   def router

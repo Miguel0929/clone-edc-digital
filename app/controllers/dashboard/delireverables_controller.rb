@@ -1,7 +1,7 @@
 class Dashboard::DelireverablesController < ApplicationController
   before_action :authenticate_user!
   before_action :redirect_to_support, if: :student_have_group?
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def index
     add_breadcrumb "<a href='#{dashboard_delireverables_path}' class='active'>Mis entregables</a>".html_safe

@@ -3,8 +3,8 @@ class Dashboard::RefilableProgramsController < ApplicationController
   before_action :set_chapter_content
   after_action :update_program_stats, only: [:create, :update]
 
-  add_breadcrumb "EDCDIGITAL", :root_path
-  add_breadcrumb "programas", :dashboard_programs_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
+  add_breadcrumb "Programas", :dashboard_programs_path
 
 
   def router

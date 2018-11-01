@@ -3,7 +3,7 @@ class Dashboard::QuizzesController < ApplicationController
   before_action :redirect_to_support, if: :student_have_group?
   before_action :set_quiz, only: [:show, :apply, :detail]
   before_action :redirect_to_quizzes, if: :permiso_quiz, only: [:show, :apply, :detail]  
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   helper_method :right_answer
   helper_method :evaluating_quiz
   include ActiveElementsHelper

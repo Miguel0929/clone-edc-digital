@@ -2,7 +2,7 @@ class Dashboard::TemplateRefilablesController < ApplicationController
   before_action :authenticate_user!
   before_action :redirect_to_support, if: :student_have_group?
   include ActiveElementsHelper
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def index
     unless params[:user_id].present?

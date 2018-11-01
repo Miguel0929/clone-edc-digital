@@ -3,7 +3,7 @@ class Dashboard::DelireverableUsersController < ApplicationController
   before_action :redirect_to_support, if: :student_have_group?
   before_action :set_delireverable
   before_action :redirect_to_delireverables, if: :permiso_delireverable
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def new
     add_breadcrumb "Entregables", :dashboard_delireverables_path

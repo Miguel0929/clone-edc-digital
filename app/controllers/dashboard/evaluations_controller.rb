@@ -9,8 +9,8 @@ class Dashboard::EvaluationsController < ApplicationController
   helper_method :evaluation_checked?
   include EvaluationHelper
 
-  add_breadcrumb "EDC DIGITAL", :root_path
-  add_breadcrumb "programas", :dashboard_programs_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
+  add_breadcrumb "Programas", :dashboard_programs_path
 
   def index
     add_breadcrumb @program.name, dashboard_program_path(@program)

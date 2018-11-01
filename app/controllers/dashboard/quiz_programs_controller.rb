@@ -5,8 +5,8 @@ class Dashboard::QuizProgramsController < ApplicationController
   helper_method :evaluating_quiz
   after_action :update_program_stats, only: [:create]
 
-  add_breadcrumb "EDCDIGITAL", :root_path
-  add_breadcrumb "programas", :dashboard_programs_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
+  add_breadcrumb "Programas", :dashboard_programs_path
 
   def router
     quiz=@chapter_content.model

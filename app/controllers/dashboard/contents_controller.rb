@@ -9,7 +9,7 @@ class Dashboard::ContentsController < ApplicationController
   end
   before_action :redirect_to_learning, if: :permiso_avance, only: [:show, :new, :edit]
   
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def router
     contestadas = current_user.answers_for(@chapter_content.model).count

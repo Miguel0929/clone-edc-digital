@@ -1,6 +1,6 @@
 class Dashboard::UsersController < ApplicationController
   before_action :authenticate_user!
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def show
     @user = current_user
