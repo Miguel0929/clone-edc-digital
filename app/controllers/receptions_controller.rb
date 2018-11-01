@@ -6,7 +6,7 @@ class ReceptionsController < ApplicationController
 	include MailTemplateHelper
 
 	def index
-		add_breadcrumb "EDC DIGITAL", :root_path
+		add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 		add_breadcrumb "<a class='active' href='#{receptions_path}'>Recepción</a>".html_safe
 		@receptions = Reception.all
 		@reception = Reception.new

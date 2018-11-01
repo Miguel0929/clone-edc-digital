@@ -2,7 +2,7 @@ class RefilableDefaultCommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin, except: :get_comment
   before_action :set_comment, only: [:show, :destroy, :edit, :update]
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def index
   	add_breadcrumb "<a class='active' href='#{refilable_default_comments_path}'>Comentarios de plantillas</a>".html_safe

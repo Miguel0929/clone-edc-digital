@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :require_creator, only: [:students, :show]
   before_action :set_user, only: [:show, :edit, :update, :destroy, :analytics_program, :analytics_quiz, :change_state, :summary, :learning_path, :program_permitted, :change_premium]
   before_action :set_program, only:[:program_permitted]
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   
   helper_method :get_program_active
   helper_method :last_moved_program

@@ -2,7 +2,7 @@ class RouteTextsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_text, only: [:edit, :show, :update, :destroy]
 
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def index
   	@routetexts = RouteText.all

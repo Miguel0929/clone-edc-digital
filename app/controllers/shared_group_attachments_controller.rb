@@ -1,7 +1,7 @@
 class SharedGroupAttachmentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_attachment, only: [:edit, :update, :destroy]
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{shared_group_attachments_path}'>Archivos compartidos</a>".html_safe

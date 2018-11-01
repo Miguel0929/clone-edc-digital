@@ -3,7 +3,7 @@ class ReportsController < ApplicationController
   before_action :require_admin, only: [:index,:destroy,:visto]
   before_action :set_report, only: [:destroy, :visto]
 
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{reports_path}'>Reportes de contenido</a>".html_safe

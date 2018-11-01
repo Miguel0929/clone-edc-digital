@@ -3,7 +3,7 @@ class QuizQuestionMembersController < ApplicationController
   before_action :require_admin
   before_action :set_quiz_question, only: [:edit, :update, :destroy]
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   add_breadcrumb "Programas", :programs_path
   def create
     @quiz=Quiz.find(quiz_question_params[:quiz_id])

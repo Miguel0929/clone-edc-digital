@@ -1,5 +1,6 @@
 class RankController < ApplicationController
-  before_action :authenticate_user!		
+  before_action :authenticate_user!
+
   def vote
   	@r=ChapterContentRank.where(user_id: current_user.id,chapter_content_id: params[:chapter_content_id])
   	if @r.length==0

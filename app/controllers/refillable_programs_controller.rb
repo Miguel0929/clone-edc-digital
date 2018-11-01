@@ -3,7 +3,7 @@ class RefillableProgramsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_chapter_content, only: [:show,:destroy,:edit,:update,:clone]
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   add_breadcrumb "Programas", :programs_path
 
   def new

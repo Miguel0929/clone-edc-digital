@@ -3,7 +3,7 @@ class StaffsController < ApplicationController
   before_action :require_admin
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{staffs_path}'>Mentores</a>".html_safe

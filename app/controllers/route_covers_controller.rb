@@ -2,8 +2,7 @@ class RouteCoversController < ApplicationController
   before_action :authenticate_user!
   before_action :set_cover, only: [:show, :destroy, :update, :edit]
 
-  
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def index
   	@routecovers = RouteCover.all

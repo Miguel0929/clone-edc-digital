@@ -3,7 +3,7 @@ class TemplateRefilablesController < ApplicationController
   before_action :set_template_refilable, only: [:show, :edit, :update, :destroy, :rubrics]
   before_action :require_admin, except: [:show]
   before_action :require_admin_or_mentor_or_profesor, only: [:show]
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{template_refilables_path}'>Mis plantillas</a>".html_safe
