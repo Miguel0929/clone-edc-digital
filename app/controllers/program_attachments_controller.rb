@@ -4,7 +4,7 @@ class ProgramAttachmentsController < ApplicationController
 
   before_action :set_program
   before_action :set_attachment
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   add_breadcrumb "Programas", :programs_path
 
   def index

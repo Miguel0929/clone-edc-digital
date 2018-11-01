@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   after_action :update_program_sequences, only: [:create, :update]
   include GroupHelper
 
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{groups_path}'>Grupos</a>".html_safe

@@ -6,13 +6,15 @@ class LearningPathsController < ApplicationController
   before_action :blank_group_paths, only: [:destroy]
   after_action :update_program_sequences, only: [:destroy]
   include GroupHelper
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
+
   def index
     add_breadcrumb "<a href='#{learning_paths_path}' class='active'>Rutas de aprendizaje</a>".html_safe
     @pag_max = 40
 
     @learning_path = LearningPath.all.page(params[:page]).per(@pag_max)
   end
+  
   def new
     add_breadcrumb "Ruta de aprendizaje", :learning_paths_path
     add_breadcrumb '<a class="active">Nueva "Ruta de aprendizaje"</a>'.html_safe

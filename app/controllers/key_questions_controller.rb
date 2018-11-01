@@ -1,7 +1,7 @@
 class KeyQuestionsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   
   def index
   	add_breadcrumb "<a href='#{key_questions_path}' class='active'>Preguntas clave del contenido</a>".html_safe

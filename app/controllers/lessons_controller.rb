@@ -3,7 +3,7 @@ class LessonsController < ApplicationController
   before_action :set_chapter
   before_action :set_lesson, only: [:show, :edit, :update, :destroy, :clone]
   before_action :require_admin
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   add_breadcrumb "Programas", :programs_path
 
   def new

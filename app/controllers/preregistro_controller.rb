@@ -1,5 +1,6 @@
 class PreregistroController < ApplicationController
   before_action :set_user, only: [:link_activation]
+
   def index
     render layout: "layouts/preregistro"
   end 

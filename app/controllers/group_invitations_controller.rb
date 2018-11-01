@@ -2,7 +2,7 @@ require 'csv'
 require 'json'
 
 class GroupInvitationsController < ApplicationController
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   def new
     add_breadcrumb "<a class='active' href='#{new_group_invitation_path}'>Invitaciones en grupo</a>".html_safe
   end
