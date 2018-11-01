@@ -1,5 +1,5 @@
 - content_for :title  do
-  = title_text_helper("Preguntas")
+  = title_text_helper(@chapter_content.chapter.program.name.truncate(50, separator: ' ', omission: '...'))
 
 .container-fluid.container-fixed-lg
   .panel.panel-default

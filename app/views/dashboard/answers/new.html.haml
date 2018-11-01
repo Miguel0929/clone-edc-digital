@@ -1,3 +1,6 @@
+- content_for :title  do
+  = title_text_helper(@chapter_content.chapter.program.name.truncate(50, separator: ' ', omission: '...'))
+
 = render partial: '/dashboard/answers/form', locals: { disabled: false}
 :javascript
   $("#new_answer").submit(function () {

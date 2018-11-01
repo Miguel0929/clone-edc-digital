@@ -1,1 +1,4 @@
+- content_for :title  do
+  = title_text_helper(@chapter_content.chapter.program.name.truncate(50, separator: ' ', omission: '...'))
+
 = render partial: "dashboard/chapter_contents/#{@chapter_content.coursable_type.downcase}", locals: { model: @chapter_content.model }
