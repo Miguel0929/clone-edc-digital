@@ -13,7 +13,7 @@
             %h5.text-white
               =current_user.mentor? ? '' : '¿Qué hay de nuevo?'
             %p.m-b-25.text-white
-              =current_user.mentor? ? 'Entérate de los últimos comentarios hechos por tus estudiantes dentro del contenido de los cursos.' : 'Noticias, actualizaciones, cambios y mejoras. ¡Entérate de todo lo que sucede dentro de EDC Digital en tu bandeja de notificaciones!'
+              =current_user.mentor? ? 'Entérate de los últimos comentarios hechos por tus estudiantes dentro del contenido de los cursos.' : 'Noticias, actualizaciones, cambios y mejoras. ¡Entérate de todo lo que sucede dentro de ' + the_platform_name_helper + ' en tu bandeja de notificaciones!'
               
 
 .container-fluid.container-fixed-lg

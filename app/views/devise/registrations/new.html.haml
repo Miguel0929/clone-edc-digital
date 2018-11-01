@@ -5,7 +5,7 @@
         = image_tag('logo-edc-color-horizontal.png', width: "200")
         %h3 Acompañando emprendedores sin importar la distancia
         %p
-          Crea tu cuenta de EDC Digital en segundos.
+          Crea tu cuenta de #{the_platform_name_helper} en segundos.
         = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
           .row
             .col-sm-6
@@ -60,4 +60,4 @@
 
           .row.m-t-10
             .col-md-12.text-right
-              %a.text-info.small{:href => "mailto:soporte@edcdigital.mx"} ¿Necesitas ayuda? Contáctanos
+              %a.text-info.small{:href => "mailto:" + (ENV['MAILER_SUPPORT'].nil? ? "soporte@ejemplo.com" : ENV['MAILER_SUPPORT'])} ¿Necesitas ayuda? Contáctanos

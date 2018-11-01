@@ -11,7 +11,7 @@
 							=current_user.mentor? || current_user.profesor? ? 'Mensajes con tus estudiantes' : 'Mensajes con tus profesores'
 					.col-sm-8.col-md-8.resp-p-l-50.xs-p-l-15.xs-p-r-15
 						%h5.text-white
-							=current_user.mentor? || current_user.profesor? ? '¡No pierdas contacto!' : 'Tu buzón en EDC Digital'
+							=current_user.mentor? || current_user.profesor? ? '¡No pierdas contacto!' : 'Tu buzón en ' + the_platform_name_helper
 						%p.m-b-25.text-white
 							=current_user.mentor? || current_user.profesor? ? 'Envía y recibe mensajes con tus estudiantes. Comparte archivos de interés con tus alumnos para mejorar la comunicación interna.' : 'Comunícate con tus profesores de manera rápida y sencilla. Envía y recibe mensajes. ¡No pierdas contacto!'
 

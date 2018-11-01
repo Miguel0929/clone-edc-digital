@@ -9,6 +9,7 @@
               ¡Ups! No hemos encontrado un registro de usuario con este correo electrónico, puedes solicitar tu cuenta en al correo
               %strong
                 soporte2@edc-digital.com.
+                = (ENV['MAILER_SUPPORT'].nil? ? "soporte@ejemplo.com" : ENV['MAILER_SUPPORT'])
               /= link_to "https://emprendiendodesdecero.com/seguimiento/formulario", "https://emprendiendodesdecero.com/seguimiento/formulario"
               %br
               /%i * Si tienes algun problema comunicate con soporte técnico al correo soporte@edc-digital.com o al teléfono +52 (55) 5351 6633

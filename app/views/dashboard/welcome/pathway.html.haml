@@ -11,9 +11,9 @@
 							Fases de una idea viable
 					.col-sm-8.col-md-8.resp-p-l-50.cell-down-pr30.cell-down-pl30
 						%h5.text-white
-							Tu travesía por EDC Digital
+							Tu travesía por #{the_platform_name_helper}
 						%p.m-b-25.text-white
-							Todo emprendedor deberá recorrer la Ruta de Emprendimiento. El sendero que te llevará por toda la experiencia de EDC Digital mediante cursos de aprendizaje y de construcción de tu idea de negocio. Recibirás retroalimentación constante por tus profesores. A su vez, nuevo contenido será desbloqueado conforme avances. ¿Listo para despegar? 
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce at orci nec ligula venenatis ornare eu ut purus. Aliquam luctus, neque quis tincidunt pulvinar, mi leo dictum purus, et blandit sem nunc at ligula. Mauris aliquet rutrum libero ac efficitur. Nunc vel nibh vulputate, tristique dui vel, ullamcorper sem.
 
 .container-fluid.container-fixed-lg
 	.row
@@ -52,6 +52,6 @@
 							Aún no hay descripción de la ruta
 					.panel.panel-default.m-b-30
 						- if @covers.exists?
-							= image_tag(@last_cover.route_image, :class => "image-width-100", :alt => "Ruta de EDC Digital")
+							= image_tag(@last_cover.route_image, :class => "image-width-100", :alt => "Ruta de la plataforma")
 						- else
-							Ruta de EDC Digital
+							Ruta de #{the_platform_name_helper}

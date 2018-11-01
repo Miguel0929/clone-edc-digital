@@ -11,7 +11,7 @@
 							Progreso de grupos de categoría: 
 							%span.text-primary #{params[:category]}
 						- else
-							Progreso general de EDC Digital
+							Progreso general de #{the_platform_name_helper}
 		.panel-body
 			.row.m-t-10.m-b-40
 				.col-sm-12
@@ -50,7 +50,7 @@
 			.row.tablet-up-mb80
 				.col-sm-4.cell-down-pb50
 					.col-sm-12
-						%h3.p-b-20 Alumos de EDC
+						%h3.p-b-20 Alumos de #{the_platform_name_helper}
 						= pie_chart [["Alumnos activos", @active_users.count], ["Alumnos inactivos", @inactive_users]]
 					.col-sm-12.text-center.p-t-15
 						%span.text-primary Alumnos activos: 

@@ -13,7 +13,7 @@
             %h5.text-white
               Tus datos en un solo lugar.
             %p.m-b-25.text-white
-              Encuentra aquí la información relacionada a tu perfil dentro de la plataforma EDC Digital. Desde tus datos personales hasta estadísticas de tus avances. 
+              Encuentra aquí la información relacionada a tu perfil dentro de la plataforma. Desde tus datos personales hasta estadísticas de tus avances. 
 
 .container-fluid.container-fixed-lg
   .row
@@ -107,7 +107,7 @@
                 %td
                   = @user.user_detail.nil? ? "Sin registro" : (@user.user_detail.challenge.nil? ? "Sin registro" : @user.user_detail.challenge)
               %tr.odd.gradeX
-                %td Lo que busco en EDC Digital
+                %td Lo que busco en #{the_platform_name_helper}
                 %td
                   = @user.user_detail.nil? ? "Sin registro" : (@user.user_detail.goal.nil? ? "Sin registro" : @user.user_detail.goal)
               %tr.odd.gradeX
