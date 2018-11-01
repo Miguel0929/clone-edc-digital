@@ -17,13 +17,13 @@ class AuthController < ApplicationController
     application = Client.authenticate(params[:client_id], params[:client_secret])
 
     if application.nil?
-      render :json => {:error => "Could not find application"}
+      render :json => {:error => "No se pudo encontrar la aplicación"}
       return
     end
 
     access_grant = AccessGrant.authenticate(params[:code], application.id)
     if access_grant.nil?
-      render :json => {:error => "Could not authenticate access code"}
+      render :json => {:error => "El código de acceso no pudo ser autenticado"}
       return
     end
 

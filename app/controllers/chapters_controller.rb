@@ -5,7 +5,7 @@ class ChaptersController < ApplicationController
   before_action :set_chapter, only: [:edit, :update, :destroy, :clone, :content, :rubrics]
   before_action :require_admin
 
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   add_breadcrumb "Programas", :programs_path
 
   def new

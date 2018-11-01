@@ -3,7 +3,7 @@ class DelireverablesController < ApplicationController
   before_action :set_delireverable_package
   before_action :set_delireverable, only: [:edit, :update, :destroy]
   before_action :require_admin
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def index
     add_breadcrumb "Paquetes de entregables", :delireverable_packages_path

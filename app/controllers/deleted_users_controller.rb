@@ -4,7 +4,7 @@ class DeletedUsersController < ApplicationController
   before_action :require_admin
   before_action :set_user, only: [:update]
 
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
   def index
     add_breadcrumb "<a class='active' href='#{deleted_users_path}'>Usuarios desactivados</a>".html_safe

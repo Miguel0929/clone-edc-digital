@@ -4,7 +4,7 @@ class ContentsChaptersController < ApplicationController
 	before_action :set_chapter
   before_action :set_chapter_content_contents, only: [:update, :destroy, :clone]
   
-  add_breadcrumb "EDC DIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   add_breadcrumb "Programas", :programs_path
 	
 	def create

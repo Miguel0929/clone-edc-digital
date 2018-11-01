@@ -3,7 +3,7 @@ class AnalyticsPanelController < ApplicationController
   before_action :require_admin_or_mentor_or_profesor
   before_action :set_group, only: [:group]
   before_action :set_program, only: [:group_program]
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   include GroupHelper
   include EvaluationRefilablesHelper
 

@@ -2,7 +2,7 @@ class AnalyticsStatesController < ApplicationController
 	before_action :authenticate_user!
   before_action :require_admin_or_mentor_or_profesor
   before_action :set_state, only: [:show, :mentor_state_evaluated]
-  add_breadcrumb "EDCDIGITAL", :root_path
+  add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   def show
  
     @stats = StudentEvaluatedState.where(state: @state).order(:state_id).includes(:program)
