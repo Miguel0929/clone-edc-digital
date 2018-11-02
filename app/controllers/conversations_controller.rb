@@ -85,7 +85,7 @@ class ConversationsController < ApplicationController
       att.file=message_params[:attachment]
       att.save!
     end  
-    flash[:notice] = "Your reply message was succesfully"
+    flash[:notice] = "Tu mensaje ha sido enviado"
     redirect_to conversation_path(conversation)
   end 
 

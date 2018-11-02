@@ -21,7 +21,7 @@
           .row-xs-height
             .social-user-profile.col-xs-height.text-center.col-top
               .thumbnail-wrapper.d48.circular.bordered.b-white
-                = current_user.profile_picture.url.nil? ? image_tag('rubensito-05.png', height: 55, id: 'profile_img') : image_tag(current_user.profile_picture.url, height: 55, id: 'profile_img')
+                = current_user.profile_picture.url.nil? ? image_tag('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwQzkGr6zOpQD7nG8YtZIIzlutO7kOL1NkG88BOH5fNVBqkwWc', height: 55, id: 'profile_img') : image_tag(current_user.profile_picture.url, height: 55, id: 'profile_img')
               %button.btn.btn-default.btn-cons#upload_profile_picture Subir foto
             .col-xs-height.p-l-20
               %h3.no-margin

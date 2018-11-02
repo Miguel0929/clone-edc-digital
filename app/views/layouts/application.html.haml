@@ -481,7 +481,7 @@
               .dropdown.pull-right
                 %button.profile-dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
                   %span.thumbnail-wrapper.d32.circular.inline.m-t-5
-                    = current_user.profile_picture.url.nil? ? image_tag('https://fakeimg.pl/70x70/c2cde4/?text=*_*', height: 55) : image_tag(current_user.profile_picture.url, height: 55)
+                    = current_user.profile_picture.url.nil? ? image_tag('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwQzkGr6zOpQD7nG8YtZIIzlutO7kOL1NkG88BOH5fNVBqkwWc', height: 55) : image_tag(current_user.profile_picture.url, height: 55)
                 %ul.dropdown-menu.profile-dropdown{:role => "menu"}
                   %li
                     %a{:href => edit_user_registration_path}
