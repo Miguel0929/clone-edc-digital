@@ -10,18 +10,18 @@ var tour = new Tour({
     {
       element: "#tour-1",
       title: "Menú superior",
-      content: "Aquí encontrarás acceso rápido a las siguientes secciones: notificaciones de EDC-digital, mensajes con tus mentores y preguntas frecuentes. A la derecha del menú podrás encontrar tu foto de perfil. Esta te permite acceder a tu información de perfil, así como a las configuraciones de tu cuenta.",
+      content: "Aquí encontrarás acceso rápido a las siguientes secciones: notificaciones de la plataforma, mensajes con tus mentores y preguntas frecuentes. A la derecha del menú podrás encontrar tu foto de perfil. Esta te permite acceder a tu información de perfil, así como a las configuraciones de tu cuenta.",
       placement: "bottom"
     },
     {
       element: "#tour-2",
       title: "Menú lateral",
-      content: "Este es el menú principal. A través de él puedes navegar por las diferentes secciones de la plataforma. En la sección de ‘Mapa de sitio’ podrás leer los detalles del resto de ellas para conocer su contenido."
+      content: "Este es el menú principal. A través de él puedes navegar por las diferentes secciones de la plataforma."
     },
     {
       element: "#tour-3",
       title: "Título de página",
-      content: "Todas las secciones en EDC-digital tienen un título de identificación para saber siempre dónde te encuentras dentro de la plataforma.",
+      content: "Todas las secciones en la plataforma tienen un título de identificación para saber siempre dónde te encuentras dentro de la plataforma.",
       placement: "bottom"
     },
      {

@@ -4,7 +4,7 @@ var tour3 = new Tour({
     {
       element: "#tour-8",
       title: "Calificación de contenido",
-      content: "Para nosotros es muy importante tu retroalimentación sobre el contenido de EDC-digital, por lo tanto tu calificación de las lecciones siempre son bienvenidas y te agradecemos mucho por tomarte el tiempo :)",
+      content: "Para nosotros es muy importante tu retroalimentación sobre el contenido de la plataforma, por lo tanto tu calificación de las lecciones siempre son bienvenidas y te agradecemos mucho por tomarte el tiempo :)",
       placement: "bottom"
     },
     {

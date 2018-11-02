@@ -191,7 +191,7 @@ class AnalyticsPanelController < ApplicationController
 
   def seguimiento
     add_breadcrumb "<a href='#{analytics_panel_index_path}'>Panel de analíticos</a>".html_safe
-    add_breadcrumb "<a class='active' href='#{seguimiento_analytics_panel_index_path}'>Seguimiento de EDC Digital</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{seguimiento_analytics_panel_index_path}'>Seguimiento de " + (ENV['COMPANY_NAME'].nil? ? "la plataforma" : ENV['COMPANY_NAME']) +"</a>".html_safe
     @mentors = Mentor.all.invitation_accepted.page(params[:page]).per(50)
     if params[:date].present?
       @today = Date.parse(params[:date])

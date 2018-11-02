@@ -51,11 +51,11 @@ class Users::InvitationsController < Devise::InvitationsController
   #          substitutions: {
   #            "-confirmation_link-" => accept_user_invitation_url(:invitation_token => user.raw_invitation_token)
   #          },
-  #          subject: "Tu cuenta en EDC Digital ha sido creada"
+  #          subject: "Tu cuenta " + (ENV['COMPANY_NAME'].nil? ? "la plataforma" : ENV['COMPANY_NAME']) + " ha sido creada"
   #        },
   #      ],
   #      from: {
-  #        email: "soporte@edc-digital.com"
+  #        email: (ENV['MAILER_SUPPORT'].nil? ? "la plataforma" : ENV['MAILER_SUPPORT'])
   #      },
   #      template_id: "506fcba3-80ce-4de9-bb7f-41e1e752ce0f"
   #    }
