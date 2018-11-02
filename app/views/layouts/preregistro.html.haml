@@ -3,22 +3,22 @@
   %head
     %meta{:content => "text/html;charset=UTF-8", "http-equiv" => "content-type"}/
     %meta{:charset => "utf-8"}/
-    %title EDCdigital
+    %title #{the_platform_name_helper}
     %meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no", :name => "viewport"}/
     %link{:href => "#{image_path('favicon.ico')}", :rel => "icon", :type => "image/x-icon"}/
-    %meta{:content => "Plataforma digital para la construcción y validación de tu idea de negocio, para el programa Emprendiendo desde Cero", :name => "description"}/
-    %meta{:content => "emprendedor, emprendedores, emprendimiento, financiamiento, jóvenes, finanzas, capacitación, curso, inversión, capital, privado", :name => "keywords"}/
-    %meta{:content => "Emprendiendo Desde Cero", :name => "author"}/
-    %meta{:content => "Inicia tu programa de Seguimiento Digital y construye tu idea de negocio", :property => "og:title"}/
+    %meta{:content => "Plataforma de cursos digitales online.", :name => "description"}/
+    %meta{:content => "plataforma, curso, capacitación, digital, online, alumno, mentor", :name => "keywords"}/
+    %meta{:content => (ENV['COMPANY_NAME'].nil? ? "Cursos Digitales" : ENV['COMPANY_NAME']), :name => "author"}/
+    %meta{:content => "Plataforma de cursos digitales online.", :property => "og:title"}/
     %meta{:content => "website", :property => "og:type"}/
-    %meta{:content => "https://www.emprendiendodesdecero.com/assets/img/VIDEO-INTRODUCTORIO-COMPILADO--(0-00-32-10).png", :property => "og:image"}/
-    %meta{:content => "https://www.edcdigital.mx", :property => "og:url"}/
-    %meta{:content => "Plataforma digital para la construcción y validación de tu idea de negocio, para el programa Emprendiendo desde Cero", :property => "og:description"}/
+    %meta{:content => "https://fakeimg.pl/580x150/D3D3D3/?text=Logo(580x150)", :property => "og:image"}/
+    %meta{:content => "", :property => "og:url"}/
+    %meta{:content => "Plataforma de cursos digitales online.", :property => "og:description"}/
     %meta{:content => "summary_large_image", :name => "twitter:card"}/
-    %meta{:content => "@DistritoEmprend", :name => "twitter:site"}/
-    %meta{:content => "Inicia tu programa de Seguimiento Digital y construye tu idea de negocio", :name => "twitter:title"}/
-    %meta{:content => "Plataforma digital para la construcción y validación de tu idea de negocio, para el programa Emprendiendo desde Cero.", :name => "twitter:description"}/
-    %meta{:content => "https://www.emprendiendodesdecero.com/assets/img/VIDEO-INTRODUCTORIO-COMPILADO--(0-00-32-10).png", :name => "twitter:image:src"}/
+    %meta{:content => "@", :name => "twitter:site"}/
+    %meta{:content => "Plataforma de cursos digitales online.", :name => "twitter:title"}/
+    %meta{:content => "Plataforma de cursos digitales online.", :name => "twitter:description"}/
+    %meta{:content => "https://fakeimg.pl/580x150/D3D3D3/?text=Logo(580x150)", :name => "twitter:image:src"}/
     / BEGIN PLUGINS
     = stylesheet_link_tag("landings/plugins/pace-theme-flash")
     = stylesheet_link_tag "landings"

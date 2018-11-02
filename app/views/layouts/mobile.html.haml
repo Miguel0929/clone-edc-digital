@@ -4,19 +4,19 @@
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title #{the_platform_name_helper}
     %meta{:name => "viewport", :content=>"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no"}/
-    %meta{:content => "Primer plataforma diseñada para construir y validar tu idea de negocio, en lo comercial, técnico y financiero.", :name => "description"}/
-    %meta{:content => "emprendedor, emprendedores, emprendimiento, financiamiento, jóvenes, finanzas, capacitación, curso, inversión, capital, privado", :name => "keywords"}/
-    %meta{:content => "Distrito Emprendedor", :name => "author"}/
+    %meta{:content => "Plataforma de cursos digitales online.", :name => "description"}/
+    %meta{:content => "plataforma, curso, capacitación, digital, online, alumno, mentor", :name => "keywords"}/
+    %meta{:content => (ENV['COMPANY_NAME'].nil? ? "Cursos Digitales" : ENV['COMPANY_NAME']), :name => "author"}/
     %meta{:content => "summary_large_image", :name => "twitter:card"}/
-    %meta{:content => "@DistritoEmprend", :name => "twitter:site"}/
-    %meta{:content => "Construye y valida tu idea de negocio, desde cero.", :name => "twitter:title"}/
-    %meta{:content => "Primer plataforma diseñada para construir y validar tu idea de negocio, en lo comercial, técnico y financiero.", :name => "twitter:description"}/
-    %meta{:content => "#{image_url('landing-emprendiendo-desde-cero.jpg')}", :name => "twitter:image:src"}/
-    %meta{:content => "Construye y valida tu idea de negocio, desde cero.", :property => "og:title"}/
+    %meta{:content => "@", :name => "twitter:site"}/
+    %meta{:content => "Plataforma de cursos digitales online.", :name => "twitter:title"}/
+    %meta{:content => "Plataforma de cursos digitales online.", :name => "twitter:description"}/
+    %meta{:content => "#{image_url('')}", :name => "twitter:image:src"}/
+    %meta{:content => "Plataforma de cursos digitales online.", :property => "og:title"}/
     %meta{:content => "website", :property => "og:type"}/
-    %meta{:content => "#{image_url('landing-emprendiendo-desde-cero.jpg')}", :property => "og:image"}/
-    %meta{:content => "http://edcdigital.mx", :property => "og:url"}/
-    %meta{:content => "Primer plataforma diseñada para construir y validar tu idea de negocio, en lo comercial, técnico y financiero.", :property => "og:description"}/
+    %meta{:content => "#{image_url('')}", :property => "og:image"}/
+    %meta{:content => "", :property => "og:url"}/
+    %meta{:content => "Plataforma de cursos digitales online.", :property => "og:description"}/
 
     = render 'shared/google_analytics' if Rails.env.production?
 

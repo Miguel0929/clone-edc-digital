@@ -106,4 +106,12 @@ module ApplicationHelper
     company_name
   end
 
+  def digital_courses_text_helper
+    company_name = ENV['COMPANY_NAME']
+    if company_name.nil?
+      company_name = "Plataforma de Cursos Digitales"
+    end
+    company_name
+  end
+
 end

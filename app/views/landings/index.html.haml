@@ -3,22 +3,23 @@
   %head
     %meta{:content => "text/html;charset=UTF-8", "http-equiv" => "content-type"}/
     %meta{:charset => "utf-8"}/
-    %title EDC Digital
+    %title
+      = (ENV['COMPANY_NAME'].nil? ? "Cursos Digitales" : ENV['COMPANY_NAME'])
     %meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no", :name => "viewport"}/
     %link{:href => "#{image_path('favicon.ico')}", :rel => "icon", :type => "image/x-icon"}/
-    %meta{:content => "Plataforma digital para la construcción y validación de tu idea de negocio, para el programa Emprendiendo desde Cero", :name => "description"}/
-    %meta{:content => "emprendedor, emprendedores, emprendimiento, financiamiento, jóvenes, finanzas, capacitación, curso, inversión, capital, privado", :name => "keywords"}/
-    %meta{:content => "Emprendiendo Desde Cero", :name => "author"}/
-    %meta{:content => "Inicia tu programa de Seguimiento Digital y construye tu idea de negocio", :property => "og:title"}/
+    %meta{:content => "Plataforma de cursos digitales online.", :name => "description"}/
+    %meta{:content => "plataforma, curso, capacitación, digital, online, alumno, mentor", :name => "keywords"}/
+    %meta{:content => (ENV['COMPANY_NAME'].nil? ? "Cursos Digitales" : ENV['COMPANY_NAME']), :name => "author"}/
+    %meta{:content => "Plataforma de cursos digitales online.", :property => "og:title"}/
     %meta{:content => "website", :property => "og:type"}/
-    %meta{:content => "https://www.emprendiendodesdecero.com/assets/img/VIDEO-INTRODUCTORIO-COMPILADO--(0-00-32-10).png", :property => "og:image"}/
-    %meta{:content => "https://www.edcdigital.mx", :property => "og:url"}/
-    %meta{:content => "Plataforma digital para la construcción y validación de tu idea de negocio, para el programa Emprendiendo desde Cero", :property => "og:description"}/
+    %meta{:content => "https://fakeimg.pl/580x580/D3D3D3/", :property => "og:image"}/
+    %meta{:content => "", :property => "og:url"}/
+    %meta{:content => "Plataforma de cursos digitales online.", :property => "og:description"}/
     %meta{:content => "summary_large_image", :name => "twitter:card"}/
-    %meta{:content => "@DistritoEmprend", :name => "twitter:site"}/
-    %meta{:content => "Inicia tu programa de Seguimiento Digital y construye tu idea de negocio", :name => "twitter:title"}/
-    %meta{:content => "Plataforma digital para la construcción y validación de tu idea de negocio, para el programa Emprendiendo desde Cero.", :name => "twitter:description"}/
-    %meta{:content => "https://www.emprendiendodesdecero.com/assets/img/VIDEO-INTRODUCTORIO-COMPILADO--(0-00-32-10).png", :name => "twitter:image:src"}/
+    %meta{:content => "@", :name => "twitter:site"}/
+    %meta{:content => "Plataforma de cursos digitales online.", :name => "twitter:title"}/
+    %meta{:content => "Plataforma de cursos digitales online.", :name => "twitter:description"}/
+    %meta{:content => "https://fakeimg.pl/580x580/D3D3D3/", :name => "twitter:image:src"}/
     / BEGIN PLUGINS
     = stylesheet_link_tag("landings/plugins/pace-theme-flash")
     = stylesheet_link_tag "landings"
@@ -35,8 +36,8 @@
         .container.relative
           .pull-left
             .header-inner
-              %img.logo{:alt => "", "data-src-retina" => "assets/images/logo_black_2x.png", :height => "21", :src => "#{image_path('logo-edc-digital-colores-3.png')}", :width => "152"}/
-              %img.alt{:alt => "", "data-src-retina" => "assets/images/logo_white_2x.png", :height => "21", :src => "#{image_path('logo-edc-digital-colores-3.png')}", :width => "152"}/
+              %img.logo{:alt => "", "data-src-retina" => "assets/images/logo_black_2x.png", :height => "21", :src => "#{image_path('https://fakeimg.pl/580x150/D3D3D3/?text=Logo(186x60)')}", :width => "152"}/
+              %img.alt{:alt => "", "data-src-retina" => "assets/images/logo_white_2x.png", :height => "21", :src => "#{image_path('https://fakeimg.pl/580x150/D3D3D3/?text=Logo(186x60)')}", :width => "152"}/
           .visible-sm-inline.visible-xs-inline.menu-toggler.pull-right{"data-pages" => "header-toggle", "data-pages-element" => "#header"}
             .one
             .two
@@ -48,7 +49,7 @@
                 %i.fa.fa-question-circle
               |    
               %p.font-montserrat.fs-13.text-master.p-t-20.inline
-                +52 (55) 5351 6633
+                +90 (90) 9090 9090
                 %i.m-l-10.fa.fa-phone
       / BEGIN NESTED MENU
       %nav.header.sm-header.relative.horizontal.dark.sm-p-t-20{"data-offset-top" => "60", "data-spy" => "affix"}
@@ -85,7 +86,7 @@
             .swiper-slide.fit.slide1
               / BEGIN IMAGE PARRALAX
               .slider-wrapper
-                .image{"data-bg-overlay" => "#3056a3", "data-overlay-opacity" => "0.3", "data-pages-bg-image" => "#{image_path('banner_1.jpg')}", "data-swiper-parallax" => "30%"}
+                .image{"data-bg-overlay" => "#3056a3", "data-overlay-opacity" => "0.3", "data-pages-bg-image" => "https://fakeimg.pl/1363x887/?text=''", "data-swiper-parallax" => "30%"}
               / END IMAGE PARRALAX
               / BEGIN CONTENT
               .content-layer
@@ -96,10 +97,10 @@
                         .row
                           .col-md-8.col-md-offset-2
                             %h1.light.text-white{"data-swiper-parallax" => "-15%"}
-                              Comienza la construcción
+                              Lorem ipsum dolor sit amet
                               %br>/
-                              de tu idea de negocio
-                            %h5.text-white.hint-text Programa de seguimiento Emprendiendo desde Cero digital
+                              consectetur adipiscing
+                            %h5.text-white.hint-text Fusce at orci nec ligula venenatis ornare eu ut purus
                             %a.btn.btn-white.font-montserrat.all-caps.btn-cons.fs-12.m-t-25.hidden-xs{:href => user_session_path} Inicia sesión en tu seguimiento aquí &gt;&gt;
                             %a.btn.btn-white.font-montserrat.all-caps.btn-cons.fs-12.m-t-25.visible-xs{:href => user_session_path} Inicia sesión en tu seguimiento aquí &gt;&gt;
               / END CONTENT
@@ -115,13 +116,13 @@
       .container
         .col-md-10.col-md-offset-1
           .text-center
-            %h5.block-title.m-t-40.hint-text.m-b-0 ¿Qué es EDC Digital?
-            %h1.light.m-t-5.m-b-20 Conoce Emprendiendo desde Cero digital.
-            %dd.m-b-30 EDC Digital es la primera plataforma en Internet y con acompañamiento de asesores, diseñada para que los emprendedores puedan construir y validar su idea de negocio en lo comercial, digital, técnico y financiero, desde cero.
+            %h5.block-title.m-t-40.hint-text.m-b-0 Suspendisse porta erat
+            %h1.light.m-t-5.m-b-20 Fusce sit amet sapien ut mi ornare
+            %dd.m-b-30 Phasellus in molestie nisi. Nunc vitae mi massa. Mauris suscipit erat massa, vel fermentum dui venenatis et. Vivamus eleifend mi at ipsum ultricies auctor. Class aptent taciti sociosqu ad litora torquent per conubia nostra.
             .row
               .col-md-12.col-sm-12.text-center.mb40.mb-xs-24
                 .embed-video-container.embed-responsive.embed-responsive-16by9
-                  %iframe.embed-responsive-item{:src => "https://player.vimeo.com/video/188382978?badge=0&title=0&byline=0&title=0"}
+                  = image_tag('https://fakeimg.pl/920x518/')
     / START CONTENT SECTION
     %section.p-b-85.p-t-75.p-b-65.p-t-55.text-center
       .container
@@ -130,64 +131,65 @@
             .p-r-40.md-pr-30.xs-no-padding.clearfix
               %img.m-b-20{:alt => "", :src => "#{image_path('Parachute.svg')}"}/
               %h6.block-title.p-b-5
-                Aterriza tu idea
+                Ut libero felis
                 %i.fa.fa-chevron-right
-              %p.m-b-30 EDC Digital está diseñado para que puedas dar forma correcta a tu idea de negocio
-              %p.muted.font-arial.small-text.no-padding.col-xs-6.col-xs-offset-3 Desde definir al cliente hasta tu modelo financiero.
+              %p.m-b-30 Aliquam lorem nibh, accumsan vel mi vel, posuere tincidunt nunc donec pharetra.
+              %p.muted.font-arial.small-text.no-padding.col-xs-6.col-xs-offset-3 Vivamus pharetra, urna sed dapibus rutrum, mauris elit.
             .visible-xs.b-b.b-grey-light.m-t-30.m-b-30
           .col-sm-4.no-padding
             .p-r-40.md-pr-30.xs-no-padding.clearfix
               %img.m-b-20{:alt => "", :src => "#{image_path('Prizemedalion.svg')}"}/
               %h6.block-title.p-b-5
-                Lecciones de aprendizaje
+                Egestas suscipit amet
                 %i.fa.fa-chevron-right
-              %p.m-b-30 En EDC Digital podrás encontrar cursos y contenido de aprendizaje para que puedas formarte como emprendedor
-              %p.muted.font-arial.small-text.no-padding.col-xs-6.col-xs-offset-3 Temas comerciales, herramientas digitales, financiamiento.
+              %p.m-b-30 Etiam in commodo ligula, sed mattis velit. Quisque dapibus nisi vel ultrices pulvinar.
+              %p.muted.font-arial.small-text.no-padding.col-xs-6.col-xs-offset-3 Ut nec facilisis dolor, id maximus ligula  suspendisse.
             .visible-xs.b-b.b-grey-light.m-t-30.m-b-30
           .col-sm-4.no-padding
             .p-r-40.md-pr-30.xs-no-padding.clearfix
               %img.m-b-20{:alt => "", :src => "#{image_path('Umbrella.svg')}"}/
               %h6.block-title.p-b-5
-                Apoyo de mentores
+                Imperdiet at turpis
                 %i.fa.fa-chevron-right
-              %p.m-b-30 En EDC Digital tendrás mentoría de expertos a distancia, que te podrán ayudar a estructurar mejor tu idea de negocio
-              %p.muted.font-arial.small-text.no-padding.col-xs-6.col-xs-offset-3 Mentores, expertos, asesores en áreas especializadas.
+              %p.m-b-30 Vestibulum at turpis non nisl pharetra accumsan et ac lorem. Proin vehicula dapibus.
+              %p.muted.font-arial.small-text.no-padding.col-xs-6.col-xs-offset-3 Duis quis varius sem. Class aptent taciti sociosqu ad.
     / END CONTENT SECTION
     / END PRICING SECTION
     / START CONTENT SECTION
-    %section.p-b-50.p-t-50.bg-master-darkest.m-t-35.sm-no-margin{"data-bg-overlay" => "black", "data-overlay-opacity" => "0.3", "data-pages" => "parallax", "data-pages-bg-image" => "#{image_path('banner_2.jpg')}"}
+    %section.p-b-50.p-t-50.bg-master-darkest.m-t-35.sm-no-margin{"data-bg-overlay" => "black", "data-overlay-opacity" => "0.3", "data-pages" => "parallax", "data-pages-bg-image" => "#{image_path('2000x900.png')}"}
       .container.p-b-50.p-t-50
         .row
           .col-md-8.col-md-offset-2
             .col-xs-height.col-middle
               .text-center
-                %h1.text-white.col-sm-12.p-b-10 Comienza hoy mismo a construir y validar tu idea de negocio
-                %a.btn.btn-lg.btn-primary.btn-cons.btn-rounded.m-t-20{:href => user_session_path} Inicia sesión en EDC Digital aquí
+                %h1.text-white.col-sm-12.p-b-10 Nulla volutpat vel arcu vitae congue sed placerat 
+                %a.btn.btn-lg.btn-primary.btn-cons.btn-rounded.m-t-20{:href => user_session_path} Inicia sesión aquí
                 %p.fs-12.font-arial.text-white.m-t-30
                   %span.hint-text
                     En caso de que aún no tengas tu cuenta,
                   puedes solicitarla
                   = succeed "." do
-                    %a{:href => "https://emprendiendodesdecero.com/seguimiento", :target => "new"} aquí
+                    %a{:href => "#", :target => "new"} aquí
     / END CONTENT SECTION
     / START FOOTER
     %section.p-b-30.p-t-40
       .container
         .row
-          .col-sm-8
-            %img.logo.inline.m-r-50{:alt => "", :src => "#{image_path('logo-edc-digital-colores-3.png')}"}/
+          .col-sm-7
+            %img.logo.inline.m-r-50{:alt => "", :src => "https://fakeimg.pl/580x150/D3D3D3/?text=Logo(580x150)"}/
             .m-t-10
               %ul.no-style.fs-11.no-padding.font-arial
                 %li.inline.no-padding
-                  %a.text-master.p-r-10.b-r.b-grey{:href => "https://www.distritoemprendedor.com/", :target => "new"} Distrito Emprendedor
+                  %a.text-master.p-r-10.b-r.b-grey{:href => "#", :target => "new"} 
+                    = digital_courses_text_helper
                 %li.inline.no-padding
-                  %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "https://www.emprendiendodesdecero.com/", :target => "new"} Emprendiendo desde Cero
+                  %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "#", :target => "new"} Enlace de footer 1
                 %li.inline.no-padding
-                  %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "https://www.edc-megatendencias.com/", :target => "new"} Megatentendencias
+                  %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "#", :target => "new"} Enlace de footer 2
                 %li.inline.no-padding
-                  %a.hint-text.text-master.p-l-10.p-r-10.xs-no-padding.xs-m-t-10{:href => "https://www.edc-ideador.com/", :target => "new"} Ideador
-          .col-sm-4.text-right.font-arial.sm-text-left
-            %p.fs-11.muted Copyright © 2018 DISTRITO EMPRENDEDOR. Todos los derechos reservados.
+                  %a.hint-text.text-master.p-l-10.p-r-10.xs-no-padding.xs-m-t-10{:href => "#", :target => "new"} Enlace de footer 3
+          .col-sm-5.text-right.font-arial.sm-text-left
+            %p.fs-11.muted Copyright © 2018 #{digital_courses_text_helper.upcase}. Todos los derechos reservados.
     / END FOOTER
     / BEGIN VENDOR JS
     = javascript_include_tag("landings/pace.min.js")
