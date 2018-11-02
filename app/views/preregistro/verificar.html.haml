@@ -1,4 +1,4 @@
-.container
+.container.p-t-100
   .col-md-8.col-md-offset-2
     %h1 Preregistro
     %center
@@ -8,17 +8,15 @@
             %p
               ¡Ups! No hemos encontrado un registro de usuario con este correo electrónico, puedes solicitar tu cuenta en al correo
               %strong
-                soporte2@edc-digital.com.
-                = (ENV['MAILER_SUPPORT'].nil? ? "soporte@ejemplo.com" : ENV['MAILER_SUPPORT'])
-              /= link_to "https://emprendiendodesdecero.com/seguimiento/formulario", "https://emprendiendodesdecero.com/seguimiento/formulario"
+                = (ENV['MAILER_SUPPORT'].nil? ? "soporte@ejemplo.com" : ENV['MAILER_SUPPORT']) + "."
+
               %br
-              /%i * Si tienes algun problema comunicate con soporte técnico al correo soporte@edc-digital.com o al teléfono +52 (55) 5351 6633
-              %i * También puedes comunicarte al teléfono +52 (55) 5351 6633
+              %i * También puedes comunicarte al teléfono +09 (09) 0909 0909.
 
           - else
             - if @user.invitation_accepted_at.nil?
               %p  
-                ¡Excelente! Tu cuenta de EDC Digital ha sido creada previamente, pero se encuentra inactiva, ¿deseas enviar nuevamente el correo electrónico de activación?
+                ¡Excelente! Tu cuenta de #{digital_courses_text_helper} ha sido creada previamente, pero se encuentra inactiva, ¿deseas enviar nuevamente el correo electrónico de activación?
                 = link_to "Enviar correo de activación.", reenviar_preregistro_path(@user.id)
                 %br
                 O puedes escribir tu código de activación proporcionado por tu Universidad
@@ -30,9 +28,9 @@
                   = submit_tag "Enviar codigo", class: "btn btn-primary"
             - else
               %p  
-                = "¡Excelente! Tu ya tienes una cuenta creada con este correo electrónico y se encuentra activa, ¿Deseas iniciar sesión?"
+                = "¡Excelente! Tu ya tienes una cuenta creada con este correo electrónico y se encuentra activa, ¿deseas iniciar sesión?"
                 = link_to "inicia sesión aquí.", new_user_session_path
                 %br
-                = "o ¿Olvidaste tu contraseña? " 
+                = "¿Olvidaste tu contraseña? " 
                 = link_to "recuperarla aquí.", new_user_password_path
 

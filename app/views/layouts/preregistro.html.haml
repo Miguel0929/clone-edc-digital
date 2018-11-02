@@ -35,8 +35,8 @@
         .container.relative
           .pull-left
             .header-inner
-              %img.logo{:alt => "", "data-src-retina" => "assets/images/logo_black_2x.png", :height => "21", :src => "#{image_path('logo-edc-digital-colores-3.png')}", :width => "152"}/
-              %img.alt{:alt => "", "data-src-retina" => "assets/images/logo_white_2x.png", :height => "21", :src => "#{image_path('logo-edc-digital-colores-3.png')}", :width => "152"}/
+              %img.logo{:alt => "", "data-src-retina" => "assets/images/logo_black_2x.png", :height => "21", :src => "#{image_path('https://fakeimg.pl/580x150/D3D3D3/?text=Logo(186x46)')}", :width => "152"}/
+              %img.alt{:alt => "", "data-src-retina" => "assets/images/logo_white_2x.png", :height => "21", :src => "#{image_path('https://fakeimg.pl/580x150/D3D3D3/?text=Logo(186x46)')}", :width => "152"}/
           .visible-sm-inline.visible-xs-inline.menu-toggler.pull-right{"data-pages" => "header-toggle", "data-pages-element" => "#header"}
             .one
             .two
@@ -44,7 +44,7 @@
           .pull-right.hidden-sm.hidden-xs.col-sm-6
             .header-inner.text-right
               %p.font-montserrat.fs-13.text-master.p-t-20.inline
-                +52 (55) 5351 6633
+                +09 (09) 0909 0909
                 %i.m-l-10.fa.fa-phone
       / BEGIN NESTED MENU
       %nav.header.sm-header.relative.horizontal.dark.sm-p-t-20{"data-offset-top" => "60", "data-spy" => "affix"}
@@ -64,7 +64,7 @@
                     %a.p-r-0.visible-xs{"data-text" => "Login", :href => user_session_path} Iniciar sesión
                   %li.visible-sm.visible-xs
                     %a{"data-text" => "Contact Us", :href => "#"}
-                      +52 (55) 5351 6633
+                      +09 (09) 0909 0909
                       %i.m-l-10.fa.fa-phone
     .page-content-wrapper  
       .content               
@@ -74,35 +74,35 @@
     .container-fluid.container-fixed-lg.footer.hidden-xs
       .row
         .col-sm-8
-          %img.logo.inline.m-r-50{:alt => "", :src => "#{image_path('logo-edc-digital-colores-3.png')}"}/
+          %img.logo.inline.m-r-50{:alt => "", :src => "#{image_path('https://fakeimg.pl/580x150/D3D3D3/?text=Logo(186x46)')}"}/
           .m-t-10
             %ul.no-style.fs-11.no-padding.font-arial
               %li.inline.no-padding
-                %a.text-master.p-r-10.b-r.b-grey{:href => "https://www.distritoemprendedor.com/", :target => "new"} Distrito Emprendedor
+                %a.text-master.p-r-10.b-r.b-grey{:href => "#", :target => "new"} #{digital_courses_text_helper}
               %li.inline.no-padding
-                %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "https://www.emprendiendodesdecero.com/", :target => "new"} Emprendiendo desde Cero
+                %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "#", :target => "new"} Enlace footer 1
               %li.inline.no-padding
-                %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "https://www.edc-megatendencias.com/", :target => "new"} Megatentendencias
+                %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "#", :target => "new"} Enlace footer 2
               %li.inline.no-padding
-                %a.hint-text.text-master.p-l-10.p-r-10.xs-no-padding.xs-m-t-10{:href => "https://www.edc-ideador.com/", :target => "new"} Ideador
+                %a.hint-text.text-master.p-l-10.p-r-10.xs-no-padding.xs-m-t-10{:href => "#", :target => "new"} Enlace footer 3
         .col-sm-4.text-right.font-arial.sm-text-left
-          %p.fs-11.muted Copyright © 2017 DISTRITO EMPRENDEDOR. Todos los derechos reservados.
+          %p.fs-11.muted Copyright © 2018 #{digital_courses_text_helper.upcase}. Todos los derechos reservados.
   .container-fluid.container-fixed-lg.visible-xs
     .row
       .col-sm-8
-        %img.logo.inline.m-r-50{:alt => "", :src => "#{image_path('logo-edc-digital-colores-3.png')}"}/
+        %img.logo.inline.m-r-50{:alt => "", :src => "#{image_path('https://fakeimg.pl/580x150/D3D3D3/?text=Logo(186x46)')}"}/
         .m-t-10
           %ul.no-style.fs-11.no-padding.font-arial
             %li.inline.no-padding
-              %a.text-master.p-r-10.b-r.b-grey{:href => "https://www.distritoemprendedor.com/", :target => "new"} Distrito Emprendedor
+              %a.text-master.p-r-10.b-r.b-grey{:href => "#", :target => "new"} #{digital_courses_text_helper}
             %li.inline.no-padding
-              %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "https://www.emprendiendodesdecero.com/", :target => "new"} Emprendiendo desde Cero
+              %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "#", :target => "new"} Enlace footer 1
             %li.inline.no-padding
-              %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "https://www.edc-megatendencias.com/", :target => "new"} Megatentendencias
+              %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "#", :target => "new"} Enlace footer 2
             %li.inline.no-padding
-              %a.hint-text.text-master.p-l-10.p-r-10.xs-no-padding.xs-m-t-10{:href => "https://www.edc-ideador.com/", :target => "new"} Ideador
+              %a.hint-text.text-master.p-l-10.p-r-10.xs-no-padding.xs-m-t-10{:href => "#", :target => "new"} Enlace footer 3
       .col-sm-4.text-right.font-arial.sm-text-left
-        %p.fs-11.muted Copyright © 2017 DISTRITO EMPRENDEDOR. Todos los derechos reservados.        
+        %p.fs-11.muted Copyright © 2018 #{digital_courses_text_helper.upcase}. Todos los derechos reservados.        
     - if notice
       .col-md-6.col-md-offset-3
         .alert.alert-info.alert-dismissible{:role => "alert"}

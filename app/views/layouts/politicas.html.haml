@@ -33,15 +33,15 @@
               %a.btn-link.toggle-sidebar.visible-sm-inline-block.visible-xs-inline-block.padding-5{"data-toggle" => "sidebar", :href => "#"}
                 %span.icon-set.menu-hambuger
           .pull-center.hidden-md.hidden-lg
-            .header-inner
+            .header-inner.m-b-10
               .brand.inline
                 %a.redirector{href: root_path}
-                  = image_tag('logo-edc-color-horizontal.png', height: 40)
+                  = image_tag('https://fakeimg.pl/152x48/D3D3D3/?text=Logo(152x48)', height: 40)
         .pull-left.sm-table.hidden-xs.hidden-sm
           .header-inner
-            .brand.inline
+            .brand.inline.m-b-10
               %a.redirector{href: root_path}
-                = image_tag('logo-edc-color-horizontal.png', height: 40)
+                = image_tag('https://fakeimg.pl/152x48/D3D3D3/?text=Logo(152x48)', height: 40)
 
       .page-content-wrapper
         .content
@@ -55,7 +55,7 @@
             %p.small.no-margin.pull-left.sm-pull-reset
               %span.hint-text Copyright © 2018
               = succeed "." do
-                %span.font-montserrat Distrito Emprendedor
+                %span.font-montserrat #{digital_courses_text_helper}
               %span.hint-text Todos los derechos reservados.
             .clearfix
 
