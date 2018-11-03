@@ -734,8 +734,8 @@ class User < ActiveRecord::Base
     total/c_template_refilables rescue 0
   end
 
-  def refilable_permitted?(template_refilable)
-    program = TemplateRefilable.find(template_refilable.id).program
+  def refilable_permitted?(template_refilable_id)
+    program = TemplateRefilable.find(template_refilable_id).program
     if program.nil?
       true
     else
