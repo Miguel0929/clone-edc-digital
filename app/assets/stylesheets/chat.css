@@ -2888,18 +2888,30 @@ p.mensaje{
 
 /* <<<<<< CARDS PROGRAMAS >>>>> */
 .color__icon{
-  color: #B32769;
+  /* COLORES DE DISTRITO
+    color: #B32769;
+  */
+  color: #3C93CE;
   font-size: 13px;
 }
 .color__icon_program{
-  color: #B32769;
+  /* COLORES DE DISTRITO
+    color: #B32769;
+  */
+  color: #3C93CE;
   font-size: 11px; 
 }
 .font-search{
-  background-color: #B32769 !important;
+  /* COLORES DE DISTRITO
+    background-color: #B32769 !important;
+  */
+  background-color: #3C93CE !important;
 }
 .text_ultimos_avances{
-  color: #B32769 !important;
+  /*
+    color: #B32769 !important;
+  */
+  color: #3C93CE;
 }
 .opacity1{
   opacity: 0.4;
@@ -2999,7 +3011,10 @@ h6.cabecera_card-programas {
   background-size: cover !important; 
 }
 .text-color-dificultad{
-  color: #B32768;
+  /*
+    color: #B32769;
+  */
+  color: #3C93CE;
 }
 
 .m-t--card{
@@ -3059,18 +3074,19 @@ h6.cabecera_card-programas {
     bottom:12px;
   }
 }
-/*@media only screen and (min-width: 1075px) and (max-width: 1085px){
-  .contenedor-btn-barra{
-    bottom:0px;
-  }
-}*/
 .text-tipo-card-ruta{
-  color: #B32768;
+  /* COLORES DE DISTRITO
+    color: #B32769;
+  */
+  color: #3C93CE;
   font-style: italic;
   margin-bottom: 0px;
 }
 .text-name-ruta{
-  color: #B32769;
+  /* COLORES DE DISTRITO
+    color: #B32769;
+  */
+  color: #3C93CE;
   line-height: 1.2;
   font-size: 17px;
   margin-top: 5px
