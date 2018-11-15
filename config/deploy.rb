@@ -172,7 +172,7 @@ end
 
 task :say_hello do
   on roles(:app) do
-    run("echo 'hello wordl!'")
+    run "echo 'hello wordl!'"
   end
 end
 after "deploy", "say_hello"
