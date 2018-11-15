@@ -170,6 +170,13 @@ namespace :deploy do
 end
 #SKIP PRECOMPILE
 
+task :say_hello do
+  on roles(:app) do
+    run("echo 'hello wordl!'")
+  end
+end
+after "deploy", "say_hello"
+
 namespace :rails do
   desc "Remote console"
   task :console do
