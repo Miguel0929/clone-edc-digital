@@ -130,7 +130,7 @@ namespace :deploy do
   after  :finishing,    :restart
 end
 
-#SKIP PRECOMPILE
+#SKIP PRECOMPILE - START
 namespace :deploy do
   namespace :assets do
     desc "Precompile assets"
@@ -168,14 +168,16 @@ namespace :deploy do
     end
   end
 end
-#SKIP PRECOMPILE
+#SKIP PRECOMPILE - END
 
+#EXECUTE ELASTICSEARCH CHECK - START
 task :say_hello do
   on roles(:app) do
-    execute "echo hello world"
+    execute "echo #{fetch(:deploy_to)}/current"
   end
 end
 after "deploy", "say_hello"
+#EXECUTE ELASTICSEARCH CHECK - END
 
 namespace :rails do
   desc "Remote console"
