@@ -171,12 +171,12 @@ end
 #SKIP PRECOMPILE - END
 
 #EXECUTE ELASTICSEARCH CHECK - START
-task :say_hello do
+task :check_elasticsearch do
   on roles(:app) do
-    execute "/usr/local/bin/hello_world_message.txt"
+    execute "/usr/local/bin/check_restart_elasticsearch.txt"
   end
 end
-after "deploy", "say_hello"
+after "deploy", "check_elasticsearch"
 #EXECUTE ELASTICSEARCH CHECK - END
 
 namespace :rails do
