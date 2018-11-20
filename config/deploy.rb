@@ -173,7 +173,7 @@ end
 #EXECUTE ELASTICSEARCH CHECK - START
 task :say_hello do
   on roles(:app) do
-    execute "echo #{fetch(:deploy_to)}/current"
+    execute "/usr/local/bin/hello_world_message.txt"
   end
 end
 after "deploy", "say_hello"
