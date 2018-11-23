@@ -22,6 +22,9 @@ class QuestionsController < ApplicationController
     respond_to do |format|  
       if @question.save
         @chapter.questions << @question
+        if (@chapter.points.nil? || @chapter.manual_points == false)
+          @chapter.set_chapters_points
+        end
         #NewContentNotificationJob.perform_async(@chapter.program, dashboard_program_url(@chapter.program)) #Se llevó a método program#notify_changes
         #QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "up-question-#{@question.id}")
         format.html {redirect_to content_chapter_path(@chapter), notice: "Se creo exitosamente la pregunta #{@question.question_text}"}
@@ -65,6 +68,13 @@ class QuestionsController < ApplicationController
         ChapterContent.find(id).update_attributes({position: index + 1})
       end
     end
+    # Recalcular 'points' de los chapters del programa - START
+    capitulo.set_chapters_points
+    if capitulo.chapter_contents.where(coursable_type: "Question").empty?
+      capitulo.update(points: 0, manual_points: false)
+      capitulo.set_chapters_points
+    end
+    # Recalcular 'points' de los chapters del programa - END
 =begin
     up_notification = QueueNotification.find_by(category: 2, detail: "up-question-#{@question.id}", sent: false)
     if !up_notification.nil?

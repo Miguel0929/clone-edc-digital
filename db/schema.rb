@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180802175548) do
+ActiveRecord::Schema.define(version: 20181121174023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20180802175548) do
     t.datetime "updated_at"
     t.integer  "points"
     t.integer  "position"
+    t.boolean  "manual_points", default: false
   end
 
   add_index "chapters", ["program_id"], name: "index_chapters_on_program_id", using: :btree

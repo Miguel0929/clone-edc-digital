@@ -1,9 +1,10 @@
 class ChaptersController < ApplicationController
   require 'json'
   before_action :authenticate_user!
-  before_action :set_program, except: [:content, :rubrics]
+  before_action :set_program, except: [:content, :rubrics, :check_max_chapter_points]
   before_action :set_chapter, only: [:edit, :update, :destroy, :clone, :content, :rubrics]
   before_action :require_admin
+  include ChapterPointsHelper
 
   add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   add_breadcrumb "Programas", :programs_path
@@ -22,6 +23,11 @@ class ChaptersController < ApplicationController
     @chapter = @program.chapters.new(chapter_params)
 
     if @chapter.save
+      if !chapter_params[:points].empty?
+        @chapter.update(manual_points: true)
+      end
+      @chapter.set_chapters_points
+
       QueueNotification.create(category: 0, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "up-chapter-#{@chapter.id}")
       redirect_to @program, notice: "Se creo exitosamente el módulo #{@chapter.name}"
     else
@@ -38,7 +44,14 @@ class ChaptersController < ApplicationController
     add_breadcrumb @program.name, program_path(@program)
     add_breadcrumb "<a class='active' href='#{program_chapter_path(@program, @chapter)}'>#{@chapter.name}</a>".html_safe
 
+    if !chapter_params[:points].empty?
+      @chapter.update(manual_points: true)
+    else
+      @chapter.update(manual_points: false)
+    end
+
     if @chapter.update(chapter_params)
+      @chapter.set_chapters_points
       QueueNotification.create(category: 1, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "edit-chapter-#{@chapter.id}")
       redirect_to @program, notice: "Se actualizó exitosamente el módulo #{@chapter.name}"
     else
@@ -48,6 +61,7 @@ class ChaptersController < ApplicationController
 
   def destroy
      @chapter.destroy
+     @chapter.set_chapters_points
      up_notification = QueueNotification.find_by(category: 0, detail: "up-chapter-#{@chapter.id}", sent: false)
      if !up_notification.nil?
        up_notification.destroy
@@ -126,12 +140,18 @@ class ChaptersController < ApplicationController
     @program = @chapter.program
     add_breadcrumb "<a href='#{program_path(@program)}'>#{@program.name}</a>".html_safe
     add_breadcrumb "<a class='active' href='#{rubrics_chapter_path(@chapter)}'>#{@chapter.name}</a>".html_safe
-    
+  end
+
+  def check_max_chapter_points
+    program = Program.find_by(id: params[:program].to_i)
+    chapter = Chapter.find_by(id: params[:chapter].to_i)
+    input_points = params[:input_points]
+    check_max_points(program, chapter, input_points)
   end
 
   private
   def chapter_params
-    params.require(:chapter).permit(:name, :points, evaluations_attributes: [
+    params.require(:chapter).permit(:name, :points, :manual_points, evaluations_attributes: [
       :id, :name, :points, :position, :excelent, :good, :regular, :bad, :_destroy
     ])
   end
@@ -143,4 +163,5 @@ class ChaptersController < ApplicationController
   def set_chapter
     @chapter = Chapter.find(params[:id])
   end
+
 end

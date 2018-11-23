@@ -156,4 +156,17 @@ class Chapter < ActiveRecord::Base
     end  
     total  
   end 
+
+  def set_chapters_points
+    unvalued_chapters = self.program.chapters.where(manual_points: false).includes(:chapter_contents).where(chapter_contents: {coursable_type: "Question"}).uniq
+    valuated_chapters = self.program.chapters.where(manual_points: true)
+    factor = self.id.nil? ? 1 : 0
+    avg_value = ( ( 100 - valuated_chapters.pluck(:points).inject(0){|sum,x| sum + x } ) / ( unvalued_chapters.count + factor ) )
+    unvalued_chapters.map{ |unch| unch.update(points: avg_value) }
+    if (unvalued_chapters.count > 0) && (avg_value%unvalued_chapters.count != 0)
+      total = ( unvalued_chapters.map{ |unch| unch.points } + valuated_chapters.pluck(:points) ).inject(0){|sum,x| sum + x } 
+      unvalued_chapters.first.update(points: avg_value + (100 - total) )
+    end
+  end
+
 end
