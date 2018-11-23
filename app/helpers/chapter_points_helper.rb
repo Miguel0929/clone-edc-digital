@@ -10,6 +10,9 @@ module ChapterPointsHelper
         render :json => { "status" => ((valuated_chapters_points + unvalued_chapters.count + 1) <= 100) }
       end
     else
+    	if !chapter.manual_points
+    		unvalued_chapters = unvalued_chapters - [chapter]
+    	end
       if chapter.manual_points
         valuated_chapters_points = valuated_chapters_points - chapter.points       
       end

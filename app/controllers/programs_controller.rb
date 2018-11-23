@@ -1,8 +1,9 @@
 class ProgramsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
-  before_action :set_program, only: [:show, :edit, :update, :destroy, :clone, :notify_changes, :notify_null]
+  before_action :set_program, only: [:show, :edit, :update, :destroy, :clone, :notify_changes, :notify_null, :questions?]
   before_action :set_pending_content_notifications, only: [:show, :notify_changes, :notify_null]
+  helper_method :questions?
 
   add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
@@ -119,6 +120,10 @@ class ProgramsController < ApplicationController
   def notify_null
     @pending_content_notifications.delete_all
     redirect_to program_path(@program), notice: "Se eliminaron las notificaciones pendientes"
+  end
+
+  def questions?
+    !@program.chapters.joins(:chapter_contents).where(chapter_contents: {coursable_type: "Question"}).empty?
   end
 
   private

@@ -8,9 +8,6 @@
         .panel-heading
           %h3.panel-title
             Contenido del programa 
-          -#.pull-right
-          -#  Rating: 
-          -#  = @program.rating.round(2)
           .pull-right
             = link_to program_program_attachments_path(@program), class: "btn btn-link", style: "color: #3a8fc8" do
               %i.fa.fa-file-archive-o
@@ -63,6 +60,10 @@
                       %span.p-l-10.p-r-10  
                       Rúbricas de evaluación:
                       %span.bold.text-primary #{chapter.evaluations.count}
+                      - if questions?
+                        %span.p-l-10.p-r-10  
+                        Valor: 
+                        %span.bold.text-primary #{chapter.points.nil? ? "N/A" : chapter.points.to_s + "%"}
 
                     .panel-collapse.collapse{:id=>"collapse_#{chapter.id}", "aria-labelledby" => "heading_#{chapter.id}", :role => "tabpanel"}
                       .panel-body
