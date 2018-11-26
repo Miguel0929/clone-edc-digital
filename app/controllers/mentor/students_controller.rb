@@ -5,6 +5,7 @@ class Mentor::StudentsController < ApplicationController
   helper_method :get_program_stat
   helper_method :get_program_active
   helper_method :chapter_have_questions?
+  helper_method :new_refilable_answer
   include KeyQuestionsHelper
   include GroupHelper
 
@@ -330,5 +331,18 @@ class Mentor::StudentsController < ApplicationController
 
   def student_params
     params.require('user').permit(:evaluation_status)
+  end
+
+  def new_refilable_answer(refilables, refilable)
+    if refilables.count >= 2
+      remaining = refilables.where( id: (refilables.pluck(:id) - [refilable.id]) )
+      if remaining.map{ |r| r.points }.detect{ |x| x != nil } != nil && refilable.points.nil?
+        return true 
+      else
+        return false
+      end
+    else
+      return false
+    end
   end
 end

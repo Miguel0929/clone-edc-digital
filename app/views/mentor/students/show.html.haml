@@ -640,8 +640,8 @@
                               No hay plantillas asignadas a este estudiante
                       - else
                         - @refilables.each do |refilable|
-                          /- user_refilable = refilable.refilables.find_by(user: @user)
-                          - user_refilable = refilable.refilables.where(user: @user, draft: false).order(:created_at).last
+                          - all_refilables = refilable.refilables.where(user: @user, draft: false).order(:created_at)
+                          - user_refilable = all_refilables.last
                           - total_points = refilable.total_points
                           - puntos_obtenidos = refilable.puntaje(@user, user_refilable)
                           %tr
@@ -666,7 +666,7 @@
                                 - if user_refilable
                                   - status = user_refilable.status
                                   .label{class: "#{ status == 'Contestado' ? 'label-success p-r-l-17' : 'label-warning p-r-l-20'}"}
-                                    = status
+                                    = new_refilable_answer(all_refilables, user_refilable) ? "Nueva respuesta" : status
                                 - else
                                   .label
                                     No contestado

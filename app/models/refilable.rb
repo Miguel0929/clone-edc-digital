@@ -1,4 +1,5 @@
 class Refilable < ActiveRecord::Base
+  after_destroy :destroy_ticket
   belongs_to :user
   belongs_to :template_refilable
   #has_many :evaluation_refilables
@@ -21,6 +22,18 @@ class Refilable < ActiveRecord::Base
   		total_points = evals.first.evaluation_refilable.template_refilable.total_points
   		return ((points.to_f/total_points.to_f) * 100).ceil rescue 0
   	end
+  end
+
+  private
+
+  def destroy_ticket
+    template = self.template_refilable
+    unless template.nil?
+      if template.refilables.where(draft: false).count < 1
+        ticket = Ticket.find_by(trainee_id: self.user_id, element_id: template.id, category: 1)
+        ticket.destroy unless ticket.nil?
+      end
+    end
   end
 
 end
