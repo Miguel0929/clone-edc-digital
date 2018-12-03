@@ -22,11 +22,8 @@ class InvitationJob
         user.update(group_id: group_id)
         job["old_records_group"] = job["old_records_group"] + 1;
         job["old_emails_group"] = job["old_emails_group"] << email
-
-        job["progress"] = job["progress"] + 1;
-        redis.set(job_id, job.to_json)
       else 
-        if (user.group_id != group_id) && user.deleted_at.nil?
+        if (user.group_id != group_id.to_i) && user.deleted_at.nil?
           job["old_records_group"] = job["old_records_group"] + 1;
           job["old_emails_group"] = job["old_emails_group"] << email
         elsif user.deleted_at.nil?
@@ -43,6 +40,8 @@ class InvitationJob
         send_mail(user, url, job, job_id, redis)
       end
     end
+    job["progress"] = job["progress"] + 1;
+    redis.set(job_id, job.to_json)
   end
 
   def send_mail(user, url, job, job_id, redis)
