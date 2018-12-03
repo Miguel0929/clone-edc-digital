@@ -10,6 +10,9 @@ class Dashboard::TemplateRefilablesController < ApplicationController
         @this_user = current_user
         add_breadcrumb "<a href='#{dashboard_template_refilables_path}' class='active'>Mis plantillas</a>".html_safe 
         @template_refilables = get_active_elements(current_user, "template_refilables")
+      else
+        @this_user = current_user
+        @template_refilables = TemplateRefilable.all
       end
     else
       @student = User.find(params[:user_id])
