@@ -1,9 +1,8 @@
-.well
-  = bootstrap_form_for @quiz do |f|
-    = f.text_field :name, label: "Nombre de la evaluación"
-    = f.text_area :description, label: "Descripción"
-    = f.select :program_id, Program.all.collect{|p| [p.name, p.id]}, {include_blank: true, label: 'Programa' }
-    = f.select :group_ids, Group.all.collect{|g| [g.name, g.id]}, {include_blank: false, label: 'Grupos' }, multiple: 'multiple'
-
+= bootstrap_form_for @quiz do |f|
+  = f.text_field :name, label: "Nombre de la evaluación"
+  = f.text_area :description, label: "Descripción"
+  = f.select :program_id, Program.all.collect{|p| [p.name, p.id]}, {include_blank: true, label: 'Programa' }
+  = f.select :group_ids, Group.all.collect{|g| [g.name, g.id]}, {include_blank: false, label: 'Grupos' }, multiple: 'multiple'
+  .pull-right.m-t-25.m-b-20
     = link_to 'Cancelar', quizzes_path, class: 'btn btn-danger'
-    = f.submit 'Aceptar'
+    = f.submit 'Guardar Evaluación', class: "btn btn-primary"

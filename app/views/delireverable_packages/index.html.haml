@@ -2,58 +2,62 @@
   = title_text_helper("Paquete de entregables")
 
 .container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-body
-      .row
-        .col-sm-8
-          %h3.p-t-5.p-b-10
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .panel-title.pull-left
             Paquetes de entregables
-        .col-sm-4
-          .pull-right.p-t-10.p-b-10
+        .p-r-20.p-l-20.p-t-10.p-b-10
+          .pull-left
+            %input#search-table.form-control.w-searchbar{:placeholder => "Buscar", :type => "text"}/   
+          .pull-right
             = link_to new_delireverable_package_path, class: 'btn btn-primary' do
               %i.fa.fa-plus
               Agregar paquete
-      .table-responsive
-        %table.table.table-hover
-          %thead
-            %tr
-              %th{width: "30%"}
-                Paquete
-              %th
-                Grupos
-              %th{width: "25%"}
-                Acciones
-          %tbody
-            - @delireverable_packages.each do |package|
-              %tr
-                %td
-                  %h5.m-t-0.m-b-5
-                    = link_to package.name, edit_delireverable_package_path(package)
-                  %ul.p-l-0.m-b-10
-                    %li.inline.bold
-                      Descripción:  
-                    %li.inline 
-                      = package.description
-                %td
-                  - package.groups.each do |group|
-                    .label.m-r-5.m-b-5
-                      = group.name.titleize
-                %td
-                  %ul.p-l-0.m-b-10
-                    = link_to delireverable_package_delireverables_path(package) do
-                      %li.inline
-                        %i.fa.fa-plus
-                      %li.inline 
-                        Agregar entregables
-                  %ul.p-l-0.m-b-10
-                    = link_to edit_delireverable_package_path(package) do
-                      %li.inline
-                        %i.fa.fa-edit
-                      %li.inline
-                        Editar paquete
-                  %ul.p-l-0.m-b-10
-                    = link_to delireverable_package_path(package), method: :delete, data: { confirm: '¿Estás seguro?' } do
-                      %li.inline
-                        %i.fa.fa-times
-                      %li.inline
-                        Eliminar paquete
+          .clearfix
+        .panel-body
+          .table-responsive
+            %table.table.table-hover.datatable
+              %thead
+                %tr
+                  %th{width: "30%"}
+                    Paquete
+                  %th
+                    Grupos
+                  %th{width: "25%"}
+                    Acciones
+              %tbody
+                - @delireverable_packages.each do |package|
+                  %tr
+                    %td
+                      %h5.m-t-0.m-b-5
+                        = link_to package.name, edit_delireverable_package_path(package)
+                      %ul.p-l-0.m-b-10
+                        %li.inline.bold
+                          Descripción:  
+                        %li.inline 
+                          = package.description
+                    %td
+                      - package.groups.each do |group|
+                        .label.m-r-5.m-b-5
+                          = group.name.titleize
+                    %td
+                      %ul.p-l-0.m-b-10
+                        = link_to delireverable_package_delireverables_path(package) do
+                          %li.inline
+                            %i.fa.fa-plus
+                          %li.inline 
+                            Agregar entregables
+                      %ul.p-l-0.m-b-10
+                        = link_to edit_delireverable_package_path(package) do
+                          %li.inline
+                            %i.fa.fa-edit
+                          %li.inline
+                            Editar paquete
+                      %ul.p-l-0.m-b-10
+                        = link_to delireverable_package_path(package), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                          %li.inline
+                            %i.fa.fa-times
+                          %li.inline
+                            Eliminar paquete

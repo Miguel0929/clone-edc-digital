@@ -2,71 +2,86 @@
   = title_text_helper("Registro de visitas")
 
 .container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-heading
-      .pull-right
-        %input#search-table.form-control{:placeholder => "Search", :type => "text"}/
-      .clearfix
-    .panel-body
-      .table-responsive
-        %table.table.table-hover
-          %thead
-            %tr
-              %th
-                Usuario
-              %th
-                Navegador
-              %th
-                Dispositivo
-              %th
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .panel-title.pull-left
+            Visitas de usuarios
+        .p-r-20.p-l-20.p-t-10.p-b-10
+          .pull-left
+            %input#search-table.form-control.w-searchbar{:placeholder => "Buscar", :type => "text"}/   
+          .clearfix
+        .panel-body
+          .table-responsive
+            %table.table.table-hover
+              %thead
+                %tr
+                  %th
+                    Usuario
+                  %th
+                    Navegador
+                  %th
+                    Dispositivo
+                  %th
+                    Sistema operativo
+                  %th
+                    Inició de sesión
+              %tbody
+                - @visits.each do |visit|
+                  %tr
+                    %td
+                      = visit.user.email
+                    %td
+                      = visit.browser
+                    %td
+                      = visit.device_type
+                    %td
+                      = visit.os
+                    %td
+                      = l visit.started_at, format: :special
+          .row
+            .col-md-12
+              .pull-right
+                %p= page_entries_info @visits
+                %p= paginate @visits
+
+.container-fluid.container-fixed-lg
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .panel-title.pull-left
+            Gráficos de actividad
+        .panel-body
+          .row.p-b-30
+            .col-md-12
+              %h3.text-center
+                Actividad de usuarios
+
+              = line_chart Visit.group_by_day(:started_at).count
+
+          .row.p-b-30
+            .col-md-6
+              %h3.text-center
+                Navegadores
+              = pie_chart Visit.group(:browser).count
+
+            .col-md-6
+              %h3.text-center
+                Dispositivos
+              = pie_chart Visit.group(:device_type).count
+
+          .row.p-b-30
+            .col-md-6
+              %h3.text-center
                 Sistema operativo
-              %th
-                Inició de sesión
-          %tbody
-            - @visits.each do |visit|
-              %tr
-                %td
-                  = visit.user.email
-                %td
-                  = visit.browser
-                %td
-                  = visit.device_type
-                %td
-                  = visit.os
-                %td
-                  = l visit.started_at, format: :special
-      .row
-        .col-md-12
-          .pull-right
-            %p= page_entries_info @visits
-            %p= paginate @visits
+              = pie_chart Visit.group(:os).count
 
-      .row
-        %h2.text-center
-          Actividad de usuarios
+            .col-md-6
+              %h3.text-center
+                Región
 
-        = line_chart Visit.group_by_day(:started_at).count
-
-      .row
-        .col-md-6
-          %h2.text-center
-            Navegadores
-          = pie_chart Visit.group(:browser).count
-
-        .col-md-6
-          %h2.text-center
-            Dispositivos
-          = pie_chart Visit.group(:device_type).count
-
-        .col-md-6
-          %h2.text-center
-            Sistema operativo
-          = pie_chart Visit.group(:os).count
-
-        .col-md-6
-          %h2.text-center
-            Región
-
-          = geo_chart Visit.group(:region).count, library: {region: 'MX', resolution: 'provinces'}
+              = geo_chart Visit.group(:region).count, library: {region: 'MX', resolution: 'provinces'}
 
 

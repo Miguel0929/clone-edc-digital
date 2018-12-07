@@ -2,88 +2,88 @@
   = title_text_helper("Mentores")
 
 .container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-heading
-      .pull-right
-        .form-group
-          .input-group
-            %input#search-table.form-control{:placeholder => "Buscar", :type => "text", class: "text-black"}/
-            %span.input-group-addon.panel-title-recursos
-              %i.fa.fa-search.text-white
-      .clearfix
-    .panel-body
-      %h2
-        .pull-right.cell-w100p.cell-pb15
-          = link_to 'Invitar usuario', new_user_invitation_path, class: 'btn btn-default cell-w100p'
-        .pull-left
-          Lista de mentores
-      .clearfix.cell-pb15
-      %table.table.table-hover.datatable
-        %thead
-          %tr
-            %th
-              Id
-            %th
-              Datos de contacto
-            %th
-              Información de usuario
-            %th
-              Acciones
-        %tbody
-          - @users.each do |user|
-            %tr
-              %td.p-b-15
-                = user.id
-              %td.p-b-15
-                .m-t-0
-                  = link_to user.name,  mentor_path(user)
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %i.fa.fa-envelope
-                  %li.inline 
-                    = user.email
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %i.fa.fa-phone
-                  %li.inline 
-                    = user.phone_number
-              %td.p-b-15
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %strong
-                      Estado: 
-                  %li.inline{:class => "#{(user.status == 'Inactivo') ? 'text-danger' : 'text-primary'}"} 
-                    = user.status
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %strong
-                      Número de grupos: 
-                  %li.inline 
-                    = user.groups.count
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %span.bold Última sesión:
-                  %li.inline 
-                    - if !user.visits.last.nil?
-                      = l user.visits.last.started_at, format: :short_special
-                    - else
-                      %span.text-danger Ninguna
-                %ul.p-l-0.m-b-0
-                  %li.inline 
-                    %span.bold Grupo personal: 
-                  %li.inline= user.group.nil? ? 'Sin grupo asignado' : user.group.name        
-              %td.p-b-15
-                %ul.unstyled.list-unstyled.p-l-0.m-b-0
-                  %li
-                    = link_to mentor_path(user) do
-                      %i.fa.fa-eye
-                      Ver información
-                  %li
-                    = link_to edit_mentor_path(user) do
-                      %i.fa.fa-edit
-                      Editar
-                  %li
-                    = link_to mentor_path(user), method: :delete, data: { confirm: '¿Estás seguro?' } do
-                      %i.fa.fa-times
-                      Eliminar
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .panel-title.pull-left
+            Lista de mentores
+        .p-r-20.p-l-20.p-t-10.p-b-10
+          .pull-left
+            %input#search-table.form-control.w-searchbar{:placeholder => "Buscar", :type => "text", class: "text-black"}/  
+          .pull-right
+            = link_to new_user_invitation_path, class: 'btn btn-primary' do
+              %i.fa.fa-plus
+              Invitar usuario
+          .clearfix
+        .panel-body
+          .table-responsive
+            %table.table.table-hover.datatable
+              %thead
+                %tr
+                  %th
+                    Id
+                  %th
+                    Datos de contacto
+                  %th
+                    Información de usuario
+                  %th
+                    Acciones
+              %tbody
+                - @users.each do |user|
+                  %tr
+                    %td.p-b-15
+                      = user.id
+                    %td.p-b-15
+                      .m-t-0
+                        = link_to user.name,  mentor_path(user)
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %i.fa.fa-envelope
+                        %li.inline 
+                          = user.email
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %i.fa.fa-phone
+                        %li.inline 
+                          = user.phone_number
+                    %td.p-b-15
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %strong
+                            Estado: 
+                        %li.inline{:class => "#{(user.status == 'Inactivo') ? 'text-danger' : 'text-primary'}"} 
+                          = user.status
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %strong
+                            Número de grupos: 
+                        %li.inline 
+                          = user.groups.count
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %span.bold Última sesión:
+                        %li.inline 
+                          - if !user.visits.last.nil?
+                            = l user.visits.last.started_at, format: :short_special
+                          - else
+                            %span.text-danger Ninguna
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %span.bold Grupo personal: 
+                        %li.inline= user.group.nil? ? 'Sin grupo asignado' : user.group.name        
+                    %td.p-b-15
+                      %ul.unstyled.list-unstyled.p-l-0.m-b-0
+                        %li
+                          = link_to mentor_path(user) do
+                            %i.fa.fa-eye
+                            Ver información
+                        %li
+                          = link_to edit_mentor_path(user) do
+                            %i.fa.fa-edit
+                            Editar
+                        %li
+                          = link_to mentor_path(user), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                            %i.fa.fa-times
+                            Eliminar
       

@@ -2,56 +2,61 @@
   = title_text_helper("Usuarios eliminados")
 
 .container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-heading
-      .pull-right
-        .col-xs-12
-          = link_to deleted_users_path(format: :xlsx), class: "btn btn-success" do
-            %i.fa.fa-file-excel-o
-            = "Usuarios desactivados"
-
-      .clearfix
-    .panel-body
-      %table.table.table-hover
-        %thead
-          %tr
-            %th
-              Id
-            %th
-              Nombre
-            %th
-              Correo electrónico
-            %th
-              Teléfono
-            %th
-              Estado
-            %th
-              Rol
-            %th
-              Grupo
-            %th
-        %tbody
-          - @users.each do |user|
-            %tr
-              %td
-                = user.id
-              %td
-                = user.name
-              %td
-                = user.email
-              %td
-                = user.phone_number
-              %td
-                = user.status
-              %td
-                = user.huminize_role
-              %td
-                = user.group.name if !user.group.nil?
-              %td
-                .btn-group
-                  %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
-                    %span.glyphicon.glyphicon-pencil
-                    %span.caret
-                  %ul.dropdown-menu
-                    %li
-                      = link_to 'Activar', deleted_user_path(user), method: :put, data: { confirm: '¿Estás seguro?' }
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .panel-title.pull-left
+            Lista de usuarios desactivados
+        .p-r-20.p-l-20.p-t-10.p-b-10
+          .pull-left
+            %input#search-table.form-control.w-searchbar{:placeholder => "Buscar", :type => "text"}/   
+          .pull-right
+            = link_to deleted_users_path(format: :xlsx), class: 'btn btn-success' do
+              %i.fa.fa-file-excel-o
+              Usuarios desactivados
+          .clearfix
+        .panel-body
+          %table.table.table-hover
+            %thead
+              %tr
+                %th
+                  Id
+                %th
+                  Nombre
+                %th
+                  Correo electrónico
+                %th
+                  Teléfono
+                %th
+                  Estado
+                %th
+                  Rol
+                %th
+                  Grupo
+                %th
+            %tbody
+              - @users.each do |user|
+                %tr
+                  %td
+                    = user.id
+                  %td
+                    = user.name
+                  %td
+                    = user.email
+                  %td
+                    = user.phone_number
+                  %td
+                    = user.status
+                  %td
+                    = user.huminize_role
+                  %td
+                    = user.group.name if !user.group.nil?
+                  %td
+                    .btn-group
+                      %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+                        %span.glyphicon.glyphicon-pencil
+                        %span.caret
+                      %ul.dropdown-menu
+                        %li
+                          = link_to 'Activar', deleted_user_path(user), method: :put, data: { confirm: '¿Estás seguro?' }

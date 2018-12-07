@@ -1,10 +1,13 @@
 - content_for :title  do
   = title_text_helper("Nuevo programa")
 
-.container.container-fluid.container-fixed-lg
-  .row
-    .col-md-12
-      %h2.text-center
-        Nuevo programa
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body
+      %h3.m-t-10.m-b-25.m-l-10.segoe-font
+        %i.fa.fa-plus.hint-text
+        Crear nuevo programa
 
       = render 'form'
+
+

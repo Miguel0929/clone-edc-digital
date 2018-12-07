@@ -1,46 +1,58 @@
 - content_for :title  do
-	= title_text_helper("Archivos compartidos")
+  = title_text_helper("Archivos compartidos")
 
 .container-fluid.container-fixed-lg
-	.row
-		.col-md-12
-			.panel.panel-default
-				.panel-heading
-					.panel-title.pull-left
-						Archivos
-					.pull-right
-						= link_to 'Subir archivo', new_shared_group_attachment_path, class: 'btn btn-lg btn-success'
-					.clearfix
-				.panel-body
-					.table-responsive
-						%table.table.resumen-table.table-striped.rubrica-table
-							%thead
-								%tr
-									%th
-										Nombre de archivo
-									%th
-										Tipo de archivo
-									%th
-										Comentarios
-									%th
-										Subido en
-									%th
-										Fecha de modificación
-									%th
-							%tbody
-								- @shared_group_attachments.each do |attachment|
-									%tr
-										%th
-											= link_to attachment.display_name, attachment.file.url, target: :_blank
-										%th.normal-weight
-											= attachment.humanize_document_type
-										%th.normal-weight
-											= attachment.label
-										%th.normal-weight
-											= l attachment.created_at, format: :special
-										%th.normal-weight
-											= l attachment.updated_at, format: :special
-										%th.normal-weight
-											= link_to 'Editar', edit_shared_group_attachment_path(attachment), class: 'btn btn-default'
-											= link_to 'Eliminar', shared_group_attachment_path(attachment), method: :delete, data: { confirm: '¿Estás seguro?' }, class: 'btn btn-default'
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .panel-title.pull-left
+            Archivos compartidos
+        .p-r-20.p-l-20.p-t-10.p-b-10
+          .pull-left
+            %input#search-table.form-control.w-searchbar{:placeholder => "Buscar", :type => "text"}/   
+          .pull-right
+            = link_to new_shared_group_attachment_path, class: 'btn btn-primary' do
+              %i.fa.fa-plus
+              Subir archivo
+          .clearfix
+        .panel-body
+          .table-responsive
+            %table.table.table-hover.datatable
+              %thead
+                %tr
+                  %th
+                    Nombre
+                  %th{width: "12%"}
+                    Tipo
+                  %th
+                    Comentarios
+                  %th{width: "13%"}
+                    Subido
+                  %th{width: "13%"}
+                    Modificado
+                  %th
+              %tbody
+                - @shared_group_attachments.each do |attachment|
+                  %tr
+                    %th
+                      = link_to attachment.display_name, attachment.file.url, target: :_blank
+                    %th.normal-weight
+                      = attachment.humanize_document_type
+                    %th.normal-weight
+                      = attachment.label
+                    %th.normal-weight
+                      = l attachment.created_at, format: :special
+                    %th.normal-weight
+                      = l attachment.updated_at, format: :special
+                    %th.normal-weight
+                      %ul{style: "display: block; list-style:none;"}
+                        %li
+                          = link_to edit_shared_group_attachment_path(attachment) do
+                            %i.fa.fa-edit
+                            Editar
+                        %li    
+                          = link_to attachment, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+                            %i.fa.fa-times
+                            Eliminar
 

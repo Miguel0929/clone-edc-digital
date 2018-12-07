@@ -2,111 +2,116 @@
   = title_text_helper("Aprendices de tutor")
 
 .container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-heading
-      .pull-right
-        .form-group
-          .input-group
-            = form_tag(trainees_coach_path(@coach), method: :get) do
-              = text_field_tag :query, "", class: "form-control text-black", :placeholder => "Buscar"
-            %span.input-group-addon.panel-title-recursos
-              %i.fa.fa-search.text-white
-      .clearfix
-    .panel-body
-      %h2
-        Aprendices de #{@coach.first_name.nil? ? @coach.email : @coach.name}
-      .table-responsive
-        %table.table.table-hover
-          %thead
-            %tr
-              %th{:width => "3%"}
-                Id
-              %th{:width => "25%"}
-                Datos de contacto
-              %th{:width => "20%"}
-                Info. de estudiante
-              %th{:width => "15%"}
-                Avances totales
-              %th
-                Cursos inscritos          
-          %tbody
-            - @trainees.each do |trainee|
-              %tr
-                %td
-                  = trainee.id
-                %td
-                  .m-b-0
-                    = link_to trainee.name, mentor_student_path(trainee)
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %i.fa.fa-envelope
-                    %li.inline 
-                      = trainee.email
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %i.fa.fa-phone
-                    %li.inline 
-                      = trainee.phone_number
-                  %ul.p-l-0.m-b-0
-                    = link_to mentor_student_path(trainee) do
-                      %li.inline 
-                        %i.fa.fa-eye
-                      %li.inline 
-                        Ver perfil de usuario   
-                    %sup
-                      = link_to  summary_mentor_student_path(trainee),class: "p-l-5" do
-                        %i.fa.fa-bolt
-                %td
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %span.bold Estado:
-                    %li.inline 
-                      = trainee.status
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %span.bold Grupo:
-                    %li.inline 
-                      = trainee.group.name.capitalize
-                  %ul.p-l-0.m-b-0
-                    %li.inline 
-                      %span.bold Última sesión:
-                    %li.inline 
-                      - if !trainee.visits.last.nil?
-                        = l trainee.visits.last.started_at, format: :short_special
-                      - else
-                        %span.text-danger Ninguna
-                %td
-                  - if trainee.student?
-                    %ul.p-l-0.m-b-0
-                      %li.inline
-                        %span.bold Contestado:
-                      %li.inline 
-                        #{trainee.user_progress.ceil}%
-                    %ul.p-l-0.m-b-0
-                      %li.inline
-                        %span.bold Visto:
-                      %li.inline 
-                      #{trainee.user_seen.ceil}%
-                    %ul.p-l-0.m-b-0
-                      %li.inline
-                        %span.bold Status de evaluación:
-                      %li.inline 
-                      #{trainee.evaluation_status}
-                  %td
-                    - unless trainee.group.nil?
-                      %ul.unstyled.no-style
-                        - sort_programs(trainee.group, trainee.group.all_programs).each do |program|
-                          %li.inline.p-b-5
-                            %i.fa.fa-check
-                            #{program.name}. 
-                            %strong
-                              Contestado:
-                            #{trainee.integral_percentage_progress_for(program).round}%
-                            %strong
-                              Visto:
-                            #{trainee.integral_percentage_visited_for(program).round}%
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .panel-title.pull-left
+            Lista de aprendices de #{@coach.first_name.nil? ? @coach.email : @coach.name}
+        .p-r-20.p-l-20.p-t-10
+          .pull-left
+            .form-group
+              .input-group.w-searchbar
+                = form_tag(trainees_coach_path(@coach), method: :get) do
+                  = text_field_tag :query, "", class: "form-control text-black", :placeholder => "Buscar"  
+          .pull-right
+            = link_to coaches_path, class: 'btn btn-primary' do
+              %i.fa.fa-arrow-left
+              Regresar
+          .clearfix
+        .panel-body 
+          .table-responsive
+            %table.table.table-hover
+              %thead
+                %tr
+                  %th{:width => "3%"}
+                    Id
+                  %th{:width => "25%"}
+                    Datos de contacto
+                  %th{:width => "20%"}
+                    Info. de estudiante
+                  %th{:width => "15%"}
+                    Avances totales
+                  %th
+                    Cursos inscritos          
+              %tbody
+                - @trainees.each do |trainee|
+                  %tr
+                    %td
+                      = trainee.id
+                    %td
+                      .m-b-0
+                        = link_to trainee.name, mentor_student_path(trainee)
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %i.fa.fa-envelope
+                        %li.inline 
+                          = trainee.email
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %i.fa.fa-phone
+                        %li.inline 
+                          = trainee.phone_number
+                      %ul.p-l-0.m-b-0
+                        = link_to mentor_student_path(trainee) do
+                          %li.inline 
+                            %i.fa.fa-eye
+                          %li.inline 
+                            Ver perfil de usuario   
+                        %sup
+                          = link_to  summary_mentor_student_path(trainee),class: "p-l-5" do
+                            %i.fa.fa-bolt
+                    %td
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %span.bold Estado:
+                        %li.inline 
+                          = trainee.status
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %span.bold Grupo:
+                        %li.inline 
+                          = trainee.group.name.capitalize
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %span.bold Última sesión:
+                        %li.inline 
+                          - if !trainee.visits.last.nil?
+                            = l trainee.visits.last.started_at, format: :short_special
+                          - else
+                            %span.text-danger Ninguna
+                    %td
+                      - if trainee.student?
+                        %ul.p-l-0.m-b-0
+                          %li.inline
+                            %span.bold Contestado:
+                          %li.inline 
+                            #{trainee.user_progress.ceil}%
+                        %ul.p-l-0.m-b-0
+                          %li.inline
+                            %span.bold Visto:
+                          %li.inline 
+                          #{trainee.user_seen.ceil}%
+                        %ul.p-l-0.m-b-0
+                          %li.inline
+                            %span.bold Status de evaluación:
+                          %li.inline 
+                          #{trainee.evaluation_status}
+                      %td
+                        - unless trainee.group.nil?
+                          %ul.unstyled.no-style
+                            - sort_programs(trainee.group, trainee.group.all_programs).each do |program|
+                              %li.inline.p-b-5
+                                %i.fa.fa-check
+                                #{program.name}. 
+                                %strong
+                                  Contestado:
+                                #{trainee.integral_percentage_progress_for(program).round}%
+                                %strong
+                                  Visto:
+                                #{trainee.integral_percentage_visited_for(program).round}%
 
-      .pull-right
-        = paginate @trainees
-        %br
-        %span.text-center= page_entries_info @trainees
+          .pull-right
+            = paginate @trainees
+            %br
+            %span.text-center= page_entries_info @trainees

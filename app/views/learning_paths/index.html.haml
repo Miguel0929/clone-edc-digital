@@ -15,53 +15,56 @@
 
 
 .container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-heading
-      .pull-right.no-opacity      
-        = link_to new_learning_path_path do
-          .btn.btn-success
-            %i.fa.fa-plus
-            Crear ruta de aprendizaje
-      .clearfix
-    .panel-body
-      .table-responsive
-        %table.table.table-hover
-          %thead
-            %tr
-              %th Nombre
-              %th Tipo
-              %th.text-center N°. Contenidos
-              %th.text-center Grupos asignados
-              %th.text-center Acciones
+  .row
+    .col-md-12
+      .panel.panel-default
+        .p-r-20.p-l-20.p-t-30
+          .pull-left
+            %input#search-table.form-control.w-searchbar{:placeholder => "Buscar", :type => "text"}/   
+          .pull-right
+            = link_to new_learning_path_path, class: 'btn btn-primary' do
+              %i.fa.fa-plus
+              Crear ruta de aprendizaje
+          .clearfix
+        .panel-body
+          .table-responsive
+            %table.table.table-hover.datatable
+              %thead
+                %tr
+                  %th Nombre
+                  %th Tipo
+                  %th.text-center N°. Contenidos
+                  %th.text-center Grupos asignados
+                  %th.text-center Acciones
 
-          %tbody
-            - @learning_path.each do |lp|
-              %tr
-                %td 
-                  = lp.name
-                %td
-                  = if lp.tipo == "fisica" then "Física" elsif lp.tipo == "moral" then "Moral" else "Sin tipo" end  
-                %td.text-center
-                  = lp.count_programs
-                %td.text-center
-                  = lp.count_groups
-                %td.text-center
-                  %ul.unstyled.list-unstyled.p-l-0.m-b-0
-                    %li
-                      = link_to learning_path_path(lp) do
-                        %i.fa.fa-eye
-                        Agregar Contenido/Ver
-                    %li
-                      = link_to clone_learning_path_path(lp), method: :post, data: { confirm: '¿Estás seguro?' } do
-                        %i.fa.fa-copy
-                        Clonar             
-                    %li
-                      = link_to edit_learning_path_path(lp) do
-                        %i.fa.fa-edit
-                        Editar     
-                    %li
-                      = link_to learning_path_path(lp), method: :delete, data: { confirm: '¿Estás seguro?' } do
-                        %i.fa.fa-times
-                        Eliminar
-      %center
-        = paginate @learning_path            
+              %tbody
+                - @learning_path.each do |lp|
+                  %tr
+                    %td 
+                      = lp.name
+                    %td
+                      = if lp.tipo == "fisica" then "Física" elsif lp.tipo == "moral" then "Moral" else "Sin tipo" end  
+                    %td.text-center
+                      = lp.count_programs
+                    %td.text-center
+                      = lp.count_groups
+                    %td.text-center
+                      %ul.unstyled.list-unstyled.p-l-0.m-b-0
+                        %li
+                          = link_to learning_path_path(lp) do
+                            %i.fa.fa-eye
+                            Agregar Contenido/Ver
+                        %li
+                          = link_to clone_learning_path_path(lp), method: :post, data: { confirm: '¿Estás seguro?' } do
+                            %i.fa.fa-copy
+                            Clonar             
+                        %li
+                          = link_to edit_learning_path_path(lp) do
+                            %i.fa.fa-edit
+                            Editar     
+                        %li
+                          = link_to learning_path_path(lp), method: :delete, data: { confirm: '¿Estás seguro?' } do
+                            %i.fa.fa-times
+                            Eliminar
+            %center
+              = paginate @learning_path            

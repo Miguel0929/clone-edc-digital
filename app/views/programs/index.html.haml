@@ -5,20 +5,23 @@
   .row
     .col-md-12
       .panel.panel-default
+        .panel-heading
+          .panel-title.pull-left
+            Lista de programas
+        .p-r-20.p-l-20.p-t-10
+          .pull-left
+            %input#search-table.form-control.w-searchbar{:placeholder => "Buscar", :type => "text"}/   
+          .pull-right
+            = link_to new_program_path, class: 'btn btn-primary' do
+              %i.fa.fa-plus
+              Crear programa
+          .clearfix
         .panel-body
-          .row
-            .col-sm-8
-              %h3
-                Programas de #{the_platform_name_helper}
-            .col-sm-4
-              .pull-right
-                = link_to "<i class='fa fa-plus'></i> Crear programa ".html_safe, new_program_path, class: 'btn btn-primary'
-          %table.table.table-hover
+          %table.table.table-hover.datatable
             %thead
               %tr
                 %th
-                %th
-                  Programa 
+                %th 
             %tbody.sortable{'data-update-url'=> url_prod_helper(sort_programs_path())}
               - @programs.each do |program|
                 %tr{id: "program_#{program.id}"}

@@ -1,33 +1,27 @@
-.col-md-12
-	.well
-		= bootstrap_form_for(@program) do |f|
-			= f.text_field :name, label: 'Nombre del programa'
-			= f.text_field :short_name, label: 'Clave del programa (usa tres caracteres en mayúsculas)', maxlength: 3
-			= f.select(:category, Program.category_type_options, {:label => 'Categoría'}, {:class => 'minimal'})
-			= f.select(:tipo, Program.tipo_type_options, {:label => 'Tipo de programa', :class => 'minimal', :include_blank => "Selecciona un tipo"}) 
-			= f.select( :level, Program.level_type_options,{:label => 'Nivel de dificultad', :class=>'minimal', :include_blank => "Selecciona el nivel de dificultad"})
-			= f.select( :content_type, Program.content_type_options,{:label => 'Tipo de contenido', :class=>'minimal', :include_blank => "Selecciona el tipo contenido"})  
-			= f.text_area :description, label: 'Breve descripción del programa'
-			= f.text_area :objetive, label: 'Objetivo del programa'
-			= f.text_area :curriculum, label: 'Descripción del temario'
-			= f.file_field :cover, label: 'Portada del programa'
-			= f.file_field :small_cover, label: 'Portada del programa para la ruta (versión corta)'
-			= f.file_field :icon, label: 'Ícono del programa'
-			= f.text_field :video, label: 'URL del video del programa'
-			= f.select(:color, @selected_color = Program.color_options, {:label => 'Color distintivo'}, {:class => 'minimal'})
-			= f.select :group_ids, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupos (Vinculación como programa complementario)"}, { :multiple => true}  
-			.p-t-10.p-b-10.pull-right.hidden-xs
-				= link_to programs_path, class: 'btn btn-default' do
-					%i.fa.fa-times
-					Cancelar
-				= f.submit 'Guardar sin salir', class: 'btn btn-success'
-			.clearfix	
-			.visible-xs
-				.p-t-5.p-b-5
-					= link_to programs_path, class: 'btn btn-default' do
-						%i.fa.fa-times
-						Cancelar
-				.p-t-5.p-b-5		
-					= f.submit 'Guardar sin salir', class: 'btn btn-success'
+= bootstrap_form_for(@program) do |f|
+	= f.text_field :name, label: 'Nombre del programa'
+	= f.text_field :short_name, label: 'Clave del programa (usa tres caracteres en mayúsculas)', maxlength: 3
+	= f.select(:category, Program.category_type_options, {:label => 'Categoría'}, {:class => 'minimal'})
+	= f.select(:tipo, Program.tipo_type_options, {:label => 'Tipo de programa', :class => 'minimal', :include_blank => "Selecciona un tipo"}) 
+	= f.select( :level, Program.level_type_options,{:label => 'Nivel de dificultad', :class=>'minimal', :include_blank => "Selecciona el nivel de dificultad"})
+	= f.select( :content_type, Program.content_type_options,{:label => 'Tipo de contenido', :class=>'minimal', :include_blank => "Selecciona el tipo contenido"})  
+	= f.text_area :description, label: 'Breve descripción del programa'
+	= f.text_area :objetive, label: 'Objetivo del programa'
+	= f.text_area :curriculum, label: 'Descripción del temario'
+	= f.file_field :cover, label: 'Portada del programa'
+	= f.file_field :small_cover, label: 'Portada del programa para la ruta (versión corta)'
+	= f.file_field :icon, label: 'Ícono del programa'
+	= f.text_field :video, label: 'URL del video del programa'
+	= f.select(:color, @selected_color = Program.color_options, {:label => 'Color distintivo'}, {:class => 'minimal'})
+	= f.select :group_ids, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupos (Vinculación como programa complementario)"}, { :multiple => true}  
+	.pull-right.m-t-25.m-b-20
+		= link_to 'Cancelar', programs_path, class: 'btn btn-danger'
+		= f.submit 'Guardar Programa', class: 'btn btn-primary'
+	.clearfix	
+	.visible-xs
+		.p-t-5.p-b-5
+			= link_to 'Cancelar', programs_path, class: 'btn btn-danger'
+		.p-t-5.p-b-5		
+			= f.submit 'Guardar Programa', class: 'btn btn-primary'
 			
 
