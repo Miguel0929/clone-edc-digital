@@ -1,10 +1,11 @@
 - content_for :title  do
   = title_text_helper("Nueva ruta de aprendizaje")
 
-.container-fluid
-  .row
-    .col-md-12
-      %h2.text-center
-        Nueva "Ruta de aprendizaje"
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body#groupFormContainer
+      %h3.m-t-10.m-b-30.m-l-10.segoe-font
+        %i.fa.fa-plus.hint-text
+        Crear nueva ruta de aprendizaje
 
       = render 'form'

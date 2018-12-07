@@ -14,44 +14,44 @@
 							Tu travesía por #{the_platform_name_helper}
 						%p.m-b-25.text-white
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce at orci nec ligula venenatis ornare eu ut purus. Aliquam luctus, neque quis tincidunt pulvinar, mi leo dictum purus, et blandit sem nunc at ligula. Mauris aliquet rutrum libero ac efficitur. Nunc vel nibh vulputate, tristique dui vel, ullamcorper sem.
+						- if current_user.admin?
+							.pull-left.m-b-10
+								- if @texts.exists?
+									=link_to edit_route_text_path(@last_text), {:style => 'opacity:1;'} do
+										%button.btn.btn-primary
+											%i.fa.fa-edit
+											Editar Texto
+								- else
+									=link_to new_route_text_path, {:style => 'opacity:1;'} do
+										%button.btn.btn-primary
+											%i.fa.fa-plus
+											Redactar texto
+								- if @covers.exists?
+									=link_to edit_route_cover_path(@last_cover), {:style => 'opacity:1;'} do
+										%button.btn.btn-primary
+											%i.fa.fa-edit
+											Editar Imagen
+								- else
+									=link_to new_route_cover_path, {:style => 'opacity:1;'} do
+										%button.btn.btn-primary
+											%i.fa.fa-plus
+											Subir imagen
 
 .container-fluid.container-fixed-lg
 	.row
 		.col-sm-12
 			.panel.panel-transparent
-				- if current_user.admin?
-					.panel-heading.clearfix
-						.panel-title.pull-left
-							.pull-right
-								- if @texts.exists?
-									=link_to edit_route_text_path(@last_text), {:style => 'opacity:1;'} do
-										%button.btn.btn-complete.m-l-10
-											%i.fa.fa-edit
-											Editar Texto
-								- else
-									=link_to new_route_text_path, {:style => 'opacity:1;'} do
-										%button.btn.btn-info.m-l-10
-											%i.fa.fa-plus
-											Redactar texto
-								- if @covers.exists?
-									=link_to edit_route_cover_path(@last_cover), {:style => 'opacity:1;'} do
-										%button.btn.btn-complete.m-l-10
-											%i.fa.fa-image
-											Editar Imagen
-								- else
-									=link_to new_route_cover_path, {:style => 'opacity:1;'} do
-										%button.btn.btn-info.m-l-10
-											%i.fa.fa-plus
-											Subir imagen
-					
 				.panel-body
 					%div.m-b-40
 						- if @texts.exists?
 							= raw @last_text.redaction
 						- else
-							Aún no hay descripción de la ruta
+							.p-l-30
+								Aún no hay descripciónesta sección de #{the_platform_name_helper}.
 					.panel.panel-default.m-b-30
 						- if @covers.exists?
 							= image_tag(@last_cover.route_image, :class => "image-width-100", :alt => "Ruta de la plataforma")
 						- else
-							Ruta de #{the_platform_name_helper}
+							.padding-30
+								Aún no hay imagen para esta sección de #{the_platform_name_helper}.
+

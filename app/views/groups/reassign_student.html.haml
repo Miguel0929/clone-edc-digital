@@ -2,23 +2,27 @@
 	= title_text_helper("Alumnos vinculados a grupo")
 
 .container-fluid.container-fixed-lg
-	.panel.panel-default
-		.panel-heading
-			%h4
-				Reasigna a los alumnos de 
-				%span.text-primary #{@group.name} 
-				a otro grupo diferente:
-		.panel-body
-			= bootstrap_form_tag url: '/change_group'  do |f|
-				= f.hidden_field :id, :value => @group.id
-				= f.hidden_field :source, :value => @source
-				= f.select :host_group, @groups.collect{|g| [g.name, g.id]}, {include_blank: "Selecciona un grupo", label: 'Nuevo grupo al que serán reasignados'}, required: true
-				= f.select :student_ids, @group.students.collect{|u| [u.email, u.id, "selected":"selected"]}, {include_blank: false, label: 'Alumnos de este grupo'}, multiple: 'multiple'
-				.pull-right.m-t-15.hidden-xs
-					= link_to @return_url, class: "btn btn-danger" do
-						Cancelar
-					= f.submit 'Reasignar alumnos', :class => "btn btn-success"
-				%center.visible-xs
-					= link_to @return_url, class: "btn btn-danger" do
-						Cancelar	
-					= f.submit 'Reasignar alumnos', :class => "btn btn-success"
+	.row.panel.panel-default
+		.p-t-50
+			.col-md-4
+				.panel-heading
+					.panel-title
+						Reasignar alumnos
+				.panel-body
+					%i.fa.fa-exchange.fa-2x.hint-text
+					.h3.m-t-20.segoe-font
+						Reasigna a los alumnos a un grupo diferente
+					%p.m-b-30.segoe-font
+						Grupo en el que están actualmente: 
+						%span.text-primary #{@group.name}
+			.col-md-8
+				.panel-body
+					= bootstrap_form_tag url: '/change_group'  do |f|
+						= f.hidden_field :id, :value => @group.id
+						= f.hidden_field :source, :value => @source
+						= f.select :host_group, @groups.collect{|g| [g.name, g.id]}, {include_blank: "Selecciona un grupo", label: 'Nuevo grupo al que serán reasignados'}, required: true
+						= f.select :student_ids, @group.students.collect{|u| [u.email, u.id, "selected":"selected"]}, {include_blank: false, label: 'Alumnos de este grupo'}, multiple: 'multiple'
+						.pull-right.m-t-30.m-b-30
+							= link_to 'Cancelar', @return_url, class: 'btn btn-danger'
+							= f.submit 'Reasignar alumnos', class: 'btn btn-primary'
+

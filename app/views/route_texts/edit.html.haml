@@ -1,10 +1,20 @@
 - content_for :title  do
-	= title_text_helper("Editar texto de mi ruta")
+  = title_text_helper("Editar texto de mi ruta")
 
-.container
-	.row.m-b-40
-		.col-md-12
-			%h2.text-center
-				Editar texto para mi ruta
-			.col-md-10.col-md-offset-1
-				= render "form"
+.container-fluid.container-fixed-lg
+  .row.panel.panel-default
+    .p-t-50
+      .col-md-4
+        .panel-heading
+          .panel-title
+            Editar texto para la ruta
+        .panel-body
+          %i.fa.fa-edit.fa-2x.hint-text
+          .h3.m-t-20.segoe-font
+            Usa este formulario para editar el texto de la ruta
+          %p.m-b-30.segoe-font
+            Se trata de una descripción del flujo de trabajo que tendrá el usuario dentro de la plataforma
+      .col-md-8
+        .panel-body
+          = render 'form'
+

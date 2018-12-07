@@ -1,10 +1,7 @@
 = bootstrap_form_for(@category) do |f|
 	= f.text_field :name, label: 'Nombre de la categoría:', required: "required"
 	= f.text_area :description, label: 'Descripción de la categoría:', required: "required"
-	.pull-right
-		=link_to frequent_categories_path do
-			%button.btn.btn-info.m-l-10
-				%i.fa.fa-times
-				Cancelar
-		= f.submit 'Guardar categoría', class: 'btn btn-success m-l-10'
+	.pull-right.m-t-15.m-b-30
+		= link_to 'Cancelar', frequent_categories_path, class: 'btn btn-danger'
+		= f.submit 'Guardar categoría', class: 'btn btn-primary'
 	

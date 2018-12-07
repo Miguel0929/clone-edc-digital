@@ -1,26 +1,26 @@
 - content_for :title  do
   = title_text_helper("Editar usuario")
 
-.container
+.container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
-      .row
-        .col-md-12
-          %h2.text-center
-            Editar información
+      %h3.m-t-10.m-b-30.segoe-font
+        %i.fa.fa-edit.hint-text
+        Editar información de usuario
 
-          = bootstrap_form_for(@user) do |f|
-            = f.text_field :first_name
-            = f.text_field :last_name
-            = f.text_field :email
-            = f.text_field :phone_number
-            = f.collection_select(:group_id, Group.all, :id, :name, label: 'Grupo al que pertenece')
-            - if current_user.admin?
-              = f.select(:role, User::ROLETYPES, label: "Tipo de usuario")
+      = bootstrap_form_for(@user) do |f|
+        = f.text_field :first_name, label: 'Nombre'
+        = f.text_field :last_name, label: 'Apellidos'
+        = f.text_field :email, label: 'Correo'
+        = f.text_field :phone_number, label: 'Teléfono'
+        = f.collection_select(:group_id, Group.all, :id, :name, label: 'Grupo al que pertenece')
+        - if current_user.admin?
+          = f.select(:role, User::ROLETYPES, label: "Tipo de usuario")
 
-            = link_to 'Cancelar', user_path(@user), class: 'btn btn-danger hidden-xs'
-            = f.submit 'Aceptar', class: "btn btn-default hidden-xs"
-            %center.visible-xs
-              = link_to 'Cancelar', user_path(@user), class: 'btn btn-danger'
-              = f.submit 'Aceptar', class: "btn btn-default"
+        .float-right.m-t-20.m-b-20
+          = link_to 'Cancelar', user_path(@user), class: 'btn btn-danger m-r-5 hidden-xs'
+          = f.submit 'Guardar información', class: "btn btn-primary hidden-xs"
+        %center.visible-xs
+          = link_to 'Cancelar', user_path(@user), class: 'btn btn-danger m-r-5'
+          = f.submit 'Guardar información', class: "btn btn-primary"
 

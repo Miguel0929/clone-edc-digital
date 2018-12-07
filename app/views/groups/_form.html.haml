@@ -307,11 +307,11 @@
       = f.select :delireverable_package_ids, DelireverablePackage.all.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Entregables (Complementarios)' }, multiple: 'multiple'
       = f.select :template_refilable_ids, TemplateRefilable.all.collect{|q| [q.name, q.id]}, {include_blank: false, label: 'Plantillas (Complementarios)' }, multiple: 'multiple'
   
-  .pull-left.p-b-30.hidden-xs
+  .float-right.m-t-20.m-b-20.hidden-xs
     = link_to "Cancelar", groups_path, class: "btn btn-danger"
     = f.submit 'Guardar', class: "btn btn-primary"
     %button.btn.btn-primary#hitNrun Guardar y salir
-  .pull-left.p-b-50.visible-xs  
+  .float-right.m-t-20.m-b-20.visible-xs  
     .col-md-12
       = link_to "Cancelar", groups_path, class: "btn btn-danger"
     .col-md-12.p-t-5

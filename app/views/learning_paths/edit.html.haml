@@ -1,27 +1,29 @@
 - content_for :title  do
   = title_text_helper("Ruta de aprendizaje")
 
-.container-fluid
-  .row
-    .col-md-12
-      %h2.text-center
-        Editar "Ruta de aprendizaje"
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body#groupFormContainer
+      %h3.m-t-10.m-b-30.m-l-10.segoe-font
+        %i.fa.fa-edit.hint-text
+        Editar ruta de aprendizaje
 
-      .well
-        = bootstrap_form_for(@learning_path) do |f|
-          = f.text_field :name, label: 'Nombre de la "Ruta de aprendizaje"'
-          = f.select :tipo, LearningPath.LP_type_options , {:label => 'Tipo de Ruta de aprendizaje', :class => 'minimal', :include_blank => "Selecciona el tipo de ruta"}
-          #group-fisico 
-            = f.select :group_ids, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupos" , :class => 'minimal', :include_blank => "Selecciona el grupo"}, { :multiple => true}
-          #group-moral
-            = f.select :group2_ids, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupos" , :class => 'minimal', :include_blank => "Selecciona el grupo"}, { :multiple => true}  
-          
-          = link_to "Cancelar",  learning_paths_path, class: "btn btn-danger hidden-xs"
-          = f.submit 'Aceptar', class: 'btn btn-default hidden-xs'
 
-          %center.visible-xs
-            = link_to "Cancelar",  learning_paths_path, class: "btn btn-danger"
-            = f.submit 'Aceptar'
+      = bootstrap_form_for(@learning_path) do |f|
+        = f.text_field :name, label: 'Nombre de la "Ruta de aprendizaje"'
+        = f.select :tipo, LearningPath.LP_type_options , {:label => 'Tipo de Ruta de aprendizaje', :class => 'minimal', :include_blank => "Selecciona el tipo de ruta"}
+        #group-fisico 
+          = f.select :group_ids, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupos" , :class => 'minimal', :include_blank => "Selecciona el grupo"}, { :multiple => true}
+        #group-moral
+          = f.select :group2_ids, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupos" , :class => 'minimal', :include_blank => "Selecciona el grupo"}, { :multiple => true}  
+        
+        .pull-right.m-t-25.m-b-20.hidden-xs
+          = link_to "Cancelar",  learning_paths_path, class: "btn btn-danger"
+          = f.submit 'Guardar información', class: 'btn btn-primary'
+
+        %center.visible-xs.m-t-25.m-b-20
+          = link_to "Cancelar",  learning_paths_path, class: "btn btn-danger"
+          = f.submit 'Guardar información', class: 'btn btn-primary'
 
 :javascript
   $(document).on('turbolinks:load', function(){

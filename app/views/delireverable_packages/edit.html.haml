@@ -2,17 +2,20 @@
   = title_text_helper("Editar paquete")
 
 .container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-body
-      .row.row-same-height
-        .col-md-3.b-r.b-dashed.b-grey.sm-b-b
-          .p-r-15.p-l-30.p-b-30.p-t-15.sm-padding-5.sm-m-t-15
-            %i.fa.fa-edit.fa-2x.hint-text
-            .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
-              Editar paquete
-            %p
-              Usa este formulario para editar paquetes de entregables existentes y reasignales grupos.
-        .col-md-8
-          .p-r-30.p-l-30.p-b-30.p-t-20.sm-padding-5.sm-m-t-15
-            = render 'form'
+  .row.panel.panel-default
+    .p-t-50
+      .col-md-4
+        .panel-heading
+          .panel-title
+            Editar paquete
+        .panel-body
+          %i.fa.fa-edit.fa-2x.hint-text
+          .h3.m-t-20.segoe-font
+            Usa este formulario para editar un paquete de entregables
+          %p.m-b-30.segoe-font
+            Además puedes asignarle el paquete a los grupos que necesites
+      .col-md-8
+        .panel-body
+          = render 'form'
+
 

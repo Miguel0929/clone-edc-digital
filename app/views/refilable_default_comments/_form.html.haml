@@ -13,7 +13,7 @@
         %button.close{'data-dismiss': "alert"}
         %strong NOTA:
         Utiliza las siguientes claves para que el texto sea reemplazado por la información requerida: Nombre de alumno -> {{alumno}}, nombre de tutor -> {{tutor}}, nombre de plantilla -> {{plantilla}}, nombre de programa -> {{programa}}, puntaje de evaluación de plantilla -> {{puntaje}}
-  .actions.text-center.m-t-30.m-b-20
+  .actions.float-right.m-t-30.m-b-20
     = link_to 'Cancelar', refilable_default_comments_path, class: 'btn btn-danger'
     = f.submit 'Guardar plantilla', class: 'btn btn-primary'
 

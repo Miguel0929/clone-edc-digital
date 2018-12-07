@@ -1,10 +1,11 @@
 - content_for :title  do
   = title_text_helper("Editar grupo")
 
-.container-fluid
-  .row
-    .col-md-12#groupFormContainer
-      %h2.text-center
-        Editar grupo
+.container-fluid.container-fixed-lg
+  .panel.panel-default
+    .panel-body#groupFormContainer
+      %h3.m-t-10.m-b-10.m-l-10.segoe-font
+        %i.fa.fa-edit.hint-text
+        Editar información de grupo
 
       = render partial: 'form', locals: {edit_mode: true}

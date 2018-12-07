@@ -1,9 +1,6 @@
 = bootstrap_form_for(@category) do |f|
 	= f.text_field :title, label: 'Nombre de la categoría:'
-	.pull-right
-		=link_to glossary_categories_path do
-			%button.btn.btn-info
-				%i.fa.fa-times
-				Cancelar
-		= f.submit 'Guardar categoría', class: 'btn btn-success'
+	.pull-right.m-t-15.m-b-40
+		= link_to 'Cancelar', glossary_categories_path, class: 'btn btn-danger'
+		= f.submit 'Guardar categoría', class: 'btn btn-primary'
 	

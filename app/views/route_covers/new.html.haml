@@ -1,10 +1,19 @@
 - content_for :title  do
-	= title_text_helper("Subir imagen para mi ruta")
+  = title_text_helper("Subir imagen para mi ruta")
 
-.container
-	.row
-		.col-md-12
-			%h2.text-center
-				Subir imagen para Mi ruta
-			.col-md-10.col-md-offset-1
-				= render "form"
+.container-fluid.container-fixed-lg
+  .row.panel.panel-default
+    .p-t-50
+      .col-md-4
+        .panel-heading
+          .panel-title
+            Agregar imagen para la ruta
+        .panel-body
+          %i.fa.fa-plus.fa-2x.hint-text
+          .h3.m-t-20.segoe-font
+            Usa este formulario para subir la imagen de la ruta
+          %p.m-b-30.segoe-font
+            Se trata de una imagen que describa el flujo de trabajo que tendrá el usuario dentro de la plataforma
+      .col-md-8
+        .panel-body
+          = render 'form'

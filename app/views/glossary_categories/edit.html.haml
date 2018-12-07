@@ -1,22 +1,19 @@
 - content_for :title  do
-	= title_text_helper("Editar categoría")
+  = title_text_helper("Editar categoría")
 
 .container-fluid.container-fixed-lg
-	.panel.panel-default.p-t-20
-		.panel-body
-			.row
-				.col-md-5
-					.panel-heading
-						.panel-title
-							Categorías de glosario
-					.panel-body
-						.row
-							%i.fa.fa-upload.fa-2x.hint-text.m-t-10
-							.h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
-								Usa este campo modificar o crear categorías del glosario
-							%p.m-b-30{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
-								Una vez que agregues o modifiques categorías estarán disponibles para los usuarios
-				.col-md-7
-					.panel-body
-						.row
-							= render 'form'
+  .row.panel.panel-default
+    .p-t-50
+      .col-md-4
+        .panel-heading
+          .panel-title
+            Editar categoría de glosario
+        .panel-body
+          %i.fa.fa-edit.fa-2x.hint-text
+          .h3.m-t-20.segoe-font
+            Usa este formulario para editar una categoría de glosario
+          %p.m-b-30.segoe-font
+            Una vez que agregues categorías estarán disponibles asignarles términos
+      .col-md-8
+        .panel-body
+          = render 'form'

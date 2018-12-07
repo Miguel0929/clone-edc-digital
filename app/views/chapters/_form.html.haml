@@ -1,17 +1,16 @@
-.well
-  = bootstrap_form_for([@program, @chapter]) do |f|
-    = f.text_field :name, label: 'Nombre del módulo'
-    = f.number_field :points, within: 0...101, label: '* Valor del módulo en porcentaje (introducir un número entre 0 y 100)'
-    #max-points-alert.p-t-10.hide
-      .alert.alert-danger{role: "alert"}
-        %button.close{"data-dismiss": "alert"}
-        %strong Nota:
-        El valor del módulo es muy alto. Redistribuye los valores de los otros módulos para que no sumen más del 100%.
-    .p-b-10
-      * El valor del módulo sólo es importante si contiene o contendrá preguntas. Si este es el caso y dejas el campo en blanco, automáticamente se le asignará un valor.
-    %div
-      = link_to 'Cancelar', @program, class: 'btn btn-danger'
-      = f.submit 'Aceptar'
+= bootstrap_form_for([@program, @chapter]) do |f|
+  = f.text_field :name, label: 'Nombre del módulo'
+  = f.number_field :points, within: 0...101, label: '* Valor del módulo en porcentaje (introducir un número entre 0 y 100)'
+  #max-points-alert.p-t-10.hide
+    .alert.alert-danger{role: "alert"}
+      %button.close{"data-dismiss": "alert"}
+      %strong Nota:
+      El valor del módulo es muy alto. Redistribuye los valores de los otros módulos para que no sumen más del 100%.
+  .p-b-10
+    * El valor del módulo sólo es importante si contiene o contendrá preguntas. Si este es el caso y dejas el campo en blanco, automáticamente se le asignará un valor.
+  .pull-right.m-t-30.m-b-20
+    = link_to 'Cancelar', @program, class: 'btn btn-danger'
+    = f.submit 'Guardar módulo', class: 'btn btn-primary'
 
 :javascript
   $(document).ready(function(){

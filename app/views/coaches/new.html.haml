@@ -2,54 +2,68 @@
   = title_text_helper("Nuevos tutores")
 
 .container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-body
-      %h2.text-center
-        Crear tutor
-      = bootstrap_form_tag :url => coaches_path, :html => {:method => :post, :id => "creatingCoach"} do |f|
-        .p-b-15.p-t-15
-        - if params[:bulk].present?
-          = f.file_field :csv, label: 'Subir archivo CSV con los aprendices para el nuevo tutor', required: true
-          .small.p-b-15
-            = link_to '(*Prefiero seleccionar manualmente a los aprendices)', new_coach_path
-          = f.hidden_field :using_csv, :value => "true"
-          = f.hidden_field :timestamp, :value => Time.current.to_i
-        - else
-          = f.select :nominee_id, @applicants.collect{|a| [ a.email, a.id ] }, {label: 'Mentores (sin tutoría)', include_blank: "Selecciona un mentor sin cargo de tutor"}, required: true
-          = f.select :trainees_ids, @trainees.collect{|t| [t.email, t.id]}, {include_blank: false, label: 'Selecciona aprendices para el tutor'}, multiple: 'multiple', required: true
-          .small.p-b-15
-            = link_to '(*Prefiero subir un archivo CSV con la lista de aprendices)', new_coach_path(bulk: 'true'), id: 'toggleSwitch'
-        %br
-        .row
-          .col-md-3
-            = f.submit 'Crear tutoría'
-          .col-md-6
-            #indeterminateProcess{style: "display: none;"}
-              %p.small.hint-text Preparando datos...
-              .progress
-                .progress-bar-indeterminate
-            #progressingProcess{style: "display: none;"}
-              %p#progressMessage 
-                %span.small.hint-text#progress_box 0
-                %span.small.hint-text de
-                %span.small.hint-text#total_box 0
-                %span.small.hint-text tutorías procesadas
-              .progress
-                .progress-bar.progress-bar-success#progressingBar{:style => "width:45%"}
-      #coachProgressBlock.padding-30{style: "display: none;"}
-        %h4 Advertencias de creación de tutorías
-        .alert.alert-info{:role => "alert"}
-          = succeed "" do
-            %strong Mentores no encontrados:
-            %span#nonexistent_coaches_box Ninguno
-        .alert.alert-info{:role => "alert"}
-          = succeed "" do
-            %strong Estudiantes no encontrados:
-            %span#nonexistent_trainees_box Ninguno
-        .alert.alert-info{:role => "alert"}
-          = succeed "" do
-            %strong Estudiantes que ya contaban con mentoría:
-            %span#invalid_coaching_box Ninguno
+  .row.panel.panel-default
+    .p-t-50
+      .col-md-4
+        .panel-heading
+          .panel-title
+            Crear tutor
+        .panel-body
+          %i.fa.fa-plus.fa-2x.hint-text
+          .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+            Usa este formulario para crear nuevos tutores
+          %p.m-b-30{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+            Recuerda que un tutor es un mentor con un alumno específico asignado
+      .col-md-8
+        .panel-body
+          = bootstrap_form_tag :url => coaches_path, :html => {:method => :post, :id => "creatingCoach"} do |f|
+            .p-b-15.p-t-15
+              - if params[:bulk].present?
+                = f.file_field :csv, label: 'Subir archivo CSV con los aprendices para el nuevo tutor', required: true
+                .small.p-b-15
+                  = link_to '(*Prefiero seleccionar manualmente a los aprendices)', new_coach_path
+                = f.hidden_field :using_csv, :value => "true"
+                = f.hidden_field :timestamp, :value => Time.current.to_i
+              - else
+                = f.select :nominee_id, @applicants.collect{|a| [ a.email, a.id ] }, {label: 'Mentores (sin tutoría)', include_blank: "Selecciona un mentor sin cargo de tutor"}, required: true
+                = f.select :trainees_ids, @trainees.collect{|t| [t.email, t.id]}, {include_blank: false, label: 'Selecciona aprendices para el tutor'}, multiple: 'multiple', required: true
+                .small.p-b-15
+                  = link_to '(*Prefiero subir un archivo CSV con la lista de aprendices)', new_coach_path(bulk: 'true'), id: 'toggleSwitch'
+
+            .pull-right.m-t-30.m-b-30
+              = link_to 'Cancelar', coaches_path, class: 'btn btn-danger'
+              = f.submit 'Crear tutoría', class: 'btn btn-primary'
+
+            %br
+            .row
+              .col-md-12
+                #indeterminateProcess{style: "display: none;"}
+                  %p.small.hint-text Preparando datos...
+                  .progress
+                    .progress-bar-indeterminate
+                #progressingProcess{style: "display: none;"}
+                  %p#progressMessage 
+                    %span.small.hint-text#progress_box 0
+                    %span.small.hint-text de
+                    %span.small.hint-text#total_box 0
+                    %span.small.hint-text tutorías procesadas
+                  .progress
+                    .progress-bar.progress-bar-success#progressingBar{:style => "width:45%"}
+
+          #coachProgressBlock.padding-30{style: "display: none;"}
+            %h4 Advertencias de creación de tutorías
+            .alert.alert-info{:role => "alert"}
+              = succeed "" do
+                %strong Mentores no encontrados:
+                %span#nonexistent_coaches_box Ninguno
+            .alert.alert-info{:role => "alert"}
+              = succeed "" do
+                %strong Estudiantes no encontrados:
+                %span#nonexistent_trainees_box Ninguno
+            .alert.alert-info{:role => "alert"}
+              = succeed "" do
+                %strong Estudiantes que ya contaban con mentoría:
+                %span#invalid_coaching_box Ninguno
 
 
 :javascript

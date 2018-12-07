@@ -2,17 +2,21 @@
   = title_text_helper("Editar módulo")
 
 .container-fluid.container-fixed-lg
-  .row
-    .panel.panel-default
-      .panel-heading
-        .col-md-12
-          %h3.panel-title
+  .row.panel.panel-default
+    .p-t-50
+      .col-md-4
+        .panel-heading
+          .panel-title
             Editar módulo
-      .panel-body
-        .col-md-12
-          %h3
-            = @chapter.name
-        .well
+        .panel-body
+          %i.fa.fa-plus.fa-2x.hint-text
+          .h3.m-t-20.segoe-font
+            Usa este formulario para editar el módulo
+          %p.m-b-30.segoe-font
+            Este elemento pertenece al programa de 
+            "#{@program.name}"
+      .col-md-8
+        .panel-body
           = bootstrap_form_for([@program, @chapter]) do |f|
             = f.text_field :name, label: 'Nombre del módulo'
             = f.number_field :points, within: 0...101, label: '* Valor del módulo en porcentaje (introducir un número entre 0 y 100)'
@@ -23,11 +27,9 @@
                 El valor del módulo es muy alto. Redistribuye los valores de los otros módulos para que no sumen más del 100%.
             .p-b-10
               * El valor del módulo sólo es importante si este contiene o contendrá preguntas, de lo contrario puedes dejar el campo en blanco.
-            .p-t-20.p-b-20.pull-right
-              = link_to @program, class: 'btn btn-default' do
-                %i.fa.fa-times
-                Cancelar
-              = f.submit 'Aceptar', class: 'btn btn-success'
+            .pull-right.m-t-30.m-b-20
+              = link_to 'Cancelar', @program, class: 'btn btn-danger'
+              = f.submit 'Guardar módulo', class: 'btn btn-primary'
             .clearfix
                 
 :javascript

@@ -1,11 +1,26 @@
-.container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-body
-      %h2.text-center
-        Enviar invitación
-      = bootstrap_form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f|
-        = f.text_field :email, label: 'Correo electrónico'
-        = f.select :role, [["Estudiante", 'student'], ["Mentor", 'mentor'], ["Profesor", 'profesor'], ["Staff", 'staff']], { label: "Selecione el rol"}
-        = f.collection_select(:group_id, Group.all, :id, :name, label: 'Grupo')
+- content_for :title  do
+	= title_text_helper("Invitar usuario")
 
-        = f.submit 'Enviar invitación'
+.container-fluid.container-fixed-lg
+	.row.panel.panel-default
+		.p-t-50
+			.col-md-4
+				.panel-heading
+					.panel-title
+						Enviar invitación
+				.panel-body
+					%i.fa.fa-upload.fa-2x.hint-text
+					.h3.m-t-20.segoe-font
+						Usa este formulario para invitar a nuevos usuarios
+					%p.m-b-30.segoe-font
+						Puedes asignarles el rol que se requiera
+			.col-md-8
+				.panel-body
+					= bootstrap_form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => {:method => :post} do |f|
+						= f.text_field :email, label: 'Correo electrónico'
+						= f.select :role, [["Estudiante", 'student'], ["Mentor", 'mentor'], ["Staff", 'staff']], { label: "Selecione el rol"}
+						= f.collection_select(:group_id, Group.all, :id, :name, label: 'Grupo')
+						.pull-right.m-t-30.m-b-30
+							= link_to 'Cancelar', root_path, class: 'btn btn-danger'
+							= f.submit 'Enviar invitación', class: "btn btn-primary"
+

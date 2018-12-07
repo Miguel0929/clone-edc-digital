@@ -578,9 +578,7 @@ img.zoom-img {
 .anchor-bottom-right {object-position: bottom right}
 
 /* Termina CSS del enhance.js */
-.justificado{
-	text-align: justify;
-}
+
 /*
 .contenidos-cuadro img {
 	max-width: 100%;
@@ -592,3 +590,11 @@ img.zoom-img {
     max-height: 1000px;
 }
 */
+
+.justificado{
+	text-align: justify;
+}
+.segoe-font{
+	font-family: 'Segoe UI','Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+}
+

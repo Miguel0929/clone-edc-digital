@@ -2,6 +2,6 @@
   = f.text_field :name, label: 'Nombre'
   = f.text_area :description, label: 'Descripción'
   = f.select :group_ids,  Group.all.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Grupos'}, multiple: 'multiple'
-  .m-t-20
+  .pull-right.m-t-30.m-b-30
     = link_to 'Cancelar', delireverable_packages_path, class: 'btn btn-danger'
-    = f.submit 'Guardar', class: 'btn btn-primary'
+    = f.submit 'Guardar información', class: 'btn btn-primary'

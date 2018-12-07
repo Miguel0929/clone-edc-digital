@@ -80,7 +80,7 @@
 			= bootstrap_form_for @group do |f|
 				= f.select :student_ids, User.students.collect{|u| [u.email, u.id]}, {include_blank: false, label: 'Alumnos de este grupo'}, multiple: 'multiple'
 				.pull-right.p-t-20.p-b-20.hidden-xs{:style => "display: table; margin: 0 auto;"}
-					= link_to 'Reasignar estos alumnos a otro grupo',  reassign_student_group_path(@group), class: "btn btn-primary"
+					= link_to 'Reasignar estos alumnos a otro grupo',  reassign_student_group_path(@group), class: "btn btn-primary m-r-5"
 					= f.submit 'Actualizar alumnos', :class => "btn btn-success"
 				.visible-xs
 					.p-t-5.p-b-5	

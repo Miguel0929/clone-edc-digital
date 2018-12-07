@@ -32,4 +32,5 @@
 										= group.name
 							%input(type="hidden" name='shared_group_attachment[group_ids][]' value="")
 						.pull-right.m-t-30.m-b-30
-							= f.submit 'Compartir archivo', class: 'btn btn-lg btn-success'
+							= link_to 'Cancelar', shared_group_attachments_path, class: 'btn btn-danger'
+							= f.submit 'Compartir archivo', class: 'btn btn-primary'

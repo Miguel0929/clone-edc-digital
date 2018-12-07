@@ -2,15 +2,24 @@
   = title_text_helper("Invitaciones en grupo")
 
 .container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-heading
-      .pull-right
-        .col-xs-12
-      .clearfix
-    .panel-body
-      %h2.text-center
-        Invitaciones en grupo
-      = bootstrap_form_tag(url: group_invitations_path) do |f|
-        = f.file_field :csv
-        = f.collection_select(:group_id, Group.all, :id, :name)
-        = f.submit 'Invitar'
+  .row.panel.panel-default
+    .p-t-50
+      .col-md-4
+        .panel-heading
+          .panel-title
+            Invitaciones en grupo 
+        .panel-body
+          %i.fa.fa-upload.fa-2x.hint-text
+          .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+            Invita a nuevos usuarios
+          %p.m-b-30{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+            Realiza múltiples invitaciones a la vez. Sube un archivo .csv con una columna tituladas como "NOMBRE" y otra como "CORREO".
+      .col-md-8
+        .panel-body
+          = bootstrap_form_tag(url: group_invitations_path) do |f|
+            = f.file_field :csv, label: "Archivo CSV"
+            = f.collection_select(:group_id, Group.all, :id, :name, label: "Grupo")
+            .pull-right.m-t-30.m-b-30
+              = link_to 'Cancelar', root_path, class: 'btn btn-danger'
+              = f.submit 'Enviar invitaciones', class: "btn btn-primary"
+

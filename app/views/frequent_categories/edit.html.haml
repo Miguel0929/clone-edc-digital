@@ -1,19 +1,19 @@
 - content_for :title  do
-	= title_text_helper("Edita esta categoría")
+  = title_text_helper("Edita esta categoría")
 
 .container-fluid.container-fixed-lg
-	.row
-		.panel.panel-transparent.p-t-30
-			.col-md-5
-				.panel-heading
-					.panel-title
-						Categorías de preguntas frecuentes
-				.panel-body
-					%i.fa.fa-upload.fa-2x.hint-text.m-t-10
-					.h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
-						Usa este campo modificar o crear categorías de preguntas frecuentes
-					%p.m-b-30{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
-						Una vez que agregues o modifiques categorías estarán disponibles para los usuarios
-			.col-md-7
-				.m-t-20
-					= render 'form'
+  .row.panel.panel-default
+    .p-t-50
+      .col-md-4
+        .panel-heading
+          .panel-title
+            Categorías de preguntas frecuentes
+        .panel-body
+          %i.fa.fa-edit.fa-2x.hint-text
+          .h3.m-t-20.segoe-font
+            Usa este formulario para editar esta categoría
+          %p.m-b-30.segoe-font
+            Tambien puedes modificar la descripción para este elemento
+      .col-md-8
+        .panel-body
+          = render 'form'

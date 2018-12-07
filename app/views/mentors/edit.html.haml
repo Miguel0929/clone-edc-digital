@@ -1,26 +1,25 @@
 - content_for :title  do
   = title_text_helper("Editar mentor")
 
-.container.container-fluid.container-fixed-lg
+.container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-body
-      .row
-        .col-md-12
-          %h2.text-center
-            Editar información
+      %h3.m-t-10.m-b-30.segoe-font
+        %i.fa.fa-edit.hint-text
+        Editar información de mentor
 
-          = bootstrap_form_for(@user) do |f|
-            = f.text_field :first_name
-            = f.text_field :last_name
-            = f.text_field :email
-            = f.text_field :phone_number
-            = f.select :group_id, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupo personal", prompt: "Selecciona el grupo personal"}
-            - if current_user.admin? 
-              = f.select(:role, User::ROLETYPES, label: "Tipo de usuario")
-              = f.select :group_ids, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupos"}, { :multiple => true}
-            .hidden-xs  
-              = link_to 'Cancelar', mentor_path(@user), class: 'btn btn-danger'
-              = f.submit 'Aceptar'
-            %center.visible-xs
-              = link_to 'Cancelar', mentor_path(@user), class: 'btn btn-danger'
-              = f.submit 'Aceptar'  
+      = bootstrap_form_for(@user) do |f|
+        = f.text_field :first_name, label: 'Nombre'
+        = f.text_field :last_name, label: 'Apellidos'
+        = f.text_field :email, label: 'Correo'
+        = f.text_field :phone_number, label: 'Teléfono'
+        = f.select :group_id, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupo personal", prompt: "Selecciona el grupo personal"}
+        - if current_user.admin? 
+          = f.select(:role, User::ROLETYPES, label: "Tipo de usuario")
+          = f.select :group_ids, Group.all.collect {|p| [ p.name, p.id ] }, {label: "Grupos"}, { :multiple => true}
+        .float-right.m-t-20.m-b-20.hidden-xs
+          = link_to 'Cancelar', mentor_path(@user), class: 'btn btn-danger'
+          = f.submit 'Guardar información', class: "btn btn-primary"
+        %center.visible-xs
+          = link_to 'Cancelar', mentor_path(@user), class: 'btn btn-danger'
+          = f.submit 'Guardar información', class: "btn btn-primary"  

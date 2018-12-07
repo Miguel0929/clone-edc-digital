@@ -2,29 +2,28 @@
   = title_text_helper("Tutores")
 
 .container-fluid.container-fixed-lg
-  .panel.panel-default
-    .panel-body
-      .row.row-same-height
-        .col-md-4.b-r.b-dashed.b-grey.sm-b-b
-          .p-b-30.p-t-15.sm-padding-5.sm-m-t-15
-            %i.fa.fa-exchange.fa-2x.hint-text
-            .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
-              Reasignar tutor
-            %p
-              Elige uno de los mentores o tutores de la plataforma y después selecciona a sus aprendices o alumnos asignados. Si alguno de los alumnos seleccionados ya cuenta con tutor, éste será reasignado al nuevo mentor.
-            /- if current_user.mentor?
-            = link_to coaches_path do
-              %i.fa.fa-arrow-left
-              Regresar a tutores
-        .col-md-8
-          .p-b-30.p-t-20.sm-padding-5.sm-m-t-15
-            .p-b-15.tipografia-textos-rellenables
-              Utiliza el siguiente formulario para hacer la reasignación:
-            .well
-              #refilable-content-template
-                /.refilable-form
-                = bootstrap_form_tag url: reasign_function_coaches_path do |f|
-                  = f.select :coach, @coaches.pluck(:email, :id), {label: "Mentor", include_blank: "Selecciona un mentor o tutor"}, {:class => 'minimal form-control full-width'}
-                  = f.select :students, @students.pluck(:email, :id), {label: "Aprendices"}, {:class => 'minimal form-control full-width', multiple: true}
-                  = f.submit "Reasignar", class: "btn btn-primary"
+  .row.panel.panel-default
+    .p-t-50
+      .col-md-4
+        .panel-heading
+          .panel-title
+            Reasignar tutor
+        .panel-body
+          %i.fa.fa-exchange.fa-2x.hint-text
+          .h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+            Elige un mentor o tutor y después selecciona a sus aprendices o alumnos asignados.
+          %p.m-b-30{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+            Si alguno de los alumnos seleccionados ya cuenta con tutor, éste será reasignado al nuevo mentor.
+      .col-md-8
+        .p-b-30.p-t-20.sm-padding-5.sm-m-t-15
+          .p-b-15.tipografia-textos-rellenables
+            Utiliza el siguiente formulario para hacer la reasignación:
+          #refilable-content-template
+            /.refilable-form
+            = bootstrap_form_tag url: reasign_function_coaches_path do |f|
+              = f.select :coach, @coaches.pluck(:email, :id), {label: "Mentor", include_blank: "Selecciona un mentor o tutor"}, {:class => 'minimal form-control full-width'}
+              = f.select :students, @students.pluck(:email, :id), {label: "Aprendices"}, {:class => 'minimal form-control full-width', multiple: true}
+              .pull-right.m-t-30.m-b-30
+                = link_to 'Cancelar', coaches_path, class: 'btn btn-danger'
+                = f.submit "Reasignar", class: "btn btn-primary"
                 
