@@ -8,9 +8,9 @@
         = bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
           = f.hidden_field :reset_password_token
           .row
-            .col-sm-12
+            .col-sm-12.p-r-0
               = f.password_field :password, label: 'Nueva contraseña', wrapper: { class: 'form-group-default' }
-            .col-sm-12
+            .col-sm-12.p-l-0
               = f.password_field :password_confirmation, label: 'Confirmar contraseña', wrapper: { class: 'form-group-default' }
 
           .row.text-right
