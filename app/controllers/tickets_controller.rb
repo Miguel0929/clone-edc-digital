@@ -24,10 +24,10 @@ class TicketsController < ApplicationController
     element = params[:element_id].to_i
     category = params[:category].to_i
     ticket = Ticket.find_by(element_id: element, category: category)
-    puts ("id", element)
-    puts ("category", category)
-    puts ("ticket", ticket)
-    puts ("ticket2", Ticket.find_by(element_id: element))
+    #puts ("id", element)
+    #puts ("category", category)
+    #puts ("ticket", ticket)
+    #puts ("ticket2", Ticket.find_by(element_id: element))
 
     if ticket.closed
       ticket.update(closed: false)
