@@ -22,16 +22,9 @@ class TicketsController < ApplicationController
 
   def switch
     element = params[:element_id].to_i
-    category = params[:category].to_i
+    #category = params[:category].to_i
+    category = params[:category] == "inbox" ? 0 : 1
     ticket = Ticket.find_by(element_id: element, category: category)
-    puts "id"
-    puts element
-    puts "category" 
-    puts category
-    puts "ticket"
-    puts ticket
-    puts "ticket2"
-    #puts Ticket.find_by(element_id: element)
 
     if ticket.closed
       ticket.update(closed: false)
