@@ -35,7 +35,7 @@
       - if !current_user.nil?
         .sidebar-header
           %a.redirector{href: root_path}
-            = image_tag("#{image_path('MiPlataforma_logo.png')}", height: 45) #Original -> height_ 40
+            = image_tag("#{image_path('MiPlataforma_logo.png')}", height: 50) #Original -> height_ 40
         .sidebar-menu
           %ul.menu-items
 
@@ -400,13 +400,13 @@
           .pull-center.hidden-md.hidden-lg
             .header-inner
               .brand.inline
-                %a.redirector{href: root_path}
-                  = image_tag("#{image_path('MiPlataforma_logo.png')}", height: 45) #Original -> height_ 40
+                %a.center-mitiendita-outer.redirector{href: root_path}
+                  = image_tag("#{image_path('MiPlataforma_logo.png')}", height: 50, class: 'center-mitiendita-inner') #Original -> height_ 40
         .pull-left.sm-table.hidden-xs.hidden-sm
           .header-inner
             .brand.inline
-              %a.redirector{href: root_path}
-                = image_tag("#{image_path('MiPlataforma_logo.png')}", height: 45) #Original -> height_ 40
+              %a.center-mitiendita-outer.redirector{href: root_path}
+                = image_tag("#{image_path('MiPlataforma_logo.png')}", height: 50, class: 'center-mitiendita-inner') #Original -> height_ 40
             - if !current_user.nil?    
               %ul.notification-list.no-margin.hidden-sm.hidden-xs.b-grey.b-l.b-r.no-style.p-l-10.p-r-10
                 %li.p-r-15.inline

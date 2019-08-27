@@ -600,4 +600,12 @@ img.zoom-img {
 .w-searchbar{
 	width: 150%;
 }
+.center-mitiendita-inner{
+	position: relative;
+    top: -6px;
+}
+.center-mitiendita-outer{
+    margin: 0 auto;
+    display: table;
+}
 
