@@ -35,7 +35,7 @@
       - if !current_user.nil?
         .sidebar-header
           %a.redirector{href: root_path}
-            = image_tag('https://fakeimg.pl/580x150/D3D3D3/?text=Logo(580x150)', height: 40)
+            = image_tag("#{image_path('MiPlataforma_logo.png')}", height: 45) #Original -> height_ 40
         .sidebar-menu
           %ul.menu-items
 
