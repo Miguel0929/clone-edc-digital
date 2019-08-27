@@ -2,7 +2,7 @@
   .container-sm-height.full-height
     .row.row-sm-height
       .col-sm-12.col-sm-height.col-middle
-        = image_tag('https://fakeimg.pl/152x48/c2cde4/?text=Logo(152x48)', width: 200)
+        = image_tag("#{image_path('MiPlataforma_logo.png')}", height: 85) #Original -> width: 200
         %h3 Lorem ipsum dolor sit amet consectetur adipiscing suspendisse
 
         = bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
