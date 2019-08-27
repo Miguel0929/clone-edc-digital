@@ -96,9 +96,13 @@
                     data: {"element_id": ticketJSON["element_id"], "category": ticketJSON["category"]},
                     success: function() {
                       if (isClosed) { $("#ticket_" + #{ticket.id}).html("Ticket abierto"); } else { $("#ticket_" + #{ticket.id}).html("Ticket cerrado"); }
+                      console.log("ticketJSON", ticketJSON);
+                      console.log("isClosed", ticketJSON["closed"]);
                     },
                     error: function(){
                       console.log("Ups, esto es vergonzoso...");
+                      console.log("ticketJSON", ticketJSON);
+                      console.log("isClosed", ticketJSON["closed"]);
                     }
                   })
                 });
