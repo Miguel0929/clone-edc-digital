@@ -49,10 +49,10 @@
               %a.font-montserrat.fs-13.text-master.inline{"data-text" => "Preguntas frecuentes", :href => frequent_categories_path}
                 Preguntas frecuentes
                 %i.fa.fa-question-circle
-              |    
-              %p.font-montserrat.fs-13.text-master.p-t-20.inline
-                +90 (90) 9090 9090
-                %i.m-l-10.fa.fa-phone
+              /|    
+              /%p.font-montserrat.fs-13.text-master.p-t-20.inline
+              /  +90 (90) 9090 9090
+              /  %i.m-l-10.fa.fa-phone
       / BEGIN NESTED MENU
       %nav.header.sm-header.relative.horizontal.dark.sm-p-t-20{"data-offset-top" => "60", "data-spy" => "affix"}
         .container.relative
@@ -149,18 +149,7 @@
       .container
         .row
           .col-sm-7
-            %img.logo.inline.m-r-50{:alt => "", :src => "#{image_path('MiPlataforma_logo.png')}"}/
-            .m-t-10
-              %ul.no-style.fs-11.no-padding.font-arial
-                %li.inline.no-padding
-                  %a.text-master.p-r-10.b-r.b-grey{:href => "#", :target => "new"} 
-                    = digital_courses_text_helper
-                %li.inline.no-padding
-                  %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "#", :target => "new"} Enlace de footer 1
-                %li.inline.no-padding
-                  %a.hint-text.text-master.p-l-10.p-r-10.b-r.b-grey{:href => "#", :target => "new"} Enlace de footer 2
-                %li.inline.no-padding
-                  %a.hint-text.text-master.p-l-10.p-r-10.xs-no-padding.xs-m-t-10{:href => "#", :target => "new"} Enlace de footer 3
+            /%img.logo.inline.m-r-50{:alt => "", :src => "#{image_path('MiPlataforma_logo.png')}"}/
           .col-sm-5.text-right.font-arial.sm-text-left
             %p.fs-11.muted Copyright © 2018 #{digital_courses_text_helper.upcase}. Todos los derechos reservados.
     / END FOOTER
