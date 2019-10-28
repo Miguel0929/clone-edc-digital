@@ -232,7 +232,8 @@ class Dashboard::WelcomeController < ApplicationController
     else
       @user = User.find(params[:user])
       state = State.find(params[:state])
-      @user.update(group_id: 36)
+      provisional_group = Group.find_by(key: "provisional-group").nil? ? create_provisional_group : Group.find_by(key: "provisional-group")
+      @user.update(group_id: provisional_group.id)
       Support.sin_grupo(@user, state, params[:university], user_url(@user), @user.group)
     end
     redirect_to dashboard_learning_path_path  
@@ -268,6 +269,11 @@ class Dashboard::WelcomeController < ApplicationController
     else
       return nil
     end
+  end
+
+  def create_provisional_group
+    new_group = Group.create(name: "Grupo provisional", key: "provisional-group")
+    return new_group
   end
 
 end
