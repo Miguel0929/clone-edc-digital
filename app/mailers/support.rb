@@ -62,10 +62,11 @@ class Support
   def self.sin_grupo(user, state, university, url, group)
     template_title = "Estudiante sin grupo"
     template_name = (user.first_name.nil? ? "Hola" : user.name)
-    template_message = "El usuario " + user.name + " (email: " + user.email + ") no tiene un grupo. Se le ha asignado un grupo temporal.<br><br><strong>Estado: </strong>" + state.name + "<br><strong>Universidad: </strong>" + (university.empty? ? "sin universidad" : university) + "<br><strong>Grupo: </strong>" + group.name + "<br><strong>Perfil del usuario: </strong><a href='" + url + "'>" + url + "</a>"
+    greetings = (user.first_name.nil? ? "" : user.name)
+    template_message = "El usuario " + greetings + " (email: " + user.email + ") no tiene un grupo. Se le ha asignado un grupo temporal.<br><br><strong>Estado: </strong>" + state.name + "<br><strong>Universidad: </strong>" + (university.empty? ? "sin universidad" : university) + "<br><strong>Grupo: </strong>" + group.name + "<br><strong>Perfil del usuario: </strong><a href='" + url + "'>" + url + "</a>"
     template_footer = company_name_helper('Nuestro equipo')
     mail_recipient = mailer_support_helper
-    mail_subject = "El estudiante " + user.name + " no tiene grupo asignado"
+    mail_subject = "El estudiante " + (user.first_name.nil? ? user.email : user.name) + " no tiene grupo asignado"
 
     send_mail_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject)
   end
