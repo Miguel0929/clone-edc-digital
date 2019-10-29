@@ -170,17 +170,7 @@ class GroupsController < ApplicationController
       @group.group_programs.where(program_id: id).first.update_attributes({position: index + 1})
     end
     render nothing: true
-  end
-
-  def bloquear
-    group = Group.find(params[:id])
-    if group.financiero.nil?
-      group.update(financiero: false)
-    else
-      group.update(financiero: !group.financiero)
-    end 
-    render :json => {status: group} 
-  end   
+  end  
 
   def notification_route
     LearningPathNotificationJob.perform_async(@group,dashboard_learning_path_url)

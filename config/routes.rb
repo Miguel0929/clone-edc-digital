@@ -319,7 +319,6 @@ Rails.application.routes.draw do
       post :sort
       post :notification_route
       get :codes
-      post :bloquear
     end
     member do
       get :student_control
