@@ -1,11 +1,11 @@
 - content_for :title  do
-  = title_text_helper("Universidades")
+  = title_text_helper("Instituciones")
 
 .container-fluid.container-fixed-lg
   .panel.panel-default
     .panel-heading
       %h1
-        Universidades
+        Instituciones
     .row      
       - @states.each do |s|
         .col-md-2
@@ -15,7 +15,7 @@
       .row.p-t-5.p-b-5
         .col-md-12
           .pull-right
-            =link_to "Crear universidad", new_university_path, html_options= {class: "btn btn-primary"} 
+            =link_to "Crear Institución", new_university_path, html_options= {class: "btn btn-primary"} 
       .row.p-t-5.p-b-5
         .col-md-12
           .table-responsive

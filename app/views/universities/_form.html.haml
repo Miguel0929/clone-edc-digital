@@ -1,6 +1,6 @@
 = bootstrap_form_for(@university) do |f|
-	= f.text_field :name, label: 'Nombre de la Universidad'
+	= f.text_field :name, label: 'Nombre de la Institución'
 	= f.collection_select(:state_id, State.all, :id, :name, label: 'Estado', include_blank: true)
 	.pull-right.m-t-25.m-b-20
 		= link_to 'Cancelar', universities_path, class: 'btn btn-danger'
-		= f.submit 'Guardar Universidad' , class: "btn btn-primary"
+		= f.submit 'Guardar Institución' , class: "btn btn-primary"

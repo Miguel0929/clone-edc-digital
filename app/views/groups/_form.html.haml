@@ -6,7 +6,7 @@
       = f.text_field :key, label: 'Clave'
       = f.collection_select(:state_id, State.all, :id, :name, label: 'Estado', include_blank: "Selecciona un estado")
       
-      = f.select :university_id, University.where(state_id: @group.state_id).collect{|p| [ p.name, p.id ] }, {label: 'Universidad', include_blank: "Selecciona un estado primero"}
+      = f.select :university_id, University.where(state_id: @group.state_id).collect{|p| [ p.name, p.id ] }, {label: 'Institución', include_blank: "Selecciona un estado primero"}
       = f.select :category, ['Escolarizado', 'Autodidacta digital', 'Presencial', 'Experiemental'], label: 'Tipo de grupo', include_blank: true
       
       = f.select :user_ids, User.mentors.invitation_accepted.collect{|u| [u.name, u.id]}, {include_blank: false, label: 'Mentores'}, multiple: 'multiple'

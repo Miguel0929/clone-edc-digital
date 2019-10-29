@@ -5,30 +5,30 @@ class UniversitiesController < ApplicationController
 
   add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   def index
-    add_breadcrumb "<a class='active' href='#{universities_path}'>Universidades</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{universities_path}'>Institutos</a>".html_safe
     @states=State.all
     @universities=University.order(:name).page(params[:page]).per(100)
   end
   def show
-    add_breadcrumb "Universidades", :universities_path
+    add_breadcrumb "Institutos", :universities_path
     add_breadcrumb "<a class='active' href='#{universities_path(@university)}'>#{@university.name}</a>".html_safe
   end
   def new
-    add_breadcrumb "Universidades", :universities_path
-    add_breadcrumb "<a class='active' href='#{new_university_path}'>Crear universidad</a>".html_safe
+    add_breadcrumb "Institutos", :universities_path
+    add_breadcrumb "<a class='active' href='#{new_university_path}'>Crear Institución</a>".html_safe
 
     @university = University.new
   end
   def create
     @university = University.new(university_params)
     if @university.save
-      redirect_to state_universities_path(state: @university.state_id), notice: "Se creo exitosamente la universidad #{@university.name}"
+      redirect_to state_universities_path(state: @university.state_id), notice: "Se creo exitosamente la Institución #{@university.name}"
     else
       render :new
     end
   end 
   def state
-    add_breadcrumb "Universidades", :universities_path
+    add_breadcrumb "Institutos", :universities_path
       add_breadcrumb "<a class='active' href='#{state_universities_path(state: params[:state].to_s)}'>#{State.find(params[:state]).name}</a>".html_safe
     @states=State.all
     if params[:state].present?
@@ -42,12 +42,12 @@ class UniversitiesController < ApplicationController
     end 
   end
   def edit
-    add_breadcrumb "Universidad", :universities_path
+    add_breadcrumb "Institución", :universities_path
     add_breadcrumb "<a class='active' href='#{edit_university_path(@university)}'>#{@university.name}</a>".html_safe
   end 
   def update
     if @university.update(university_params)
-      redirect_to state_universities_path+"?state="+@university.state_id.to_s, notice: "Se actualizó exitosamente la universidad #{@university.name}"
+      redirect_to state_universities_path+"?state="+@university.state_id.to_s, notice: "Se actualizó exitosamente la Institución #{@university.name}"
     else
       render :edit
     end
@@ -55,7 +55,7 @@ class UniversitiesController < ApplicationController
   def destroy
      st=@university.state_id
      @university.destroy
-     redirect_to state_universities_path+"?state="+st.to_s, notice: "Se eliminó exitosamente la universidad #{@university.name}"
+     redirect_to state_universities_path+"?state="+st.to_s, notice: "Se eliminó exitosamente la Institución #{@university.name}"
   end
   private
     def university_params
