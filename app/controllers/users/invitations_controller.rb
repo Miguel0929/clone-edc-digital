@@ -19,10 +19,15 @@ class Users::InvitationsController < Devise::InvitationsController
     if Rails.env.production?
 
       invitation_link = accept_user_invitation_url(:invitation_token => user.raw_invitation_token).to_s
+      to_group = user.group_id.nil? ? nil : Group.find(user.group_id)
+      to_group_name = to_group.nil? ? "[Grupo sin nombre]" : to_group.name
+      to_group_university = to_group.nil? ? nil : to_group.university
+      to_group_university_name = to_group_university.nil? ? "[Institución sin nombre]" : to_group_university.name
 
-      template_title = "¡Es tiempo de iniciar!"
+      template_title = "¡Es tiempo de iniciar! Perritos"
       template_name = ""
-      template_message = "Te informamos que tu cuenta en " + company_name_helper('nuestra plataforma') + " ha sido creada. Para comenzar, debes activar tu cuenta dando clic en el siguiente botón: </p> <table width='100%' cellspacing='0' cellpadding='0' border='0'><tbody><tr><td style='padding: 10px 10px 10px 10px' bgcolor: '#f8f8f8' align: 'center'><table cellspacing='0' cellpadding='0' border='0'><tbody><tr><td><a href='" + invitation_link + "' class='button'>ACTIVA TU CUENTA AQUÍ</a></td></tr></tbody></table></td></tr></tbody></table></br><p style='margin-top: 20px;'>En caso de que no logres acceder, puedes copiar la siguiente liga y pegarla en una ventana de tu navegador:</p><a href='" + invitation_link + "' >" + invitation_link + "</a></br></br><p style='margin-top: 20px;'>Si tienes alguna duda o comentario, no dudes en escribirnos a <strong>" + mailer_from_helper('') + "</strong>. Nuestro equipo de atención a clientes enseguida te antenderá."
+      template_group = "Has sido invitado al grupo " + to_group_name + (to_group_university.nil? ? ". " : " vinculado a esta Institución: " + to_group_university_name + ". ")
+      template_message = "Te informamos que tu cuenta en " + company_name_helper('nuestra plataforma') + " ha sido creada. " + template_group + "Para comenzar, debes activar tu cuenta dando clic en el siguiente botón: </p> <table width='100%' cellspacing='0' cellpadding='0' border='0'><tbody><tr><td style='padding: 10px 10px 10px 10px' bgcolor: '#f8f8f8' align: 'center'><table cellspacing='0' cellpadding='0' border='0'><tbody><tr><td><a href='" + invitation_link + "' class='button'>ACTIVA TU CUENTA AQUÍ</a></td></tr></tbody></table></td></tr></tbody></table></br><p style='margin-top: 20px;'>En caso de que no logres acceder, puedes copiar la siguiente liga y pegarla en una ventana de tu navegador:</p><a href='" + invitation_link + "' >" + invitation_link + "</a></br></br><p style='margin-top: 20px;'>Si tienes alguna duda o comentario, no dudes en escribirnos a <strong>" + mailer_from_helper('') + "</strong>. Nuestro equipo de atención a clientes enseguida te antenderá."
       template_footer = "¡Bienvenido!"
       mail_recipient = user.email
       mail_subject = "Tu cuenta en " + company_name_helper('nuestra plataforma') + " ha sido creada"

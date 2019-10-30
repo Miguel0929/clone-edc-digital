@@ -5,16 +5,16 @@ class UniversitiesController < ApplicationController
 
   add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   def index
-    add_breadcrumb "<a class='active' href='#{universities_path}'>Institutos</a>".html_safe
+    add_breadcrumb "<a class='active' href='#{universities_path}'>Institución</a>".html_safe
     @states=State.all
     @universities=University.order(:name).page(params[:page]).per(100)
   end
   def show
-    add_breadcrumb "Institutos", :universities_path
+    add_breadcrumb "Institución", :universities_path
     add_breadcrumb "<a class='active' href='#{universities_path(@university)}'>#{@university.name}</a>".html_safe
   end
   def new
-    add_breadcrumb "Institutos", :universities_path
+    add_breadcrumb "Institución", :universities_path
     add_breadcrumb "<a class='active' href='#{new_university_path}'>Crear Institución</a>".html_safe
 
     @university = University.new
@@ -28,7 +28,7 @@ class UniversitiesController < ApplicationController
     end
   end 
   def state
-    add_breadcrumb "Institutos", :universities_path
+    add_breadcrumb "Institución", :universities_path
       add_breadcrumb "<a class='active' href='#{state_universities_path(state: params[:state].to_s)}'>#{State.find(params[:state]).name}</a>".html_safe
     @states=State.all
     if params[:state].present?
