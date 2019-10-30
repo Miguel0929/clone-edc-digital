@@ -3,9 +3,7 @@
     .row.row-sm-height
       .col-sm-12.col-sm-height.col-middle
         = image_tag('https://fakeimg.pl/152x48/c2cde4/?text=Logo(152x48)', width: "200")
-        %h3 Lorem ipsum dolor sit amet consectetur adipiscing suspendisse
-        %p
-          Activa tu cuenta de #{the_platform_name_helper} en segundos.
+        %h4 Activa tu cuenta de #{the_platform_name_helper} en segundos.
         = form_for resource, label_errors: false, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put } do |f|
           = f.hidden_field :invitation_token
           .row
@@ -31,15 +29,15 @@
                 = fields_for :user_detail, resource.user_detail do |fd|
                   = f.label :birthdate, 'Fecha de nacimiento'
                   = fd.date_select :birthdate, prompt: {day: 'Elige un día', month: 'Elige un mes', year: 'Elige un año'}, start_year: 1940, end_year: Time.current.year
-          .row
-            .col-sm-12
-              .form-group.form-group-default{class: "#{class_for(resource, :curp)}"}
-                = f.label :curp, 'CURP'
-                = f.text_field :curp, class: 'form-control', placeholder: 'Ej. BADD110313HCMLNS09', maxlength: "18"
-              #invalid-curp.text-danger.p-l-10
-                La CURP no es valida, revisa que este escrita correctamente.
-                  
-              = error_for(resource, :curp) 
+          /.row
+          /  .col-sm-12
+          /    .form-group.form-group-default{class: "#{class_for(resource, :curp)}"}
+          /      = f.label :curp, 'CURP'
+          /      = f.text_field :curp, class: 'form-control', placeholder: 'Ej. BADD110313HCMLNS09', maxlength: "18"
+          /    #invalid-curp.text-danger.p-l-10
+          /      La CURP no es valida, revisa que este escrita correctamente.
+          /        
+          /    = error_for(resource, :curp) 
 
           .row
             .col-sm-12
