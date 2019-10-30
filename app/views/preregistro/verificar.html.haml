@@ -11,7 +11,7 @@
                 = (ENV['MAILER_SUPPORT'].nil? ? "soporte@ejemplo.com" : ENV['MAILER_SUPPORT']) + "."
 
               %br
-              %i * También puedes comunicarte al teléfono +09 (09) 0909 0909.
+              //%i * También puedes comunicarte al teléfono +09 (09) 0909 0909.
 
           - else
             - if @user.invitation_accepted_at.nil?
@@ -19,13 +19,13 @@
                 ¡Excelente! Tu cuenta de #{digital_courses_text_helper} ha sido creada previamente, pero se encuentra inactiva, ¿deseas enviar nuevamente el correo electrónico de activación?
                 = link_to "Enviar correo de activación.", reenviar_preregistro_path(@user.id)
                 %br
-                O puedes escribir tu código de activación proporcionado por tu Universidad
+                O puedes escribir tu código de activación proporcionado por el administrador:
                 = form_tag(activation_code_preregistro_index_path, method: :post, class: "form-inline") do
                   .form-group
                     = label_tag 'code', 'Código:' 
                     = text_field_tag 'code', nil, class: 'form-control', placeholder: "Escribe tu código de activación"
                   = hidden_field_tag 'mail', @user.email
-                  = submit_tag "Enviar codigo", class: "btn btn-primary"
+                  = submit_tag "Enviar código", class: "btn btn-primary"
             - else
               %p  
                 = "¡Excelente! Tu ya tienes una cuenta creada con este correo electrónico y se encuentra activa, ¿deseas iniciar sesión?"
