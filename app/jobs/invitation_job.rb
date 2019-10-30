@@ -47,6 +47,10 @@ class InvitationJob
   def send_mail(user, url, job, job_id, redis)
 
       invitation_link = url + "?invitation_token=" + user.raw_invitation_token
+      to_group = user.group_id.nil? ? nil : Group.find(user.group_id)
+      to_group_name = to_group.nil? ? "[Grupo sin nombre]" : to_group.name
+      to_group_university = to_group.nil? ? nil : to_group.university
+      to_group_university_name = to_group_university.nil? ? "[Institución sin nombre]" : to_group_university.name
 
       template_title = "¡Es tiempo de iniciar!"
       template_name = "Hola"
