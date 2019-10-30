@@ -46,8 +46,9 @@
           .pull-right.hidden-sm.hidden-xs.col-sm-6
             .header-inner.text-right
               %p.font-montserrat.fs-13.text-master.p-t-20.inline
-                +09 (09) 0909 0909
-                %i.m-l-10.fa.fa-phone
+                %a{"data-text" => "Inicio", :href => root_path} #{ENV['COMPANY_NAME'].nil? ? "Cursos Digitales" : ENV['COMPANY_NAME']}
+                /+09 (09) 0909 0909
+                /%i.m-l-10.fa.fa-phone
       / BEGIN NESTED MENU
       %nav.header.sm-header.relative.horizontal.dark.sm-p-t-20{"data-offset-top" => "60", "data-spy" => "affix"}
         .container.relative
@@ -55,7 +56,7 @@
             / BEGIN HEADER CLOSE TOGGLE FOR MOBILE
             .pull-right
               %a.text-black.link.padding-10.visible-xs-inline.visible-sm-inline.pull-right.m-t-10.m-b-10.m-r-10{"data-pages" => "header-toggle", "data-pages-element" => "#header", :href => "#"}
-                %i.pg-close_line
+                %i.fa.fa-times
             .pull-right.sm-block.sm-full-width.menu-login
               .header-inner
                 %ul.menu.no-padding
@@ -65,9 +66,10 @@
                     %a.p-r-0.btn.btn-sm.btn-bordered.btn-white.block-title.fs-12.hidden-xs{"data-text" => "Login", :href => user_session_path} Iniciar sesión
                     %a.p-r-0.visible-xs{"data-text" => "Login", :href => user_session_path} Iniciar sesión
                   %li.visible-sm.visible-xs
-                    %a{"data-text" => "Contact Us", :href => "#"}
-                      +09 (09) 0909 0909
-                      %i.m-l-10.fa.fa-phone
+                    %a{"data-text" => "Contact Us", :href => root_path}
+                      = ENV['COMPANY_NAME'].nil? ? "Cursos Digitales" : ENV['COMPANY_NAME']
+                      //+09 (09) 0909 0909
+                      //%i.m-l-10.fa.fa-phone
     .page-content-wrapper  
       .content               
         %div{class: "#{controller_name}_#{action_name}"}
