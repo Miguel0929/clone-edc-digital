@@ -71,13 +71,13 @@ class Dashboard::WelcomeController < ApplicationController
     ids=[]
     unless @programs_fisica.nil?
       @programs_fisica.each do |p|
-        c+=1
-        anterior = p.anterior(current_user.group.learning_path)
-        if current_user.percentage_questions_answered_for(anterior) >= 1 || c==1 || (current_user.percentage_content_visited_for(anterior) >= 60 && anterior.questions? == false)
+        #c+=1
+        #anterior = p.anterior(current_user.group.learning_path)
+        #if current_user.percentage_questions_answered_for(anterior) >= 1 || c==1 || (current_user.percentage_content_visited_for(anterior) >= 60 && anterior.questions? == false)
           ids.push(p.id)
-        else
-          break
-        end
+        #else
+        #  break
+        #end
       end
       @programs_fisica=LearningPathContent.where(id: ids).order(:position)
       
@@ -90,13 +90,13 @@ class Dashboard::WelcomeController < ApplicationController
     ids=[]
     unless @programs_moral.nil?
       @programs_moral.each do |p|
-        c+=1
-        anterior = p.anterior(current_user.group.learning_path2)
-        if current_user.percentage_questions_answered_for(anterior) >= 1 || c==1 || (current_user.percentage_content_visited_for(anterior) >= 60 && anterior.questions? == false)
+        #c+=1
+        #anterior = p.anterior(current_user.group.learning_path2)
+        #if current_user.percentage_questions_answered_for(anterior) >= 1 || c==1 || (current_user.percentage_content_visited_for(anterior) >= 60 && anterior.questions? == false)
           ids.push(p.id)
-        else
-          break
-        end
+        #else
+        #  break
+        #end
       end
       @programs_moral=LearningPathContent.where(id: ids).order(:position)
     end
