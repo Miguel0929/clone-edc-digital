@@ -22,14 +22,16 @@
 						.dropzone
 							= f.file_field :file, label: 'Archivo'
 						.form-group
-							%label
-								Grupos
-							- Group.all.each_with_index do |group, index|
-								.checkbox.check-success
-									= check_box_tag 'shared_group_attachment[group_ids][]', group.id, @attachment.groups.include?(group), id: "check_groups_#{index}"
-									%label{:for => "check_groups_#{index}" }
-										= group.name
+							= f.select :group_ids,  Group.all.collect{|p| [p.name, p.id]}, {indlude_blank: false, label: 'Grupos'}, multiple: 'multiple'
 							%input(type="hidden" name='shared_group_attachment[group_ids][]' value="")
 						.pull-right.m-t-30.m-b-30
 							= link_to 'Cancelar', shared_group_attachments_path, class: 'btn btn-danger'
 							= f.submit 'Actualizar archivo', class: 'btn btn-primary'
+
+/%label
+/	Grupos
+/- Group.all.each_with_index do |group, index|
+/	.checkbox.check-success
+/		= check_box_tag 'shared_group_attachment[group_ids][]', group.id, @attachment.groups.include?(group), id: "check_groups_#{index}"
+/		%label{:for => "check_groups_#{index}" }
+/			= group.name
