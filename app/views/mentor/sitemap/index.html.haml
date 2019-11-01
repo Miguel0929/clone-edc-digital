@@ -11,7 +11,7 @@
 							Mapa del sitio
 					.col-sm-8.col-md-8.no-padding.resp-p-l-50.xs-p-l-15.xs-p-r-15
 						%h5.text-white
-							Encuentra lo que necesites usando el menú de EDC Digital
+							Encuentra lo que necesites usando el menú#{ENV['COMPANY_NAME'].nil? ? ' principal ' : ' de ' + ENV['COMPANY_NAME']}
 						%p.m-b-25.text-white
 							Aquí encontrarás una breve descripción sobre cada sección de la plataforma
 
@@ -49,7 +49,7 @@
 									%h5 Mensajes
 							.card-description
 								%p
-									Envía y recibe mensajes, dudas y archivos con los profesores vinculados a EDC-Digital de tu Universidad. 
+									Envía y recibe mensajes, dudas y archivos con los alumnos vinculados a tus grupos. 
 								%p
 									= link_to mailbox_inbox_path do
 										Visitar sección
@@ -66,7 +66,7 @@
 									%h5 Preguntas frecuentes
 							.card-description
 								%p
-									Encuentra las respuestas a las preguntas más frecuentes hechas por los usuarios sobre el uso de la plataforma EDC-Digital. 
+									Encuentra las respuestas a las preguntas más frecuentes hechas por los usuarios sobre el uso de la plataforma. 
 								%p
 									= link_to frequent_questions_path do
 										Visitar sección
@@ -100,7 +100,7 @@
 												%h5 Programas
 										.card-description
 											%p
-												Accede al contenido de todos los programas disponibles en EDC-Digital como un alumno. 
+												Accede al contenido de todos los programas disponibles en #{ENV['COMPANY_NAME'].nil? ? 'nuestra plataforma' : ENV['COMPANY_NAME']}
 											%p
 												= link_to dashboard_programs_path do
 													Visitar sección
