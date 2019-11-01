@@ -21,7 +21,7 @@
 							Aquí te presentamos el diccionario de la plataforma. En esta sección hemos recopilado una gran variedad de tecnicismos relacionados a nuestros cursos, los cuales seguro te ayudarán en tu travesía. No olvides revisar nuestras últimas definiciones periódicamente.  
 
 .container-fluid.container-fixed-lg.p-t-15.minus-30
-	.col-sm-7
+	.col-sm-12
 		.panel.panel-default
 			.panel-heading
 				.panel-title Consulta nuestro glosario
@@ -31,15 +31,15 @@
 					.form-group.form-group-default
 						= label_tag nil, 'Tu búsqueda', class: 'highlight'
 						= text_field_tag :key, params[:key], class: "form-control notification-message", placeholder: "Ej: Bitcoin..."
-					.pull-right
+					.pull-left
 						= submit_tag 'Buscar', class: "btn btn-success show-notification"
-	.col-sm-5
-		.panel.panel-default
-			.panel-heading.p-b-20
-				.panel-title El conocimiento es poder
-			.panel-body
-				%h4
-					Asegúrate de mantener tus conocimientos actualizados.
+	/.col-sm-5
+	/	.panel.panel-default
+	/		.panel-heading.p-b-20
+	/			.panel-title El conocimiento es poder
+	/		.panel-body
+	/			%h4
+	/				Asegúrate de mantener tus conocimientos actualizados.
 
 .container-fluid.container-fixed-lg
 	.col-sm-9
