@@ -223,7 +223,7 @@ class Dashboard::WelcomeController < ApplicationController
   end
 
   def contact_admin
-    @state = State.all
+    @state = State.all.sort
   end
 
   def contact_admin_mail
