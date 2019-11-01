@@ -16,6 +16,6 @@
                 %label{:for => "state"} Estado: 
                 = select_tag "state", options_from_collection_for_select(@state, "id", "name"), prompt: "Selecciona el estado", class: 'form-control', required: "required" 
               .form-group
-                %label{:for => "university"} ¿Perteneces a alguna universidad? De ser así coloca la información enseguida 
-                = text_field_tag 'university', '' ,placeholder: 'Coloca la información de tu universidad', class: 'form-control' 
+                %label{:for => "university"} ¿Perteneces a alguna Institución? De ser así coloca la información enseguida 
+                = text_field_tag 'university', '' ,placeholder: 'Coloca la información de tu institución', class: 'form-control' 
               = submit_tag "Enviar información", class: "btn btn-success"    
