@@ -752,7 +752,7 @@ class User < ActiveRecord::Base
 
   def set_origin
     self.state = 'Ciudad de México'
-    self.city = 'Distrito Federal'
+    self.city = 'Ciudad de México'
   end
 
   def assign_group
