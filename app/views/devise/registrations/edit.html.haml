@@ -11,7 +11,6 @@
               Sección:
             %h3.m-b-20.text-white
               Edita tu información de perfil
-              = @prueba
 
 .container-fluid.container-fixed-lg
   .panel.panel-transparent
@@ -120,14 +119,6 @@
                       = fd.date_select :birthdate, default: {day: current_user.user_detail.birthdate.day, month: current_user.user_detail.birthdate.month, year: current_user.user_detail.birthdate.year}, start_year: 1940, end_year: Time.current.year
                   = error_for(resource, :birthdate)
             .form-group
-              %label.col-sm-3.control-label{:for => "situacion"} La situación que más me define actualmente
-              .col-sm-9
-                = f.select :situation, ["No tengo una idea pero sé que quiero emprender", "Tengo una idea para hacer un negocio", "Ya inicié el proyecto pero aún no tengo ventas", "Ya inicié mi empresa y ya tengo ventas", "Quiero reabrir mi negocio"],  {include_blank: "Selecciona una opción", selected: current_user.user_detail.nil? ? nil : current_user.user_detail.situation}, { :class => 'minimal form-control full-width' }  
-            .form-group
-              %label.col-sm-3.control-label{:for => "situacion"} Me interesa o mi idea de negocio entra en el tema
-              .col-sm-9
-                = f.select :interest, ["Demografía y sociedad", "Economía", "Tecnología e innovación", "Medio ambiente y clima", "Gobernabilidad y relaciones exteriores"], {include_blank: "Selecciona una opción", selected: current_user.user_detail.nil? ? nil : current_user.user_detail.interest}, { :class => 'minimal form-control full-width' }  
-            .form-group
               %label.col-sm-3.control-label{:for => "reto"} El mayor reto será
               .col-sm-9
                 = f.text_area :challenge, value: current_user.user_detail.nil? ? nil : current_user.user_detail.challenge, class: 'form-control', placeholder: 'Describe lo que consideras el mayor reto de tu idea.'
@@ -135,10 +126,6 @@
               %label.col-sm-3.control-label{:for => "objetivo"} Lo que busco en #{the_platform_name_helper} es
               .col-sm-9
                 = f.text_area :goal, value: current_user.user_detail.nil? ? nil : current_user.user_detail.goal, class: 'form-control', placeholder: 'Describe lo que esperas conseguir en la plataforma.'
-            .form-group
-              %label.col-sm-3.control-label{:for => "name"} ¿En qué sector económico se ubica tu producto/servicio?
-              .col-sm-9
-                = f.select :industry_id, Industry.all.order(:id).collect {|p| [ p.name, p.id ] },  {include_blank: "Selecciona el sector económico"}, { :class => 'minimal form-control full-width' }  
             .form-group
               %label.col-sm-3.control-label{:for => "name"} Biografía
               .col-sm-9
@@ -188,3 +175,15 @@
     }, 1000);
   });
 
+/.form-group
+/  %label.col-sm-3.control-label{:for => "situacion"} La situación que más me define actualmente
+/  .col-sm-9
+/    = f.select :situation, ["No tengo una idea pero sé que quiero emprender", "Tengo una idea para hacer un negocio", "Ya inicié el proyecto pero aún no tengo ventas", "Ya inicié mi empresa y ya tengo ventas", "Quiero reabrir mi negocio"],  {include_blank: "Selecciona una opción", selected: current_user.user_detail.nil? ? nil : current_user.user_detail.situation}, { :class => 'minimal form-control full-width' }  
+/.form-group
+/  %label.col-sm-3.control-label{:for => "situacion"} Me interesa o mi idea de negocio entra en el tema
+/  .col-sm-9
+/    = f.select :interest, ["Demografía y sociedad", "Economía", "Tecnología e innovación", "Medio ambiente y clima", "Gobernabilidad y relaciones exteriores"], {include_blank: "Selecciona una opción", selected: current_user.user_detail.nil? ? nil : current_user.user_detail.interest}, { :class => 'minimal form-control full-width' }  
+/.form-group
+/  %label.col-sm-3.control-label{:for => "name"} ¿En qué sector económico se ubica tu producto/servicio?
+/  .col-sm-9
+/    = f.select :industry_id, Industry.all.order(:id).collect {|p| [ p.name, p.id ] },  {include_blank: "Selecciona el sector económico"}, { :class => 'minimal form-control full-width' }  
