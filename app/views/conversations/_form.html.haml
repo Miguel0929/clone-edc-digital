@@ -12,7 +12,7 @@
 	- else 
 		- if current_user.coach.nil?
 			.form-group
-				= f.label 'Mis Profesores'
+				= f.label 'Mis Mentores'
 				= f.select(:recipients, @contacts.collect {|p|[p.name, p.id]},{include_blank: "contactos..."},{class: "form-control js-example-basic-single", required: true })
 		- else
 			.form-group

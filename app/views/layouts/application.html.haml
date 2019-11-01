@@ -309,9 +309,9 @@
                 %ul.sub-menu
                   %li
                     %a{:href => mailbox_inbox_path}
-                      =current_user.mentor? ? 'Mensajes con estudiantes' : 'Mensajes con profesores'
+                      =current_user.mentor? ? 'Mensajes con estudiantes' : 'Mensajes con mentores'
                     %span.icon-thumbnail
-                      =current_user.mentor? ? 'Me' : 'Mp'
+                      =current_user.mentor? ? 'Me' : 'Mm'
                   %li
                     %a{:href => dashboard_support_path} Ayuda de mentores
                     %span.icon-thumbnail Am
@@ -454,7 +454,7 @@
                           = render partial: "mailbox/notification", collection: mailbox.inbox.limit(3).order(created_at: :desc), as: :item
                         .notification-footer.text-center
                           %a{:href => mailbox_inbox_path}
-                            =current_user.mentor? ? 'Ver mensajes con tus estudiantes' : 'Ver mensajes con tus profesores'
+                            =current_user.mentor? ? 'Ver mensajes con tus estudiantes' : 'Ver mensajes con tus mentores'
                           %a.portlet-refresh.text-black.pull-right{"data-toggle" => "refresh", :href => "#"}
                             %i.pg-refresh_new
                 .red-spot#tour-1{style: "position: absolute"}
