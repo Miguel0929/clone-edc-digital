@@ -51,9 +51,9 @@
             .row.m-b-10
               .col-md-12
                 %h5
-                  Profesores vinculados
+                  Mentores vinculados
                   %span.text-success.font-montserrat{style: "font-size: 12px !important;"}
-                    (#{@group.users.count} profesores)
+                    (#{@group.users.count} mentores)
                 .m-t-10.p-l-20
                   - @group.users.each_with_index do |user, index|
                     %span.m-l-5.text-success
@@ -161,9 +161,9 @@
               %table.table.table-striped
                 %thead
                   %th{width: "27%"}
-                    Datos del alumno
+                    Datos del mentor
                   %th{width: "23%"}
-                    Avances del alumno
+                    Avances del mentor
                   %th
                     Plantillas
                 %tbody
