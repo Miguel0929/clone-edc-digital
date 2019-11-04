@@ -17,7 +17,7 @@ class CustomMailer < Devise::Mailer
 
     template_title = "Recupera tu contraseña"
     template_name = (record.first_name.nil? ? "Hola" : record.name)
-    template_message = "¿Tuviste problemas para recordar tu contraseña? Sigue el siguiente enlace para recuperarla:</p><table><tr><td align='center'><a href='" + final_link + "'><h4>Cambiar contraseña</h4></a></td></tr><tr></table><p>Continuamos en contacto contigo."
+    template_message = "¿Tuviste problemas para recordar tu contraseña? Sigue el siguiente enlace para recuperarla:</p><table><tr><td align='center'><a href='" + final_link + "'><h4>Cambiar contraseña</h4></a></td></tr><tr></table> <p>Si tienes problemas con el botón anterior puedes copiar y pegar esta liga en una ventana nueva:</p><p>" + final_link + "</p> <p>Continuamos en contacto contigo."
     template_footer = company_name_helper('Nuestro equipo')
     mail_recipient = record.email
     mail_subject = "Recupera tu contraseña de la plataforma"
