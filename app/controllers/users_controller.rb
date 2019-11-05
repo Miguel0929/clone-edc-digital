@@ -178,6 +178,7 @@ class UsersController < ApplicationController
     if !@user.attempts.empty? then @user.attempts.destroy_all end
     if !@user.user_detail.nil? then @user.user_detail.destroy end
     if !@user.user_trackers.empty? then @user.user_trackers.destroy_all end
+    if !UserTrainee.where(trainee_id: @user.id).empty? then UserTrainee.where(trainee_id: @user.id).destroy_all end
     
     @user.really_destroy!
 
