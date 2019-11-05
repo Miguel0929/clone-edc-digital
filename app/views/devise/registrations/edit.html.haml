@@ -82,12 +82,12 @@
               %label.col-sm-3.control-label{:for => "name"} Ciudad
               .col-sm-9
                 = f.text_field :city, class: 'form-control', placeholder: 'Guadalajara'
-            .form-group
-              %label.col-sm-3.control-label CURP
-              .col-sm-9
-                = f.text_field :curp, class: 'form-control', placeholder: 'Ej. BADD110313HCMLNS09', maxlength: "18"
-                #invalid-curp.text-danger.p-l-10
-                  La CURP no es valida, revisa que esté escrita correctamente.    
+            /.form-group
+            /  %label.col-sm-3.control-label CURP
+            /  .col-sm-9
+            /    = f.text_field :curp, class: 'form-control', placeholder: 'Ej. BADD110313HCMLNS09', maxlength: "18"
+            /    #invalid-curp.text-danger.p-l-10
+            /      La CURP no es valida, revisa que esté escrita correctamente.    
             .form-group
               %label.col-sm-3.control-label Género
               .col-sm-9
@@ -162,12 +162,6 @@
                   /la línea de arriba es para llamar type_password.js que compila en application.js
 
 :javascript
-  $("#invalid-curp").hide();
-  
-  $("#user_curp").keyup(function( event ) {
-    var val =  $("#user_curp").val().toUpperCase();
-    $("#user_curp").val(val);  
-  });
 
   $(document).ready(function(){
     setTimeout(function () {
@@ -187,3 +181,10 @@
 /  %label.col-sm-3.control-label{:for => "name"} ¿En qué sector económico se ubica tu producto/servicio?
 /  .col-sm-9
 /    = f.select :industry_id, Industry.all.order(:id).collect {|p| [ p.name, p.id ] },  {include_blank: "Selecciona el sector económico"}, { :class => 'minimal form-control full-width' }  
+
+/Esto iba en el bloque de :javascript
+/$("#invalid-curp").hide();
+/$("#user_curp").keyup(function( event ) {
+/  var val =  $("#user_curp").val().toUpperCase();
+/  $("#user_curp").val(val);  
+/});
