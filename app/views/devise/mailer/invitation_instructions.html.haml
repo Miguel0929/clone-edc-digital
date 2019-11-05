@@ -137,6 +137,11 @@
                                         %td{:style => "text-align: left; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: rgb(63, 67, 69); line-height: 24px;", :valign => "middle", :width => "100%"}
                                           / [if !mso]><!
                                           %span{:style => "font-family: 'proxima_nova_rgregular', Helvetica; font-weight: normal;"}
+                                            Si tienes dificultades con el botón de arriba puedes copiar y pegar el siguiente link en una ventana de tu navegador:
+                                            %br
+                                            = accept_invitation_url(@resource, :invitation_token => @token)
+                                            %br
+                                            %br
                                             / <![endif]
                                             Si tienes alguna duda o comentario, no dudes en contactarnos en el correo electrónico
                                             = succeed "," do

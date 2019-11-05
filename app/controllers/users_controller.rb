@@ -158,7 +158,11 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
+    #@user.destroy
+    if !@user.user_detail.nil?
+      @user.user_detail.destroy
+    end
+    @user.really_destroy!
 
     redirect_to  students_users_path, notice: "Se eliminó exitosamente al usuario #{@user.email}"
   end
