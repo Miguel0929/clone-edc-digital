@@ -159,9 +159,26 @@ class UsersController < ApplicationController
 
   def destroy
     #@user.destroy
-    if !@user.user_detail.nil?
-      @user.user_detail.destroy
-    end
+    puts "Eliminando usuario con id " + @user.id.to_s
+    if !@user.answers.empty? then @user.answers.destroy_all end
+    if !@user.trackers.empty? then @user.trackers.destroy_all end
+    if !@user.notifications.empty? then @user.notifications.destroy_all end
+    if !@user.visits.empty? then @user.visits.destroy_all end
+    if !@user.events.empty? then @user.events.destroy_all end
+    if !@user.comments.empty? then @user.comments.destroy_all end
+    if !@user.user_evaluations.empty? then @user.user_evaluations.destroy_all end
+    if !@user.user_evaluation_refilables.empty? then @user.user_evaluation_refilables.destroy_all end
+    if !@user.sessions.empty? then @user.sessions.destroy_all end
+    if !@user.attachments.empty? then @user.attachments.destroy_all end
+    if !@user.shared_attachments.empty? then @user.shared_attachments.destroy_all end
+    if !@user.quiz_answers.empty? then @user.quiz_answers.destroy_all end
+    if !@user.program_stats.empty? then @user.program_stats.destroy_all end
+    if !@user.panel_notifications.empty? then @user.panel_notifications.destroy_all end
+    if !@user.refilables.empty? then @user.refilables.destroy_all end
+    if !@user.attempts.empty? then @user.attempts.destroy_all end
+    if !@user.user_detail.nil? then @user.user_detail.destroy end
+    if !@user.user_trackers.empty? then @user.user_trackers.destroy_all end
+    
     @user.really_destroy!
 
     redirect_to  students_users_path, notice: "Se eliminó exitosamente al usuario #{@user.email}"
