@@ -58,6 +58,8 @@ gem 'redis-rails'
 gem 'redis-rack-cache'
 gem 'remote_syslog_logger'
 gem 'sweetalert-rails'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 gem 'whenever', :require => false
 gem 'simple_token_authentication', '~> 1.0'
 gem 'sweetify'

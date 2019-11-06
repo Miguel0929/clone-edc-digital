@@ -584,6 +584,9 @@ GEM
       sprockets-rails (>= 2.0, < 4.0)
     whenever (0.9.7)
       chronic (>= 0.6.3)
+    wicked_pdf (1.4.0)
+      activesupport
+    wkhtmltopdf-binary (0.12.4)
     xml-simple (1.1.5)
     xray-rails (0.2.0)
       rails (>= 3.1.0)
@@ -676,6 +679,8 @@ DEPENDENCIES
   useragent
   web-console (~> 2.0)
   whenever
+  wicked_pdf
+  wkhtmltopdf-binary
   xray-rails
 
 RUBY VERSION
