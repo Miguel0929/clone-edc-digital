@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181121174023) do
+ActiveRecord::Schema.define(version: 20191106204233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,25 @@ ActiveRecord::Schema.define(version: 20181121174023) do
 
   add_index "attempts", ["quiz_id"], name: "index_attempts_on_quiz_id", using: :btree
   add_index "attempts", ["user_id"], name: "index_attempts_on_user_id", using: :btree
+
+  create_table "certificate_templates", force: :cascade do |t|
+    t.string   "name"
+    t.string   "file"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "certificates", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "file"
+    t.integer  "certificate_template_id"
+    t.string   "batch"
+    t.string   "date"
+    t.integer  "mailing_status",          default: 0
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
 
   create_table "chapter_contents", force: :cascade do |t|
     t.integer "chapter_id"
