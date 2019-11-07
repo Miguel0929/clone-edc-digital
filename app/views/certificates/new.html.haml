@@ -1,0 +1,28 @@
+- content_for :title  do
+	= title_text_helper("Nuevo Certificado")
+
+.container-fluid.container-fixed-lg
+	.row.panel.panel-default
+		.p-t-50
+			.col-md-4
+				.panel-heading
+					.panel-title
+						Nuevo Certificado
+				.panel-body
+					%i.fa.fa-mortar-board.fa-2x.hint-text
+					.h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+						Usa este formulario para crear un certificado manualmente
+					%p.m-b-30{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+						Los certificados son constancias de que un alumno terminó satisfactorialemte un programa en particular. Debes elegir una plantilla de certificado. ¿Quieres agregar una plantilla nueva? #{link_to "Hazlo aquí >>", new_certificate_template_path}
+			.col-md-8
+				.panel-body
+					= bootstrap_form_for(@certificate) do |f|
+						= f.text_field :name, label: 'Nombre completo del Alumno'
+						= f.collection_select(:certificate_template_id, CertificateTemplate.all, :id, :name, {label: 'Plantilla'}, class: 'select2 my-select2')
+						= f.email_field :email, label: 'Correo electrónico'
+						%label{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 16px;"}
+							= check_box_tag 'mailer_checkbox'
+							Enviar certificado por correo 
+						.pull-right.m-t-30.m-b-30
+							= link_to 'Cancelar', certificate_templates_path, class: 'btn btn-danger'
+							= f.submit 'Guardar Plantilla', class: 'btn btn-primary'
