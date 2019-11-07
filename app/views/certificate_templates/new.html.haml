@@ -1,0 +1,33 @@
+- content_for :title  do
+	= title_text_helper("Subir plantilla")
+
+.container-fluid.container-fixed-lg
+	.row.panel.panel-default
+		.p-t-50
+			.col-md-4
+				.panel-heading
+					.panel-title
+						Subir Plantilla de Certificado
+				.panel-body
+					%i.fa.fa-upload.fa-2x.hint-text
+					.h3.m-t-20{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+						Usa este formulario para subir nuevas plantillas de Certificado
+					%p.m-b-30{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif;"}
+						Cada plantilla representa un estilo diferente para generar certificados
+			.col-md-8
+				.panel-body
+					= bootstrap_form_for(@certificate_template) do |f|
+						= f.text_field :name, label: 'Nombre de la plantilla'
+						.dropzone
+							= f.file_field :file, label: 'Archivo'
+						.pull-right.m-t-30.m-b-30
+							= link_to 'Cancelar', certificate_templates_path, class: 'btn btn-danger'
+							= f.submit 'Guardar Plantilla', class: 'btn btn-primary'
+
+/%label
+/	Grupos
+/- Group.all.each_with_index do |group, index|
+/	.checkbox.check-success
+/		= check_box_tag 'shared_group_attachment[group_ids][]', group.id, @attachment.groups.include?(group), id: "check_groups_#{index}"
+/		%label{:for => "check_groups_#{index}" }
+/			= group.name

@@ -1,0 +1,50 @@
+- content_for :title  do
+  = title_text_helper("Archivos compartidos")
+
+.container-fluid.container-fixed-lg
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .panel-title.pull-left
+            Archivos compartidos
+        .p-r-20.p-l-20.p-t-10.p-b-10
+          .pull-left
+            %input#search-table.form-control.w-searchbar{:placeholder => "Buscar", :type => "text"}/   
+          .pull-right
+            = link_to new_certificate_template_path, class: 'btn btn-primary' do
+              %i.fa.fa-plus
+              Subir archivo
+          .clearfix
+        .panel-body
+          .table-responsive
+            %table.table.table-hover.datatable
+              %thead
+                %tr
+                  %th
+                    Nombre
+                  %th{width: "20%"}
+                    Subido
+                  %th{width: "20%"}
+                    Modificado
+                  %th
+              %tbody
+                - @certificate_templates.each do |template|
+                  %tr
+                    %th
+                      = link_to template.name, template.file.url, target: :_blank
+                    %th.normal-weight
+                      = l template.created_at, format: :special
+                    %th.normal-weight
+                      = l template.updated_at, format: :special
+                    %th.normal-weight
+                      %ul{style: "display: block; list-style:none;"}
+                        /%li
+                        /  = link_to edit_certificate_template_path(template) do
+                        /    %i.fa.fa-edit
+                        /    Editar
+                        %li    
+                          = link_to template, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+                            %i.fa.fa-times
+                            Eliminar
+

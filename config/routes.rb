@@ -403,6 +403,9 @@ Rails.application.routes.draw do
       resources :user_answer_comments, only: [:index]
       resources :static_login, only: [:create]
       resources :async_jobs, only: [:show]
+      resources :async_job_certificates, only: [:show]
+      resources :jobs, only: [:show]
+      resources :certificates, only: [:create]
 
       namespace :dashboard do
         resources :programs, only: [:index]
@@ -412,6 +415,30 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :certificates do
+    collection do
+      post :import
+      post 'create/entry', to: 'certificates#create_show', as: :create_entry
+      post '/send/certificate/:id',  to: 'certificates#send_certificate', as: :send_certificate
+      post '/send/ticket/:id',  to: 'certificates#send_ticket', as: :send_ticket
+      get :batch
+      get :edit_batch
+      post :update_batch
+      post '/cancel/:job_id', to: 'certificates#cancel', as: :cancel
+      get :not_generated_certs
+
+      post :downloable
+      post :download_zip
+      get :zip_progress
+    end
+
+    member do
+      post :send_email, as: :email
+      get :unsuccessful
+    end
+  end
+
+  resources :certificate_templates, only: [:index, :edit, :update, :new, :create, :destroy]
   resources :track_sessions, only: [:create]
   resources :shared_group_attachments
 
