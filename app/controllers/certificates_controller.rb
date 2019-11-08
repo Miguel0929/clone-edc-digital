@@ -247,7 +247,9 @@ class CertificatesController < ApplicationController
       }
     })
 
-    tempfile = Tempfile.new(['certificado', '.pdf'], Rails.root.join('tmp'))
+    temp_dir = Rails.root.join('tmp')
+    Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
+    tempfile = Tempfile.new(['certificado', '.pdf'], temp_dir)
     tempfile.binmode
     tempfile.write(pdf)
     tempfile.close

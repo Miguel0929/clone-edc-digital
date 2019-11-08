@@ -19,6 +19,6 @@ if Rails.env.production?
 	  # Layout file to be used for all PDFs
 	  # (but can be overridden in `render :pdf` calls)
 	  # layout: 'pdf.html',
-	  exe_path: '/home/rails/apps/*/shared/bundle/ruby/*/bin/wkhtmltopdf',
+	  #exe_path: '/home/rails/apps/*/shared/bundle/ruby/*/bin/wkhtmltopdf',
 	}
 end
