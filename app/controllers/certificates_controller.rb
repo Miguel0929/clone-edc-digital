@@ -9,12 +9,14 @@ class CertificatesController < ApplicationController
   layout 'application', only: [:index, :new, :create, :destroy, :batch, :edit_batch, :zip_progress, :unsuccessful]
   add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
 
-=begin
+
   def index
-    add_breadcrumb "<a class='active' href='#{certificates_path(tipo: "nuevocompilado")}'>Compilado de certificados</a>".html_safe
-    @certificates = Certificate.select('batch as name').group(:batch)#.page(params[:page]).per(30)
+    add_breadcrumb "<a class='active' href='#{certificates_path}'>Certificados</a>".html_safe
+    #@certificates = Certificate.select('batch as name').group(:batch).page(params[:page]).per(30)
+    @certificates = Certificate.all.page(params[:page]).per(30)
   end
 
+=begin
   def show
     @certificate = Certificate.find(params[:id])
 
@@ -32,17 +34,12 @@ class CertificatesController < ApplicationController
 
   def new
     #add_breadcrumb "<a href='#{certificates_path(tipo: "nuevocompilado")}'>Compilado de certificados</a>".html_safe
-    add_breadcrumb "Plantillas de Certificado", :certificates_path
+    add_breadcrumb "Certificados", :certificates_path
     add_breadcrumb "<a class='active' href='#{new_certificate_path}'>Nuevo certificado</a>".html_safe
     @certificate = Certificate.new
   end
 
   def create
-    puts "hola pistola"
-    puts certificate_params
-    puts params[:mailer_checkbox].nil?
-    puts localize(Date.today, format: "%e de %B, %Y").capitalize
-
     @certificate = Certificate.new(certificate_params)
     @certificate.date = localize(Date.today, format: "%d-%m-%Y")
     @certificate.batch = "none"
@@ -67,6 +64,12 @@ class CertificatesController < ApplicationController
       puts @certificate.errors.full_messages
       render :new
     end
+  end
+
+  def destroy
+    @certificate = Certificate.find(params[:id])
+    @certificate.destroy
+    redirect_to certificates_path, notice: "Se eliminó exitosamente el certificado de: #{@certificate.name}"
   end
 
 =begin

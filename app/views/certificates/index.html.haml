@@ -1,0 +1,83 @@
+- content_for :title  do
+  = title_text_helper("Certificados")
+
+.container-fluid.container-fixed-lg
+  .row
+    .col-md-12
+      .panel.panel-default
+        .panel-heading
+          .panel-title.pull-left
+            Certificados
+        .p-r-20.p-l-20.p-t-10.p-b-10
+          .pull-left
+            %input#search-table.form-control.w-searchbar{:placeholder => "Buscar", :type => "text"}/   
+          .pull-right
+            = link_to new_certificate_path, class: 'btn btn-primary' do
+              %i.fa.fa-plus
+              Generar certificado
+            = link_to certificate_templates_path, class: 'btn btn-info' do
+              %i.fa.fa-cog
+              Administrar plantillas
+          .clearfix
+        .panel-body
+          .table-responsive
+            %table.table.table-hover.datatable
+              %thead
+                %tr
+                  %th
+                    Datos del Certificado
+                  %th
+                    Correo de envío
+                  %th
+                    Compilado
+                  %th{width: "20%"}
+                    Creado
+                  %th
+              %tbody
+                - @certificates.each do |certificate|
+                  %tr
+                    %th.normal-weight
+                      .m-b-0
+                        = link_to certificate.name, certificate.file.url, target: :_blank
+                      %ul.p-l-0.m-b-0
+                        %li.inline.bold 
+                          Plantilla:
+                        %li.inline
+                          = certificate.certificate_template.nil? ? "Eliminada" : certificate.certificate_template.name
+                      %ul.p-l-0.m-b-0
+                        %li.inline.bold 
+                          Programa:
+                        %li.inline
+                          "= certificate.program"
+                      %ul.p-l-0.m-b-0
+                        %li.inline.bold
+                          Ruta:
+                        %li.inline
+                          "= certificate.route"
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %i.fa.fa-calendar
+                        %li.inline
+                          = certificate.date
+                    %th.normal-weight
+                      %ul.p-l-0.m-b-0
+                        %li.inline 
+                          %i.fa.fa-envelope
+                        %li.inline
+                          = certificate.email
+                      %ul.p-l-0.m-b-0
+                        %li.inline.bold
+                          Estatus:
+                        %li.inline
+                          = (certificate.mailing_status == "na") ? "No enviado" : "Enviado" 
+                    %th.normal-weight
+                      = (certificate.batch == "none") ? "Ninguno" : certificate.batch
+                    %th.normal-weight
+                      = l certificate.created_at, format: :special
+                    %th.normal-weight
+                      %ul{style: "display: block; list-style:none;"}
+                        %li    
+                          = link_to certificate, :method => :delete, :data => { :confirm => '¿Estás seguro?' } do
+                            %i.fa.fa-times
+                            Eliminar
+
