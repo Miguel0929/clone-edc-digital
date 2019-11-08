@@ -1,5 +1,5 @@
 - content_for :title  do
-  = title_text_helper("Archivos compartidos")
+  = title_text_helper("Plantillas de Certificado")
 
 .container-fluid.container-fixed-lg
   .row
@@ -7,14 +7,17 @@
       .panel.panel-default
         .panel-heading
           .panel-title.pull-left
-            Archivos compartidos
+            Plantillas de Certificado
         .p-r-20.p-l-20.p-t-10.p-b-10
           .pull-left
             %input#search-table.form-control.w-searchbar{:placeholder => "Buscar", :type => "text"}/   
           .pull-right
             = link_to new_certificate_template_path, class: 'btn btn-primary' do
               %i.fa.fa-plus
-              Subir archivo
+              Subir plantilla
+            = link_to certificates_path, class: 'btn btn-info' do
+              %i.fa.fa-eye
+              Ver certificados
           .clearfix
         .panel-body
           .table-responsive
