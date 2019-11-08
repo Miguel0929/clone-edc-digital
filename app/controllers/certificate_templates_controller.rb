@@ -1,6 +1,7 @@
 class CertificateTemplatesController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin
+  before_action :set_certificate_template, only: [:edit, :update, :destroy]
   add_breadcrumb (ENV['COMPANY_NAME'].nil? ? "Inicio" : ENV['COMPANY_NAME']), :root_path
   
   def index 
@@ -8,12 +9,16 @@ class CertificateTemplatesController < ApplicationController
     @certificate_templates = CertificateTemplate.all.page(params[:page]).per(30)
   end
 
-  #def edit
-  #  @certificate_template = CertificateTemplate.find(params[:id])
-  #end
+  def edit
+  end
 
-  #def update
-  #end
+  def update
+    if @certificate_template.update(certificate_template_params)
+      redirect_to certificate_templates_path, notice: "Se editó exitosamente la plantilla: #{@certificate_template.name}"
+    else
+      render :edit
+    end
+  end
 
   def new
     add_breadcrumb "Plantillas de Certificado", :certificate_templates_path
@@ -32,7 +37,6 @@ class CertificateTemplatesController < ApplicationController
   end
 
   def destroy
-    @certificate_template = CertificateTemplate.find(params[:id])
     @certificate_template.destroy
 
     redirect_to certificate_templates_path, notice: "Se eliminó exitosamente la plantilla: #{@certificate_template.name}"
@@ -41,5 +45,9 @@ class CertificateTemplatesController < ApplicationController
   private
   def certificate_template_params
     params.require(:certificate_template).permit(:name, :file)
+  end
+
+  def set_certificate_template
+    @certificate_template = CertificateTemplate.find(params[:id])
   end
 end

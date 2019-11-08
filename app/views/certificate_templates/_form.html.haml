@@ -1,0 +1,7 @@
+= bootstrap_form_for(@certificate_template) do |f|
+	= f.text_field :name, label: 'Nombre de la plantilla'
+	.dropzone
+		= f.file_field :file, label: 'Archivo'
+	.pull-right.m-t-30.m-b-30
+		= link_to 'Cancelar', certificate_templates_path, class: 'btn btn-danger'
+		= f.submit 'Guardar Plantilla', class: 'btn btn-primary'
