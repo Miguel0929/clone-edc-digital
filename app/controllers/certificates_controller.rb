@@ -56,9 +56,12 @@ class CertificatesController < ApplicationController
       if params[:mailer_checkbox].nil?
         redirect_to :back, notice: 'El certificado fue creado'
       else
-        params[:id] = @certificate.id
-        params[:individual] = true
-        send_email
+        #params[:id] = @certificate.id
+        #params[:individual] = true
+        #send_email
+        cert_link = Rails.env.production? ? @certificate.file.url : "http://localhost:3000/" + @certificate.file.url
+        CertificateNotificationJob.perform_async(@certificate.email, "Programa Red de Mentores EPIC LAB ITAM 2019", "Programa Red de Mentores EPIC LAB ITAM 2019", cert_link)
+        redirect_to :back, notice: 'El certificado fue creado y enviado'
       end
     else
       puts @certificate.errors.full_messages
