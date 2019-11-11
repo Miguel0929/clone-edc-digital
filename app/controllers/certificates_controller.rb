@@ -55,8 +55,9 @@ class CertificatesController < ApplicationController
         #params[:id] = @certificate.id
         #params[:individual] = true
         #send_email
-        cert_link = Rails.env.production? ? @certificate.file.url : "http://localhost:3000/" + @certificate.file.url
-        CertificateNotificationJob.perform_async(@certificate.email, @certificate.program, @certificate.route, cert_link)
+
+        cert_link = Rails.env.production? ? @certificate.file.url : "http://localhost:3000" + @certificate.file.url
+        CertificateNotificationJob.perform_async(@certificate.email, @certificate.program, @certificate.route, cert_link, @certificate)
         redirect_to :back, notice: 'El certificado fue creado y enviado'
       end
     else

@@ -1,7 +1,7 @@
 class CertificateMailer
-	extend MailTemplateHelper
+	extend MailAttachmentTemplateHelper
 
-	def self.certificate_sender(recipient_address, program, route, certificate_link)
+	def self.certificate_sender(recipient_address, program, route, certificate_link, certificate)
 		template_title = "Todo esfuerzo tiene recompensa"
 		template_name = "Hola"
 		template_message = "Te felicitamos por haber terminado el programa <strong>" + program + "</strong> que pertenece al curso <strong>" + route + "</strong>. Te enviamos el certificado que acredita tu logro:</p><p><a href='" + certificate_link + "'>Visita este enlace para ver tu certificado >></a></p><p>Estamos para servirte, que tengas un excelente día."
@@ -10,7 +10,8 @@ class CertificateMailer
 		mail_recipient = recipient_address
 		mail_subject = "Certificado del programa " + program
 
-		send_mail_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject)
+		send_mail_attachment_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject, certificate)
+
 	end
 
 end	
