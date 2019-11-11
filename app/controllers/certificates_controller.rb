@@ -45,11 +45,7 @@ class CertificatesController < ApplicationController
     @certificate.batch = "none"
     tempfile = pdf_file
 
-    #dbx = Dropbox::Client.new("AbqBJp667rAAAAAAAADrxE3K3jEoOr6HwM7_blQWFZlOC3wwb--TpxrIjcklss1g")
-    #file = dbx.upload( "/Onne/onne-team (FEW)/Constancias Baasstard/#{@certificate.batch}/#{Date.today.to_s}/#{@certificate.name.split(' ').join('_')}.pdf", File.open(tempfile.path)) # => Dropbox::FileMetadata
-
     @certificate.file = File.open(tempfile.path)
-    #@certificate.dropbox_file = File.open(tempfile.path)
 
     if @certificate.save
       tempfile.unlink
@@ -60,7 +56,7 @@ class CertificatesController < ApplicationController
         #params[:individual] = true
         #send_email
         cert_link = Rails.env.production? ? @certificate.file.url : "http://localhost:3000/" + @certificate.file.url
-        CertificateNotificationJob.perform_async(@certificate.email, "Programa Red de Mentores EPIC LAB ITAM 2019", "Programa Red de Mentores EPIC LAB ITAM 2019", cert_link)
+        CertificateNotificationJob.perform_async(@certificate.email, @certificate.program, @certificate.route, cert_link)
         redirect_to :back, notice: 'El certificado fue creado y enviado'
       end
     else
@@ -235,7 +231,7 @@ class CertificatesController < ApplicationController
 
   private
   def certificate_params
-    params.require(:certificate).permit(:name, :email, :certificate_template_id, :batch, :date)
+    params.require(:certificate).permit(:name, :email, :certificate_template_id, :batch, :program, :route, :date)
   end
 
   def pdf_file

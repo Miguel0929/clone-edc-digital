@@ -1,7 +1,7 @@
 class Certificate < ActiveRecord::Base
   belongs_to :certificate_template
 
-  validates_presence_of :name, :certificate_template_id, :batch, :date
+  validates_presence_of :name, :certificate_template_id, :batch, :date, :program, :route
 
   mount_uploader :file, CertificateFileUploader
   #mount_uploader :dropbox_file, CertificateFileUploaderDropbox

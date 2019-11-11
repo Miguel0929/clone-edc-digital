@@ -19,10 +19,25 @@
 					= bootstrap_form_for(@certificate) do |f|
 						= f.text_field :name, label: 'Nombre completo del Alumno'
 						= f.collection_select(:certificate_template_id, CertificateTemplate.all, :id, :name, {label: 'Plantilla'}, class: 'select2 my-select2')
-						= f.email_field :email, label: 'Correo electrónico'
+						= f.text_field :program, label: 'Programa terminado'
+						= f.text_field :route, label: 'Ruta o curso al que pertenece el programa'
 						%label{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 16px;"}
 							= check_box_tag 'mailer_checkbox'
 							Enviar certificado por correo 
+						#email_field_wrapper.hidden.m-t-10
+							= f.email_field :email, label: 'Correo electrónico de envío'
 						.pull-right.m-t-30.m-b-30
 							= link_to 'Cancelar', certificate_templates_path, class: 'btn btn-danger'
 							= f.submit 'Guardar Plantilla', class: 'btn btn-primary'
+
+
+:javascript
+	$(document).ready(function(){
+		$("#mailer_checkbox").change(function() {
+			if ( $(this).prop('checked') ) {
+				$("#email_field_wrapper").removeClass("hidden");
+			} else {
+				$("#email_field_wrapper").addClass("hidden");
+			}
+		});
+	});
