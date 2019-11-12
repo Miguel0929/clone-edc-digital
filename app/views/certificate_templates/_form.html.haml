@@ -2,6 +2,9 @@
 	= f.text_field :name, label: 'Nombre de la plantilla'
 	.dropzone
 		= f.file_field :file, label: 'Archivo'
+	%label{style: "font-family: 'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 15px;"}
+		= check_box_tag 'main_checkbox'
+		Configurar como plantilla principal (se usará para la creación automática de certificados) 
 	.m-t-10.fs-12
 		%span.bold Nota:
 		%span Para certificatos tamaño carta se recomienda subir imágenes con estas dimensiones: 2000 x 1545 px.
