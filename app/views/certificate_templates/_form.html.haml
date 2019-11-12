@@ -2,6 +2,9 @@
 	= f.text_field :name, label: 'Nombre de la plantilla'
 	.dropzone
 		= f.file_field :file, label: 'Archivo'
+	.m-t-10.fs-12
+		%span.bold Nota:
+		%span Para certificatos tamaño carta se recomienda subir imágenes con estas dimensiones: 2000 x 1545 px.
 	.pull-right.m-t-30.m-b-30
 		= link_to 'Cancelar', certificate_templates_path, class: 'btn btn-danger'
 		= f.submit 'Guardar Plantilla', class: 'btn btn-primary'
