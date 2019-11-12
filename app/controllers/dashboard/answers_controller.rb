@@ -211,7 +211,8 @@ class Dashboard::AnswersController < ApplicationController
     if program.program_stats.where(user_id: @current_user.id).empty? then update_program_stats end
     program_stat = program.program_stats.where(user_id: @current_user.id).last
     if !program_stat.sent_certificate && !current_user.email.nil? && (CertificateTemplate.count > 0)
-      c_template = CertificateTemplate.last.id
+      main_template = CertificateTemplate.where(main: true).last
+      c_template = main_template.nil? ? CertificateTemplate.last.id : main_template.id
       c_program = program.name.nil? ? "Sin nombre" : program.name
       c_route = get_route_name(program)
       @certificate = Certificate.new(name: @current_user.name, email: @current_user.email, certificate_template_id: c_template, batch: "none", program: c_program, route: c_route)
