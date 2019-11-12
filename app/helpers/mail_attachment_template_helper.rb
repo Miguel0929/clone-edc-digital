@@ -19,9 +19,7 @@ module MailAttachmentTemplateHelper
 		replacements.each {|replacement| mail_message.gsub!(replacement[0], replacement[1])}
 
 		if Rails.env.production?
-			#data = open("https://edc-clone-deploy.s3.amazonaws.com/uploads/certificate/file/11/certificado20191111-18770-17btfdf.pdf").read
-			data = open(certificate.file.url).read
-			encoded_attachment = Base64.strict_encode64(data)
+			encoded_attachment = Base64.strict_encode64(open(certificate.file.url).read)
 		else
 			encoded_attachment = Base64.strict_encode64(File.open(certificate.file.file.file, "rb").read)
 		end
