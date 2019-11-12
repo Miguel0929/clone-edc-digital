@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191111174211) do
+ActiveRecord::Schema.define(version: 20191112192855) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -550,8 +550,8 @@ ActiveRecord::Schema.define(version: 20191111174211) do
     t.integer  "checked",           default: 0
     t.integer  "user_id"
     t.integer  "program_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.float    "program_progress",  default: 0.0
     t.float    "program_seen",      default: 0.0
     t.integer  "last_content"
@@ -559,6 +559,7 @@ ActiveRecord::Schema.define(version: 20191111174211) do
     t.string   "evaluating_mentor"
     t.string   "sending_method"
     t.float    "score",             default: 0.0
+    t.boolean  "sent_certificate",  default: false
   end
 
   add_index "program_stats", ["program_id"], name: "index_program_stats_on_program_id", using: :btree

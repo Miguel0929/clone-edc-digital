@@ -1,4 +1,5 @@
 class Dashboard::AnswersController < ApplicationController
+  include ActionView::Helpers::DateHelper
   before_action :authenticate_user!
   before_action :redirect_to_support, if: :student_have_group?
   before_action :set_chapter_content
@@ -137,6 +138,7 @@ class Dashboard::AnswersController < ApplicationController
         #mentores
         #ProgramMore95NotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
       end
+      certification_sending
       mensaje = mensaje + ", has completado el #{current_user.percentage_answered_for(program)}\% del programa." 
     elsif current_user.percentage_answered_for(program)==100
       if current_user.program_notifications.where(program: program).complete.first.nil?
@@ -159,6 +161,7 @@ class Dashboard::AnswersController < ApplicationController
         #  ProgramCompleteNotificationJob.perform_async(program,current_user,mentor_student_url(current_user))
         #end
       end
+      certification_sending
       mensaje = mensaje + ", has completado el 100% del curso."      
     end   
     if @chapter_content.next_content
@@ -201,5 +204,72 @@ class Dashboard::AnswersController < ApplicationController
 
   def permiso_avance
     permiso_programs(@chapter_content.chapter.program, current_user) 
+  end
+
+  def certification_sending
+    program = @chapter_content.chapter.program
+    if program.program_stats.where(user_id: @current_user.id).empty? then update_program_stats end
+    program_stat = program.program_stats.where(user_id: @current_user.id).last
+    if !program_stat.sent_certificate && !current_user.email.nil? && (CertificateTemplate.count > 0)
+      c_template = CertificateTemplate.last.id
+      c_program = program.name.nil? ? "Sin nombre" : program.name
+      c_route = get_route_name(program)
+      @certificate = Certificate.new(name: @current_user.name, email: @current_user.email, certificate_template_id: c_template, batch: "none", program: c_program, route: c_route)
+      @certificate.date = localize(Date.today, format: "%d-%m-%Y")
+      tempfile = pdf_file
+      @certificate.file = File.open(tempfile.path)
+
+      if @certificate.save
+        tempfile.unlink
+        cert_link = Rails.env.production? ? @certificate.file.url : "http://localhost:3000" + @certificate.file.url
+        CertificateNotificationJob.perform_async(@certificate.email, @certificate.program, @certificate.route, cert_link, @certificate)
+        program_stat.update(sent_certificate: true)
+      else
+        puts "Error saving Certificate: "
+        puts @certificate.errors.full_messages
+      end
+    end
+  end
+
+  def pdf_file
+    pdf = render_to_string({
+      :pdf => "certificado",
+      :layout => "certificates.html",
+      template: 'certificates/show',
+      page_size: 'Letter',
+      encoding: "utf8",
+      margin:  {
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0
+      }
+    })
+
+    temp_dir = Rails.root.join('tmp')
+    Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
+    tempfile = Tempfile.new(['certificado', '.pdf'], temp_dir)
+    tempfile.binmode
+    tempfile.write(pdf)
+    tempfile.close
+
+    tempfile
+  end
+
+  def get_route_name(program)
+    groups = Group.where(id: @current_user.group_id)
+    if !groups.empty?
+      group = groups.last
+      lpath_id = group.learning_path.nil? ? nil : group.learning_path.id
+      lpath_id = group.learning_path.nil? ? nil : group.learning_path.id
+      if !group.learning_path.nil? && !program.learning_path_content.nil?
+        route_name = (group.learning_path.id == program.learning_path_content.learning_path_id) ? group.learning_path.name : "Sin nombre"
+      elsif !group.learning_path2.nil? && !program.learning_path_content.nil?
+        route_name = (group.learning_path2.id == program.learning_path_content.learning_path_id) ? group.learning_path2.name : "Sin nombre"
+      else
+        route_name = "Programas Independientes"
+      end
+    end
+    route_name
   end
 end
