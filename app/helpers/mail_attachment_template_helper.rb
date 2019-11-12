@@ -3,6 +3,7 @@ module MailAttachmentTemplateHelper
 	include SendGrid
 	require 'json'
 	require 'base64'
+	require 'open-uri'
 
 	def send_mail_attachment_template(template_title, template_name, template_message, template_footer, mail_recipient, mail_subject, certificate)
 
@@ -17,7 +18,13 @@ module MailAttachmentTemplateHelper
 										["-template_company_address-", company_address], ["-template_company_mail-", company_mail]]
 		replacements.each {|replacement| mail_message.gsub!(replacement[0], replacement[1])}
 
-		encoded_attachment = Base64.strict_encode64(File.open(certificate.file.file.file, "rb").read)
+		if Rails.env.production?
+			#data = open("https://edc-clone-deploy.s3.amazonaws.com/uploads/certificate/file/11/certificado20191111-18770-17btfdf.pdf").read
+			data = open(certificate.file.url).read
+			encoded_attachment = Base64.strict_encode64(data)
+		else
+			encoded_attachment = Base64.strict_encode64(File.open(certificate.file.file.file, "rb").read)
+		end
 
 		#Tomado del ejemplo completo que aparece aquí:
 		#https://github.com/sendgrid/sendgrid-ruby/blob/master/examples/mail/mail.rb#L26
