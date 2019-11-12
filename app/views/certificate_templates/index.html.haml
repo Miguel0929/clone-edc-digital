@@ -26,6 +26,8 @@
                 %tr
                   %th
                     Nombre
+                  %th.text-center
+                    ¿Plantilla principal?
                   %th{width: "20%"}
                     Subido
                   %th{width: "20%"}
@@ -36,6 +38,12 @@
                   %tr
                     %th
                       = link_to template.name, template.file.url, target: :_blank
+                    %th.text-center.normal-weight
+                      - if template.main
+                        %i.fa.fa-check
+                        Sí
+                      - else
+                        No
                     %th.normal-weight
                       = l template.created_at, format: :special
                     %th.normal-weight
