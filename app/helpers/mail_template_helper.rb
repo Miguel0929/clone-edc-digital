@@ -15,6 +15,7 @@ module MailTemplateHelper
 										["-template_footer-", template_footer], ["-template_company_link-", company_link], ["-template_company_name-", company_name], 
 										["-template_company_address-", company_address], ["-template_company_mail-", company_mail]]
 		replacements.each {|replacement| mail_message.gsub!(replacement[0], replacement[1])}
+		mail_message.gsub!('"', '')
 
 		#Tomado del ejemplo completo que aparece aquí:
 		#https://github.com/sendgrid/sendgrid-ruby/blob/master/examples/mail/mail.rb#L26
