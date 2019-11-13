@@ -27,7 +27,7 @@ module MailTemplateHelper
 					"type": "text/html", 
 					"value":
 			'
-		string2 = mail_message
+		string2 = '"' + mail_message + '"'
 		string3 = 
 			'
 				}
