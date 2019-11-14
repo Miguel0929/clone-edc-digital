@@ -20,6 +20,8 @@
           .pull-right.m-t-10.m-b-10
             %input#group_student.form-control{:placeholder => "Buscar", :type => "text"}/
     .panel-body
+      .text-white
+        Historial
       .table-responsive
         %table.table.table-hover
           %thead
@@ -33,15 +35,22 @@
             - @students.each do |student|
               %tr
                 %td 
-                  = student.name
+                  - if student.first_name.nil? && student.last_name.nil?
+                    Sin nombre
+                  - else
+                    .bold
+                      = student.name
                 %td 
                   = link_to student.email, student
                 %td
-                  = link_to student.group.name, student.group
+                  - if student.group.nil?
+                    Sin grupo
+                  - else
+                    = link_to student.group.name, student.group
                 %td.text-center
                   %ul
-                  - student.user_trackers.order(:created_at).each_with_index do |tracker, index|
-                    %ol 
-                      = "#{index + 1}) #{tracker.group.name} / #{tracker.created_at.strftime('%m-%d-%Y  %I:%M%p') }"
+                    - student.user_trackers.order(:created_at).each_with_index do |tracker, index|
+                      %ol 
+                        = "#{index + 1}) #{tracker.group.nil? ? 'Sin registro de grupo' : tracker.group.name} / #{tracker.created_at.strftime('%m-%d-%Y  %I:%M%p') }"
       %center
         =paginate @students              
