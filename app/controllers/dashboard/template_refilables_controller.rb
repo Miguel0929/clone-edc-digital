@@ -28,6 +28,11 @@ class Dashboard::TemplateRefilablesController < ApplicationController
       @program = Program.find(params[:program_id])
     end
 
+    puts @template_refilables.class
+    if @template_refilables.class == Array
+      @template_refilables = @template_refilables.sort_by &:position
+    end
+
     @done_refilables = []
     @undone_refilables = []
     @template_refilables.each do |refil|
