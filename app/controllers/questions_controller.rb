@@ -55,6 +55,10 @@ class QuestionsController < ApplicationController
 
   def destroy
     capitulo = @question.chapter_content.chapter
+    puts "capitulo"
+    puts capitulo.id
+    puts "programa"
+    puts capitulo.program
     if capitulo.program.nil?
       content = capitulo.get_cc_chapter.id
     else
@@ -69,10 +73,12 @@ class QuestionsController < ApplicationController
       end
     end
     # Recalcular 'points' de los chapters del programa - START
-    capitulo.set_chapters_points
-    if capitulo.chapter_contents.where(coursable_type: "Question").empty?
-      capitulo.update(points: 0, manual_points: false)
+    if !capitulo.program.nil?
       capitulo.set_chapters_points
+      if capitulo.chapter_contents.where(coursable_type: "Question").empty?
+        capitulo.update(points: 0, manual_points: false)
+        capitulo.set_chapters_points
+      end
     end
     # Recalcular 'points' de los chapters del programa - END
 =begin
