@@ -22,8 +22,10 @@ class QuestionsController < ApplicationController
     respond_to do |format|  
       if @question.save
         @chapter.questions << @question
-        if (@chapter.points.nil? || @chapter.manual_points == false)
-          @chapter.set_chapters_points
+        if !@chapter.program.nil?
+          if (@chapter.points.nil? || @chapter.manual_points == false)
+            @chapter.set_chapters_points
+          end
         end
         #NewContentNotificationJob.perform_async(@chapter.program, dashboard_program_url(@chapter.program)) #Se llevó a método program#notify_changes
         #QueueNotification.create(category: 2, program: @chapter.program.id, url: dashboard_program_url(@chapter.program), detail: "up-question-#{@question.id}")
@@ -55,10 +57,6 @@ class QuestionsController < ApplicationController
 
   def destroy
     capitulo = @question.chapter_content.chapter
-    puts "capitulo"
-    puts capitulo.id
-    puts "programa"
-    puts capitulo.program
     if capitulo.program.nil?
       content = capitulo.get_cc_chapter.id
     else
