@@ -40,7 +40,7 @@ class Dashboard::RefilablesController < ApplicationController
       #else
       #  refilable = @template.refilables.new(refilable_params)
       #end
-      mensaje = 'Felicidades por haber contestado tu plantilla. En un máximo de 72 horas recibirás respuesta de los mentores. Te pedimos paciencia.'  
+      mensaje = 'Felicidades por haber contestado tu plantilla. Pronto recibirás respuesta por parte de los mentores.'  
     end    
     refilable.user = current_user
  
