@@ -228,7 +228,8 @@
                                 - else
                                   = link_to mentor_evaluations_path(user_id: student, program_id: program) do
                                     .label.program-labels{"data-toggle": "tooltip", "data-original-title": "Programa sin estadísticos"}
-                                      ???
+                                      /???
+                                      = !program.short_name.nil? ? program.short_name : "P-#{index}"
                         %td.text-center
                           - prepared = student.check_ready.nil? ? student.ready_to_check? : student.check_ready
                           %input{type: "hidden", id: "student_ready_#{student.id}", value: prepared.to_s}
@@ -355,7 +356,8 @@
                           - else
                             = link_to mentor_evaluations_path(user_id: mentor, program_id: program) do
                               .label.program-labels{"data-toggle": "tooltip", "data-original-title": "Programa sin estadísticos"}
-                                ???
+                                /???
+                                = !program.short_name.nil? ? program.short_name : "P-#{index}"
                   %td.text-center
                     - prepared = mentor.check_ready.nil? ? mentor.ready_to_check? : mentor.check_ready
                     %input{type: "hidden", id: "student_ready_#{mentor.id}", value: prepared.to_s}
