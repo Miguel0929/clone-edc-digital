@@ -44,7 +44,7 @@
 # Change these
 server '104.248.68.112', port: 22, roles: [:web, :app, :db], primary: true
 
-set :repo_url,        'git@bunkrbit.com:RubenGR/edc_clone_deploy.git'
+set :repo_url,        'git@bunkrbit.com:software/edc_clone_deploy.git'
 set :application,     'edc_clone_deploy'
 set :user,            'rails'
 set :puma_threads,    [4, 16]
