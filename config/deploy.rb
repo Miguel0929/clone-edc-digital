@@ -42,9 +42,9 @@
 #estaban sin comentar antes de hacer los cambios. Lo siguiente es lo que dicen que de debe poner:
 
 # Change these
-server '104.248.68.112', port: 22, roles: [:web, :app, :db], primary: true
+server '138.197.211.237', port: 22, roles: [:web, :app, :db], primary: true
 
-set :repo_url,        'git@bunkrbit.com:software/edc_clone_deploy.git'
+set :repo_url,        'git@bunkrbit.com:software/respaldo-dos.git'
 set :application,     'edc_clone_deploy'
 set :user,            'rails'
 set :puma_threads,    [4, 16]
